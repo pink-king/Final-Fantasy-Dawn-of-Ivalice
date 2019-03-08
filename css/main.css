@@ -135,6 +135,17 @@ body{
 
 h2{
   font-family: 'Oswald', sans-serif;
+  text-align: center;
+  font-size: 120px;
+}
+h3{
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+  font-size: 60px;
+}
+div.et{
+  text-align: center;
+
 }
 div.hero{
   background-image: url(../img/encabezado.jpg);
