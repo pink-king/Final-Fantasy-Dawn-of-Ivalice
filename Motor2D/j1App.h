@@ -2,8 +2,11 @@
 #define __j1APP_H__
 
 #include <list>
+
 #include "j1Module.h"
+
 #include "PugiXml\src\pugixml.hpp"
+#include "SDL/include/SDL_stdinc.h"
 
 // Modules
 class j1Window;
@@ -50,6 +53,9 @@ public:
 	void SaveGame(const char* file) const;
 	void GetSaveGames(std::list<std::string>& list_to_fill) const;
 
+
+	float GetDt();
+	//float GetGameTime();
 private:
 
 	// Load config file

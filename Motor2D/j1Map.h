@@ -6,6 +6,9 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
+
+#define MAX_OBJECTGROUP_COLLIDERS 100
+
 struct Properties
 {
 	struct Property
@@ -27,12 +30,35 @@ struct Properties
 
 		list.clear();
 	}
+	bool draw = true;
+	bool navigation = false;
+	int testValue = 0;
+	float parallaxSpeed = 1.0f;
 
 	int Get(const char* name, int default_value = 0) const;
 
 	std::list<Property*>	list;
 };
 
+struct PlayerData
+{
+	std::string name;
+	Properties properties;
+	int x, y = 0;
+};
+
+struct MapObjects
+{
+	std::string name;
+	uint id = 0;
+	//Collider* colliders[MAX_OBJECTGROUP_COLLIDERS] = { nullptr };
+	Properties properties;
+
+	~MapObjects()
+	{
+		//RELEASE_ARRAY(colliders[MAX_OBJECTGROUP_COLLIDERS]);
+	}
+};
 // ----------------------------------------------------
 struct MapLayer
 {
@@ -86,14 +112,18 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	int					width;
-	int					height;
-	int					tile_width;
-	int					tile_height;
-	SDL_Color			background_color;
-	MapTypes			type;
-	std::list<TileSet*>	tilesets;
-	std::list<MapLayer*>layers;
+	int						width;
+	int						height;
+	int						tile_width;
+	int						tile_height;
+	SDL_Color				background_color;
+	MapTypes				type;
+	std::list<TileSet*>		tilesets;
+	std::list<MapLayer*>	layers;
+	std::list<MapObjects>	mapObjects;
+	std::list<std::string>	levels;
+	std::string				loadedLevel;
+	Properties				properties;
 };
 
 // ----------------------------------------------------
@@ -129,18 +159,22 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadMapColliders(pugi::xml_node& node);
+
 
 	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
 
 	MapData data;
+	PlayerData			playerData;
+	bool				map_loaded;
+	bool				showNavLayer = false;
 
 private:
 
 	pugi::xml_document	map_file;
 	std::string			folder;
-	bool				map_loaded;
 	SDL_Texture*		texture;
 };
 

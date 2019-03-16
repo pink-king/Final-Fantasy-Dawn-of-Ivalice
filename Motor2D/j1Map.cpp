@@ -4,6 +4,8 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+
+
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -27,32 +29,48 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 void j1Map::Draw()
 {
-	if(map_loaded == false)
+
+	if (map_loaded == false)
 		return;
 
-	std::list<MapLayer*>::iterator item = data.layers.begin();
+	int mapBlitOffset = 50;//TODO: Get this from the xml
 
-	for(; item != data.layers.end(); ++item)
+	std::list<MapLayer*>::iterator layer = data.layers.begin();
+	for (; layer != data.layers.end(); ++layer)
 	{
-		MapLayer* layer = *item;
+		if ((*layer)->name == "navigationLayer" && showNavLayer == false) {
+			continue;
+		}
 
-		for(int y = 0; y < data.height; ++y)
+		for (int y = 0; y < data.height; ++y)
 		{
-			for(int x = 0; x < data.width; ++x)
+			for (int x = 0; x < data.width; ++x)
 			{
-				int tile_id = layer->Get(x, y);
-				if(tile_id > 0)
+				int tile_id = (*layer)->Get(x, y);
+				if (tile_id > 0)
 				{
 					TileSet* tileset = GetTilesetFromTileId(tile_id);
+					if (tileset != nullptr)
+					{
+						SDL_Rect r = tileset->GetTileRect(tile_id);
+						iPoint pos = MapToWorld(x, y);
 
-					SDL_Rect r = tileset->GetTileRect(tile_id);
-					iPoint pos = MapToWorld(x, y);
-
-					App->render->Blit(tileset->texture, pos.x, pos.y, &r);
+						App->render->Blit(tileset->texture, pos.x, pos.y, &r, (*layer)->properties.parallaxSpeed);
+					
+					}
 				}
 			}
 		}
 	}
+	// advance animation frames
+	//std::list<TileSet*>::iterator tilesets = data.tilesets.begin();
+	//for (; tilesets != data.tilesets.end(); ++tilesets)
+	//{
+	//	if (tilesets->data->anim != nullptr)
+	//	{
+	//		tilesets->data->anim->GetCurrentFrame();
+	//	}
+	//}
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -191,35 +209,35 @@ bool j1Map::CleanUp()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
-
-	std::string tmp = folder.data();
-	tmp += file_name;
 	pugi::xml_parse_result result = map_file.load_file(file_name);
 
-	if(result == NULL)
+	if (result == NULL)
 	{
 		LOG("Could not load map xml file %s. pugi error: %s", file_name, result.description());
 		ret = false;
 	}
 
 	// Load general info ----------------------------------------------
-	if(ret == true)
+	if (ret == true)
 	{
+		// stores the current level string name
+		data.loadedLevel.assign(file_name);
+		// ------------------------------------
 		ret = LoadMap();
 	}
 
 	// Load all tilesets info ----------------------------------------------
 	pugi::xml_node tileset;
-	for(tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
+	for (tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
 	{
 		TileSet* set = new TileSet();
 
-		if(ret == true)
+		if (ret == true)
 		{
 			ret = LoadTilesetDetails(tileset, set);
 		}
 
-		if(ret == true)
+		if (ret == true)
 		{
 			ret = LoadTilesetImage(tileset, set);
 		}
@@ -229,26 +247,52 @@ bool j1Map::Load(const char* file_name)
 
 	// Load layer info ----------------------------------------------
 	pugi::xml_node layer;
-	for(layer = map_file.child("map").child("layer"); layer && ret; layer = layer.next_sibling("layer"))
+	for (layer = map_file.child("map").child("layer"); layer && ret; layer = layer.next_sibling("layer"))
 	{
 		MapLayer* lay = new MapLayer();
 
 		ret = LoadLayer(layer, lay);
 
-		if(ret == true)
+		if (ret == true)
 			data.layers.push_back(lay);
 	}
 
-	if(ret == true)
+	// Load objects/scene colliders -----------------------------------------
+	pugi::xml_node objectGroup;
+	for (objectGroup = map_file.child("map").child("group"); objectGroup && ret; objectGroup = objectGroup.next_sibling("group"))
+	{
+		std::string tmp(objectGroup.attribute("name").as_string());
+		//MapObjects* obj = new MapObjects();
+
+		if (tmp == "Colliders")
+		{
+			//for(pugi::xml_node collidersGroup = objectGroup.child("objectgroup"))
+			ret = LoadMapColliders(objectGroup);//, obj);
+			LOG("loading Map colliders");
+		}
+		else if (tmp == "Player")
+		{
+			// TODO, check latest handout
+			pugi::xml_node player = objectGroup.child("objectgroup").child("object");
+			playerData.name = player.attribute("name").as_string();
+			playerData.x = player.attribute("x").as_int();
+			playerData.y = player.attribute("y").as_int();
+
+			// load custom properties
+			LoadProperties(objectGroup.child("objectgroup"), playerData.properties);
+		}
+	}
+
+	if (ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
 		LOG("width: %d height: %d", data.width, data.height);
 		LOG("tile_width: %d tile_height: %d", data.tile_width, data.tile_height);
 
-		std::list<TileSet*>:: iterator item = data.tilesets.begin();
-		while(item != data.tilesets.end())
+		std::list<TileSet*>::iterator item = data.tilesets.begin();
+		while (item != data.tilesets.end())
 		{
-			TileSet* s = *item;
+			TileSet* s = (*item);
 			LOG("Tileset ----");
 			LOG("name: %s firstgid: %d", s->name.data(), s->firstgid);
 			LOG("tile width: %d tile height: %d", s->tile_width, s->tile_height);
@@ -257,9 +301,9 @@ bool j1Map::Load(const char* file_name)
 		}
 
 		std::list<MapLayer*>::iterator item_layer = data.layers.begin();
-		while(item_layer != data.layers.end())
+		while (item_layer != data.layers.end())
 		{
-			MapLayer* l = *item_layer;
+			MapLayer* l = (*item_layer);
 			LOG("Layer ----");
 			LOG("name: %s", l->name.data());
 			LOG("tile width: %d tile height: %d", l->width, l->height);
@@ -271,6 +315,7 @@ bool j1Map::Load(const char* file_name)
 
 	return ret;
 }
+
 
 // Load map general properties
 bool j1Map::LoadMap()
@@ -333,6 +378,17 @@ bool j1Map::LoadMap()
 		{
 			data.type = MAPTYPE_UNKNOWN;
 		}
+		// load custom properties from map data
+		pugi::xml_node propertiesNode = map.child("properties");
+
+		if (propertiesNode == NULL)
+		{
+			LOG("Map without custom properties");
+		}
+		else
+		{
+			LoadProperties(map, data.properties);
+		}
 	}
 
 	return ret;
@@ -347,8 +403,8 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	set->tile_height = tileset_node.attribute("tileheight").as_int();
 	set->margin = tileset_node.attribute("margin").as_int();
 	set->spacing = tileset_node.attribute("spacing").as_int();
-	pugi::xml_node offset = tileset_node.child("tileoffset");
 
+	pugi::xml_node offset = tileset_node.child("tileoffset");
 	if(offset != NULL)
 	{
 		set->offset_x = offset.attribute("x").as_int();
@@ -430,31 +486,84 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	return ret;
 }
 
+bool j1Map::LoadMapColliders(pugi::xml_node& node)//, MapObjects* obj)
+{
+	bool ret = true;
+
+	SDL_Rect colliderRect;
+
+	// iterate all objectgroups
+	for (pugi::xml_node objectGroup = node.child("objectgroup"); objectGroup && ret; objectGroup = objectGroup.next_sibling("objectgroup"))
+	{
+		std::string tmp = objectGroup.attribute("name").as_string();
+		MapObjects* newObject = new MapObjects();
+
+		newObject->name = tmp.data();
+
+		// Load custom properties
+		LoadProperties(objectGroup, newObject->properties);
+
+		//bool counted = false;
+
+		// iterate all objects
+		int i = 0; // to allocate i colliders at once on new MapObject pointer for map reference?, not implemented yet
+
+		for (pugi::xml_node object = objectGroup.child("object"); object; object = object.next_sibling("object"))
+		{
+			// count the num of objects
+			/*if (!counted)
+			{
+			for (pugi::xml_node objectCounter = objectGroup.child("object"); object; object = object.next_sibling("object"))
+			{
+			++i;
+			}
+			counted = true;
+			}*/
+
+			colliderRect.x = object.attribute("x").as_int(0);
+			colliderRect.y = object.attribute("y").as_int(0);
+			colliderRect.h = object.attribute("height").as_int(0);
+			colliderRect.w = object.attribute("width").as_int(0);
+			// create collider type of
+			// increments counter
+			++i;
+		}
+
+		// add object to list
+		data.mapObjects.push_back(*newObject);
+	}
+
+	return ret;
+}
 
 // Load a group of properties from a node and fill a list with it
 bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
 
-	pugi::xml_node data = node.child("properties");
+	pugi::xml_node propertiesNode = node.child("properties");
 
-	if(data != NULL)
+	if (propertiesNode == NULL)
 	{
-		pugi::xml_node prop;
+		LOG("properties not found");
+		ret = false;
+	}
+	else
+	{
+		properties.draw = propertiesNode.find_child_by_attribute("name", "Draw").attribute("value").as_bool(true);
+		properties.navigation = propertiesNode.find_child_by_attribute("name", "Navigation").attribute("value").as_bool(false);
+		properties.testValue = propertiesNode.find_child_by_attribute("name", "testValue").attribute("value").as_int(0);
+		properties.parallaxSpeed = propertiesNode.find_child_by_attribute("name", "parallaxSpeed").attribute("value").as_float(1.0F);
+	//	properties.music_name = propertiesNode.find_child_by_attribute("name", "background_music").attribute("value").as_string();
+		//properties.fx_name = propertiesNode.find_child_by_attribute("name", "background_music").attribute("value").as_string();
 
-		for(prop = data.child("property"); prop; prop = prop.next_sibling("property"))
-		{
-			Properties::Property* p = new Properties::Property();
-
-			p->name = prop.attribute("name").as_string();
-			p->value = prop.attribute("value").as_int();
-
-			properties.list.push_back(p);
-		}
+		// associated gui xml with this map ----
+	//	properties.gui_xml_path = propertiesNode.find_child_by_attribute("name", "associated_gui_xml").attribute("value").as_string();
 	}
 
 	return ret;
 }
+
 
 bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {

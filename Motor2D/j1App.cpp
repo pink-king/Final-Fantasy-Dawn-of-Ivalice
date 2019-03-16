@@ -280,6 +280,7 @@ void j1App::LoadGame(const char* file)
 {
 	// we should be checking if that file actually exist
 	// from the "GetSaveGames" list
+	load_game.assign(file);
 	want_to_load = true;
 	//load_game.create("%s%s", fs->GetSaveDirectory(), file);
 }
@@ -289,7 +290,7 @@ void j1App::SaveGame(const char* file) const
 {
 	// we should be checking if that file actually exist
 	// from the "GetSaveGames" list ... should we overwrite ?
-
+	save_game.assign(file);
 	want_to_save = true;
 	//save_game.create(file);
 }
@@ -328,11 +329,11 @@ bool j1App::LoadGameNow()
 		data.reset();
 		if(ret == true)
 			LOG("...finished loading");
-		//else
-			//LOG("...loading process interrupted with error on module %s", (*item != NULL) ? item->data->name.data() : "unknown");
+		else
+			LOG("...loading process interrupted with error on module %s", (*item != NULL) ? (*item)->name.data() : "unknown");
 	}
 	else
-		//LOG("Could not parse game state xml file %s. pugi error: %s", load_game.GetString(), result.description());
+		LOG("Could not parse game state xml file %s. pugi error: %s", load_game.data(), result.description());
 
 
 	want_to_load = false;
@@ -343,7 +344,7 @@ bool j1App::SavegameNow() const
 {
 	bool ret = true;
 
-	//LOG("Saving Game State to %s...", save_game.GetString());
+	LOG("Saving Game State to %s...", save_game.data());
 
 	// xml object were we will store all data
 	pugi::xml_document data;
@@ -362,12 +363,22 @@ bool j1App::SavegameNow() const
 	{
 		data.save_file(save_game.data());
 	
-		//LOG("... finished saving", save_game.GetString());
+		LOG("... finished saving", save_game.data());
 	}
 	else
-		//LOG("Save process halted from an error in module %s", (item != NULL) ? item->data->name.GetString() : "unknown");
+		LOG("Save process halted from an error in module %s", (*item != NULL) ? (*item)->name.data() : "unknown");
 
 	data.reset();
 	want_to_save = false;
 	return ret;
 }
+
+float j1App::GetDt()
+{
+	return dt;
+}
+
+//float j1App::GetGameTime()
+//{
+//	return seconds_since_startup;
+//}
