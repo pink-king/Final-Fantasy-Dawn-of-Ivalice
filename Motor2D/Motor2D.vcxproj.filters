@@ -23,7 +23,7 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="p2Log.cpp">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClCompile>
     <ClCompile Include="j1Scene.cpp">
       <Filter>Desenvolupament  ========\Scenes</Filter>
@@ -44,6 +44,9 @@
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_Label.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Slider.cpp">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,22 +73,22 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="p2Defs.h">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClInclude>
     <ClInclude Include="p2List.h">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClInclude>
     <ClInclude Include="p2Log.h">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClInclude>
     <ClInclude Include="p2SString.h">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClInclude>
     <ClInclude Include="p2Point.h">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClInclude>
     <ClInclude Include="p2DynArray.h">
-      <Filter>Programacio 2 ===========</Filter>
+      <Filter>p2Help</Filter>
     </ClInclude>
     <ClInclude Include="j1Scene.h">
       <Filter>Desenvolupament  ========\Scenes</Filter>
@@ -111,11 +114,11 @@
     <ClInclude Include="UiItem_Label.h">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="UiItem_Slider.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Programacio 2 ===========">
-      <UniqueIdentifier>{a8bfab6a-5472-4969-943e-861a8b493f08}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Desenvolupament  ========">
       <UniqueIdentifier>{cb944693-b9d0-484c-bad2-02d5a7cdbec6}</UniqueIdentifier>
     </Filter>
@@ -133,6 +136,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\GUI">
       <UniqueIdentifier>{5625fcd6-2850-4f8b-b2bf-4b9292562023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="p2Help">
+      <UniqueIdentifier>{a8bfab6a-5472-4969-943e-861a8b493f08}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
