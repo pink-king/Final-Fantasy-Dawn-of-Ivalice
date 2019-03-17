@@ -79,10 +79,8 @@ bool j1Scene::Update(float dt)
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
-	std::string title;
-	title.assign("Final Fantasy: Dawn of Ivalice");
 
-	App->win->SetTitle(title.data());
+	//App->win->SetTitle(App->title.data());
 
 
 	return true;

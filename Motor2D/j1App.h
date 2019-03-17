@@ -4,6 +4,8 @@
 #include <list>
 
 #include "j1Module.h"
+#include "j1PerfTimer.h"
+#include "j1Timer.h"
 
 #include "PugiXml\src\pugixml.hpp"
 #include "SDL/include/SDL_stdinc.h"
@@ -92,22 +94,37 @@ public:
 	j1Map*				map = nullptr;
 	j1Gui*              gui = nullptr;
 
+	bool				transition = false;
+	bool				vsync = false;
+	bool				pause = false;
 
+	std::string			title;
 private:
 
 	std::list<j1Module*>modules;
 	uint				frames;
-	float				dt;
 	int					argc;
 	char**				args;
 
-	std::string			title;
 	std::string			organization;
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	std::string			load_game;
 	mutable std::string	save_game;
+
+	j1PerfTimer			ptimer;
+	uint64				frame_count = 0;
+	j1Timer				startup_time;
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0;
+	uint32				prev_last_sec_frame_count = 0;
+	uint32				capTime = 0;
+	float				framerateCap = 0.0f;
+	float				dt = 0.0f;
+	bool				capFrames = false;
+	float				seconds_since_startup = 0.0f;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

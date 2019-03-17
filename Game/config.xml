@@ -1,13 +1,13 @@
 <!-- Config file for the game -->
 
 <config>
-  <app>
+  <app cap_frames="false" framerate_cap="60">
     <title>Final Fantasy: Dawn of Ivalice</title>
     <organization>Pink King Games</organization>
   </app>
 	
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 
   <window>
@@ -24,6 +24,9 @@
 
   <map>
     <folder>maps/</folder>
+	  <levels>
+      <level name="iso.tmx"/>
+	  </levels>
   </map>
 
 </config>
