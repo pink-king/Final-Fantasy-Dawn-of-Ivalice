@@ -46,7 +46,7 @@
     <ClCompile Include="UiItem_Label.cpp">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="UiItem_Slider.cpp">
+    <ClCompile Include="UiItem_Bar.cpp">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -114,7 +114,7 @@
     <ClInclude Include="UiItem_Label.h">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="UiItem_Slider.h">
+    <ClInclude Include="UiItem_Bar.h">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
   </ItemGroup>

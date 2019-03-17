@@ -93,7 +93,7 @@
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Image.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
-    <ClCompile Include="UiItem_Slider.cpp" />
+    <ClCompile Include="UiItem_Bar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Gui.h" />
@@ -117,7 +117,7 @@
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Image.h" />
     <ClInclude Include="UiItem_Label.h" />
-    <ClInclude Include="UiItem_Slider.h" />
+    <ClInclude Include="UiItem_Bar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
