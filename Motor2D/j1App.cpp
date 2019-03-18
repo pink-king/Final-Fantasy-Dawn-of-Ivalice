@@ -236,8 +236,8 @@ void j1App::FinishUpdate()
 	else
 		vsyncString = "OFF";
 
-	sprintf_s(title, 256, "SWAP GAME || Last sec frames: %i | Av.FPS: %.2f | Last frame ms: %02u | Framerate cap: %s | Vsync: %s",
-		frames_on_last_update, avg_fps, last_frame_ms, capFramesString.data(), vsyncString.data());
+	sprintf_s(title, 256, "%s || Last sec frames: %i | Av.FPS: %.2f | Last frame ms: %02u | Framerate cap: %s | Vsync: %s", 
+		App->GetTitle(),frames_on_last_update, avg_fps, last_frame_ms, capFramesString.data(), vsyncString.data());
 	App->win->SetTitle(title);
 
 	//- Cap the framerate

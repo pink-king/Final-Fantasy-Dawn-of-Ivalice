@@ -6,13 +6,6 @@
 #include <vector>
 
 
-struct EntityData
-{
-	std::string		name;
-	fPoint			position;
-	ENTITY_TYPE		type;
-};
-
 class j1EntityFactory : public j1Module
 {
 public:
@@ -37,7 +30,6 @@ public:
 private:
 	
 	SDL_Texture*			texture;
-	std::vector<EntityData> entitiesInfo;
 	std::vector<j1Entity*>	entities;
 
 };

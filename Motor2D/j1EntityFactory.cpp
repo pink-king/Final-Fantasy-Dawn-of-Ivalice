@@ -18,26 +18,29 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 	pugi::xml_node entity;
 	for (entity = node.child("entities").child("entity"); entity && ret; entity = entity.next_sibling("entity"))
 	{
-		EntityData* ent = new EntityData();
-
-		ent->name = node.attribute("name").as_string();
-		ent->position.x = node.attribute("positionX").as_float();
-		ent->position.y = node.attribute("positionY").as_float();
 		if (node.attribute("type").as_string() == "static")
-			ent->type = ENTITY_TYPE::ENTITY_STATIC;
+			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_STATIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
+
 		else if (node.attribute("type").as_string() == "dinamic")
-			ent->type = ENTITY_TYPE::ENTITY_DINAMIC;
+			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_DINAMIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
 	}
+
+	std::vector<j1Entity*>::iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		(*item)->LoadEntitydata(node);
+	}
+
 	return ret;
 }
 
 bool j1EntityFactory::Start()
 {
-	//create enemies
-	std::vector<EntityData>::iterator item = entitiesInfo.begin();
-	for (; item != entitiesInfo.end(); ++item)
-		entities.push_back(CreateEntity(item->type, item->position.x, item->position.y, item->name));
-
+	std::vector<j1Entity*>::iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		(*item)->Start();
+	}
 	//load texture
 	return true;
 }
@@ -79,7 +82,7 @@ bool j1EntityFactory::Update(float dt)
 
 bool j1EntityFactory::PostUpdate()
 {
-	return false;
+	return true;
 }
 
 bool j1EntityFactory::CleanUp()
@@ -95,7 +98,6 @@ bool j1EntityFactory::CleanUp()
 	}
 	entities.clear();
 
-	entitiesInfo.clear();
 
 	//unload texture
 
