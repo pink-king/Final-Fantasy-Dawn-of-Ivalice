@@ -4,8 +4,6 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
-#define VSYNC true
-
 j1Render::j1Render() : j1Module()
 {
 	name.assign("renderer");
@@ -27,7 +25,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if(config.child("vsync").attribute("value").as_bool(true) == true)
+	if(config.child("vsync").attribute("value").as_bool(true) == false)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
@@ -133,8 +131,18 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const
+{
+	int scale = App->win->GetScale();
+
+	SDL_Rect r = { x*scale,y*scale,w*scale,h*scale };
+	SDL_Rect cam = { -camera.x,-camera.y,camera.w,camera.h };
+
+	return SDL_HasIntersection(&r, &cam);
+}
+
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
