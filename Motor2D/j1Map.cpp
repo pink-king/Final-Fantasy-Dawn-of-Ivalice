@@ -44,35 +44,29 @@ void j1Map::Draw()
 			continue;
 		}
 
-		for (int y = 0; y < data.height; ++y)
+		for (int i = 0; i < data.height; ++i)
 		{
-			for (int x = 0; x < data.width; ++x)
+			for (int j = 0; j < data.width; ++j)
 			{
-				int tile_id = (*layer)->Get(x, y);
-				if (tile_id > 0)
+				if (App->render->IsOnCamera(MapToWorld(i, j).x, MapToWorld(i, j).y, data.tile_width, data.tile_height))
 				{
-					TileSet* tileset = GetTilesetFromTileId(tile_id);
-					if (tileset != nullptr)
+					int tile_id = (*layer)->Get(i, j);
+					if (tile_id > 0)
 					{
-						SDL_Rect r = tileset->GetTileRect(tile_id);
-						iPoint pos = MapToWorld(x, y);
+						TileSet* tileset = GetTilesetFromTileId(tile_id);
+						if (tileset != nullptr)
+						{
+							SDL_Rect r = tileset->GetTileRect(tile_id);
+							iPoint pos = MapToWorld(i, j);
 
-						App->render->Blit(tileset->texture, pos.x, pos.y, &r, (*layer)->properties.parallaxSpeed);
-					
+							App->render->Blit(tileset->texture, pos.x, pos.y, &r, (*layer)->properties.parallaxSpeed);
+
+						}
 					}
 				}
 			}
 		}
 	}
-	// advance animation frames
-	//std::list<TileSet*>::iterator tilesets = data.tilesets.begin();
-	//for (; tilesets != data.tilesets.end(); ++tilesets)
-	//{
-	//	if (tilesets->data->anim != nullptr)
-	//	{
-	//		tilesets->data->anim->GetCurrentFrame();
-	//	}
-	//}
 }
 
 int Properties::Get(const char* value, int default_value) const
