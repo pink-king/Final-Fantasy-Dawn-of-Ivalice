@@ -5,12 +5,6 @@
 #include "j1Entity.h"
 #include <vector>
 
-enum ENTITY_TYPE
-{
-	NO_TYPE,
-	ENTITY_STATIC,
-	ENTITY_DINAMIC
-};
 
 struct EntityData
 {

@@ -6,10 +6,15 @@
 
 #include "j1Module.h"
 #include "j1Textures.h"
-#include "j1EntityFactory.h"
 
 #include "SDL_image/include/SDL_image.h"
 
+enum ENTITY_TYPE
+	{
+		NO_TYPE,
+		ENTITY_STATIC,
+		ENTITY_DINAMIC
+	};
 
 struct EntityInfo
 {
