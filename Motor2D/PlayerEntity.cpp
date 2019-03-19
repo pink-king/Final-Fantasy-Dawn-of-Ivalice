@@ -19,9 +19,7 @@ bool PlayerEntity::PreUpdate()
 
 bool PlayerEntity::Update(float dt)
 {
-	bool ret = true;
-
-	return ret;
+	return true;
 }
 
 bool PlayerEntity::PostUpdate()

@@ -25,7 +25,9 @@ public:
 	bool CleanUp();
 
 	std::list<UiItem*>	ListItemUI;
+	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position);
+	UiItem_Image* AddImage(iPoint position, SDL_Rect section);
 	const SDL_Texture* GetAtlas() const;
 
 private:

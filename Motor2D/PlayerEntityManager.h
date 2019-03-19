@@ -7,6 +7,7 @@
 #include "Marche.h"
 #include "Ritz.h"
 #include "Shara.h"
+#include "j1Input.h"
 
 class PlayerEntityManager : public j1Entity
 {
@@ -27,13 +28,17 @@ public:
 
 	// functionality ------
 	bool SwapInputChecker();
+	void SetPreviousCharacter();
+	void SetNextCharacter();
+	void SetCurrentAnimation();
 
 public:
 
 
 private:
 
-	characterName selectedCharacter;
+	characterName selectedCharacterName;
+	PlayerEntity* selectedCharacterEntity;
 
 	Marche* marche = nullptr;
 	Ritz* ritz = nullptr;

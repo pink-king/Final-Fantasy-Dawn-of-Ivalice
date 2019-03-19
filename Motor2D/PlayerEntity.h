@@ -48,8 +48,9 @@ public:
 
 	//j1Entity*				Player = nullptr;
 
-protected:
+public:
 
+	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
 	SDL_Texture* spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];

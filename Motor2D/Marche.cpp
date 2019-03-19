@@ -4,8 +4,11 @@
 
 Marche::Marche()
 {
+	character = characterName::MARCHE;
+	name.assign("Marche");
+
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/ritz/Ritz_spritesheet_idle_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/marche/marche_run_test.png");
 	entityTex = spritesheet;
 
 	run[(int)facingDirection::E].PushBack({ 0,136,32,40 });
@@ -41,7 +44,7 @@ bool Marche::Update(float dt)
 	return true;
 }
 
-bool Marche::PostUpdate()
-{
-	return true;
-}
+//bool Marche::PostUpdate()
+//{
+//	return true;
+//}

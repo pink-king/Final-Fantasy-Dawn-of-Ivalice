@@ -5,11 +5,12 @@
 #include "j1Gui.h"
 #include "j1Scene.h"
 
-UiItem_Image::UiItem_Image(SDL_Rect hitBox, const SDL_Rect * section, UiItem * const parent, p2Point<int> pivot) : UiItem(hitBox, parent, pivot)
+UiItem_Image::UiItem_Image(iPoint position, SDL_Rect section) : UiItem(position)
 {
-
+	this->section = &section;
 }
 
 void UiItem_Image::Draw(const float& dt)
 {
+	App->render->Blit((SDL_Texture*)App->gui->GetAtlas(), hitBox.x, hitBox.y, this->section, 0.0F, SDL_FLIP_NONE);
 }
