@@ -8,6 +8,6 @@
 	<scene />
 	<entities />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="44" y="0" />
 	</renderer>
 </game_state>
