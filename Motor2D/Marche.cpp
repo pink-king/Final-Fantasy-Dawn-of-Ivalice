@@ -40,7 +40,8 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
-	
+	InputMovement(dt);
+
 	return true;
 }
 

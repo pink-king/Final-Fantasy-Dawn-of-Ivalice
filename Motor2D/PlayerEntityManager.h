@@ -28,6 +28,7 @@ public:
 
 	// functionality ------
 	bool SwapInputChecker();
+	//bool InputMovement();
 	void SetPreviousCharacter();
 	void SetNextCharacter();
 	void SetCurrentAnimation();

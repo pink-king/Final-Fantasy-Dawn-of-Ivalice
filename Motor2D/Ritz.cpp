@@ -39,6 +39,8 @@ bool Ritz::PreUpdate()
 
 bool Ritz::Update(float dt)
 {
+	InputMovement(dt);
+
 	return true;
 }
 

@@ -42,6 +42,7 @@ public:
 	//virtual bool CleanUp();
 
 	// functionality ------
+	bool InputMovement(float dt);
 	
 
 public:
@@ -52,6 +53,7 @@ public:
 
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
+	fPoint characterBaseSpeed = { 2.0f,2.0f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
 	SDL_Texture* spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];
 	Animation run[(int)facingDirection::MAX];
