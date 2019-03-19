@@ -38,6 +38,7 @@ private:
 	pugi::xml_node sceneNode;
 private:
 	void LoadUiElement(pugi::xml_node node);
+	bool LoadStartMenu(pugi::xml_node& nodeScene);
 };
 
 #endif // __j1SCENE_H__

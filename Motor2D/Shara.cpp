@@ -39,6 +39,8 @@ bool Shara::PreUpdate()
 
 bool Shara::Update(float dt)
 {
+	InputMovement(dt);
+
 	return true;
 }
 

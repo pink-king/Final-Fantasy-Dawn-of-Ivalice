@@ -49,10 +49,10 @@ bool PlayerEntityManager::Update(float dt)
 
 	SwapInputChecker(); // checks gamepad triggers input
 
-	// update selected character position to its "manager" position
-	selectedCharacterEntity->position = position;
-
 	selectedCharacterEntity->Update(dt);
+
+	// update selected character position to its "manager" position
+	position = selectedCharacterEntity->position;
 
 	return ret;
 }
@@ -73,6 +73,7 @@ bool PlayerEntityManager::CleanUp()
 
 	return true;
 }
+
 
 bool PlayerEntityManager::SwapInputChecker()
 {
@@ -96,6 +97,7 @@ bool PlayerEntityManager::SwapInputChecker()
 void PlayerEntityManager::SetPreviousCharacter()
 {
 	float current_frame = 0;
+	fPoint tempPosition;
 
 	std::vector<PlayerEntity*>::reverse_iterator leftItem = characters.rbegin();
 
@@ -104,6 +106,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 		if ((*leftItem) == selectedCharacterEntity)
 		{
 			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
+			tempPosition = selectedCharacterEntity->position;
 
 			++leftItem;
 			if (leftItem == characters.rend())
@@ -111,6 +114,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 
 			selectedCharacterEntity = (*leftItem);
 			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
+			selectedCharacterEntity->position = tempPosition;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
@@ -124,6 +128,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 void PlayerEntityManager::SetNextCharacter()
 {
 	float current_frame = 0;
+	fPoint tempPosition;
 
 	std::vector<PlayerEntity*>::iterator nextItem = characters.begin();
 
@@ -132,6 +137,7 @@ void PlayerEntityManager::SetNextCharacter()
 		if ((*nextItem) == selectedCharacterEntity)
 		{
 			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
+			tempPosition = selectedCharacterEntity->position;
 
 			++nextItem;
 			if (nextItem == characters.end())
@@ -139,6 +145,7 @@ void PlayerEntityManager::SetNextCharacter()
 	
 			selectedCharacterEntity = (*nextItem);
 			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
+			selectedCharacterEntity->position = tempPosition;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();

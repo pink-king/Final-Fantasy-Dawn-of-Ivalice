@@ -31,13 +31,13 @@ public:
 public:
 
 	//j1Entity*				Player = nullptr;
-	PlayerEntityManager* player = nullptr;
+	PlayerEntityManager*	player = nullptr;
 	SDL_Texture*			texture = nullptr;
 private:
 	
 	
 	std::vector<j1Entity*>	entities;
-	std::vector<j1Entity*> draw_entities;
+	std::vector<j1Entity*>	draw_entities;
 
 };
 

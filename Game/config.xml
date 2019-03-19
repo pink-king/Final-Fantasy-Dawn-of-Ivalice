@@ -27,12 +27,14 @@
   </gui>
 
   <scene>
+    <StartMenu>
      <images>
       <image name="bow">
         <section x="485" y="829" w="328" h="103"/>
         <position x="100" y="100"/>
       </image>
      </images>
+    </StartMenu>
   </scene>
 
   <map>
