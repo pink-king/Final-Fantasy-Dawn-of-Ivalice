@@ -8,7 +8,9 @@
 #include "Brofiler/Brofiler.h"
 #include "p2Point.h"
 
-UiItem_Bar::UiItem_Bar(iPoint pos, uint mesure, const SDL_Rect * section, UiItem * const parent, p2Point<int> pivot, TypeBar type) : UiItem(pos, parent)
+
+
+UiItem_Bar::UiItem_Bar(p2Point<int> position, uint mesure, const SDL_Rect * section, UiItem * const parent, p2Point<int> pivot, TypeBar type):UiItem(position)
 {
 }
 

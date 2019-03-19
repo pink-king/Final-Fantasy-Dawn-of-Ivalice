@@ -15,6 +15,7 @@
 #include "j1App.h"
 #include "j1Gui.h"
 #include "j1EntityFactory.h"
+//#include "j1Fonts.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -32,6 +33,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	gui = new j1Gui();
 	entityFactory = new j1EntityFactory();
+	//font = new j1Fonts();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -42,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(entityFactory);
+	//AddModule(font);
 
 	// render last to swap buffer
 	AddModule(render);

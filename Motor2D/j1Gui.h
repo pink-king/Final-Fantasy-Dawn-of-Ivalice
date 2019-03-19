@@ -25,6 +25,12 @@ public:
 	bool CleanUp();
 
 	std::list<UiItem*>	ListItemUI;
+	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position);
+	const SDL_Texture* GetAtlas() const;
+
+private:
+	SDL_Texture * atlas;
+	std::string atlas_file_name;
 };
 
 #endif
