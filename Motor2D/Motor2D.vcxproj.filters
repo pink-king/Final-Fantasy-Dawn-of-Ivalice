@@ -82,6 +82,9 @@
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTest.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -183,6 +186,9 @@
     <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyTest.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Desenvolupament  ========">
@@ -211,6 +217,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities\Player">
       <UniqueIdentifier>{44c3487b-1685-40ae-8523-5f25d1c05244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Enemies">
+      <UniqueIdentifier>{08d64058-d931-412e-ba90-826c6b64e970}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

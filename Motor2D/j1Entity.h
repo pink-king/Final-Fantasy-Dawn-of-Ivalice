@@ -13,7 +13,8 @@ enum ENTITY_TYPE
 	{
 		NO_TYPE,
 		ENTITY_STATIC,
-		ENTITY_DYNAMIC
+		ENTITY_DYNAMIC,
+		ENEMY_TEST
 	};
 
 struct EntityInfo
@@ -59,7 +60,7 @@ public:
 
 	//Animation			idle;
 	Animation*			currentAnimation = nullptr;
-	SDL_Texture* entityTex = nullptr;
+	SDL_Texture*		entityTex = nullptr;
 	
 };
 

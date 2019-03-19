@@ -63,6 +63,8 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+
+
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
@@ -90,6 +92,13 @@ bool j1Scene::Update(float dt)
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
 
+
+	iPoint coords = App->render->ScreenToWorld(x, y);
+
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y,  "whatever");
+	
+	
 	//App->win->SetTitle(App->title.data());
 
 

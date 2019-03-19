@@ -1,6 +1,7 @@
 #include "j1EntityFactory.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "EnemyTest.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -141,8 +142,10 @@ bool j1EntityFactory::CleanUp()
 	return ret;
 }
 
-j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int poositionX, int positionY, std::string name)
+j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name)
 {
+	j1Entity* ret = nullptr; 
+
 	switch (type)
 	{
 	case NO_TYPE:
@@ -151,10 +154,20 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int poositionX, int po
 		break;
 	case ENTITY_DYNAMIC:
 		break;
+
+	case ENEMY_TEST:
+		ret = new EnemyTest(iPoint(positionX, positionY));
+		ret->type = ENEMY_TEST;
+		ret->name = name; 
+		entities.push_back(ret);
+		LOG("Created a entity");
+		break;
+
 	default:
 		break;
 	}
-	return nullptr;
+
+	return ret;
 }
 
 PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)

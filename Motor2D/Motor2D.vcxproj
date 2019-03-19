@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="UiItem_Bar.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />
