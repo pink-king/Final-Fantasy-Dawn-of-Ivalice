@@ -20,7 +20,7 @@ class j1Scene;
 class j1Map;
 class j1Gui;
 class j1EntityFactory;
-//class j1Font;
+class j1Fonts;
 
 class j1App
 {
@@ -96,7 +96,7 @@ public:
 	j1Map*				map = nullptr;
 	j1Gui*              gui = nullptr;
 	j1EntityFactory*	entityFactory = nullptr;
-//	j1Fonts*			font = nullptr;
+	j1Fonts*			font = nullptr;
 
 	bool				transition = false;
 	bool				vsync = false;
