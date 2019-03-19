@@ -27,7 +27,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 {
 	LOG("Loading Scene");
 	bool ret = true;
-	sceneNode = node.child("scene");
+	sceneNode = node;
 	return ret;
 }
 
@@ -40,7 +40,7 @@ bool j1Scene::Start()
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
-	LoadUiElement(sceneNode);
+	LoadStartMenu(sceneNode);
 	return true;
 }
 
@@ -116,11 +116,19 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadUiElement(pugi::xml_node node)
 {
-	for (pugi::xml_node uiNode = node.child("scene").child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
+	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		App->gui->AddImage(position, &section);
 	}
 	
+}
+
+bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
+
+	LoadUiElement(startMenuNode);
+	return true;
 }

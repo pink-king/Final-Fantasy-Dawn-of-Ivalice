@@ -10,6 +10,6 @@
 	<gui />
 	<fonts />
 	<renderer>
-		<camera x="404" y="110" />
+		<camera x="162" y="145" />
 	</renderer>
 </game_state>
