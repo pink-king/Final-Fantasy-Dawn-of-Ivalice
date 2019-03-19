@@ -9,6 +9,9 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1EntityFactory.h"
+#include "j1Gui.h"
+#include "UiItem_Image.h"
+
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -37,7 +40,7 @@ bool j1Scene::Start()
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
-
+	UiItem_Image*newElement = App->gui->AddImage({100,100}, { 485, 829, 328, 103 });
 	return true;
 }
 

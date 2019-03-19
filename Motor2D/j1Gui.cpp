@@ -27,7 +27,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 
 bool j1Gui::Start()
 {
-	//atlas = App->tex->Load(atlas_file_name.data);
+	atlas = App->tex->Load("gui/atlas.png");
 	return true;
 }
 
@@ -38,6 +38,7 @@ bool j1Gui::Update(float dt)
 
 bool j1Gui::PostUpdate()
 {
+	canvas->DrawUi(dt);
 	return true;
 }
 
@@ -50,9 +51,20 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 {
 	UiItem* newUIItem = nullptr;
 	newUIItem = new UiItem_Label(text, color, font, position);
-	ListItemUI.push_front(newUIItem);
+	ListItemUI.push_back(newUIItem);
 	return (UiItem_Label*)newUIItem;
 	
+}
+
+UiItem_Image * j1Gui::AddImage(iPoint position, SDL_Rect section)
+{
+	UiItem* newUIItem = nullptr;
+	
+	newUIItem = new UiItem_Image(position, section);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Image*)newUIItem;
 }
 
 const SDL_Texture * j1Gui::GetAtlas() const

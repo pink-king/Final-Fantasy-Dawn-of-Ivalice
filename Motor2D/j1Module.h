@@ -14,7 +14,7 @@ class j1App;
 class j1Module
 {
 public:
-
+	float dt = 0.0F;
 	j1Module() : active(false)
 	{}
 

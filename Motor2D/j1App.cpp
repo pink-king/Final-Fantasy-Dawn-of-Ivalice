@@ -44,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(entityFactory);
+	AddModule(gui);
 	//AddModule(font);
 
 	// render last to swap buffer
