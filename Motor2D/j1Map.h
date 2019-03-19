@@ -24,7 +24,7 @@ struct Properties
 
 		while(*item != NULL)
 		{
-			RELEASE(*item);
+			list.remove(*item);
 			++item;
 		}
 

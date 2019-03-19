@@ -65,9 +65,7 @@ bool j1EntityFactory::PreUpdate()
 
 bool j1EntityFactory::Update(float dt)
 {
-	// -----------------------------
-	// input / logic
-	// -----------------------------
+
 
 	bool ret = true;
 
@@ -80,7 +78,7 @@ bool j1EntityFactory::Update(float dt)
 			if (ret)
 				ret = ((*item)->Move(dt));
 
-			// TODO: doesnt work, or it seems
+
 			if (App->render->IsOnCamera((int)((*item)->position.x), (int)((*item)->position.x), (*item)->size.x, (*item)->size.y)) 
 			{
 				draw_entities.push_back(*item);
@@ -88,36 +86,32 @@ bool j1EntityFactory::Update(float dt)
 		}
 	}
 
+	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
+	std::vector<j1Entity*>::iterator drawItem = draw_entities.begin();
+	for (; drawItem != draw_entities.end(); ++drawItem)
+	{
+		if (texture != NULL)
+			(*drawItem)->Draw(texture);
+		else
+			LOG("texture to entities no load");
+	}
+
+	draw_entities.clear();
+
 	return ret;
 }
 
 bool j1EntityFactory::PostUpdate()
 {
-	// blit
-	// TODO: TEMPORAL UNTILL isOnCamera method works --------------------
+
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		(*item)->PostUpdate();
 	}
-	// ------------------------------------------------------------------
 
-	// TODO: doesnt work , isOnCamera relative ----------------------------
-	/*uint entities_drawn = 0;
 
-	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
-	std::vector<j1Entity*>::iterator item = draw_entities.begin();
-	for (; item != draw_entities.end(); ++item)
-	{
-		(*item)->Draw(texture);
-		entities_drawn++;
-	}
 
-	draw_entities.clear();
-
-	static char title[30];
-	sprintf_s(title, 30, " | Entities drawn: %u", entities_drawn);*/
-	// --------------------------------------------------------------------
 	return true;
 }
 

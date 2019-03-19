@@ -7,7 +7,9 @@
 	<map />
 	<scene />
 	<entities />
+	<gui />
+	<fonts />
 	<renderer>
-		<camera x="44" y="0" />
+		<camera x="404" y="110" />
 	</renderer>
 </game_state>

@@ -67,7 +67,7 @@ bool j1Audio::CleanUp()
 	}
 
 	std::list<Mix_Chunk*>::iterator item;
-	for(item = fx.begin(); *item != NULL; ++item)
+	for(item = fx.begin(); item != fx.end(); ++item)
 		Mix_FreeChunk(*item);
 
 	fx.clear();

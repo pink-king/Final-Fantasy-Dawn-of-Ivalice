@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Window.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -35,7 +36,6 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	int mapBlitOffset = 50;//TODO: Get this from the xml
 
 	std::list<MapLayer*>::iterator layer = data.layers.begin();
 	for (; layer != data.layers.end(); ++layer)
@@ -179,7 +179,7 @@ bool j1Map::CleanUp()
 
 	while(tiles_item != data.tilesets.end())
 	{
-		RELEASE(*tiles_item);
+		data.tilesets.remove(*tiles_item);
 		++tiles_item;
 	}
 	data.tilesets.clear();
@@ -190,7 +190,7 @@ bool j1Map::CleanUp()
 
 	while(layer_item != data.layers.end())
 	{
-		RELEASE(*layer_item);
+		data.layers.remove(*layer_item);
 		++layer_item;
 	}
 	data.layers.clear();
