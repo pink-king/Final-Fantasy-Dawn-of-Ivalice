@@ -15,7 +15,7 @@ public:
 	virtual ~j1Scene();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node& node);
 
 	// Called before the first frame
 	bool Start();
@@ -35,6 +35,9 @@ public:
 
 private:
 	SDL_Texture* debug_tex;
+	pugi::xml_node sceneNode;
+private:
+	void LoadUiElement(pugi::xml_node node);
 };
 
 #endif // __j1SCENE_H__

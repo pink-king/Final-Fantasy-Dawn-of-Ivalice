@@ -26,6 +26,15 @@
     <atlas file="gui/atlas.png"/>
   </gui>
 
+  <scene>
+     <images>
+      <image name="bow">
+        <section x="485" y="829" w="328" h="103"/>
+        <position x="100" y="100"/>
+      </image>
+     </images>
+  </scene>
+
   <map>
     <folder>maps/</folder>
 	  <levels>

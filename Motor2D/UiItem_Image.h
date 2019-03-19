@@ -9,10 +9,10 @@ class UiItem_Image : public UiItem
 {
 
 public:
-	UiItem_Image(iPoint position, SDL_Rect section);
+	UiItem_Image(iPoint position, const SDL_Rect* section);
 	//UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
 	void Draw(const float& dt);
-	const SDL_Rect* section;
+	SDL_Rect section;
 };
 
 #endif

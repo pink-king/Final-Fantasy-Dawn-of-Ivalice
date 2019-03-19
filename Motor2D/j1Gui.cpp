@@ -10,6 +10,7 @@
 
 j1Gui::j1Gui() : j1Module() 
 {
+	name.assign("gui");
 }
 
 
@@ -20,14 +21,13 @@ j1Gui::~j1Gui()
 bool j1Gui::Awake(pugi::xml_node& conf)
 {
 	bool ret = true;
-
-	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+	atlas_file_name = conf.child("atlas").attribute("file").as_string();
 	return true;
 }
 
 bool j1Gui::Start()
 {
-	atlas = App->tex->Load("gui/atlas.png");
+	atlas = App->tex->Load(atlas_file_name.data());
 	return true;
 }
 
@@ -38,7 +38,11 @@ bool j1Gui::Update(float dt)
 
 bool j1Gui::PostUpdate()
 {
-	canvas->DrawUi(dt);
+	//canvas->DrawUi(dt);
+	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
+	{
+		(*iter)->Draw(dt);
+	}
 	return true;
 }
 
@@ -56,7 +60,7 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	
 }
 
-UiItem_Image * j1Gui::AddImage(iPoint position, SDL_Rect section)
+UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section)
 {
 	UiItem* newUIItem = nullptr;
 	
@@ -67,7 +71,7 @@ UiItem_Image * j1Gui::AddImage(iPoint position, SDL_Rect section)
 	return (UiItem_Image*)newUIItem;
 }
 
-const SDL_Texture * j1Gui::GetAtlas() const
+SDL_Texture * j1Gui::GetAtlas()
 {
 	return atlas;
 }
