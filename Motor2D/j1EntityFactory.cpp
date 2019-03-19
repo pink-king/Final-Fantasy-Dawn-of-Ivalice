@@ -1,5 +1,6 @@
 #include "j1EntityFactory.h"
 #include "j1Render.h"
+#include "p2Log.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -47,7 +48,17 @@ bool j1EntityFactory::Start()
 
 bool j1EntityFactory::PreUpdate()
 {
+	bool ret = true;
+
 	// logic / collisions
+	std::vector<j1Entity*>::iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		if ((*item) != nullptr)
+		{
+			ret = ((*item)->PreUpdate());
+		}
+	}
 
 	return true;
 }
@@ -63,10 +74,15 @@ bool j1EntityFactory::Update(float dt)
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
-		if ((*item) != nullptr) {
-			ret = ((*item)->Move(dt));
+		if ((*item) != nullptr) 
+		{
+			ret = (*item)->Update(dt);
+			if (ret)
+				ret = ((*item)->Move(dt));
 
-			if (App->render->IsOnCamera((int)((*item)->position.x), (int)((*item)->position.x), (*item)->size.x, (*item)->size.y)) {
+			// TODO: doesnt work, or it seems
+			if (App->render->IsOnCamera((int)((*item)->position.x), (int)((*item)->position.x), (*item)->size.x, (*item)->size.y)) 
+			{
 				draw_entities.push_back(*item);
 			}
 		}
@@ -78,8 +94,16 @@ bool j1EntityFactory::Update(float dt)
 bool j1EntityFactory::PostUpdate()
 {
 	// blit
+	// TODO: TEMPORAL UNTILL isOnCamera method works --------------------
+	std::vector<j1Entity*>::iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		(*item)->PostUpdate();
+	}
+	// ------------------------------------------------------------------
 
-	uint entities_drawn = 0;
+	// TODO: doesnt work , isOnCamera relative ----------------------------
+	/*uint entities_drawn = 0;
 
 	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
 	std::vector<j1Entity*>::iterator item = draw_entities.begin();
@@ -92,8 +116,8 @@ bool j1EntityFactory::PostUpdate()
 	draw_entities.clear();
 
 	static char title[30];
-	sprintf_s(title, 30, " | Entities drawn: %u", entities_drawn);
-
+	sprintf_s(title, 30, " | Entities drawn: %u", entities_drawn);*/
+	// --------------------------------------------------------------------
 	return true;
 }
 
@@ -105,6 +129,7 @@ bool j1EntityFactory::CleanUp()
 
 	while (entitiesItem != entities.end())
 	{
+		//(*entitiesItem)->CleanUp();
 		RELEASE(*entitiesItem);
 		++entitiesItem;
 	}
@@ -118,8 +143,36 @@ bool j1EntityFactory::CleanUp()
 
 j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int poositionX, int positionY, std::string name)
 {
+	switch (type)
+	{
+	case NO_TYPE:
+		break;
+	case ENTITY_STATIC:
+		break;
+	case ENTITY_DYNAMIC:
+		break;
+	default:
+		break;
+	}
 	return nullptr;
 }
+
+PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
+{
+	PlayerEntityManager* ret = nullptr;
+
+	ret = new PlayerEntityManager(position);
+
+	if (ret != nullptr)
+	{
+		entities.push_back(ret);
+		return ret;
+	}
+	
+	LOG("Failed to create player system");
+	return nullptr;
+}
+
 
 void j1EntityFactory::DestroyEntity(j1Entity * entity)
 {

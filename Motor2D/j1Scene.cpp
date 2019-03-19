@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "j1EntityFactory.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -33,6 +34,9 @@ bool j1Scene::Start()
 	App->map->Load("maps/iso_walk.tmx");
 
 	debug_tex = App->tex->Load("maps/path2.png");
+
+	// create player for testing purposes here
+	App->entityFactory->CreatePlayer({ 300,300 });
 
 	return true;
 }

@@ -33,14 +33,15 @@ public:
 	virtual bool PreUpdate();
 	virtual bool Update(float dt);
 	virtual bool PostUpdate();
+	//virtual bool CleanUp();
 	//----------------------------
-	virtual bool Move(float dt)=0;
+	virtual bool Move(float dt);
 	void Draw(SDL_Texture* texture);
 	//virtual void OnCollision(Collider* collider);
 
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
-	virtual void LoadEntitydata(pugi::xml_node)=0;
+	virtual void LoadEntitydata(pugi::xml_node&);
 
 public:
 	std::string			name;
@@ -58,6 +59,7 @@ public:
 
 	//Animation			idle;
 	Animation*			currentAnimation = nullptr;
+	SDL_Texture* entityTex = nullptr;
 	
 };
 

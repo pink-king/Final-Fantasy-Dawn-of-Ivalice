@@ -35,10 +35,10 @@ public:
 
 	//core loops ------
 	//bool Awake(pugi::xml_node& node);
-	virtual bool Start();
-	virtual bool PreUpdate();
-	virtual bool Update(float dt);
-	virtual bool PostUpdate();
+	bool Start();
+	bool PreUpdate();
+	bool Update(float dt);
+	bool PostUpdate();
 	//virtual bool CleanUp();
 
 	// functionality ------
@@ -48,7 +48,7 @@ public:
 
 	//j1Entity*				Player = nullptr;
 
-private:
+protected:
 
 	int exp = 0; // TODO: BUFF MANAGER
 	SDL_Texture* spritesheet = nullptr;

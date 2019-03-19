@@ -1,7 +1,7 @@
 #include "j1App.h"
 #include "j1Entity.h"
 #include "j1Render.h"
-
+#include "j1EntityFactory.h"
 #include "p2Log.h"
 #include "Brofiler\Brofiler.h"
 
@@ -25,15 +25,22 @@ bool j1Entity::Update(float dt)
 }
 bool j1Entity::PostUpdate()
 {
+	Draw(App->entityFactory->texture); // general purposes big entityfactory spritesheet (enemies, or etc)
 	return true;
 }
 
 void j1Entity::Draw(SDL_Texture * texture)
 {
-	if (currentAnimation != nullptr)
-		App->render->Blit(texture, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+	if (texture != nullptr)
+	{
+		if (currentAnimation != nullptr)
+			App->render->Blit(texture, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		else
+			App->render->Blit(texture, position.x, position.y);
+	}
 	else
-		App->render->Blit(texture, position.x, position.y);
+		LOG("entity texture not found");
+
 }
 
 fPoint j1Entity::GetPosition()
@@ -46,4 +53,11 @@ void j1Entity::SetPivot(const float & x, const float & y)
 	pivot.create(x, y);
 }
 
+bool j1Entity::Move(float dt)
+{
+	return true;
+}
+
+void j1Entity::LoadEntitydata(pugi::xml_node& node)
+{}
 

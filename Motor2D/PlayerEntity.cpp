@@ -26,5 +26,6 @@ bool PlayerEntity::Update(float dt)
 
 bool PlayerEntity::PostUpdate()
 {
+	Draw(entityTex);
 	return true;
 }
