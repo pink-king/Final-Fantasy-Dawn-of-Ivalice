@@ -42,8 +42,29 @@ bool PlayerEntity::InputMovement(float dt)
 	if (yAxis > 0 || yAxis < 0)
 		position.y = position.y + (yAxis * 0.005 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 
+	float animationAngle = atan2f(yAxis, xAxis);
 
-	LOG("%i", xAxis);
+	LOG("%f", animationAngle);
+	if (animationAngle > 0)
+	{
+		LOG("%f", animationAngle);
+		//LOG("%i", xAxis);
+
+		float animDistribution = PI / 4;
+		int i = 0;
+		for (float portion = 0.0f; portion <= PI; portion += animDistribution)
+		{
+			if (animDistribution >= portion)
+				break;
+			LOG("%i", i);
+			++i;
+		}
+
+		currentAnimation = &run[i];
+
+	}
+	/*else
+		currentAnimation = &idle[(int)pointingDir];*/
 
 	return true;
 }

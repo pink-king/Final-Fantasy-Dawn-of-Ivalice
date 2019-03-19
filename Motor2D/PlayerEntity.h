@@ -5,6 +5,8 @@
 #include "p2Animation.h"
 #include "j1Entity.h"
 
+#define PI 3.14159265359f
+
 struct SDL_Texture;
 
 enum class facingDirection
@@ -51,6 +53,7 @@ public:
 
 public:
 
+	facingDirection pointingDir;
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
 	fPoint characterBaseSpeed = { 2.0f,2.0f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items

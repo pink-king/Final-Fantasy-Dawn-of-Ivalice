@@ -74,16 +74,6 @@ bool PlayerEntityManager::CleanUp()
 	return true;
 }
 
-//bool PlayerEntityManager::InputMovement()
-//{
-//	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
-//	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
-//
-//	
-//
-//
-//	return true;
-//}
 
 bool PlayerEntityManager::SwapInputChecker()
 {
