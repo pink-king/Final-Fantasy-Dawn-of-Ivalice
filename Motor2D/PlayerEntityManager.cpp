@@ -95,17 +95,22 @@ bool PlayerEntityManager::SwapInputChecker()
 
 void PlayerEntityManager::SetPreviousCharacter()
 {
+	float current_frame = 0;
+
 	std::vector<PlayerEntity*>::reverse_iterator leftItem = characters.rbegin();
 
 	for (; leftItem != characters.rend(); ++leftItem)
 	{
 		if ((*leftItem) == selectedCharacterEntity)
 		{
+			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
+
 			++leftItem;
 			if (leftItem == characters.rend())
 				leftItem = characters.rbegin();
 
 			selectedCharacterEntity = (*leftItem);
+			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
@@ -118,17 +123,22 @@ void PlayerEntityManager::SetPreviousCharacter()
 
 void PlayerEntityManager::SetNextCharacter()
 {
+	float current_frame = 0;
+
 	std::vector<PlayerEntity*>::iterator nextItem = characters.begin();
 
 	for (; nextItem != characters.end(); ++nextItem)
 	{
 		if ((*nextItem) == selectedCharacterEntity)
 		{
+			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
+
 			++nextItem;
 			if (nextItem == characters.end())
 				nextItem = characters.begin();
 	
 			selectedCharacterEntity = (*nextItem);
+			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();

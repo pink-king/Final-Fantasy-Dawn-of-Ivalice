@@ -32,6 +32,16 @@ public:
 		frames[last_frame++] = rect;
 	}
 
+	float GetCurrentFloatFrame()
+	{
+		return current_frame;
+	}
+
+	void SetCurrentFrame(float frame)
+	{
+		current_frame = frame;
+	}
+
 	SDL_Rect& GetCurrentFrame()
 	{
 		current_frame += speed * App->GetDt();
