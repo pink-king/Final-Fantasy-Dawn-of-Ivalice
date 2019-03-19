@@ -64,6 +64,21 @@
     <ClCompile Include="j1EntityFactory.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerEntityManager.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Ritz.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Marche.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Shara.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEntity.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -147,6 +162,21 @@
     <ClInclude Include="j1Entity.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerEntityManager.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Ritz.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Marche.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Shara.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEntity.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Desenvolupament  ========">
@@ -172,6 +202,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities">
       <UniqueIdentifier>{6132d18a-6607-4590-b8c9-6ed5a7a12b67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Player">
+      <UniqueIdentifier>{44c3487b-1685-40ae-8523-5f25d1c05244}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

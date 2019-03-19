@@ -13,13 +13,13 @@ enum ENTITY_TYPE
 	{
 		NO_TYPE,
 		ENTITY_STATIC,
-		ENTITY_DINAMIC
+		ENTITY_DYNAMIC
 	};
 
 struct EntityInfo
 {
 	iPoint position;
-	//Collider* collider;
+	//Collider* collider = nullptr;
 };
 
 class j1Entity
@@ -29,6 +29,11 @@ public:
 	~j1Entity();
 
 	virtual bool Start()=0;
+	// core loops ---------------
+	virtual bool PreUpdate();
+	virtual bool Update(float dt);
+	virtual bool PostUpdate();
+	//----------------------------
 	virtual bool Move(float dt)=0;
 	void Draw(SDL_Texture* texture);
 	//virtual void OnCollision(Collider* collider);
@@ -44,15 +49,15 @@ public:
 	fPoint				pivot;
 	ENTITY_TYPE			type;
 	SDL_RendererFlip	flip = SDL_FLIP_NONE;
-	//Collider* collider;
+	//Collider* collider = nullptr;
 
 	pugi::xml_document	file;
 	pugi::xml_parse_result result;
 
-	bool				isInRange;
+	bool				isInRange = false;
 
-	Animation			idle;
-	Animation*			currentAnimation;
+	//Animation			idle;
+	Animation*			currentAnimation = nullptr;
 	
 };
 

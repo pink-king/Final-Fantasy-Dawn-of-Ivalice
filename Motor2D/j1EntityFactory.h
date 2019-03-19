@@ -14,23 +14,25 @@ public:
 
 	bool Awake(pugi::xml_node& node);
 	bool Start();
+	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
 	bool CleanUp();
 
-	j1Entity* CreateEntity(ENTITY_TYPE type, int poositionX, int positionY, std::string name);
+	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	void DestroyEntity(j1Entity* entity);
 
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
 public:
 
-	j1Entity*				Player;
+	j1Entity*				Player = nullptr;
 
 private:
 	
-	SDL_Texture*			texture;
+	SDL_Texture*			texture = nullptr;
 	std::vector<j1Entity*>	entities;
+	std::vector<j1Entity*> draw_entities;
 
 };
 

@@ -14,7 +14,19 @@ j1Entity::~j1Entity()
 	//	collider.collider->to_delete = true;
 }
 
+bool j1Entity::PreUpdate()
+{
+	return true;
+}
 
+bool j1Entity::Update(float dt)
+{
+	return true;
+}
+bool j1Entity::PostUpdate()
+{
+	return true;
+}
 
 void j1Entity::Draw(SDL_Texture * texture)
 {

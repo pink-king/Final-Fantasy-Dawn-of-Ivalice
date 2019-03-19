@@ -22,7 +22,7 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_STATIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
 
 		else if (node.attribute("type").as_string() == "dinamic")
-			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_DINAMIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
+			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_DYNAMIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
 	}
 
 	std::vector<j1Entity*>::iterator item = entities.begin();
@@ -45,12 +45,20 @@ bool j1EntityFactory::Start()
 	return true;
 }
 
+bool j1EntityFactory::PreUpdate()
+{
+	// logic / collisions
+
+	return true;
+}
+
 bool j1EntityFactory::Update(float dt)
 {
-	bool ret = true;
+	// -----------------------------
+	// input / logic
+	// -----------------------------
 
-	std::vector<j1Entity*> draw_entities;
-	uint entities_drawn = 0;
+	bool ret = true;
 
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
@@ -64,9 +72,18 @@ bool j1EntityFactory::Update(float dt)
 		}
 	}
 
-	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
+	return ret;
+}
 
-	for (item = draw_entities.begin(); item != draw_entities.end(); ++item)
+bool j1EntityFactory::PostUpdate()
+{
+	// blit
+
+	uint entities_drawn = 0;
+
+	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
+	std::vector<j1Entity*>::iterator item = draw_entities.begin();
+	for (; item != draw_entities.end(); ++item)
 	{
 		(*item)->Draw(texture);
 		entities_drawn++;
@@ -77,11 +94,6 @@ bool j1EntityFactory::Update(float dt)
 	static char title[30];
 	sprintf_s(title, 30, " | Entities drawn: %u", entities_drawn);
 
-	return ret;
-}
-
-bool j1EntityFactory::PostUpdate()
-{
 	return true;
 }
 
