@@ -102,8 +102,9 @@
      <bars>
 	 
 	 <bar name="temporal_slider_vertical">
-         <section x="98" y="640" w="42" h="29"/>
-         <position x="240" y="413"/>
+         <section_bar x="37" y="628" w="43" h="165"/>
+         <position x="50" y="300"/>
+		 <section_thumb x="98" y="640" w="42" h="29"/>
 		 <type value = "VERTICAL"/>
        </bar>
 	    </bars>

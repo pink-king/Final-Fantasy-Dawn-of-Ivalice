@@ -10,10 +10,16 @@
 
 
 
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, UiItem * const parent, TypeBar type):UiItem(position)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent, TypeBar type):UiItem(position)
 {
 
-	//App->gui->AddImage(position, &section);
+//	this->section = *section;
+	
+	// bar 
+	bar = App->gui->AddImage(position, section);
+	
+	// thumb
+	thumb = App->gui->AddImage(position, thumb_section);
 
 
 }
