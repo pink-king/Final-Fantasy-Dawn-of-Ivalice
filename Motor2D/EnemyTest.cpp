@@ -6,9 +6,9 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(NO_TYPE, position.x, position.y
 	name.assign("Test");
 
 	// TODO: import from xml
-	entityTex = App->tex->Load("textures/enemies/enemy_test.png");
+	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png");
 
-	idle.PushBack({ 0,0,32,32 });
+	idle.PushBack({ 7,34,13,36 });
 
 	currentAnimation = &idle;
 
