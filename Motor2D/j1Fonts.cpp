@@ -36,7 +36,9 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	}
 
 
-	default = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
+	sans = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
+	//fonts.push_back(sans); 
+	
 
 	return ret;
 }
@@ -46,6 +48,7 @@ bool j1Fonts::CleanUp()
 {
 	LOG("Freeing True Type fonts and library");
 	std::list<TTF_Font*>::iterator item = fonts.begin();
+	// std::vector<TTF_Font*>::iterator item = fonts.begin();
 
 	for(; item != fonts.end(); ++item)
 	{
