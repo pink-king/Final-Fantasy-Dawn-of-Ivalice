@@ -124,14 +124,14 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-void j1Scene::LoadUiElement(pugi::xml_node node)
+void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
 	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
-		App->gui->AddImage(position, &section);
+		App->gui->AddImage(position, &section, parent);
 	}
 
 	// labels
@@ -168,7 +168,7 @@ void j1Scene::LoadUiElement(pugi::xml_node node)
 bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
-
-	LoadUiElement(startMenuNode);
+	startMenupanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(startMenupanel, startMenuNode);
 	return true;
 }

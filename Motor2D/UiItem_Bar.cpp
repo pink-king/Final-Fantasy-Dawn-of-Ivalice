@@ -9,17 +9,16 @@
 #include "p2Point.h"
 
 
-
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent, TypeBar type):UiItem(position)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent, TypeBar type):UiItem(position, parent)
 {
 
 //	this->section = *section;
 	
 	// bar 
-	bar = App->gui->AddImage(position, section);
+	bar = App->gui->AddImage(position, section, parent);
 	
 	// thumb
-	thumb = App->gui->AddImage(position, thumb_section);
+	thumb = App->gui->AddImage(position, thumb_section, parent);
 
 
 }

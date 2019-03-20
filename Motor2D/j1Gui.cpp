@@ -11,6 +11,7 @@
 j1Gui::j1Gui() : j1Module() 
 {
 	name.assign("gui");
+	canvas = new UiItem({ 0,0 }, NULL);
 }
 
 
@@ -60,11 +61,14 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	
 }
 
-UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section)
+UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent)
 {
 	UiItem* newUIItem = nullptr;
-	
-	newUIItem = new UiItem_Image(position, section);
+
+	if (parent == NULL)
+		newUIItem = new UiItem_Image(position, section, canvas);
+	else
+		newUIItem = new UiItem_Image(position, section, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -81,6 +85,18 @@ UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_R
 
 	return (UiItem_Bar*)newUIItem;
 
+}
+
+UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+	if (parent == NULL)
+		newUIItem = new UiItem(pos, canvas);
+	else
+		newUIItem = new UiItem(pos, parent);
+
+	ListItemUI.push_back(newUIItem);
+	return newUIItem;
 }
 
 SDL_Texture * j1Gui::GetAtlas()

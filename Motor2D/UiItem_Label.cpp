@@ -7,7 +7,7 @@
 #include "j1Render.h"
 
 
-UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position) :UiItem(position)
+UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position) :UiItem(position, parent)
 {
 	
 	texture = App->font->Print(text.data(), color, font);
