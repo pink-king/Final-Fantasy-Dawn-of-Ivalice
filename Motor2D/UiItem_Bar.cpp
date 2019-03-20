@@ -10,12 +10,17 @@
 
 
 
-UiItem_Bar::UiItem_Bar(p2Point<int> position, uint mesure, const SDL_Rect * section, UiItem * const parent, p2Point<int> pivot, TypeBar type):UiItem(position)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, UiItem * const parent, TypeBar type):UiItem(position)
 {
+
+	//App->gui->AddImage(position, &section);
+
+
 }
 
 void UiItem_Bar::Draw(const float & dt)
 {
+	//App->render->Blit(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, SDL_FLIP_NONE);
 }
 
 float UiItem_Bar::GetBarValue()

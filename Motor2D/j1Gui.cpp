@@ -71,7 +71,21 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section)
 	return (UiItem_Image*)newUIItem;
 }
 
+UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, UiItem*const parent, TypeBar type)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Bar(position, section, parent, type);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Bar*)newUIItem;
+
+}
+
 SDL_Texture * j1Gui::GetAtlas()
 {
 	return atlas;
 }
+
+

@@ -7,8 +7,8 @@
 #include "UiItem.h"
 #include "UiItem_Image.h"
 #include "UiItem_Label.h"
-/*#include "UiItem_Button.h"
-#include "UiItem_Bar.h"*/
+/*#include "UiItem_Button.h"*/
+#include "UiItem_Bar.h"
 
 class j1Gui : public j1Module
 {
@@ -28,6 +28,8 @@ public:
 	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position);
 	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section);
+	UiItem_Bar* AddBar(iPoint position, const SDL_Rect* section, UiItem*const parent, TypeBar type = VERTICAL);
+
 	SDL_Texture* GetAtlas();
 
 private:

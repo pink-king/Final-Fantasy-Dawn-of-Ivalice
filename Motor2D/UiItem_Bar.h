@@ -18,11 +18,18 @@ class UiItem_Bar :public UiItem
 {
 protected:
 	TypeBar type = HORIZONTAL;
+	UiItem_Image* thumb = nullptr;
+	UiItem_Image* bar = nullptr;
+	SDL_Rect section;
+
 public:
-	UiItem_Bar(p2Point<int> position, uint mesure, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = { 0,0 }, TypeBar type = HORIZONTAL);
+	UiItem_Bar(iPoint position, const SDL_Rect* section, UiItem*const parent, TypeBar type = VERTICAL);
 	~UiItem_Bar() {}
 	void Draw(const float& dt);
 	float GetBarValue();
+
+
+
 };
 
 
