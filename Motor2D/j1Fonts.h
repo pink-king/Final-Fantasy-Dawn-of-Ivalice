@@ -36,6 +36,17 @@ public:
 public:
 
 	std::list<_TTF_Font*>	fonts;
+
+	/*_TTF_Font* GetFont (std::string text) {
+	
+		for (uint i = 0; i < fonts.size; ++i)
+		{
+			if (fonts.fr) {
+
+			}
+		}
+	}*/
+
 	_TTF_Font*				default;
 };
 

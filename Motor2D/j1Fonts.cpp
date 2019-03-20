@@ -35,6 +35,9 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		default = Load(path, size);
 	}
 
+
+	default = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
+
 	return ret;
 }
 
