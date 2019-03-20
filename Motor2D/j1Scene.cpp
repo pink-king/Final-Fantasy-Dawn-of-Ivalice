@@ -149,14 +149,14 @@ void j1Scene::LoadUiElement(pugi::xml_node node)
 	// bars 
 	for (pugi::xml_node uiNode = node.child("bars").child("bar"); uiNode; uiNode = uiNode.next_sibling("bar"))
 	{
-		/*iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
+		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		
 		
 		// TODO: spawn thumg according to bar type: vertical or horizontal 
 		//std::string type = uiNode.child("type").attribute("value").as_string();
 
-		App->gui->AddBar(position, &section, nullptr, VERTICAL); // TODO: add parent later */
+		App->gui->AddBar(position, &section, nullptr, VERTICAL); // TODO: add parent later 
 
 	}
 
