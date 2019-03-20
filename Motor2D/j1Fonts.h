@@ -4,6 +4,10 @@
 #include "j1Module.h"
 #include "SDL\include\SDL_pixels.h"
 
+
+#include <vector>
+#include <list>
+
 #define DEFAULT_FONT "fonts/open_sans/OpenSans-Regular.ttf"
 #define DEFAULT_FONT_SIZE 12
 
@@ -36,18 +40,11 @@ public:
 public:
 
 	std::list<_TTF_Font*>	fonts;
+	// std::vector<_TTF_Font*> fonts; 
 
-	/*_TTF_Font* GetFont (std::string text) {
 	
-		for (uint i = 0; i < fonts.size; ++i)
-		{
-			if (fonts.fr) {
-
-			}
-		}
-	}*/
-
 	_TTF_Font*				default;
+	_TTF_Font*				sans;
 };
 
 

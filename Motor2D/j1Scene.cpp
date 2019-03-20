@@ -138,11 +138,11 @@ void j1Scene::LoadUiElement(pugi::xml_node node)
 	for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
 	{
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
-		std::string  text = uiNode.child("text").attribute("value").as_string();
-		std::string  font = uiNode.child("font").attribute("value").as_string();
+		std::string text = uiNode.child("text").attribute("value").as_string();
+		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 		
-		App->gui->AddLabel(text.data(), color, App->font->default, position);
+		App->gui->AddLabel(text.data(), color, App->font->sans, position);
 
 	}
 	
