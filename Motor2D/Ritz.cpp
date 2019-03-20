@@ -115,6 +115,11 @@ bool Ritz::Update(float dt)
 	return true;
 }
 
+bool Ritz::CleanUp()
+{
+	return true;
+}
+
 //bool Ritz::PostUpdate()
 //{
 //	return true;

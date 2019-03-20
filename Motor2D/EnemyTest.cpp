@@ -41,3 +41,8 @@ bool EnemyTest::PostUpdate()
 	Draw(entityTex);
 	return true;
 }
+
+bool EnemyTest::CleanUp()
+{
+	return false;
+}

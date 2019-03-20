@@ -115,6 +115,11 @@ bool Shara::Update(float dt)
 	return true;
 }
 
+bool Shara::CleanUp()
+{
+	return true;
+}
+
 //bool Shara::PostUpdate()
 //{
 //	return true;

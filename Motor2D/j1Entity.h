@@ -34,7 +34,7 @@ public:
 	virtual bool PreUpdate();
 	virtual bool Update(float dt);
 	virtual bool PostUpdate();
-	//virtual bool CleanUp();
+	virtual bool CleanUp();
 	//----------------------------
 	virtual bool Move(float dt);
 	void Draw(SDL_Texture* texture);

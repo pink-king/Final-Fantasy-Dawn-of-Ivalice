@@ -116,6 +116,11 @@ bool Marche::Update(float dt)
 	return true;
 }
 
+bool Marche::CleanUp()
+{
+	return true;
+}
+
 //bool Marche::PostUpdate()
 //{
 //	return true;

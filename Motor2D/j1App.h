@@ -106,7 +106,6 @@ public:
 	j1PathFinding*		pathfinding = nullptr; 
 	j1Fonts*			font = nullptr;
 
-	bool				transition = false;
 	bool				vsync = false;
 	bool				pause = false;
 

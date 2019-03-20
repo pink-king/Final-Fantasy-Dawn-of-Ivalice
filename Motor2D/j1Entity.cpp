@@ -29,6 +29,11 @@ bool j1Entity::PostUpdate()
 	return true;
 }
 
+bool j1Entity::CleanUp()
+{
+	return true;
+}
+
 void j1Entity::Draw(SDL_Texture * texture)
 {
 	if (texture != nullptr)

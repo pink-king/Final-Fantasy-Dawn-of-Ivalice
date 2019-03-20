@@ -48,7 +48,7 @@ void j1Map::Draw()
 		{
 			for (int j = 0; j < data.width; ++j)
 			{
-				if (App->render->IsOnCamera(MapToWorld(i, j).x, MapToWorld(i, j).y, data.tile_width, data.tile_height))
+				if (App->render->IsOnCamera(MapToWorld(i + MARGIN_TILE, j + MARGIN_TILE).x , MapToWorld(i + MARGIN_TILE, j + MARGIN_TILE).y, data.tile_width + MARGIN_TILE, data.tile_height + MARGIN_TILE))
 				{
 					int tile_id = (*layer)->Get(i, j);
 					if (tile_id > 0)

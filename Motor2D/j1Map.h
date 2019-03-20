@@ -7,7 +7,7 @@
 #include "j1Module.h"
 
 
-#define MAX_OBJECTGROUP_COLLIDERS 100
+#define MARGIN_TILE 1
 
 struct Properties
 {

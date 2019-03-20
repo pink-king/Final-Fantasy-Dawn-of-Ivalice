@@ -187,15 +187,8 @@ void j1App::PrepareUpdate()
 	if (pause) 
 		dt = 0.0f;
 	else 
-	{
-		if (transition)
-		{
-			dt = 1.0f / framerateCap;
-			transition = false;
-		}
-		else 
-			dt = frame_time.ReadSec();
-	}
+		dt = 1.0f / framerateCap;
+
 
 	frame_time.Start();
 }
@@ -222,36 +215,18 @@ void j1App::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
-	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) 
-		capFrames = !capFrames;
-
 	static char title[256];
 	std::string capFramesString;
-	if (capFrames) 
-		capFramesString = "ON";
-	
-	else 
-		capFramesString = "OFF";
-	
-	std::string vsyncString;
-	if (vsync) 
-		vsyncString = "ON";
-	else
-		vsyncString = "OFF";
 
-	sprintf_s(title, 256, "%s || Last sec frames: %i | Av.FPS: %.2f | Last frame ms: %02u | Framerate cap: %s | Vsync: %s", 
-		App->GetTitle(),frames_on_last_update, avg_fps, last_frame_ms, capFramesString.data(), vsyncString.data());
-	App->win->SetTitle(title);
+	sprintf_s(title, 256, "%s" , App->GetTitle());
 
 	//- Cap the framerate
-	if (capFrames)
-	{
-		uint32 delay = MAX(0, (int)capTime - (int)last_frame_ms);
-		//LOG("Should wait: %i", delay);
-		//j1PerfTimer delayTimer;
-		SDL_Delay(delay);
-		//LOG("Has waited:  %f", delayTimer.ReadMs());
-	}
+
+	uint32 delay = MAX(0, (int)capTime - (int)last_frame_ms);
+	//LOG("Should wait: %i", delay);
+	//j1PerfTimer delayTimer;
+	SDL_Delay(delay);
+	//LOG("Has waited:  %f", delayTimer.ReadMs());
 }
 
 // Call modules before each loop iteration

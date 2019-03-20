@@ -32,6 +32,11 @@ bool PlayerEntity::PostUpdate()
 	return true;
 }
 
+bool PlayerEntity::CleanUp()
+{
+	return true;
+}
+
 bool PlayerEntity::InputMovement(float dt)
 {
 	bool isMoving = false;

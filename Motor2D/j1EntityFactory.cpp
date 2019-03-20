@@ -120,11 +120,11 @@ bool j1EntityFactory::CleanUp()
 {
 	bool ret = true;
 
-	std::vector<j1Entity*>::iterator entitiesItem = entities.begin();
+	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
 
-	while (entitiesItem != entities.end())
+	while (entitiesItem != entities.rend())
 	{
-		//(*entitiesItem)->CleanUp();
+		(*entitiesItem)->CleanUp();
 		RELEASE(*entitiesItem);
 		++entitiesItem;
 	}
