@@ -10,7 +10,7 @@
 
 
 
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, UiItem * const parent, TypeBar type):UiItem(position)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, UiItem * const parent, TypeBar type):UiItem(position, parent)
 {
 
 	//App->gui->AddImage(position, &section);

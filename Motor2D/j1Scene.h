@@ -4,6 +4,9 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+class UiItem_Image;
+class UiItem_Label;
+class UiItem;
 
 class j1Scene : public j1Module
 {
@@ -32,13 +35,16 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+public:
+	UiItem * startMenupanel = nullptr;
 
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
 private:
-	void LoadUiElement(pugi::xml_node node);
+	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
+
 };
 
 #endif // __j1SCENE_H__

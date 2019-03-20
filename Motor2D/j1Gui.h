@@ -27,8 +27,9 @@ public:
 	std::list<UiItem*>	ListItemUI;
 	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position);
-	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section);
+	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent);
 	UiItem_Bar* AddBar(iPoint position, const SDL_Rect* section, UiItem*const parent, TypeBar type = VERTICAL);
+	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
 
 	SDL_Texture* GetAtlas();
 

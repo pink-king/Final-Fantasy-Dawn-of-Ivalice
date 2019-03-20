@@ -5,7 +5,7 @@
 #include "j1Gui.h"
 #include "j1Scene.h"
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section) : UiItem(position)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent) : UiItem(position, parent)
 {
 	this->section = *section;
 }
