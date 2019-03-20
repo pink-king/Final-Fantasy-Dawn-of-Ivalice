@@ -9,16 +9,16 @@
 
 struct SDL_Texture;
 
-enum class facingDirection
+enum class facingDirection // WARNING: no modify this order
 {
-	N,
-	S,
-	E,
-	W,
-	NE,
-	SE,
-	NW,
-	SW,
+	E, // right - 0
+	SE, // bottom-right - 1
+	S, // bottom - 2
+	SW, // bottom-left - 3
+	W, // left - 4
+	NE, // upper-right - 5
+	N, // up - 6
+	NW, // upper-left - 7
 	MAX
 };
 
@@ -45,6 +45,8 @@ public:
 
 	// functionality ------
 	bool InputMovement(float dt);
+	int GetPointingDir(float angle);
+	void CheckRenderFlip(); // animation relative
 	
 
 public:
@@ -53,10 +55,10 @@ public:
 
 public:
 
-	facingDirection pointingDir;
+	int pointingDir = 0; // relative to facing direction enum order
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
-	fPoint characterBaseSpeed = { 2.0f,2.0f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
+	fPoint characterBaseSpeed = { 2.0f,1.5f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
 	SDL_Texture* spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];
 	Animation run[(int)facingDirection::MAX];

@@ -98,6 +98,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 {
 	float current_frame = 0;
 	fPoint tempPosition;
+	int pointingDirectionTemp = 0;
 
 	std::vector<PlayerEntity*>::reverse_iterator leftItem = characters.rbegin();
 
@@ -105,16 +106,21 @@ void PlayerEntityManager::SetPreviousCharacter()
 	{
 		if ((*leftItem) == selectedCharacterEntity)
 		{
+			// stores needed data to swap
 			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
 			tempPosition = selectedCharacterEntity->position;
+			pointingDirectionTemp = selectedCharacterEntity->pointingDir;
 
 			++leftItem;
 			if (leftItem == characters.rend())
 				leftItem = characters.rbegin();
 
+			// swaps to
 			selectedCharacterEntity = (*leftItem);
+			// restores needed data
 			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
 			selectedCharacterEntity->position = tempPosition;
+			selectedCharacterEntity->pointingDir = pointingDirectionTemp;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
@@ -129,6 +135,7 @@ void PlayerEntityManager::SetNextCharacter()
 {
 	float current_frame = 0;
 	fPoint tempPosition;
+	int pointingDirectionTemp = 0;
 
 	std::vector<PlayerEntity*>::iterator nextItem = characters.begin();
 
@@ -138,6 +145,7 @@ void PlayerEntityManager::SetNextCharacter()
 		{
 			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
 			tempPosition = selectedCharacterEntity->position;
+			pointingDirectionTemp = selectedCharacterEntity->pointingDir;
 
 			++nextItem;
 			if (nextItem == characters.end())
@@ -146,6 +154,7 @@ void PlayerEntityManager::SetNextCharacter()
 			selectedCharacterEntity = (*nextItem);
 			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
 			selectedCharacterEntity->position = tempPosition;
+			selectedCharacterEntity->pointingDir = pointingDirectionTemp;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();

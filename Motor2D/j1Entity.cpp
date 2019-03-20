@@ -37,6 +37,7 @@ void j1Entity::Draw(SDL_Texture * texture)
 			App->render->Blit(texture, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(texture, position.x, position.y);
+
 	}
 	else
 		LOG("entity texture not found");
