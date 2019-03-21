@@ -539,22 +539,19 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
 	pugi::xml_node propertiesNode = node.child("properties");
 
-	if (propertiesNode == NULL)
+	if (propertiesNode != NULL)
 	{
-		LOG("properties not found");
-		ret = false;
-	}
-	else
-	{
-		properties.draw = propertiesNode.find_child_by_attribute("name", "Draw").attribute("value").as_bool(true);
-		properties.navigation = propertiesNode.find_child_by_attribute("name", "Navigation").attribute("value").as_bool(false);
-		properties.testValue = propertiesNode.find_child_by_attribute("name", "testValue").attribute("value").as_int(0);
-		properties.parallaxSpeed = propertiesNode.find_child_by_attribute("name", "parallaxSpeed").attribute("value").as_float(1.0F);
-	//	properties.music_name = propertiesNode.find_child_by_attribute("name", "background_music").attribute("value").as_string();
-		//properties.fx_name = propertiesNode.find_child_by_attribute("name", "background_music").attribute("value").as_string();
+		pugi::xml_node prop;
 
-		// associated gui xml with this map ----
-	//	properties.gui_xml_path = propertiesNode.find_child_by_attribute("name", "associated_gui_xml").attribute("value").as_string();
+		for (prop = propertiesNode.child("property"); prop; prop = prop.next_sibling("property"))
+		{
+			Properties::Property* p = new Properties::Property();
+
+			p->name = prop.attribute("name").as_string();
+			p->value = prop.attribute("value").as_int();
+
+			properties.list.push_back(p);
+		}
 	}
 
 	return ret;

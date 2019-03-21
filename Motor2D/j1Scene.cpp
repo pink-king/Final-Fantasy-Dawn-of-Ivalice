@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1EntityFactory.h"
+#include "j1PathFinding.h"
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
@@ -35,7 +36,17 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("maps/iso_walk.tmx");
+	
+
+	if (App->map->Load("maps/iso_walk.tmx"))
+	{
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+
+		RELEASE_ARRAY(data);
+	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
 

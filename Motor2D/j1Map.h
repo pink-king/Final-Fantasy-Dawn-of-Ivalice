@@ -30,9 +30,7 @@ struct Properties
 
 		list.clear();
 	}
-	bool draw = true;
-	bool navigation = false;
-	int testValue = 0;
+
 	float parallaxSpeed = 1.0f;
 
 	int Get(const char* name, int default_value = 0) const;
