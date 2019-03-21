@@ -56,6 +56,9 @@ void j1Gui::DoLogicSelected() {
 			break;
 		case DRAG: selected_object->DoLogicDragged(do_slide);
 			break;
+		case IDLE: selected_object->DoLogicAbandoned(do_slide);
+			break;
+
 		}
 	}
 
@@ -76,13 +79,16 @@ void j1Gui::SearchandSelectClicked() {
 		if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
 			&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
 		{
+			(*item)->state = HOVER; 
+			selected_object = *item;
+
 			if ((*item)->state != CLICK && mouseButtonDown != 0)
 			{
 			    (*item)->mouseButtonDown = mouseButtonDown;   
 				// thisItem->data->OnClickDown();               // TODO: function pointers
 				(*item)->state = CLICK;
 				selected_object = *item;           
-				ResolveChildren(selected_object); 
+				//ResolveChildren(selected_object); 
 			}
 
 			if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
@@ -120,8 +126,9 @@ void j1Gui::ResolveChildren(UiItem* parent){
 	for (; item != ListItemUI.end(); item++)
 	{
 		if ((*item)->parent == parent) {
-			selected_object = (*item);                 // change this later
+			selected_object = (*item);                 // change this later 
 		}
+	
 	}
 
 }

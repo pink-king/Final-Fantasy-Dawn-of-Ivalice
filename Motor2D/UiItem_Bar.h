@@ -22,9 +22,10 @@ protected:
 	UiItem_Image* bar = nullptr;
 	SDL_Rect section;
 
-	/*void DoLogicClicked(bool do_slide = false); 
-	void DoLogicHovered(bool do_slide = false);*/
-	void DoLogicDragged(bool do_slide = false);  
+	//void DoLogicClicked(bool do_slide = false); 
+	void DoLogicHovered(bool do_slide = false);
+	void DoLogicDragged(bool do_slide = false); 
+	void DoLogicAbandoned(bool slidable = false); 
 
 public:
 	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type = VERTICAL);

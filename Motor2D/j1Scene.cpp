@@ -151,12 +151,16 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		SDL_Rect section_bar = { uiNode.child("section_bar").attribute("x").as_int(), uiNode.child("section_bar").attribute("y").as_int(), uiNode.child("section_bar").attribute("w").as_int(), uiNode.child("section_bar").attribute("h").as_int() };
 		SDL_Rect section_thumb = { uiNode.child("section_thumb").attribute("x").as_int(), uiNode.child("section_thumb").attribute("y").as_int(), uiNode.child("section_thumb").attribute("w").as_int(), uiNode.child("section_thumb").attribute("h").as_int() };
 		
-		
 		// TODO: spawn thumg according to bar type: vertical or horizontal 
 		//std::string type = uiNode.child("type").attribute("value").as_string();
 
 		App->gui->AddBar(position, &section_bar, &section_thumb, nullptr, VERTICAL); // TODO: add parent later 
 
+		// MORE BARS JUST FOR TESTING 
+
+		App->gui->AddBar(iPoint(position.x + 150, position.y), &section_bar, &section_thumb, nullptr, VERTICAL);
+		App->gui->AddBar(iPoint(position.x + 300, position.y), &section_bar, &section_thumb, nullptr, VERTICAL);
+		App->gui->AddBar(iPoint(position.x + 450, position.y), &section_bar, &section_thumb, nullptr, VERTICAL);
 	}
 
 
