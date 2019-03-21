@@ -4,6 +4,7 @@
 #include "j1Gui.h"
 #include "UiItem.h"
 #include "j1Scene.h"
+#include "j1Input.h"
 #include "UiItem_Image.h"
 #include "Brofiler/Brofiler.h"
 #include "p2Point.h"
@@ -25,7 +26,19 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 
 void UiItem_Bar::Draw(const float & dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
+	{
+		Do_Logic_Clicked();
+	}
+
 	//App->render->Blit(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, SDL_FLIP_NONE);
+}
+
+
+void UiItem_Bar::Do_Logic_Clicked() {
+
+	thumb->SetPos(iPoint(200, 100)); 
+
 }
 
 float UiItem_Bar::GetBarValue()

@@ -22,6 +22,8 @@ protected:
 	UiItem_Image* bar = nullptr;
 	SDL_Rect section;
 
+	void Do_Logic_Clicked();  // TODO: rearrange this in gui cpp
+
 public:
 	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type = VERTICAL);
 	~UiItem_Bar() {}

@@ -13,6 +13,23 @@ public:
 	//UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
 	void Draw(const float& dt);
 	SDL_Rect section;
+
+
+protected: 
+
+	SDL_Rect* ReturnPos()
+	{
+		return  &(this->hitBox); 
+    }
+
+	void SetPos(iPoint pos) {
+		this->hitBox.x = pos.x; 
+		this->hitBox.y = pos.y;
+	}
+
+public: 
+	friend class UiItem_Bar; 
+
 };
 
 #endif
