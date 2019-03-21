@@ -24,7 +24,7 @@ public:
 	void SearchandSelectClicked(); 
 	void ResolveChildren(UiItem*); 
 	void DoLogicSelected(); 
-	void ApplyFocusBetweenSimilar(bool setClicked = false); 
+	void ApplyTabBetweenSimilar(bool setClicked = false); 
 
 	bool PostUpdate();
 	bool CleanUp();

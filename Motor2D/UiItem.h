@@ -40,13 +40,12 @@ public:
 	virtual void Draw(const float&) {};
 	void DrawUi(float dt);
 	bool slidable = false; 
-	bool focused = false; 
+	bool tabbed = false; 
 
 	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicDragged(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicAbandoned(bool slidable = false) {}; // TODO: Function pointers
-
 };
 
 #endif

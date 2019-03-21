@@ -37,16 +37,16 @@ bool j1Gui::Update(float dt)
 	SearchandSelectClicked(); // TODO: don't do this always 
 	DoLogicSelected(); 
 
-	// TESTING FOCUS, its "faked" for the mom, only bars 
+	// TESTING TAB, its "faked" for the mom, only bars 
 
 	if (!resetHoverSwapping)
 	{
-		ApplyFocusBetweenSimilar(resetHoverSwapping);
+		ApplyTabBetweenSimilar(resetHoverSwapping);
 		resetHoverSwapping = true; 
 	}
 	else
 	{
-		ApplyFocusBetweenSimilar(resetHoverSwapping);
+		ApplyTabBetweenSimilar(resetHoverSwapping);
 	}
 	
 
@@ -91,7 +91,7 @@ void j1Gui::SearchandSelectClicked() {
 
 	for (; item != ListItemUI.end(); item++)
 	{
-		if (!(*item)->focused)               // focused items should skip this 
+		if (!(*item)->tabbed)               // tabbed items should skip this 
 		{
 			if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
 				&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
@@ -151,7 +151,26 @@ void j1Gui::ResolveChildren(UiItem* parent){
 
 }
 
-void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
+void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
+
+	// first check that, while one object is tabbed, the user can hover another one (CAUTION HERE): 
+	
+	/*std::list<UiItem*>::iterator theNewOne = ListItemUI.begin();
+	
+		for (; theNewOne != ListItemUI.end(); theNewOne++)
+		{
+			if ((*theNewOne)->guiType == BAR)
+			{
+				if (selected_object && (*theNewOne) != selected_object && (*theNewOne)->state == HOVER)
+				{
+					selected_object = (*theNewOne);     // the new hovered object is now the selected one
+				}
+			}
+		}*/
+	
+
+
+
 
 	std::list<UiItem*>::iterator item = ListItemUI.begin();
 	if (!setClicked)
@@ -163,7 +182,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 
 				selected_object = (*item);     // first set as selected the leftmost bar (first created)  
 				(*item)->state = HOVER;
-				(*item)->focused = true; 
+				(*item)->tabbed = true; 
 				setClicked = true;
 				break; 
 			}
@@ -182,7 +201,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
 					{
-						selected_object->focused = false;
+						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();           
 
@@ -209,7 +228,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 
 						selected_object = (*item);                     // make the closest item be the current one 
 						(*item)->state = HOVER;            // PD: dont know why, but to work this goes here, 
-						(*item)->focused = true;           // but in the left case, it goes outside the "if"
+						(*item)->tabbed = true;           // but in the left case, it goes outside the "if"
 	 
 					}
 				}
@@ -231,7 +250,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
 
 					{
-						selected_object->focused = false;
+						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 
@@ -259,7 +278,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 
 					selected_object = (*item);
 					(*item)->state = HOVER;            // make the closest item be the current one 
-					(*item)->focused = true;         
+					(*item)->tabbed = true;         
 				}
 
 

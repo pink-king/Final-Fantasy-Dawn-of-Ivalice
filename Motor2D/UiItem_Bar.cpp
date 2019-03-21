@@ -69,6 +69,7 @@ void UiItem_Bar::DoLogicAbandoned(bool do_slide) {
 	bar->section = this->section; 
 }
 
+
 float UiItem_Bar::GetBarValue()
 {
 	return 0.0f;
