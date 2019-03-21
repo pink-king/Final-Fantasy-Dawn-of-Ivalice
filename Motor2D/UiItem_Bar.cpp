@@ -15,6 +15,10 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 
 	this->section = *section;
 	this->guiType = GUI_TYPES::BAR;
+
+	this->hitBox.x = position.x;
+	this->hitBox.y = position.y;
+
 	// bar 
 	bar = App->gui->AddImage(position, section, parent);
 	// thumb

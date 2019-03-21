@@ -161,7 +161,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 			if ((*item)->guiType == BAR)
 			{
 
-				selected_object = (*item);     // set as selected the leftmost bar (first created)  
+				selected_object = (*item);     // first set as selected the leftmost bar (first created)  
 				(*item)->state = HOVER;
 				(*item)->focused = true; 
 				setClicked = true;
@@ -169,49 +169,80 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 			}
 		}
 	}
-	else
+	else                                                       // this is done in loops
 	{
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
-			for (; item != ListItemUI.end(); item++)                   // this should work for all types
+			std::list<UiItem*> candidates; 
+			
+			for (; item != ListItemUI.end(); item++)                
 			{
 				if ((*item)->guiType == BAR)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
 					{
 						selected_object->focused = false;
-						selected_object->state = IDLE;
-						selected_object->DoLogicAbandoned(); 
-						selected_object = (*item); 
-						(*item)->state = HOVER; 
-						(*item)->focused = true;
-						break; 
+						selected_object->state = IDLE;               // deselect current object
+						selected_object->DoLogicAbandoned();           
+
+						candidates.push_back(*item);       // add objects on the right to a list
+						
 					}
 				}
 			}
+
+			if (!candidates.empty()) {              // IF there ARE items on the right, select the closest one
+
+				int distanceToBeat = 10000;
+				int currentDistance = 0;
+
+				item = candidates.begin(); 
+
+				for (; item != candidates.end(); item++)        // distance between objects:
+				{
+					currentDistance = (*item)->hitBox.x - (selected_object->hitBox.x + selected_object->hitBox.w);
+
+					if (currentDistance < distanceToBeat)
+					{
+						selected_object = (*item);                     
+						distanceToBeat = currentDistance;
+
+						selected_object = (*item);
+						(*item)->state = HOVER;            // make the closest item be the current one 
+						(*item)->focused = true;           // PD: this should be done outside the loop (but crashes)
+					}
+				}
+
+
+			}
+			
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		/*if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
+			int distanceToSelectedObject = 0;
 			for (; item != ListItemUI.end(); item++)                   // this should work for all types
 			{
 				if ((*item)->guiType == BAR)
 				{
-					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
+					if ((*item)->hitBox.x *//*+ (*item)->hitBox.w*/ /*< selected_object->hitBox.x)
 					{
 						selected_object->focused = false; 
 						selected_object->state = IDLE; 
 						selected_object->DoLogicAbandoned();
-						selected_object = (*item);
-						(*item)->state = HOVER;
-						(*item)->focused = true;
-						break;
+
+						if ()
+						{
+							selected_object = (*item);
+							(*item)->state = HOVER;
+							(*item)->focused = true;
+						}
 					}
 				}
 			}
-		}
+		}*/
 
 
 
