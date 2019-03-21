@@ -6,7 +6,7 @@
 #include "j1Input.h"
 #include "j1Scene.h"
 #include "j1Map.h"
-
+#include "p2Log.h"
 
 j1Gui::j1Gui() : j1Module() 
 {
@@ -34,8 +34,61 @@ bool j1Gui::Start()
 
 bool j1Gui::Update(float dt)
 {
+	SearchandSelectClicked(); // TODO: don't do this always 
 	return true;
 }
+
+void j1Gui::SearchandSelectClicked() {
+
+	iPoint mousePos;
+	int x, y; 
+    App->input->GetMousePosition(x, y);
+	mousePos.x = x; 	mousePos.y = y;
+
+
+	uint mouseButtonDown = App->input->GetCurrentMouseButtonDown();
+	std::list<UiItem*>::iterator item = ListItemUI.begin(); 
+
+	for (; item != ListItemUI.end(); item++)
+	{
+
+		if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
+			&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
+		{
+			if ((*item)->state != CLICK && mouseButtonDown != 0)
+			{
+				/*/thisItem->data->mouseButtonDown = mouseButtonDown;   // TODO: function pointers
+				thisItem->data->OnClickDown();*/ 
+				(*item)->state = CLICK;
+				LOG("- - - - -  - --  - -- - -  - --     cliked object"); 
+			}
+
+			if ((*item)->state == CLICK && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+			{
+				// thisItem->data->OnClickUp();  // TODO: function pointers
+				(*item)->state = HOVER;
+				LOG("- - - - -  - --  - -- - -  - --     hovered object");
+			}
+
+			else if ((*item)->state == IDLE)
+				(*item)->state = HOVER; LOG("- - - - -  - --  - -- - -  - --     hovered object");
+
+
+		}
+		else  if ((*item)->state != IDLE)
+		{                                        // TODO: With sliders, this does not apply (FOCUS)
+			(*item)->state = IDLE;
+			LOG("- - - - -  - --  - -- - -  - --     OUTSIDE object");
+		}
+		if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
+			(*item)->mouseButtonDown = 0;
+
+
+	}
+
+
+}
+
 
 bool j1Gui::PostUpdate()
 {
@@ -49,6 +102,7 @@ bool j1Gui::PostUpdate()
 
 bool j1Gui::CleanUp()
 {
+	App->tex->UnLoad(atlas); 
 	return true;
 }
 

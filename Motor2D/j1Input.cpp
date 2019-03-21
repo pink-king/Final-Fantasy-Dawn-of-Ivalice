@@ -246,3 +246,16 @@ Sint16 j1Input::GetControllerAxis(SDL_GameControllerAxis axis) {
 	}
 	return 0;
 }
+
+
+uint j1Input::GetCurrentMouseButtonDown()
+{
+	for (uint iter = 0; iter < NUM_MOUSE_BUTTONS; iter++)
+	{
+		if (mouse_buttons[iter] == KEY_DOWN)
+		{
+			return iter + 1;
+		}
+	}
+	return 0;
+}

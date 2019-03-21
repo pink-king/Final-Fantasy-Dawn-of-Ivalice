@@ -20,12 +20,16 @@ protected:
 public:
 	UI_STATES state = IDLE;
 	SDL_Rect hitBox = { 0,0,0,0 };
-	p2Point<int> pivot = { 0,0 };
+	// p2Point<int> pivot = { 0,0 };
+	uint mouseButtonDown = 0;
 	UiItem(const iPoint& pos, UiItem *const parent);
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
 	void DrawUi(float dt);
+
+
+	void Do_Logic_Clicked(); // TODO: Function pointers
 };
 
 #endif

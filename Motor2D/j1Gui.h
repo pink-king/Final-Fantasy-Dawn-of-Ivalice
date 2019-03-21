@@ -21,6 +21,8 @@ public:
 	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool Update(float dt);
+	void SearchandSelectClicked(); 
+
 	bool PostUpdate();
 	bool CleanUp();
 
