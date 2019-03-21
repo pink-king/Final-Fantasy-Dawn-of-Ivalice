@@ -38,6 +38,7 @@ public:
 private:
 	SDL_Texture * atlas;
 	std::string atlas_file_name;
+	bool debug_ = false; 
 };
 
 #endif

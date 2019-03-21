@@ -8,6 +8,9 @@
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent) : UiItem(position, parent)
 {
 	this->section = *section;
+
+	this->hitBox.w = section->w; 
+	this->hitBox.h = section->h;
 }
 
 void UiItem_Image::Draw(const float& dt)

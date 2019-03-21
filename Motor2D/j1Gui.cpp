@@ -45,12 +45,14 @@ void j1Gui::SearchandSelectClicked() {
     App->input->GetMousePosition(x, y);
 	mousePos.x = x; 	mousePos.y = y;
 
+	LOG("- - - - -  - --  - -- - -  - --     mouse pos is %i %i", mousePos.x, mousePos.y);
 
 	uint mouseButtonDown = App->input->GetCurrentMouseButtonDown();
 	std::list<UiItem*>::iterator item = ListItemUI.begin(); 
 
 	for (; item != ListItemUI.end(); item++)
 	{
+		LOG("- - - - -  - --  - -- - -  - --     item pos is %i %i", (*item)->hitBox.x, (*item)->hitBox.y);
 
 		if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
 			&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
@@ -92,10 +94,30 @@ void j1Gui::SearchandSelectClicked() {
 
 bool j1Gui::PostUpdate()
 {
+
+	// temporal debug 
+
+	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {  
+		debug_ = !debug_;
+	}
+
 	//canvas->DrawUi(dt);
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		(*iter)->Draw(dt);
+
+		if (debug_) {
+			SDL_Rect r;
+			r.x = (*iter)->hitBox.x; 
+			r.y = (*iter)->hitBox.y;
+			r.w = (*iter)->hitBox.w;
+			r.h = (*iter)->hitBox.h; 
+			int akbar = (*iter)->hitBox.x;
+			App->render->DrawQuad(r, 100, 50, 200, 200, true, false);
+
+			LOG("The debug quad is %i %i %i %i", r.x, r.y, r.w, r.h); 
+		}
+
 	}
 	return true;
 }

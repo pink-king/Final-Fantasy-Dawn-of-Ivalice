@@ -21,7 +21,8 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	// thumb
 	thumb = App->gui->AddImage(position, thumb_section, parent);
 
-
+	this->hitBox.w = section->w;
+	this->hitBox.h = section->h;
 }
 
 void UiItem_Bar::Draw(const float & dt)
