@@ -204,8 +204,7 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 					currentDistance = (*item)->hitBox.x - (selected_object->hitBox.x + selected_object->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
-					{
-						selected_object = (*item);                     
+					{                   
 						distanceToBeat = currentDistance;
 
 						selected_object = (*item);
@@ -254,7 +253,6 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 
 					if (currentDistance < distanceToBeat)
 					{
-						selected_object = (*item);
 						distanceToBeat = currentDistance;
 
 						selected_object = (*item);
