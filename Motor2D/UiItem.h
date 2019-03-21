@@ -14,6 +14,15 @@ enum UI_STATES
 	MAX_STATES,
 };
 
+enum GUI_TYPES
+{
+	BAR,
+	BUTTON,
+	IMAGE,
+	LABEL,
+	UNKNOWN
+};
+
 class UiItem
 {
 protected:
@@ -21,6 +30,7 @@ protected:
 public:
 	UiItem* parent = NULL;
 	UI_STATES state = IDLE;
+	GUI_TYPES guiType = UNKNOWN; 
 	SDL_Rect hitBox = { 0,0,0,0 };
 	// p2Point<int> pivot = { 0,0 };
 	uint mouseButtonDown = 0;
@@ -30,7 +40,7 @@ public:
 	virtual void Draw(const float&) {};
 	void DrawUi(float dt);
 	bool slidable = false; 
-	
+	bool focused = false; 
 
 	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers

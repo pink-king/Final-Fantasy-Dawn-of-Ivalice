@@ -24,6 +24,7 @@ public:
 	void SearchandSelectClicked(); 
 	void ResolveChildren(UiItem*); 
 	void DoLogicSelected(); 
+	void ApplyFocusBetweenSimilar(bool setClicked = false); 
 
 	bool PostUpdate();
 	bool CleanUp();
@@ -42,6 +43,8 @@ private:
 	std::string atlas_file_name;
 	bool debug_ = false;  
 	UiItem* selected_object = nullptr;
+
+	bool resetHoverSwapping = false; 
 };
 
 #endif

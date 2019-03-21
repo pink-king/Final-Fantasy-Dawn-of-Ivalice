@@ -14,7 +14,7 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 {
 
 	this->section = *section;
-	
+	this->guiType = GUI_TYPES::BAR;
 	// bar 
 	bar = App->gui->AddImage(position, section, parent);
 	// thumb
@@ -63,7 +63,6 @@ void UiItem_Bar::DoLogicAbandoned(bool do_slide) {
 
 
 	bar->section = this->section; 
-
 }
 
 float UiItem_Bar::GetBarValue()

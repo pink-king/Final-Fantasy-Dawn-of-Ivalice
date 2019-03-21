@@ -36,6 +36,20 @@ bool j1Gui::Update(float dt)
 {
 	SearchandSelectClicked(); // TODO: don't do this always 
 	DoLogicSelected(); 
+
+	// TESTING FOCUS, its "faked" for the mom, only bars 
+
+	if (!resetHoverSwapping)
+	{
+		ApplyFocusBetweenSimilar(resetHoverSwapping);
+		resetHoverSwapping = true; 
+	}
+	else
+	{
+		ApplyFocusBetweenSimilar(resetHoverSwapping);
+	}
+	
+
 	return true;
 }
 
@@ -48,7 +62,8 @@ void j1Gui::DoLogicSelected() {
 		{
 			do_slide = true;
 		}
-		switch (selected_object->state) {
+		switch (selected_object->state) 
+		{
 
 		case CLICK: selected_object->DoLogicClicked(do_slide);
 			break;
@@ -76,45 +91,48 @@ void j1Gui::SearchandSelectClicked() {
 
 	for (; item != ListItemUI.end(); item++)
 	{
-		if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
-			&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
+		if (!(*item)->focused)               // focused items should skip this 
 		{
-			(*item)->state = HOVER; 
-			selected_object = *item;
-
-			if ((*item)->state != CLICK && mouseButtonDown != 0)
+			if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
+				&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
 			{
-			    (*item)->mouseButtonDown = mouseButtonDown;   
-				// thisItem->data->OnClickDown();               // TODO: function pointers
-				(*item)->state = CLICK;
-				selected_object = *item;           
-				//ResolveChildren(selected_object); 
-			}
-
-			if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
-			{
-				// thisItem->data->OnClickUp();               // TODO: function pointers
 				(*item)->state = HOVER;
+				selected_object = *item;
+
+				if ((*item)->state != CLICK && mouseButtonDown != 0)
+				{
+					(*item)->mouseButtonDown = mouseButtonDown;
+					// thisItem->data->OnClickDown();               // TODO: function pointers
+					(*item)->state = CLICK;
+					selected_object = *item;
+					//ResolveChildren(selected_object); 
+				}
+
+				if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+				{
+					// thisItem->data->OnClickUp();               // TODO: function pointers
+					(*item)->state = HOVER;
+				}
+
+				if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
+				{
+					(*item)->state = DRAG;
+				}
+
+
+				else if ((*item)->state == IDLE)
+					(*item)->state = HOVER;
+
 			}
-
-			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
-			{
-				(*item)->state = DRAG;
+			else  if ((*item)->state != IDLE)
+			{                                        // TODO: With sliders, this does not apply (FOCUS)
+				(*item)->state = IDLE;
 			}
+			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
+				(*item)->mouseButtonDown = 0;
 
-
-			else if ((*item)->state == IDLE)
-				(*item)->state = HOVER; 
 
 		}
-		else  if ((*item)->state != IDLE)
-		{                                        // TODO: With sliders, this does not apply (FOCUS)
-			(*item)->state = IDLE;
-		}
-		if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
-			(*item)->mouseButtonDown = 0;
-
-
 	}
 
 }
@@ -133,6 +151,78 @@ void j1Gui::ResolveChildren(UiItem* parent){
 
 }
 
+void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
+
+	std::list<UiItem*>::iterator item = ListItemUI.begin();
+	if (!setClicked)
+	{
+		for (; item != ListItemUI.end(); item++)                   // this should work for all types
+		{
+			if ((*item)->guiType == BAR)
+			{
+
+				selected_object = (*item);     // set as selected the leftmost bar (first created)  
+				(*item)->state = HOVER;
+				(*item)->focused = true; 
+				setClicked = true;
+				break; 
+			}
+		}
+	}
+	else
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		{
+			std::list<UiItem*>::iterator item = ListItemUI.begin();
+			for (; item != ListItemUI.end(); item++)                   // this should work for all types
+			{
+				if ((*item)->guiType == BAR)
+				{
+					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
+					{
+						selected_object->focused = false;
+						selected_object->state = IDLE;
+						selected_object->DoLogicAbandoned(); 
+						selected_object = (*item); 
+						(*item)->state = HOVER; 
+						(*item)->focused = true;
+						break; 
+					}
+				}
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		{
+			std::list<UiItem*>::iterator item = ListItemUI.begin();
+			for (; item != ListItemUI.end(); item++)                   // this should work for all types
+			{
+				if ((*item)->guiType == BAR)
+				{
+					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
+					{
+						selected_object->focused = false; 
+						selected_object->state = IDLE; 
+						selected_object->DoLogicAbandoned();
+						selected_object = (*item);
+						(*item)->state = HOVER;
+						(*item)->focused = true;
+						break;
+					}
+				}
+			}
+		}
+
+
+
+	}
+
+		
+	
+
+
+}
+
 
 bool j1Gui::PostUpdate()
 {
@@ -148,7 +238,8 @@ bool j1Gui::PostUpdate()
 	{
 		(*iter)->Draw(dt);
 
-		if (debug_) {
+		if (debug_)
+		{
 			SDL_Rect r;
 			r.x = (*iter)->hitBox.x; 
 			r.y = (*iter)->hitBox.y;
