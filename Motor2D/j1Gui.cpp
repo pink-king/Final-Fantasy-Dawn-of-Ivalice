@@ -35,7 +35,30 @@ bool j1Gui::Start()
 bool j1Gui::Update(float dt)
 {
 	SearchandSelectClicked(); // TODO: don't do this always 
+	DoLogicSelected(); 
 	return true;
+}
+
+void j1Gui::DoLogicSelected() {
+
+	if (selected_object != nullptr)
+	{
+		bool do_slide = false;
+		if (selected_object->slidable)
+		{
+			do_slide = true;
+		}
+		switch (selected_object->state) {
+
+		case CLICK: selected_object->DoLogicClicked(do_slide);
+			break;
+		case HOVER: selected_object->DoLogicHovered(do_slide);
+			break;
+		case DRAG: selected_object->DoLogicDragged(do_slide);
+			break;
+		}
+	}
+
 }
 
 void j1Gui::SearchandSelectClicked() {
@@ -58,25 +81,28 @@ void j1Gui::SearchandSelectClicked() {
 			    (*item)->mouseButtonDown = mouseButtonDown;   
 				// thisItem->data->OnClickDown();               // TODO: function pointers
 				(*item)->state = CLICK;
-				LOG("- - - - -  - --  - -- - -  - --     cliked object"); 
+				selected_object = *item;           // check this  
 			}
 
-			if ((*item)->state == CLICK && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+			if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
 			{
-				// thisItem->data->OnClickUp();  // TODO: function pointers
+				// thisItem->data->OnClickUp();               // TODO: function pointers
 				(*item)->state = HOVER;
-				LOG("- - - - -  - --  - -- - -  - --     hovered object");
 			}
+
+			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
+			{
+				(*item)->state = DRAG;
+			}
+
 
 			else if ((*item)->state == IDLE)
-				(*item)->state = HOVER; LOG("- - - - -  - --  - -- - -  - --     hovered object");
-
+				(*item)->state = HOVER; 
 
 		}
 		else  if ((*item)->state != IDLE)
 		{                                        // TODO: With sliders, this does not apply (FOCUS)
 			(*item)->state = IDLE;
-			LOG("- - - - -  - --  - -- - -  - --     OUTSIDE object");
 		}
 		if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
 			(*item)->mouseButtonDown = 0;

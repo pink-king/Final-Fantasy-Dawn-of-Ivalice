@@ -22,6 +22,7 @@ public:
 	bool Start();
 	bool Update(float dt);
 	void SearchandSelectClicked(); 
+	void DoLogicSelected(); 
 
 	bool PostUpdate();
 	bool CleanUp();
@@ -38,7 +39,8 @@ public:
 private:
 	SDL_Texture * atlas;
 	std::string atlas_file_name;
-	bool debug_ = false; 
+	bool debug_ = false;  
+	UiItem* selected_object = nullptr;
 };
 
 #endif

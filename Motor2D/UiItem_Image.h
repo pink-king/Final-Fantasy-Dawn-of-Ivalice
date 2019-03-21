@@ -4,6 +4,7 @@
 #include "UiItem.h"
 #include "p2Point.h"
 #include "j1Textures.h"
+#include "p2Log.h"
 
 class UiItem_Image : public UiItem
 {
@@ -15,7 +16,7 @@ public:
 	SDL_Rect section;
 
 
-protected: 
+private: 
 
 	SDL_Rect* ReturnPos()
 	{

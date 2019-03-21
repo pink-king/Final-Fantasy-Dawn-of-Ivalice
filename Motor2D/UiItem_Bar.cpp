@@ -8,7 +8,7 @@
 #include "UiItem_Image.h"
 #include "Brofiler/Brofiler.h"
 #include "p2Point.h"
-
+#include "p2log.h"
 
 UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent, TypeBar type):UiItem(position, parent)
 {
@@ -17,28 +17,37 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	
 	// bar 
 	bar = App->gui->AddImage(position, section, parent);
-	
+	bar->slidable = false; 
+
 	// thumb
 	thumb = App->gui->AddImage(position, thumb_section, parent);
+	thumb->slidable = true; 
 
+	// to check mouse 
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
 }
 
 void UiItem_Bar::Draw(const float & dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
-	{
-		Do_Logic_Clicked();
-	}
 
 	//App->render->Blit(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, SDL_FLIP_NONE);
 }
 
 
-void UiItem_Bar::Do_Logic_Clicked() {
+void UiItem_Bar::DoLogicDragged(bool do_slide) {
 
-	thumb->SetPos(iPoint(200, 100)); 
+	
+	if (do_slide) {
+		iPoint mousePos;
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		mousePos.x = x; 	mousePos.y = y;
+		thumb->SetPos(mousePos);
+		bar->section.x = 0; 
+
+	}
+	
 
 }
 

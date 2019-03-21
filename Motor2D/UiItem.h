@@ -10,6 +10,7 @@ enum UI_STATES
 	IDLE,
 	HOVER,
 	CLICK,
+	DRAG,
 	MAX_STATES,
 };
 
@@ -27,9 +28,11 @@ public:
 	~UiItem();
 	virtual void Draw(const float&) {};
 	void DrawUi(float dt);
+	bool slidable = false; 
 
-
-	void Do_Logic_Clicked(); // TODO: Function pointers
+	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
+	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers
+	virtual void DoLogicDragged(bool slidable = false) {}; // TODO: Function pointers
 };
 
 #endif

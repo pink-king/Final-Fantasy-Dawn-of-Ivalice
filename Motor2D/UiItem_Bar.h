@@ -22,7 +22,9 @@ protected:
 	UiItem_Image* bar = nullptr;
 	SDL_Rect section;
 
-	void Do_Logic_Clicked();  // TODO: rearrange this in gui cpp
+	/*void DoLogicClicked(bool do_slide = false); 
+	void DoLogicHovered(bool do_slide = false);*/
+	void DoLogicDragged(bool do_slide = false);  
 
 public:
 	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type = VERTICAL);
