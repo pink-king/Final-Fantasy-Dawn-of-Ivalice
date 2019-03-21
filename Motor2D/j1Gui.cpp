@@ -219,30 +219,54 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 			
 		}
 
-		/*if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
-			int distanceToSelectedObject = 0;
-			for (; item != ListItemUI.end(); item++)                   // this should work for all types
+			std::list<UiItem*> candidates;
+
+			for (; item != ListItemUI.end(); item++)
 			{
 				if ((*item)->guiType == BAR)
 				{
-					if ((*item)->hitBox.x *//*+ (*item)->hitBox.w*/ /*< selected_object->hitBox.x)
+					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
+
 					{
-						selected_object->focused = false; 
-						selected_object->state = IDLE; 
+						selected_object->focused = false;
+						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 
-						if ()
-						{
-							selected_object = (*item);
-							(*item)->state = HOVER;
-							(*item)->focused = true;
-						}
+						candidates.push_back(*item);       // add objects on the left to a list
+
 					}
 				}
 			}
-		}*/
+
+			if (!candidates.empty()) {              // IF there ARE items on the left, select the closest one
+
+				int distanceToBeat = 10000;
+				int currentDistance = 0;
+
+				item = candidates.begin();
+
+				for (; item != candidates.end(); item++)        // distance between objects:
+				{
+					currentDistance = selected_object->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w); 
+
+					if (currentDistance < distanceToBeat)
+					{
+						selected_object = (*item);
+						distanceToBeat = currentDistance;
+
+						selected_object = (*item);
+						(*item)->state = HOVER;            // make the closest item be the current one 
+						(*item)->focused = true;           // PD: this should be done outside the loop (but crashes)
+					}
+				}
+
+
+			}
+
+		}
 
 
 
@@ -250,7 +274,6 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 
 		
 	
-
 
 }
 
