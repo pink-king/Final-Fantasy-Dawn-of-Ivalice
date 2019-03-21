@@ -17,11 +17,10 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	
 	// bar 
 	bar = App->gui->AddImage(position, section, parent);
-	bar->slidable = false; 
-
 	// thumb
 	thumb = App->gui->AddImage(position, thumb_section, parent);
 	thumb->slidable = true; 
+	thumb->parent = bar; 
 
 	// to check mouse 
 	this->hitBox.w = section->w;
@@ -44,8 +43,6 @@ void UiItem_Bar::DoLogicDragged(bool do_slide) {
 		App->input->GetMousePosition(x, y);
 		mousePos.x = x; 	mousePos.y = y;
 		thumb->SetPos(mousePos);
-		bar->section.x = 0; 
-
 	}
 	
 

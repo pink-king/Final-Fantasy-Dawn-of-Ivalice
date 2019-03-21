@@ -81,7 +81,8 @@ void j1Gui::SearchandSelectClicked() {
 			    (*item)->mouseButtonDown = mouseButtonDown;   
 				// thisItem->data->OnClickDown();               // TODO: function pointers
 				(*item)->state = CLICK;
-				selected_object = *item;           // check this  
+				selected_object = *item;           
+				ResolveChildren(selected_object); 
 			}
 
 			if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
@@ -110,6 +111,18 @@ void j1Gui::SearchandSelectClicked() {
 
 	}
 
+}
+
+void j1Gui::ResolveChildren(UiItem* parent){
+
+	std::list<UiItem*>::iterator item = ListItemUI.begin();
+
+	for (; item != ListItemUI.end(); item++)
+	{
+		if ((*item)->parent == parent) {
+			selected_object = (*item);                 // change this later
+		}
+	}
 
 }
 
@@ -134,7 +147,11 @@ bool j1Gui::PostUpdate()
 			r.y = (*iter)->hitBox.y;
 			r.w = (*iter)->hitBox.w;
 			r.h = (*iter)->hitBox.h; 
+			if((*iter)->state == CLICK || (*iter)->state == DRAG)
 			App->render->DrawQuad(r, 100, 50, 200, 200, true, false);
+			else
+				App->render->DrawQuad(r, 100, 50, 200, 100, true, false);
+			
 		}
 
 	}

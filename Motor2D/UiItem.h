@@ -17,8 +17,9 @@ enum UI_STATES
 class UiItem
 {
 protected:
-	UiItem* parent = NULL;
+	// UiItem* parent = NULL;
 public:
+	UiItem* parent = NULL;
 	UI_STATES state = IDLE;
 	SDL_Rect hitBox = { 0,0,0,0 };
 	// p2Point<int> pivot = { 0,0 };
@@ -29,6 +30,7 @@ public:
 	virtual void Draw(const float&) {};
 	void DrawUi(float dt);
 	bool slidable = false; 
+	
 
 	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers
