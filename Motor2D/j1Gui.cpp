@@ -207,9 +207,10 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 					{                   
 						distanceToBeat = currentDistance;
 
-						selected_object = (*item);
-						(*item)->state = HOVER;            // make the closest item be the current one 
-						(*item)->focused = true;           // PD: this should be done outside the loop (but crashes)
+						selected_object = (*item);                     // make the closest item be the current one 
+						(*item)->state = HOVER;            // PD: dont know why, but to work this goes here, 
+						(*item)->focused = true;           // but in the left case, it goes outside the "if"
+	 
 					}
 				}
 
@@ -254,11 +255,11 @@ void j1Gui::ApplyFocusBetweenSimilar(bool setClicked) {
 					if (currentDistance < distanceToBeat)
 					{
 						distanceToBeat = currentDistance;
-
-						selected_object = (*item);
-						(*item)->state = HOVER;            // make the closest item be the current one 
-						(*item)->focused = true;           // PD: this should be done outside the loop (but crashes)
 					}
+
+					selected_object = (*item);
+					(*item)->state = HOVER;            // make the closest item be the current one 
+					(*item)->focused = true;         
 				}
 
 
