@@ -56,7 +56,12 @@ bool PlayerEntity::InputMovement(float dt)
 	}
 
 	if (isMoving)// if we get any input, any direction
+	{
+		// store actual
+		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
 		currentAnimation = &run[(int)GetPointingDir(atan2f(yAxis, xAxis))];
+		currentAnimation->SetCurrentFrame(current_cycle_frame);
+	}
 	else
 		currentAnimation = &idle[pointingDir];
 
@@ -80,25 +85,24 @@ void PlayerEntity::CheckRenderFlip()
 
 int PlayerEntity::GetPointingDir(float angle)
 {
-	int ret = 0;
 
-	LOG("angle: %f", angle);
+	int numAnims = 8;
+	//LOG("angle: %f", angle);
+								     // divide the semicircle in 4 portions
+	float animDistribution = PI / (numAnims * 0.5f); // each increment between portions //two semicircles
 
 	int i = 0;
 	if (angle >= 0) // is going right or on bottom semicircle range to left
 	{
-		// divide the semicircle in 4 portions
-		float animDistribution = PI / 4; // each increment between portions
-
 		// iterate between portions to find a match
-		for (float portion = 0.0f; portion <= PI; portion += animDistribution) // increment on portion units
+		for (float portion = animDistribution * 0.5f; portion <= PI; portion += animDistribution) // increment on portion units
 		{
 			if (portion >= angle) // if the portion is on angle range
 			{
-				ret = i; // return the increment position matching with enumerator direction animation
-						 // TODO: not the best workaround, instead do with std::map
-				LOG("bottom semicircle");
-				//LOG("portion: %i", i);
+				// return the increment position matching with enumerator direction animation
+				// TODO: not the best workaround, instead do with std::map
+				/*LOG("bottom semicircle");
+				LOG("portion: %i", i);*/
 				break;
 			}
 			++i;
@@ -106,16 +110,15 @@ int PlayerEntity::GetPointingDir(float angle)
 	}
 	else if (angle <= 0) // animations relatives to upper semicircle
 	{
-		i = 4; // the next 4 on the enum direction
-		float animDistribution = PI / 4; // each increment between portions
+		i = 0; // the next 4 on the enum direction
 		
-		for (float portion = 0.0f; portion >= -PI; portion -= animDistribution)
+		for (float portion = -animDistribution * 0.5f; portion >= -PI; portion -= animDistribution)
 		{
+			if (i == 1) i = numAnims * 0.5f + 1;
 			if (portion <= angle)
 			{
-				ret = i;
-				LOG("upper semicircle");
-				//LOG("portion: %i", i);
+				/*LOG("upper semicircle");
+				LOG("portion: %i", i);*/
 				break;
 			}
 			++i;
@@ -123,12 +126,10 @@ int PlayerEntity::GetPointingDir(float angle)
 	}
 
 	pointingDir = i;
-	if (pointingDir == 8) // if max direction
-		pointingDir = 4; // set to max direction left
+	if (pointingDir == numAnims) // if max direction
+		pointingDir = numAnims - 1; // set to prev
 
-	// filter
-	ret = pointingDir;
-	LOG("portion: %i", pointingDir);
+	//LOG("portion: %i", pointingDir);
 
-	return ret;
+	return pointingDir;
 }

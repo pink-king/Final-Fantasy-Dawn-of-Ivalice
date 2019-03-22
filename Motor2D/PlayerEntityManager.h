@@ -39,7 +39,7 @@ public:
 private:
 
 	characterName selectedCharacterName;
-	PlayerEntity* selectedCharacterEntity;
+	PlayerEntity* selectedCharacterEntity = nullptr;
 
 	Marche* marche = nullptr;
 	Ritz* ritz = nullptr;
