@@ -163,7 +163,13 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if (selected_object && (*theNewOne) != selected_object && (*theNewOne)->state == HOVER)
 				{
-					selected_object = (*theNewOne);     // the new hovered object is now the selected one
+					selected_object->tabbed = false;
+					selected_object->state = IDLE;               // deselect current object
+					selected_object->DoLogicAbandoned();
+
+					selected_object = (*theNewOne);    
+					// (*theNewOne)->state = HOVER;            
+					(*theNewOne)->tabbed = true;
 				}
 			}
 		}*/
@@ -227,13 +233,13 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						distanceToBeat = currentDistance;
 
 						selected_object = (*item);                     // make the closest item be the current one 
-						(*item)->state = HOVER;            // PD: dont know why, but to work this goes here, 
-						(*item)->tabbed = true;           // but in the left case, it goes outside the "if"
+					          
 	 
 					}
 				}
 
-
+				selected_object->state = HOVER;
+				selected_object->tabbed = true;
 			}
 			
 		}
@@ -273,15 +279,16 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 					if (currentDistance < distanceToBeat)
 					{
-						distanceToBeat = currentDistance;
+						distanceToBeat = currentDistance;  
+						selected_object = (*item);           // make the closest item be the current one 
 					}
-
-					selected_object = (*item);
-					(*item)->state = HOVER;            // make the closest item be the current one 
-					(*item)->tabbed = true;         
+    
 				}
 
-
+				
+				selected_object->state = HOVER;            
+				selected_object->tabbed = true;
+				
 			}
 
 		}
@@ -319,6 +326,8 @@ bool j1Gui::PostUpdate()
 			r.h = (*iter)->hitBox.h; 
 			if((*iter)->state == CLICK || (*iter)->state == DRAG)
 			App->render->DrawQuad(r, 100, 50, 200, 200, true, false);
+			else if((*iter)->state == HOVER)
+				App->render->DrawQuad(r, 110, 125, 240, 200, true, false);
 			else
 				App->render->DrawQuad(r, 100, 50, 200, 100, true, false);
 			
