@@ -44,11 +44,9 @@ bool j1Gui::Update(float dt)
 		ApplyTabBetweenSimilar(resetHoverSwapping);
 		resetHoverSwapping = true; 
 	}
-	else
-	{
+	else {
 		ApplyTabBetweenSimilar(resetHoverSwapping);
 	}
-	
 
 	return true;
 }
@@ -96,8 +94,6 @@ void j1Gui::SearchandSelectClicked() {
 			if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
 				&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
 			{
-				(*item)->state = HOVER;
-				selected_object = *item;
 
 				if ((*item)->state != CLICK && mouseButtonDown != 0)
 				{
@@ -119,9 +115,12 @@ void j1Gui::SearchandSelectClicked() {
 					(*item)->state = DRAG;
 				}
 
+				
 
 				else if ((*item)->state == IDLE)
 					(*item)->state = HOVER;
+
+			
 
 			}
 			else  if ((*item)->state != IDLE)
@@ -137,6 +136,7 @@ void j1Gui::SearchandSelectClicked() {
 
 }
 
+/*
 void j1Gui::ResolveChildren(UiItem* parent){
 
 	std::list<UiItem*>::iterator item = ListItemUI.begin();
@@ -144,37 +144,41 @@ void j1Gui::ResolveChildren(UiItem* parent){
 	for (; item != ListItemUI.end(); item++)
 	{
 		if ((*item)->parent == parent) {
-			selected_object = (*item);                 // change this later 
+			selected_object = (*item);                 // this is just a base, no sense now 
 		}
 	
 	}
 
-}
+}*/
 
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	// first check that, while one object is tabbed, the user can hover another one (CAUTION HERE): 
 	
-	/*std::list<UiItem*>::iterator theNewOne = ListItemUI.begin();
 	
+	
+	if (selected_object != nullptr && selected_object->guiType == BAR)
+	{
+		std::list<UiItem*>::iterator theNewOne = ListItemUI.begin();
+
 		for (; theNewOne != ListItemUI.end(); theNewOne++)
 		{
-			if ((*theNewOne)->guiType == BAR)
+			if ((*theNewOne)->guiType == BAR && selected_object != (*theNewOne))
 			{
-				if (selected_object && (*theNewOne) != selected_object && (*theNewOne)->state == HOVER)
+				if ( (*theNewOne)->state == CLICK)
 				{
 					selected_object->tabbed = false;
 					selected_object->state = IDLE;               // deselect current object
 					selected_object->DoLogicAbandoned();
 
-					selected_object = (*theNewOne);    
-					// (*theNewOne)->state = HOVER;            
+					selected_object = (*theNewOne);
+					(*theNewOne)->state = HOVER;
 					(*theNewOne)->tabbed = true;
 				}
 			}
-		}*/
-	
+		}
 
+	}
 
 
 
@@ -187,8 +191,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 
 				selected_object = (*item);     // first set as selected the leftmost bar (first created)  
-				(*item)->state = HOVER;
-				(*item)->tabbed = true; 
+				selected_object->state = HOVER;
+				selected_object->tabbed = true;
 				setClicked = true;
 				break; 
 			}
@@ -231,7 +235,6 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					if (currentDistance < distanceToBeat)
 					{                   
 						distanceToBeat = currentDistance;
-
 						selected_object = (*item);                     // make the closest item be the current one 
 					          
 	 
