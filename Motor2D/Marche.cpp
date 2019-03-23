@@ -2,7 +2,7 @@
 #include "Marche.h"
 #include "j1Textures.h"
 
-Marche::Marche()
+Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
 	character = characterName::MARCHE;
 	name.assign("Marche");
@@ -101,6 +101,8 @@ Marche::~Marche()
 
 bool Marche::Start()
 {
+	SetPivot(16, 40);
+	size.create(32,45);
 	return true;
 }
 

@@ -29,7 +29,7 @@ public:
 	j1Entity(ENTITY_TYPE type, float positionX, float positionY, std::string name);
 	~j1Entity();
 
-	virtual bool Start()=0;
+	virtual bool Start();
 	// core loops ---------------
 	virtual bool PreUpdate();
 	virtual bool Update(float dt);
@@ -37,7 +37,7 @@ public:
 	virtual bool CleanUp();
 	//----------------------------
 	virtual bool Move(float dt);
-	void Draw(SDL_Texture* texture);
+	virtual void Draw();
 	//virtual void OnCollision(Collider* collider);
 
 	fPoint GetPosition();

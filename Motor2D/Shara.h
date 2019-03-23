@@ -6,7 +6,7 @@
 class Shara : public PlayerEntity
 {
 public:
-	Shara();
+	Shara(int posX,int posY);
 	~Shara();
 
 	//core loops ------

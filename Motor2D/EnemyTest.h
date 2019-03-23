@@ -21,6 +21,7 @@ public:
 
 	// functionality ------
 
+	void Draw();
 
 private:
 

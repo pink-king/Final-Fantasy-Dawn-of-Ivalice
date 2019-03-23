@@ -32,6 +32,7 @@ public:
 	void SetPreviousCharacter();
 	void SetNextCharacter();
 	void SetCurrentAnimation();
+	void Draw();
 
 public:
 

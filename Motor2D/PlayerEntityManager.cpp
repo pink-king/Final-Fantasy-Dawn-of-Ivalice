@@ -5,9 +5,9 @@
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
 {
-	marche = new Marche();
-	ritz = new Ritz();
-	shara = new Shara();
+	marche = new Marche(position.x,position.y);
+	ritz = new Ritz(position.x, position.y);
+	shara = new Shara(position.x, position.y);
 
 	characters.push_back(marche);
 	characters.push_back(ritz);
@@ -33,7 +33,10 @@ PlayerEntityManager::~PlayerEntityManager()
 bool PlayerEntityManager::Start()
 {
 	// loads the characters data
-
+	std::vector<PlayerEntity*>::iterator item = characters.begin();
+	SetPivot(16, 40);
+	for (; item != characters.end(); ++item)
+		(*item)->Start();
 
 	return true;
 }
@@ -168,6 +171,11 @@ void PlayerEntityManager::SetNextCharacter()
 void PlayerEntityManager::SetCurrentAnimation()
 {
 	currentAnimation = selectedCharacterEntity->currentAnimation;
+}
+
+void PlayerEntityManager::Draw()
+{
+	selectedCharacterEntity->Draw();
 }
 
 //bool PlayerEntityManager::Draw()

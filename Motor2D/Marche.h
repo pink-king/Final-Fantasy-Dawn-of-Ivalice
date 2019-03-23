@@ -6,7 +6,7 @@
 class Marche : public PlayerEntity
 {
 public:
-	Marche();
+	Marche(int posX, int posY);
 	~Marche();
 
 	//core loops ------

@@ -1,7 +1,7 @@
 
 #include "Ritz.h"
 
-Ritz::Ritz()
+Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 {
 	character = characterName::RITZ;
 	name.assign("Ritz");
@@ -100,6 +100,7 @@ Ritz::~Ritz()
 
 bool Ritz::Start()
 {
+	size = { 32,45 };
 	return true;
 }
 

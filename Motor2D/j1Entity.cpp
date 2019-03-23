@@ -2,6 +2,7 @@
 #include "j1Entity.h"
 #include "j1Render.h"
 #include "j1EntityFactory.h"
+#include "j1Window.h"
 #include "p2Log.h"
 #include "Brofiler\Brofiler.h"
 
@@ -12,6 +13,11 @@ j1Entity::~j1Entity()
 {
 	//if (collider.collider != nullptr)
 	//	collider.collider->to_delete = true;
+}
+
+bool j1Entity::Start()
+{
+	return true;
 }
 
 bool j1Entity::PreUpdate()
@@ -25,7 +31,7 @@ bool j1Entity::Update(float dt)
 }
 bool j1Entity::PostUpdate()
 {
-	Draw(App->entityFactory->texture); // general purposes big entityfactory spritesheet (enemies, or etc)
+
 	return true;
 }
 
@@ -34,19 +40,9 @@ bool j1Entity::CleanUp()
 	return true;
 }
 
-void j1Entity::Draw(SDL_Texture * texture)
+void j1Entity::Draw()
 {
-	if (texture != nullptr)
-	{
-		if (currentAnimation != nullptr)
-			App->render->Blit(texture, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
-		else
-			App->render->Blit(texture, position.x, position.y);
-
-	}
-	else
-		LOG("entity texture not found");
-
+	App->render->DrawCircle((position.x + pivot.x)*App->win->GetScale(), (position.y + pivot.y)*App->win->GetScale(), 3, 255, 0, 0);
 }
 
 fPoint j1Entity::GetPosition()
@@ -56,7 +52,7 @@ fPoint j1Entity::GetPosition()
 
 void j1Entity::SetPivot(const float & x, const float & y)
 {
-	pivot.create(x, y);
+	pivot.create(x,y );
 }
 
 bool j1Entity::Move(float dt)

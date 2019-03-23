@@ -32,7 +32,7 @@ enum class characterName
 class PlayerEntity : public j1Entity
 {
 public:
-	PlayerEntity();
+	PlayerEntity(int posX, int posY);
 	~PlayerEntity();
 
 	//core loops ------
@@ -47,6 +47,7 @@ public:
 	bool InputMovement(float dt);
 	int GetPointingDir(float angle);
 	void CheckRenderFlip(); // animation relative
+	void Draw();
 	
 
 public:

@@ -1,8 +1,9 @@
 #include "PlayerEntity.h"
 #include "j1Input.h"
+#include "j1Render.h"
 #include "p2Log.h"
 
-PlayerEntity::PlayerEntity() : j1Entity(NO_TYPE, 0,0, "PlayerParent")
+PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(NO_TYPE, posX , posY, "PlayerParent")
 {}
 
 PlayerEntity::~PlayerEntity()
@@ -11,6 +12,7 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
+
 	return true;
 }
 
@@ -22,13 +24,12 @@ bool PlayerEntity::PreUpdate()
 bool PlayerEntity::Update(float dt)
 {
 	//InputMovement(dt);
-
 	return true;
 }
 
 bool PlayerEntity::PostUpdate()
 {
-	Draw(entityTex);
+
 	return true;
 }
 
@@ -81,6 +82,17 @@ void PlayerEntity::CheckRenderFlip()
 	}
 	else
 		flip = SDL_FLIP_NONE;
+}
+
+void PlayerEntity::Draw()
+{
+	if (spritesheet != nullptr)
+	{
+		if (currentAnimation != nullptr)
+			App->render->Blit(spritesheet, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		else
+			App->render->Blit(spritesheet, position.x, position.y);
+	}
 }
 
 int PlayerEntity::GetPointingDir(float angle)

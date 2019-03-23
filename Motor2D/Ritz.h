@@ -6,7 +6,7 @@
 class Ritz : public PlayerEntity
 {
 public:
-	Ritz();
+	Ritz(int posX, int posY);
 	~Ritz();
 
 	//core loops ------

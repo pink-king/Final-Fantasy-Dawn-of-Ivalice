@@ -43,12 +43,12 @@ void j1Map::Draw()
 		if ((*layer)->name == "navigationLayer" && showNavLayer == false) {
 			continue;
 		}
-
+		
 		for (int i = 0; i < data.height; ++i)
 		{
 			for (int j = 0; j < data.width; ++j)
 			{
-				if (App->render->IsOnCamera(MapToWorld(i + MARGIN_TILE, j + MARGIN_TILE).x , MapToWorld(i + MARGIN_TILE, j + MARGIN_TILE).y, data.tile_width + MARGIN_TILE, data.tile_height + MARGIN_TILE))
+				if (App->render->IsOnCamera(MapToWorld(i + MARGIN_TILE, j + MARGIN_TILE).x , MapToWorld(i + MARGIN_TILE, j - MARGIN_TILE).y, data.tile_width*(MARGIN_TILE + 1), data.tile_height*(MARGIN_TILE + 1)))
 				{
 					int tile_id = (*layer)->Get(i, j);
 					if (tile_id > 0)

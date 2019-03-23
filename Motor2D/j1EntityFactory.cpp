@@ -79,25 +79,12 @@ bool j1EntityFactory::Update(float dt)
 			if (ret)
 				ret = ((*item)->Move(dt));
 
-
-			if (App->render->IsOnCamera((int)((*item)->position.x), (int)((*item)->position.x), (*item)->size.x, (*item)->size.y)) 
-			{
 				draw_entities.push_back(*item);
-			}
+			
 		}
 	}
 
-	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
-	std::vector<j1Entity*>::iterator drawItem = draw_entities.begin();
-	for (; drawItem != draw_entities.end(); ++drawItem)
-	{
-		if (texture != NULL)
-			(*drawItem)->Draw(texture);
-		else
-			LOG("texture to entities no load");
-	}
-
-	draw_entities.clear();
+	
 
 	return ret;
 }
@@ -110,7 +97,16 @@ bool j1EntityFactory::PostUpdate()
 	{
 		(*item)->PostUpdate();
 	}
+	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
 
+	std::vector<j1Entity*>::iterator drawItem = draw_entities.begin();
+	for (; drawItem != draw_entities.end(); ++drawItem)
+	{
+		(*drawItem)->Draw();
+
+	}
+
+	draw_entities.clear();
 
 
 	return true;

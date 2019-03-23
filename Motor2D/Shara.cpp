@@ -1,7 +1,7 @@
 
 #include "Shara.h"
 
-Shara::Shara()
+Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 {
 	character = characterName::SHARA;
 	name.assign("Shara");
@@ -100,6 +100,7 @@ Shara::~Shara()
 
 bool Shara::Start()
 {
+	size = { 32,45 };
 	return true;
 }
 
