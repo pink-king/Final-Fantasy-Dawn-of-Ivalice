@@ -61,13 +61,19 @@ bool j1Scene::PreUpdate()
 {
 
 	// debug pathfing ------------------
-	static iPoint origin;
-	static bool origin_selected = false;
 
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
+
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		App->win->SetScale(1);
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		App->win->SetScale(2);
+
 
 	return true;
 }

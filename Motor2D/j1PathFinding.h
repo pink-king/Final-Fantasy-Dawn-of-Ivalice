@@ -23,15 +23,15 @@ class j1PathFinding : public j1Module
 private:
 	std::vector<iPoint> debugPath;
 public:
-	SDL_Texture * debug_tex = nullptr;
+	SDL_Texture * debug_texture = nullptr;
 
 	j1PathFinding();
 
 	// Destructor
 	~j1PathFinding();
 
-	bool Awake();
-
+	bool Start() override;
+	
 	bool PostUpdate() override;
 	// Called before quitting
 	bool CleanUp();
