@@ -135,7 +135,7 @@ void j1Gui::SearchandSelectClicked() {
 					(*item)->state = IDLE;
 					(*item)->DoLogicAbandoned(false);                          // check this call
 				}            
-				else if((*item)->state = DRAG)
+				else if((*item)->state == DRAG)
 				{
 					(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
 				}
