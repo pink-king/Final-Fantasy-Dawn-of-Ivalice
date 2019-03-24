@@ -55,7 +55,8 @@ public:
 	//j1Entity*				Player = nullptr;
 
 public:
-
+	
+	fPoint previousPos;
 	int pointingDir = 0; // relative to facing direction enum order
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
