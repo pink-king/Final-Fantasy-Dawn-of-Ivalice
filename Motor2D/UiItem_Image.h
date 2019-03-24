@@ -31,6 +31,7 @@ private:
 public: 
 	friend class UiItem_Bar; 
 
+
 };
 
 #endif

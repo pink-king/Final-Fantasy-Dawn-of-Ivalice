@@ -1,6 +1,8 @@
 
 #include "Marche.h"
 #include "j1Textures.h"
+#include "j1Map.h"
+#include "j1PathFinding.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -113,7 +115,15 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
-	InputMovement(dt);
+	if (App->pathfinding->IsWalkable(App->map->WorldToMap(position.x, position.y)))
+	{
+		previousPos = position;
+		InputMovement(dt);
+	}
+	else
+	{
+		position = previousPos;
+	}
 
 	return true;
 }

@@ -115,17 +115,31 @@ void j1Gui::SearchandSelectClicked() {
 					(*item)->state = DRAG;
 				}
 
-				
+
 
 				else if ((*item)->state == IDLE)
-					(*item)->state = HOVER;
+				{
+				(*item)->state = HOVER;
+				(*item)->DoLogicHovered(false);   // check this call
+			    }
 
 			
 
 			}
 			else  if ((*item)->state != IDLE)
 			{                                        // TODO: With sliders, this does not apply (FOCUS)
-				(*item)->state = IDLE;
+
+
+				if (!(*item)->slidable)
+				{
+					(*item)->state = IDLE;
+					(*item)->DoLogicAbandoned(false);                          // check this call
+				}            
+				else if((*item)->state = DRAG)
+				{
+					(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
+				}
+
 			}
 			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
 				(*item)->mouseButtonDown = 0;
@@ -323,6 +337,7 @@ bool j1Gui::PostUpdate()
 
 		if (debug_)
 		{
+
 			if ((*iter)->parent!=NULL && (*iter)->parent->enable)
 			{
 				SDL_Rect r;
@@ -336,7 +351,9 @@ bool j1Gui::PostUpdate()
 					App->render->DrawQuad(r, 110, 125, 240, 200, true, false);
 				else
 					App->render->DrawQuad(r, 100, 50, 200, 100, true, false);
+
 			}
+
 		}
 
 	}

@@ -2,6 +2,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1Map.h"
 
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(NO_TYPE, posX , posY, "PlayerParent")
 {}
@@ -55,6 +56,13 @@ bool PlayerEntity::InputMovement(float dt)
 		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
 	}
+
+	//iPoint isoPoint = App->map->WorldToMap(position.x, position.y); // convert world coords to iso map coords
+
+	//position.x = isoPoint.x;
+	//position.y = isoPoint.y;
+
+	//LOG("pos x: %f pos y: %f", position.x, position.y);
 
 	if (isMoving)// if we get any input, any direction
 	{

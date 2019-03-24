@@ -43,7 +43,7 @@ public:
 	bool slidable = false; 
 	bool tabbed = false; 
 	bool enable = true;
-
+	UiItem* iFriend = nullptr;
 
 	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers
