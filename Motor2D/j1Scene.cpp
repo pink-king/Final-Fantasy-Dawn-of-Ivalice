@@ -36,7 +36,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	
+	debug = true;
 
 	if (App->map->Load("maps/iso_walk.tmx"))
 	{
@@ -104,6 +104,9 @@ bool j1Scene::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 1000 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
+		debug = !debug;
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{

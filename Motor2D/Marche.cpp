@@ -103,7 +103,6 @@ Marche::~Marche()
 
 bool Marche::Start()
 {
-	SetPivot(16, 40);
 	size.create(32,45);
 	return true;
 }

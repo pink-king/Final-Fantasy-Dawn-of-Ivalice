@@ -23,6 +23,7 @@ public:
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
+	void Debug(j1Entity* ent);
 
 	void DestroyEntity(j1Entity* entity);
 

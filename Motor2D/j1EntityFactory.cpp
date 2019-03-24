@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "EnemyTest.h"
 #include "j1BuffManager.h"
+#include "j1Scene.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -108,7 +109,7 @@ bool j1EntityFactory::Update(float dt)
 
 bool j1EntityFactory::PostUpdate()
 {
-
+	
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
@@ -120,10 +121,12 @@ bool j1EntityFactory::PostUpdate()
 	for (; drawItem != draw_entities.end(); ++drawItem)
 	{
 		(*drawItem)->Draw();
-
+		if(App->scene->debug)
+			Debug(*drawItem);
 	}
 
 	draw_entities.clear();
+
 
 
 	return true;
@@ -175,6 +178,12 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 	}
 
 	return ret;
+}
+
+void j1EntityFactory::Debug(j1Entity* ent)
+{
+	SDL_Rect section = { ent->position.x, ent->position.y, ent->size.x, ent->size.y };
+	App->render->DrawCircle(section.x + ent->pivot.x, section.y + ent->pivot.y, 3, 0, 255, 0);
 }
 
 PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)

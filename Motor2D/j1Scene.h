@@ -38,7 +38,7 @@ public:
 public:
 	UiItem * inGamePanel = nullptr;
 	UiItem * startMenu = nullptr;
-	
+	bool debug = false;
 
 private:
 	SDL_Texture* debug_tex;
