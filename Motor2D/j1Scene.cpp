@@ -53,8 +53,9 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 	LoadInGameUi(sceneNode);
-	LoadInGameMenu(sceneNode);
+	LoadStartMenu(sceneNode);
 	inGamePanel->enable = true;
+	startMenu->enable = false;
 
 	return true;
 }
@@ -107,9 +108,15 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
 		if (inGamePanel->enable)
+		{
 			inGamePanel->enable = false;
+			startMenu->enable = true;
+		}
 		else
+		{
 			inGamePanel->enable = true;
+			startMenu->enable = false;
+		}
 	}
 
 	App->map->Draw();
@@ -202,10 +209,10 @@ bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 	return true;
 }
 
-bool j1Scene::LoadInGameMenu(pugi::xml_node & nodeScene)
+bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
 {
-	pugi::xml_node inGameMenuNode = nodeScene.child("InGameMenu");
-	inGameMenu= App->gui->AddEmptyElement({ 0,0 });
-	LoadUiElement(inGameMenu, inGameMenuNode);
+	pugi::xml_node StartMenuNode = nodeScene.child("StartMenu");
+	startMenu= App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(startMenu, StartMenuNode);
 	return true;
 }

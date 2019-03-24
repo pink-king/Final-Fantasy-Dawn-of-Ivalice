@@ -37,7 +37,7 @@ public:
 
 public:
 	UiItem * inGamePanel = nullptr;
-	UiItem * inGameMenu = nullptr;
+	UiItem * startMenu = nullptr;
 	
 
 private:
@@ -46,7 +46,7 @@ private:
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 	bool LoadInGameUi(pugi::xml_node& nodeScene);
-	bool LoadInGameMenu(pugi::xml_node& nodeScene);
+	bool LoadStartMenu(pugi::xml_node& nodeScene);
 
 };
 

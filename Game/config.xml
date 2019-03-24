@@ -115,6 +115,16 @@
       </label>
 	 </labels>
     </InGameUi>
+
+    <StartMenu>
+      <images>
+        <image name="backgroundMenu">
+          <section x="0" y="810" w="1280" h="720"/>
+          <position x="0" y="0"/>
+        </image>
+      </images>
+    </StartMenu>
+    
   </scene>
 
   <map>
