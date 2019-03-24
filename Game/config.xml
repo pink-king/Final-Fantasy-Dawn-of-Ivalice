@@ -27,7 +27,7 @@
   </gui>
 
   <scene>
-    <StartMenu>
+    <InGameUi>
      <images>
        <image name="box_abilities_grey">
          <section x="1" y="545" w="165" h="43"/>
@@ -114,7 +114,7 @@
 		<font value = "Open_Sans Bold"/>
       </label>
 	 </labels>
-    </StartMenu>
+    </InGameUi>
   </scene>
 
   <map>

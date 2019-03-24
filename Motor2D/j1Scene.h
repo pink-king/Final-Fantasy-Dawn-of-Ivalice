@@ -36,15 +36,15 @@ public:
 	bool CleanUp();
 
 public:
-	UiItem * startMenupanel = nullptr;
-	std::list<UiItem*> allPanels;
+	UiItem * inGamePanel = nullptr;
+	
 
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
-	bool LoadStartMenu(pugi::xml_node& nodeScene);
+	bool LoadInGameUi(pugi::xml_node& nodeScene);
 
 };
 

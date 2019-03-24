@@ -52,9 +52,9 @@ bool j1Scene::Start()
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
-	LoadStartMenu(sceneNode);
-	startMenupanel->enable = false;
-	allPanels.push_back(startMenupanel);
+	LoadInGameUi(sceneNode);
+	inGamePanel->enable = true;
+
 	return true;
 }
 
@@ -102,7 +102,6 @@ bool j1Scene::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 1000 * dt;
-
 
 	App->map->Draw();
 
@@ -186,10 +185,10 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 }
 
-bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
+bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 {
-	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
-	startMenupanel = App->gui->AddEmptyElement({ 0,0 });
-	LoadUiElement(startMenupanel, startMenuNode);
+	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
+	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(inGamePanel, inGameNode);
 	return true;
 }
