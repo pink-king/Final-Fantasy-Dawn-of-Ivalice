@@ -346,7 +346,9 @@ bool j1Gui::PostUpdate()
 
 		if (debug_)
 		{
-		
+
+			if ((*iter)->parent!=NULL && (*iter)->parent->enable)
+			{
 				SDL_Rect r;
 				r.x = (*iter)->hitBox.x;
 				r.y = (*iter)->hitBox.y;
@@ -359,8 +361,8 @@ bool j1Gui::PostUpdate()
 				else
 					App->render->DrawQuad(r, 100, 50, 200, 100, true, false);
 
+			}
 
-			
 		}
 
 	}

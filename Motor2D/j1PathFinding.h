@@ -77,11 +77,11 @@ struct PathNode
 {
 	// Convenient constructors
 	PathNode();
-	PathNode(int g, int h, const iPoint& pos, const PathNode* parent);
+	PathNode(int g, int h, const iPoint& pos, PathNode* parent); // Originally Const
 	PathNode(const PathNode& node);
 
 	// Fills a list (PathList) of all valid adjacent pathnodes
-	uint FindWalkableAdjacents(PathList& list_to_fill) const;
+	uint FindWalkableAdjacents(PathList& list_to_fill, const iPoint destionation); // Originally Const
 	// Calculates this tile score
 	int Score() const;
 	// Calculate the F for a specific destination tile
@@ -91,7 +91,7 @@ struct PathNode
 	int g;
 	int h;
 	iPoint pos;
-	const PathNode* parent = nullptr; // needed to reconstruct the path in the end
+	PathNode* parent = nullptr; // Originally Const - needed to reconstruct the path in the end
 };
 
 // ---------------------------------------------------------------------
