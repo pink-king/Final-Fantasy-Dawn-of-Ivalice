@@ -41,13 +41,18 @@ void UiItem_Bar::Draw(const float & dt)
 
 void UiItem_Bar::DoLogicDragged(bool do_slide) {
 
-	
+	                                   // right now only vertical sliders
 	if (do_slide) {
 		iPoint mousePos;
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		mousePos.x = x; 	mousePos.y = y;
-		thumb->SetPos(mousePos);
+
+
+		if (mousePos.y >= bar->hitBox.y && mousePos.y <= bar->hitBox.y + bar->hitBox.h)
+		{
+			thumb->SetPos(iPoint(thumb->hitBox.x, mousePos.y));
+		}
 	}
 
 
