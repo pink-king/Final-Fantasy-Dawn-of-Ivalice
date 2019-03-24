@@ -24,7 +24,6 @@ public:
 	void Draw();
 
 private:
-
 	Animation idle; 
 };
 

@@ -2,6 +2,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "EnemyTest.h"
+#include "j1BuffManager.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -83,8 +84,24 @@ bool j1EntityFactory::Update(float dt)
 			
 		}
 	}
-
-	
+	j1Entity* j1 = nullptr;
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1)
+	{
+		std::vector<j1Entity*>::iterator item2 = entities.begin();
+		
+		for (; item2 != entities.end(); ++item2)
+		{
+			if ((*item2)->name.compare("PlayerParent") == 0)
+			{
+				j1 = (*item2);
+			}
+			if ((*item2)->name.compare("whatever") == 0)
+			{
+					App->buff->DirectAttack(j1, *item2, 10);
+			}
+		}
+	}
+		
 
 	return ret;
 }

@@ -1,6 +1,7 @@
 #include "EnemyTest.h"
 #include "j1Textures.h"
 #include "j1Render.h"
+#include "j1Window.h"
 
 EnemyTest::EnemyTest(iPoint position) : j1Entity(NO_TYPE, position.x, position.y, "PEM")
 {
@@ -35,6 +36,9 @@ bool EnemyTest::PreUpdate()
 
 bool EnemyTest::Update(float dt)
 {
+	static char title[30];
+	sprintf_s(title, 30, " | Tiles Rendered: %f", life);
+	App->win->SetTitle(title);
 	return true;
 }
 
@@ -46,6 +50,7 @@ bool EnemyTest::PostUpdate()
 
 bool EnemyTest::CleanUp()
 {
+
 	return true;
 }
 

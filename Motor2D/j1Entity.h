@@ -52,7 +52,7 @@ public:
 	ENTITY_TYPE			type;
 	SDL_RendererFlip	flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
-
+	float				life = 100.f;
 	pugi::xml_document	file;
 	pugi::xml_parse_result result;
 

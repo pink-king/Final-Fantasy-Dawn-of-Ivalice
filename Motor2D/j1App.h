@@ -23,6 +23,7 @@ class j1EntityFactory;
 class j1PathFinding;
 class j1Fonts;
 class j1SceneUi;
+class j1BuffManager;
 
 class j1App
 {
@@ -107,6 +108,7 @@ public:
 	j1PathFinding*		pathfinding = nullptr; 
 	j1Fonts*			font = nullptr;
 	j1SceneUi*			sceneUi = nullptr;
+	j1BuffManager*		buff = nullptr;
 
 	bool				vsync = false;
 	bool				pause = false;

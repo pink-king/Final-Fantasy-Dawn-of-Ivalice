@@ -4,6 +4,7 @@
 #include "p2Point.h"
 #include "p2Animation.h"
 #include "j1Entity.h"
+#include "Buff.h"
 
 #define PI 3.14159265359f
 
@@ -70,7 +71,7 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-
+	std::vector<Buff*>		buffs;
 };
 
 #endif
