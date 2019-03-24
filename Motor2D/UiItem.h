@@ -29,6 +29,7 @@ protected:
 	// UiItem* parent = NULL;
 public:
 	UiItem* parent = NULL;
+
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN; 
 	SDL_Rect hitBox = { 0,0,0,0 };
@@ -41,6 +42,8 @@ public:
 	void DrawUi(float dt);
 	bool slidable = false; 
 	bool tabbed = false; 
+	bool enable = true;
+
 
 	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
 	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers

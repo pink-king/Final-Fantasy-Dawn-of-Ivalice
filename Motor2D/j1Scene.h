@@ -37,6 +37,7 @@ public:
 
 public:
 	UiItem * startMenupanel = nullptr;
+	std::list<UiItem*> allPanels;
 
 private:
 	SDL_Texture* debug_tex;

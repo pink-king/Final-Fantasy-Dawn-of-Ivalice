@@ -2,6 +2,7 @@
 #include "j1Gui.h"
 #include "j1App.h"
 #include "j1Render.h"
+#include "j1Scene.h"
 
 UiItem::UiItem(const iPoint & pos, UiItem *const parent) : parent(parent)
 {
@@ -24,7 +25,9 @@ void UiItem::DrawUi(float dt)
 {
 	
 	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter!= App->gui->ListItemUI.end(); ++iter)
-	{
-		(*iter)->Draw(dt);
+	{	
+		if ((*iter)->parent != NULL && (*iter)->parent->enable)
+			(*iter)->Draw(dt);
+			
 	}
 }

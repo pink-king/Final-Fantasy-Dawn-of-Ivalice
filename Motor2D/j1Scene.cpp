@@ -53,6 +53,8 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 	LoadStartMenu(sceneNode);
+	startMenupanel->enable = false;
+	allPanels.push_back(startMenupanel);
 	return true;
 }
 
