@@ -53,6 +53,7 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 	LoadInGameUi(sceneNode);
+	LoadInGameMenu(sceneNode);
 	inGamePanel->enable = true;
 
 	return true;
@@ -198,5 +199,13 @@ bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
+	return true;
+}
+
+bool j1Scene::LoadInGameMenu(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node inGameMenuNode = nodeScene.child("InGameMenu");
+	inGameMenu= App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(inGameMenu, inGameMenuNode);
 	return true;
 }
