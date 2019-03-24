@@ -126,18 +126,27 @@ void j1Gui::SearchandSelectClicked() {
 			
 
 			}
-			else  if ((*item)->state != IDLE)
-			{                                        // TODO: With sliders, this does not apply (FOCUS)
+			else  if ((*item)->state != IDLE)       // When an item is outside 
+			{                                      
 
 
-				if (!(*item)->slidable)
+				if (!(*item)->slidable)        // If it is not slider, then it switches to IDLE
 				{
 					(*item)->state = IDLE;
-					(*item)->DoLogicAbandoned(false);                          // check this call
+					(*item)->DoLogicAbandoned(false);                         
 				}            
-				else if((*item)->state == DRAG)
+				else if((*item)->state == DRAG)        // sliders can be dragged outside the bar
 				{
-					(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
+					
+					if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+					{
+						(*item)->iFriend->state = IDLE;        
+						(*item)->state = IDLE;
+					}
+					else
+					{
+						(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
+					}
 				}
 
 			}
