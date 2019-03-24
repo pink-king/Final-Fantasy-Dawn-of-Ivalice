@@ -323,18 +323,20 @@ bool j1Gui::PostUpdate()
 
 		if (debug_)
 		{
-			SDL_Rect r;
-			r.x = (*iter)->hitBox.x; 
-			r.y = (*iter)->hitBox.y;
-			r.w = (*iter)->hitBox.w;
-			r.h = (*iter)->hitBox.h; 
-			if((*iter)->state == CLICK || (*iter)->state == DRAG)
-			App->render->DrawQuad(r, 100, 50, 200, 200, true, false);
-			else if((*iter)->state == HOVER)
-				App->render->DrawQuad(r, 110, 125, 240, 200, true, false);
-			else
-				App->render->DrawQuad(r, 100, 50, 200, 100, true, false);
-			
+			if ((*iter)->parent!=NULL && (*iter)->parent->enable)
+			{
+				SDL_Rect r;
+				r.x = (*iter)->hitBox.x;
+				r.y = (*iter)->hitBox.y;
+				r.w = (*iter)->hitBox.w;
+				r.h = (*iter)->hitBox.h;
+				if ((*iter)->state == CLICK || (*iter)->state == DRAG)
+					App->render->DrawQuad(r, 100, 50, 200, 200, true, false);
+				else if ((*iter)->state == HOVER)
+					App->render->DrawQuad(r, 110, 125, 240, 200, true, false);
+				else
+					App->render->DrawQuad(r, 100, 50, 200, 100, true, false);
+			}
 		}
 
 	}
