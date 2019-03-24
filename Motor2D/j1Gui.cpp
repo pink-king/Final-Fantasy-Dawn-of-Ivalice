@@ -347,10 +347,10 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
-UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position)
+UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = new UiItem_Label(text, color, font, position);
+	newUIItem = new UiItem_Label(text, color, font, position, parent);
 	ListItemUI.push_back(newUIItem);
 	return (UiItem_Label*)newUIItem;
 	

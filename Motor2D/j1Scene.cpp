@@ -103,6 +103,14 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 1000 * dt;
 
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+	{
+		if (inGamePanel->enable)
+			inGamePanel->enable = false;
+		else
+			inGamePanel->enable = true;
+	}
+
 	App->map->Draw();
 
 	int x, y;
@@ -158,7 +166,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 		
-		App->gui->AddLabel(text.data(), color, App->font->sans, position);
+		App->gui->AddLabel(text.data(), color, App->font->sans, position, parent);
 
 	}
 	
