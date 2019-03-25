@@ -28,6 +28,7 @@ public:
 
 	// functionality ------
 	bool SwapInputChecker();
+	void UpdatePivot(); // updates "manager" pivot to selected player(character) pivot
 	//bool InputMovement();
 	void SetPreviousCharacter();
 	void SetNextCharacter();

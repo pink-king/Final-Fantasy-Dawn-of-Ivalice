@@ -5,7 +5,9 @@
 #include "j1Map.h"
 
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(NO_TYPE, posX , posY, "PlayerParent")
-{}
+{
+	//SetPivot(16, 40);
+}
 
 PlayerEntity::~PlayerEntity()
 {
@@ -13,7 +15,6 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
-	SetPivot(16, 40);
 	return true;
 }
 

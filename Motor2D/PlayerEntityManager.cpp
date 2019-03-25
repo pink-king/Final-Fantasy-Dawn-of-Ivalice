@@ -34,9 +34,11 @@ bool PlayerEntityManager::Start()
 {
 	// loads the characters data
 	std::vector<PlayerEntity*>::iterator item = characters.begin();
-	SetPivot(16, 40);
+
 	for (; item != characters.end(); ++item)
 		(*item)->Start();
+
+	pivot = selectedCharacterEntity->pivot;
 
 	return true;
 }
@@ -56,6 +58,7 @@ bool PlayerEntityManager::Update(float dt)
 
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
+	//pivot = selectedCharacterEntity->pivot;
 
 	return ret;
 }
@@ -127,6 +130,8 @@ void PlayerEntityManager::SetPreviousCharacter()
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
+			// updates pivot
+			UpdatePivot();
 			break;
 		}
 	}
@@ -161,6 +166,8 @@ void PlayerEntityManager::SetNextCharacter()
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
+			// updates pivot
+			UpdatePivot();
 			break;
 		}
 	}
@@ -176,6 +183,11 @@ void PlayerEntityManager::SetCurrentAnimation()
 void PlayerEntityManager::Draw()
 {
 	selectedCharacterEntity->Draw();
+}
+
+void PlayerEntityManager::UpdatePivot()
+{
+	pivot = selectedCharacterEntity->pivot;
 }
 
 //bool PlayerEntityManager::Draw()

@@ -100,6 +100,7 @@ Ritz::~Ritz()
 
 bool Ritz::Start()
 {
+	SetPivot(16, 40);
 	size = { 32,45 };
 	return true;
 }
