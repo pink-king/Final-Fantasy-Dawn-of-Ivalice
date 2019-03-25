@@ -98,7 +98,7 @@ void j1Gui::SearchandSelectClicked() {
 				if ((*item)->state != CLICK && mouseButtonDown != 0)
 				{
 
-					if (selected_object->tabbed)    // condition so that if there was a tabbed object, it must not be selected now
+					if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
 					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
@@ -245,7 +245,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			
 			for (; item != ListItemUI.end(); item++)                
 			{
-				if ((*item)->guiType == BAR && selected_object->tabbed)
+				if ((*item)->guiType == BAR)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
 					{
