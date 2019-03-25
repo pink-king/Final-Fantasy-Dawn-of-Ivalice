@@ -128,6 +128,28 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
+	{
+		if (uiMarche->enable)
+		{
+			uiMarche->enable = false;
+			uiShara->enable = true;
+			uiRitz->enable = false;
+		}
+		else if (uiShara->enable)
+		{
+			uiShara->enable = false;
+			uiRitz->enable = true;
+			uiMarche->enable = false;
+		}
+		else if (uiRitz->enable)
+		{
+			uiRitz->enable = false;
+			uiMarche->enable = true;
+			uiShara->enable = false;
+		}
+	}
+
 	App->map->Draw();
 
 	int x, y;

@@ -128,7 +128,18 @@
 
     <InGameUiS>
       <images>
-        
+        <image name="shara">
+         <section x="257" y="545" w="47" h="64"/>
+         <position x="55" y="35"/>
+       </image>
+       <image name="player2">
+         <section x="514" y=" 511" w="55" h="28"/>
+         <position x="115" y="41"/>
+       </image>
+       <image name="player3">
+         <section x="514" y=" 482" w="55" h="28"/>
+         <position x="188" y="41"/>
+       </image>
       </images>
     </InGameUiS>
 
@@ -136,7 +147,18 @@
       
     <InGameUiR>
       <images>
-        
+        <image name="ritz">
+         <section x="204" y="545" w="53" h="64"/>
+         <position x="41" y="35"/>
+       </image>
+       <image name="player2">
+         <section x="570" y="482" w="55" h="28"/>
+         <position x="115" y="41"/>
+       </image>
+       <image name="player3">
+         <section x="514" y="511" w="55" h="28"/>
+         <position x="188" y="41"/>
+       </image>
       </images>
     </InGameUiR>
        
