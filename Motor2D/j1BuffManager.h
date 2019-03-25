@@ -20,13 +20,13 @@ public:
 	bool PostUpdate() { return true; };
 	bool CleanUp();
 
-	void CreateBuff(BUFF_TYPE type, std::string name, std::string stat, float value);
+	void CreateBuff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value);
 	void RemoveBuff(std::string name);
-	float CalculateStat(const j1Entity* ent, float& initialDamage);
+	float CalculateStat(const j1Entity* ent, float& initialDamage, std::string stat);
 	uint GetNewSourceID();
 
 	//combat functions
-	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage);
+	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, std::string stat);
 	//void ZoneAttack(j1Entity* attacker, std::vector<j1Entity*> defenders, float initialDamage);
 
 private:

@@ -3,7 +3,7 @@
 #include "j1Render.h"
 #include "j1Window.h"
 
-EnemyTest::EnemyTest(iPoint position) : j1Entity(NO_TYPE, position.x, position.y, "PEM")
+EnemyTest::EnemyTest(iPoint position) : j1Entity(NO_TYPE, position.x, position.y, "PIM")
 {
 	name.assign("Test");
 

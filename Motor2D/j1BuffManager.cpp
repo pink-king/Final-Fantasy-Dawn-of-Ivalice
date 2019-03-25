@@ -1,5 +1,5 @@
 #include "j1BuffManager.h"
-
+#include <string.h>
 
 j1BuffManager::j1BuffManager()
 {
@@ -14,13 +14,14 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 {
 	bool ret = true;
 
-	for (buffNode = node.child("Buffs").child("buff"); buffNode && ret; buffNode = buffNode.next_sibling("buff"))
+	for (buffNode = node.child("buff"); buffNode && ret; buffNode = buffNode.next_sibling("buff"))
 	{
-		if (node.attribute("type").as_string() == "additive")
-			CreateBuff(BUFF_TYPE::ADDITIVE, node.attribute("character").as_string(), node.attribute("stat").as_string(), node.attribute("value").as_float());
-
-		else if (node.attribute("type").as_string() == "multiplicative")
-			CreateBuff(BUFF_TYPE::MULTIPLICATIVE, node.attribute("character").as_string(), node.attribute("stat").as_string(), node.attribute("value").as_float());
+		std::string add = buffNode.attribute("type").as_string();
+		if (add.compare("additive") == 0)
+			CreateBuff(BUFF_TYPE::ADDITIVE, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+		
+		else if (add.compare("multiplicative") == 0)
+			CreateBuff(BUFF_TYPE::MULTIPLICATIVE, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
 	}
 	return ret;
 }
@@ -44,9 +45,9 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateBuff(BUFF_TYPE type, std::string name, std::string stat, float value)
+void j1BuffManager::CreateBuff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value)
 {
-	buffs.push_back(new Buff(type, name, stat, value, GetNewSourceID()));
+	buffs.push_back(new Buff(type, name, character , stat, value, GetNewSourceID()));
 }
 
 void j1BuffManager::RemoveBuff(std::string name)
@@ -57,23 +58,29 @@ void j1BuffManager::RemoveBuff(std::string name)
 			buffs.remove((*item));
 }
 
-float j1BuffManager::CalculateStat(const j1Entity* ent, float& initialDamage)
+float j1BuffManager::CalculateStat(const j1Entity* ent, float& initialDamage, std::string stat)
 {
 
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0)
+		if (ent != nullptr && (*iter)->isActive)
 		{
-			if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
-				initialDamage += (*iter)->GetValue();
-			
-			else if ((*iter)->GetType() == BUFF_TYPE::MULTIPLICATIVE)
-				totalMult += (*iter)->GetValue();
+			if (stat.compare((*iter)->GetStat()) == 0)
+			{
+				if (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0)
+				{
+					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
+						initialDamage += (*iter)->GetValue();
+
+					else if ((*iter)->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+						totalMult += (*iter)->GetValue();
+				}
+			}
 		}
 	}
 
-	return initialDamage + initialDamage * totalMult;
+	return initialDamage * (1 + totalMult);
 }
 
 uint j1BuffManager::GetNewSourceID()
@@ -81,10 +88,10 @@ uint j1BuffManager::GetNewSourceID()
 	return ++lastSourceID;
 }
 
-void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage)
+void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, std::string stat)
 {
 
-	float powerAttack = CalculateStat(attacker, initialDamage);
+	float powerAttack = CalculateStat(attacker, initialDamage, stat);
 	defender->life -= powerAttack;
 	if (defender->life < 0)
 		defender->life = 0;

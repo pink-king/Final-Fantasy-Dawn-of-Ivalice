@@ -1,8 +1,10 @@
-
 #include "Marche.h"
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1PathFinding.h"
+#include "j1Input.h"
+#include "j1EntityFactory.h"
+#include "j1BuffManager.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -131,7 +133,31 @@ bool Marche::Update(float dt)
 		position = previousPos;
 	}
 
+	j1Entity* j1 = nullptr;
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_A) == 1)
+	{
+		std::vector<j1Entity*>::iterator item2 = App->entityFactory->entities.begin();
 
+		for (; item2 != App->entityFactory->entities.end(); ++item2)
+		{
+			if ((*item2)->name.compare("whatever") == 0)
+			{
+				App->buff->DirectAttack(this, *item2, 10, "basic");
+			}
+		}
+	}
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == 1 || App->input->GetKey(SDL_SCANCODE_B) == 1)
+	{
+		std::vector<j1Entity*>::iterator item3 = App->entityFactory->entities.begin();
+
+		for (; item3 != App->entityFactory->entities.end(); ++item3)
+		{
+			if ((*item3)->name.compare("whatever") == 0)
+			{
+				App->buff->DirectAttack(this, *item3, 15, "hability");
+			}
+		}
+	}
 	return true;
 }
 

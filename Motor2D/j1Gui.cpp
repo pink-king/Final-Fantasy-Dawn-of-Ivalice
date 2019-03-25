@@ -97,16 +97,31 @@ void j1Gui::SearchandSelectClicked() {
 
 				if ((*item)->state != CLICK && mouseButtonDown != 0)
 				{
-					(*item)->mouseButtonDown = mouseButtonDown;
-					// thisItem->data->OnClickDown();               // TODO: function pointers
-					(*item)->state = CLICK;
-					selected_object = *item;
+
+					if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
+					{
+						selected_object->tabbed = false;
+						selected_object->state = IDLE;               // deselect current object
+						selected_object->DoLogicAbandoned();
+
+
+						selected_object = (*item);                     // the selected object is now tabbed
+				        selected_object->state = HOVER;
+				        selected_object->tabbed = true;
+
+					}
+					else
+					{
+						(*item)->mouseButtonDown = mouseButtonDown;
+						(*item)->state = CLICK;
+						selected_object = *item;
+					}
+					
 					//ResolveChildren(selected_object); 
 				}
 
 				if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
 				{
-					// thisItem->data->OnClickUp();               // TODO: function pointers
 					(*item)->state = HOVER;
 				}
 
@@ -180,7 +195,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	
 	
 	
-	if (selected_object != nullptr && selected_object->guiType == BAR)
+	if (selected_object != nullptr && selected_object->guiType == BAR)  // change this to the same tye as current
 	{
 		std::list<UiItem*>::iterator theNewOne = ListItemUI.begin();
 
