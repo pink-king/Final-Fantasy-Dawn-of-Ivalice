@@ -93,6 +93,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::NW].speed = 10.0f;
 
 	currentAnimation = &run[(int)facingDirection::E];
+
+	previousPos = position;
 }
 
 Marche::~Marche()
@@ -114,7 +116,8 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
-	if (App->pathfinding->IsWalkable(App->map->WorldToMap(position.x, position.y)))
+	fPoint pivotPos = GetPivotPos(position);
+	if (App->pathfinding->IsWalkable(App->map->WorldToMap(pivotPos.x, pivotPos.y)))
 	{
 		previousPos = position;
 		InputMovement(dt);

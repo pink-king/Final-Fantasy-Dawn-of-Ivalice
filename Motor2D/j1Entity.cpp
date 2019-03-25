@@ -42,7 +42,7 @@ bool j1Entity::CleanUp()
 
 void j1Entity::Draw()
 {
-	App->render->DrawCircle((position.x + pivot.x)*App->win->GetScale(), (position.y + pivot.y)*App->win->GetScale(), 3, 255, 0, 0);
+	//App->render->DrawCircle((position.x + pivot.x), (position.y + pivot.y), 3, 255, 0, 0, 255, false);
 }
 
 fPoint j1Entity::GetPosition()
@@ -53,6 +53,11 @@ fPoint j1Entity::GetPosition()
 void j1Entity::SetPivot(const float & x, const float & y)
 {
 	pivot.create(x,y );
+}
+
+fPoint j1Entity::GetPivotPos(fPoint pos)
+{
+	return pos + pivot;
 }
 
 bool j1Entity::Move(float dt)

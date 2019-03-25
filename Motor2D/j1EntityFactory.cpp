@@ -183,7 +183,8 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 void j1EntityFactory::Debug(j1Entity* ent)
 {
 	SDL_Rect section = { ent->position.x, ent->position.y, ent->size.x, ent->size.y };
-	App->render->DrawCircle(section.x + ent->pivot.x, section.y + ent->pivot.y, 3, 0, 255, 0);
+	App->render->DrawCircle(section.x + ent->pivot.x, section.y + ent->pivot.y, 3, 0, 255, 0,255 ,false);
+	//LOG("position:%f,%f", ent->position.x, ent->position.y);
 }
 
 PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
