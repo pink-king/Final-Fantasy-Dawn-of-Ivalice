@@ -200,45 +200,52 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill, const iPoint destin
 {
 	iPoint cell;
 
-	// north
-	cell.create(pos.x, pos.y + 1);
-	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+	// DIAGONAL CASES
 
-	// east
-	cell.create(pos.x + 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
-
-	// south
-	cell.create(pos.x, pos.y - 1);
-	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
-
-	// west
-	cell.create(pos.x - 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
-
-	// north - west
+	// North - West
 	cell.create(pos.x - 1, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 
-	// north - east
+	// North - East
 	cell.create(pos.x + 1, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 
-	// south - west
+	// South - East
+	cell.create(pos.x + 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+
+	// South - Weast
 	cell.create(pos.x - 1, pos.y + 1);
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 
-	// south - east
-	cell.create(pos.x + 1, pos.y + 1);
+	
+
+
+	// Queen cases
+
+	// North 
+	cell.create(pos.x, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+
+	// East
+	cell.create(pos.x + 1, pos.y);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+	
+	// South
+	cell.create(pos.x, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+
+	// West
+	cell.create(pos.x - 1, pos.y);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
 
 	return list_to_fill.pathNodeList.size();
 
@@ -383,8 +390,10 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 //
 //		std::list<PathNode>::iterator it = openList.pathNodeList.begin();
 //		while (it != openList.pathNodeList.end()) {
-//			if (&(*it) == &(currNode))
+//			if ((*it).pos == currNode.pos)
+//			{
 //				break;
+//			}
 //			it++;
 //		}
 //		openList.pathNodeList.erase(it);
@@ -393,8 +402,9 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 //
 //		if (currNode.pos == destination) {
 //			last_path.clear();
-//			for (PathNode * pathIterator = &currNode; pathIterator != nullptr && pathIterator->pos != origin; pathIterator = (*pathIterator).parent) {
-//				last_path.push_back(pathIterator->pos);
+//			for (PathNode * pathIterator = &currNode; pathIterator != nullptr && pathIterator->pos != origin; pathIterator = (*pathIterator).parent) 
+//			{
+//				last_path.push_back(pathIterator->pos);  // Current problem resides here, parents do not work properly. 
 //			}
 //			// adds start node too
 //			last_path.push_back(closedList.pathNodeList.front().pos);
