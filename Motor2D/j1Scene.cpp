@@ -53,9 +53,9 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 	LoadInGameUi(sceneNode);
-	// LoadStartMenu(sceneNode);
+	LoadStartMenu(sceneNode);
 	inGamePanel->enable = true;
-	// startMenu->enable = false;
+	startMenu->enable = false;
 
 	return true;
 }
