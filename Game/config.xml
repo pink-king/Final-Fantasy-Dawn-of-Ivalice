@@ -133,5 +133,10 @@
       <level name="iso.tmx"/>
 	  </levels>
   </map>
+    
+  <Buff>
+      <buff  type="additive" name="weapontest" character="Marche" stat="basic" value="5.0" />
+       <buff  type="multiplicative" name="weapontest" character="Marche" stat="hability" value="0.5" />
+  </Buff>
 
 </config>

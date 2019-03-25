@@ -34,10 +34,8 @@ public:
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 	SDL_Texture*			texture = nullptr;
-private:
-	
-	
 	std::vector<j1Entity*>	entities;
+private:
 	std::vector<j1Entity*>	draw_entities;
 
 };
