@@ -11,7 +11,7 @@
   </renderer>
 
   <window>
-    <resolution width="1280" height="720" scale="1"/>
+    <resolution width="1280" height="720" scale="2"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -32,22 +32,6 @@
        <image name="box_abilities_grey">
          <section x="1" y="545" w="165" h="43"/>
          <position x="438" y="682"/>
-       </image>
-       <image name="sword">
-         <section x="167" y="545" w="36" h="36"/>
-         <position x="442" y="685 "/>
-       </image>
-       <image name="sword_ability">
-         <section x="0" y="482" w="36" h="36"/>
-         <position x="482" y="685"/>
-       </image>
-       <image name="glove">
-         <section x="37" y="482" w="36" h="36"/>
-         <position x="522" y="685"/>
-       </image>
-       <image name="orbe">
-         <section x="74" y="482" w="35" h="36"/>
-         <position x="562" y="685"/>
        </image>
        <image name="life_bar">
          <section x="110" y="482" w="134" h="26"/>
@@ -72,18 +56,6 @@
        <image name="box_player">
          <section x="391" y="482" w="63" h="80"/>
          <position x="40" y="21"/>
-       </image>
-       <image name="marche">
-         <section x="455" y="482" w="58" h="77"/>
-         <position x="41" y="22"/>
-       </image>
-       <image name="player2">
-         <section x="514" y=" 482" w="55" h="28"/>
-         <position x="115" y="41"/>
-       </image>
-       <image name="player3">
-         <section x="570" y="482" w="55" h="28"/>
-         <position x="188" y="41"/>
        </image>
        <image name="level_box">
          <section x="1 " y="519" w="57" h="24"/>
@@ -116,6 +88,60 @@
 	 </labels>
     </InGameUi>
 
+    
+      
+        
+      
+    <InGameUiM>
+      <images>
+        <image name="sword">
+         <section x="167" y="545" w="36" h="36"/>
+         <position x="442" y="685 "/>
+       </image>
+       <image name="sword_ability">
+         <section x="0" y="482" w="36" h="36"/>
+         <position x="482" y="685"/>
+       </image>
+       <image name="glove">
+         <section x="37" y="482" w="36" h="36"/>
+         <position x="522" y="685"/>
+       </image>
+       <image name="orbe">
+         <section x="74" y="482" w="35" h="36"/>
+         <position x="562" y="685"/>
+       </image>
+      <image name="marche">
+         <section x="455" y="482" w="58" h="77"/>
+         <position x="41" y="22"/>
+       </image>
+       <image name="player2">
+         <section x="514" y=" 482" w="55" h="28"/>
+         <position x="115" y="41"/>
+       </image>
+       <image name="player3">
+         <section x="570" y="482" w="55" h="28"/>
+         <position x="188" y="41"/>
+       </image>
+      </images>
+    </InGameUiM>
+
+
+    <InGameUiS>
+      <images>
+        
+      </images>
+    </InGameUiS>
+
+    
+      
+    <InGameUiR>
+      <images>
+        
+      </images>
+    </InGameUiR>
+       
+    
+      
     <StartMenu>
       <images>
         <image name="backgroundMenu">

@@ -379,7 +379,7 @@ bool j1Gui::PostUpdate()
 			}
 
 		}
-
+		
 	}
 	return true;
 }
