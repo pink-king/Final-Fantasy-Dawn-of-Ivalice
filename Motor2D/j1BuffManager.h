@@ -27,14 +27,18 @@ public:
 
 	//combat functions
 	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, std::string stat);
-	//void ZoneAttack(j1Entity* attacker, std::vector<j1Entity*> defenders, float initialDamage);
+	void DamageInTime(j1Entity* attacker);
+
+	float GetBurnedDamage();
 
 private:
-	uint lastSourceID = 0u;
-	std::list<Buff*> buffs;
+	uint				lastSourceID = 0u;
+	std::list<Buff*>	buffs;
+	pugi::xml_node		buffNode;
 
-	pugi::xml_node buffNode;;
-
+	float				burnedDamagesecond = 0.f;
+	float				paralizetime = 0.f;
+	float				burnedTotalDamage = 0.f;
 	
 };
 

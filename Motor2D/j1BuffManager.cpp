@@ -23,6 +23,10 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 		else if (add.compare("multiplicative") == 0)
 			CreateBuff(BUFF_TYPE::MULTIPLICATIVE, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
 	}
+
+	burnedDamagesecond = node.child("timebuff").attribute("burnedInSecond").as_float();
+	burnedTotalDamage = node.child("timebuff").attribute("burnedTotalDamage").as_float();
+	paralizetime = node.child("timebuff").attribute("paralizeTime").as_float();
 	return ret;
 }
 
@@ -97,7 +101,50 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		defender->life = 0;
 }
 
+void j1BuffManager::DamageInTime(j1Entity * entity)
+{ 
+	std::list<entityStat*>::iterator item = entity->stat.begin();
+	for (; item != entity->stat.end(); ++item)
+	{
+		switch ((*item)->type)
+		{
+		default:
+			break;
+		case STAT_TYPE::NORMAL:
+			break;
+		case STAT_TYPE::BURNED_STAT:
+
+			if ((*item)->maxDamage < entity->life)
+			{
+				if ((*item)->count.ReadSec() > 0.5)
+				{
+					entity->life -= burnedDamagesecond;
+					(*item)->count.Start();
+				}
+			}
+			else
+			{
+				entity->isBurned = false;
+				entity->stat.remove(*item);
+			}
+			break;
+		case STAT_TYPE::PARALIZE_STAT:
+			if ((*item)->count.ReadSec() > paralizetime)
+			{
+				entity->stat.remove(*item);
+				entity->isParalize = false;
+			}
+			break;
+		}
+	}
+}
+
 //void j1BuffManager::ZoneAttack(j1Entity * attacker, std::vector<j1Entity*> defenders, float initialDamage)
 //{
 //	float powerAttack = CalculateStat(attacker->name, initialDamage);
 //}
+
+float j1BuffManager::GetBurnedDamage()
+{
+	return burnedTotalDamage;
+}

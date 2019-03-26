@@ -2,9 +2,12 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1PathFinding.h"
+#include "j1BuffManager.h"
+#include "j1Entity.h"
+//test buff
 #include "j1Input.h"
 #include "j1EntityFactory.h"
-#include "j1BuffManager.h"
+#include "j1Window.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -126,15 +129,25 @@ bool Marche::Update(float dt)
 	if (App->pathfinding->IsWalkable(onTilePos))
 	{
 		previousPos = position;
-		InputMovement(dt);
+
+		
+		if (!isParalize)
+		{
+			currentAnimation->speed = 10.f;
+			InputMovement(dt);
+		}
+		else
+		{
+			currentAnimation->speed = 0.f;
+		}
 	}
 	else
 	{
 		position = previousPos;
 	}
-
+	//test buff
 	j1Entity* j1 = nullptr;
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_A) == 1)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
 	{
 		std::vector<j1Entity*>::iterator item2 = App->entityFactory->entities.begin();
 
@@ -146,7 +159,7 @@ bool Marche::Update(float dt)
 			}
 		}
 	}
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == 1 || App->input->GetKey(SDL_SCANCODE_B) == 1)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == 1 || App->input->GetKey(SDL_SCANCODE_W) == 1)
 	{
 		std::vector<j1Entity*>::iterator item3 = App->entityFactory->entities.begin();
 
@@ -158,6 +171,30 @@ bool Marche::Update(float dt)
 			}
 		}
 	}
+	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
+		&& !isBurned)
+	{
+		entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, life - App->buff->GetBurnedDamage());
+		newStat->count.Start();
+		stat.push_back(newStat);
+		isBurned = true;
+		
+	}
+	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == 1 || App->input->GetKey(SDL_SCANCODE_R) == 1)
+		&& !isParalize)
+	{
+		entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, 0.0f);
+		newStat->count.Start();
+		stat.push_back(newStat);
+		isParalize = true;
+	}
+
+	if(stat.size() != 0)
+		App->buff->DamageInTime(this);
+
+	static char title[30];
+	sprintf_s(title, 30, " | Marche life: %f", life);
+	App->win->SetTitle(title);
 	return true;
 }
 

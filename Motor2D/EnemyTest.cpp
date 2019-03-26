@@ -36,9 +36,6 @@ bool EnemyTest::PreUpdate()
 
 bool EnemyTest::Update(float dt)
 {
-	static char title[30];
-	sprintf_s(title, 30, " | Tiles Rendered: %f", life);
-	App->win->SetTitle(title);
 	return true;
 }
 
