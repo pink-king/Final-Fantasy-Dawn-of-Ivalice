@@ -52,10 +52,10 @@ bool j1Scene::Start()
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
-	LoadInGameUi(sceneNode);
-	// LoadStartMenu(sceneNode);
-	inGamePanel->enable = true;
-	// startMenu->enable = false;
+	//LoadInGameUi(sceneNode);
+	//// LoadStartMenu(sceneNode);
+	//inGamePanel->enable = true;
+	//// startMenu->enable = false;
 
 	return true;
 }
@@ -86,6 +86,9 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 
+	// map debug draw grids
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		App->map->ToggleDebugDraw();
 
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -133,8 +136,8 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y,  "whatever");
-	
-	
+
+
 	//App->win->SetTitle(App->title.data());
 
 

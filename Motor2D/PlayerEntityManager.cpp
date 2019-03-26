@@ -2,6 +2,7 @@
 #include "PlayerEntityManager.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1Map.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
 {
@@ -14,6 +15,12 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, po
 	characters.push_back(shara);
 
 	selectedCharacterEntity = marche;
+
+	// debug normal tile tex
+	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
+
+	debug = true;
+	
 }
 
 PlayerEntityManager::~PlayerEntityManager()
@@ -40,6 +47,8 @@ bool PlayerEntityManager::Start()
 
 	pivot = selectedCharacterEntity->pivot;
 
+
+
 	return true;
 }
 
@@ -58,7 +67,7 @@ bool PlayerEntityManager::Update(float dt)
 
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
-	//pivot = selectedCharacterEntity->pivot;
+	
 
 	return ret;
 }
@@ -67,6 +76,14 @@ bool PlayerEntityManager::PostUpdate()
 {
 
 	selectedCharacterEntity->PostUpdate();
+
+	if (debug)
+	{
+		fPoint pivotPos = GetPivotPos(position);
+		iPoint debugTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
+		debugTilePos = App->map->MapToWorld(debugTilePos.x, debugTilePos.y);
+		App->render->Blit(debugTileTex, debugTilePos.x, debugTilePos.y, NULL);
+	}
 	
 	return true;
 }

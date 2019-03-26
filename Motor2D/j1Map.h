@@ -139,6 +139,8 @@ public:
 
 	// Called each loop iteration
 	void Draw();
+	void DebugDraw();
+	void ToggleDebugDraw();
 
 	// Called before quitting
 	bool CleanUp();
@@ -173,7 +175,8 @@ private:
 
 	pugi::xml_document	map_file;
 	std::string			folder;
-	SDL_Texture*		texture;
+	SDL_Texture*		texture = nullptr;
+	bool debugDraw = true;
 };
 
 #endif // __j1MAP_H__
