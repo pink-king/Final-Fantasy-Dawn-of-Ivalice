@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1Map.h"
+#include "j1BuffManager.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
 {
@@ -64,7 +65,8 @@ bool PlayerEntityManager::Update(float dt)
 	SwapInputChecker(); // checks gamepad triggers input
 
 	selectedCharacterEntity->Update(dt);
-
+	if (selectedCharacterEntity->stat.size() != 0)
+		App->buff->DamageInTime(selectedCharacterEntity);
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
 	

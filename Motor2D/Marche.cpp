@@ -189,8 +189,7 @@ bool Marche::Update(float dt)
 		isParalize = true;
 	}
 
-	if(stat.size() != 0)
-		App->buff->DamageInTime(this);
+
 
 	static char title[30];
 	sprintf_s(title, 30, " | Marche life: %f", life);

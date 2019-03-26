@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "j1EntityFactory.h"
 #include "j1Window.h"
+#include "j1BuffManager.h"
 #include "p2Log.h"
 #include "Brofiler\Brofiler.h"
 
@@ -27,6 +28,8 @@ bool j1Entity::PreUpdate()
 
 bool j1Entity::Update(float dt)
 {
+	if (stat.size() != 0)
+		App->buff->DamageInTime(this);
 	return true;
 }
 bool j1Entity::PostUpdate()
@@ -37,6 +40,12 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
+	std::list<entityStat*>::iterator item = stat.begin();
+	for (; item != stat.end(); ++item)
+	{
+		stat.remove(*item);
+	}
+	stat.clear();
 	return true;
 }
 
