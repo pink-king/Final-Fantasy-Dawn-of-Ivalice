@@ -61,7 +61,7 @@ public:
 
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
-	fPoint GetPivotPos(fPoint position);
+	fPoint GetPivotPos() const;
 	virtual void LoadEntitydata(pugi::xml_node&);
 
 public:

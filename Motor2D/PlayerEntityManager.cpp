@@ -81,7 +81,7 @@ bool PlayerEntityManager::PostUpdate()
 
 	if (debug)
 	{
-		fPoint pivotPos = GetPivotPos(position);
+		fPoint pivotPos = GetPivotPos();
 		iPoint debugTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 		debugTilePos = App->map->MapToWorld(debugTilePos.x, debugTilePos.y);
 		App->render->Blit(debugTileTex, debugTilePos.x, debugTilePos.y, NULL);

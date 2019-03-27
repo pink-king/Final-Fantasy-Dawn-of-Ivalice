@@ -122,7 +122,7 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
-	fPoint pivotPos = GetPivotPos(position);
+	fPoint pivotPos = GetPivotPos();
 	LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);

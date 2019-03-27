@@ -64,9 +64,9 @@ void j1Entity::SetPivot(const float & x, const float & y)
 	pivot.create(x,y );
 }
 
-fPoint j1Entity::GetPivotPos(fPoint pos)
+fPoint j1Entity::GetPivotPos() const
 {
-	return pos + pivot;
+	return position + pivot;
 }
 
 bool j1Entity::Move(float dt)
