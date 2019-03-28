@@ -21,6 +21,7 @@ public:
 	iPoint GetNextNode();
 	bool SearchNewPath(); 
 	void MoveToNextNode(float dt); 
+	
 	virtual bool CleanUp();
 
 	void DebugPath() const;

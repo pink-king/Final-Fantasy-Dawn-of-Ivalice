@@ -61,11 +61,11 @@ bool EnemyTest::PostUpdate()
 
 iPoint EnemyTest::GetNextNode()
 {
-	// get the enemy pos (this position) on map coords. (tile coords.)
+	// get the enemy pos in tile coords
 	iPoint thisPos;
 	thisPos = App->map->WorldToMap((int)position.x, (int)position.y);
 
-	// get the nextNodePos, the last on dyn array (the first pop out) || copylastgenerated path flip the order
+	// Get the next node, the last on the vector 
 	iPoint nextNodePos = path_to_follow.back();
 
 	// compare enemy and nextNode on tile coords, if is the same, pop and get the new nextNode
@@ -122,7 +122,7 @@ void EnemyTest::MoveToNextNode(float dt)
 
 bool EnemyTest::CleanUp()
 {
-
+	
 	return true;
 }
 
@@ -146,10 +146,6 @@ void EnemyTest::Draw()
 			App->render->Blit(entityTex, position.x, position.y);
 	}
 
-	for (uint i = 0; i < path_to_follow.size(); ++i)
-	{
-		iPoint pos = App->map->MapToWorld(path_to_follow[i].x, path_to_follow[i].y);
-		App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
-	}
+	DebugPath(); 
 
 }
