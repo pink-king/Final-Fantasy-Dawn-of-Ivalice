@@ -56,7 +56,7 @@ void UiItem_Checkbox::Draw(const float & dt)
 
 void UiItem_Checkbox::DoLogicClicked(bool do_slide) {
 
-
+	tick->hide = !tick->hide; 
 }
 
 
