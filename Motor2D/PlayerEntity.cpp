@@ -40,6 +40,8 @@ bool PlayerEntity::CleanUp()
 	return true;
 }
 
+
+
 bool PlayerEntity::InputMovement(float dt)
 {
 	bool isMoving = false;
@@ -58,13 +60,6 @@ bool PlayerEntity::InputMovement(float dt)
 		isMoving = true;
 	}
 
-	//iPoint isoPoint = App->map->WorldToMap(position.x, position.y); // convert world coords to iso map coords
-
-	//position.x = isoPoint.x;
-	//position.y = isoPoint.y;
-
-	//LOG("pos x: %f pos y: %f", position.x, position.y);
-
 	if (isMoving)// if we get any input, any direction
 	{
 		// store actual
@@ -73,7 +68,19 @@ bool PlayerEntity::InputMovement(float dt)
 		currentAnimation->SetCurrentFrame(current_cycle_frame);
 	}
 	else
-		currentAnimation = &idle[pointingDir];
+	{
+		//currentAnimation = &idle[pointingDir]; // Redundant, is repeated in the next function, but more clear this way
+		GetInputFromKeyboard(dt);
+	}
+
+	//iPoint isoPoint = App->map->WorldToMap(position.x, position.y); // convert world coords to iso map coords
+
+	//position.x = isoPoint.x;
+	//position.y = isoPoint.y;
+
+	//LOG("pos x: %f pos y: %f", position.x, position.y);
+
+	
 
 	// checks render flip
 	CheckRenderFlip();
@@ -102,6 +109,68 @@ void PlayerEntity::Draw()
 		else
 			App->render->Blit(spritesheet, position.x, position.y);
 	}
+}
+
+void PlayerEntity::GetInputFromKeyboard(float dt)
+{
+	bool up = App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT;
+	bool down = App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT;
+	bool left = App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT;
+	bool right = App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT;
+
+	bool isMoving = false;
+
+	if (up && !down)
+	{
+		isMoving = true;
+		position.y -= characterBaseSpeedKey.y * 100 * dt;
+		pointingDir = 6;
+	}
+	if (down && !up)
+	{
+		isMoving = true;
+		position.y += characterBaseSpeedKey.y * 100 * dt;
+		pointingDir = 2;
+	}
+	if (left && !right)
+	{
+		isMoving = true;
+		position.x -= characterBaseSpeedKey.x * 100 * dt;
+		pointingDir = 4;
+	}
+	if (right && !left)
+	{
+		isMoving = true;
+		position.x += characterBaseSpeedKey.x * 100 * dt;
+		pointingDir = 0;
+	}
+
+	if (up && right && !left)
+	{
+		pointingDir = 5;
+	}
+	if (up && left && !right)
+	{
+		pointingDir = 7;
+	}
+	if (down && left  && !right)
+	{
+		pointingDir = 3;
+	}
+	if (down && right && !left)
+	{
+		pointingDir = 1;
+	}
+
+
+	if (isMoving)
+	{
+		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
+		currentAnimation = &run[pointingDir];
+		currentAnimation->SetCurrentFrame(current_cycle_frame);
+	}
+	else
+		currentAnimation = &idle[pointingDir]; // Redundant, but more clear this way.
 }
 
 int PlayerEntity::GetPointingDir(float angle)

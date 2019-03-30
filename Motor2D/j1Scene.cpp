@@ -49,6 +49,9 @@ bool j1Scene::Start()
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
+	
+	// More perspective on the map since the beggining
+	App->render->camera.x = 500;
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
@@ -90,22 +93,22 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 		App->map->ToggleDebugDraw();
 
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->render->camera.y += 1000 * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
 		App->render->camera.y -= 1000 * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 		App->render->camera.x += 1000 * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->render->camera.x -= 1000 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
