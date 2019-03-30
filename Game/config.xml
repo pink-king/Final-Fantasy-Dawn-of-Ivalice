@@ -69,7 +69,7 @@
 	   
 	    <image name="panelTest">
          <section x="721" y="480" w="338" h="308"/>
-         <position x="150" y="150"/>
+         <position x="150" y="190"/>
 		 <flag isPanel = "1"/>
 		  
 		  <panelBars>
@@ -81,13 +81,6 @@
 		 <type value = "VERTICAL"/>
        </panelBar>
 	   
-	    <panelBar name="slider_in_panel2">
-          <section_bar x="37" y="628" w="43" h="165"/>
-         <position x="350" y="300"/>
-		 <section_thumb x="98" y="640" w="42" h="29"/>
-		 <type value = "VERTICAL"/>
-       </panelBar>
-	     
 	    </panelBars>
 		
 		 <PanelCheckboxes>

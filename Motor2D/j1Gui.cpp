@@ -181,12 +181,26 @@ void j1Gui::ResolveChildren(UiItem* parent){
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
+	
+	// INPUT - - - - - - - - - - - - - - - - - - - - -
+	
+	
+	if (selected_object && selected_object->tabbed && App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		selected_object->DoLogicClicked(false); 
+	}
+
+	
+	
+	
+	// MOVEMENT - - - - - - - - - - - - - - - - - - - - -
+
 	std::list<UiItem*>::iterator item = ListItemUI.begin();
 	if (!setClicked)
 	{
 		for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
-			if ((*item)->guiType == BAR)
+			if ((*item)->guiType == CHECKBOX)
 			{
 
 				selected_object = (*item);     // first set as selected the leftmost bar (first created)  
@@ -199,14 +213,14 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 	else                                                       // this is done in loops
 	{
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		/*if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates; 
 			
 			for (; item != ListItemUI.end(); item++)                
 			{
-				if ((*item)->guiType == BAR)
+				if ((*item)->parent == selected_object->parent)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
 					{
@@ -253,7 +267,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->guiType == BAR)
+				if ((*item)->parent == selected_object->parent)
 				{
 					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
 
@@ -295,6 +309,104 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 		}
 
+		*/
+
+
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		{
+			std::list<UiItem*>::iterator item = ListItemUI.begin();
+			std::list<UiItem*> candidates;
+
+			for (; item != ListItemUI.end(); item++)
+			{
+				if ((*item)->parent == selected_object->parent)
+				{
+					if ((*item)->hitBox.y < selected_object->hitBox.y)
+					{
+						selected_object->tabbed = false;
+						selected_object->state = IDLE;               // deselect current object
+						selected_object->DoLogicAbandoned();
+
+						candidates.push_back(*item);       // add objects on the right to a list
+
+					}
+				}
+			}
+
+			if (!candidates.empty()) {              // IF there ARE items on the right, select the closest one
+
+				int distanceToBeat = 10000;
+				int currentDistance = 0;
+
+				item = candidates.begin();
+
+				for (; item != candidates.end(); item++)        // distance between objects:
+				{
+					currentDistance =  selected_object->hitBox.y - (*item)->hitBox.y;
+
+					if (currentDistance < distanceToBeat)
+					{
+						distanceToBeat = currentDistance;
+						selected_object = (*item);                     // make the closest item be the current one 
+
+
+					}
+				}
+
+				selected_object->state = HOVER;
+				selected_object->tabbed = true;
+			}
+
+		}
+
+
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		{
+			std::list<UiItem*>::iterator item = ListItemUI.begin();
+			std::list<UiItem*> candidates;
+
+			for (; item != ListItemUI.end(); item++)
+			{
+				if ((*item) != selected_object && (*item)->parent == selected_object->parent)
+				{
+					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
+					if ((*item)->hitBox.y > selected_object->hitBox.y)
+					{
+						selected_object->tabbed = false;
+						selected_object->state = IDLE;               // deselect current object
+						selected_object->DoLogicAbandoned();
+
+						candidates.push_back(*item);       // add objects on the right to a list
+
+					}
+				}
+			}
+
+			if (!candidates.empty()) {              // IF there ARE items on the right, select the closest one
+
+				int distanceToBeat = 10000;
+				int currentDistance = 0;
+
+				item = candidates.begin();
+
+				for (; item != candidates.end(); item++)        // distance between objects:
+				{
+					currentDistance = (*item)->hitBox.y - selected_object->hitBox.y;
+
+					if (currentDistance < distanceToBeat)
+					{
+						distanceToBeat = currentDistance;
+						selected_object = (*item);                     // make the closest item be the current one 
+
+
+					}
+				}
+
+				selected_object->state = HOVER;
+				selected_object->tabbed = true;
+			}
+
+		}
 
 
 	}

@@ -236,7 +236,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
 		// App->gui->AddImage(position, &section, parent, isPanel);
 
-
+		
 		// PANELS
 
 		if (isPanel != 1)
@@ -245,6 +245,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		}
 		else
 		{
+
 			UiItem_Image* panel = App->gui->AddImage(position, &section, parent, isPanel);
 
 			// BARS INSIDE PANEL

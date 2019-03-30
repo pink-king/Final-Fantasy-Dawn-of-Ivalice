@@ -15,6 +15,8 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 {
 
 	this->panel_section = *panel_section;
+	this->captureIdleSection = *panel_section;
+
 	this->box_section = *box_section;
 	this->tick_section = *tick_section;
 	this->guiType = GUI_TYPES::CHECKBOX;
@@ -24,21 +26,32 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 
 	// do this in XML ? 
 
-	int box_offset_y = 7; 
-	int box_offset_x = 10;
+	int box_offset_y = 9; 
+	int box_offset_x = 16;
+
+	iPoint boxPos(position.x + box_offset_x, position.y + box_offset_y);
+
+	int tick_offset_y = 3;
+	int tick_offset_x = 3;
+
+	iPoint tickPos(boxPos.x + tick_offset_x, boxPos.y + tick_offset_y);
+
+
 	// - - - - - - - - - - - - - - - - - - - -
 
 	
 
-	// tick
-	tick = App->gui->AddImage(position, tick_section, tick);
-	tick->hide = true; 
 
 	// panel 
 	panel = App->gui->AddImage(position, panel_section, this);
 
 	// box
-	box = App->gui->AddImage(iPoint(position.x + box_offset_x, position.y + box_offset_y), box_section, panel);
+	box = App->gui->AddImage(boxPos, box_section, panel);
+
+	// tick
+	tick = App->gui->AddImage(tickPos, tick_section, tick);
+	tick->hide = true;
+
 
 	// label     // (leave these to the end)
 
@@ -58,6 +71,23 @@ void UiItem_Checkbox::Draw(const float & dt)
 void UiItem_Checkbox::DoLogicClicked(bool do_slide) {
 
 	tick->hide = !tick->hide; 
+}
+
+
+
+void UiItem_Checkbox::DoLogicHovered(bool do_slide) {
+
+	panel->section.x = 284;
+	panel->section.y = 722;
+	panel->section.w = 220;
+	panel->section.h = 48;
+
+}
+
+void UiItem_Checkbox::DoLogicAbandoned(bool do_slide) {
+
+
+	panel->section = this->captureIdleSection;
 }
 
 
