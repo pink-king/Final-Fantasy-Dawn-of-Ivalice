@@ -2,9 +2,11 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1PathFinding.h"
+#include "j1BuffManager.h"
+#include "j1Entity.h"
+//test buff
 #include "j1Input.h"
 #include "j1EntityFactory.h"
-#include "j1BuffManager.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -119,22 +121,32 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
-	fPoint pivotPos = GetPivotPos(position);
+	fPoint pivotPos = GetPivotPos();
 	LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
 	if (App->pathfinding->IsWalkable(onTilePos))
 	{
 		previousPos = position;
-		InputMovement(dt);
+
+		
+		if (!isParalize)
+		{
+			currentAnimation->speed = 10.f;
+			InputMovement(dt);
+		}
+		else
+		{
+			currentAnimation->speed = 0.f;
+		}
 	}
 	else
 	{
 		position = previousPos;
 	}
-
+	//test buff
 	j1Entity* j1 = nullptr;
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_A) == 1)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
 	{
 		std::vector<j1Entity*>::iterator item2 = App->entityFactory->entities.begin();
 
@@ -146,7 +158,7 @@ bool Marche::Update(float dt)
 			}
 		}
 	}
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == 1 || App->input->GetKey(SDL_SCANCODE_B) == 1)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == 1 || App->input->GetKey(SDL_SCANCODE_W) == 1)
 	{
 		std::vector<j1Entity*>::iterator item3 = App->entityFactory->entities.begin();
 
@@ -158,6 +170,18 @@ bool Marche::Update(float dt)
 			}
 		}
 	}
+	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
+		&& !isBurned)
+	{
+		App->buff->CreateBurned(this, this,20);
+	}
+	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == 1 || App->input->GetKey(SDL_SCANCODE_R) == 1)
+		&& !isParalize)
+	{
+		App->buff->CreateParalize(this, this);
+	}
+
+
 	return true;
 }
 

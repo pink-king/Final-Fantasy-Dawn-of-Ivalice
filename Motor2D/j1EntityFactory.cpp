@@ -165,7 +165,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 
 void j1EntityFactory::Debug(j1Entity* ent)
 {
-	fPoint entityPivotPos = ent->GetPivotPos(ent->position);
+	fPoint entityPivotPos = ent->GetPivotPos();
 	//App->render->DrawCircle(entityPivotPos.x, entityPivotPos.y, 3, 0, 255, 0,255 ,true); //TODO: improve drawcircle render (scale,camera)
 	SDL_Rect section = { entityPivotPos.x - 1, entityPivotPos.y - 1, 3,3 };
 	App->render->DrawQuad(section, 0, 255, 0, 255, true, true);
@@ -174,14 +174,12 @@ void j1EntityFactory::Debug(j1Entity* ent)
 
 PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 {
-	PlayerEntityManager* ret = nullptr;
+	player = new PlayerEntityManager(position);
 
-	ret = new PlayerEntityManager(position);
-
-	if (ret != nullptr)
+	if (player != nullptr)
 	{
-		entities.push_back(ret);
-		return ret;
+		entities.push_back(player);
+		return player;
 	}
 	
 	LOG("Failed to create player system");

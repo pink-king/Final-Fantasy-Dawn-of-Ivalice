@@ -47,6 +47,7 @@ public:
 	// functionality ------
 	bool InputMovement(float dt);
 	int GetPointingDir(float angle);
+	void GetInputFromKeyboard(float dt);
 	void CheckRenderFlip(); // animation relative
 	void Draw();
 	
@@ -62,6 +63,7 @@ public:
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
 	fPoint characterBaseSpeed = { 2.0f,1.5f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
+	fPoint characterBaseSpeedKey = { 2.0f, 1.0f };
 	SDL_Texture* spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];
 	Animation run[(int)facingDirection::MAX];
