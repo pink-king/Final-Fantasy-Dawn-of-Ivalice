@@ -106,6 +106,7 @@
     <ClCompile Include="Shara.cpp" />
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
+    <ClCompile Include="UiItem_Checkbox.cpp" />
     <ClCompile Include="UiItem_Image.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Shara.h" />
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Button.h" />
+    <ClInclude Include="UiItem_Checkbox.h" />
     <ClInclude Include="UiItem_Image.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
