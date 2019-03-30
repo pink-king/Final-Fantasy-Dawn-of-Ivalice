@@ -53,13 +53,13 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 	LoadInGameUi(sceneNode);
-	LoadStartMenu(sceneNode);
+	/*LoadStartMenu(sceneNode);
 	LoadPlayerUi(sceneNode);
 	inGamePanel->enable = true;
 	uiMarche->enable = true;
 	uiShara->enable = false;
 	uiRitz->enable = false;
-	startMenu->enable = false;
+	startMenu->enable = false;*/
 
 	return true;
 }
@@ -181,6 +181,8 @@ bool j1Scene::PostUpdate()
 // Called before quitting
 bool j1Scene::CleanUp()
 {
+	App->tex->UnLoad(debug_tex); 
+
 	LOG("Freeing scene");
 	return true;
 }
