@@ -89,6 +89,18 @@
 	     
 	    </bars>
 		
+		 <checkboxes>
+	  <checkbox name="test checkbox">
+	    <panelPosition x="200" y="200"/>
+		<panelSection x="293" y="666" w="200" h="36"/>
+        <boxSection x="518" y="673" w="25" h="25"/>   
+        <tickSection x="555" y="678" w="18" h="18"/>    		
+		<font value = "Open_Sans Bold"/>
+      </checkbox>
+	 </checkboxes>
+	 
+	 
+		
        </image>
 	   
        </images>
@@ -114,7 +126,7 @@
 	 
 	  <checkboxes>
 	  <checkbox name="test checkbox">
-	    <panelPosition x="200" y="200"/>
+	    <panelPosition x="500" y="200"/>
 		<panelSection x="293" y="666" w="200" h="36"/>
         <boxSection x="518" y="673" w="25" h="25"/>   
         <tickSection x="555" y="678" w="18" h="18"/>    		
