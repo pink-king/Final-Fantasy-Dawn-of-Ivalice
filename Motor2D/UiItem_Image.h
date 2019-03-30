@@ -10,7 +10,7 @@ class UiItem_Image : public UiItem
 {
 
 public:
-	UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent);
+	UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel = false);
 	//UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
 	void Draw(const float& dt);
 	SDL_Rect section;
@@ -29,6 +29,7 @@ private:
 	}
 
 	bool hide = false; 
+	bool isPanel = false; 
 
 public: 
 	friend class UiItem_Bar; 

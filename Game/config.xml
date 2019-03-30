@@ -62,10 +62,35 @@
          <position x="41" y="118"/>
        </image>
        <image name="coin">
-         <section x="59" y="519" w="25" h="25"/>
-         <position x="820" y="47"/>
+         <section x="721" y="481" w="338" h="308"/>
+         <position x="150" y="150"/>
        </image>
        
+	   
+	    <image name="panelTest">
+         <section x="721" y="480" w="338" h="308"/>
+         <position x="150" y="150"/>
+		 <flag isPanel = "1"/>
+		  <bars>
+	 
+	 <bar name="temporal_slider_vertical">
+         <section_bar x="187" y="628" w="43" h="165"/>
+         <position x="50" y="300"/>
+		 <section_thumb x="98" y="640" w="42" h="29"/>
+		 <type value = "VERTICAL"/>
+       </bar>
+	   
+	    <bar name="temporal_slider_vertical">
+         <section_bar x="187" y="628" w="43" h="165"/>
+         <position x="50" y="300"/>
+		 <section_thumb x="98" y="640" w="42" h="29"/>
+		 <type value = "VERTICAL"/>
+       </bar>
+	   
+	    </bars>
+		
+       </image>
+	   
        </images>
 	   
      <bars>

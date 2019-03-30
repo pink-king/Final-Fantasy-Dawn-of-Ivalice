@@ -40,14 +40,14 @@ bool j1Gui::Update(float dt)
 
 	// TESTING TAB, its "faked" for the mom, only bars 
 
-	/*if (!resetHoverSwapping)
+	if (!resetHoverSwapping)
 	{
 		ApplyTabBetweenSimilar(resetHoverSwapping);
 		resetHoverSwapping = true; 
 	}
 	else {
 		ApplyTabBetweenSimilar(resetHoverSwapping);
-	}*/
+	}
 
 	return true;
 }
@@ -80,103 +80,88 @@ void j1Gui::DoLogicSelected() {
 
 void j1Gui::SearchandSelectClicked() {
 
-	iPoint mousePos;
-	int x, y; 
-    App->input->GetMousePosition(x, y);
-	mousePos.x = x; 	mousePos.y = y;
 
-	uint mouseButtonDown = App->input->GetCurrentMouseButtonDown();
-	std::list<UiItem*>::iterator item = ListItemUI.begin(); 
+
+	/*std::list<UiItem*>::iterator item = ListItemUI.begin();
 
 	for (; item != ListItemUI.end(); item++)
 	{
-		/*if ((*item)->hitBox.x > 0)   // to prevent selecting the empty object 
-		{*/
-			if (!(*item)->tabbed)               // tabbed items should skip this 
+		if ((*item)->tabbed)               // tabbed items should skip this 
+		{
+			if ((*item)->state != CLICK && mouseButtonDown != 0)
 			{
-				if (mousePos.x * App->win->GetScale()> (*item)->hitBox.x && mousePos.x * App->win->GetScale() < (*item)->hitBox.x + (*item)->hitBox.w
-					&& mousePos.y * App->win->GetScale() >(*item)->hitBox.y && mousePos.y * App->win->GetScale() < (*item)->hitBox.y + (*item)->hitBox.h)
+
+				if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
 				{
-
-					if ((*item)->state != CLICK && mouseButtonDown != 0)
-					{
-
-						/*if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
-						{
-							selected_object->tabbed = false;
-							selected_object->state = IDLE;               // deselect current object
-							selected_object->DoLogicAbandoned();
+					selected_object->tabbed = false;
+					selected_object->state = IDLE;               // deselect current object
+					selected_object->DoLogicAbandoned();
 
 
-							selected_object = (*item);                     // the selected object is now tabbed
-							selected_object->state = HOVER;
-							selected_object->tabbed = true;
-
-						}
-						else
-						{*/
-							(*item)->mouseButtonDown = mouseButtonDown;
-							(*item)->state = CLICK;
-							selected_object = *item;
-						//}
-
-
-					}
-
-					if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
-					{
-						(*item)->state = HOVER;
-					}
-
-					if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
-					{
-						(*item)->state = DRAG;
-					}
-
-
-
-					else if ((*item)->state == IDLE)
-					{
-						(*item)->state = HOVER;
-						(*item)->DoLogicHovered(false);   // check this call
-					}
-
-
+					selected_object = (*item);                     // the selected object is now tabbed
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
 
 				}
-				else  if ((*item)->state != IDLE)       // When an item is outside 
+				else
 				{
-
-
-					if (!(*item)->slidable)        // If it is not slider, then it switches to IDLE
-					{
-						(*item)->state = IDLE;
-						(*item)->DoLogicAbandoned(false);
-					}
-					else if ((*item)->state == DRAG)        // sliders can be dragged outside the bar
-					{
-
-						if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
-						{
-							(*item)->iFriend->state = IDLE;
-							(*item)->state = IDLE;
-						}
-						else
-						{
-							(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
-						}
-					}
-
+				(*item)->mouseButtonDown = mouseButtonDown;
+				(*item)->state = CLICK;
+				selected_object = *item;
 				}
-				if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
-					(*item)->mouseButtonDown = 0;
 
 
 			}
-		}
-//	}
 
-}
+			if (((*item)->state == CLICK) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+			{
+				(*item)->state = HOVER;
+			}
+
+			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
+			{
+				(*item)->state = DRAG;
+			}
+
+
+
+			else if ((*item)->state == IDLE)
+			{
+				(*item)->state = HOVER;
+				(*item)->DoLogicHovered(false);   // check this call
+			}
+
+
+
+		}                    // REWORK ALL THIS WITHOUT MOUSE 
+
+		/*else  if ((*item)->state != IDLE)       // When an item is outside
+		{
+
+
+			if (!(*item)->slidable)        // If it is not slider, then it switches to IDLE
+			{
+				(*item)->state = IDLE;
+				(*item)->DoLogicAbandoned(false);
+			}
+			else if ((*item)->state == DRAG)        // sliders can be dragged outside the bar
+			{
+
+				if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+				{
+					(*item)->iFriend->state = IDLE;
+					(*item)->state = IDLE;
+				}
+				else
+				{
+					(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
+				}
+				}
+			}*/
+
+
+	}
+
 
 /*
 void j1Gui::ResolveChildren(UiItem* parent){
@@ -194,32 +179,6 @@ void j1Gui::ResolveChildren(UiItem* parent){
 }*/
 
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
-
-	// first check that, while one object is tabbed, the user can hover another one (CAUTION HERE): 
-	
-	/*if (selected_object != nullptr && selected_object->guiType == BAR)  // change this to the same tye as current
-	{
-		std::list<UiItem*>::iterator theNewOne = ListItemUI.begin();
-
-		for (; theNewOne != ListItemUI.end(); theNewOne++)
-		{
-			if ((*theNewOne)->guiType == BAR && selected_object != (*theNewOne))
-			{
-				if ( (*theNewOne)->state == CLICK)
-				{
-					selected_object->tabbed = false;
-					selected_object->state = IDLE;               // deselect current object
-					selected_object->DoLogicAbandoned();
-
-					selected_object = (*theNewOne);
-					(*theNewOne)->state = HOVER;
-					(*theNewOne)->tabbed = true;
-				}
-			}
-		}
-
-	}*/
-
 
 
 	std::list<UiItem*>::iterator item = ListItemUI.begin();
@@ -401,14 +360,14 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	
 }
 
-UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent)
+UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = new UiItem_Image(position, section, canvas);
+		newUIItem = new UiItem_Image(position, section, canvas, isPanel);
 	else
-		newUIItem = new UiItem_Image(position, section, parent);
+		newUIItem = new UiItem_Image(position, section, parent, isPanel);
 
 	ListItemUI.push_back(newUIItem);
 
