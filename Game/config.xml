@@ -11,7 +11,7 @@
   </renderer>
 
   <window>
-    <resolution width="1024" height="768" scale="1"/>
+    <resolution width="1280" height="720" scale="2"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -22,11 +22,172 @@
     <path>data.zip</path>
   </file_system>
 
+  <gui>
+    <atlas file="gui/atlasUi.png"/>
+  </gui>
+
+  <scene>
+    <InGameUi>
+     <images>
+       <image name="box_abilities_grey">
+         <section x="1" y="545" w="165" h="43"/>
+         <position x="438" y="682"/>
+       </image>
+       <image name="life_bar">
+         <section x="110" y="482" w="134" h="26"/>
+         <position x="113" y="78"/>
+       </image>
+       <image name="bag">
+         <section x="245" y="482" w="37" h="42"/>
+         <position x="932" y="686 "/>
+       </image>
+       <image name="squareButton">
+         <section x="283" y="482" w="35" h="15"/>
+         <position x="894" y="710"/>
+       </image>
+       <image name="LButton">
+         <section x="319" y="482" w="35" h="15"/>
+         <position x="125" y="23 "/>
+       </image>
+       <image name="RButton">
+         <section x="355" y="482" w="35" h="15"/>
+         <position x="198" y="23 "/>
+       </image>
+       <image name="box_player">
+         <section x="391" y="482" w="63" h="80"/>
+         <position x="40" y="21"/>
+       </image>
+       <image name="level_box">
+         <section x="1 " y="519" w="57" h="24"/>
+         <position x="41" y="118"/>
+       </image>
+       <image name="coin">
+         <section x="59" y="519" w="25" h="25"/>
+         <position x="820" y="47"/>
+       </image>
+       
+       </images>
+	   
+     <bars>
+	 
+	 <bar name="temporal_slider_vertical">
+         <section_bar x="37" y="628" w="43" h="165"/>
+         <position x="50" y="300"/>
+		 <section_thumb x="98" y="640" w="42" h="29"/>
+		 <type value = "VERTICAL"/>
+       </bar>
+	    </bars>
+	   
+	 <labels>
+	  <label name="lel">
+        <text value = "Best Game Ever"/>
+        <position x="50" y="50"/>
+		<color R="200" G="100" B="100" A="200"/>
+		<font value = "Open_Sans Bold"/>
+      </label>
+	 </labels>
+    </InGameUi>
+
+    
+      
+        
+      
+    <InGameUiM>
+      <images>
+        <image name="sword">
+         <section x="167" y="545" w="36" h="36"/>
+         <position x="442" y="685 "/>
+       </image>
+       <image name="sword_ability">
+         <section x="0" y="482" w="36" h="36"/>
+         <position x="482" y="685"/>
+       </image>
+       <image name="glove">
+         <section x="37" y="482" w="36" h="36"/>
+         <position x="522" y="685"/>
+       </image>
+       <image name="orbe">
+         <section x="74" y="482" w="35" h="36"/>
+         <position x="562" y="685"/>
+       </image>
+      <image name="marche">
+         <section x="455" y="482" w="58" h="77"/>
+         <position x="41" y="22"/>
+       </image>
+       <image name="player2">
+         <section x="514" y=" 482" w="55" h="28"/>
+         <position x="115" y="41"/>
+       </image>
+       <image name="player3">
+         <section x="570" y="482" w="55" h="28"/>
+         <position x="188" y="41"/>
+       </image>
+      </images>
+    </InGameUiM>
+
+
+    <InGameUiS>
+      <images>
+        <image name="shara">
+         <section x="257" y="545" w="47" h="64"/>
+         <position x="55" y="35"/>
+       </image>
+       <image name="player2">
+         <section x="514" y=" 511" w="55" h="28"/>
+         <position x="115" y="41"/>
+       </image>
+       <image name="player3">
+         <section x="514" y=" 482" w="55" h="28"/>
+         <position x="188" y="41"/>
+       </image>
+      </images>
+    </InGameUiS>
+
+    
+      
+    <InGameUiR>
+      <images>
+        <image name="ritz">
+         <section x="204" y="545" w="53" h="64"/>
+         <position x="41" y="35"/>
+       </image>
+       <image name="player2">
+         <section x="570" y="482" w="55" h="28"/>
+         <position x="115" y="41"/>
+       </image>
+       <image name="player3">
+         <section x="514" y="511" w="55" h="28"/>
+         <position x="188" y="41"/>
+       </image>
+      </images>
+    </InGameUiR>
+       
+    
+      
+    <StartMenu>
+      <images>
+        <image name="backgroundMenu">
+          <section x="0" y="810" w="1280" h="720"/>
+          <position x="0" y="0"/>
+        </image>
+      </images>
+    </StartMenu>
+    
+  </scene>
+
   <map>
     <folder>maps/</folder>
 	  <levels>
       <level name="iso.tmx"/>
 	  </levels>
   </map>
+    
+  <Buff>
+    <buff  type="additive" name="weapontest" character="Marche" stat="basic" value="5.0" />
+    <buff  type="multiplicative" name="weapontest" character="Marche" stat="hability" value="0.5" />
+    <buff  type="additive" name="armor" character="Marche" stat="basic" value="-5.0" />
+    
+    <timebuff  burnedInSecond="2" paralizeTime="1" />
+  </Buff>
 
 </config>

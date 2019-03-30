@@ -18,11 +18,23 @@ class UiItem_Bar :public UiItem
 {
 protected:
 	TypeBar type = HORIZONTAL;
+	UiItem_Image* thumb = nullptr;
+	UiItem_Image* bar = nullptr;
+	SDL_Rect section;
+
+	//void DoLogicClicked(bool do_slide = false); 
+	void DoLogicHovered(bool do_slide = false);
+	void DoLogicDragged(bool do_slide = false); 
+	void DoLogicAbandoned(bool slidable = false); 
+
 public:
-	UiItem_Bar(iPoint pos, uint mesure, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = { 0,0 }, TypeBar type = HORIZONTAL);
+	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type = VERTICAL);
 	~UiItem_Bar() {}
 	void Draw(const float& dt);
 	float GetBarValue();
+
+
+
 };
 
 

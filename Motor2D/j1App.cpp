@@ -14,6 +14,10 @@
 #include "j1Map.h"
 #include "j1App.h"
 #include "j1Gui.h"
+#include "j1EntityFactory.h"
+#include "j1PathFinding.h"
+#include "j1Fonts.h"
+#include "j1BuffManager.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -30,7 +34,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	map = new j1Map();
 	gui = new j1Gui();
-
+	entityFactory = new j1EntityFactory();
+	pathfinding = new j1PathFinding(); 
+	font = new j1Fonts();
+	buff = new j1BuffManager();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -39,6 +46,11 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
+	AddModule(entityFactory);
+	AddModule(buff);
+	AddModule(pathfinding);
+	AddModule(gui);
+	AddModule(font);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -73,10 +85,6 @@ void j1App::AddModule(j1Module* module)
 bool j1App::Awake()
 {
 	PERF_START(ptimer);
-
-	pugi::xml_document	config_file;
-	pugi::xml_node		config;
-	pugi::xml_node		app_config;
 
 	bool ret = false;
 		
@@ -181,15 +189,8 @@ void j1App::PrepareUpdate()
 	if (pause) 
 		dt = 0.0f;
 	else 
-	{
-		if (transition)
-		{
-			dt = 1.0f / framerateCap;
-			transition = false;
-		}
-		else 
-			dt = frame_time.ReadSec();
-	}
+		dt = 1.0f / framerateCap;
+
 
 	frame_time.Start();
 }
@@ -216,36 +217,18 @@ void j1App::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
-	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) 
-		capFrames = !capFrames;
-
 	static char title[256];
 	std::string capFramesString;
-	if (capFrames) 
-		capFramesString = "ON";
-	
-	else 
-		capFramesString = "OFF";
-	
-	std::string vsyncString;
-	if (vsync) 
-		vsyncString = "ON";
-	else
-		vsyncString = "OFF";
 
-	sprintf_s(title, 256, "SWAP GAME || Last sec frames: %i | Av.FPS: %.2f | Last frame ms: %02u | Framerate cap: %s | Vsync: %s",
-		frames_on_last_update, avg_fps, last_frame_ms, capFramesString.data(), vsyncString.data());
-	App->win->SetTitle(title);
+	sprintf_s(title, 256, "%s" , App->GetTitle());
 
 	//- Cap the framerate
-	if (capFrames)
-	{
-		uint32 delay = MAX(0, (int)capTime - (int)last_frame_ms);
-		//LOG("Should wait: %i", delay);
-		//j1PerfTimer delayTimer;
-		SDL_Delay(delay);
-		//LOG("Has waited:  %f", delayTimer.ReadMs());
-	}
+
+	uint32 delay = MAX(0, (int)capTime - (int)last_frame_ms);
+	//LOG("Should wait: %i", delay);
+	//j1PerfTimer delayTimer;
+	SDL_Delay(delay);
+	//LOG("Has waited:  %f", delayTimer.ReadMs());
 }
 
 // Call modules before each loop iteration
@@ -332,9 +315,11 @@ bool j1App::CleanUp()
 	while(item != modules.rend() && ret == true)
 	{
 		ret = (*item)->CleanUp();
-		--item;
+		++item;
 	}
-
+	
+	modules.size();
+	modules.clear();
 	PERF_PEEK(ptimer);
 
 	return ret;

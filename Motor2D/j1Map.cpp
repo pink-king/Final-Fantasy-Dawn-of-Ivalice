@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Window.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -35,44 +36,42 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	int mapBlitOffset = 50;//TODO: Get this from the xml
-
 	std::list<MapLayer*>::iterator layer = data.layers.begin();
 	for (; layer != data.layers.end(); ++layer)
 	{
 		if ((*layer)->name == "navigationLayer" && showNavLayer == false) {
 			continue;
 		}
-
-		for (int y = 0; y < data.height; ++y)
+		
+		for (int i = 0; i < data.height; ++i)
 		{
-			for (int x = 0; x < data.width; ++x)
+			for (int j = 0; j < data.width; ++j)
 			{
-				int tile_id = (*layer)->Get(x, y);
-				if (tile_id > 0)
+				if (App->render->IsOnCamera(MapToWorld(i + MARGIN_TILE, j + MARGIN_TILE).x , MapToWorld(i + MARGIN_TILE, j - MARGIN_TILE).y, data.tile_width*(MARGIN_TILE + 1), data.tile_height*(MARGIN_TILE + 1)))
 				{
-					TileSet* tileset = GetTilesetFromTileId(tile_id);
-					if (tileset != nullptr)
+					int tile_id = (*layer)->Get(i, j);
+					if (tile_id > 0)
 					{
-						SDL_Rect r = tileset->GetTileRect(tile_id);
-						iPoint pos = MapToWorld(x, y);
+						TileSet* tileset = GetTilesetFromTileId(tile_id);
+						if (tileset != nullptr)
+						{
+							SDL_Rect r = tileset->GetTileRect(tile_id);
+							iPoint pos = MapToWorld(i, j);
 
-						App->render->Blit(tileset->texture, pos.x, pos.y, &r, (*layer)->properties.parallaxSpeed);
-					
+							App->render->Blit(tileset->texture, pos.x, pos.y, &r, (*layer)->properties.parallaxSpeed);
+
+						}
 					}
 				}
 			}
 		}
 	}
-	// advance animation frames
-	//std::list<TileSet*>::iterator tilesets = data.tilesets.begin();
-	//for (; tilesets != data.tilesets.end(); ++tilesets)
-	//{
-	//	if (tilesets->data->anim != nullptr)
-	//	{
-	//		tilesets->data->anim->GetCurrentFrame();
-	//	}
-	//}
+
+	if (debugDraw)
+	{
+		DebugDraw();
+	}
+
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -185,7 +184,7 @@ bool j1Map::CleanUp()
 
 	while(tiles_item != data.tilesets.end())
 	{
-		RELEASE(*tiles_item);
+		data.tilesets.remove(*tiles_item);
 		++tiles_item;
 	}
 	data.tilesets.clear();
@@ -196,7 +195,7 @@ bool j1Map::CleanUp()
 
 	while(layer_item != data.layers.end())
 	{
-		RELEASE(*layer_item);
+		data.layers.remove(*layer_item);
 		++layer_item;
 	}
 	data.layers.clear();
@@ -545,22 +544,19 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
 	pugi::xml_node propertiesNode = node.child("properties");
 
-	if (propertiesNode == NULL)
+	if (propertiesNode != NULL)
 	{
-		LOG("properties not found");
-		ret = false;
-	}
-	else
-	{
-		properties.draw = propertiesNode.find_child_by_attribute("name", "Draw").attribute("value").as_bool(true);
-		properties.navigation = propertiesNode.find_child_by_attribute("name", "Navigation").attribute("value").as_bool(false);
-		properties.testValue = propertiesNode.find_child_by_attribute("name", "testValue").attribute("value").as_int(0);
-		properties.parallaxSpeed = propertiesNode.find_child_by_attribute("name", "parallaxSpeed").attribute("value").as_float(1.0F);
-	//	properties.music_name = propertiesNode.find_child_by_attribute("name", "background_music").attribute("value").as_string();
-		//properties.fx_name = propertiesNode.find_child_by_attribute("name", "background_music").attribute("value").as_string();
+		pugi::xml_node prop;
 
-		// associated gui xml with this map ----
-	//	properties.gui_xml_path = propertiesNode.find_child_by_attribute("name", "associated_gui_xml").attribute("value").as_string();
+		for (prop = propertiesNode.child("property"); prop; prop = prop.next_sibling("property"))
+		{
+			Properties::Property* p = new Properties::Property();
+
+			p->name = prop.attribute("name").as_string();
+			p->value = prop.attribute("value").as_int();
+
+			properties.list.push_back(p);
+		}
 	}
 
 	return ret;
@@ -609,4 +605,28 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	}
 
 	return ret;
+}
+
+void j1Map::ToggleDebugDraw()
+{
+	debugDraw = !debugDraw;
+}
+
+void j1Map::DebugDraw()
+{
+	// isometric debug grids
+	// parallel to x
+	for (int x = 0; x < data.height + 1; ++x)
+	{
+		iPoint startPoint = MapToWorld(1, x);
+		iPoint finalPoint = MapToWorld(data.height + 1, x);
+		App->render->DrawLine(startPoint.x, startPoint.y, finalPoint.x, finalPoint.y, 0, 255, 0);
+	}
+	// parallel to y
+	for (int j = 1; j < data.width + 2; ++j)
+	{
+		iPoint startPoint = MapToWorld(j, 0);
+		iPoint finalPoint = MapToWorld(j, data.width);
+		App->render->DrawLine(startPoint.x, startPoint.y, finalPoint.x, finalPoint.y, 0, 255, 0);
+	}
 }

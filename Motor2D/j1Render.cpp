@@ -4,8 +4,6 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
-#define VSYNC true
-
 j1Render::j1Render() : j1Module()
 {
 	name.assign("renderer");
@@ -27,7 +25,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if(config.child("vsync").attribute("value").as_bool(true) == true)
+	if(config.child("vsync").attribute("value").as_bool(true) == false)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
@@ -133,12 +131,21 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const
+{
+	int scale = App->win->GetScale();
+
+	SDL_Rect r = { x*scale,y*scale,w*scale,h*scale };
+	SDL_Rect cam = { -camera.x,-camera.y,camera.w,camera.h };
+
+	return SDL_HasIntersection(&r, &cam);
+}
+
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
-
 	SDL_Rect rect;
 	rect.x = (int)(camera.x * speed) + x * scale;
 	rect.y = (int)(camera.y * speed) + y * scale;
@@ -166,7 +173,34 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		p = &pivot;
 	}
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
+	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flip) != 0)
+	{
+		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
+
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed) const
+{
+	bool ret = true;
+
+	SDL_Rect rect;
+	rect.x = (int)(camera.x * speed) + x;
+	rect.y = (int)(camera.y * speed) + y;
+
+	if (section != NULL)
+	{
+		rect.w = section->w;
+		rect.h = section->h;
+	}
+	else
+	{
+		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+	}
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, 0, 0, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
@@ -242,8 +276,16 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 
 	for(uint i = 0; i < 360; ++i)
 	{
-		points[i].x = (int)(x + radius * cos(i * factor));
-		points[i].y = (int)(y + radius * sin(i * factor));
+		if (use_camera)
+		{
+			points[i].x = (int)(x + radius * cos(i * factor));
+			points[i].y = (int)(y + radius * sin(i * factor));
+		}
+		else
+		{
+			points[i].x = (int)((x + camera.x) + radius * cos(i * factor));
+			points[i].y = (int)((y + camera.y) + radius * sin(i * factor));
+		}
 	}
 
 	result = SDL_RenderDrawPoints(renderer, points, 360);

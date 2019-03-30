@@ -19,6 +19,10 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Gui;
+class j1EntityFactory;
+class j1PathFinding;
+class j1Fonts;
+class j1BuffManager;
 
 class j1App
 {
@@ -82,6 +86,12 @@ private:
 	bool LoadGameNow();
 	bool SavegameNow() const;
 
+private:
+
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
+	pugi::xml_node		app_config;
+
 public:
 
 	// Modules
@@ -93,8 +103,11 @@ public:
 	j1Scene*			scene = nullptr;
 	j1Map*				map = nullptr;
 	j1Gui*              gui = nullptr;
+	j1EntityFactory*	entityFactory = nullptr;
+	j1PathFinding*		pathfinding = nullptr; 
+	j1Fonts*			font = nullptr;
+	j1BuffManager*		buff = nullptr;
 
-	bool				transition = false;
 	bool				vsync = false;
 	bool				pause = false;
 

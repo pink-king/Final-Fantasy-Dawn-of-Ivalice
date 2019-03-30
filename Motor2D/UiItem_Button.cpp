@@ -7,7 +7,7 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 
-UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot) : UiItem(hitBox, parent, pivot)
+UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot) : UiItem(pivot, parent)
 {
 }
 
