@@ -55,10 +55,21 @@ bool j1Scene::Start()
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
+
+	LoadInGameUi(sceneNode);
+	LoadStartMenu(sceneNode);
+	LoadPlayerUi(sceneNode);
+	inGamePanel->enable = true;
+	uiMarche->enable = true;
+	uiShara->enable = false;
+	uiRitz->enable = false;
+	startMenu->enable = false;
+
 	//LoadInGameUi(sceneNode);
 	//// LoadStartMenu(sceneNode);
 	//inGamePanel->enable = true;
 	//// startMenu->enable = false;
+
 
 	return true;
 }
@@ -128,6 +139,28 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
+	{
+		if (uiMarche->enable)
+		{
+			uiMarche->enable = false;
+			uiShara->enable = true;
+			uiRitz->enable = false;
+		}
+		else if (uiShara->enable)
+		{
+			uiShara->enable = false;
+			uiRitz->enable = true;
+			uiMarche->enable = false;
+		}
+		else if (uiRitz->enable)
+		{
+			uiRitz->enable = false;
+			uiMarche->enable = true;
+			uiShara->enable = false;
+		}
+	}
+
 	App->map->Draw();
 
 	int x, y;
@@ -161,12 +194,15 @@ bool j1Scene::PostUpdate()
 // Called before quitting
 bool j1Scene::CleanUp()
 {
+	App->tex->UnLoad(debug_tex); 
+
 	LOG("Freeing scene");
 	return true;
 }
 
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
+
 	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
@@ -207,6 +243,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	}
 
 
+	
+
+
 
 }
 
@@ -218,10 +257,28 @@ bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 	return true;
 }
 
+
 bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node StartMenuNode = nodeScene.child("StartMenu");
 	startMenu= App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(startMenu, StartMenuNode);
+	return true;
+}
+
+bool j1Scene::LoadPlayerUi(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node marcheNode = nodeScene.child("InGameUiM");
+	uiMarche = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiMarche, marcheNode);
+
+	pugi::xml_node sharaNode = nodeScene.child("InGameUiS");
+	uiShara = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiShara, sharaNode);
+
+	pugi::xml_node ritzNode = nodeScene.child("InGameUiR");
+	uiRitz = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiRitz, ritzNode);
+
 	return true;
 }

@@ -6,6 +6,7 @@
 #include "j1Input.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include "j1Window.h"
 #include "p2Log.h"
 
 j1Gui::j1Gui() : j1Module() 
@@ -39,14 +40,14 @@ bool j1Gui::Update(float dt)
 
 	// TESTING TAB, its "faked" for the mom, only bars 
 
-	if (!resetHoverSwapping)
+	/*if (!resetHoverSwapping)
 	{
 		ApplyTabBetweenSimilar(resetHoverSwapping);
 		resetHoverSwapping = true; 
 	}
 	else {
 		ApplyTabBetweenSimilar(resetHoverSwapping);
-	}
+	}*/
 
 	return true;
 }
@@ -89,88 +90,91 @@ void j1Gui::SearchandSelectClicked() {
 
 	for (; item != ListItemUI.end(); item++)
 	{
-		if (!(*item)->tabbed)               // tabbed items should skip this 
-		{
-			if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
-				&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
+		/*if ((*item)->hitBox.x > 0)   // to prevent selecting the empty object 
+		{*/
+			if (!(*item)->tabbed)               // tabbed items should skip this 
 			{
-
-				if ((*item)->state != CLICK && mouseButtonDown != 0)
+				if (mousePos.x * App->win->GetScale()> (*item)->hitBox.x && mousePos.x * App->win->GetScale() < (*item)->hitBox.x + (*item)->hitBox.w
+					&& mousePos.y * App->win->GetScale() >(*item)->hitBox.y && mousePos.y * App->win->GetScale() < (*item)->hitBox.y + (*item)->hitBox.h)
 				{
 
-					if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
+					if ((*item)->state != CLICK && mouseButtonDown != 0)
 					{
-						selected_object->tabbed = false;
-						selected_object->state = IDLE;               // deselect current object
-						selected_object->DoLogicAbandoned();
+
+						/*if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
+						{
+							selected_object->tabbed = false;
+							selected_object->state = IDLE;               // deselect current object
+							selected_object->DoLogicAbandoned();
 
 
-						selected_object = (*item);                     // the selected object is now tabbed
-				        selected_object->state = HOVER;
-				        selected_object->tabbed = true;
+							selected_object = (*item);                     // the selected object is now tabbed
+							selected_object->state = HOVER;
+							selected_object->tabbed = true;
+
+						}
+						else
+						{*/
+							(*item)->mouseButtonDown = mouseButtonDown;
+							(*item)->state = CLICK;
+							selected_object = *item;
+						//}
+
 
 					}
-					else
+
+					if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
 					{
-						(*item)->mouseButtonDown = mouseButtonDown;
-						(*item)->state = CLICK;
-						selected_object = *item;
+						(*item)->state = HOVER;
 					}
-					
-					//ResolveChildren(selected_object); 
-				}
 
-				if (((*item)->state == CLICK || (*item)->state == DRAG) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
-				{
-					(*item)->state = HOVER;
-				}
-
-				if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
-				{
-					(*item)->state = DRAG;
-				}
-
-
-
-				else if ((*item)->state == IDLE)
-				{
-				(*item)->state = HOVER;
-				(*item)->DoLogicHovered(false);   // check this call
-			    }
-
-			
-
-			}
-			else  if ((*item)->state != IDLE)       // When an item is outside 
-			{                                      
-
-
-				if (!(*item)->slidable)        // If it is not slider, then it switches to IDLE
-				{
-					(*item)->state = IDLE;
-					(*item)->DoLogicAbandoned(false);                         
-				}            
-				else if((*item)->state == DRAG)        // sliders can be dragged outside the bar
-				{
-					
-					if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+					if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
 					{
-						(*item)->iFriend->state = IDLE;        
+						(*item)->state = DRAG;
+					}
+
+
+
+					else if ((*item)->state == IDLE)
+					{
+						(*item)->state = HOVER;
+						(*item)->DoLogicHovered(false);   // check this call
+					}
+
+
+
+				}
+				else  if ((*item)->state != IDLE)       // When an item is outside 
+				{
+
+
+					if (!(*item)->slidable)        // If it is not slider, then it switches to IDLE
+					{
 						(*item)->state = IDLE;
+						(*item)->DoLogicAbandoned(false);
 					}
-					else
+					else if ((*item)->state == DRAG)        // sliders can be dragged outside the bar
 					{
-						(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
+
+						if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
+						{
+							(*item)->iFriend->state = IDLE;
+							(*item)->state = IDLE;
+						}
+						else
+						{
+							(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
+						}
 					}
+
 				}
+				if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
+					(*item)->mouseButtonDown = 0;
+
 
 			}
-			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_IDLE)
-				(*item)->mouseButtonDown = 0;
-
-
 		}
-	}
+//	}
 
 }
 
@@ -193,9 +197,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	// first check that, while one object is tabbed, the user can hover another one (CAUTION HERE): 
 	
-	
-	
-	if (selected_object != nullptr && selected_object->guiType == BAR)  // change this to the same tye as current
+	/*if (selected_object != nullptr && selected_object->guiType == BAR)  // change this to the same tye as current
 	{
 		std::list<UiItem*>::iterator theNewOne = ListItemUI.begin();
 
@@ -216,7 +218,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			}
 		}
 
-	}
+	}*/
 
 
 
@@ -362,7 +364,7 @@ bool j1Gui::PostUpdate()
 		if (debug_)
 		{
 
-			if ((*iter)->parent!=NULL && (*iter)->parent->enable)
+			if ((*iter)->hitBox.x > 0)
 			{
 				SDL_Rect r;
 				r.x = (*iter)->hitBox.x;
@@ -379,7 +381,7 @@ bool j1Gui::PostUpdate()
 			}
 
 		}
-
+		
 	}
 	return true;
 }
