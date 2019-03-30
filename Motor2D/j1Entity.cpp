@@ -28,8 +28,6 @@ bool j1Entity::PreUpdate()
 
 bool j1Entity::Update(float dt)
 {
-	if (stat.size() != 0)
-		App->buff->DamageInTime(this);
 	return true;
 }
 bool j1Entity::PostUpdate()
