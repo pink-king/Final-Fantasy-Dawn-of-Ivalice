@@ -31,7 +31,7 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 
 void UiItem_Label::Draw(const float & dt)
 {
-	App->render->Blit(texture, hitBox.x, hitBox.y, NULL, 0.0F, SDL_FLIP_NONE);
+	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
 
 
 
