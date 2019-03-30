@@ -56,14 +56,14 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 
-	LoadInGameUi(sceneNode);
+	/*LoadInGameUi(sceneNode);
 	LoadStartMenu(sceneNode);
 	LoadPlayerUi(sceneNode);
 	inGamePanel->enable = true;
 	uiMarche->enable = true;
 	uiShara->enable = false;
 	uiRitz->enable = false;
-	startMenu->enable = false;
+	startMenu->enable = false;*/
 
 	//LoadInGameUi(sceneNode);
 	//// LoadStartMenu(sceneNode);

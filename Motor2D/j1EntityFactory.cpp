@@ -169,7 +169,7 @@ void j1EntityFactory::Debug(j1Entity* ent)
 	//App->render->DrawCircle(entityPivotPos.x, entityPivotPos.y, 3, 0, 255, 0,255 ,true); //TODO: improve drawcircle render (scale,camera)
 	SDL_Rect section = { entityPivotPos.x - 1, entityPivotPos.y - 1, 3,3 };
 	App->render->DrawQuad(section, 0, 255, 0, 255, true, true);
-	LOG("position:%f,%f", ent->position.x, ent->position.y);
+	//LOG("position:%f,%f", ent->position.x, ent->position.y);
 }
 
 PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
