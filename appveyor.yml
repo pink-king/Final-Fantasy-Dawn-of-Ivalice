@@ -1,0 +1,19 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+build:
+  verbosity: minimal
+before_package:
+- ps: Copy-Item C:\projects(Final-Fantasy-Tactics)$env:CONFIGURATION(Final_Fantasy-Dawn_of_Ivalice).exe C:\projects(Final-Fantasy-Tactics)\Game\
+artifacts:
+- path: C:\Users\Gerard Clotet\Documents\GitHub\Final-Fantasy-Tactics
+  name: Release
+  type: WebDeployPackage
+deploy:
+- provider: GitHub
+  description: Auto Release
+  auth_token:
+    secure: qq114C/HPdBU/GzHBS5zpkUVFw3uWSPHm2/0S5cy05PfwK/dn/DOQAEouAhqPiUT
+  draft: true

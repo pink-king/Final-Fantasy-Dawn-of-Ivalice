@@ -58,6 +58,45 @@
     <ClCompile Include="j1Timer.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="j1Entity.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="j1EntityFactory.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEntityManager.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Ritz.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Marche.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Shara.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEntity.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Fonts.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTest.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="j1PathFinding.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1SceneUi.cpp">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="j1BuffManager.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -135,6 +174,45 @@
     <ClInclude Include="j1Timer.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="j1EntityFactory.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Entity.h">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEntityManager.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Ritz.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Marche.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Shara.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEntity.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Fonts.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTest.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="j1PathFinding.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1SceneUi.h">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="j1BuffManager.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Desenvolupament  ========">
@@ -157,6 +235,15 @@
     </Filter>
     <Filter Include="p2Help">
       <UniqueIdentifier>{a8bfab6a-5472-4969-943e-861a8b493f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities">
+      <UniqueIdentifier>{6132d18a-6607-4590-b8c9-6ed5a7a12b67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Player">
+      <UniqueIdentifier>{44c3487b-1685-40ae-8523-5f25d1c05244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Enemies">
+      <UniqueIdentifier>{08d64058-d931-412e-ba90-826c6b64e970}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

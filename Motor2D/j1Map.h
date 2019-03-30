@@ -7,7 +7,7 @@
 #include "j1Module.h"
 
 
-#define MAX_OBJECTGROUP_COLLIDERS 100
+#define MARGIN_TILE 1
 
 struct Properties
 {
@@ -24,15 +24,13 @@ struct Properties
 
 		while(*item != NULL)
 		{
-			RELEASE(*item);
+			list.remove(*item);
 			++item;
 		}
 
 		list.clear();
 	}
-	bool draw = true;
-	bool navigation = false;
-	int testValue = 0;
+
 	float parallaxSpeed = 1.0f;
 
 	int Get(const char* name, int default_value = 0) const;
@@ -141,6 +139,8 @@ public:
 
 	// Called each loop iteration
 	void Draw();
+	void DebugDraw();
+	void ToggleDebugDraw();
 
 	// Called before quitting
 	bool CleanUp();
@@ -175,7 +175,8 @@ private:
 
 	pugi::xml_document	map_file;
 	std::string			folder;
-	SDL_Texture*		texture;
+	SDL_Texture*		texture = nullptr;
+	bool debugDraw = true;
 };
 
 #endif // __j1MAP_H__

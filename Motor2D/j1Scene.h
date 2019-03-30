@@ -4,6 +4,9 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+class UiItem_Image;
+class UiItem_Label;
+class UiItem;
 
 class j1Scene : public j1Module
 {
@@ -15,7 +18,7 @@ public:
 	virtual ~j1Scene();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node& node);
 
 	// Called before the first frame
 	bool Start();
@@ -32,9 +35,19 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+public:
+	UiItem * inGamePanel = nullptr;
+	UiItem * startMenu = nullptr;
+	bool debug = false;
 
 private:
 	SDL_Texture* debug_tex;
+	pugi::xml_node sceneNode;
+private:
+	void LoadUiElement(UiItem*parent, pugi::xml_node node);
+	bool LoadInGameUi(pugi::xml_node& nodeScene);
+	bool LoadStartMenu(pugi::xml_node& nodeScene);
+
 };
 
 #endif // __j1SCENE_H__
