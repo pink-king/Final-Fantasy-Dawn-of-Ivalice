@@ -5,6 +5,7 @@
 #include "p2Point.h"
 #include <string>
 
+
 enum UI_STATES
 {
 	IDLE,
@@ -40,6 +41,7 @@ public:
 	~UiItem();
 	virtual void Draw(const float&) {};
 	void DrawUi(float dt);
+	void Draw_Cursor(float dt);
 	bool slidable = false; 
 	bool tabbed = false; 
 	bool enable = true;

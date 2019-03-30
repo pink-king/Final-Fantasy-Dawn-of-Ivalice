@@ -59,7 +59,10 @@ bool j1Input::Awake(pugi::xml_node& config)
 		}
 	}
 	// ------------------------
-	return ret;
+
+	
+	
+
 
 	return ret;
 }
@@ -67,6 +70,7 @@ bool j1Input::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Input::Start()
 {
+
 	SDL_StopTextInput();
 	return true;
 }

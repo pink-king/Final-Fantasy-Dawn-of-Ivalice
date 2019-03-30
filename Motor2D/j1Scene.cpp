@@ -187,6 +187,7 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
+
 	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
@@ -225,6 +226,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		App->gui->AddBar(iPoint(position.x + 300, position.y), &section_bar, &section_thumb, nullptr, VERTICAL);
 		App->gui->AddBar(iPoint(position.x + 450, position.y), &section_bar, &section_thumb, nullptr, VERTICAL);
 	}
+
+
+	
 
 
 

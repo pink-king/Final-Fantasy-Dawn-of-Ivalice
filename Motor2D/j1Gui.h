@@ -22,7 +22,6 @@ public:
 	bool Start();
 	bool Update(float dt);
 	void SearchandSelectClicked(); 
-	void ResolveChildren(UiItem*); 
 	void DoLogicSelected(); 
 	void ApplyTabBetweenSimilar(bool setClicked = false); 
 
