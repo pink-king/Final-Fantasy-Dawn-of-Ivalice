@@ -28,7 +28,7 @@ protected:
 	void DoLogicAbandoned(bool slidable = false); 
 
 public:
-	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type = VERTICAL);
+	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent/*, TypeBar type = VERTICAL*/);
 	~UiItem_Bar() {}
 	void Draw(const float& dt);
 	float GetBarValue();

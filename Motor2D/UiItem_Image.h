@@ -15,7 +15,7 @@ public:
 	void Draw(const float& dt);
 	SDL_Rect section;
 
-
+	
 private: 
 
 	SDL_Rect* ReturnPos()
@@ -28,9 +28,11 @@ private:
 		this->hitBox.y = pos.y;
 	}
 
+	bool hide = false; 
+
 public: 
 	friend class UiItem_Bar; 
-
+	friend class UiItem_Checkbox;
 
 };
 

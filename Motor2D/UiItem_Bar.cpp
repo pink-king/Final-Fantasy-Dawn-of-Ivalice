@@ -11,7 +11,7 @@
 #include "p2Point.h"
 #include "p2log.h"
 
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent, TypeBar type):UiItem(position, parent)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent/*, TypeBar type*/):UiItem(position, parent)
 {
 
 	this->section = *section;

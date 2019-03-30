@@ -86,6 +86,19 @@
 		<font value = "Open_Sans Bold"/>
       </label>
 	 </labels>
+	 
+	  <checkboxes>
+	  <checkbox name="test checkbox">
+	    <panelPosition x="200" y="200"/>
+		<panelSection x="293" y="666" w="200" h="36"/>
+        <boxSection x="518" y="673" w="25" h="25"/>   
+        <tickSection x="555" y="678" w="18" h="18"/>    		
+		<font value = "Open_Sans Bold"/>
+      </checkbox>
+	 </checkboxes>
+	 
+	 
+	 
     </InGameUi>
 
     
@@ -183,11 +196,8 @@
   </map>
     
   <Buff>
-    <buff  type="additive" name="weapontest" character="Marche" stat="basic" value="5.0" />
-    <buff  type="multiplicative" name="weapontest" character="Marche" stat="hability" value="0.5" />
-    <buff  type="additive" name="armor" character="Marche" stat="basic" value="-5.0" />
-    
-    <timebuff  burnedInSecond="2" paralizeTime="1" />
+      <buff  type="additive" name="weapontest" character="Marche" stat="basic" value="5.0" />
+       <buff  type="multiplicative" name="weapontest" character="Marche" stat="hability" value="0.5" />
   </Buff>
 
 </config>

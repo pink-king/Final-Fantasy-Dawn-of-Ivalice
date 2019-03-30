@@ -415,11 +415,11 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
-UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type)
+UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Bar(position, section, thumb_section, parent, type);
+	newUIItem = new UiItem_Bar(position, section, thumb_section, parent); // , type);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -437,6 +437,16 @@ UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 
 	ListItemUI.push_back(newUIItem);
 	return newUIItem;
+}
+
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem*const parent)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section); 
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Checkbox*)newUIItem;
 }
 
 SDL_Texture * j1Gui::GetAtlas()

@@ -11,38 +11,40 @@
 #include "p2Point.h"
 #include "p2log.h"
 
-UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, UiItem * const parent) :UiItem(position, parent)
+UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem * const parent) :UiItem(position, parent)
 {
 
 	this->panel_section = *panel_section;
 	this->box_section = *box_section;
+	this->tick_section = *tick_section;
 	this->guiType = GUI_TYPES::CHECKBOX;
 
 	this->hitBox.x = position.x;
 	this->hitBox.y = position.y;
 
+	// do this in XML ? 
+
+	int box_offset_y = 7; 
+	int box_offset_x = 10;
+	// - - - - - - - - - - - - - - - - - - - -
+
 	
-	/*bar = App->gui->AddImage(position, section, parent);
-	// thumb
-	thumb = App->gui->AddImage(position, thumb_section, parent);
-	thumb->slidable = true;
-	thumb->parent = bar;
-	thumb->iFriend = this;*/
+
+	// tick
+	tick = App->gui->AddImage(position, tick_section, tick);
+	tick->hide = true; 
+
+	// panel 
+	panel = App->gui->AddImage(position, panel_section, this);
 
 	// box
-	
+	box = App->gui->AddImage(iPoint(position.x + box_offset_x, position.y + box_offset_y), box_section, panel);
 
 	// label     // (leave these to the end)
 
-	// panel 
 
 
 
-	// tick
-
-	// to check mouse 
-	this->hitBox.w = section->w;
-	this->hitBox.h = section->h;
 }
 
 void UiItem_Checkbox::Draw(const float & dt)
