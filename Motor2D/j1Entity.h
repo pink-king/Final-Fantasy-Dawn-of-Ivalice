@@ -3,6 +3,7 @@
 
 #include "p2Animation.h"
 #include "p2Point.h"
+#include "j1Timer.h"
 
 #include "j1Module.h"
 #include "j1Textures.h"
@@ -16,6 +17,24 @@ enum ENTITY_TYPE
 		ENTITY_DYNAMIC,
 		ENEMY_TEST
 	};
+
+enum class STAT_TYPE
+{
+	NORMAL,
+	BURNED_STAT,
+	PARALIZE_STAT
+};
+
+class entityStat
+{
+public:
+	entityStat(STAT_TYPE stat, float maxDamage):type(stat), maxDamage(maxDamage){}
+	entityStat() {};
+public:
+	STAT_TYPE		type;
+	float			maxDamage;
+	j1Timer			count;
+};
 
 struct EntityInfo
 {
@@ -42,26 +61,29 @@ public:
 
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
-	fPoint GetPivotPos(fPoint position);
+	fPoint GetPivotPos() const;
 	virtual void LoadEntitydata(pugi::xml_node&);
 
 public:
-	std::string			name;
-	fPoint				position;
-	iPoint				size;
-	fPoint				pivot;
-	ENTITY_TYPE			type;
-	SDL_RendererFlip	flip = SDL_FLIP_NONE;
+	std::string				name;
+	fPoint					position;
+	iPoint					size;
+	fPoint					pivot;
+	ENTITY_TYPE				type;
+	std::list<entityStat*>	stat;
+	SDL_RendererFlip		flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
-	float				life = 100.f;
-	pugi::xml_document	file;
-	pugi::xml_parse_result result;
+	float					life = 100.f;
+	float					defence = 5.f;
+	pugi::xml_document		file;
+	pugi::xml_parse_result	result;
 
-	bool				isInRange = false;
-
+	bool					isInRange = false;
+	bool					isParalize = false;
+	bool					isBurned = false;
 	//Animation			idle;
-	Animation*			currentAnimation = nullptr;
-	SDL_Texture*		entityTex = nullptr;
+	Animation*				currentAnimation = nullptr;
+	SDL_Texture*			entityTex = nullptr;
 	
 };
 

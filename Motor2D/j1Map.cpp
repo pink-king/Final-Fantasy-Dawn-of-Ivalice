@@ -36,7 +36,6 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-
 	std::list<MapLayer*>::iterator layer = data.layers.begin();
 	for (; layer != data.layers.end(); ++layer)
 	{
@@ -67,6 +66,12 @@ void j1Map::Draw()
 			}
 		}
 	}
+
+	if (debugDraw)
+	{
+		DebugDraw();
+	}
+
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -600,4 +605,28 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	}
 
 	return ret;
+}
+
+void j1Map::ToggleDebugDraw()
+{
+	debugDraw = !debugDraw;
+}
+
+void j1Map::DebugDraw()
+{
+	// isometric debug grids
+	// parallel to x
+	for (int x = 0; x < data.height + 1; ++x)
+	{
+		iPoint startPoint = MapToWorld(1, x);
+		iPoint finalPoint = MapToWorld(data.height + 1, x);
+		App->render->DrawLine(startPoint.x, startPoint.y, finalPoint.x, finalPoint.y, 0, 255, 0);
+	}
+	// parallel to y
+	for (int j = 1; j < data.width + 2; ++j)
+	{
+		iPoint startPoint = MapToWorld(j, 0);
+		iPoint finalPoint = MapToWorld(j, data.width);
+		App->render->DrawLine(startPoint.x, startPoint.y, finalPoint.x, finalPoint.y, 0, 255, 0);
+	}
 }

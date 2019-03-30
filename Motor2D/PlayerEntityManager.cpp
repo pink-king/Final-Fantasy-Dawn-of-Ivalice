@@ -2,6 +2,10 @@
 #include "PlayerEntityManager.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1Map.h"
+#include "j1BuffManager.h"
+//buff test
+#include "j1Window.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
 {
@@ -14,6 +18,12 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, po
 	characters.push_back(shara);
 
 	selectedCharacterEntity = marche;
+
+	// debug normal tile tex
+	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
+
+	debug = true;
+	
 }
 
 PlayerEntityManager::~PlayerEntityManager()
@@ -40,6 +50,8 @@ bool PlayerEntityManager::Start()
 
 	pivot = selectedCharacterEntity->pivot;
 
+
+
 	return true;
 }
 
@@ -55,10 +67,20 @@ bool PlayerEntityManager::Update(float dt)
 	SwapInputChecker(); // checks gamepad triggers input
 
 	selectedCharacterEntity->Update(dt);
-
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
-	//pivot = selectedCharacterEntity->pivot;
+	//provisional function to life
+	std::vector<PlayerEntity*>::iterator item = characters.begin();
+	for (; item != characters.end(); ++item)
+	{
+		if ((*item) != selectedCharacterEntity)
+			(*item)->life = selectedCharacterEntity->life;
+	}
+
+	static char title[30];
+	sprintf_s(title, 30, " | player life: %f", (*selectedCharacterEntity).life);
+	App->win->SetTitle(title);
+
 
 	return ret;
 }
@@ -67,6 +89,14 @@ bool PlayerEntityManager::PostUpdate()
 {
 
 	selectedCharacterEntity->PostUpdate();
+
+	if (debug)
+	{
+		fPoint pivotPos = GetPivotPos();
+		iPoint debugTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
+		debugTilePos = App->map->MapToWorld(debugTilePos.x, debugTilePos.y);
+		App->render->Blit(debugTileTex, debugTilePos.x, debugTilePos.y, NULL);
+	}
 	
 	return true;
 }
@@ -87,12 +117,12 @@ bool PlayerEntityManager::SwapInputChecker()
 
 	// checks gamepad and swaps character
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
 	{
 		SetPreviousCharacter();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 	{
 		SetNextCharacter();
 	}

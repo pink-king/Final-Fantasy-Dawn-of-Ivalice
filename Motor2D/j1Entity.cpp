@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "j1EntityFactory.h"
 #include "j1Window.h"
+#include "j1BuffManager.h"
 #include "p2Log.h"
 #include "Brofiler\Brofiler.h"
 
@@ -37,6 +38,12 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
+	std::list<entityStat*>::iterator item = stat.begin();
+	for (; item != stat.end(); ++item)
+	{
+		stat.remove(*item);
+	}
+	stat.clear();
 	return true;
 }
 
@@ -55,9 +62,9 @@ void j1Entity::SetPivot(const float & x, const float & y)
 	pivot.create(x,y );
 }
 
-fPoint j1Entity::GetPivotPos(fPoint pos)
+fPoint j1Entity::GetPivotPos() const
 {
-	return pos + pivot;
+	return position + pivot;
 }
 
 bool j1Entity::Move(float dt)

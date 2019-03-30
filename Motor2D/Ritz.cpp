@@ -1,6 +1,9 @@
 
 #include "Ritz.h"
 
+#include "j1Input.h"
+#include "j1BuffManager.h"
+
 Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 {
 	character = characterName::RITZ;
@@ -114,6 +117,11 @@ bool Ritz::Update(float dt)
 {
 	InputMovement(dt);
 
+	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
+		&& !isBurned)
+	{
+		App->buff->CreateBurned(this, this, 10);
+	}
 	return true;
 }
 
