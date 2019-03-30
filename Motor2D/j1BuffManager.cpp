@@ -25,8 +25,6 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 	}
 
 	burnedDamagesecond = node.child("timebuff").attribute("burnedInSecond").as_float();
-	burnedTotalDamage = node.child("timebuff").attribute("burnedTotalDamage").as_float();
-	paralizetime = node.child("timebuff").attribute("paralizeTime").as_float();
 	return ret;
 }
 
@@ -88,7 +86,7 @@ void j1BuffManager::RemoveBuff(std::string name)
 			buffs.remove((*item));
 }
 
-float j1BuffManager::CalculateStat(const j1Entity* ent, float& initialDamage, std::string stat)
+float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std::string stat)
 {
 
 	float totalMult = 0.f;
@@ -120,9 +118,7 @@ uint j1BuffManager::GetNewSourceID()
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, std::string stat)
 {
-
-	float powerAttack = CalculateStat(attacker, initialDamage, stat);
-	defender->life -= powerAttack;
+	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);;
 	if (defender->life < 0)
 		defender->life = 0;
 }
@@ -130,7 +126,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damage)
 {
 	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, damage);
-	newStat->maxDamage = App->buff->CalculateStat(attacker, newStat->maxDamage, "basic") - App->buff->CalculateStat(defender, defender->defence, "deffence");
+	newStat->maxDamage = App->buff->CalculateStat(attacker, newStat->maxDamage, "basic") - App->buff->CalculateStat(defender, defender->defence, "defence");
 	newStat->count.Start();
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
@@ -139,7 +135,7 @@ void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float d
 
 void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, 0.f);
+	entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, 1);
 	newStat->count.Start();
 	defender->stat.push_back(newStat);
 	defender->isParalize = true;
@@ -172,7 +168,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			}
 			break;
 		case STAT_TYPE::PARALIZE_STAT:
-			if ((*item)->count.ReadSec() > paralizetime)
+			if ((*item)->count.ReadSec() > (*item)->maxDamage)
 			{
 				entity->stat.remove(*item);
 				entity->isParalize = false;

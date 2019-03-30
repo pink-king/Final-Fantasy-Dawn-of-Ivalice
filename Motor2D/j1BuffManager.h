@@ -23,7 +23,7 @@ public:
 	//take buffs to html
 	void CreateBuff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value);
 	void RemoveBuff(std::string name);
-	float CalculateStat(const j1Entity* ent, float& initialDamage, std::string stat);
+	float CalculateStat(const j1Entity* ent, float initialDamage, std::string stat);
 	uint GetNewSourceID();
 
 	//combat functions
@@ -41,7 +41,6 @@ private:
 	pugi::xml_node					buffNode;
 
 	float							burnedDamagesecond = 0.f;
-	float							paralizetime = 0.f;
 	float							burnedTotalDamage = 0.f;
 
 	std::list<j1Entity*>			entitiesTimeDamage;
