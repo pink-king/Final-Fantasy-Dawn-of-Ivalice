@@ -4,6 +4,8 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1BuffManager.h"
+//buff test
+#include "j1Window.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
 {
@@ -65,11 +67,20 @@ bool PlayerEntityManager::Update(float dt)
 	SwapInputChecker(); // checks gamepad triggers input
 
 	selectedCharacterEntity->Update(dt);
-	if (selectedCharacterEntity->stat.size() != 0)
-		App->buff->DamageInTime(selectedCharacterEntity);
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
-	
+	//provisional function to life
+	std::vector<PlayerEntity*>::iterator item = characters.begin();
+	for (; item != characters.end(); ++item)
+	{
+		if ((*item) != selectedCharacterEntity)
+			(*item)->life = selectedCharacterEntity->life;
+	}
+
+	static char title[30];
+	sprintf_s(title, 30, " | player life: %f", (*selectedCharacterEntity).life);
+	App->win->SetTitle(title);
+
 
 	return ret;
 }

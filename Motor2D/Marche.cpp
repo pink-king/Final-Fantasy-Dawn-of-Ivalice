@@ -7,7 +7,6 @@
 //test buff
 #include "j1Input.h"
 #include "j1EntityFactory.h"
-#include "j1Window.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -174,26 +173,15 @@ bool Marche::Update(float dt)
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
 		&& !isBurned)
 	{
-		entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, life - App->buff->GetBurnedDamage());
-		newStat->count.Start();
-		stat.push_back(newStat);
-		isBurned = true;
-		
+		App->buff->CreateBurned(this, this,20);
 	}
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == 1 || App->input->GetKey(SDL_SCANCODE_R) == 1)
 		&& !isParalize)
 	{
-		entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, 0.0f);
-		newStat->count.Start();
-		stat.push_back(newStat);
-		isParalize = true;
+		App->buff->CreateParalize(this, this);
 	}
 
 
-
-	static char title[30];
-	sprintf_s(title, 30, " | Marche life: %f", life);
-	App->win->SetTitle(title);
 	return true;
 }
 

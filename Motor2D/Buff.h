@@ -41,7 +41,7 @@ private:
 	uint				source_id = 0u;//ID from which modifier (object, spell, etc) the buff came from
 
 public:
-	bool				isActive = false;
+	bool				isActive = true;
 };
 
 
