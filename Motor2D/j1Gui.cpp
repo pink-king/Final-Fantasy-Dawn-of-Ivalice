@@ -6,6 +6,7 @@
 #include "j1Input.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include "j1Window.h"
 #include "p2Log.h"
 
 j1Gui::j1Gui() : j1Module() 
@@ -90,11 +91,11 @@ void j1Gui::SearchandSelectClicked() {
 	for (; item != ListItemUI.end(); item++)
 	{
 		/*if ((*item)->hitBox.x > 0)   // to prevent selecting the empty object 
-		{
+		{*/
 			if (!(*item)->tabbed)               // tabbed items should skip this 
-			{*/
-				if (mousePos.x > (*item)->hitBox.x && mousePos.x < (*item)->hitBox.x + (*item)->hitBox.w
-					&& mousePos.y >(*item)->hitBox.y && mousePos.y < (*item)->hitBox.y + (*item)->hitBox.h)
+			{
+				if (mousePos.x * App->win->GetScale()> (*item)->hitBox.x && mousePos.x * App->win->GetScale() < (*item)->hitBox.x + (*item)->hitBox.w
+					&& mousePos.y * App->win->GetScale() >(*item)->hitBox.y && mousePos.y * App->win->GetScale() < (*item)->hitBox.y + (*item)->hitBox.h)
 				{
 
 					if ((*item)->state != CLICK && mouseButtonDown != 0)
@@ -172,7 +173,7 @@ void j1Gui::SearchandSelectClicked() {
 
 
 			}
-		//}
+		}
 //	}
 
 }

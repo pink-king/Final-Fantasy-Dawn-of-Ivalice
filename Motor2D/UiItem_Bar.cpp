@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1Input.h"
 #include "UiItem_Image.h"
+#include "j1Window.h"
 #include "Brofiler/Brofiler.h"
 #include "p2Point.h"
 #include "p2log.h"
@@ -47,7 +48,8 @@ void UiItem_Bar::DoLogicDragged(bool do_slide) {
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		mousePos.x = x; 	mousePos.y = y;
-
+		mousePos.x *= App->win->GetScale(); 
+		mousePos.y *= App->win->GetScale();
 
 		if (mousePos.y >= bar->hitBox.y && mousePos.y <= bar->hitBox.y + bar->hitBox.h)
 		{
