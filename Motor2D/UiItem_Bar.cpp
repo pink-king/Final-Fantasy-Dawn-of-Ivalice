@@ -31,6 +31,10 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	// to check mouse 
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
+
+
+	// the parent
+	this->parent = parent; 
 }
 
 void UiItem_Bar::Draw(const float & dt)

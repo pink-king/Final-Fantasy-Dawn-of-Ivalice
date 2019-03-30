@@ -44,7 +44,8 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 
 
 
-
+	// the parent
+	this->parent = parent;
 }
 
 void UiItem_Checkbox::Draw(const float & dt)

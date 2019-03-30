@@ -18,6 +18,11 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 	{
 		this->isPanel = true; 
 	}
+
+	// the parent
+	this->parent = parent;
+
+
 }
 
 void UiItem_Image::Draw(const float& dt)

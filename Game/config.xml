@@ -71,35 +71,34 @@
          <section x="721" y="480" w="338" h="308"/>
          <position x="150" y="150"/>
 		 <flag isPanel = "1"/>
-		  <bars>
+		  
+		  <panelBars>
 	 
-	 <bar name="slider_in_panel1">
+	 <panelBar name="slider_in_panel1">
          <section_bar x="187" y="628" w="43" h="165"/>
          <position x="200" y="300"/>
 		 <section_thumb x="98" y="640" w="42" h="29"/>
 		 <type value = "VERTICAL"/>
-       </bar>
+       </panelBar>
 	   
-	    <bar name="slider_in_panel2">
+	    <panelBar name="slider_in_panel2">
          <section_bar x="187" y="628" w="43" h="165"/>
          <position x="350" y="300"/>
 		 <section_thumb x="98" y="640" w="42" h="29"/>
 		 <type value = "VERTICAL"/>
-       </bar>
+       </panelBar>
 	     
-	    </bars>
+	    </panelBars>
 		
-		 <checkboxes>
-	  <checkbox name="test checkbox">
+		 <PanelCheckboxes>
+	  <PanelCheckbox name="test checkbox">
 	    <panelPosition x="200" y="200"/>
 		<panelSection x="293" y="666" w="200" h="36"/>
         <boxSection x="518" y="673" w="25" h="25"/>   
         <tickSection x="555" y="678" w="18" h="18"/>    		
 		<font value = "Open_Sans Bold"/>
-      </checkbox>
-	 </checkboxes>
-	 
-	 
+      </PanelCheckbox>
+	 </PanelCheckboxes>
 		
        </image>
 	   
