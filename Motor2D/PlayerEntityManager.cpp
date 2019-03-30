@@ -21,6 +21,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, po
 
 	// debug normal tile tex
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
+	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 
 	debug = true;
 	
@@ -87,15 +88,18 @@ bool PlayerEntityManager::Update(float dt)
 
 bool PlayerEntityManager::PostUpdate()
 {
-
 	selectedCharacterEntity->PostUpdate();
 
 	if (debug)
 	{
-		fPoint pivotPos = GetPivotPos();
-		iPoint debugTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
-		debugTilePos = App->map->MapToWorld(debugTilePos.x, debugTilePos.y);
-		App->render->Blit(debugTileTex, debugTilePos.x, debugTilePos.y, NULL);
+		// normal sized tile
+		iPoint tilePos = GetTilePos();
+		tilePos = App->map->MapToWorld(tilePos.x, tilePos.y);
+		App->render->Blit(debugTileTex, tilePos.x, tilePos.y, NULL);
+		// subtiles
+		iPoint subTilePos = GetSubtilePos();
+		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
 	}
 	
 	return true;

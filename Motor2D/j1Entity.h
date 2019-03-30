@@ -59,6 +59,9 @@ public:
 	virtual void Draw();
 	//virtual void OnCollision(Collider* collider);
 
+	iPoint GetTilePos() const;
+	iPoint GetSubtilePos() const;
+	void UpdateTilePositions();
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
 	fPoint GetPivotPos() const;
@@ -84,6 +87,10 @@ public:
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
+
+private:
+	iPoint imOnTile;
+	iPoint imOnSubtile;
 	
 };
 

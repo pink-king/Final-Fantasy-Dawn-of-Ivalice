@@ -68,8 +68,6 @@ bool j1EntityFactory::PreUpdate()
 
 bool j1EntityFactory::Update(float dt)
 {
-
-
 	bool ret = true;
 
 	std::vector<j1Entity*>::iterator item = entities.begin();
@@ -80,6 +78,9 @@ bool j1EntityFactory::Update(float dt)
 			ret = (*item)->Update(dt);
 			if (ret)
 				ret = ((*item)->Move(dt));
+
+			// updates entity associated tile positions tile and subtile
+			(*item)->UpdateTilePositions();
 
 				draw_entities.push_back(*item);
 			

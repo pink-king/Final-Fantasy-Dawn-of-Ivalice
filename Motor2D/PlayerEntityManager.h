@@ -51,6 +51,7 @@ private:
 	
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture* debugTileTex = nullptr;
+	SDL_Texture* debugSubtileTex = nullptr;
 	bool debug = true;
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/

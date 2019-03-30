@@ -6,6 +6,7 @@
 #include "j1BuffManager.h"
 #include "p2Log.h"
 #include "Brofiler\Brofiler.h"
+#include "j1Map.h"
 
 j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::string name) : type(type), position(positionX,positionY), name(name)
 {}
@@ -75,3 +76,19 @@ bool j1Entity::Move(float dt)
 void j1Entity::LoadEntitydata(pugi::xml_node& node)
 {}
 
+iPoint j1Entity::GetTilePos() const
+{
+	return imOnTile;
+}
+
+iPoint j1Entity::GetSubtilePos() const
+{
+	return imOnSubtile;
+}
+
+void j1Entity::UpdateTilePositions()
+{
+	fPoint pivotPos = GetPivotPos();
+	imOnTile = App->map->WorldToMap(pivotPos.x, pivotPos.y);
+	imOnSubtile = App->map->WorldToSubtileMap(pivotPos.x, pivotPos.y);
+}
