@@ -7,6 +7,7 @@ struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
 class UiItem;
+class PlayerEntityManager;
 
 class j1Scene : public j1Module
 {
@@ -52,6 +53,7 @@ private:
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadPlayerUi(pugi::xml_node& nodeScene);
 
+	PlayerEntityManager* player_selected = nullptr;
 };
 
 #endif // __j1SCENE_H__

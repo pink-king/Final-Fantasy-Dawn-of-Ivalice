@@ -18,6 +18,7 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
+	
 }
 
 // Destructor
@@ -55,12 +56,12 @@ bool j1Scene::Start()
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
-
+	
 	LoadInGameUi(sceneNode);
 	LoadStartMenu(sceneNode);
 	LoadPlayerUi(sceneNode);
 	inGamePanel->enable = true;
-	uiMarche->enable = true;
+	uiMarche->enable = false;
 	uiShara->enable = false;
 	uiRitz->enable = false;
 	startMenu->enable = false;
@@ -70,7 +71,8 @@ bool j1Scene::Start()
 	//inGamePanel->enable = true;
 	//// startMenu->enable = false;
 
-
+	//player_selected = new PlayerEntityManager({ 0,0 });
+	
 	return true;
 }
 
@@ -159,6 +161,28 @@ bool j1Scene::Update(float dt)
 			uiMarche->enable = true;
 			uiShara->enable = false;
 		}
+	}
+	
+	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
+	{
+		LOG("marche");
+		uiMarche->enable = true;
+		uiRitz->enable = false;
+		uiShara->enable = false;
+	}
+	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ)
+	{
+		LOG("marche");
+		uiMarche->enable = false;
+		uiRitz->enable = true;
+		uiShara->enable = false;
+	}
+	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA)
+	{
+		LOG("marche");
+		uiMarche->enable = false;
+		uiRitz->enable = false;
+		uiShara->enable = true;
 	}
 
 	App->map->Draw();
