@@ -52,7 +52,7 @@ private:
 	std::string			stat = "\0";
 	float				value = 0.f;// If the item have 2 values create 2 buff with similar name
 	uint				source_id = 0u;//ID from which modifier (object, spell, etc) the buff came from
-	bool				isActive = false;
+	bool				isActive = true;
 };
 
 

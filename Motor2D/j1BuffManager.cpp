@@ -18,7 +18,7 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 
 	for (buffNode = node.child("buff"); buffNode && ret; buffNode = buffNode.next_sibling("buff"))
 	{
-		std::string add = buffNode.attribute("type").as_string();
+		/*std::string add = buffNode.attribute("type").as_string();
 		std::string clas = buffNode.attribute("class").as_string();
 		if (add.compare("additive") == 0)
 		{
@@ -37,7 +37,7 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::ARMOR_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
 			if (clas.compare("head") == 0)
 				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::HEAD_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-		}
+		}*/
 	}
 
 	burnedDamagesecond = node.child("timebuff").attribute("burnedInSecond").as_float();
@@ -104,7 +104,29 @@ bool j1BuffManager::CleanUp()
 
 void j1BuffManager::CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name, std::string character, std::string stat, float value)
 {
-	buffs.push_back(new Buff(type,clas, name, character , stat, value, GetNewSourceID()));
+	bool exist = false;
+	std::list<Buff*>::iterator item = buffs.begin();
+	if(buffs.size() == 0)
+		buffs.push_back(new Buff(type, clas, name, character, stat, value, GetNewSourceID()));
+	else
+	{
+		for (; item != buffs.end(); ++item)
+		{
+			if (name.compare((*item)->GetName()) == 0 && ((*item)->GetCharacter()).compare(character) == 0)
+				exist = true;
+		}
+
+		if (!exist)
+		{
+			std::list<Buff*>::iterator item2 = buffs.begin();
+			for (; item2 != buffs.end(); ++item2)
+			{
+				if (clas == (*item2)->GetObjectType())
+					buffs.remove(*item2);
+			}
+			buffs.push_back(new Buff(type, clas, name, character, stat, value, GetNewSourceID()));
+		}
+	}
 }
 
 void j1BuffManager::RemoveBuff(std::string name)
@@ -121,19 +143,14 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std:
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (ent != nullptr && (*iter)->GetIfActive())
+		if (ent != nullptr && (*iter)->GetIfActive() && stat.compare((*iter)->GetStat()) == 0 
+			&& (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0))
 		{
-			if (stat.compare((*iter)->GetStat()) == 0)
-			{
-				if (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0)
-				{
 					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 						initialDamage += (*iter)->GetValue();
 
 					else if ((*iter)->GetType() == BUFF_TYPE::MULTIPLICATIVE)
-						totalMult += (*iter)->GetValue();
-				}
-			}
+						totalMult += (*iter)->GetValue();	
 		}
 	}
 	
@@ -186,9 +203,19 @@ void j1BuffManager::ActiveBuff(std::string buffName, std::string character, OBJE
 		{
 			if (((*item)->GetCharacter()).compare(character) == 0
 				&& clasType == (*item)->GetObjectType() && (*item)->GetIfActive())
-				(*item)->DisactiveBuff();
+				buffs.remove(*item);
 		}
 			
+	}
+}
+
+void j1BuffManager::DeleteBuff(std::string buffName)
+{
+	std::list<Buff*>::iterator item = buffs.begin();
+	for (; item != buffs.end(); ++item)
+	{
+		if (buffName.compare((*item)->GetName()) == 0)
+			buffs.remove(*item);
 	}
 }
 

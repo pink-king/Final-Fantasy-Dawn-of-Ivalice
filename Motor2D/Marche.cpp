@@ -184,15 +184,15 @@ bool Marche::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == 1)
 	{
-		App->buff->ActiveBuff("superSword","Marche",OBJECT_TYPE::WEAPON_OBJECT);
+		App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::WEAPON_OBJECT, "superSword","Marche","hability", 1.0);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
 	{
-		App->buff->ActiveBuff("sword2","Marche", OBJECT_TYPE::WEAPON_OBJECT);
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::WEAPON_OBJECT, "sword2", "Marche", "hability", 5.0);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
 	{
-		App->buff->ActiveBuff("armorMarche", "Marche", OBJECT_TYPE::ARMOR_OBJECT);
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::ARMOR_OBJECT, "armorMarche", "Marche", "defence", 10.0);
 	}
 
 	return true;

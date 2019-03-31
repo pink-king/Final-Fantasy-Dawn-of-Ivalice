@@ -34,7 +34,7 @@ public:
 	void CreateParalize(j1Entity* attacker, j1Entity* defender);
 
 	void ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType);
-
+	void DeleteBuff(std::string buffName);
 	float GetBurnedDamage();
 
 private:
