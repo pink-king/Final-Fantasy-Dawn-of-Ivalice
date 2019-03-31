@@ -9,6 +9,7 @@
 
 #define MARGIN_TILE 1
 #define SUBTILE_RESOLUTION 0.5f
+#define SUBTILE_MULTIPLIER 2
 
 struct Properties
 {

@@ -6,6 +6,15 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+struct entityDataMap
+{
+	std::vector<j1Entity*> entities;
+
+	bool isEmpty()
+	{
+		return entities.size() > 0;
+	}
+};
 
 class j1EntityFactory : public j1Module
 {
@@ -24,10 +33,19 @@ public:
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	void Debug(j1Entity* ent);
+	void CreateEntitiesDataMap();
+	bool isThisSubtileEmpty(const iPoint position) const;
+	int GetSubtileEntityIndexAt(const iPoint position) const;
+
+	std::vector<j1Entity*> GetSubtileEntityVectorAt(const iPoint pos) const;
 
 	void DestroyEntity(j1Entity* entity);
 
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
+
+//private:
+	void AssignEntityToSubtile(j1Entity* entity) const;
+	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
 public:
 
@@ -37,6 +55,10 @@ public:
 	std::vector<j1Entity*>	entities;
 private:
 	std::vector<j1Entity*>	draw_entities;
+
+	// subtile data map, associated entities to subtile
+	entityDataMap* entitiesDataMap = nullptr;
+
 
 };
 
