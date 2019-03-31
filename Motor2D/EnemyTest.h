@@ -6,6 +6,19 @@
 #include "p2Point.h"
 #include <vector>
 
+
+#define RANGE 20
+
+enum class EnemyState
+{
+	WAITING,
+	IDLE, 
+	SEARCHPATH,
+	GET_NEXT_TILE,
+	GO_NEXT_TILE,
+	MAX
+};
+
 class EnemyTest : public j1Entity
 {
 public:
@@ -18,14 +31,11 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
-	iPoint GetNextNode();
+	void SetState(float dt);
 	bool SearchNewPath(); 
-	void MoveToNextNode(float dt); 
-	
 	virtual bool CleanUp();
 
 	void DebugPath() const;
-
 	// functionality ------
 
 	void Draw();
@@ -33,9 +43,11 @@ public:
 private:
 	std::vector<iPoint> path_to_follow;
 
+	iPoint tileToGo; 
+	EnemyState state = EnemyState::IDLE; 
 	Animation idle; 
 	iPoint direction = { 0,0 };
-	iPoint velocity = { 0,0 };
+	fPoint velocity = { 0,0 };
 	uint chasingSpeed = 100;
 };
 

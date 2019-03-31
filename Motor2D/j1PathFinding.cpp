@@ -82,7 +82,7 @@ bool j1PathFinding::PostUpdate()
 			{
 				iPoint pos = App->map->MapToWorld(debugPath.at(i).x, debugPath.at(i).y);
 				App->render->Blit(debug_texture, pos.x, pos.y);
-
+				App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
 				LOG("Tile to print %i %i ", debugPath.at(i).x, debugPath.at(i).y);
 			}
 		}
@@ -326,7 +326,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// Flip() the path when you are finish
 			reverse(last_path.begin(), last_path.end());
 
-			return last_path.size();;
+			return last_path.size();
 		}
 
 		else
