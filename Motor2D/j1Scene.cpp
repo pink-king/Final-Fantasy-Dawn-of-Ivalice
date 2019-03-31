@@ -287,7 +287,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 	}
 	
-	/*// bars 
+	// bars 
 	for (pugi::xml_node uiNode = node.child("bars").child("bar"); uiNode; uiNode = uiNode.next_sibling("bar"))
 	{
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
@@ -307,7 +307,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 	// checkboxes
 
-	for (pugi::xml_node uiNode = node.child("checkboxes").child("checkbox"); uiNode; uiNode = uiNode.next_sibling("checkbox"))
+	/*for (pugi::xml_node uiNode = node.child("checkboxes").child("checkbox"); uiNode; uiNode = uiNode.next_sibling("checkbox"))
 	{
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
@@ -315,8 +315,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		SDL_Rect tickSection = { uiNode.child("tickSection").attribute("x").as_int(), uiNode.child("tickSection").attribute("y").as_int(), uiNode.child("tickSection").attribute("w").as_int(), uiNode.child("tickSection").attribute("h").as_int() };
 
 		App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection);
-	}
-	*/
+	}*/
+	
 
 }
 

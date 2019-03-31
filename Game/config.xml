@@ -92,6 +92,20 @@
 		<font value = "Open_Sans Bold"/>
       </PanelCheckbox>
 	 </PanelCheckboxes>
+	 
+	 
+	 	   
+	 <labels>
+	  <label name="lel">
+        <text value = "Best Game Ever"/>
+        <position x="50" y="50"/>
+		<color R="200" G="100" B="100" A="200"/>
+		<font value = "Open_Sans Bold"/>
+      </label>
+	 </labels>
+	 
+	 
+	 
 		
        </image>
 	   
