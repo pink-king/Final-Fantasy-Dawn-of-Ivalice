@@ -9,6 +9,13 @@ class UiItem_Label;
 class UiItem;
 class PlayerEntityManager;
 
+enum class SceneState
+{
+	STARTMENU,
+	GAME,
+	MAX_STATES
+};
+
 class j1Scene : public j1Module
 {
 public:
@@ -44,10 +51,12 @@ public:
 	UiItem * startMenu = nullptr;
 	UiItem_Image* testPanel = nullptr; 
 	bool debug = false;
+	SceneState state = SceneState::GAME;
 
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
+	bool LoadedUi = false;
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 	bool LoadInGameUi(pugi::xml_node& nodeScene);
