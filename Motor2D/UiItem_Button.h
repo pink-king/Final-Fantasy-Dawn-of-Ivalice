@@ -13,7 +13,7 @@ protected:
 	void(*funtionOnUp)() = nullptr;
 
 public:
-	UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr, p2Point<int> pivot = { 0,0 });
+	UiItem_Button(iPoint position, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
 	void AddFuntion(void(*funtionOnClick) (), bool Down = true);
 	void AddFuntion(std::string & string, bool Down = true);
 

@@ -8,8 +8,9 @@
 #include "UiItem_Image.h"
 #include "UiItem_Label.h"
 #include "UiItem_Checkbox.h"
+#include "UiItem_Button.h"
 #include "UiItem_Bar.h"
-/*#include "UiItem_Button.h"*/
+#include "UiItem_Button.h"
 
 
 
@@ -36,6 +37,7 @@ public:
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
 	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel = false);
 	UiItem_Bar* AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent); // , TypeBar type = VERTICAL);
+	UiItem_Button* AddButton(iPoint position, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
 	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem*const parent = nullptr); // check the null parent
 	

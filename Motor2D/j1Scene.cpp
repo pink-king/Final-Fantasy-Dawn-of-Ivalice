@@ -157,6 +157,7 @@ bool j1Scene::Update(float dt)
 
 	if (state == SceneState::GAME)
 	{
+		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)

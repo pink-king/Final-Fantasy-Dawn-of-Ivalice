@@ -498,6 +498,22 @@ UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_R
 
 }
 
+UiItem_Button * j1Gui::AddButton(iPoint position, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
+{
+	UiItem* newUIItem = nullptr;
+
+	if (parent == NULL)
+		newUIItem = new UiItem_Button(position, idle, canvas, click, hover);
+	else
+		newUIItem = new UiItem_Button(position, idle, parent, click, hover);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Button*)newUIItem;
+}
+
+
+
 UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
