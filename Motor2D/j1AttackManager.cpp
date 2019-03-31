@@ -23,8 +23,9 @@ bool j1AttackManager::Awake(pugi::xml_node & node)
 bool j1AttackManager::Start()
 {
 	// test propagation attack
-	AddPropagationAttack(propagationType::BFS, 10, 6, 20);
-
+	AddPropagationAttack(propagationType::BFS, 10, 6, 2500);
+	/*AddPropagationAttack(propagationType::BFS, 10, 6, 500);
+	AddPropagationAttack(propagationType::BFS, 10, 6, 5500);*/
 
 	return true;
 }
@@ -42,8 +43,16 @@ bool j1AttackManager::Update(float dt)
 
 	for (; attacksDataIterator != currentPropagationAttacks.end(); ++attacksDataIterator)
 	{
-		if (!(*attacksDataIterator)->Update(dt))
-			ret = false;
+		if (!(*attacksDataIterator)->to_erase)
+		{
+			if (!(*attacksDataIterator)->Update(dt))
+				ret = false;
+		}
+		else
+		{
+			RemovePropagationAttack(*attacksDataIterator);
+			--attacksDataIterator;
+		}
 	}
 
 	return ret;
@@ -79,6 +88,7 @@ void j1AttackManager::RemovePropagationAttack(attackData* attackDataPackage)
 		{
 			currentPropagationAttacks.erase(currentAttacksIterator);
 			LOG("succesfully removed propagationattack");
+			break;
 		}
 	}
 }
@@ -108,6 +118,14 @@ bool attackData::Start()
 
 bool attackData::Update(float dt)
 {
+	if (stepTimer.Read() > propagationStepSpeed)
+	{
+		LOG("DO next propagation step");
+		stepTimer.Start();
+		//to_erase = true; // test
+		DoNextPropagationStep();
+	}
+
 	return true;
 }
 
@@ -116,9 +134,30 @@ bool attackData::PostUpdate()
 	return true;
 }
 
+bool attackData::DoNextPropagationStep()
+{
+	switch (propaType)
+	{
+	case propagationType::BFS:
+		DoNextStepBFS();
+		break;
+	case propagationType::HEURISTIC:
+		//DoNextStepHeuristic();
+		break;
+	default:
+		break;
+	}
+	return true;
+}
+
 std::vector<j1Entity*> attackData::GetInvoldedEntitiesFromSubtile(const iPoint subTile)
 {
 	std::vector<j1Entity*> temp;
 	
 	return temp;
+}
+
+bool attackData::DoNextStepBFS()
+{
+	return true;
 }

@@ -26,7 +26,13 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 
-//protected:
+protected:
+	bool DoNextPropagationStep();
+	bool DoNextStepBFS();
+	//bool DoNextStepHeuristic();
+	
+public:
+	bool to_erase = false;
 private:
 	std::vector<j1Entity*> GetInvoldedEntitiesFromSubtile(const iPoint subtilePos);
 	// propagation data itself -----------
