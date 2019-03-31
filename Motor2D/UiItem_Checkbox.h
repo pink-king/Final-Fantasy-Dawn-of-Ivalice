@@ -22,9 +22,9 @@ protected:
 	SDL_Rect tick_section;
 	SDL_Rect captureIdleSection; 
 
-	void DoLogicClicked(bool do_slide = false);   // clicking logic matters the most
-	void DoLogicHovered(bool do_slide = false);
-	void DoLogicAbandoned(bool slidable = false);
+	void DoLogicClicked();   // clicking logic matters the most
+	void DoLogicHovered();
+	void DoLogicAbandoned();
 
 public:
 	UiItem_Checkbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem*const parent = nullptr); // checkbox does not have parent? or the empty obj?? 

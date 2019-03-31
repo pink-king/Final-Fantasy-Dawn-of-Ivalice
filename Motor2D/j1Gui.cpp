@@ -164,7 +164,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
 	
-	if (selected_object && selected_object->tabbed)
+ if (selected_object && selected_object->tabbed)
 	{
 		switch (selected_object->guiType)
 		{
@@ -176,9 +176,6 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			}
 
 			break;
-		case GUI_TYPES::BAR:
-			selected_object->DoLogicHovered();
-			break; 
 
 
 		}

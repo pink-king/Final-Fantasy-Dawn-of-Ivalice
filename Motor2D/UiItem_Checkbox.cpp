@@ -72,14 +72,14 @@ void UiItem_Checkbox::Draw(const float & dt)
 }
 
 
-void UiItem_Checkbox::DoLogicClicked(bool do_slide) {
+void UiItem_Checkbox::DoLogicClicked() {
 
 	tick->hide = !tick->hide; 
 }
 
 
 
-void UiItem_Checkbox::DoLogicHovered(bool do_slide) {
+void UiItem_Checkbox::DoLogicHovered() {
 
 	panel->section.x = 284;
 	panel->section.y = 722;
@@ -88,7 +88,7 @@ void UiItem_Checkbox::DoLogicHovered(bool do_slide) {
 
 }
 
-void UiItem_Checkbox::DoLogicAbandoned(bool do_slide) {
+void UiItem_Checkbox::DoLogicAbandoned() {
 
 
 	panel->section = this->captureIdleSection;
