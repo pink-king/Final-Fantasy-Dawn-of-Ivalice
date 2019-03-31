@@ -10,9 +10,12 @@
 #include "Brofiler/Brofiler.h"
 #include "p2Point.h"
 #include "p2log.h"
+#include <assert.h> 
 
 UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem * const parent) :UiItem(position, parent)
 {
+
+	assert(parent != NULL); 
 
 	this->panel_section = *panel_section;
 	this->captureIdleSection = *panel_section;
@@ -59,6 +62,7 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 
 	// the parent
 	this->parent = parent;
+
 }
 
 void UiItem_Checkbox::Draw(const float & dt)
