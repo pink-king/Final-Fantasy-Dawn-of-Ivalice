@@ -246,7 +246,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		else
 		{
 
-			UiItem_Image* panel = App->gui->AddImage(position, &section, parent, isPanel);
+			testPanel = App->gui->AddImage(position, &section, parent, isPanel);
+
+			// TODO: INTRODUCE PARENT NAME IN XML, SO THAT WE DISTINGUISH ITEMS WITH OTHER PARENTS
 
 			// BARS INSIDE PANEL
 			
@@ -257,7 +259,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 				iPoint position = { uiNode2.child("position").attribute("x").as_int(), uiNode2.child("position").attribute("y").as_int() };
 				SDL_Rect section_bar = { uiNode2.child("section_bar").attribute("x").as_int(), uiNode2.child("section_bar").attribute("y").as_int(), uiNode2.child("section_bar").attribute("w").as_int(), uiNode2.child("section_bar").attribute("h").as_int() };
 				SDL_Rect section_thumb = { uiNode2.child("section_thumb").attribute("x").as_int(), uiNode2.child("section_thumb").attribute("y").as_int(), uiNode2.child("section_thumb").attribute("w").as_int(), uiNode2.child("section_thumb").attribute("h").as_int() };
-				App->gui->AddBar(position, &section_bar, &section_thumb, panel); 
+				App->gui->AddBar(position, &section_bar, &section_thumb, testPanel);
 			}
 
 
@@ -270,7 +272,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 				SDL_Rect boxSection = { uiNode2.child("boxSection").attribute("x").as_int(), uiNode2.child("boxSection").attribute("y").as_int(), uiNode2.child("boxSection").attribute("w").as_int(), uiNode2.child("boxSection").attribute("h").as_int() };
 				SDL_Rect tickSection = { uiNode2.child("tickSection").attribute("x").as_int(), uiNode2.child("tickSection").attribute("y").as_int(), uiNode2.child("tickSection").attribute("w").as_int(), uiNode2.child("tickSection").attribute("h").as_int() };
 
-				App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, panel);
+				App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, testPanel);
 			}
 
 		}
