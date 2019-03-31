@@ -61,6 +61,7 @@ public:
 
 	iPoint GetTilePos() const;
 	iPoint GetSubtilePos() const;
+	iPoint GetPreviousSubtilePos() const;
 	void UpdateTilePositions();
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
@@ -91,6 +92,7 @@ public:
 private:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
+	iPoint previousSubtilePos;
 	
 };
 

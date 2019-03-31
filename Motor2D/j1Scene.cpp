@@ -46,6 +46,9 @@ bool j1Scene::Start()
 			App->pathfinding->SetMap(w, h, data);
 
 		RELEASE_ARRAY(data);
+
+		// re set entities data map (create or delete/create if we have a previous one)
+		App->entityFactory->CreateEntitiesDataMap(App->map->data.width*2, App->map->data.height*2);
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");

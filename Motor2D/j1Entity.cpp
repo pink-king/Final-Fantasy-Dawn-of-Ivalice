@@ -86,9 +86,36 @@ iPoint j1Entity::GetSubtilePos() const
 	return imOnSubtile;
 }
 
+iPoint j1Entity::GetPreviousSubtilePos() const
+{
+	return previousSubtilePos;
+}
+
 void j1Entity::UpdateTilePositions()
 {
 	fPoint pivotPos = GetPivotPos();
-	imOnTile = App->map->WorldToMap(pivotPos.x, pivotPos.y);
-	imOnSubtile = App->map->WorldToSubtileMap(pivotPos.x, pivotPos.y);
+
+	// extra protection TODO: rework the player/entities invalid walkability return positions
+	iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(pivotPos.x, pivotPos.y);
+	if (App->entityFactory->CheckSubtileMapBoundaries(onSubtilePosTemp))
+	{
+		imOnTile = App->map->WorldToMap(pivotPos.x, pivotPos.y);
+		imOnSubtile = onSubtilePosTemp;//App->map->WorldToSubtileMap(pivotPos.x, pivotPos.y);
+
+		if (previousSubtilePos != imOnSubtile)
+		{
+			LOG("subtile pos changed");
+			// assign this entity to a tile vector
+			App->entityFactory->AssignEntityToSubtile(this);
+			App->entityFactory->DeleteEntityFromSubtile(this);
+			// updates previousPosition to new position
+			previousSubtilePos = imOnSubtile;
+		}
+	}
+	else
+	{
+		//LOG("invalid updateTilePositions, ignoring");
+	}
+
+	
 }
