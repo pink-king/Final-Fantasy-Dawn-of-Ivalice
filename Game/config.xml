@@ -95,8 +95,8 @@
 		
 		 <checkboxLabels>
 	  <checkboxLabel name="labelInsideCheckbox">
-        <text value = "We are gonna rock it!"/>
-		<color R="200" G="100" B="100" A="200"/>
+        <text value = "This text is resized to fit"/>
+		<color R="22" G="233" B="44" A="200"/>
 		<font value = "1" size = "18"/>
       </checkboxLabel>
 	 </checkboxLabels>

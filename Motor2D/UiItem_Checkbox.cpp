@@ -53,13 +53,15 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 	box = App->gui->AddImage(boxPos, box_section, panel);
 
 	// tick
-	tick = App->gui->AddImage(tickPos, tick_section, tick);
+	tick = App->gui->AddImage(tickPos, tick_section, panel);
 	tick->hide = true;
 
 
-	// label    // TODO: Define position and parent       (labelInfo already contains other stuff)
+	// label    
+	uint offsetFromBox = 28; 
+	iPoint labelPos(boxPos.x + offsetFromBox, boxPos.y);
 
-	App->gui->AddLabel(labelInfo->labelText, labelInfo->labelColor, App->font->fonts.at(labelInfo->labelIndex), position, this); 
+	App->gui->AddLabel(labelInfo->labelText, labelInfo->labelColor, App->font->fonts.at(labelInfo->labelIndex), labelPos, panel);
 	// - - - - - - - - - - - - - - - - - - - -
 
 
