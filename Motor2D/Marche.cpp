@@ -182,6 +182,18 @@ bool Marche::Update(float dt)
 		App->buff->CreateParalize(this, this);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_2) == 1)
+	{
+		App->buff->ActiveBuff("superSword","Marche",OBJECT_TYPE::WEAPON_OBJECT);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
+	{
+		App->buff->ActiveBuff("sword2","Marche", OBJECT_TYPE::WEAPON_OBJECT);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
+	{
+		App->buff->ActiveBuff("armorMarche", "Marche", OBJECT_TYPE::ARMOR_OBJECT);
+	}
 
 	return true;
 }

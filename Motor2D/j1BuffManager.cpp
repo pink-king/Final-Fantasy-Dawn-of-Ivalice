@@ -1,6 +1,8 @@
 #include "j1BuffManager.h"
 #include <string.h>
 
+#include "j1Window.h"
+
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -17,11 +19,25 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 	for (buffNode = node.child("buff"); buffNode && ret; buffNode = buffNode.next_sibling("buff"))
 	{
 		std::string add = buffNode.attribute("type").as_string();
+		std::string clas = buffNode.attribute("class").as_string();
 		if (add.compare("additive") == 0)
-			CreateBuff(BUFF_TYPE::ADDITIVE, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-		
+		{
+			if(clas.compare("weapon") == 0)
+			CreateBuff(BUFF_TYPE::ADDITIVE,OBJECT_TYPE::WEAPON_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+			if (clas.compare("armor") == 0)
+				CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::ARMOR_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+			if (clas.compare("head") == 0)
+				CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::HEAD_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+		}
 		else if (add.compare("multiplicative") == 0)
-			CreateBuff(BUFF_TYPE::MULTIPLICATIVE, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+		{
+			if (clas.compare("weapon") == 0)
+				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::WEAPON_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+			if (clas.compare("armor") == 0)
+				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::ARMOR_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+			if (clas.compare("head") == 0)
+				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::HEAD_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
+		}
 	}
 
 	burnedDamagesecond = node.child("timebuff").attribute("burnedInSecond").as_float();
@@ -46,6 +62,19 @@ bool j1BuffManager::Update(float dt)
 				entitiesTimeDamage.remove(*item);
 	}
 
+	static char title[30];
+	std::string name;
+	std::list<Buff*>::iterator item =buffs.begin();
+	for (; item != buffs.end(); ++item)
+	{
+		if ((*item)->GetIfActive())
+		{
+			name = (*item)->GetName();
+			sprintf_s(title, 30, " |  buff: %s", name.data());
+			App->win->AddStringToTitle(title);
+		}
+	}
+	App->win->ClearTitle();
 	return ret;
 }
 
@@ -73,9 +102,9 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateBuff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value)
+void j1BuffManager::CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name, std::string character, std::string stat, float value)
 {
-	buffs.push_back(new Buff(type, name, character , stat, value, GetNewSourceID()));
+	buffs.push_back(new Buff(type,clas, name, character , stat, value, GetNewSourceID()));
 }
 
 void j1BuffManager::RemoveBuff(std::string name)
@@ -92,7 +121,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std:
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (ent != nullptr && (*iter)->isActive)
+		if (ent != nullptr && (*iter)->GetIfActive())
 		{
 			if (stat.compare((*iter)->GetStat()) == 0)
 			{
@@ -107,7 +136,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std:
 			}
 		}
 	}
-
+	
 	return initialDamage * (1 + totalMult);
 }
 
@@ -126,7 +155,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damage)
 {
 	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, damage);
-	newStat->maxDamage = App->buff->CalculateStat(attacker, newStat->maxDamage, "basic") - App->buff->CalculateStat(defender, defender->defence, "defence");
+	newStat->maxDamage = App->buff->CalculateStat(attacker, newStat->maxDamage, "hability") - App->buff->CalculateStat(defender, defender->defence, "defence");
 	newStat->count.Start();
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
@@ -140,6 +169,27 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender)
 	defender->stat.push_back(newStat);
 	defender->isParalize = true;
 	entitiesTimeDamage.push_back(defender);
+}
+
+
+void j1BuffManager::ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType)
+{
+	std::list<Buff*>::iterator item = buffs.begin();
+	for (; item != buffs.end(); ++item)
+	{
+		if (buffName.compare((*item)->GetName()) == 0)
+		{
+			(*item)->ActiveBuff();
+			character.assign((*item)->GetCharacter());
+		}
+		else
+		{
+			if (((*item)->GetCharacter()).compare(character) == 0
+				&& clasType == (*item)->GetObjectType() && (*item)->GetIfActive())
+				(*item)->DisactiveBuff();
+		}
+			
+	}
 }
 
 bool j1BuffManager::DamageInTime(j1Entity* entity)

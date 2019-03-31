@@ -183,9 +183,11 @@
   </map>
     
   <Buff>
-    <buff  type="additive" name="weapontest" character="Marche" stat="basic" value="5.0" />
-    <buff  type="multiplicative" name="weapontest" character="Marche" stat="hability" value="0.5" />
-    <buff  type="additive" name="armor" character="Marche" stat="defence" value="5.0" />
+    <buff  type="additive" class ="weapon" name="weapontest" character="Marche" stat="basic" value="5.0" />
+    <buff  type="multiplicative" class = "weapon" name="superSword" character="Marche" stat="hability" value="1.0" />
+    <buff  type="additive" class = "weapon" name="sword2" character="Marche" stat="hability" value="5" />
+    <buff  type="additive" class = "armor" name="armorMarche" character="Marche" stat="defence" value="10.0" />
+    <buff  type="additive" class ="armor" name="armor" character="Marche" stat="defence" value="5.0" />
     
     <timebuff  burnedInSecond="2"/>
   </Buff>

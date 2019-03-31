@@ -21,7 +21,7 @@ public:
 	bool PostUpdate() { return true; };
 	bool CleanUp();
 	//take buffs to html
-	void CreateBuff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value);
+	void CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name, std::string character, std::string stat, float value);
 	void RemoveBuff(std::string name);
 	float CalculateStat(const j1Entity* ent, float initialDamage, std::string stat);
 	uint GetNewSourceID();
@@ -32,6 +32,8 @@ public:
 	//functions to create buffs in entities
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damage);
 	void CreateParalize(j1Entity* attacker, j1Entity* defender);
+
+	void ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType);
 
 	float GetBurnedDamage();
 
