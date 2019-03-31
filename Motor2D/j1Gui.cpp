@@ -514,7 +514,7 @@ UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_sect
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section); 
+	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, parent); 
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
