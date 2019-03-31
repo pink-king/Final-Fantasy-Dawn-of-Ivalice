@@ -33,7 +33,7 @@ public:
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	void Debug(j1Entity* ent);
-	void CreateEntitiesDataMap();
+	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 
@@ -43,9 +43,11 @@ public:
 
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
-//private:
 	void AssignEntityToSubtile(j1Entity* entity) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
+
+//private:
+	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
 public:
 
@@ -58,7 +60,8 @@ private:
 
 	// subtile data map, associated entities to subtile
 	entityDataMap* entitiesDataMap = nullptr;
-
+	int subtileWidth = 0; // stores the size in subtiles scale
+	int subtileHeight = 0;
 
 };
 

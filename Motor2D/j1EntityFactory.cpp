@@ -209,39 +209,50 @@ bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * enti
 	return entity1->pivot.y + entity1->position.y < entity2->pivot.y + entity2->position.y;
 }
 
-void j1EntityFactory::CreateEntitiesDataMap()
+void j1EntityFactory::CreateEntitiesDataMap(int width, int height)
 {
+	subtileWidth = width;
+	subtileHeight = height;
+
 	if (entitiesDataMap != nullptr)
 	{
 		RELEASE(entitiesDataMap);
 		//RELEASE_ARRAY(entitiesDataMap);
 	}
 
-	entitiesDataMap = new entityDataMap[50 * 50]; // test
-	memset(entitiesDataMap, NULL, 50 * 50);
+	entitiesDataMap = new entityDataMap[subtileWidth * subtileHeight];
+	memset(entitiesDataMap, NULL, subtileWidth*subtileHeight);
 
 	LOG("");
 }
 
 std::vector<j1Entity*> j1EntityFactory::GetSubtileEntityVectorAt(const iPoint pos) const
 {
-	//if(entitiesDataMap)
-	return entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities;
+	if (CheckSubtileMapBoundaries(pos))
+		return entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities;
+	else
+		LOG("data out of boundaries, ignoring");
 }
 
 bool j1EntityFactory::isThisSubtileEmpty(const iPoint pos) const
 {
-	return entitiesDataMap[GetSubtileEntityIndexAt(pos)].isEmpty();
+	if (CheckSubtileMapBoundaries(pos))
+		return entitiesDataMap[GetSubtileEntityIndexAt(pos)].isEmpty();
+	else
+		return false;
 }
 
 int j1EntityFactory::GetSubtileEntityIndexAt(const iPoint pos) const
 {
-	return (pos.y * 50) + pos.x; // TODO: provisional subtile map  value test
+	return (pos.y * subtileWidth) + pos.x;
 }
 
 void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 {
-	entitiesDataMap[GetSubtileEntityIndexAt(entity->GetSubtilePos())].entities.push_back(entity);
+	if (CheckSubtileMapBoundaries(entity->GetSubtilePos()))
+		entitiesDataMap[GetSubtileEntityIndexAt(entity->GetSubtilePos())].entities.push_back(entity);
+	else
+		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
@@ -264,5 +275,11 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	}
 
 	return ret;
+}
+
+bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
+{
+	return (pos.x >= 0 && pos.x <= (int)subtileWidth &&
+		pos.y >= 0 && pos.y < (int)subtileHeight);
 }
 
