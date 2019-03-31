@@ -57,22 +57,29 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
 	
-	LoadInGameUi(sceneNode);
-	LoadStartMenu(sceneNode);
-	LoadPlayerUi(sceneNode);
-	inGamePanel->enable = true;
-	uiMarche->enable = false;
-	uiShara->enable = false;
-	uiRitz->enable = false;
-	startMenu->enable = false;
-
-	//LoadInGameUi(sceneNode);
-	//// LoadStartMenu(sceneNode);
-	//inGamePanel->enable = true;
-	//// startMenu->enable = false;
-
-	//player_selected = new PlayerEntityManager({ 0,0 });
-	
+	if (state == SceneState::GAME)
+	{
+		App->map->active = true;
+		if (!LoadedUi)
+		{
+			LoadInGameUi(sceneNode);
+			LoadStartMenu(sceneNode);
+			LoadPlayerUi(sceneNode);
+			LoadedUi = true;
+		}
+		inGamePanel->enable = true;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		startMenu->enable = false;
+	}
+	if (state == SceneState::STARTMENU)
+	{
+		App->map->active = false;
+		startMenu->enable = true;
+		if (inGamePanel->enable)
+			inGamePanel->enable = false;
+	}
 	return true;
 }
 
@@ -129,62 +136,51 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
-		if (inGamePanel->enable)
+		if (state == SceneState::GAME)
 		{
-			inGamePanel->enable = false;
-			startMenu->enable = true;
+			state = SceneState::STARTMENU;
 		}
 		else
-		{
-			inGamePanel->enable = true;
-			startMenu->enable = false;
-		}
+			state = SceneState::GAME;
+			
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
+	if (state == SceneState::STARTMENU)
 	{
-		if (uiMarche->enable)
+		App->map->active = false;
+		inGamePanel->enable = false;
+		startMenu->enable = true;
+		uiMarche->enable = false;
+		uiRitz->enable = false;
+		uiShara->enable = false;
+	}
+
+	if (state == SceneState::GAME)
+	{
+		inGamePanel->enable = true;
+		startMenu->enable = false;
+		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 		{
-			uiMarche->enable = false;
-			uiShara->enable = true;
-			uiRitz->enable = false;
-		}
-		else if (uiShara->enable)
-		{
-			uiShara->enable = false;
-			uiRitz->enable = true;
-			uiMarche->enable = false;
-		}
-		else if (uiRitz->enable)
-		{
-			uiRitz->enable = false;
+			LOG("marche");
 			uiMarche->enable = true;
+			uiRitz->enable = false;
 			uiShara->enable = false;
 		}
+		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
+		{
+			LOG("marche");
+			uiMarche->enable = false;
+			uiRitz->enable = true;
+			uiShara->enable = false;
+		}
+		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
+		{
+			LOG("marche");
+			uiMarche->enable = false;
+			uiRitz->enable = false;
+			uiShara->enable = true;
+		}
 	}
-	
-	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
-	{
-		LOG("marche");
-		uiMarche->enable = true;
-		uiRitz->enable = false;
-		uiShara->enable = false;
-	}
-	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ)
-	{
-		LOG("marche");
-		uiMarche->enable = false;
-		uiRitz->enable = true;
-		uiShara->enable = false;
-	}
-	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA)
-	{
-		LOG("marche");
-		uiMarche->enable = false;
-		uiRitz->enable = false;
-		uiShara->enable = true;
-	}
-
 	App->map->Draw();
 
 	int x, y;
