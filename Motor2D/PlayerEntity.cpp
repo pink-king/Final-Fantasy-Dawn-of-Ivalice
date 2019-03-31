@@ -53,7 +53,7 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		position.x = position.x + (xAxis * 0.003 * characterBaseSpeed.x) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
-		LOG("xAxis %i", xAxis); //32767 -32768
+		//LOG("xAxis %i", xAxis); //32767 -32768
 	}
 	if (yAxis > 0 || yAxis < 0)
 	{
