@@ -36,7 +36,7 @@ void UiItem_Button::AddFuntion(std::string & string, bool Down)
 
 void UiItem_Button::Draw(const float &dt)
 {
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
+	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[IDLE], 0.0F);
 }
 
 void UiItem_Button::OnClickUp()

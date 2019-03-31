@@ -263,6 +263,14 @@
           <position x="0" y="0"/>
         </image>
       </images>
+      <buttons>
+        <button name="button_test">
+          <idleSec x="74" y="482" w="35" h="36"/>
+          <hoverSec x="37" y="482" w="36" h="36" />
+          <clickSec x="0" y="482" w="36" h="36" />
+          <position x="101" y="360"/>
+        </button>
+      </buttons>
     </StartMenu>
     
   </scene>
