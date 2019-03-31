@@ -14,6 +14,13 @@
 
 
 
+struct labelInfo
+{
+	std::string labelText;
+	SDL_Color labelColor;
+	uint labelIndex;
+};
+
 class j1Gui : public j1Module
 {
 public:
@@ -24,8 +31,7 @@ public:
 	//Override funtions from class j1Module
 	bool Awake(pugi::xml_node&);
 	bool Start();
-	bool Update(float dt);
-	void SearchandSelectClicked(); 
+	bool Update(float dt); 
 	void DoLogicSelected(); 
 	void ApplyTabBetweenSimilar(bool setClicked = false); 
 
@@ -39,7 +45,7 @@ public:
 	UiItem_Bar* AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent); // , TypeBar type = VERTICAL);
 	UiItem_Button* AddButton(iPoint position, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
-	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem*const parent = nullptr); // check the null parent
+	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
 	
 	SDL_Texture* GetAtlas();
 

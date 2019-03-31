@@ -5,6 +5,7 @@
 #include "UiItem.h"
 #include "j1Scene.h"
 #include "j1Input.h"
+#include "j1Fonts.h"
 #include "UiItem_Image.h"
 #include "j1Window.h"
 #include "Brofiler/Brofiler.h"
@@ -12,7 +13,7 @@
 #include "p2log.h"
 #include <assert.h> 
 
-UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem * const parent) :UiItem(position, parent)
+UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem * const parent) :UiItem(position, parent)
 {
 
 	assert(parent != NULL); 
@@ -56,7 +57,10 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 	tick->hide = true;
 
 
-	// label     // (leave these to the end)
+	// label    // TODO: Define position and parent       (labelInfo already contains other stuff)
+
+	App->gui->AddLabel(labelInfo->labelText, labelInfo->labelColor, App->font->fonts.at(labelInfo->labelIndex), position, this); 
+	// - - - - - - - - - - - - - - - - - - - -
 
 
 

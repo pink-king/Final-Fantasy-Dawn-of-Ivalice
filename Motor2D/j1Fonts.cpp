@@ -36,8 +36,10 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	}
 
 
-	sans = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
-	//fonts.push_back(sans); 
+	openSansBold18 = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
+	
+
+	
 	
 
 	return ret;
@@ -47,14 +49,13 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 bool j1Fonts::CleanUp()
 {
 	LOG("Freeing True Type fonts and library");
-	std::list<TTF_Font*>::iterator item = fonts.begin();
-	// std::vector<TTF_Font*>::iterator item = fonts.begin();
+	std::vector<TTF_Font*>::iterator item = fonts.begin();
 
 	for(; item != fonts.end(); ++item)
 	{
 		TTF_CloseFont(*item);
 	}
-
+	
 	fonts.clear();
 	TTF_Quit();
 	return true;
@@ -95,7 +96,7 @@ SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * fon
 		SDL_FreeSurface(surface);
 	}
 
-	return ret;
+	return ret; 
 }
 
 // calculate size of a text

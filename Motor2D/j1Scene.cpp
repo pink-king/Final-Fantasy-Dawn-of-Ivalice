@@ -232,9 +232,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
-		// App->gui->AddImage(position, &section, parent, isPanel);
 
-		
 		// PANELS
 
 		if (isPanel != 1)
@@ -270,7 +268,24 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 				SDL_Rect boxSection = { uiNode2.child("boxSection").attribute("x").as_int(), uiNode2.child("boxSection").attribute("y").as_int(), uiNode2.child("boxSection").attribute("w").as_int(), uiNode2.child("boxSection").attribute("h").as_int() };
 				SDL_Rect tickSection = { uiNode2.child("tickSection").attribute("x").as_int(), uiNode2.child("tickSection").attribute("y").as_int(), uiNode2.child("tickSection").attribute("w").as_int(), uiNode2.child("tickSection").attribute("h").as_int() };
 
-				App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, testPanel);
+
+				// LABEL INSIDE CHECKBOX 
+				pugi::xml_node uiNode3 = uiNode2.child("checkboxLabels").child("checkboxLabel");
+				
+					std::string text = uiNode3.child("text").attribute("value").as_string();
+					uint fontIndex = uiNode3.child("font").attribute("value").as_uint();
+					uint fontSize = uiNode3.child("font").attribute("size").as_uint();
+					SDL_Color color = { uiNode3.child("color").attribute("R").as_uint(),uiNode3.child("color").attribute("G").as_uint(),uiNode3.child("color").attribute("B").as_uint(),uiNode3.child("color").attribute("A").as_uint() };
+
+
+					labelInfo labelInfo = {
+						text,
+						color ,
+						fontIndex,
+					}; 
+
+					App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, testPanel);
+
 			}
 
 		}

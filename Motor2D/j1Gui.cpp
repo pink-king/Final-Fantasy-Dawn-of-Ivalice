@@ -35,7 +35,6 @@ bool j1Gui::Start()
 
 bool j1Gui::Update(float dt)
 {
-	SearchandSelectClicked(); // TODO: don't do this always 
 	DoLogicSelected(); 
 
 	// TESTING TAB, its "faked" for the mom, only bars 
@@ -70,91 +69,6 @@ void j1Gui::DoLogicSelected() {
 	}
 
 }
-
-void j1Gui::SearchandSelectClicked() {
-
-
-
-	/*std::list<UiItem*>::iterator item = ListItemUI.begin();
-
-	for (; item != ListItemUI.end(); item++)
-	{
-		if ((*item)->tabbed)               // tabbed items should skip this 
-		{
-			if ((*item)->state != CLICK && mouseButtonDown != 0)
-			{
-
-				if (selected_object->tabbed && (*item)->guiType == selected_object->guiType)    // condition so that if there was a tabbed object, it must not be selected now
-				{
-					selected_object->tabbed = false;
-					selected_object->state = IDLE;               // deselect current object
-					selected_object->DoLogicAbandoned();
-
-
-					selected_object = (*item);                     // the selected object is now tabbed
-					selected_object->state = HOVER;
-					selected_object->tabbed = true;
-
-				}
-				else
-				{
-				(*item)->mouseButtonDown = mouseButtonDown;
-				(*item)->state = CLICK;
-				selected_object = *item;
-				}
-
-
-			}
-
-			if (((*item)->state == CLICK) && App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
-			{
-				(*item)->state = HOVER;
-			}
-
-			if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_REPEAT)
-			{
-				(*item)->state = DRAG;
-			}
-
-
-
-			else if ((*item)->state == IDLE)
-			{
-				(*item)->state = HOVER;
-				(*item)->DoLogicHovered(false);   // check this call
-			}
-
-
-
-		}                    // REWORK ALL THIS WITHOUT MOUSE 
-
-		/*else  if ((*item)->state != IDLE)       // When an item is outside
-		{
-
-
-			if (!(*item)->slidable)        // If it is not slider, then it switches to IDLE
-			{
-				(*item)->state = IDLE;
-				(*item)->DoLogicAbandoned(false);
-			}
-			else if ((*item)->state == DRAG)        // sliders can be dragged outside the bar
-			{
-
-				if (App->input->GetMouseButtonDown((*item)->mouseButtonDown) == KEY_UP)
-				{
-					(*item)->iFriend->state = IDLE;
-					(*item)->state = IDLE;
-				}
-				else
-				{
-					(*item)->iFriend->DoLogicDragged(true); // slider thumbs are still hovered if mouse leaves the bar
-				}
-				}
-			}*/
-
-
-	}
-
 
 
 
@@ -518,15 +432,16 @@ UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem*const parent)
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, parent); 
+	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, labelInfo, parent); 
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
 }
+
 
 SDL_Texture * j1Gui::GetAtlas()
 {

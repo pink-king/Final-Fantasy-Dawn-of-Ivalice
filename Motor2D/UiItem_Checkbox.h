@@ -8,6 +8,8 @@
 class UiItem_Image;
 class UiItem_Label;
 
+struct labelInfo; 
+
 class UiItem_Checkbox :public UiItem
 {
 protected:
@@ -27,7 +29,7 @@ protected:
 	void DoLogicAbandoned();
 
 public:
-	UiItem_Checkbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, UiItem*const parent = nullptr); // checkbox does not have parent? or the empty obj?? 
+	UiItem_Checkbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr); 
 	~UiItem_Checkbox() {}
 	void Draw(const float& dt);
 
