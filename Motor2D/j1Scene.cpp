@@ -181,7 +181,8 @@ bool j1Scene::Update(float dt)
 			uiShara->enable = true;
 		}
 	}
-	App->map->Draw();
+	if (App->map->active)
+		App->map->Draw();
 
 	int x, y;
 	App->input->GetMousePosition(x, y);
