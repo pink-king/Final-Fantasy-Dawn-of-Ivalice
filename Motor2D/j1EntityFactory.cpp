@@ -81,6 +81,7 @@ bool j1EntityFactory::Update(float dt)
 
 			// updates entity associated tile positions tile and subtile
 			(*item)->UpdateTilePositions();
+			//LOG("entity subtile: %i,%i", (*item)->GetSubtilePos().x, (*item)->GetSubtilePos().y);
 
 				draw_entities.push_back(*item);
 			
@@ -237,7 +238,7 @@ std::vector<j1Entity*> j1EntityFactory::GetSubtileEntityVectorAt(const iPoint po
 bool j1EntityFactory::isThisSubtileEmpty(const iPoint pos) const
 {
 	if (CheckSubtileMapBoundaries(pos))
-		return entitiesDataMap[GetSubtileEntityIndexAt(pos)].isEmpty();
+		return !entitiesDataMap[GetSubtileEntityIndexAt(pos)].isEmpty();
 	else
 		return false;
 }

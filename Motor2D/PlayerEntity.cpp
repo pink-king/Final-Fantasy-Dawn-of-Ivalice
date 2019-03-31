@@ -104,8 +104,6 @@ bool PlayerEntity::InputMovement(float dt)
 
 	// checks render flip
 	CheckRenderFlip();
-	//// updates tile positions (this should be better do once when move)
-	//UpdateTilePositions();
 
 	//LOG("animation Angle: %f", animationAngle);
 

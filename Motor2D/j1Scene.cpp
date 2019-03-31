@@ -80,7 +80,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	// debug pathfing ------------------
 
 	int x, y;
@@ -95,6 +94,22 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		App->win->SetScale(2);
 
+	// debug testing subtiles entities empty
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
+		iPoint clickedTile = entitySubTilePoint;
+		clickedTile = App->map->WorldToMap(clickedTile.x, clickedTile.y);
+		entitySubTilePoint = App->map->WorldToSubtileMap(entitySubTilePoint.x, entitySubTilePoint.y);
+
+		LOG("clicked tile: %i, %i", clickedTile.x, clickedTile.y);
+		LOG("clicked subtile %i,%i", entitySubTilePoint.x, entitySubTilePoint.y);
+
+		if (App->entityFactory->isThisSubtileEmpty(entitySubTilePoint))
+			LOG("subtile empty");
+		else
+			LOG("subtile NOT empty");
+	}
 
 	return true;
 }

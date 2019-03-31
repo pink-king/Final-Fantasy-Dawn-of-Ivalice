@@ -13,8 +13,7 @@ j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::strin
 
 j1Entity::~j1Entity()
 {
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
+	App->entityFactory->DeleteEntityFromSubtile(this);
 }
 
 bool j1Entity::Start()
