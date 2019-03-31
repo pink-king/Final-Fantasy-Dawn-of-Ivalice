@@ -36,7 +36,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	}
 
 
-	sans = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
+	sans = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
 	//fonts.push_back(sans); 
 	
 

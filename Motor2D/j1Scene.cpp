@@ -277,7 +277,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 	}
 
-	// labels
+/*	// labels
 	for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
 	{
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
@@ -305,7 +305,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		App->gui->AddBar(iPoint(position.x + 450, position.y), &section_bar, &section_thumb, nullptr);
 	}
-
+	*/
 
 	// checkboxes
 

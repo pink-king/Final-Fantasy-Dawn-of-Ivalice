@@ -18,10 +18,14 @@ public:
 	
 private: 
 
-	SDL_Rect* ReturnPos()
+	iPoint* ReturnPos()
 	{
-		return  &(this->hitBox); 
-    }
+		iPoint* ret = { 0 }; 
+		ret->x = this->hitBox.x;
+		ret->y = this->hitBox.y;
+		return ret; 
+
+	}
 
 	void SetPos(iPoint pos) {
 		this->hitBox.x = pos.x; 

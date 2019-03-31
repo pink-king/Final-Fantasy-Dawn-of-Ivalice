@@ -56,21 +56,14 @@ void j1Gui::DoLogicSelected() {
 
 	if (selected_object != nullptr)
 	{
-		bool do_slide = false;
-		if (selected_object->slidable)
-		{
-			do_slide = true;
-		}
 		switch (selected_object->state) 
 		{
 
-		case CLICK: selected_object->DoLogicClicked(do_slide);
+		case CLICK: selected_object->DoLogicClicked();
 			break;
-		case HOVER: selected_object->DoLogicHovered(do_slide);
+		case HOVER: selected_object->DoLogicHovered();
 			break;
-		case DRAG: selected_object->DoLogicDragged(do_slide);
-			break;
-		case IDLE: selected_object->DoLogicAbandoned(do_slide);
+		case IDLE: selected_object->DoLogicAbandoned();
 			break;
 
 		}
@@ -163,20 +156,7 @@ void j1Gui::SearchandSelectClicked() {
 	}
 
 
-/*
-void j1Gui::ResolveChildren(UiItem* parent){
 
-	std::list<UiItem*>::iterator item = ListItemUI.begin();
-
-	for (; item != ListItemUI.end(); item++)
-	{
-		if ((*item)->parent == parent) {
-			selected_object = (*item);                 // this is just a base, no sense now 
-		}
-	
-	}
-
-}*/
 
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
@@ -184,12 +164,27 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
 	
-	
-	if (selected_object && selected_object->tabbed && App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	if (selected_object && selected_object->tabbed)
 	{
-		selected_object->DoLogicClicked(false); 
-	}
+		switch (selected_object->guiType)
+		{
 
+		case GUI_TYPES::CHECKBOX:
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+			{
+				selected_object->DoLogicClicked();
+			}
+
+			break;
+		case GUI_TYPES::BAR:
+			selected_object->DoLogicHovered();
+			break; 
+
+
+		}
+
+		
+	}
 	
 	
 	
@@ -442,7 +437,7 @@ bool j1Gui::PostUpdate()
 				r.y = (*iter)->hitBox.y;
 				r.w = (*iter)->hitBox.w;
 				r.h = (*iter)->hitBox.h;
-				if ((*iter)->state == CLICK || (*iter)->state == DRAG)
+				if ((*iter)->state == CLICK)
 					App->render->DrawQuad(r, 100, 50, 200, 200, true, false);
 				else if ((*iter)->state == HOVER)
 					App->render->DrawQuad(r, 110, 125, 240, 200, true, false);

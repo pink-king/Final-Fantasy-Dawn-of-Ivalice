@@ -11,7 +11,6 @@ enum UI_STATES
 	IDLE,
 	HOVER,
 	CLICK,
-	DRAG,
 	MAX_STATES,
 };
 
@@ -48,10 +47,9 @@ public:
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 
-	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
-	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers
-	virtual void DoLogicDragged(bool slidable = false) {}; // TODO: Function pointers
-	virtual void DoLogicAbandoned(bool slidable = false) {}; // TODO: Function pointers
+	virtual void DoLogicClicked() {}; // TODO: Function pointers
+	virtual void DoLogicHovered(){}; // TODO: Function pointers
+	virtual void DoLogicAbandoned() {}; // TODO: Function pointers
 };
 
 #endif
