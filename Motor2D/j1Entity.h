@@ -89,7 +89,7 @@ public:
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
 
-private:
+protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
 	iPoint previousSubtilePos;

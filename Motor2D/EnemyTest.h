@@ -4,10 +4,12 @@
 #include "j1Entity.h"
 #include "p2Animation.h"
 #include "p2Point.h"
+#include "j1Timer.h"
 #include <vector>
 
 
 #define RANGE 20
+struct SDL_Texture; 
 
 enum class EnemyState
 {
@@ -33,6 +35,7 @@ public:
 	bool PostUpdate();
 	void SetState(float dt);
 	bool SearchNewPath(); 
+	bool isNextSubtileFree(int x, int y) const; 
 	virtual bool CleanUp();
 
 	void DebugPath() const;
@@ -42,13 +45,19 @@ public:
 
 private:
 	std::vector<iPoint> path_to_follow;
+	
+	EnemyState state = EnemyState::IDLE;
 
 	iPoint tileToGo; 
-	EnemyState state = EnemyState::IDLE; 
-	Animation idle; 
+	fPoint newPosition; 
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
 	uint chasingSpeed = 100;
+
+	Animation idle;
+	j1Timer checkTime; 
+
+	SDL_Texture* debugSubtile = nullptr; 
 };
 
 #endif
