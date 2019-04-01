@@ -232,6 +232,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
+		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
 		// PANELS
 
@@ -242,7 +243,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		else
 		{
 
-			testPanel = App->gui->AddImage(position, &section, parent, isPanel);
+			// testPanel = App->gui->AddImage(position, &section, parent, isPanel);
+
+			UiItem_Image* defaultPanel = App->gui->AddImage(position, &section, parent, isPanel);
 
 			// TODO: INTRODUCE PARENT NAME IN XML, SO THAT WE DISTINGUISH ITEMS WITH OTHER PARENTS
 
@@ -255,7 +258,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 				iPoint position = { uiNode2.child("position").attribute("x").as_int(), uiNode2.child("position").attribute("y").as_int() };
 				SDL_Rect section_bar = { uiNode2.child("section_bar").attribute("x").as_int(), uiNode2.child("section_bar").attribute("y").as_int(), uiNode2.child("section_bar").attribute("w").as_int(), uiNode2.child("section_bar").attribute("h").as_int() };
 				SDL_Rect section_thumb = { uiNode2.child("section_thumb").attribute("x").as_int(), uiNode2.child("section_thumb").attribute("y").as_int(), uiNode2.child("section_thumb").attribute("w").as_int(), uiNode2.child("section_thumb").attribute("h").as_int() };
-				App->gui->AddBar(position, &section_bar, &section_thumb, testPanel);
+				App->gui->AddBar(position, &section_bar, &section_thumb, defaultPanel);
 			}
 
 
@@ -284,7 +287,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 						fontIndex,
 					}; 
 
-					App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, testPanel);
+					App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, defaultPanel);
 
 			}
 

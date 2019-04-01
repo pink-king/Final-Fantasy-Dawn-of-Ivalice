@@ -70,7 +70,7 @@
 	    <image name="panelTest">
          <section x="721" y="480" w="338" h="308"/>
          <position x="150" y="190"/>
-		 <flag isPanel = "1"/>
+		 <flag isPanel = "1" panelName = "panelTest"/>
 		  
 		  <panelBars>
 	   

@@ -49,7 +49,7 @@ public:
 	UiItem * uiShara = nullptr;
 	UiItem * uiRitz = nullptr;
 	UiItem * startMenu = nullptr;
-	UiItem_Image* testPanel = nullptr; 
+	// UiItem_Image* testPanel = nullptr; 
 	bool debug = false;
 	SceneState state = SceneState::GAME;
 
