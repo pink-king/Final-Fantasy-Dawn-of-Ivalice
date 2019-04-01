@@ -29,10 +29,7 @@ bool j1AttackManager::Start()
 {
 	debugSubtileTex = App->tex->Load("maps/subtileAttackDebug.png");
 	debugSubtileTex2 = App->tex->Load("maps/tile_32x32.png");
-	// test propagation attack
-	//AddPropagationAttack({33,11}, propagationType::BFS, 10, 6, 500);
-	/*AddPropagationAttack(propagationType::BFS, 10, 6, 500);
-	AddPropagationAttack(propagationType::BFS, 10, 6, 5500);*/
+	debugSubtileTex3 = App->tex->Load("maps/entitiesInvolvedSubtile.png");
 
 	return true;
 }
@@ -67,6 +64,16 @@ bool j1AttackManager::Update(float dt)
 
 bool j1AttackManager::PostUpdate()
 {
+	bool ret = true;
+
+	std::vector<attackData*>::iterator attacksDataIterator = currentPropagationAttacks.begin();
+
+	for (; attacksDataIterator != currentPropagationAttacks.end(); ++attacksDataIterator)
+	{
+		if ((*attacksDataIterator)->PostUpdate())
+			ret = false;
+		
+	}
 	return true;
 }
 
@@ -123,8 +130,10 @@ bool attackData::Start()
 	// puts startpoint to algoritm
 	frontier.push(startSubtilePoint);
 	visited.push_back(startSubtilePoint);
-	// and do the first propagation step
-	DoNextPropagationStep();
+	// " and do the first propagation step "
+	subtileQueue.push(startSubtilePoint);
+	CheckEntitiesFromSubtileStep();
+	//DoNextPropagationStep();
 
 	return true;
 }
@@ -140,9 +149,15 @@ bool attackData::Update(float dt)
 			to_erase = true;
 		}
 		else
+		{
+			// propagate
 			DoNextPropagationStep();
+			// check queued subtiles to find target entities
+			CheckEntitiesFromSubtileStep();
+		}
 	}
 
+	// debug draw
 	if (debug)
 	{
 		// blit debug attack expansion -----------------------------------------------------------------
@@ -161,6 +176,15 @@ bool attackData::Update(float dt)
 			drawPosition = App->map->SubTileMapToWorld(drawPosition.x, drawPosition.y);
 			App->render->Blit(App->attackManager->debugSubtileTex2, drawPosition.x, drawPosition.y, NULL);
 		}
+
+		/*std::queue<iPoint> subtileQueueTemp = subtileQueue;
+		while (!subtileQueueTemp.empty())
+		{
+			iPoint drawPosition = subtileQueueTemp.front();
+			subtileQueueTemp.pop();
+			drawPosition = App->map->SubTileMapToWorld(drawPosition.x, drawPosition.y);
+			App->render->Blit(App->attackManager->debugSubtileTex3, drawPosition.x, drawPosition.y, NULL);
+		}*/
 		// -----------------------------------------------------------------------------------------------
 	}
 
@@ -169,8 +193,6 @@ bool attackData::Update(float dt)
 
 bool attackData::PostUpdate()
 {
-	// debug draw
-
 	return true;
 }
 
@@ -190,11 +212,31 @@ bool attackData::DoNextPropagationStep()
 	return true;
 }
 
-std::vector<j1Entity*> attackData::GetInvoldedEntitiesFromSubtile(const iPoint subTile)
+std::vector<j1Entity*>* attackData::GetInvoldedEntitiesFromSubtile(const iPoint subTile)
 {
-	std::vector<j1Entity*> temp;
+	std::vector<j1Entity*>* temp;
+
+	temp = App->entityFactory->GetSubtileEntityVectorAt(subTile);
+
+	if (temp != nullptr)
+	{
+		if (temp->size() > 0)
+			LOG("vector with at least one entity");
+	}
 	
 	return temp;
+}
+
+void attackData::CheckEntitiesFromSubtileStep()
+{
+	while (!subtileQueue.empty()) // TODO: get identifier to filter target entities of this attack
+	{
+		//LOG("Checking entities on involved subtile");
+		iPoint subtileChecker = subtileQueue.front();
+		subtileQueue.pop();
+		
+		GetInvoldedEntitiesFromSubtile(subtileChecker);
+	}
 }
 
 bool attackData::DoNextStepBFS()
@@ -230,6 +272,8 @@ bool attackData::DoNextStepBFS()
 					{
 						frontier.push(neighbours[i]);
 						visited.push_back(neighbours[i]);
+						// adds to subtile queue too
+						subtileQueue.push(neighbours[i]);
 					}
 				}
 			}

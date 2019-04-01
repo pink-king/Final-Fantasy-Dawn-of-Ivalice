@@ -37,7 +37,7 @@ public:
 	bool isThisSubtileEmpty(const iPoint position) const;
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 
-	std::vector<j1Entity*> GetSubtileEntityVectorAt(const iPoint pos) const;
+	std::vector<j1Entity*>* GetSubtileEntityVectorAt(const iPoint pos) const;
 
 	void DestroyEntity(j1Entity* entity);
 

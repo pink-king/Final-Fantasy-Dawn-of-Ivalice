@@ -227,12 +227,15 @@ void j1EntityFactory::CreateEntitiesDataMap(int width, int height)
 	LOG("");
 }
 
-std::vector<j1Entity*> j1EntityFactory::GetSubtileEntityVectorAt(const iPoint pos) const
+std::vector<j1Entity*>* j1EntityFactory::GetSubtileEntityVectorAt(const iPoint pos) const
 {
 	if (CheckSubtileMapBoundaries(pos))
-		return entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities;
+		return &entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities;
 	else
+	{
 		LOG("data out of boundaries, ignoring");
+		return nullptr;
+	}
 }
 
 bool j1EntityFactory::isThisSubtileEmpty(const iPoint pos) const

@@ -35,8 +35,11 @@ protected:
 public:
 	bool to_erase = false;
 private:
+	std::vector<j1Entity*>* GetInvoldedEntitiesFromSubtile(const iPoint subtilePos);
+	void CheckEntitiesFromSubtileStep(); // when a "step" is done, this function is called
+
+private:
 	bool debug = true;
-	std::vector<j1Entity*> GetInvoldedEntitiesFromSubtile(const iPoint subtilePos);
 	// propagation data itself -----------
 	iPoint startSubtilePoint;
 	propagationType propaType;
@@ -47,8 +50,14 @@ private:
 	j1Timer stepTimer;
 	// associated entity
 	//j1Entity* fromEntity = nullptr;
+	
+	// draw and core searching ------------
 	std::queue<iPoint> frontier;
 	std::vector<iPoint> visited;
+	// only debug draw
+	std::vector<iPoint> foundEntities; // draw debug subtile on position of the found entity (at the moment of coincidence)
+	// queue to push and pops every step, to pass the data to buff manager
+	std::queue<iPoint> subtileQueue;
 
 };
 
@@ -76,10 +85,12 @@ public:
 public:
 	SDL_Texture* debugSubtileTex = nullptr;
 	SDL_Texture* debugSubtileTex2 = nullptr;
+	SDL_Texture* debugSubtileTex3 = nullptr;
 
 private:
 	std::vector<attackData*> currentPropagationAttacks;
 	//bool debug = true;
+
 	
 };
 

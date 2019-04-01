@@ -185,7 +185,7 @@ iPoint j1Map::WorldToSubtileMap(int x, int y) const
 
 	float half_width = (data.tile_width * SUBTILE_RESOLUTION) * 0.5f;
 	float half_height = (data.tile_height * SUBTILE_RESOLUTION) * 0.5f;
-	ret.x = int((x / half_width + y / half_height) / 2) - 1;
+	ret.x = int((x / half_width + y / half_height) / 2) - 1; //* SUBTILE_MULTIPLIER; TODO: search subtilemap draw displacement
 	ret.y = int((y / half_height - (x / half_width)) / 2);
 	}
 	else
