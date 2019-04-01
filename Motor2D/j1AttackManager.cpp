@@ -144,7 +144,7 @@ bool attackData::Update(float dt)
 	{
 		//LOG("DO next propagation step");
 		stepTimer.Start();
-		if (currentPropagationStep >= subTileStepRadius)
+		if (currentPropagationStep >= subTileStepRadius - 1) // -1 because how frontier works
 		{
 			to_erase = true;
 		}

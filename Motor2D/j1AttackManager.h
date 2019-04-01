@@ -57,7 +57,7 @@ private:
 	// only debug draw
 	std::vector<iPoint> foundEntities; // draw debug subtile on position of the found entity (at the moment of coincidence)
 	// queue to push and pops every step, to pass the data to buff manager
-	std::queue<iPoint> subtileQueue;
+	std::queue<iPoint> subtileQueue; // only affects the entity/ies of the current step of expansion
 
 };
 
