@@ -8,9 +8,14 @@
 class UiItem_Button :public UiItem
 {
 protected:
-	SDL_Rect frames[MAX_STATES];
+	SDL_Rect actual_sprite;
+	const SDL_Rect* idle;
+	const SDL_Rect* hover;
+	const SDL_Rect* click;
 	void(*funtionOnClick) () = nullptr;
 	void(*funtionOnUp)() = nullptr;
+
+
 
 public:
 	UiItem_Button(iPoint position, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
@@ -20,6 +25,8 @@ public:
 	void Draw(const float&);
 	void OnClickUp();
 	void OnClickDown();
+	void DoLogicHovered();
+	void DoLogicAbandoned();
 };
 
 #endif
