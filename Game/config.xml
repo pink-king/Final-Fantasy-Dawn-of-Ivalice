@@ -31,7 +31,7 @@
      <images>
        <image name="box_abilities_grey">
          <section x="1" y="545" w="165" h="43"/>
-         <position x="557" y="682"/>
+         <position x="557" y="675"/>
        </image>
        <image name="life_bar">
          <section x="110" y="482" w="134" h="26"/>
@@ -39,11 +39,11 @@
        </image>
        <image name="bag">
          <section x="245" y="482" w="37" h="42"/>
-         <position x="1210" y="686"/>
+         <position x="1210" y="675"/>
        </image>
        <image name="squareButton">
          <section x="283" y="482" w="35" h="15"/>
-         <position x="1170" y="710"/>
+         <position x="1170" y="700"/>
        </image>
        <image name="LButton">
          <section x="319" y="482" w="35" h="15"/>
@@ -156,19 +156,19 @@
       <images>
         <image name="sword">
          <section x="167" y="545" w="36" h="36"/>
-         <position x="561" y="685 "/>
+         <position x="561" y="679 "/>
        </image>
        <image name="sword_ability">
          <section x="0" y="482" w="36" h="36"/>
-         <position x="601" y="685"/>
+         <position x="601" y="679"/>
        </image>
        <image name="glove">
          <section x="37" y="482" w="36" h="36"/>
-         <position x="641" y="685"/>
+         <position x="641" y="679"/>
        </image>
        <image name="orbe">
          <section x="74" y="482" w="35" h="36"/>
-         <position x="681" y="685"/>
+         <position x="681" y="679"/>
        </image>
       <image name="marche">
          <section x="455" y="482" w="58" h="77"/>
@@ -190,19 +190,19 @@
       <images>
         <image name="basic_shara">
          <section x="167" y="545" w="36" h="36"/>
-         <position x="561" y="685 "/>
+         <position x="561" y="679 "/>
        </image>
        <image name="ability1_shara">
          <section x="0" y="482" w="36" h="36"/>
-         <position x="601" y="685"/>
+         <position x="601" y="679"/>
        </image>
        <image name="ability2_shara">
          <section x="37" y="482" w="36" h="36"/>
-         <position x="641" y="685"/>
+         <position x="641" y="679"/>
        </image>
        <image name="ulti_shara">
          <section x="74" y="482" w="35" h="36"/>
-         <position x="681" y="685"/>
+         <position x="681" y="679"/>
        </image>
         <image name="shara">
          <section x="257" y="545" w="47" h="64"/>
@@ -225,19 +225,19 @@
       <images>
         <image name="basic_ritz">
          <section x="167" y="545" w="36" h="36"/>
-         <position x="561" y="685 "/>
+         <position x="561" y="679 "/>
        </image>
        <image name="ability1_ritz">
          <section x="0" y="482" w="36" h="36"/>
-         <position x="601" y="685"/>
+         <position x="601" y="679"/>
        </image>
        <image name="ability2_ritz">
          <section x="37" y="482" w="36" h="36"/>
-         <position x="641" y="685"/>
+         <position x="641" y="679"/>
        </image>
        <image name="ulti_ritz">
          <section x="74" y="482" w="35" h="36"/>
-         <position x="681" y="685"/>
+         <position x="681" y="679"/>
        </image>
         <image name="ritz">
          <section x="204" y="545" w="53" h="64"/>
