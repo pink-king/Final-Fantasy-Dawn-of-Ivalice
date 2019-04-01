@@ -34,9 +34,11 @@ public:
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN; 
 	SDL_Rect hitBox = { 0,0,0,0 };
+	std::string function;
 	// p2Point<int> pivot = { 0,0 };
 	uint mouseButtonDown = 0;
 	UiItem(const iPoint& pos, UiItem *const parent);
+	UiItem(const iPoint& pos, std::string &function, UiItem *const parent);
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
@@ -48,6 +50,7 @@ public:
 	UiItem* iFriend = nullptr;
 
 	virtual void DoLogicClicked() {}; // TODO: Function pointers
+	virtual void DoLogicClicked(std::string &functionName) {}; // TODO: Function pointers
 	virtual void DoLogicHovered(){}; // TODO: Function pointers
 	virtual void DoLogicAbandoned() {}; // TODO: Function pointers
 };

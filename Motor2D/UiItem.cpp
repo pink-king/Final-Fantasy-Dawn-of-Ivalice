@@ -6,13 +6,27 @@
 #include "j1Input.h"
 #include "j1Window.h"
 
-UiItem::UiItem(const iPoint & pos, UiItem *const parent) : parent(parent)
+
+UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
 	if (parent != nullptr)
 		this->parent = parent;
 
+	this->function = function;
+
+	SDL_ShowCursor(SDL_DISABLE);
+}
+
+UiItem::UiItem(const iPoint & pos, std::string &function, UiItem *const parent) : parent(parent)
+{
+	hitBox.x = pos.x;
+	hitBox.y = pos.y;
+	if (parent != nullptr)
+		this->parent = parent;
+
+	this->function = function;
 
 	SDL_ShowCursor(SDL_DISABLE);
 }

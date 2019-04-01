@@ -86,9 +86,17 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		case GUI_TYPES::CHECKBOX:
 			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 			{
+				std::string function = selected_object->function;
 				selected_object->DoLogicClicked();
 			}
 
+			break;
+		case GUI_TYPES::BUTTON:
+			if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN)
+			{
+				std::string function = selected_object->function;
+				selected_object->DoLogicClicked(function);
+			}
 			break;
 
 
@@ -106,14 +114,23 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	{
 		for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
-			if ((*item)->guiType == CHECKBOX)
+			//if ((*item)->guiType == CHECKBOX)
+			//{
+
+			//	selected_object = (*item);     // first set as selected the leftmost bar (first created)  
+			//	selected_object->state = HOVER;
+			//	selected_object->tabbed = true;
+			//	setClicked = true;
+			//	break; 
+			//}
+			if ((*item)->guiType == BUTTON)
 			{
 
 				selected_object = (*item);     // first set as selected the leftmost bar (first created)  
 				selected_object->state = HOVER;
 				selected_object->tabbed = true;
 				setClicked = true;
-				break; 
+				break;
 			}
 		}
 	}
@@ -404,16 +421,19 @@ UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_R
 
 }
 
-UiItem_Button * j1Gui::AddButton(iPoint position, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
+UiItem_Button * j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = new UiItem_Button(position, idle, canvas, click, hover);
+		newUIItem = new UiItem_Button(position, function, idle, canvas, click, hover);
 	else
-		newUIItem = new UiItem_Button(position, idle, parent, click, hover);
+		newUIItem = new UiItem_Button(position, function, idle, parent, click, hover);
 
 	ListItemUI.push_back(newUIItem);
+
+	UiItem_Button* button = (UiItem_Button*)newUIItem;
+	button->AddFuntion(function);
 
 	return (UiItem_Button*)newUIItem;
 }
@@ -448,4 +468,8 @@ SDL_Texture * j1Gui::GetAtlas()
 	return atlas;
 }
 
+void j1Gui::FadeToScene()
+{
+	App->scene->state = SceneState::GAME;
+}
 

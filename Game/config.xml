@@ -264,10 +264,10 @@
         </image>
       </images>
       <buttons>
-        <button name="button_test">
-          <idleSec x="74" y="482" w="35" h="36"/>
-          <hoverSec x="37" y="482" w="36" h="36" />
-          <clickSec x="0" y="482" w="36" h="36" />
+        <button name="button_test" function = "FadeToScene">
+          <idleSec x="305" y="572" w="81" h="37"/>
+          <hoverSec x="387" y="572" w="83" h="39" />
+          <clickSec x="471" y="572" w="83" h="39" />
           <position x="101" y="360"/>
         </button>
       </buttons>

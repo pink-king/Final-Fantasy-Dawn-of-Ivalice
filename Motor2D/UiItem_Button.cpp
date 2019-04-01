@@ -9,8 +9,7 @@
 #include <assert.h>
 
 
-
-UiItem_Button::UiItem_Button(iPoint position, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, parent)
+UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position,function, parent)
 {
 	assert(parent != nullptr);
 	frames[IDLE] = *idle;
@@ -28,12 +27,16 @@ UiItem_Button::UiItem_Button(iPoint position, const SDL_Rect * idle, UiItem * co
 	this->guiType = GUI_TYPES::BUTTON;
 }
 
-void UiItem_Button::AddFuntion(void(*funtionOnClick)(), bool Down)
+
+void UiItem_Button::AddFuntion(std::string & string)
 {
+
 }
 
-void UiItem_Button::AddFuntion(std::string & string, bool Down)
+void UiItem_Button::DoLogicClicked(std::string &functionName)
 {
+	if (functionName == "FadeToScene")
+		App->gui->FadeToScene();
 }
 
 void UiItem_Button::Draw(const float &dt)
@@ -41,12 +44,6 @@ void UiItem_Button::Draw(const float &dt)
 	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }
 
-void UiItem_Button::OnClickUp()
-{
-}
 
-void UiItem_Button::OnClickDown()
-{
-}
 
 
