@@ -13,6 +13,7 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
+#include "j1AttackManager.h"
 
 
 j1Scene::j1Scene() : j1Module()
@@ -109,6 +110,10 @@ bool j1Scene::PreUpdate()
 			LOG("subtile empty");
 		else
 			LOG("subtile NOT empty");
+
+		// DEBUG attack propagation!
+		App->attackManager->AddPropagationAttack({ entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 5, 40);
+
 	}
 
 	return true;

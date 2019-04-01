@@ -1,10 +1,15 @@
+#include <algorithm>
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
-#include <algorithm>
+#include "j1PathFinding.h"
+#include "j1Map.h"
+
+// TODO: to improve ---
+// - unlink the speed of the steps from time, do with float increments multiplicative with dt
 
 j1AttackManager::j1AttackManager()
 {
@@ -22,8 +27,10 @@ bool j1AttackManager::Awake(pugi::xml_node & node)
 
 bool j1AttackManager::Start()
 {
+	debugSubtileTex = App->tex->Load("maps/subtileAttackDebug.png");
+	debugSubtileTex2 = App->tex->Load("maps/tile_32x32.png");
 	// test propagation attack
-	AddPropagationAttack(propagationType::BFS, 10, 6, 2500);
+	//AddPropagationAttack({33,11}, propagationType::BFS, 10, 6, 500);
 	/*AddPropagationAttack(propagationType::BFS, 10, 6, 500);
 	AddPropagationAttack(propagationType::BFS, 10, 6, 5500);*/
 
@@ -73,9 +80,9 @@ bool j1AttackManager::CleanUp()
 	return true;
 }
 
-void j1AttackManager::AddPropagationAttack(propagationType propagationType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed)
+void j1AttackManager::AddPropagationAttack(iPoint startSubtilePoint,propagationType propagationType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed)
 {
-	currentPropagationAttacks.push_back(new attackData(nullptr,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
+	currentPropagationAttacks.push_back(new attackData(nullptr, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
 }
 
 void j1AttackManager::RemovePropagationAttack(attackData* attackDataPackage)
@@ -100,8 +107,8 @@ attackData::attackData()
 	Start();
 }
 
-attackData::attackData(j1Entity* fromEntity, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
-	 propaType(type), baseDamage(baseDamage), subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
+attackData::attackData(j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
+	 startSubtilePoint(startSubtilePoint) ,propaType(type), baseDamage(baseDamage), subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
 {
 	Start();
 }
@@ -113,6 +120,12 @@ bool attackData::Start()
 {
 	stepTimer.Start();
 
+	// puts startpoint to algoritm
+	frontier.push(startSubtilePoint);
+	visited.push_back(startSubtilePoint);
+	// and do the first propagation step
+	DoNextPropagationStep();
+
 	return true;
 }
 
@@ -120,10 +133,35 @@ bool attackData::Update(float dt)
 {
 	if (stepTimer.Read() > propagationStepSpeed)
 	{
-		LOG("DO next propagation step");
+		//LOG("DO next propagation step");
 		stepTimer.Start();
-		//to_erase = true; // test
-		DoNextPropagationStep();
+		if (currentPropagationStep >= subTileStepRadius)
+		{
+			to_erase = true;
+		}
+		else
+			DoNextPropagationStep();
+	}
+
+	if (debug)
+	{
+		// blit debug attack expansion -----------------------------------------------------------------
+		std::vector<iPoint>::iterator debugDrawVisitedSubtiles = visited.begin();
+		for (; debugDrawVisitedSubtiles != visited.end(); ++debugDrawVisitedSubtiles)
+		{
+			iPoint drawPosition = App->map->SubTileMapToWorld((*debugDrawVisitedSubtiles).x, (*debugDrawVisitedSubtiles).y);
+			App->render->Blit(App->attackManager->debugSubtileTex, drawPosition.x, drawPosition.y, NULL);
+		}
+
+		std::queue<iPoint> tempQueue = frontier;
+		while (!tempQueue.empty())
+		{
+			iPoint drawPosition = tempQueue.front();
+			tempQueue.pop();
+			drawPosition = App->map->SubTileMapToWorld(drawPosition.x, drawPosition.y);
+			App->render->Blit(App->attackManager->debugSubtileTex2, drawPosition.x, drawPosition.y, NULL);
+		}
+		// -----------------------------------------------------------------------------------------------
 	}
 
 	return true;
@@ -131,6 +169,8 @@ bool attackData::Update(float dt)
 
 bool attackData::PostUpdate()
 {
+	// debug draw
+
 	return true;
 }
 
@@ -159,5 +199,48 @@ std::vector<j1Entity*> attackData::GetInvoldedEntitiesFromSubtile(const iPoint s
 
 bool attackData::DoNextStepBFS()
 {
+	//int numNeighbours = 4; // up,down,left,right
+	if (!frontier.empty())
+	{
+		int steps = frontier.size();
+		for (int i = 0; i < steps; ++i)
+		{
+			//LOG("DOING: %i", i);
+			iPoint currentSubtile = frontier.front();//front();
+			frontier.pop(); // pops last queue value
+
+			// each relative subtile neighbour
+			iPoint neighbours[4];
+			neighbours[0] = { currentSubtile.x, currentSubtile.y - 1 }; // N
+			neighbours[1] = { currentSubtile.x + 1, currentSubtile.y }; // E
+			neighbours[2] = { currentSubtile.x, currentSubtile.y + 1 }; // S
+			neighbours[3] = { currentSubtile.x - 1, currentSubtile.y }; // W
+
+			for (int i = 0; i < 4; ++i)
+			{
+				if (std::find(visited.begin(), visited.end(), neighbours[i]) != visited.end())
+					continue;
+				else
+				{
+					// check subtile walkability
+					iPoint subtileWalkabilityCheck = neighbours[i]; // TODO: we need a direct conversor function
+					subtileWalkabilityCheck = App->map->SubTileMapToWorld(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
+					subtileWalkabilityCheck = App->map->WorldToMap(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
+					if (App->pathfinding->IsWalkable(subtileWalkabilityCheck))
+					{
+						frontier.push(neighbours[i]);
+						visited.push_back(neighbours[i]);
+					}
+				}
+			}
+		}
+		// increase step
+		++currentPropagationStep;
+		/*LOG("current propagation step:%i", currentPropagationStep);
+		LOG("frontier size: %i", frontier.size());*/
+	}
+	else
+		to_erase = true; // invalid start position eraser
+
 	return true;
 }
