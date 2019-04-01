@@ -13,10 +13,19 @@
 UiItem_Button::UiItem_Button(iPoint position, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, parent)
 {
 	assert(parent != nullptr);
-	this->idle = idle;
-	this->hover = hover;
-	this->click = click;
-	actual_sprite = *idle;
+	frames[IDLE] = *idle;
+
+	if (click)
+		frames[CLICK] = *click;
+	else
+		frames[CLICK] = *idle;
+
+	if (hover)
+		frames[HOVER] = *hover;
+	else
+		frames[HOVER] = *idle;
+
+	this->guiType = GUI_TYPES::BUTTON;
 }
 
 void UiItem_Button::AddFuntion(void(*funtionOnClick)(), bool Down)
@@ -29,7 +38,7 @@ void UiItem_Button::AddFuntion(std::string & string, bool Down)
 
 void UiItem_Button::Draw(const float &dt)
 {
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &actual_sprite, 0.0F);
+	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }
 
 void UiItem_Button::OnClickUp()
@@ -40,12 +49,4 @@ void UiItem_Button::OnClickDown()
 {
 }
 
-void UiItem_Button::DoLogicHovered()
-{
-	actual_sprite = *hover;
-}
 
-void UiItem_Button::DoLogicAbandoned()
-{
-	actual_sprite = *idle;
-}
