@@ -6,6 +6,7 @@
 #include "p2Point.h"
 #include "SDL_ttf/include/SDL_ttf.h"
 #include "j1PerfTimer.h"
+#include <cstdint>
 
 struct valueInfo {
 	std::string string; 
@@ -31,6 +32,7 @@ protected:
 	SDL_Color color;
 	TTF_Font* font = nullptr;
 	SDL_Texture* texture = nullptr;
+	uint8_t alphaValue = 1; 
 
 public: // public or protected? 
 

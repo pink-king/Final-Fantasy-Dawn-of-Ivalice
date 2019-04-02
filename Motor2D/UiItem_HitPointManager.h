@@ -21,7 +21,7 @@ public:
 
 	void updateHitPointPositions();   // TODO: increment all current hitpoins Y position 
 	void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state    // use the scaling factor variable inside each hitbox
-	// void updateHitPointOpacities();  // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
+	void updateHitPointOpacities();  // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
 
 
 public: 
@@ -31,7 +31,6 @@ public:
 
 public:
 	std::vector<UiItem_HitPoint*>			hitPointLabels;   // caution: there is already a ui item list, so hitpoint will appear in both lists ????!!!!
-
 
 
 	friend class j1Gui; 

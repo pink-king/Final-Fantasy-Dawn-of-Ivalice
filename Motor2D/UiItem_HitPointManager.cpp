@@ -34,6 +34,7 @@ bool UiItem_HitPointManager::Update(float dt)
 	{
 		updateHitPointPositions();
 		updateHitPointSizes(); 
+		updateHitPointOpacities(); 
 	}
 
 	return true;
@@ -122,6 +123,9 @@ void UiItem_HitPointManager::updateHitPointPositions()
 			(*item)->hitBox.y -= 2;
 			
 			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
+			/*int w, h; 
+			SDL_QueryTexture((*item)->texture, NULL, NULL, &w, &h);
+			(*item)->hitBox.x -=  w/ 2; */ 
 
 		}
 
@@ -156,5 +160,37 @@ void UiItem_HitPointManager::updateHitPointSizes()
 	}
 
 
+
+}
+
+
+void UiItem_HitPointManager::updateHitPointOpacities()
+{
+
+	
+	for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item)
+	{
+
+		if ((*item) != nullptr)
+		{
+			if ((*item)->returnLifeState() != dead)
+			{
+				switch ((*item)->returnLifeState())
+				{
+				case fadeIn:
+					(*item)->alphaValue *= 3; 
+					break;
+				case Middle:
+					(*item)->alphaValue /= 1.2f; 
+					break;
+				case fadeOut:
+					(*item)->alphaValue /= 2; 
+					break;
+				}
+				SDL_SetTextureAlphaMod((*item)->texture, (*item)->alphaValue);
+			}
+
+		}
+	}
 
 }
