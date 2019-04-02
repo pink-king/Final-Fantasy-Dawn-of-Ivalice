@@ -181,10 +181,10 @@ void UiItem_HitPointManager::updateHitPointOpacities()
 					(*item)->alphaValue *= 3; 
 					break;
 				case Middle:
-					(*item)->alphaValue /= 1.2f; 
+					(*item)->alphaValue /= 1.1f; 
 					break;
 				case fadeOut:
-					(*item)->alphaValue /= 2; 
+					(*item)->alphaValue /= 1.7f; 
 					break;
 				}
 				SDL_SetTextureAlphaMod((*item)->texture, (*item)->alphaValue);

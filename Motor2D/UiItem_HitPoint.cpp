@@ -49,11 +49,11 @@ lifeState UiItem_HitPoint::returnLifeState() {
 	{
 		ret = fadeIn; 
 	}
-	else if (lifeMoment >= 300 && lifeMoment <= 800)
+	else if (lifeMoment >= 300 && lifeMoment <= 1000)
 	{
 		ret = Middle;
 	}
-	else if(lifeMoment > 800 && lifeMoment <= 1000)
+	else if(lifeMoment > 1000 && lifeMoment <= 1200)
 	{
 		ret = fadeOut;
 	}
