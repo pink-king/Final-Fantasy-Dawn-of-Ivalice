@@ -122,7 +122,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 {
 
 	float powerAttack = CalculateStat(attacker, initialDamage, stat);
-	defender->life -= powerAttack;
+	defender->life -= powerAttack;                                           // TODO: call HitPoint creation in HitPointManager here
 	if (defender->life < 0)
 		defender->life = 0;
 }

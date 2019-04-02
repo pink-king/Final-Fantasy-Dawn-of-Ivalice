@@ -13,7 +13,7 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
-
+#include "UiItem_HitPointManager.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -193,8 +193,11 @@ bool j1Scene::Update(float dt)
 	iPoint coords = App->render->ScreenToWorld(x, y);
 
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y,  "whatever");
-
+	{
+		// App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+		
+		App->HPManager->callHPLabelSpawn(App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 50);
+	}
 
 	//App->win->SetTitle(App->title.data());
 

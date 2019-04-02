@@ -11,8 +11,8 @@
 #include "UiItem_Button.h"
 #include "UiItem_Bar.h"
 #include "UiItem_Button.h"
-
-
+#include "UiItem_HitPoint.h"
+#include "UiItem_HitPointManager.h"
 
 
 struct labelInfo
@@ -48,7 +48,8 @@ public:
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
 	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
 
-	// TODO: AddHitPoint(); 
+	// TODO: AddHitPoint();
+	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
 	
 	SDL_Texture* GetAtlas();
 	void FadeToScene();

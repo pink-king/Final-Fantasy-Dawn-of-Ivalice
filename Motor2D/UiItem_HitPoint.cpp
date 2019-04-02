@@ -22,8 +22,6 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 	this->color = color;
 	this->font = font;
 
-
-
 	// the parent
 	this->parent = parent;
 
@@ -36,7 +34,6 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 
 	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
-
 
 }
 

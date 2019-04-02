@@ -45,7 +45,11 @@ void UiItem::DrawUi(float dt)
 
 	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter!= App->gui->ListItemUI.end(); ++iter)
 	{	
-		if ((*iter)->parent != NULL && (*iter)->parent->enable)
+		if ((*iter)->guiType == HITPOINT)          // CHECK THIS OUT
+		{
+			(*iter)->Draw(dt);
+		}
+		else if ((*iter)->parent != NULL && (*iter)->parent->enable)
 			(*iter)->Draw(dt);
 			
 	}

@@ -462,6 +462,20 @@ UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_sect
 	return (UiItem_Checkbox*)newUIItem;
 }
 
+UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent)
+{
+	UiItem_HitPoint* newUIItem = nullptr;
+	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent);
+	ListItemUI.push_back(newUIItem);
+
+	// ALSO add item to the HitPoint labels list in the HitPoint manager
+	App->HPManager->hitPointLabels.push_back(newUIItem);
+
+
+	return (UiItem_HitPoint*)newUIItem;
+
+}
+
 
 SDL_Texture * j1Gui::GetAtlas()
 {
