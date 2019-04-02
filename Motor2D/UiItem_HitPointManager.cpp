@@ -125,7 +125,7 @@ void UiItem_HitPointManager::updateHitPointPositions()
 			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
 			/*int w, h; 
 			SDL_QueryTexture((*item)->texture, NULL, NULL, &w, &h);
-			(*item)->hitBox.x -=  w/ 2; */ 
+			 */ 
 
 		}
 
@@ -146,7 +146,7 @@ void UiItem_HitPointManager::updateHitPointSizes()
 				switch ((*item)->returnLifeState())
 				{
 				case fadeIn:
-					(*item)->scaleFactor *= 1.02f;
+					(*item)->scaleFactor *= 1.03f;
 					break;
 				case Middle:
 					(*item)->scaleFactor /= 1.003f;
