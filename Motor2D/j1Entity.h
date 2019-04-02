@@ -72,8 +72,11 @@ public:
 	void UpdateTilePositions();
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
-	fPoint GetPivotPos() const;
+	fPoint GetPivotPos() const;	
+	bool ChangedTile() const; 
+
 	virtual void LoadEntitydata(pugi::xml_node&);
+	
 
 public:
 	std::string				name;
@@ -92,6 +95,8 @@ public:
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
+	
+	bool					changedTile = false; 
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
@@ -100,7 +105,7 @@ protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
 	iPoint previousSubtilePos;
-	
+	iPoint previousTilePos; 
 };
 
 #endif
