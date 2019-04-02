@@ -47,6 +47,8 @@ public:
 	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
 	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
+
+	// TODO: AddHitPoint(); 
 	
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
