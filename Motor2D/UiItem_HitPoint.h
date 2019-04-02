@@ -1,4 +1,4 @@
-/*#ifndef UIITEM_HITPOINT_H
+#ifndef UIITEM_HITPOINT_H
 #define UIITEM_HITPOINT_H
 
 #include "UiItem.h"
@@ -25,7 +25,7 @@ public:
 	void Draw(const float& dt) override;
 
 protected:
-	valueInfo valueInfo; 
+	valueInfo valueInformation; 
 	SDL_Color color;
 	TTF_Font* font = nullptr;
 	SDL_Texture* texture = nullptr;
@@ -33,7 +33,7 @@ protected:
 public: // public or protected? 
 
 	j1PerfTimer lifeSpan; 
-	lifeState* returnLifeState(); 
+	lifeState returnLifeState();   // return lifeState depending on timer
 };
 
-#endif*/
+#endif
