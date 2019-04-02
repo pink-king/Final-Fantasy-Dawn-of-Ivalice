@@ -43,17 +43,19 @@ public:
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
-	void DrawUi(float dt);
+
+	void DrawUi(float dt); 
+
 	void Draw_Cursor(float dt);
 	bool slidable = false; 
 	bool tabbed = false; 
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 
-	virtual void DoLogicClicked() {}; // TODO: Function pointers
-	virtual void DoLogicClicked(std::string &functionName) {}; // TODO: Function pointers
-	virtual void DoLogicHovered(){}; // TODO: Function pointers
-	virtual void DoLogicAbandoned() {}; // TODO: Function pointers
+	virtual void DoLogicClicked() {}; 
+	virtual void DoLogicClicked(std::string &functionName) {}; 
+	virtual void DoLogicHovered(){}; 
+	virtual void DoLogicAbandoned() {};
 };
 
 #endif

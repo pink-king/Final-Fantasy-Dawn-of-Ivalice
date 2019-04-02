@@ -30,6 +30,10 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 
 void UiItem_HitPoint::Draw(const float & dt)
 {
+
+	// TODO: blit hitPoints with an extra value: the scaling
+
+
 	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
 
 

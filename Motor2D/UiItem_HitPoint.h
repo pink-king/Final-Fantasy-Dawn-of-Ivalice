@@ -34,6 +34,10 @@ public: // public or protected?
 
 	j1PerfTimer lifeSpan; 
 	lifeState returnLifeState();   // return lifeState depending on timer
+
+	// TODO: add scaling factor variable to pass to he blitGui
+
+
 };
 
 #endif

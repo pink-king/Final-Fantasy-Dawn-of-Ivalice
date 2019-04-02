@@ -20,7 +20,7 @@ public:
 
 	void calculateHitPointSpawning(); // TODO: variables =  enemy pos, enemy rect top, enemy damage (buffmanager)   // TODO: call "AddHitPoint"
 	void updateHitPointPositions();   // TODO: increment all current hitpoins Y position 
-	void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state
+	void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state    // use the scaling factor variable inside each hitbox
 	void updateHitPointOpacities();   // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
 	void DestroyHitPointLabel(); // TODO: unload texture, and nullptr, etc
 

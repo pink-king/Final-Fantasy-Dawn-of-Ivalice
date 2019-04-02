@@ -182,7 +182,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed) const
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed) const  // TODO: Add extra value for Resizing Images
 {
 	bool ret = true;
 
@@ -192,7 +192,7 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 
 	if (section != NULL)
 	{
-		rect.w = section->w;
+		rect.w = section->w;         // a resized image rect does not have the same size as the section. It has a proportion less.
 		rect.h = section->h;
 	}
 	else
