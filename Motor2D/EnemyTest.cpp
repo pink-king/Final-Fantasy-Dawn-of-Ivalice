@@ -170,7 +170,13 @@ bool EnemyTest::isNextSubtileFree(int x, int y) const
 
 bool EnemyTest::CleanUp()
 {
-	
+	if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}
+
+	path_to_follow.clear();
 	return true;
 }
 

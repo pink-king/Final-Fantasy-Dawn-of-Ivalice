@@ -1,6 +1,6 @@
 #include "j1BuffManager.h"
 #include <string.h>
-
+#include "j1EntityFactory.h"
 #include "j1Window.h"
 
 j1BuffManager::j1BuffManager()
@@ -16,31 +16,6 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 {
 	bool ret = true;
 
-	for (buffNode = node.child("buff"); buffNode && ret; buffNode = buffNode.next_sibling("buff"))
-	{
-		/*std::string add = buffNode.attribute("type").as_string();
-		std::string clas = buffNode.attribute("class").as_string();
-		if (add.compare("additive") == 0)
-		{
-			if(clas.compare("weapon") == 0)
-			CreateBuff(BUFF_TYPE::ADDITIVE,OBJECT_TYPE::WEAPON_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-			if (clas.compare("armor") == 0)
-				CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::ARMOR_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-			if (clas.compare("head") == 0)
-				CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::HEAD_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-		}
-		else if (add.compare("multiplicative") == 0)
-		{
-			if (clas.compare("weapon") == 0)
-				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::WEAPON_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-			if (clas.compare("armor") == 0)
-				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::ARMOR_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-			if (clas.compare("head") == 0)
-				CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::HEAD_OBJECT, buffNode.attribute("name").as_string(), buffNode.attribute("character").as_string(), buffNode.attribute("stat").as_string(), buffNode.attribute("value").as_float());
-		}*/
-	}
-
-	burnedDamagesecond = node.child("timebuff").attribute("burnedInSecond").as_float();
 	return ret;
 }
 
@@ -61,6 +36,12 @@ bool j1BuffManager::Update(float dt)
 			if (DamageInTime(*item))
 				entitiesTimeDamage.remove(*item);
 	}
+	else
+	{
+		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
+		for (; item != entitiesTimeDamage.end() && ret; ++item)
+			DamageInTime(*item);
+	}
 
 	static char title[30];
 	std::string name;
@@ -75,6 +56,7 @@ bool j1BuffManager::Update(float dt)
 		}
 	}
 	App->win->ClearTitle();
+
 	return ret;
 }
 
@@ -162,26 +144,29 @@ uint j1BuffManager::GetNewSourceID()
 	return ++lastSourceID;
 }
 
-void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, std::string stat)
+void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* &defender, float initialDamage, std::string stat)
 {
 	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);;
-	if (defender->life < 0)
-		defender->life = 0;
+	if (defender->life <= 0)
+	{
+		defender->CleanUp();
+		App->entityFactory->DestroyEntity(defender);
+	}
 }
 
-void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damage)
+void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, damage);
-	newStat->maxDamage = App->buff->CalculateStat(attacker, newStat->maxDamage, "hability") - App->buff->CalculateStat(defender, defender->defence, "defence");
-	newStat->count.Start();
+	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT,totalTime, damageSecond);
+	newStat->secDamage = App->buff->CalculateStat(attacker, newStat->secDamage, "hability") - App->buff->CalculateStat(defender, defender->defence, "defence");
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
 	entitiesTimeDamage.push_back(defender);
+	newStat->count.Start();
 }
 
-void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender)
+void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uint time)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, 1);
+	entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, time);
 	newStat->count.Start();
 	defender->stat.push_back(newStat);
 	defender->isParalize = true;
@@ -229,13 +214,13 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		{
 		case STAT_TYPE::BURNED_STAT:
 
-			if ((*item)->maxDamage + burnedDamagesecond > burnedDamagesecond)
+			if ((*item)->totalTime > 0)
 			{
-				if ((*item)->count.ReadSec() > 0.5)
+				if ((*item)->count.ReadSec() > 1)
 				{
-					entity->life -= burnedDamagesecond;
-					(*item)->maxDamage -= burnedDamagesecond;
+					entity->life -= (*item)->secDamage;
 					(*item)->count.Start();
+					--(*item)->totalTime;
 				}
 			}
 			else
@@ -245,10 +230,18 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			}
 			break;
 		case STAT_TYPE::PARALIZE_STAT:
-			if ((*item)->count.ReadSec() > (*item)->maxDamage)
+			if ((*item)->totalTime == 0)
 			{
 				entity->stat.remove(*item);
 				entity->isParalize = false;
+			}
+			else
+			{
+				if ((*item)->count.ReadSec() > 1)
+				{
+					--(*item)->totalTime;
+					(*item)->count.Start();
+				}
 			}
 			break;
 		case STAT_TYPE::NORMAL:
@@ -261,6 +254,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		entity->life = 0;
 	if (entity->stat.size() == 0)
 		ret = true;
+
 
 	return ret;
 }

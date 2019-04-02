@@ -44,6 +44,13 @@ bool j1Entity::CleanUp()
 		stat.remove(*item);
 	}
 	stat.clear();
+
+	if (entityTex != nullptr)
+	{
+		App->tex->UnLoad(entityTex);
+		entityTex = nullptr;
+	}
+
 	return true;
 }
 
