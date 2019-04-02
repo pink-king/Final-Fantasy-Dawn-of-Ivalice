@@ -283,7 +283,7 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 {
-	return (pos.x >= 0 && pos.x <= (int)subtileWidth &&
-		pos.y >= 0 && pos.y < (int)subtileHeight);
+	return (pos.x >= 0 && pos.x <= subtileWidth &&
+		pos.y >= 0 && pos.y < subtileHeight - 1); // TODO: search WHY the map is so crazy (irregular perimeter ?¿) checks expanding a big area over perimeters
 }
 
