@@ -7,7 +7,7 @@
 //buff test
 #include "j1Window.h"
 
-PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
+PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
 	ritz = new Ritz(position.x, position.y);
@@ -222,6 +222,11 @@ void PlayerEntityManager::Draw()
 void PlayerEntityManager::UpdatePivot()
 {
 	pivot = selectedCharacterEntity->pivot;
+}
+
+const j1Entity* PlayerEntityManager::GetSelectedCharacterEntity() const
+{
+	return selectedCharacterEntity;
 }
 
 //bool PlayerEntityManager::Draw()

@@ -36,7 +36,7 @@ public:
 	void Draw();
 
 public:
-
+	const j1Entity* GetSelectedCharacterEntity() const;
 
 private:
 

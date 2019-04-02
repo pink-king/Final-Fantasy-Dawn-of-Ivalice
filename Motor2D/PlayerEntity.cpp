@@ -4,7 +4,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 
-PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(NO_TYPE, posX , posY, "PlayerParent")
+PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
 	//SetPivot(16, 40);
 }

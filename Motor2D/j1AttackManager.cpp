@@ -14,6 +14,15 @@
 j1AttackManager::j1AttackManager()
 {
 	name.assign("AttackManager");
+
+	matrix[PLAYER][PLAYER] = false;
+	matrix[PLAYER][ENEMY01] = true;
+	matrix[PLAYER][ENEMY_TEST] = true;
+
+	matrix[ENEMY01][ENEMY01] = false;
+	matrix[ENEMY01][PLAYER] = true;
+	matrix[ENEMY01][ENEMY_TEST] = false;
+
 }
 
 j1AttackManager::~j1AttackManager()
@@ -87,9 +96,9 @@ bool j1AttackManager::CleanUp()
 	return true;
 }
 
-void j1AttackManager::AddPropagationAttack(iPoint startSubtilePoint,propagationType propagationType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed)
+void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint,propagationType propagationType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed)
 {
-	currentPropagationAttacks.push_back(new attackData(nullptr, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
+	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
 }
 
 void j1AttackManager::RemovePropagationAttack(attackData* attackDataPackage)
@@ -100,8 +109,9 @@ void j1AttackManager::RemovePropagationAttack(attackData* attackDataPackage)
 	{
 		if ((*currentAttacksIterator) == attackDataPackage)
 		{
+			int comboTemp = (*currentAttacksIterator)->combo;
 			currentPropagationAttacks.erase(currentAttacksIterator);
-			LOG("succesfully removed propagationattack");
+			LOG("succesfully removed propagationattack after reaching: %i target entities type", comboTemp);
 			break;
 		}
 	}
@@ -114,8 +124,9 @@ attackData::attackData()
 	Start();
 }
 
-attackData::attackData(j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
-	 startSubtilePoint(startSubtilePoint) ,propaType(type), baseDamage(baseDamage), subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
+attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
+	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), baseDamage(baseDamage), 
+	 subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
 {
 	Start();
 }
@@ -153,7 +164,8 @@ bool attackData::Update(float dt)
 			// propagate
 			DoNextPropagationStep();
 			// check queued subtiles to find target entities
-			CheckEntitiesFromSubtileStep();
+			CheckEntitiesFromSubtileStep(); // checks an adds filtered entities to final queue to communicate with buff manager
+			DoDirectAttack(); // attack all entities involved on last frame update on the affected step subtiles
 		}
 	}
 
@@ -212,7 +224,7 @@ bool attackData::DoNextPropagationStep()
 	return true;
 }
 
-std::vector<j1Entity*>* attackData::GetInvoldedEntitiesFromSubtile(const iPoint subTile)
+std::vector<j1Entity*>* attackData::GetInvolvedEntitiesFromSubtile(const iPoint subTile)
 {
 	std::vector<j1Entity*>* temp;
 
@@ -221,22 +233,63 @@ std::vector<j1Entity*>* attackData::GetInvoldedEntitiesFromSubtile(const iPoint 
 	if (temp != nullptr)
 	{
 		if (temp->size() > 0)
-			LOG("vector with at least one entity");
+		{
+			LOG("vector with: %i entity/ies", temp->size());
+			return temp;
+		}
 	}
 	
-	return temp;
+	return nullptr;
 }
 
 void attackData::CheckEntitiesFromSubtileStep()
 {
-	while (!subtileQueue.empty()) // TODO: get identifier to filter target entities of this attack
+	while (!subtileQueue.empty())
 	{
 		//LOG("Checking entities on involved subtile");
 		iPoint subtileChecker = subtileQueue.front();
 		subtileQueue.pop();
 		
-		GetInvoldedEntitiesFromSubtile(subtileChecker);
+	    std::vector<j1Entity*>* involvedEntities = GetInvolvedEntitiesFromSubtile(subtileChecker);
+		if (involvedEntities != nullptr)
+		{
+			std::vector<j1Entity*>::iterator invoterator = involvedEntities->begin();
+			for (; invoterator != involvedEntities->end(); ++invoterator)
+			{
+				LOG("Entity name %s", (*invoterator)->name.begin());
+
+				// filter an add the target entities to final queue
+				AddEntityToQueueFiltered((*invoterator));
+			}
+		}
+		
 	}
+}
+
+bool attackData::AddEntityToQueueFiltered(j1Entity* entityToFilter)
+{
+	
+	if (App->attackManager->matrix[fromEntity->type][entityToFilter->type])
+	{
+		entitiesQueue.push(entityToFilter);
+	}
+
+	return true;
+}
+
+bool attackData::DoDirectAttack()
+{
+	while (!entitiesQueue.empty()) // if we have any valid entity on last propagation step
+	{
+		// pass the type etc of the attack, for now pass a direct attack
+		j1Entity* defender = entitiesQueue.front();
+		entitiesQueue.pop();
+		App->buff->DirectAttack((j1Entity*)fromEntity, defender, 100, "hability");
+
+		// updates combo counter
+		++combo;
+	}
+	return true;
 }
 
 bool attackData::DoNextStepBFS()

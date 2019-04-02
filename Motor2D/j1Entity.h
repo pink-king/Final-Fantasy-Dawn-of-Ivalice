@@ -10,12 +10,19 @@
 
 #include "SDL_image/include/SDL_image.h"
 
-enum ENTITY_TYPE
+enum ENTITY_TYPE  // todo, pass to class
 	{
 		NO_TYPE,
 		ENTITY_STATIC,
 		ENTITY_DYNAMIC,
-		ENEMY_TEST
+		//---------------
+		PLAYER,
+		ENEMY01,
+		ENEMY02,
+		//etc
+		ENEMY_TEST,
+		// LAST
+		MAX_TYPE
 	};
 
 enum class STAT_TYPE

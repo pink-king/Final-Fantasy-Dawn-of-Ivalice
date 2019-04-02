@@ -16,11 +16,19 @@ enum class propagationType
 	HEURISTIC
 };
 
+//enum class damageSource
+//{
+//	PLAYER,
+//	ENEMIES,
+//	ENVIRONMENT,
+//	WHATEVER
+//};
+
 class attackData // intelligent class that manage itsel from the attackmanager calls
 {
 public:
 	attackData();
-	attackData(j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propaType, int baseDamage, int subtileRadius, uint32 propagationStepSpeed); // all time relative are on ms
+	attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propaType, int baseDamage, int subtileRadius, uint32 propagationStepSpeed); // all time relative are on ms
 	~attackData();
 
 	bool Start();
@@ -34,13 +42,17 @@ protected:
 	
 public:
 	bool to_erase = false;
+	int combo = 0; // stores the entities target damaged in total life of the area attack
 private:
-	std::vector<j1Entity*>* GetInvoldedEntitiesFromSubtile(const iPoint subtilePos);
+	std::vector<j1Entity*>* GetInvolvedEntitiesFromSubtile(const iPoint subtilePos);
 	void CheckEntitiesFromSubtileStep(); // when a "step" is done, this function is called
+	bool AddEntityToQueueFiltered(j1Entity* entityToQueue); // filter only the desired type of entities
+	bool DoDirectAttack(); // final stage, communicates with buff manager passing it the substep resultant desired entities
 
 private:
 	bool debug = true;
 	// propagation data itself -----------
+	const j1Entity* fromEntity = nullptr;
 	iPoint startSubtilePoint;
 	propagationType propaType;
 	int baseDamage;
@@ -55,9 +67,11 @@ private:
 	std::queue<iPoint> frontier;
 	std::vector<iPoint> visited;
 	// only debug draw
-	std::vector<iPoint> foundEntities; // draw debug subtile on position of the found entity (at the moment of coincidence)
+	//std::vector<iPoint> foundEntities; // draw debug subtile on position of the found entity (at the moment of coincidence)
 	// queue to push and pops every step, to pass the data to buff manager
 	std::queue<iPoint> subtileQueue; // only affects the entity/ies of the current step of expansion
+	// queue to push entities to buff manager, after filter it
+	std::queue<j1Entity*> entitiesQueue;
 
 };
 
@@ -78,7 +92,7 @@ public:
 	bool CleanUp();
 
 	// functionality
-	void AddPropagationAttack(iPoint startSubtilePoint, propagationType propagationType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed);
+	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed);
 	void RemovePropagationAttack(attackData* attackDataPackage);
 
 
@@ -86,11 +100,11 @@ public:
 	SDL_Texture* debugSubtileTex = nullptr;
 	SDL_Texture* debugSubtileTex2 = nullptr;
 	SDL_Texture* debugSubtileTex3 = nullptr;
+	bool matrix[MAX_TYPE][MAX_TYPE]; // used for "collision" between entities involved on area attack propagation
 
 private:
 	std::vector<attackData*> currentPropagationAttacks;
 	//bool debug = true;
-
 	
 };
 

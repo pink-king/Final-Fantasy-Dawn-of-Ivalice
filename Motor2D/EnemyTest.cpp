@@ -7,7 +7,7 @@
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
 
-EnemyTest::EnemyTest(iPoint position) : j1Entity(NO_TYPE, position.x, position.y, "PIM")
+EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
 {
 	name.assign("Test");
 
@@ -67,8 +67,8 @@ void EnemyTest::SetState(float dt)
 		iPoint thisPos = App->map->WorldToMap((int)position.x, (int)position.y);
 		iPoint playerPos = App->map->WorldToMap((int)p_position.x, (int)p_position.y);
 
-		if (thisPos.DistanceManhattan(playerPos) < RANGE /*&& App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN*/)
-			state = EnemyState::SEARCHPATH; 
+		//if (thisPos.DistanceManhattan(playerPos) < RANGE /*&& App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN*/)
+		//	state = EnemyState::SEARCHPATH; 
 	}
 		break; 
 

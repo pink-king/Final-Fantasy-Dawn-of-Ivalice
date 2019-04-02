@@ -112,7 +112,7 @@ bool j1Scene::PreUpdate()
 			LOG("subtile NOT empty");
 
 		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack({ entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 5, 40);
+		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
 
 	}
 
