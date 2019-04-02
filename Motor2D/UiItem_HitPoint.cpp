@@ -12,7 +12,7 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 	lifeSpan.Start(); 
 
 	texture = App->font->Print(valueInfo.string.data(), color, font);
-
+	
 
 	this->guiType = GUI_TYPES::HITPOINT;
 	
@@ -29,11 +29,11 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 
 void UiItem_HitPoint::Draw(const float & dt)
 {
-
+	
 	// TODO: blit hitPoints with an extra value: the scaling
 
 	returnLifeState(); 
-	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
+	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor);
 
 }
 
@@ -46,20 +46,21 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	// These are semi random numbers, needs adjustment
 
-	if (lifeMoment < 100)
+	if (lifeMoment < 300)
 	{
 		ret = fadeIn; 
 	}
-	else if (lifeMoment >= 100 && lifeMoment <= 900)
+	else if (lifeMoment >= 300 && lifeMoment <= 800)
 	{
 		ret = Middle;
 	}
-	else if(lifeMoment > 900 && lifeMoment <= 1000)
+	else if(lifeMoment > 800 && lifeMoment <= 1000)
 	{
 		ret = fadeOut;
 	}
 	else
 	{
+		ret = dead; 
 		CleanUp(); 
 	}
 

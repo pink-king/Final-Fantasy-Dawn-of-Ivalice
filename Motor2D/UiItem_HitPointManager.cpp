@@ -33,6 +33,7 @@ bool UiItem_HitPointManager::Update(float dt)
 	if (!hitPointLabels.empty())
 	{
 		updateHitPointPositions();
+		updateHitPointSizes(); 
 	}
 
 	return true;
@@ -104,7 +105,7 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage)
 
 	iPoint pos(enemy->position.x, enemy->position.y);                                               // adjust this  
 
-	App->gui->AddHitPointLabel(info, c, App->font->openSansBold18, pos, nullptr); 
+	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr);    // big font for testing
 
 
 }
@@ -118,8 +119,42 @@ void UiItem_HitPointManager::updateHitPointPositions()
 
 		if ((*item) != nullptr)
 		{
-			(*item)->hitBox.y -= 2; 
+			(*item)->hitBox.y -= 2;
+			
+			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
+
+		}
+
+	}
+
+}
+
+void UiItem_HitPointManager::updateHitPointSizes()
+{
+
+	for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item)
+	{
+
+		if ((*item) != nullptr)
+		{
+			if ((*item)->returnLifeState() != dead)
+			{
+				switch ((*item)->returnLifeState())
+				{
+				case fadeIn:
+					(*item)->scaleFactor *= 1.02f;
+					break;
+				case Middle:
+					(*item)->scaleFactor /= 1.003f;
+					break;
+				case fadeOut:
+					(*item)->scaleFactor /= 1.02f;
+					break;
+				}
+			}
 		}
 	}
+
+
 
 }

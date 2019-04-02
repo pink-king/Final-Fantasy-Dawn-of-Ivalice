@@ -15,7 +15,8 @@ struct valueInfo {
 enum lifeState {
 	fadeIn,
 	Middle,
-	fadeOut
+	fadeOut,
+	dead
 };
 
 class UiItem_HitPoint : public UiItem
@@ -37,6 +38,8 @@ public: // public or protected?
 	lifeState returnLifeState();   // return lifeState depending on timer
 
 	// TODO: add scaling factor variable to pass to he blitGui
+    
+	float scaleFactor = 1.0f; 
 
 	friend class UiItem_HitPointManager; 
 

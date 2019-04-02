@@ -20,8 +20,8 @@ public:
 	bool CleanUp();               // TO THINK: does this need celanup? Or Gui cpp does the cleanup of all items?? That must be enough 
 
 	void updateHitPointPositions();   // TODO: increment all current hitpoins Y position 
-	/*void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state    // use the scaling factor variable inside each hitbox
-	void updateHitPointOpacities();*/   // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
+	void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state    // use the scaling factor variable inside each hitbox
+	// void updateHitPointOpacities();  // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
 
 
 public: 
