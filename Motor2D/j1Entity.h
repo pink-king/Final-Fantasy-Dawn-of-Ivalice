@@ -35,12 +35,13 @@ enum class STAT_TYPE
 class entityStat
 {
 public:
-	entityStat(STAT_TYPE stat, float maxDamage):type(stat), maxDamage(maxDamage){}
+	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f):type(stat), secDamage(secDamage), totalTime(totalTime){}
 	entityStat() {};
 public:
-	STAT_TYPE		type;
-	float			maxDamage;
+	STAT_TYPE		type = STAT_TYPE::NORMAL;
+	float			secDamage = 0.f;
 	j1Timer			count;
+	uint			totalTime = 0;
 };
 
 struct EntityInfo
@@ -85,7 +86,7 @@ public:
 	SDL_RendererFlip		flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
 	float					life = 100.f;
-	float					defence = 5.f;
+	float					defence = 0.f;
 	pugi::xml_document		file;
 	pugi::xml_parse_result	result;
 

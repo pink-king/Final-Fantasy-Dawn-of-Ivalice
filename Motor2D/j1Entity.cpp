@@ -38,12 +38,7 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
-	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end(); ++item)
-	{
-		stat.remove(*item);
-	}
-	stat.clear();
+
 	return true;
 }
 
