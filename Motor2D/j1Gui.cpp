@@ -382,7 +382,7 @@ bool j1Gui::PostUpdate()
 
 bool j1Gui::CleanUp()
 {
-	App->tex->UnLoad(atlas); 
+	App->tex->UnLoad(atlas);         // TODO: Remove items from list, AND remove HitPointLabels from list in HitPointLabel Manager
 	return true;
 }
 

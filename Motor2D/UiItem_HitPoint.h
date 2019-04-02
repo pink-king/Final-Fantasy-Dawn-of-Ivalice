@@ -23,6 +23,7 @@ class UiItem_HitPoint : public UiItem
 public:
 	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
 	void Draw(const float& dt) override;
+	void CleanUp(); 
 
 protected:
 	valueInfo valueInformation; 
@@ -37,6 +38,7 @@ public: // public or protected?
 
 	// TODO: add scaling factor variable to pass to he blitGui
 
+	friend class UiItem_HitPointManager; 
 
 };
 

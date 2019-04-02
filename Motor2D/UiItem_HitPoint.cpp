@@ -1,4 +1,5 @@
 #include "UiItem_HitPoint.h"
+#include "UiItem_HitPointManager.h"
 #include "j1App.h"
 #include "j1Fonts.h"
 #include "j1Textures.h"
@@ -56,10 +57,22 @@ lifeState UiItem_HitPoint::returnLifeState() {
 	{
 		ret = Middle;
 	}
-	else
+	else if(lifeMoment > 900 && lifeMoment <= 1000)
 	{
 		ret = fadeOut;
 	}
+	else
+	{
+		CleanUp(); 
+	}
 
+
+	return ret; 
+}
+
+
+void UiItem_HitPoint::CleanUp()
+{
+	App->HPManager->DestroyHitPointLabel(this);
 
 }

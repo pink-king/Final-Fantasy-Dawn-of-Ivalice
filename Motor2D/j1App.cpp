@@ -18,6 +18,7 @@
 #include "j1PathFinding.h"
 #include "j1Fonts.h"
 #include "j1BuffManager.h"
+#include "UiItem_HitPointManager.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -38,6 +39,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	pathfinding = new j1PathFinding(); 
 	font = new j1Fonts();
 	buff = new j1BuffManager();
+	HPManager = new UiItem_HitPointManager(); 
+
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -51,6 +54,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(gui);
 	AddModule(font);
+	AddModule(HPManager); 
 
 	// render last to swap buffer
 	AddModule(render);
