@@ -153,9 +153,13 @@ bool Marche::Update(float dt)
 
 		for (; item2 != App->entityFactory->entities.end(); ++item2)
 		{
-			if ((*item2)->name.compare("whatever") == 0)
+			if (*item2 != nullptr)
 			{
-				App->buff->DirectAttack(this, *item2, 10, "basic");
+				if ((*item2)->name.compare("whatever") == 0)
+				{
+					App->buff->DirectAttack(this, *item2, 120, "basic");
+					break;
+				}
 			}
 		}
 	}
@@ -174,12 +178,12 @@ bool Marche::Update(float dt)
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
 		&& !isBurned)
 	{
-		App->buff->CreateBurned(this, this,20);
+		App->buff->CreateBurned(this, this,5,2);
 	}
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == 1 || App->input->GetKey(SDL_SCANCODE_R) == 1)
 		&& !isParalize)
 	{
-		App->buff->CreateParalize(this, this);
+		App->buff->CreateParalize(this, this, 10);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == 1)

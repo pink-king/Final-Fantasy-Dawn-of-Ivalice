@@ -165,7 +165,30 @@ int EnemyTest::GetRandomValue(const int& min,  const int& max)
 
 bool EnemyTest::CleanUp()
 {
-	
+	this;
+	if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}
+
+	std::list<entityStat*>::iterator item = stat.begin();
+	for (; item != stat.end(); ++item)
+	{
+		stat.remove(*item);
+		(*item) = nullptr;
+	}
+	stat.clear();
+
+	path_to_follow.clear();
+
+	if (entityTex != nullptr)
+	{
+		App->tex->UnLoad(entityTex);
+		entityTex = nullptr;
+	}
+
+	currentAnimation = nullptr;
 	return true;
 }
 

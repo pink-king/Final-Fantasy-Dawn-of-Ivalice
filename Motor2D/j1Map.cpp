@@ -223,7 +223,7 @@ bool j1Map::CleanUp()
 
 	while(tiles_item != data.tilesets.end())
 	{
-		data.tilesets.remove(*tiles_item);
+		RELEASE(*tiles_item);
 		++tiles_item;
 	}
 	data.tilesets.clear();

@@ -112,8 +112,6 @@ bool j1EntityFactory::PostUpdate()
 
 	draw_entities.clear();
 
-
-
 	return true;
 }
 
@@ -141,6 +139,12 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 {
 	j1Entity* ret = nullptr; 
 
+	std::vector<j1Entity*>::iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		if (*item == nullptr)
+			break;
+	}
 	switch (type)
 	{
 	case NO_TYPE:
@@ -195,13 +199,15 @@ void j1EntityFactory::DestroyEntity(j1Entity * entity)
 	{
 		//destroy collider
 
-
-		for (std::vector<j1Entity*>::iterator item = entities.begin(); item != entities.end(); ++item) {
-			if (*item == entity) {
-				delete *item;
-				*item = nullptr;
+		std::vector<j1Entity*>::iterator item = entities.begin();
+		for (; item != entities.end(); ++item) {
+			if ((*item) == entity) {
+				break;
 			}
 		}
+		(*item)->CleanUp();
+		entities.erase(item);
+		
 	}
 }
 
