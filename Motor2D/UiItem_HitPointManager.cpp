@@ -3,6 +3,8 @@
 #include "j1Textures.h"
 #include "j1App.h"
 #include "j1Gui.h"
+
+#include "j1Map.h"
 #include "j1Fonts.h"
 #include <string.h>
 
@@ -85,18 +87,12 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage)
 	};
 
 
-	/*info->number = damage; 
-	info->string = ("%i", damage);    // does this REALLY WORK ??? hahah*/
-
-
-
-
 	// possible: color depending on damage type 
 	// TODO: load colors and fonts from XML 
 
-	SDL_Color c = {0, 0, 0, 255};  // label is created totally black 
+	SDL_Color c = {0, 0, 255, 255};  // label is created totally black 
 
-	iPoint pos(enemy->position.x, enemy->position.y - enemy->size.y);          // adjust this  
+	iPoint pos(enemy->position.x, enemy->position.y);                                               // adjust this  
 
 	App->gui->AddHitPointLabel(info, c, App->font->openSansBold18, pos, nullptr); 
 

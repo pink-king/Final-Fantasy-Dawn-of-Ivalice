@@ -32,7 +32,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	// TODO: blit hitPoints with an extra value: the scaling
 
-
+	returnLifeState(); 
 	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
 
 }
@@ -40,7 +40,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 lifeState UiItem_HitPoint::returnLifeState() {
 
-	lifeState ret; 
+	lifeState ret = fadeIn; 
 	uint lifeMoment = lifeSpan.ReadMs(); 
 
 
