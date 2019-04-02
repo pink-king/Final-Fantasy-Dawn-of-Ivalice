@@ -116,7 +116,7 @@ void j1BuffManager::RemoveBuff(std::string name)
 	std::list<Buff*>::iterator item = buffs.begin();
 	for (; item != buffs.end(); ++item)
 		if(name.compare((*item)->GetCharacter()) != 0)
-			buffs.remove((*item));
+			buffs.remove(*item);
 }
 
 float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std::string stat)
@@ -144,9 +144,9 @@ uint j1BuffManager::GetNewSourceID()
 	return ++lastSourceID;
 }
 
-void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* &defender, float initialDamage, std::string stat)
+void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, std::string stat)
 {
-	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);;
+	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);
 	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 		App->entityFactory->DestroyEntity(defender);
 }

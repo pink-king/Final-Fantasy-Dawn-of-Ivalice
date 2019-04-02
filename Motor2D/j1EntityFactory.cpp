@@ -88,6 +88,7 @@ bool j1EntityFactory::Update(float dt)
 		}
 	}
 	
+	DestroyEntity(new j1Entity(ENTITY_TYPE::ENEMY01, 100,100,"prrove"));
 
 	return ret;
 }
@@ -195,6 +196,7 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 
 void j1EntityFactory::DestroyEntity(j1Entity * entity)
 {
+	//std::find(entities.begin(), entities.end(), entity);
 	if (entity != nullptr)
 	{
 		//destroy collider
@@ -202,12 +204,11 @@ void j1EntityFactory::DestroyEntity(j1Entity * entity)
 		std::vector<j1Entity*>::iterator item = entities.begin();
 		for (; item != entities.end(); ++item) {
 			if ((*item) == entity) {
+				(*item)->CleanUp();
+				entities.erase(item);
 				break;
 			}
 		}
-		(*item)->CleanUp();
-		entities.erase(item);
-		
 	}
 }
 

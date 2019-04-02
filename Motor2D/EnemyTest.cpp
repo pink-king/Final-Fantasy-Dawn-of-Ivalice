@@ -21,6 +21,8 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 	currentAnimation = &idle;
 	SetPivot(6, 32);
 	size.create(13,36);
+
+	life = 100;
 }
 
 EnemyTest::~EnemyTest()
@@ -165,7 +167,6 @@ int EnemyTest::GetRandomValue(const int& min,  const int& max)
 
 bool EnemyTest::CleanUp()
 {
-	this;
 	if (debugSubtile != nullptr)
 	{
 		App->tex->UnLoad(debugSubtile);
@@ -176,11 +177,8 @@ bool EnemyTest::CleanUp()
 	for (; item != stat.end(); ++item)
 	{
 		stat.remove(*item);
-		(*item) = nullptr;
 	}
 	stat.clear();
-
-	path_to_follow.clear();
 
 	if (entityTex != nullptr)
 	{
@@ -188,7 +186,8 @@ bool EnemyTest::CleanUp()
 		entityTex = nullptr;
 	}
 
-	currentAnimation = nullptr;
+	App->entityFactory->DeleteEntityFromSubtile(this);
+
 	return true;
 }
 

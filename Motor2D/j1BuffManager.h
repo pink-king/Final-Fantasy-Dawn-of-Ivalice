@@ -27,7 +27,7 @@ public:
 	uint GetNewSourceID();
 
 	//combat functions
-	void DirectAttack(j1Entity* attacker, j1Entity* &defender, float initialDamage, std::string stat);
+	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, std::string stat);
 	bool DamageInTime(j1Entity* entity);
 	//functions to create buffs in entities
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime);
