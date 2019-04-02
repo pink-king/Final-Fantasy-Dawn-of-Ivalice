@@ -29,7 +29,7 @@ public:
 	void DestroyHitPointLabel(UiItem_HitPoint*); // TODO: unload texture, and nullptr, etc
 
 
-protected:
+public:
 	std::vector<UiItem_HitPoint*>			hitPointLabels;   // caution: there is already a ui item list, so hitpoint will appear in both lists ????!!!!
 
 

@@ -70,10 +70,15 @@ void UiItem_HitPointManager::DestroyHitPointLabel(UiItem_HitPoint* label)
 					label->texture = nullptr; 
 				}
 
+				// IMPORTANT!!: do this only if it is not being deleted already in the destroy element function in gui cpp
 				delete *item;
 				*item = nullptr;
-	           
-				// IMPORTANT TODO: delete the element from the list
+			
+				// delete it from the hitPoint item list
+
+
+
+				
 			}
 		}
 	}

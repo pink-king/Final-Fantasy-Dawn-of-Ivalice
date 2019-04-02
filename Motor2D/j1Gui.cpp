@@ -466,9 +466,11 @@ UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, 
 {
 	UiItem_HitPoint* newUIItem = nullptr;
 	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent);
-	ListItemUI.push_back(newUIItem);
+	
+	
+	
+  // Add the hitpoint directly to the hitpoin manager list, and not in the listitemui
 
-	// ALSO add item to the HitPoint labels list in the HitPoint manager
 	App->HPManager->hitPointLabels.push_back(newUIItem);
 
 

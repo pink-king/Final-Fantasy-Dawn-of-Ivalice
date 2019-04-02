@@ -5,7 +5,7 @@
 #include "j1Scene.h"
 #include "j1Input.h"
 #include "j1Window.h"
-
+#include "UiItem_HitPointManager.h"
 
 UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
@@ -45,14 +45,20 @@ void UiItem::DrawUi(float dt)
 
 	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter!= App->gui->ListItemUI.end(); ++iter)
 	{	
-		if ((*iter)->guiType == HITPOINT && (*iter) != nullptr)          // CHECK THIS OUT
-		{
-			(*iter)->Draw(dt);
-		}
-		else if ((*iter)->parent != NULL && (*iter)->parent->enable)
+		   if ((*iter)->parent != NULL && (*iter)->parent->enable)
 			(*iter)->Draw(dt);
 			
 	}
+
+	// separate draw for hitpoints lables, with their own list
+
+	for (std::vector<UiItem_HitPoint*>::iterator iter = App->HPManager->hitPointLabels.begin(); iter != App->HPManager->hitPointLabels.end(); ++iter)
+	{
+		if((*iter) != nullptr)         // IMPORTANT !! ---> remove hitpoint from the list in the manager
+		(*iter)->Draw(dt);
+	}
+
+
 
 	Draw_Cursor(dt);
 }

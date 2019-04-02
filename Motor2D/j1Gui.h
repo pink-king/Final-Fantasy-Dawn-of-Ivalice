@@ -38,6 +38,7 @@ public:
 
 	bool PostUpdate();
 	bool CleanUp();
+	// TODO: add destroy element, IMPORTANT!! ---> hitpoint labels are destroyed in hitpoint label manager
 
 	std::list<UiItem*>	ListItemUI;
 	UiItem* canvas = nullptr;
