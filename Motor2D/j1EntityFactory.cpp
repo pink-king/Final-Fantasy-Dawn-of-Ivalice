@@ -205,7 +205,9 @@ void j1EntityFactory::DestroyEntity(j1Entity * entity)
 				break;
 			}
 		}
+		(*item)->CleanUp();
 		entities.erase(item);
+		
 	}
 }
 

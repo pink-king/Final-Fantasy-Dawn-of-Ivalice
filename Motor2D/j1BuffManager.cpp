@@ -147,11 +147,8 @@ uint j1BuffManager::GetNewSourceID()
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* &defender, float initialDamage, std::string stat)
 {
 	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);;
-	if (defender->life <= 0)
-	{
-		defender->CleanUp();
+	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 		App->entityFactory->DestroyEntity(defender);
-	}
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime)
@@ -250,8 +247,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			break;
 		}
 	}
-	if (entity->life < 0)
-		entity->life = 0;
+	if (entity->life <= 0 && entity->name.compare("Marche") != 0 && entity->name.compare("Ritz") != 0 && entity->name.compare("Shara") != 0)
+		App->entityFactory->DestroyEntity(entity);
 	if (entity->stat.size() == 0)
 		ret = true;
 
