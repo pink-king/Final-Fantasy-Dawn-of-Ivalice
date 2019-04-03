@@ -91,7 +91,7 @@ void UiItem_HitPointManager::DestroyHitPointLabel(UiItem_HitPoint* label)
 			
 				// delete it from the hitPoint item list
 
-				hitPointLabels.erase(item);              // if I do this, timer crashes
+				//hitPointLabels.erase(item);              // if I do this, timer crashes
 				
 				break;
 				
@@ -118,10 +118,9 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage)
 
 	SDL_Color c = {0, 0, 255, 255};  // label is created totally black 
 
-	//iPoint pos(App->render->WorldToScreen(enemy->position.x, enemy->position.y));                                               // adjust this  
+	iPoint pos(App->render->WorldToScreen(enemy->position.x, enemy->position.y));                                               // adjust this  
 
 
-	iPoint pos(70, 70);
 	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr);    // big font for testing
 
 

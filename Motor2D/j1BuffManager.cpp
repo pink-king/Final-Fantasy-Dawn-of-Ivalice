@@ -1,4 +1,5 @@
 #include "j1BuffManager.h"
+#include "UiItem_HitPointManager.h"
 #include <string.h>
 
 j1BuffManager::j1BuffManager()
@@ -123,6 +124,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 	float powerAttack = CalculateStat(attacker, initialDamage, stat);
 	defender->life -= powerAttack;                                           // TODO: call HitPoint creation in HitPointManager here
+
+	App->HPManager->callHPLabelSpawn(defender, powerAttack);
+
 	if (defender->life < 0)
 		defender->life = 0;
 }
