@@ -196,7 +196,7 @@ bool j1Scene::Update(float dt)
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
 	static int cont = 0;
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 		cont++;
@@ -204,7 +204,7 @@ bool j1Scene::Update(float dt)
 	static char title[90];
 	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
 	App->win->AddStringToTitle(title);
-	LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
+	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
 
 	//App->win->SetTitle(App->title.data());
 
