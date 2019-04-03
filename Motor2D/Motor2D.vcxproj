@@ -86,6 +86,7 @@
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
+    <ClCompile Include="j1LootSystem.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
+    <ClInclude Include="j1LootSystem.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1PathFinding.h" />
     <ClInclude Include="j1PerfTimer.h" />
@@ -152,6 +154,15 @@
     <ClInclude Include="UiItem_Image.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Game\config.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="..\Game\save_game.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="Loot.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

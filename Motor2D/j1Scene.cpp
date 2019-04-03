@@ -14,7 +14,7 @@
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
 #include "j1AttackManager.h"
-
+#include "j1LootSystem.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -184,6 +184,9 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->loot->trigger = true;
+	
 	App->map->Draw();
 
 	int x, y;

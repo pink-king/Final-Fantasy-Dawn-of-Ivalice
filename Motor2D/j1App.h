@@ -24,7 +24,7 @@ class j1PathFinding;
 class j1Fonts;
 class j1BuffManager;
 class j1AttackManager;
-
+class j1LootSystem;
 class j1App
 {
 public:
@@ -109,7 +109,7 @@ public:
 	j1Fonts*			font = nullptr;
 	j1BuffManager*		buff = nullptr;
 	j1AttackManager*	attackManager = nullptr;
-
+	j1LootSystem*		loot = nullptr;
 	bool				vsync = false;
 	bool				pause = false;
 
