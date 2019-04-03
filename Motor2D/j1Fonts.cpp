@@ -36,10 +36,8 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	}
 
 
-	openSansBold18 = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
-	openSansBold36 = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
-
-	
+	sans = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
+	//fonts.push_back(sans); 
 	
 
 	return ret;
@@ -49,13 +47,14 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 bool j1Fonts::CleanUp()
 {
 	LOG("Freeing True Type fonts and library");
-	std::vector<TTF_Font*>::iterator item = fonts.begin();
+	std::list<TTF_Font*>::iterator item = fonts.begin();
+	// std::vector<TTF_Font*>::iterator item = fonts.begin();
 
 	for(; item != fonts.end(); ++item)
 	{
 		TTF_CloseFont(*item);
 	}
-	
+
 	fonts.clear();
 	TTF_Quit();
 	return true;
@@ -85,7 +84,7 @@ SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * fon
 {
 	SDL_Texture* ret = NULL;
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
-	
+
 	if (surface == NULL)
 	{
 		LOG("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
@@ -96,7 +95,7 @@ SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * fon
 		SDL_FreeSurface(surface);
 	}
 
-	return ret; 
+	return ret;
 }
 
 // calculate size of a text
