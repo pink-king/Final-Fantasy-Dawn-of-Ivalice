@@ -95,7 +95,7 @@ void UiItem_HitPointManager::DestroyHitPointLabel(UiItem_HitPoint* label)
 				//break;
 				
 			}
-		}
+    	}
 	}
 
 }
