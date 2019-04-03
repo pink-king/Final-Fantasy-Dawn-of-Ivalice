@@ -244,7 +244,7 @@ bool j1Scene::CleanUp()
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
 
-	/*// images
+	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
@@ -342,8 +342,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		App->gui->AddButton(position, functionPath, &sectionIdle, parent, sectionClick, sectionHove);
 	}
 
-/*	// labels
-	for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
+	// labels
+	/*for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
 	{
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		std::string text = uiNode.child("text").attribute("value").as_string();
@@ -370,11 +370,11 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		App->gui->AddBar(iPoint(position.x + 450, position.y), &section_bar, &section_thumb, nullptr);
 	}
-	*/
+	
 
 	// checkboxes
 
-	/*for (pugi::xml_node uiNode = node.child("checkboxes").child("checkbox"); uiNode; uiNode = uiNode.next_sibling("checkbox"))
+	for (pugi::xml_node uiNode = node.child("checkboxes").child("checkbox"); uiNode; uiNode = uiNode.next_sibling("checkbox"))
 	{
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
