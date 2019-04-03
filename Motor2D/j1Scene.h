@@ -51,6 +51,7 @@ public:
 	UiItem * startMenu = nullptr;
 	// UiItem_Image* testPanel = nullptr; 
 	bool debug = false;
+	bool exitGame = false;
 	SceneState state = SceneState::GAME;
 
 private:

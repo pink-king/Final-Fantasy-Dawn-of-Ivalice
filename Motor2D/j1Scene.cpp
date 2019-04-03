@@ -213,6 +213,9 @@ bool j1Scene::PostUpdate()
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+	if (exitGame)
+		return false;
+
 	return ret;
 }
 

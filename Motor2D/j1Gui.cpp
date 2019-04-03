@@ -489,3 +489,8 @@ void j1Gui::FadeToScene()
 	App->scene->state = SceneState::GAME;
 }
 
+void j1Gui::ExitGame()
+{
+	App->scene->exitGame = true;
+}
+

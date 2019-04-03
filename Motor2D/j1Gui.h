@@ -54,6 +54,7 @@ public:
 	
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
+	void ExitGame();
 
 private:
 	SDL_Texture * atlas;
