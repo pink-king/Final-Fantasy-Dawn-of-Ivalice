@@ -39,12 +39,15 @@ public:
 
 public:
 
-	std::list<_TTF_Font*>	fonts;
-	// std::vector<_TTF_Font*> fonts; 
+	std::vector<_TTF_Font*>	fonts;
+	
 
 	
 	_TTF_Font*				default;
-	_TTF_Font*				sans;
+	_TTF_Font*			    openSansBold18;
+	_TTF_Font*			    openSansBold36;
+
+	
 };
 
 

@@ -36,12 +36,14 @@ public:
 	void Draw();
 
 public:
+	PlayerEntity* selectedCharacterEntity = nullptr;
+
 	const j1Entity* GetSelectedCharacterEntity() const;
 
 private:
 
 	characterName selectedCharacterName;
-	PlayerEntity* selectedCharacterEntity = nullptr;
+	
 
 	Marche* marche = nullptr;
 	Ritz* ritz = nullptr;
