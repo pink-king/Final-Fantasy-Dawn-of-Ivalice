@@ -8,8 +8,6 @@
 
 
 #define MARGIN_TILE 1
-#define SUBTILE_RESOLUTION 0.5f
-#define SUBTILE_MULTIPLIER 2
 
 struct Properties
 {
@@ -152,8 +150,6 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
-	iPoint SubTileMapToWorld(int x, int y) const;
-	iPoint WorldToSubtileMap(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 
 private:
