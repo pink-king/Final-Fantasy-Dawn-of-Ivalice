@@ -387,7 +387,11 @@ bool j1Gui::PostUpdate()
 
 bool j1Gui::CleanUp()
 {
-	App->tex->UnLoad(atlas);         // TODO: Remove items from list, not hitlabels (they are on their own list)
+	if (atlas != nullptr)
+		App->tex->UnLoad(atlas);  
+	// TODO: Remove items from list, not hitlabels (they are on their own list)
+	
+	ListItemUI.clear();
 	return true;
 }
 
