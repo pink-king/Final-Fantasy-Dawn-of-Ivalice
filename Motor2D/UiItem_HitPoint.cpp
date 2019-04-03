@@ -60,7 +60,8 @@ lifeState UiItem_HitPoint::returnLifeState() {
 	else
 	{
 		ret = dead; 
-		CleanUp(); 
+		//CleanUp(); 
+		to_delete = true;
 	}
 
 
@@ -70,6 +71,60 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 void UiItem_HitPoint::CleanUp()
 {
-	App->HPManager->DestroyHitPointLabel(this);
+	if (texture != nullptr)
+		App->tex->UnLoad(texture);
+}
+
+void UiItem_HitPoint::updateHitPointPositions()
+{
+	hitBox.y -= 2;
+
+			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
+			/*int w, h;
+			SDL_QueryTexture((*item)->texture, NULL, NULL, &w, &h);
+			 */
+
+}
+
+void UiItem_HitPoint::updateHitPointSizes()
+{
+
+	if (returnLifeState() != dead)
+	{
+		switch (returnLifeState())
+		{
+			case fadeIn:
+				scaleFactor *= 1.03f;
+				break;
+			case Middle:
+				scaleFactor /= 1.003f;
+				break;
+			case fadeOut:
+				scaleFactor /= 1.02f;
+				break;
+		}
+	}
+		
+}
+
+
+void UiItem_HitPoint::updateHitPointOpacities()
+{
+	if (returnLifeState() != dead)
+		{
+			switch (returnLifeState())
+			{
+			case fadeIn:
+				alphaValue *= 3;
+				break;
+			case Middle:
+				alphaValue /= 1.1f;
+				break;
+			case fadeOut:
+				alphaValue /= 1.7f;
+				break;
+			}
+			SDL_SetTextureAlphaMod(texture,alphaValue);
+			}
 
 }

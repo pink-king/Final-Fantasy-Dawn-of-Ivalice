@@ -26,6 +26,10 @@ public:
 	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
 	void Draw(const float& dt) override;
 	void CleanUp(); 
+public:
+	void updateHitPointPositions();   // TODO: increment all current hitpoins Y position 
+	void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state    // use the scaling factor variable inside each hitbox
+	void updateHitPointOpacities();  // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
 
 protected:
 	valueInfo valueInformation; 
@@ -44,6 +48,8 @@ public: // public or protected?
 	float scaleFactor = 1.0f; 
 
 	friend class UiItem_HitPointManager; 
+
+	bool to_delete = false;
 
 };
 
