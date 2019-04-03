@@ -43,8 +43,20 @@ bool UiItem_HitPointManager::Update(float dt)
 bool UiItem_HitPointManager::CleanUp()
 {
 
-		for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item) {
-			if ((*item) != nullptr) {
+		for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item) 
+		{
+			if ((*item) != nullptr)
+			{
+
+
+				// first clear the texture 
+				if ((*item)->texture != nullptr)
+				{
+					App->tex->UnLoad((*item)->texture);
+					(*item)->texture = nullptr;
+				}
+
+
 				delete *item;
 				*item = nullptr; 	
 			}
@@ -62,7 +74,7 @@ void UiItem_HitPointManager::DestroyHitPointLabel(UiItem_HitPoint* label)
 	{
 		for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item) 
 		{
-			if (*item == label) 
+			if (*item == label && (*item) != nullptr) 
 			{
 
 				// first clear the texture 
@@ -73,13 +85,14 @@ void UiItem_HitPointManager::DestroyHitPointLabel(UiItem_HitPoint* label)
 				}
 
 				// IMPORTANT!!: do this only if it is not being deleted already in the destroy element function in gui cpp
-				delete *item;
-				*item = nullptr;
+				/*delete *item;
+				*item = nullptr;*/
 			
 				// delete it from the hitPoint item list
 
-
-
+				hitPointLabels.erase(item); 
+				
+				//break;
 				
 			}
 		}
@@ -104,8 +117,8 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage)
 
 	SDL_Color c = {0, 0, 255, 255};  // label is created totally black 
 
-	iPoint pos(enemy->position.x, enemy->position.y);                                               // adjust this  
-
+	//iPoint pos(enemy->position.x, enemy->position.y);                                               // adjust this  
+	iPoint pos(70, 70);
 	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr);    // big font for testing
 
 
