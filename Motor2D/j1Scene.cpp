@@ -242,7 +242,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		// PANELS
 
-		if (isPanel != 1)
+		/*if (isPanel != 1)
 		{
 			App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
 		}
@@ -297,7 +297,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 			}
 
-		}
+		}*/
 
 	}
 

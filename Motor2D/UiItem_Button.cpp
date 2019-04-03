@@ -37,6 +37,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 {
 	if (functionName == "FadeToScene")
 		App->gui->FadeToScene();
+	if (functionName == "ExitGame")
+		App->gui->ExitGame();
 }
 
 void UiItem_Button::Draw(const float &dt)

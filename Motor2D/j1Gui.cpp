@@ -242,7 +242,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && (*item)->guiType==GUI_TYPES::BUTTON)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y)
 					{

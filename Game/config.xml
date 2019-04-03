@@ -272,7 +272,7 @@
         </button>
         <button name="button_exit" function = "ExitGame">
           <idleSec x="305" y="614" w="138" h="32"/>
-          <hoverSec x="305" y="614" w="138" h="32" />
+          <hoverSec x="445" y="613" w="140" h="33" />
           <clickSec x="305" y="614" w="138" h="32" />
           <position x="101" y="430"/>
         </button>
