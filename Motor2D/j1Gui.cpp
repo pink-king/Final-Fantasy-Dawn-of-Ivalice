@@ -92,10 +92,15 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			break;
 		case GUI_TYPES::BUTTON:
-			if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
+			{
+				selected_object->state = CLICK;
+			}
+			if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_UP)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
+				selected_object->state = HOVER;
 			}
 			break;
 
