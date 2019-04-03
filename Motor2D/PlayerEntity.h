@@ -47,7 +47,7 @@ public:
 	// functionality ------
 	bool InputMovement(float dt);
 	int GetPointingDir(float angle);
-	//void GetInputFromKeyboard(float dt);
+	void GetInputFromKeyboard(float dt);
 	void CheckRenderFlip(); // animation relative
 	void Draw();
 	

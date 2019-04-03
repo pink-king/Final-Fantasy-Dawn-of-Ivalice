@@ -61,7 +61,7 @@ private:
 	uint width;
 	uint height;
 	// all map walkability values [0..255]
-	uchar* map = nullptr;
+	uchar* map;
 	// we store the created path here
 	std::vector<iPoint> last_path;
 };

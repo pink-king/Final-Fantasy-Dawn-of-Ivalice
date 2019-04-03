@@ -4,7 +4,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 
-PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
+PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(NO_TYPE, posX , posY, "PlayerParent")
 {
 	//SetPivot(16, 40);
 }
@@ -53,41 +53,11 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		position.x = position.x + (xAxis * 0.003 * characterBaseSpeed.x) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
-		//LOG("xAxis %i", xAxis); //32767 -32768
 	}
 	if (yAxis > 0 || yAxis < 0)
 	{
 		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
-	}
-
-	// keyboard input, only for debug or test purposes at the moment, main gameplay are based on GamePad
-	if ((App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) || (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) ||
-		(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) || (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT))
-	{
-		// condition
-		isMoving = true;
-		// max axis values
-		Sint16 max = 32767;
-		Sint16 min = -32768;
-		// x "axis" input
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-			xAxis = min;
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-			xAxis = max;
-		// y "axis" input
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-			yAxis = min;
-		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-			yAxis = max;
-
-		if (xAxis == yAxis || yAxis > 0 && xAxis < 0 || yAxis < 0 && xAxis > 0) // diagonal cases || slow down
-		{
-			//xAxis = xAxis * 0.5f;
-			yAxis = yAxis * 0.5f;
-		}
-		position.x = position.x + (xAxis * 0.003 * characterBaseSpeed.x) * dt; // TODO: GET speed from buff manager
-		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 	}
 
 	if (isMoving)// if we get any input, any direction
@@ -99,8 +69,18 @@ bool PlayerEntity::InputMovement(float dt)
 	}
 	else
 	{
-		currentAnimation = &idle[pointingDir];
+		//currentAnimation = &idle[pointingDir]; // Redundant, is repeated in the next function, but more clear this way
+		GetInputFromKeyboard(dt);
 	}
+
+	//iPoint isoPoint = App->map->WorldToMap(position.x, position.y); // convert world coords to iso map coords
+
+	//position.x = isoPoint.x;
+	//position.y = isoPoint.y;
+
+	//LOG("pos x: %f pos y: %f", position.x, position.y);
+
+	
 
 	// checks render flip
 	CheckRenderFlip();
@@ -131,67 +111,67 @@ void PlayerEntity::Draw()
 	}
 }
 
-//void PlayerEntity::GetInputFromKeyboard()
-//{
-//	bool up = App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT;
-//	bool down = App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT;
-//	bool left = App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT;
-//	bool right = App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT;
-//
-//	bool isMoving = false;
-//
-//	if (up && !down)
-//	{
-//		isMoving = true;
-//		position.y -= characterBaseSpeedKey.y * 100 * dt;
-//		pointingDir = 6;
-//	}
-//	if (down && !up)
-//	{
-//		isMoving = true;
-//		position.y += characterBaseSpeedKey.y * 100 * dt;
-//		pointingDir = 2;
-//	}
-//	if (left && !right)
-//	{
-//		isMoving = true;
-//		position.x -= characterBaseSpeedKey.x * 100 * dt;
-//		pointingDir = 4;
-//	}
-//	if (right && !left)
-//	{
-//		isMoving = true;
-//		position.x += characterBaseSpeedKey.x * 100 * dt;
-//		pointingDir = 0;
-//	}
-//
-//	if (up && right && !left)
-//	{
-//		pointingDir = 5;
-//	}
-//	if (up && left && !right)
-//	{
-//		pointingDir = 7;
-//	}
-//	if (down && left  && !right)
-//	{
-//		pointingDir = 3;
-//	}
-//	if (down && right && !left)
-//	{
-//		pointingDir = 1;
-//	}
-//
-//
-//	if (isMoving)
-//	{
-//		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
-//		currentAnimation = &run[pointingDir];
-//		currentAnimation->SetCurrentFrame(current_cycle_frame);
-//	}
-//	else
-//		currentAnimation = &idle[pointingDir]; // Redundant, but more clear this way.
-//}
+void PlayerEntity::GetInputFromKeyboard(float dt)
+{
+	bool up = App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT;
+	bool down = App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT;
+	bool left = App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT;
+	bool right = App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT;
+
+	bool isMoving = false;
+
+	if (up && !down)
+	{
+		isMoving = true;
+		position.y -= characterBaseSpeedKey.y * 100 * dt;
+		pointingDir = 6;
+	}
+	if (down && !up)
+	{
+		isMoving = true;
+		position.y += characterBaseSpeedKey.y * 100 * dt;
+		pointingDir = 2;
+	}
+	if (left && !right)
+	{
+		isMoving = true;
+		position.x -= characterBaseSpeedKey.x * 100 * dt;
+		pointingDir = 4;
+	}
+	if (right && !left)
+	{
+		isMoving = true;
+		position.x += characterBaseSpeedKey.x * 100 * dt;
+		pointingDir = 0;
+	}
+
+	if (up && right && !left)
+	{
+		pointingDir = 5;
+	}
+	if (up && left && !right)
+	{
+		pointingDir = 7;
+	}
+	if (down && left  && !right)
+	{
+		pointingDir = 3;
+	}
+	if (down && right && !left)
+	{
+		pointingDir = 1;
+	}
+
+
+	if (isMoving)
+	{
+		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
+		currentAnimation = &run[pointingDir];
+		currentAnimation->SetCurrentFrame(current_cycle_frame);
+	}
+	else
+		currentAnimation = &idle[pointingDir]; // Redundant, but more clear this way.
+}
 
 int PlayerEntity::GetPointingDir(float angle)
 {

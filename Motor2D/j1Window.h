@@ -23,8 +23,6 @@ public:
 
 	// Changae title
 	void SetTitle(const char* new_title);
-	void AddStringToTitle(const char* add_title);
-	void ClearTitle();
 
 	// Retrive window size
 	void GetWindowSize(uint& width, uint& height) const;

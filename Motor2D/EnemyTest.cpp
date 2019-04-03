@@ -6,29 +6,26 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
-#include <random>
 
-EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
+EnemyTest::EnemyTest(iPoint position) : j1Entity(NO_TYPE, position.x, position.y, "PIM")
 {
 	name.assign("Test");
 
 	// TODO: import from xml
-	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png"); // TODO: note, repetead entities/enemies, load texture once time
-	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
+	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png");
 
 	idle.PushBack({ 7,34,13,36 });
 
 	currentAnimation = &idle;
 	SetPivot(6, 32);
 	size.create(13,36);
-
-	life = 100;
 }
 
 EnemyTest::~EnemyTest()
 {
-	LOG("Bye Enemy Test");
-} 
+	//if (collider.collider != nullptr)
+	//	collider.collider->to_delete = true;
+}
 
 bool EnemyTest::Start()
 {
@@ -38,14 +35,16 @@ bool EnemyTest::Start()
 
 bool EnemyTest::PreUpdate()
 {
-
 	return true;
 }
 
 bool EnemyTest::Update(float dt)
 {
+	if (SearchNewPath())
+	{
+		MoveToNextNode(dt);
+	}
 
-	SetState(dt);
 
 
 	return true;
@@ -53,149 +52,77 @@ bool EnemyTest::Update(float dt)
 
 bool EnemyTest::PostUpdate()
 {
+	
+
+
 
 	return true;
 }
 
-void EnemyTest::SetState(float dt)
+iPoint EnemyTest::GetNextNode()
 {
-	switch (state)
+	// get the enemy pos in tile coords
+	iPoint thisPos;
+	thisPos = App->map->WorldToMap((int)position.x, (int)position.y);
+
+	// Get the next node, the last on the vector 
+	iPoint nextNodePos = path_to_follow.back();
+
+	// compare enemy and nextNode on tile coords, if is the same, pop and get the new nextNode
+	iPoint areaPoint = { 1,1 }; // tile values
+	if (!(thisPos.x >= (nextNodePos.x + areaPoint.x) || (thisPos.x + 2) <= nextNodePos.x || // enemy tile width 
+		thisPos.y >= (nextNodePos.y + areaPoint.y) || (thisPos.y + 2) <= nextNodePos.y)) // enemy tile height
 	{
-	case EnemyState::IDLE:
-	{
-		fPoint p_position = App->entityFactory->player->position;
-
-		// translate to map coords
-		iPoint thisPos = App->map->WorldToMap((int)position.x, (int)position.y);
-		iPoint playerPos = App->map->WorldToMap((int)p_position.x, (int)p_position.y);
-
-	if (thisPos.DistanceManhattan(playerPos) < RANGE /*&& App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN*/)
-			state = EnemyState::SEARCHPATH; 
-	}
-		break; 
-
-	case EnemyState::WAITING:
-		// Lacks coding of waiting entities to move
-		break;
-
-	case EnemyState::SEARCHPATH:
-	{
-		checkTime.Start(); 
-		if (SearchNewPath())
-			state = EnemyState::GET_NEXT_TILE;
-		else state = EnemyState::IDLE;
-
-	}
-		break;
-
-	case EnemyState::GET_NEXT_TILE:
-	{
-		if (path_to_follow.size() == 0)
-			state = EnemyState::IDLE;
-		else
-		{
-			tileToGo = path_to_follow.front(); // Get the first element of the list
-			state = EnemyState::GO_NEXT_TILE;
-		}
-		break;
+		// Erase the last element on the path
+		path_to_follow.pop_back(); 
 	}
 
-	case EnemyState::GO_NEXT_TILE:
-	{
-		iPoint toGo = App->map->MapToWorld(tileToGo.x + 1, tileToGo.y);			// Places the next node correctly (1 row below)
-		fPoint toGoCenter = { (float)toGo.x, (float)toGo.y + App->map->data.tile_height * 0.5F};	// Center of the tile 
-		App->render->DrawCircle(toGoCenter.x, toGoCenter.y, 5, 255, 0, 0, 255, false);
+	if (path_to_follow.size()>0)
+		return App->map->MapToWorld(nextNodePos.x, nextNodePos.y);
+	else
+		return thisPos;
 
-		velocity = toGoCenter - GetPivotPos();
-		velocity.Normalize(); 
-		position +=  velocity * dt * speed;
-		
-		iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(GetPivotPos().x, GetPivotPos().y);
-
-		if (onSubtilePosTemp != previousSubtilePos)
-		{
-			if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp))
-			{
-				position -= velocity * dt *speed; 
-				// state = EnemyState::WAITING; 6
-			}
-		}
-
-		if (App->entityFactory->player->ChangedTile() && checkTime.Read() > GetRandomValue(250, 1000))
-		{
-			state = EnemyState::SEARCHPATH;
-		}
-		else if (GetPivotPos().DistanceTo(toGoCenter) < 5 )
-		{
-			path_to_follow.erase(path_to_follow.begin());
-			state = EnemyState::GET_NEXT_TILE;
-		}
-
-	}
-		break;
-
-	default:
-		break; 
-	}
 }
 
 bool EnemyTest::SearchNewPath()
 {
 	bool ret = false;
-	path_to_follow.clear(); 
-	iPoint thisTile = App->map->WorldToMap((int)GetPivotPos().x, (int)GetPivotPos().y);
-	iPoint playerTile = App->map->WorldToMap((int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y);
+	iPoint thisPos = App->map->WorldToMap((int)GetPivotPos().x, (int)GetPivotPos().y);
+	iPoint playerPos = App->map->WorldToMap((int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y);
 
-	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
+	if (thisPos.DistanceManhattan(playerPos) > 1) // if the enemy is at more than 1 distance manhattan
 	{
-		if (App->pathfinding->CreatePath(thisTile, playerTile) != -1)
+		if (App->pathfinding->CreatePath(thisPos, playerPos) > 0)
 		{
+
 			path_to_follow = *App->pathfinding->GetLastPath();
-			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
-			//path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
-			ret = (path_to_follow.size() > 0);
+			ret = (path_to_follow.size() > 1);
 		}
-		else LOG("Could not create path correctly");
 	}
 
 	return ret; 
 }
 
-bool EnemyTest::isNextSubtileFree(int x, int y) const
+void EnemyTest::MoveToNextNode(float dt)
 {
-	//iPoint subTile = App->map->WorldToSubtileMap(x, y);
-	return App->entityFactory->isThisSubtileEmpty(iPoint(x,y));
+	iPoint nextNode = GetNextNode();
+
+	fPoint velocity_vector;
+	velocity_vector.x = (int)nextNode.x;
+	velocity_vector.y = (int)nextNode.y;
+
+	velocity_vector -= position;
+	velocity_vector.Normalize();
+
+	position += velocity_vector * dt * chasingSpeed;
 }
 
-int EnemyTest::GetRandomValue(const int& min,  const int& max)
-{
-	static std::default_random_engine generator;
-	std::uniform_int_distribution<int> distribution(min, max);
-	float dice_roll = distribution(generator);
-	return dice_roll; 
-}
+
+
 
 bool EnemyTest::CleanUp()
 {
-	if (debugSubtile != nullptr)
-	{
-		App->tex->UnLoad(debugSubtile);
-		debugSubtile = nullptr;
-	}
-
-	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end(); ++item)
-	{
-		stat.remove(*item);
-	}
-	stat.clear();
-
-	if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
+	
 	return true;
 }
 
@@ -203,16 +130,11 @@ void EnemyTest::DebugPath() const
 {
 	for (uint i = 0; i < path_to_follow.size(); ++i)
 	{
-		iPoint pos = App->map->MapToWorld(path_to_follow[i].x + 1, path_to_follow[i].y);		// X + 1, Same problem with map
-		App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
-		//App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
+		iPoint pos = App->map->MapToWorld(path_to_follow[i].x, path_to_follow[i].y);
+		App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
 	}
 	
-	iPoint subTilePos = GetSubtilePos();
-	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
-	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
 }
-
 
 void EnemyTest::Draw()
 {
