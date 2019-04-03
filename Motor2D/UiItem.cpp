@@ -38,6 +38,7 @@ UiItem::UiItem(const iPoint & pos, std::string &function, UiItem *const parent) 
 
 UiItem::~UiItem()
 {
+	LOG("destroyed UI item somewhere");
 }
 
 void UiItem::DrawUi(float dt)
