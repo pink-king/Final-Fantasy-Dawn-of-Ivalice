@@ -52,7 +52,7 @@ public:
 	// UiItem_Image* testPanel = nullptr; 
 	bool debug = false;
 	bool exitGame = false;
-	SceneState state = SceneState::GAME;
+	SceneState state = SceneState::STARTMENU;
 
 private:
 	SDL_Texture* debug_tex;

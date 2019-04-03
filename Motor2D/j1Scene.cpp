@@ -62,13 +62,7 @@ bool j1Scene::Start()
 	if (state == SceneState::GAME)
 	{
 		App->map->active = true;
-		if (!LoadedUi)
-		{
-			LoadInGameUi(sceneNode);
-			LoadStartMenu(sceneNode);
-			LoadPlayerUi(sceneNode);
-			LoadedUi = true;
-		}
+		
 		inGamePanel->enable = true;
 		uiMarche->enable = false;
 		uiShara->enable = false;
@@ -77,6 +71,13 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::STARTMENU)
 	{
+		if (!LoadedUi)
+		{
+			LoadInGameUi(sceneNode);
+			LoadStartMenu(sceneNode);
+			LoadPlayerUi(sceneNode);
+			LoadedUi = true;
+		}
 		App->map->active = false;
 		startMenu->enable = true;
 		if (inGamePanel->enable)
@@ -254,7 +255,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		// PANELS
 
-		/*if (isPanel != 1)
+		if (isPanel != 1)
 		{
 			App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
 		}
@@ -309,7 +310,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 			}
 
-		}*/
+		}
 
 	}
 
