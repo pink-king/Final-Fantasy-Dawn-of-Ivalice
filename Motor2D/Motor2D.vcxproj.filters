@@ -97,6 +97,12 @@
     <ClCompile Include="UiItem_Checkbox.cpp">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="j1AttackManager.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1LootSystem.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -213,6 +219,12 @@
     <ClInclude Include="UiItem_Checkbox.h">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="j1AttackManager.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1LootSystem.h">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Desenvolupament  ========">
@@ -245,5 +257,10 @@
     <Filter Include="Desenvolupament  ========\Modules\Entities\Enemies">
       <UniqueIdentifier>{08d64058-d931-412e-ba90-826c6b64e970}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Loot.xml" />
+    <Xml Include="..\Game\config.xml" />
+    <Xml Include="..\Game\save_game.xml" />
   </ItemGroup>
 </Project>

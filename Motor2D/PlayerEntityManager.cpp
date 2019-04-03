@@ -7,7 +7,7 @@
 //buff test
 #include "j1Window.h"
 
-PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, position.x,position.y, "PEM")
+PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
 	ritz = new Ritz(position.x, position.y);
@@ -21,6 +21,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(NO_TYPE, po
 
 	// debug normal tile tex
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
+	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 
 	debug = true;
 	
@@ -79,7 +80,7 @@ bool PlayerEntityManager::Update(float dt)
 
 	static char title[30];
 	sprintf_s(title, 30, " | player life: %f", (*selectedCharacterEntity).life);
-	App->win->SetTitle(title);
+	App->win->AddStringToTitle(title);
 
 
 	return ret;
@@ -87,15 +88,18 @@ bool PlayerEntityManager::Update(float dt)
 
 bool PlayerEntityManager::PostUpdate()
 {
-
 	selectedCharacterEntity->PostUpdate();
 
 	if (debug)
 	{
-		fPoint pivotPos = GetPivotPos();
-		iPoint debugTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
-		debugTilePos = App->map->MapToWorld(debugTilePos.x, debugTilePos.y);
-		App->render->Blit(debugTileTex, debugTilePos.x, debugTilePos.y, NULL);
+		// normal sized tile
+		iPoint tilePos = GetTilePos();
+		tilePos = App->map->MapToWorld(tilePos.x, tilePos.y);
+		App->render->Blit(debugTileTex, tilePos.x, tilePos.y, NULL);
+		// subtiles
+		iPoint subTilePos = GetSubtilePos();
+		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
 	}
 	
 	return true;
@@ -218,6 +222,11 @@ void PlayerEntityManager::Draw()
 void PlayerEntityManager::UpdatePivot()
 {
 	pivot = selectedCharacterEntity->pivot;
+}
+
+const j1Entity* PlayerEntityManager::GetSelectedCharacterEntity() const
+{
+	return selectedCharacterEntity;
 }
 
 //bool PlayerEntityManager::Draw()
