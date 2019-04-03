@@ -36,7 +36,8 @@ public:
 	void SetState(float dt);
 	bool SearchNewPath(); 
 	bool isNextSubtileFree(int x, int y) const; 
-	virtual bool CleanUp();
+	int GetRandomValue(const int& min, const int& max); 
+	bool CleanUp() override;
 
 	void DebugPath() const;
 	// functionality ------
@@ -49,10 +50,9 @@ private:
 	EnemyState state = EnemyState::IDLE;
 
 	iPoint tileToGo; 
-	fPoint newPosition; 
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint chasingSpeed = 100;
+	uint speed = 100;
 
 	Animation idle;
 	j1Timer checkTime; 

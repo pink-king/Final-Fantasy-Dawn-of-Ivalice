@@ -195,10 +195,14 @@ bool j1Scene::Update(float dt)
 
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
-
+	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y,  "whatever");
+	{
+		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+		cont++;
+	}
 
+	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", cont);
 
 	//App->win->SetTitle(App->title.data());
 

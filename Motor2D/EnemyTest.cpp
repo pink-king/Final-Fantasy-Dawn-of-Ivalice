@@ -6,13 +6,14 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
+#include <random>
 
 EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
 {
 	name.assign("Test");
 
 	// TODO: import from xml
-	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png");
+	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png"); // TODO: note, repetead entities/enemies, load texture once time
 	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
 
 	idle.PushBack({ 7,34,13,36 });
@@ -20,13 +21,14 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 	currentAnimation = &idle;
 	SetPivot(6, 32);
 	size.create(13,36);
+
+	life = 100;
 }
 
 EnemyTest::~EnemyTest()
 {
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
-}
+	LOG("Bye Enemy Test");
+} 
 
 bool EnemyTest::Start()
 {
@@ -67,25 +69,18 @@ void EnemyTest::SetState(float dt)
 		iPoint thisPos = App->map->WorldToMap((int)position.x, (int)position.y);
 		iPoint playerPos = App->map->WorldToMap((int)p_position.x, (int)p_position.y);
 
-		//if (thisPos.DistanceManhattan(playerPos) < RANGE /*&& App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN*/)
-		//	state = EnemyState::SEARCHPATH; 
+		if (thisPos.DistanceManhattan(playerPos) < RANGE /*&& App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN*/)
+			state = EnemyState::SEARCHPATH; 
 	}
 		break; 
 
 	case EnemyState::WAITING:
-		if (checkTime.ReadSec() < 3)
-		{
-			if (isNextSubtileFree(newPosition.x, newPosition.y))
-				state = EnemyState::GO_NEXT_TILE;
-		}
-		else
-		{
-			state = EnemyState::IDLE;
-		}
+		// Lacks coding of waiting entities to move
 		break;
 
 	case EnemyState::SEARCHPATH:
 	{
+		checkTime.Start(); 
 		if (SearchNewPath())
 			state = EnemyState::GET_NEXT_TILE;
 		else state = EnemyState::IDLE;
@@ -98,11 +93,10 @@ void EnemyTest::SetState(float dt)
 		if (path_to_follow.size() == 0)
 			state = EnemyState::IDLE;
 		else
-		{	
-		tileToGo = path_to_follow.front(); // Get the first element of the list
-		state = EnemyState::GO_NEXT_TILE;
+		{
+			tileToGo = path_to_follow.front(); // Get the first element of the list
+			state = EnemyState::GO_NEXT_TILE;
 		}
-
 		break;
 	}
 
@@ -114,24 +108,29 @@ void EnemyTest::SetState(float dt)
 
 		velocity = toGoCenter - GetPivotPos();
 		velocity.Normalize(); 
-		position +=  velocity * dt * 100;
+		position +=  velocity * dt * speed;
 		
-		// IN PROGRESS
-		/*if (imOnSubtile == previousSubtilePos)
-		{
-			if (!isNextSubtileFree(GetPivotPos().x, GetPivotPos().y))
-			{
-				state = EnemyState::WAITING;
-				checkTime.Start();
-				LOG("Next subtile occupied -  WAITING");
-			}
-		}*/
+		iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(GetPivotPos().x, GetPivotPos().y);
 
-		if (GetPivotPos().DistanceTo(toGoCenter) < 5 )
+		if (onSubtilePosTemp != previousSubtilePos)
+		{
+			if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp))
+			{
+				position -= velocity * dt *speed; 
+				// state = EnemyState::WAITING; 6
+			}
+		}
+
+		if (App->entityFactory->player->ChangedTile() && checkTime.Read() > GetRandomValue(250, 1000))
+		{
+			state = EnemyState::SEARCHPATH;
+		}
+		else if (GetPivotPos().DistanceTo(toGoCenter) < 5 )
 		{
 			path_to_follow.erase(path_to_follow.begin());
 			state = EnemyState::GET_NEXT_TILE;
 		}
+
 	}
 		break;
 
@@ -164,25 +163,51 @@ bool EnemyTest::SearchNewPath()
 
 bool EnemyTest::isNextSubtileFree(int x, int y) const
 {
-	iPoint subTile = App->map->WorldToSubtileMap(x, y);
-	return App->entityFactory->isThisSubtileEmpty(subTile);
+	//iPoint subTile = App->map->WorldToSubtileMap(x, y);
+	return App->entityFactory->isThisSubtileEmpty(iPoint(x,y));
+}
+
+int EnemyTest::GetRandomValue(const int& min,  const int& max)
+{
+	static std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution(min, max);
+	float dice_roll = distribution(generator);
+	return dice_roll; 
 }
 
 bool EnemyTest::CleanUp()
 {
-	
+	if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}
+
+	std::list<entityStat*>::iterator item = stat.begin();
+	for (; item != stat.end(); ++item)
+	{
+		stat.remove(*item);
+	}
+	stat.clear();
+
+	if (entityTex != nullptr)
+	{
+		App->tex->UnLoad(entityTex);
+		entityTex = nullptr;
+	}
+
 	return true;
 }
 
 void EnemyTest::DebugPath() const
 {
-	//for (uint i = 0; i < path_to_follow.size(); ++i)
-	//{
-	//	iPoint pos = App->map->MapToWorld(path_to_follow[i].x, path_to_follow[i].y);
-	//	App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
-	//	App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
-	//}
-	//
+	for (uint i = 0; i < path_to_follow.size(); ++i)
+	{
+		iPoint pos = App->map->MapToWorld(path_to_follow[i].x + 1, path_to_follow[i].y);		// X + 1, Same problem with map
+		App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
+		//App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
+	}
+	
 	iPoint subTilePos = GetSubtilePos();
 	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);

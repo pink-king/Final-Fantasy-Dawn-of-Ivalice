@@ -30,8 +30,8 @@ public:
 	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, std::string stat);
 	bool DamageInTime(j1Entity* entity);
 	//functions to create buffs in entities
-	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damage);
-	void CreateParalize(j1Entity* attacker, j1Entity* defender);
+	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime);
+	void CreateParalize(j1Entity* attacker, j1Entity* defender, uint time);
 
 	void ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType);
 	void DeleteBuff(std::string buffName);
