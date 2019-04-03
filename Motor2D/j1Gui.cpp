@@ -295,7 +295,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item) != selected_object && (*item)->parent == selected_object->parent)
+				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
 					if ((*item)->hitBox.y > selected_object->hitBox.y)
@@ -491,6 +491,7 @@ SDL_Texture * j1Gui::GetAtlas()
 
 void j1Gui::FadeToScene()
 {
+	resetHoverSwapping = false;
 	App->scene->state = SceneState::GAME;
 }
 
