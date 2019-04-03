@@ -1,6 +1,8 @@
 #include "j1LootSystem.h"
 #include"j1App.h"
 #include "p2Log.h"
+
+#include <random>
 #include <iostream>
 j1LootSystem::j1LootSystem() 
 {
@@ -72,6 +74,13 @@ bool j1LootSystem::PostUpdate()
 	return true;
 }
 
+int j1LootSystem::GetRandomValue(int min, int max, int ret_value)
+{
+	static std::default_random_engine generator;
+	std::uniform_int_distribution<int> range(min, max);
+	return ret_value;
+}
+
 void j1LootSystem::MatchGold(int id)
 {
 	
@@ -97,3 +106,4 @@ void j1LootSystem::MatchGold(int id)
 	
 		id = 0;*/
 }
+

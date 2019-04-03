@@ -19,8 +19,6 @@
 #include "j1Fonts.h"
 #include "j1BuffManager.h"
 #include "UiItem_HitPointManager.h"
-#include "j1AttackManager.h"
-#include "j1LootSystem.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -43,9 +41,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	buff = new j1BuffManager();
 	HPManager = new UiItem_HitPointManager(); 
 
-
-	attackManager = new j1AttackManager();
-	loot = new j1LootSystem();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -55,14 +50,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(entityFactory);
-	AddModule(attackManager);
 	AddModule(buff);
 	AddModule(pathfinding);
 	AddModule(gui);
 	AddModule(font);
-	AddModule(HPManager);
-	AddModule(loot);
-  
+	AddModule(HPManager); 
+
 	// render last to swap buffer
 	AddModule(render);
 

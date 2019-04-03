@@ -34,7 +34,7 @@ private:
 
 	pugi::xml_node node;
 	
-	
+	int GetRandomValue(int min,  int max, int ret_value);
 
 	
 	//std::list<uint> test;

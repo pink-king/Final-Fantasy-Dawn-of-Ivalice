@@ -10,7 +10,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "SDL/include/SDL_stdinc.h"
 
-// Modules || forward declarations
+// Modules
 class j1Window;
 class j1Input;
 class j1Render;
@@ -25,9 +25,6 @@ class j1Fonts;
 class j1BuffManager;
 class UiItem_HitPointManager;
 
-
-class j1AttackManager;
-class j1LootSystem;
 class j1App
 {
 public:
@@ -113,9 +110,6 @@ public:
 	j1BuffManager*		buff = nullptr;
 	UiItem_HitPointManager*   HPManager = nullptr; 
 
-
-	j1AttackManager*	attackManager = nullptr;
-	j1LootSystem*		loot = nullptr;
 	bool				vsync = false;
 	bool				pause = false;
 

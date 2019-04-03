@@ -7,14 +7,12 @@
 	<map />
 	<scene />
 	<entities />
-	<AttackManager />
 	<Buff />
 	<pathfinding />
 	<gui />
 	<fonts />
-  <sceneUI />
-	<loot />
+	<sceneUi />
 	<renderer>
-		<camera x="1300" y="-249" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>

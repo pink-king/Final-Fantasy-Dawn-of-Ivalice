@@ -158,47 +158,6 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	return ret;
 }
 
-iPoint j1Map::SubTileMapToWorld(int x, int y) const
-{
-	iPoint ret;
-
-	x += 1; // TODO: displacement
-
-	if (data.type == MAPTYPE_ISOMETRIC)
-	{
-		ret.x = (x - y) * (data.tile_width * SUBTILE_RESOLUTION) * 0.5f;
-		ret.y = (x + y) * (data.tile_height * SUBTILE_RESOLUTION) * 0.5f;
-	}
-	else
-	{
-		LOG("Unknown map type");
-		ret.x = x; ret.y = y;
-	}
-
-	return ret;
-}
-
-iPoint j1Map::WorldToSubtileMap(int x, int y) const
-{
-	iPoint ret(0, 0);
-
-	if (data.type == MAPTYPE_ISOMETRIC)
-	{
-
-	float half_width = (data.tile_width * SUBTILE_RESOLUTION) * 0.5f;
-	float half_height = (data.tile_height * SUBTILE_RESOLUTION) * 0.5f;
-	ret.x = int((x / half_width + y / half_height) * 0.5f) - 1 * SUBTILE_MULTIPLIER; //TODO: search subtilemap draw displacement
-	ret.y = int((y / half_height - (x / half_width)) * 0.5f);
-	}
-	else
-	{
-		LOG("Unknown map type");
-		ret.x = x; ret.y = y;
-	}
-
-	return ret;
-}
-
 SDL_Rect TileSet::GetTileRect(int id) const
 {
 	int relative_id = id - firstgid;
@@ -225,7 +184,7 @@ bool j1Map::CleanUp()
 
 	while(tiles_item != data.tilesets.end())
 	{
-		RELEASE(*tiles_item);
+		data.tilesets.remove(*tiles_item);
 		++tiles_item;
 	}
 	data.tilesets.clear();
