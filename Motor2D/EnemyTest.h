@@ -50,7 +50,6 @@ private:
 	EnemyState state = EnemyState::IDLE;
 
 	iPoint tileToGo; 
-	fPoint newPosition; 
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
 	uint speed = 100;

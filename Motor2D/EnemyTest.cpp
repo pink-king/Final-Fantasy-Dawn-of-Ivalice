@@ -110,7 +110,18 @@ void EnemyTest::SetState(float dt)
 		velocity = toGoCenter - GetPivotPos();
 		velocity.Normalize(); 
 		position +=  velocity * dt * speed;
-			
+		
+		iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(GetPivotPos().x, GetPivotPos().y);
+
+		if (onSubtilePosTemp != previousSubtilePos)
+		{
+			if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp))
+			{
+				position -= velocity * dt *speed; 
+				// state = EnemyState::WAITING; 6
+			}
+		}
+
 		if (App->entityFactory->player->ChangedTile() && checkTime.Read() > GetRandomValue(250, 1000))
 		{
 			state = EnemyState::SEARCHPATH;
@@ -153,8 +164,8 @@ bool EnemyTest::SearchNewPath()
 
 bool EnemyTest::isNextSubtileFree(int x, int y) const
 {
-	iPoint subTile = App->map->WorldToSubtileMap(x, y);
-	return App->entityFactory->isThisSubtileEmpty(subTile);
+	//iPoint subTile = App->map->WorldToSubtileMap(x, y);
+	return App->entityFactory->isThisSubtileEmpty(iPoint(x,y));
 }
 
 int EnemyTest::GetRandomValue(const int& min,  const int& max)
