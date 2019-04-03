@@ -1,5 +1,7 @@
 #include "UiItem_HitPoint.h"
 #include "UiItem_HitPointManager.h"
+#include "PlayerEntityManager.h"
+#include "j1EntityFactory.h"
 #include "j1Textures.h"
 #include "j1App.h"
 #include "j1Gui.h"
@@ -52,6 +54,7 @@ bool UiItem_HitPointManager::Update(float dt)
 		}
 	}
 
+	CheckComboTime(); 
 
 	return true;
 }
@@ -85,6 +88,20 @@ bool UiItem_HitPointManager::CleanUp()
 
 void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type)
 {
+	// player streak
+
+	if (!resetCountdown)
+	{
+		streakCountdown.Start();
+		resetCountdown = true;
+		LOG("....................................................................Timer ms = %f", streakCountdown.ReadMs()); 
+	}
+	else if (streakCountdown.ReadMs() > 100 && streakCountdown.ReadMs() < 2000)    //  if player hits another enemy before 2 seconds have passed 
+	{
+		damageStreak += damage; 
+		resetCountdown = false; 
+		LOG("....................................................................Timer 2nd time ms = %f", streakCountdown.ReadMs());
+	}
 
 	std::string str = std::to_string(damage); 
 
@@ -94,7 +111,6 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 	};
 
 
-	// possible: color depending on damage type 
 	// TODO: load colors and fonts from XML 
 
 	SDL_Color c = {}; 
@@ -115,4 +131,36 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr);    // big font for testing
 
 
+}
+
+
+
+void UiItem_HitPointManager::CheckComboTime()
+{
+
+	LOG("....................................................................  - - - - - - the current TIME - - - - - = %f", streakCountdown.ReadMs());
+
+
+	if (damageStreak >= 20)
+	{
+		SDL_Color c = { 255, 0, 0, 255 };                         // red for the moment
+		int pos_X = App->entityFactory->player->GetPosition().x;
+		int pos_Y = App->entityFactory->player->GetPosition().y;
+		LOG("....................................................................  The Combo Score is = %i", damageStreak);
+		App->gui->AddLabel("BRUTAL", c, App->font->openSansBold36, iPoint(pos_X, pos_Y + 50), nullptr);
+	}
+
+
+	if (streakCountdown.ReadMs() > 2000)      // if player remains 2 secs without damaging enemy, the combo is lost
+	{
+
+		damageStreak = 0; 
+		resetCountdown = false; 
+		LOG("....................................................................Timer RESET time ms = %f", streakCountdown.ReadMs());
+	}
+
+
+	
+
+	
 }

@@ -36,10 +36,15 @@ public:
 	void callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type = STANDARD); // TODO: variables =  enemy pos, enemy rect top, enemy damage (buffmanager)   // TODO: call "AddHitPoint"
 	//void DestroyHitPointLabel(UiItem_HitPoint*); // TODO: unload texture, and nullptr, etc
 
+private: 
+	void CheckComboTime(); 
 
 public:
 	std::vector<UiItem_HitPoint*>			hitPointLabels;   // caution: there is already a ui item list, so hitpoint will appear in both lists ????!!!!
 
+	uint damageStreak = 0; 
+	j1PerfTimer streakCountdown; 
+	bool resetCountdown = false; 
 
 	friend class j1Gui; 
 };
