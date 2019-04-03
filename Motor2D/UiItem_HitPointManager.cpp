@@ -83,7 +83,7 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage)
+void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type)
 {
 
 	std::string str = std::to_string(damage); 
@@ -97,7 +97,17 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage)
 	// possible: color depending on damage type 
 	// TODO: load colors and fonts from XML 
 
-	SDL_Color c = {0, 0, 255, 255};  // label is created totally black 
+	SDL_Color c = {}; 
+	switch (type)
+	{
+	case BURN: 
+		c = { 255, 0, 0, 255 };
+		break; 
+	default: 
+		c = { 0, 0, 0, 255 };
+		break; 
+	}
+	
 
 	iPoint pos(App->render->WorldToScreen(enemy->position.x, enemy->position.y));                                               // adjust this  
 

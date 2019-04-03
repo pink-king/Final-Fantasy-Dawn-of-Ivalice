@@ -6,7 +6,7 @@
 #include "j1Module.h"
 #include "Buff.h"
 #include "j1Entity.h"
-
+#include "UiItem_HitPointManager.h"
 
 class j1BuffManager : public j1Module 
 {
@@ -40,7 +40,7 @@ private:
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
 
-	float							burnedDamagesecond = 0.f;
+	float							burnedDamagesecond = 0.f; 
 	float							paralizetime = 0.f;
 	float							burnedTotalDamage = 0.f;
 

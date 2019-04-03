@@ -6,6 +6,14 @@
 #include "UiItem_HitPoint.h"
 #include "j1Entity.h"
 
+
+enum damageType{
+BURN,
+PARALIZE,
+VENOM,
+STANDARD,
+};
+
 class UiItem_HitPointManager : public j1Module
 {
 public:
@@ -25,7 +33,7 @@ public:
 
 
 public: 
-	void callHPLabelSpawn(j1Entity* enemy, uint damage); // TODO: variables =  enemy pos, enemy rect top, enemy damage (buffmanager)   // TODO: call "AddHitPoint"
+	void callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type = STANDARD); // TODO: variables =  enemy pos, enemy rect top, enemy damage (buffmanager)   // TODO: call "AddHitPoint"
 	//void DestroyHitPointLabel(UiItem_HitPoint*); // TODO: unload texture, and nullptr, etc
 
 

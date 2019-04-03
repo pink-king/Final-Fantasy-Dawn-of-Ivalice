@@ -14,6 +14,8 @@
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
 #include "UiItem_HitPointManager.h"
+#include "j1BuffManager.h"
+
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -196,16 +198,19 @@ bool j1Scene::Update(float dt)
 	{
 		// App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 		
-		App->HPManager->callHPLabelSpawn(App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 50);
+		// App->HPManager->callHPLabelSpawn(App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 50);
+
+
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21);
 	}
 
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 
 		App->HPManager->callHPLabelSpawn(nullptr, 50);
 	}
-
+	*/
 	//App->win->SetTitle(App->title.data());
 
 

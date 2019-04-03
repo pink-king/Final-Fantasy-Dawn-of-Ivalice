@@ -26,6 +26,10 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 	}
 
 	burnedDamagesecond = node.child("timebuff").attribute("burnedInSecond").as_float();
+
+	// for testing
+	burnedDamagesecond = 5.0f; 
+
 	burnedTotalDamage = node.child("timebuff").attribute("burnedTotalDamage").as_float();
 	paralizetime = node.child("timebuff").attribute("paralizeTime").as_float();
 	return ret;
@@ -167,6 +171,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					entity->life -= burnedDamagesecond;
 					(*item)->maxDamage -= burnedDamagesecond;
 					(*item)->count.Start();
+					App->HPManager->callHPLabelSpawn(entity, burnedDamagesecond, damageType::BURN);   // print hitpoint label, this one is red; 
 				}
 			}
 			else
