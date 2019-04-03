@@ -120,7 +120,7 @@ bool Ritz::Update(float dt)
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
 		&& !isBurned)
 	{
-		App->buff->CreateBurned(this, this, 10);
+		App->buff->CreateBurned(this, this,1, 15);
 	}
 	return true;
 }

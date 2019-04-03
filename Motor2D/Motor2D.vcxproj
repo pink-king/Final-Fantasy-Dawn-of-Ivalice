@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Final_Fantasy-Dawn_of_Ivalice</ProjectName>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,11 +80,13 @@
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
+    <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
+    <ClCompile Include="j1LootSystem.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -116,11 +118,13 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="EnemyTest.h" />
+    <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
+    <ClInclude Include="j1LootSystem.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1PathFinding.h" />
     <ClInclude Include="j1PerfTimer.h" />
@@ -154,6 +158,15 @@
     <ClInclude Include="UiItem_Image.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Game\config.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="..\Game\save_game.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="Loot.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

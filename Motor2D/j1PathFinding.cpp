@@ -82,7 +82,7 @@ bool j1PathFinding::PostUpdate()
 			{
 				iPoint pos = App->map->MapToWorld(debugPath.at(i).x, debugPath.at(i).y);
 				App->render->Blit(debug_texture, pos.x, pos.y);
-
+				App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
 				LOG("Tile to print %i %i ", debugPath.at(i).x, debugPath.at(i).y);
 			}
 		}
@@ -117,8 +117,8 @@ void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 // Utility: return true if pos is inside the map boundaries
 bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 {
-	return (pos.x >= 0 && pos.x <= (int)width &&
-		pos.y >= 0 && pos.y <= (int)height);
+	return (pos.x >= 0 && pos.x < (int)width &&
+		pos.y >= 0 && pos.y < (int)height);
 }
 
 // Utility: returns true is the tile is walkable
@@ -326,7 +326,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// Flip() the path when you are finish
 			reverse(last_path.begin(), last_path.end());
 
-			return last_path.size();;
+			return last_path.size();
 		}
 
 		else

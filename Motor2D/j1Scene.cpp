@@ -15,6 +15,9 @@
 #include "UiItem_Image.h"
 #include "UiItem_HitPointManager.h"
 
+#include "j1AttackManager.h"
+#include "j1LootSystem.h"
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
@@ -47,6 +50,9 @@ bool j1Scene::Start()
 			App->pathfinding->SetMap(w, h, data);
 
 		RELEASE_ARRAY(data);
+
+		// re set entities data map (create or delete/create if we have a previous one)
+		App->entityFactory->CreateEntitiesDataMap(App->map->data.width*2, App->map->data.height*2);
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
@@ -80,13 +86,29 @@ bool j1Scene::Start()
 		if (inGamePanel->enable)
 			inGamePanel->enable = false;
 	}
+
+
+	/*LoadInGameUi(sceneNode);
+	LoadStartMenu(sceneNode);
+	LoadPlayerUi(sceneNode);
+	inGamePanel->enable = true;
+	uiMarche->enable = true;
+	uiShara->enable = false;
+	uiRitz->enable = false;
+	startMenu->enable = false;*/
+
+	//LoadInGameUi(sceneNode);
+	//// LoadStartMenu(sceneNode);
+	//inGamePanel->enable = true;
+	//// startMenu->enable = false;
+
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	// debug pathfing ------------------
 
 	int x, y;
@@ -101,6 +123,26 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		App->win->SetScale(2);
 
+	// debug testing subtiles entities empty
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
+		iPoint clickedTile = entitySubTilePoint;
+		clickedTile = App->map->WorldToMap(clickedTile.x, clickedTile.y);
+		entitySubTilePoint = App->map->WorldToSubtileMap(entitySubTilePoint.x, entitySubTilePoint.y);
+
+		LOG("clicked tile: %i, %i", clickedTile.x, clickedTile.y);
+		LOG("clicked subtile %i,%i", entitySubTilePoint.x, entitySubTilePoint.y);
+
+		if (App->entityFactory->isThisSubtileEmpty(entitySubTilePoint))
+			LOG("subtile empty");
+		else
+			LOG("subtile NOT empty");
+
+		// DEBUG attack propagation!
+		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
+
+	}
 
 	return true;
 }
@@ -185,6 +227,12 @@ bool j1Scene::Update(float dt)
 	if (App->map->active)
 		App->map->Draw();
 
+
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->loot->trigger = true;
+	
+	App->map->Draw();
+
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
@@ -205,6 +253,17 @@ bool j1Scene::Update(float dt)
 
 		App->HPManager->callHPLabelSpawn(nullptr, 50);
 	}
+
+	static int cont = 0;
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT)
+	{
+		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+		cont++;
+	}
+	static char title[90];
+	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
+	App->win->AddStringToTitle(title);
+	LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
 
 	//App->win->SetTitle(App->title.data());
 
