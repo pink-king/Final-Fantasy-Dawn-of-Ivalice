@@ -141,14 +141,14 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 	else                                                       // this is done in loops
 	{
-		/*if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates; 
 			
 			for (; item != ListItemUI.end(); item++)                
 			{
-				if ((*item)->parent == selected_object->parent)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
 					{
@@ -195,7 +195,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
 
@@ -237,7 +237,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 		}
 
-		*/
+		
 
 
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
@@ -354,7 +354,7 @@ bool j1Gui::PostUpdate()
 		debug_ = !debug_;
 	}
 
-	//canvas->DrawUi(dt);
+	
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
