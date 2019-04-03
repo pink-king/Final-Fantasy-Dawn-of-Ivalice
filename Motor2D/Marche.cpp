@@ -122,9 +122,9 @@ bool Marche::PreUpdate()
 bool Marche::Update(float dt)
 {
 	fPoint pivotPos = GetPivotPos();
-	//LOG("%f,%f", pivot.x, pivot.y);
+	LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
-	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
+	LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
 	if (App->pathfinding->IsWalkable(onTilePos))
 	{
 		previousPos = position;
@@ -144,7 +144,6 @@ bool Marche::Update(float dt)
 	{
 		position = previousPos;
 	}
-
 	//test buff
 	j1Entity* j1 = nullptr;
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
@@ -153,13 +152,9 @@ bool Marche::Update(float dt)
 
 		for (; item2 != App->entityFactory->entities.end(); ++item2)
 		{
-			if (*item2 != nullptr)
+			if ((*item2)->name.compare("whatever") == 0)
 			{
-				if ((*item2)->name.compare("whatever") == 0)
-				{
-					App->buff->DirectAttack(this, *item2, 120, "basic");
-					break;
-				}
+				App->buff->DirectAttack(this, *item2, 10, "basic");
 			}
 		}
 	}
@@ -178,26 +173,14 @@ bool Marche::Update(float dt)
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
 		&& !isBurned)
 	{
-		App->buff->CreateBurned(this, this,5,2);
+		App->buff->CreateBurned(this, this,20);
 	}
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == 1 || App->input->GetKey(SDL_SCANCODE_R) == 1)
 		&& !isParalize)
 	{
-		App->buff->CreateParalize(this, this, 10);
+		App->buff->CreateParalize(this, this);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == 1)
-	{
-		App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, OBJECT_TYPE::WEAPON_OBJECT, "superSword","Marche","hability", 1.0);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
-	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::WEAPON_OBJECT, "sword2", "Marche", "hability", 5.0);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
-	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, OBJECT_TYPE::ARMOR_OBJECT, "armorMarche", "Marche", "defence", 10.0);
-	}
 
 	return true;
 }

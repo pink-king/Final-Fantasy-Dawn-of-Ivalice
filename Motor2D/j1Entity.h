@@ -10,19 +10,12 @@
 
 #include "SDL_image/include/SDL_image.h"
 
-enum ENTITY_TYPE  // todo, pass to class
+enum ENTITY_TYPE
 	{
 		NO_TYPE,
 		ENTITY_STATIC,
 		ENTITY_DYNAMIC,
-		//---------------
-		PLAYER,
-		ENEMY01,
-		ENEMY02,
-		//etc
-		ENEMY_TEST,
-		// LAST
-		MAX_TYPE
+		ENEMY_TEST
 	};
 
 enum class STAT_TYPE
@@ -35,13 +28,12 @@ enum class STAT_TYPE
 class entityStat
 {
 public:
-	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f):type(stat), secDamage(secDamage), totalTime(totalTime){}
+	entityStat(STAT_TYPE stat, float maxDamage):type(stat), maxDamage(maxDamage){}
 	entityStat() {};
 public:
-	STAT_TYPE		type = STAT_TYPE::NORMAL;
-	float			secDamage = 0.f;
+	STAT_TYPE		type;
+	float			maxDamage;
 	j1Timer			count;
-	uint			totalTime = 0;
 };
 
 struct EntityInfo
@@ -54,7 +46,7 @@ class j1Entity
 {
 public:
 	j1Entity(ENTITY_TYPE type, float positionX, float positionY, std::string name);
-	virtual ~j1Entity();
+	~j1Entity();
 
 	virtual bool Start();
 	// core loops ---------------
@@ -67,20 +59,12 @@ public:
 	virtual void Draw();
 	//virtual void OnCollision(Collider* collider);
 
-	iPoint GetTilePos() const;
-	iPoint GetSubtilePos() const;
-	iPoint GetPreviousSubtilePos() const;
-	void UpdateTilePositions();
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
-	fPoint GetPivotPos() const;	
-	bool ChangedTile() const; 
-
+	fPoint GetPivotPos() const;
 	virtual void LoadEntitydata(pugi::xml_node&);
-	
 
 public:
-	bool					to_delete = false;
 	std::string				name;
 	fPoint					position;
 	iPoint					size;
@@ -90,24 +74,17 @@ public:
 	SDL_RendererFlip		flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
 	float					life = 100.f;
-	float					defence = 0.f;
+	float					defence = 5.f;
 	pugi::xml_document		file;
 	pugi::xml_parse_result	result;
 
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
-	
-	bool					changedTile = false; 
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
-
-protected:
-	iPoint imOnTile;
-	iPoint imOnSubtile;
-	iPoint previousSubtilePos;
-	iPoint previousTilePos; 
+	
 };
 
 #endif
