@@ -17,6 +17,10 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 	this->font = font;
 	
 
+
+	// the parent
+	this->parent = parent;
+
 }
 
 //bool UiItem_Label::ChangeTextureHover(const std::string * textHover, const SDL_Color * color, const TTF_Font * font)

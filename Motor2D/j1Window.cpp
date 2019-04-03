@@ -102,6 +102,18 @@ void j1Window::SetTitle(const char* new_title)
 	SDL_SetWindowTitle(window, new_title);
 }
 
+void j1Window::AddStringToTitle(const char * add_title)
+{
+	title = title + std::string(add_title);
+	std::string new_title = std::string(App->GetTitle()) + title;
+	SDL_SetWindowTitle(window, new_title.data());
+}
+
+void j1Window::ClearTitle()
+{
+	title.clear();
+}
+
 void j1Window::GetWindowSize(uint& width, uint& height) const
 {
 	width = this->width;

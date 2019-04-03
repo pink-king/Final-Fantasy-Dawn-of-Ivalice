@@ -5,7 +5,7 @@
 #include "j1Gui.h"
 #include "j1Scene.h"
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent) : UiItem(position, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel) : UiItem(position, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
@@ -13,9 +13,22 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 	this->hitBox.w = section->w; 
 	this->hitBox.h = section->h;
+
+	if (isPanel == 1)
+	{
+		this->isPanel = true; 
+	}
+
+	// the parent
+	this->parent = parent;
+
+
 }
 
 void UiItem_Image::Draw(const float& dt)
 {
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F);
+	if (!hide)
+	{
+		App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F);
+	}
 }

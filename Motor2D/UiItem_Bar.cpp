@@ -11,7 +11,7 @@
 #include "p2Point.h"
 #include "p2log.h"
 
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent, TypeBar type):UiItem(position, parent)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent/*, TypeBar type*/):UiItem(position, parent)
 {
 
 	this->section = *section;
@@ -22,8 +22,12 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 
 	// bar 
 	bar = App->gui->AddImage(position, section, parent);
+
+
 	// thumb
-	thumb = App->gui->AddImage(position, thumb_section, parent);
+	iPoint thumbPos(position.x + 5, position.y + 9);
+
+	thumb = App->gui->AddImage(thumbPos, thumb_section, parent);
 	thumb->slidable = true; 
 	thumb->parent = bar; 
 	thumb->iFriend = this; 
@@ -31,6 +35,10 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	// to check mouse 
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
+
+
+	// the parent
+	this->parent = parent; 
 }
 
 void UiItem_Bar::Draw(const float & dt)
@@ -40,39 +48,47 @@ void UiItem_Bar::Draw(const float & dt)
 }
 
 
-void UiItem_Bar::DoLogicDragged(bool do_slide) {
 
-	                                   // right now only vertical sliders
-	if (do_slide) {
-		iPoint mousePos;
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		mousePos.x = x; 	mousePos.y = y;
-		mousePos.x *= App->win->GetScale(); 
-		mousePos.y *= App->win->GetScale();
 
-		if (mousePos.y >= bar->hitBox.y && mousePos.y <= bar->hitBox.y + bar->hitBox.h)
-		{
-			thumb->SetPos(iPoint(thumb->hitBox.x, mousePos.y));
-		}
+
+void UiItem_Bar::DoLogicHovered() {
+ 
+	if (!thumbReposition)
+	{
+		thumb->hitBox.y += 4;
+		thumbReposition = !thumbReposition;
 	}
 
+	bar->section.x = 1088; 
+	bar->section.y = 476;
+	bar->section.w = 191;
+	bar->section.h = 58;
+
+		uint nexPosX = 0;
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			nexPosX = thumb->hitBox.x + 2;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			nexPosX = thumb->hitBox.x - 2;
+		}
+
+		if (nexPosX >= bar->hitBox.x && nexPosX <= bar->hitBox.x + bar->hitBox.w)
+		{
+			thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
+		}
+	
 
 }
 
+void UiItem_Bar::DoLogicAbandoned() {
 
-
-void UiItem_Bar::DoLogicHovered(bool do_slide) {
-
-	bar->section.x = 164; 
-	bar->section.y = 615;
-	bar->section.w = 56;
-	bar->section.h = 191;
-
-}
-
-void UiItem_Bar::DoLogicAbandoned(bool do_slide) {
-
+	if (thumbReposition)
+	{
+	thumb->hitBox.y -= 4;
+	thumbReposition = !thumbReposition;
+	}
 
 	bar->section = this->section; 
 }
