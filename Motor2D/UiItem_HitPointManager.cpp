@@ -93,7 +93,7 @@ void UiItem_HitPointManager::DestroyHitPointLabel(UiItem_HitPoint* label)
 
 				hitPointLabels.erase(item); 
 				
-				//break;
+				break;
 				
 			}
     	}
