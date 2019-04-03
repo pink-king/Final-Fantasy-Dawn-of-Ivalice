@@ -48,12 +48,11 @@ bool j1BuffManager::Update(float dt)
 	std::list<Buff*>::iterator item =buffs.begin();
 	for (; item != buffs.end(); ++item)
 	{
-		if ((*item)->GetIfActive())
-		{
-			name = (*item)->GetName();
-			sprintf_s(title, 30, " |  buff: %s", name.data());
-			App->win->AddStringToTitle(title);
-		}
+
+		name = (*item)->GetName();
+		sprintf_s(title, 30, " |  buff: %s", name.data());
+		App->win->AddStringToTitle(title);
+		
 	}
 	App->win->ClearTitle();
 
@@ -89,7 +88,7 @@ void j1BuffManager::CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name
 	bool exist = false;
 	std::list<Buff*>::iterator item = buffs.begin();
 	if(buffs.size() == 0)
-		buffs.push_back(new Buff(type, clas, name, character, stat, value, GetNewSourceID()));
+		buffs.push_back(new Buff(type, clas, name, character, stat, value));
 	else
 	{
 		for (; item != buffs.end(); ++item)
@@ -106,7 +105,7 @@ void j1BuffManager::CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name
 				if (clas == (*item2)->GetObjectType())
 					buffs.remove(*item2);
 			}
-			buffs.push_back(new Buff(type, clas, name, character, stat, value, GetNewSourceID()));
+			buffs.push_back(new Buff(type, clas, name, character, stat, value));
 		}
 	}
 }
@@ -125,8 +124,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std:
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (ent != nullptr && (*iter)->GetIfActive() && stat.compare((*iter)->GetStat()) == 0 
-			&& (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0))
+		if (stat.compare((*iter)->GetStat()) == 0 && (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0))
 		{
 					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 						initialDamage += (*iter)->GetValue();
@@ -177,14 +175,11 @@ void j1BuffManager::ActiveBuff(std::string buffName, std::string character, OBJE
 	for (; item != buffs.end(); ++item)
 	{
 		if (buffName.compare((*item)->GetName()) == 0)
-		{
-			(*item)->ActiveBuff();
 			character.assign((*item)->GetCharacter());
-		}
+
 		else
 		{
-			if (((*item)->GetCharacter()).compare(character) == 0
-				&& clasType == (*item)->GetObjectType() && (*item)->GetIfActive())
+			if (((*item)->GetCharacter()).compare(character) == 0 && clasType == (*item)->GetObjectType())
 				buffs.remove(*item);
 		}
 			
@@ -218,6 +213,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					entity->life -= (*item)->secDamage;
 					(*item)->count.Start();
 					--(*item)->totalTime;
+					//TODO: call create hitpoint label
 				}
 			}
 			else
