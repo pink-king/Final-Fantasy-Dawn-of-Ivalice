@@ -1,4 +1,5 @@
 #include "j1BuffManager.h"
+#include "UiItem_HitPointManager.h"
 #include <string.h>
 #include "j1EntityFactory.h"
 #include "j1Window.h"
@@ -144,6 +145,15 @@ uint j1BuffManager::GetNewSourceID()
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, std::string stat)
 {
+
+	float powerAttack = CalculateStat(attacker, initialDamage, stat);
+	defender->life -= powerAttack;                                           // TODO: call HitPoint creation in HitPointManager here
+
+	App->HPManager->callHPLabelSpawn(defender, powerAttack);
+
+	if (defender->life < 0)
+		defender->life = 0;
+
 	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);
 	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 		defender->to_delete = true;

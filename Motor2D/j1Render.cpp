@@ -131,6 +131,12 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+iPoint j1Render::WorldToScreen(int x, int y) const
+{
+
+	return iPoint(x*App->win->GetScale()+camera.x, y*App->win->GetScale() + camera.y);
+}
+
 bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const
 {
 	int scale = App->win->GetScale();
@@ -182,7 +188,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed) const
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor) const  // TODO: Add extra value for Resizing Images
 {
 	bool ret = true;
 
@@ -192,13 +198,18 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 
 	if (section != NULL)
 	{
-		rect.w = section->w;
+		rect.w = section->w;        
 		rect.h = section->h;
+
 	}
+
 	else
 	{
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
+
+	rect.w *= scaleFactor; 
+	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section. It has a proportion less.
 
 	if (SDL_RenderCopyEx(renderer, texture, section, &rect, 0, 0, SDL_FLIP_NONE) != 0)
 	{

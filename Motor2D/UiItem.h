@@ -11,7 +11,6 @@ enum UI_STATES
 	IDLE,
 	HOVER,
 	CLICK,
-	DRAG,
 	MAX_STATES,
 };
 
@@ -21,6 +20,8 @@ enum GUI_TYPES
 	BUTTON,
 	IMAGE,
 	LABEL,
+	CHECKBOX,
+	HITPOINT,
 	UNKNOWN
 };
 
@@ -34,23 +35,27 @@ public:
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN; 
 	SDL_Rect hitBox = { 0,0,0,0 };
+	std::string function;
 	// p2Point<int> pivot = { 0,0 };
 	uint mouseButtonDown = 0;
 	UiItem(const iPoint& pos, UiItem *const parent);
+	UiItem(const iPoint& pos, std::string &function, UiItem *const parent);
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
-	void DrawUi(float dt);
+
+	void DrawUi(float dt); 
+
 	void Draw_Cursor(float dt);
 	bool slidable = false; 
 	bool tabbed = false; 
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 
-	virtual void DoLogicClicked(bool slidable = false) {}; // TODO: Function pointers
-	virtual void DoLogicHovered(bool slidable = false) {}; // TODO: Function pointers
-	virtual void DoLogicDragged(bool slidable = false) {}; // TODO: Function pointers
-	virtual void DoLogicAbandoned(bool slidable = false) {}; // TODO: Function pointers
+	virtual void DoLogicClicked() {}; 
+	virtual void DoLogicClicked(std::string &functionName) {}; 
+	virtual void DoLogicHovered(){}; 
+	virtual void DoLogicAbandoned() {};
 };
 
 #endif
