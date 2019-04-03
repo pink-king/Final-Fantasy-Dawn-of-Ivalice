@@ -199,7 +199,7 @@ bool j1Scene::Update(float dt)
 		cont++;
 	}
 
-	LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", cont);
+	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", cont);
 
 	//App->win->SetTitle(App->title.data());
 

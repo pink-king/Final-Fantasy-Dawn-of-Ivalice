@@ -54,7 +54,7 @@ class j1Entity
 {
 public:
 	j1Entity(ENTITY_TYPE type, float positionX, float positionY, std::string name);
-	~j1Entity();
+	virtual ~j1Entity();
 
 	virtual bool Start();
 	// core loops ---------------
@@ -80,6 +80,7 @@ public:
 	
 
 public:
+	bool					to_delete = false;
 	std::string				name;
 	fPoint					position;
 	iPoint					size;

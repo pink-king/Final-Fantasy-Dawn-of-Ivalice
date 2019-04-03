@@ -54,17 +54,20 @@ bool j1AttackManager::Update(float dt)
 
 	std::vector<attackData*>::iterator attacksDataIterator = currentPropagationAttacks.begin();
 
-	for (; attacksDataIterator != currentPropagationAttacks.end(); ++attacksDataIterator)
+	for (; attacksDataIterator != currentPropagationAttacks.end();)
 	{
 		if (!(*attacksDataIterator)->to_erase)
 		{
 			if (!(*attacksDataIterator)->Update(dt))
 				ret = false;
+
+			++attacksDataIterator;
 		}
 		else
 		{
-			RemovePropagationAttack(*attacksDataIterator);
-			--attacksDataIterator;
+			LOG("Involved %i entities", (*attacksDataIterator)->combo);
+			delete(*attacksDataIterator);
+			attacksDataIterator = currentPropagationAttacks.erase(attacksDataIterator);
 		}
 	}
 
@@ -101,22 +104,6 @@ void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint st
 	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
 }
 
-void j1AttackManager::RemovePropagationAttack(attackData* attackDataPackage)
-{
-	std::vector<attackData*>::iterator currentAttacksIterator = currentPropagationAttacks.begin();
-
-	for (; currentAttacksIterator != currentPropagationAttacks.end(); ++currentAttacksIterator)
-	{
-		if ((*currentAttacksIterator) == attackDataPackage)
-		{
-			int comboTemp = (*currentAttacksIterator)->combo;
-			currentPropagationAttacks.erase(currentAttacksIterator);
-			LOG("succesfully removed propagationattack after reaching: %i target entities type", comboTemp);
-			break;
-		}
-	}
-}
-
 // ATTACK DATA CLASS -------------------------------------------------------------------------------------------------
 
 attackData::attackData()
@@ -132,7 +119,9 @@ attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, prop
 }
 
 attackData::~attackData()
-{}
+{
+	LOG("destroyed attackdata package");
+}
 
 bool attackData::Start()
 {
@@ -144,7 +133,6 @@ bool attackData::Start()
 	// " and do the first propagation step "
 	subtileQueue.push(startSubtilePoint);
 	CheckEntitiesFromSubtileStep();
-	//DoNextPropagationStep();
 
 	return true;
 }

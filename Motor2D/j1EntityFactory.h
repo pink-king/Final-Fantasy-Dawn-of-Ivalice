@@ -39,8 +39,6 @@ public:
 
 	std::vector<j1Entity*>* GetSubtileEntityVectorAt(const iPoint pos) const;
 
-	void DestroyEntity(j1Entity* entity);
-
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
 	void AssignEntityToSubtile(j1Entity* entity) const;

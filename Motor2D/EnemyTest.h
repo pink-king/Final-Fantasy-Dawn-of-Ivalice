@@ -37,7 +37,7 @@ public:
 	bool SearchNewPath(); 
 	bool isNextSubtileFree(int x, int y) const; 
 	int GetRandomValue(const int& min, const int& max); 
-	virtual bool CleanUp();
+	bool CleanUp() override;
 
 	void DebugPath() const;
 	// functionality ------

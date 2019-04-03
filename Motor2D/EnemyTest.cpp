@@ -13,7 +13,7 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 	name.assign("Test");
 
 	// TODO: import from xml
-	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png");
+	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png"); // TODO: note, repetead entities/enemies, load texture once time
 	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
 
 	idle.PushBack({ 7,34,13,36 });
@@ -27,9 +27,8 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 
 EnemyTest::~EnemyTest()
 {
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
-}
+	LOG("Bye Enemy Test");
+} 
 
 bool EnemyTest::Start()
 {
@@ -196,8 +195,6 @@ bool EnemyTest::CleanUp()
 		App->tex->UnLoad(entityTex);
 		entityTex = nullptr;
 	}
-
-	App->entityFactory->DeleteEntityFromSubtile(this);
 
 	return true;
 }

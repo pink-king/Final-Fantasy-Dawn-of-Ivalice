@@ -93,7 +93,6 @@ public:
 
 	// functionality
 	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed);
-	void RemovePropagationAttack(attackData* attackDataPackage);
 
 
 public:

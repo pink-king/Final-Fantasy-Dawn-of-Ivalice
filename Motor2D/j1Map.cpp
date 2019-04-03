@@ -162,10 +162,12 @@ iPoint j1Map::SubTileMapToWorld(int x, int y) const
 {
 	iPoint ret;
 
+	x += 1; // TODO: displacement
+
 	if (data.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (x - y) * ((data.tile_width * SUBTILE_RESOLUTION) * 0.5f);
-		ret.y = (x + y) * ((data.tile_height * SUBTILE_RESOLUTION) * 0.5f);
+		ret.x = (x - y) * (data.tile_width * SUBTILE_RESOLUTION) * 0.5f;
+		ret.y = (x + y) * (data.tile_height * SUBTILE_RESOLUTION) * 0.5f;
 	}
 	else
 	{
@@ -185,8 +187,8 @@ iPoint j1Map::WorldToSubtileMap(int x, int y) const
 
 	float half_width = (data.tile_width * SUBTILE_RESOLUTION) * 0.5f;
 	float half_height = (data.tile_height * SUBTILE_RESOLUTION) * 0.5f;
-	ret.x = int((x / half_width + y / half_height) / 2) - 1; //* SUBTILE_MULTIPLIER; TODO: search subtilemap draw displacement
-	ret.y = int((y / half_height - (x / half_width)) / 2);
+	ret.x = int((x / half_width + y / half_height) * 0.5f) - 1 * SUBTILE_MULTIPLIER; //TODO: search subtilemap draw displacement
+	ret.y = int((y / half_height - (x / half_width)) * 0.5f);
 	}
 	else
 	{

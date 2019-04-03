@@ -39,7 +39,6 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
-
 	return true;
 }
 

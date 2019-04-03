@@ -71,24 +71,30 @@ bool j1EntityFactory::Update(float dt)
 	bool ret = true;
 
 	std::vector<j1Entity*>::iterator item = entities.begin();
-	for (; item != entities.end(); ++item)
+	for (; item != entities.end();)
 	{
 		if ((*item) != nullptr) 
 		{
-			ret = (*item)->Update(dt);
-			if (ret)
+			if (!(*item)->to_delete)
+			{
+				ret = (*item)->Update(dt);
 				ret = ((*item)->Move(dt));
-
-			// updates entity associated tile positions tile and subtile
-			(*item)->UpdateTilePositions();
-			//LOG("entity subtile: %i,%i", (*item)->GetSubtilePos().x, (*item)->GetSubtilePos().y);
+				// updates entity associated tile positions tile and subtile
+				(*item)->UpdateTilePositions();
+				//LOG("entity subtile: %i,%i", (*item)->GetSubtilePos().x, (*item)->GetSubtilePos().y);
 
 				draw_entities.push_back(*item);
-			
+
+				++item;
+			}
+			else
+			{
+				(*item)->CleanUp();
+				delete(*item);
+				item = entities.erase(item);
+			}
 		}
 	}
-	
-	DestroyEntity(new j1Entity(ENTITY_TYPE::ENEMY01, 100,100,"prrove"));
 
 	return ret;
 }
@@ -194,24 +200,6 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 }
 
 
-void j1EntityFactory::DestroyEntity(j1Entity * entity)
-{
-	//std::find(entities.begin(), entities.end(), entity);
-	if (entity != nullptr)
-	{
-		//destroy collider
-
-		std::vector<j1Entity*>::iterator item = entities.begin();
-		for (; item != entities.end(); ++item) {
-			if ((*item) == entity) {
-				(*item)->CleanUp();
-				entities.erase(item);
-				break;
-			}
-		}
-	}
-}
-
 bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * entity2)
 {
 	return entity1->pivot.y + entity1->position.y < entity2->pivot.y + entity2->position.y;
@@ -240,7 +228,7 @@ std::vector<j1Entity*>* j1EntityFactory::GetSubtileEntityVectorAt(const iPoint p
 		return &entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities;
 	else
 	{
-		LOG("data out of boundaries, ignoring");
+		//LOG("data out of boundaries, ignoring");
 		return nullptr;
 	}
 }
@@ -290,7 +278,7 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 {
-	return (pos.x >= 0 && pos.x <= subtileWidth &&
-		pos.y >= 0 && pos.y < subtileHeight - 1); // TODO: search WHY the map is so crazy (irregular perimeter ?¿) checks expanding a big area over perimeters
+	return (pos.x >= 0 && pos.x < subtileWidth &&
+		pos.y >= 0 && pos.y < subtileHeight);
 }
 

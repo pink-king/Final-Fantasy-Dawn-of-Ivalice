@@ -117,8 +117,8 @@ void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 // Utility: return true if pos is inside the map boundaries
 bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 {
-	return (pos.x >= 0 && pos.x <= (int)width &&
-		pos.y >= 0 && pos.y <= (int)height);
+	return (pos.x >= 0 && pos.x < (int)width &&
+		pos.y >= 0 && pos.y < (int)height);
 }
 
 // Utility: returns true is the tile is walkable

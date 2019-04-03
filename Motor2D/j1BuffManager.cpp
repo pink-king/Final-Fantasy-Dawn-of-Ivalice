@@ -148,7 +148,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 {
 	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);
 	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
-		App->entityFactory->DestroyEntity(defender);
+		defender->to_delete = true;
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime)
@@ -247,8 +247,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			break;
 		}
 	}
-	if (entity->life <= 0 && entity->name.compare("Marche") != 0 && entity->name.compare("Ritz") != 0 && entity->name.compare("Shara") != 0)
-		App->entityFactory->DestroyEntity(entity);
+	if (entity->life <= 0 && entity->type != ENTITY_TYPE::PLAYER)
+		entity->to_delete = true;
 	if (entity->stat.size() == 0)
 		ret = true;
 
