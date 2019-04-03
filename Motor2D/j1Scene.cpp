@@ -199,6 +199,13 @@ bool j1Scene::Update(float dt)
 		App->HPManager->callHPLabelSpawn(App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 50);
 	}
 
+
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+
+		App->HPManager->callHPLabelSpawn(nullptr, 50);
+	}
+
 	//App->win->SetTitle(App->title.data());
 
 
