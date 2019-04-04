@@ -22,6 +22,8 @@ private:
 	UiItem_Image* staticImage = nullptr;
 	UiItem_Image* dynamicImage = nullptr;
 
+	uint maxSection = 0; 
+	float conversionFactor = 0.0f; 
 };
 
 #endif
