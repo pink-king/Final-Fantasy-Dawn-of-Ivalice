@@ -12,9 +12,8 @@
 	<pathfinding />
 	<gui />
 	<fonts />
-  <sceneUI />
 	<loot />
 	<renderer>
-		<camera x="1300" y="-249" />
+		<camera x="500" y="80" />
 	</renderer>
 </game_state>

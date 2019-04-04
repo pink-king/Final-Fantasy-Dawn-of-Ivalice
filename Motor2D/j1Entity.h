@@ -20,6 +20,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		ENEMY01,
 		ENEMY02,
 		//etc
+		LOOT,
 		ENEMY_TEST,
 		// LAST
 		MAX_TYPE
@@ -103,6 +104,7 @@ public:
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
 
+	int value;
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;

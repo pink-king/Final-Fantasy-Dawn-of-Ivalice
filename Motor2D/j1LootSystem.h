@@ -28,8 +28,10 @@ public:
 	int gold_value[3];
 	int gold_id[3];
 	
+	bool GoldSystem = false;
 private:
 	
+	int GetRandomValue( const int& min,  const int& max);
 	int id;
 
 	pugi::xml_node node;
