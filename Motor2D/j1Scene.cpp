@@ -244,7 +244,7 @@ bool j1Scene::CleanUp()
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
 
-	/*// images
+	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
