@@ -318,47 +318,52 @@ bool attackData::DoDirectAttack()
 
 bool attackData::DoNextStepBFS()
 {
-	//int numNeighbours = 4; // up,down,left,right
+
+	int frontierRadius = 1; // test for twice step (more resolution, but less "wave effect")
+
 	if (!frontier.empty())
 	{
-		int steps = frontier.size();
-		for (int i = 0; i < steps; ++i)
+		for (int z = 0; z < frontierRadius; ++z)
 		{
-			//LOG("DOING: %i", i);
-			iPoint currentSubtile = frontier.front();//front();
-			frontier.pop(); // pops last queue value
-
-			// each relative subtile neighbour
-			iPoint neighbours[4];
-			neighbours[0] = { currentSubtile.x, currentSubtile.y - 1 }; // N
-			neighbours[1] = { currentSubtile.x + 1, currentSubtile.y }; // E
-			neighbours[2] = { currentSubtile.x, currentSubtile.y + 1 }; // S
-			neighbours[3] = { currentSubtile.x - 1, currentSubtile.y }; // W
-
-			for (int i = 0; i < 4; ++i)
+			int steps = frontier.size();
+			for (int i = 0; i < steps; ++i)
 			{
-				if (std::find(visited.begin(), visited.end(), neighbours[i]) != visited.end())
-					continue;
-				else
+				//LOG("DOING: %i", i);
+				iPoint currentSubtile = frontier.front();//front();
+				frontier.pop(); // pops last queue value
+
+				// each relative subtile neighbour
+				iPoint neighbours[4];
+				neighbours[0] = { currentSubtile.x, currentSubtile.y - 1 }; // N
+				neighbours[1] = { currentSubtile.x + 1, currentSubtile.y }; // E
+				neighbours[2] = { currentSubtile.x, currentSubtile.y + 1 }; // S
+				neighbours[3] = { currentSubtile.x - 1, currentSubtile.y }; // W
+
+				for (int i = 0; i < 4; ++i)
 				{
-					// check subtile walkability
-					iPoint subtileWalkabilityCheck = neighbours[i]; // TODO: we need a direct conversor function
-					subtileWalkabilityCheck = App->map->SubTileMapToWorld(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
-					subtileWalkabilityCheck = App->map->WorldToMap(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
-					if (App->pathfinding->IsWalkable(subtileWalkabilityCheck))
+					if (std::find(visited.begin(), visited.end(), neighbours[i]) != visited.end())
+						continue;
+					else
 					{
-						frontier.push(neighbours[i]);
-						visited.push_back(neighbours[i]);
-						// adds to subtile queue too
-						subtileQueue.push(neighbours[i]);
+						// check subtile walkability
+						iPoint subtileWalkabilityCheck = neighbours[i]; // TODO: we need a direct conversor function
+						subtileWalkabilityCheck = App->map->SubTileMapToWorld(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
+						subtileWalkabilityCheck = App->map->WorldToMap(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
+						if (App->pathfinding->IsWalkable(subtileWalkabilityCheck))
+						{
+							frontier.push(neighbours[i]);
+							visited.push_back(neighbours[i]);
+							// adds to subtile queue too
+							subtileQueue.push(neighbours[i]);
+						}
 					}
 				}
 			}
+			// increase step
+			++currentPropagationStep;
+			/*LOG("current propagation step:%i", currentPropagationStep);
+			LOG("frontier size: %i", frontier.size());*/
 		}
-		// increase step
-		++currentPropagationStep;
-		/*LOG("current propagation step:%i", currentPropagationStep);
-		LOG("frontier size: %i", frontier.size());*/
 	}
 	else
 		to_erase = true; // invalid start position eraser
