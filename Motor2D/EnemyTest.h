@@ -52,7 +52,7 @@ private:
 	iPoint tileToGo; 
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint speed = 100;
+	uint speed = 45;
 
 	Animation idle;
 	j1Timer checkTime; 
