@@ -52,6 +52,13 @@ bool j1AttackManager::Update(float dt)
 {
 	bool ret = true;
 
+	// check if we have any attack queued to instantiate
+	/*while (!queuedAttacks.empty())
+	{
+		AddPropagationAttack(queuedAttacks.front());
+		queuedAttacks.pop();
+	}*/
+
 	std::vector<attackData*>::iterator attacksDataIterator = currentPropagationAttacks.begin();
 
 	for (; attacksDataIterator != currentPropagationAttacks.end();)
@@ -104,11 +111,21 @@ void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint st
 	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
 }
 
+//void j1AttackManager::AddPropagationAttack(attackData* data)
+//{
+//	currentPropagationAttacks.push_back(data);
+//}
+//
+//void j1AttackManager::AddPropagationAttackToQueue(attackData* data)
+//{
+//	queuedAttacks.push(data);
+//}
+
 // ATTACK DATA CLASS -------------------------------------------------------------------------------------------------
 
 attackData::attackData()
 {
-	Start();
+	//Start();
 }
 
 attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
@@ -125,8 +142,10 @@ attackData::~attackData()
 
 bool attackData::Start()
 {
+	// check detection resolution
+	//propagationResolution = PROPAGATION_RESOLUTION;
+	// -----
 	stepTimer.Start();
-
 	// puts startpoint to algoritm
 	frontier.push(startSubtilePoint);
 	visited.push_back(startSubtilePoint);
@@ -155,6 +174,8 @@ bool attackData::Update(float dt)
 			CheckEntitiesFromSubtileStep(); // checks an adds filtered entities to final queue to communicate with buff manager
 			DoDirectAttack(); // attack all entities involved on last frame update on the affected step subtiles
 		}
+		
+		//InstatiateReplica();
 	}
 
 	// debug draw
@@ -195,6 +216,21 @@ bool attackData::PostUpdate()
 {
 	return true;
 }
+
+//bool attackData::InstatiateReplica()
+//{
+//	if (propagationResolution > 1)
+//	{
+//		attackData* newAttackData = new attackData();
+//		*newAttackData = *this;
+//		newAttackData->propagationResolution--;
+//		this->propagationResolution--;
+//		
+//		App->attackManager->AddPropagationAttackToQueue(newAttackData);
+//	}
+//
+//	return true;
+//}
 
 bool attackData::DoNextPropagationStep()
 {

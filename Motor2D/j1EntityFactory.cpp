@@ -269,7 +269,7 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	{
 		if (*entityIterator == entity)
 		{
-			LOG("found");
+			//LOG("found");
 			entitiesDataMap[index].entities.erase(entityIterator);
 			ret = true;
 			break;

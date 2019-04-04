@@ -104,7 +104,7 @@ void j1Entity::UpdateTilePositions()
 
 		if (previousSubtilePos != imOnSubtile)
 		{
-			LOG("subtile pos changed");
+			//LOG("subtile pos changed");
 			// assign this entity to a tile vector
 			App->entityFactory->AssignEntityToSubtile(this);
 			App->entityFactory->DeleteEntityFromSubtile(this);
@@ -112,7 +112,7 @@ void j1Entity::UpdateTilePositions()
 			previousSubtilePos = imOnSubtile;
 		}
 
-		if (previousTilePos != imOnTile && App->pathfinding->IsWalkable(imOnTile))
+		if (previousTilePos != imOnTile && App->pathfinding->IsWalkable(imOnTile)) // TODO: not only player change tile (just in case)
 		{
 			changedTile = true; 
 			previousTilePos = imOnTile; 
