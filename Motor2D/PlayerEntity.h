@@ -23,6 +23,17 @@ enum class facingDirection // WARNING: no modify this order
 	MAX
 };
 
+enum class combatState
+{
+	IDLE,
+	BASIC,
+	DODGE,
+	A1,
+	A2,
+	UTIMATE,
+	MAX
+};
+
 enum class characterName
 {
 	MARCHE,
@@ -46,8 +57,8 @@ public:
 
 	// functionality ------
 	bool InputMovement(float dt);
+	bool InputCombat();
 	int GetPointingDir(float angle);
-	//void GetInputFromKeyboard(float dt);
 	void CheckRenderFlip(); // animation relative
 	void Draw();
 	
@@ -55,6 +66,8 @@ public:
 public:
 
 	//j1Entity*				Player = nullptr;
+protected:
+	combatState combat_state;
 
 public:
 	

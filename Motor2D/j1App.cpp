@@ -221,10 +221,14 @@ void j1App::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
-	static char title[256];
-	std::string capFramesString;
+	/*static char title[256];
+	std::string capFramesString;*/
 
-	sprintf_s(title, 256, "%s" , App->GetTitle());
+	/*sprintf_s(title, 256, "%s" , App->GetTitle());*/
+
+	/*char title[256];
+	sprintf_s(title, 256, "Realtime fps: %i", frames_on_last_update);
+	App->win->AddStringToTitle(title);*/
 
 	//- Cap the framerate
 

@@ -110,6 +110,19 @@ bool PlayerEntity::InputMovement(float dt)
 	return true;
 }
 
+bool PlayerEntity::InputCombat()
+{
+	combat_state = combatState::IDLE;
+
+	/*Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
+	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);*/
+
+	Sint16 leftTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+	Sint16 rightTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+
+	return true;
+}
+
 void PlayerEntity::CheckRenderFlip()
 {
 	if (pointingDir == 3 || pointingDir == 4 || pointingDir == 7)
@@ -130,68 +143,6 @@ void PlayerEntity::Draw()
 			App->render->Blit(spritesheet, position.x, position.y);
 	}
 }
-
-//void PlayerEntity::GetInputFromKeyboard()
-//{
-//	bool up = App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT;
-//	bool down = App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT;
-//	bool left = App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT;
-//	bool right = App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT;
-//
-//	bool isMoving = false;
-//
-//	if (up && !down)
-//	{
-//		isMoving = true;
-//		position.y -= characterBaseSpeedKey.y * 100 * dt;
-//		pointingDir = 6;
-//	}
-//	if (down && !up)
-//	{
-//		isMoving = true;
-//		position.y += characterBaseSpeedKey.y * 100 * dt;
-//		pointingDir = 2;
-//	}
-//	if (left && !right)
-//	{
-//		isMoving = true;
-//		position.x -= characterBaseSpeedKey.x * 100 * dt;
-//		pointingDir = 4;
-//	}
-//	if (right && !left)
-//	{
-//		isMoving = true;
-//		position.x += characterBaseSpeedKey.x * 100 * dt;
-//		pointingDir = 0;
-//	}
-//
-//	if (up && right && !left)
-//	{
-//		pointingDir = 5;
-//	}
-//	if (up && left && !right)
-//	{
-//		pointingDir = 7;
-//	}
-//	if (down && left  && !right)
-//	{
-//		pointingDir = 3;
-//	}
-//	if (down && right && !left)
-//	{
-//		pointingDir = 1;
-//	}
-//
-//
-//	if (isMoving)
-//	{
-//		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
-//		currentAnimation = &run[pointingDir];
-//		currentAnimation->SetCurrentFrame(current_cycle_frame);
-//	}
-//	else
-//		currentAnimation = &idle[pointingDir]; // Redundant, but more clear this way.
-//}
 
 int PlayerEntity::GetPointingDir(float angle)
 {

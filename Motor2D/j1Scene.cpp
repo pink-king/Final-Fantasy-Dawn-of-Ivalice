@@ -202,7 +202,7 @@ bool j1Scene::Update(float dt)
 		cont++;
 	}
 	static char title[90];
-	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
+	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i instantiated ENTITIES", App->entityFactory->entities.size());
 	App->win->AddStringToTitle(title);
 	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
 

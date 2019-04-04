@@ -134,6 +134,7 @@ bool Marche::Update(float dt)
 		{
 			currentAnimation->speed = 10.f;
 			InputMovement(dt);
+			InputCombat();
 		}
 		else
 		{
