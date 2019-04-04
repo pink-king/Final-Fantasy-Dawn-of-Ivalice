@@ -54,7 +54,7 @@ public:
 	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
 
 
-	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, UiItem*const parent = nullptr); // , TypeBar type = VERTICAL);
+	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, type variant, UiItem*const parent = nullptr); 
 
 
 	SDL_Texture* GetAtlas();

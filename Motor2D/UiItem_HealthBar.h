@@ -7,13 +7,20 @@
 #include "p2Log.h"
 
 
+
 class UiItem_Image;
+
+enum type
+{
+	health,
+	cooldown,
+};
 
 class UiItem_HealthBar : public UiItem
 {
 
 public:
-	UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, UiItem*const parent);
+	UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, type variant, UiItem*const parent);
 
 	void Draw(const float& dt);
 	 
@@ -24,6 +31,8 @@ private:
 
 	uint maxSection = 0; 
 	float conversionFactor = 0.0f; 
+
+	type variantType; 
 };
 
 #endif

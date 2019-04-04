@@ -28,7 +28,7 @@
 
  <scene>
     <InGameUi>
-     <!-- <images>
+      <images>
 	   
        <image name="box_abilities_grey">
          <section x="1" y="545" w="165" h="43"/>
@@ -143,20 +143,30 @@
         <tickSection x="555" y="678" w="18" h="18"/>    		
 		<font value = "Open_Sans Bold"/>
       </checkbox>
-	 </checkboxes>  -->
+	 </checkboxes>  
 	 
 	 
+	 <healthbars>
 	 <healthbar name="life_bar">
 	     <staticSection x="110" y="482" w="134" h="26"/>
 		 <dynamicSection x="111" y="515" w="132" h="24"/>
          <position x="113" y="78"/>
+		 <type value="health"/>
 	 </healthbar>
 	 
+	 <healthbar name="ability_cooldown">
+	     <staticSection x="110" y="482" w="134" h="26"/>
+		 <dynamicSection x="111" y="515" w="132" h="24"/>
+         <position x="113" y="78"/>
+		 <type value="cooldown"/>
+	 </healthbar>
+	 
+	 </healthbars>
     </InGameUi>  
 
         
       
-   <!-- <InGameUiM>
+    <InGameUiM>
       <images>
         <image name="sword">
          <section x="167" y="545" w="36" h="36"/>
@@ -287,7 +297,7 @@
           <position x="450" y="360"/>
         </button>
       </buttons> 
-    </StartMenu>  -->
+    </StartMenu>  
     
   </scene>    
 

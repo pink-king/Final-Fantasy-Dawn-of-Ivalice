@@ -389,19 +389,29 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	
 
 
-	// health bar 
+	// health bar and cooldown bar
 
-	pugi::xml_node uiNode = node.child("healthbar"); 
+	for (pugi::xml_node uiNode = node.child("healthbars").child("healthbar"); uiNode; uiNode = uiNode.next_sibling("healthbar"))
+	{
 
+		SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
+		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
+		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
-	SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
-	SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
+		std::string variant = uiNode.child("type").attribute("value").as_string();
+		if (variant == "health")
+		{
+			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, type::health, inGamePanel);
+		}
+		else if(variant == "cooldown")
+		{
+			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, type::cooldown, inGamePanel);
+		}
+		
 
+	}
 
-	iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
-
-    App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr);
-
+	
 }
 
 bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)

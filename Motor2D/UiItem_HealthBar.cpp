@@ -7,10 +7,10 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
 
-UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, UiItem*const parent) : UiItem(position, parent)
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, type variant, UiItem*const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
-
+	this->variantType = variant; 
 
 	iPoint staticPos = position; 
 	staticImage = App->gui->AddImage(staticPos, staticSection, this);
@@ -28,13 +28,18 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 	// we will use the draw call to calculate, but the two images are drawn in image cpp
 
-	if (conversionFactor == 0.0f)
-	{
-		conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
-	}
+/*	if (this->variantType == type::health)
+	{*/
+		if (conversionFactor == 0.0f)
+		{
+			conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
+		}
 
-	dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
+		dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
 
+	//}
+
+	
 
 
 }
