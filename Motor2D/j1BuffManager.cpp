@@ -43,7 +43,7 @@ bool j1BuffManager::Update(float dt)
 			DamageInTime(*item);
 	}
 
-	static char title[30];
+	/*static char title[30];
 	std::string name;
 	std::list<Buff*>::iterator item =buffs.begin();
 	for (; item != buffs.end(); ++item)
@@ -55,7 +55,7 @@ bool j1BuffManager::Update(float dt)
 		
 	}
 	App->win->ClearTitle();
-
+*/
 	return ret;
 }
 
@@ -83,48 +83,43 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name, std::string character, std::string stat, float value)
+void j1BuffManager::CreateEnemyBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character, float value)
 {
 	bool exist = false;
 	std::list<Buff*>::iterator item = buffs.begin();
 	if(buffs.size() == 0)
-		buffs.push_back(new Buff(type, clas, name, character, stat, value));
+		buffs.push_back(new Buff(type, character, elementType, rol, value));
 	else
 	{
 		for (; item != buffs.end(); ++item)
 		{
-			if (name.compare((*item)->GetName()) == 0 && ((*item)->GetCharacter()).compare(character) == 0)
+			if ((*item)->GetIfExist(type, character, elementType, rol))
 				exist = true;
 		}
 
 		if (!exist)
 		{
-			std::list<Buff*>::iterator item2 = buffs.begin();
-			for (; item2 != buffs.end(); ++item2)
-			{
-				if (clas == (*item2)->GetObjectType())
-					buffs.remove(*item2);
-			}
-			buffs.push_back(new Buff(type, clas, name, character, stat, value));
+			buffs.push_back(new Buff(type, character, elementType, rol, value));
 		}
 	}
 }
 
-void j1BuffManager::RemoveBuff(std::string name)
+void j1BuffManager::RemoveEnemyBuff(std::string character)
 {
 	std::list<Buff*>::iterator item = buffs.begin();
 	for (; item != buffs.end(); ++item)
-		if(name.compare((*item)->GetCharacter()) != 0)
+		if(name.compare((*item)->GetCharacter()) == 0)
 			buffs.remove(*item);
 }
 
-float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std::string stat)
+float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEMENTAL_TYPE elementType, OBJECT_ROL rol)
 {
 
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (stat.compare((*iter)->GetStat()) == 0 && (ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0))
+		if (elementType == (*iter)->GetElementType() && rol == (*iter)->GetRol() &&
+			(ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0))
 		{
 					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 						initialDamage += (*iter)->GetValue();
@@ -137,14 +132,10 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, std:
 	return initialDamage * (1 + totalMult);
 }
 
-uint j1BuffManager::GetNewSourceID()
-{
-	return ++lastSourceID;
-}
 
-void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, std::string stat)
+void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType)
 {
-	defender->life -= CalculateStat(attacker, initialDamage, stat) - CalculateStat(attacker, defender->defence, stat);
+	defender->life -= CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL);
 	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 		defender->to_delete = true;
 }
@@ -152,7 +143,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime)
 {
 	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT,totalTime, damageSecond);
-	newStat->secDamage = App->buff->CalculateStat(attacker, newStat->secDamage, "hability") - App->buff->CalculateStat(defender, defender->defence, "defence");
+	newStat->secDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, OBJECT_ROL::ATTACK_ROL) + CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, OBJECT_ROL::DEFENCE_ROL);
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
 	entitiesTimeDamage.push_back(defender);
@@ -171,28 +162,34 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uin
 
 void j1BuffManager::ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType)
 {
-	std::list<Buff*>::iterator item = buffs.begin();
-	for (; item != buffs.end(); ++item)
-	{
-		if (buffName.compare((*item)->GetName()) == 0)
-			character.assign((*item)->GetCharacter());
-
-		else
-		{
-			if (((*item)->GetCharacter()).compare(character) == 0 && clasType == (*item)->GetObjectType())
-				buffs.remove(*item);
-		}
-			
-	}
+	
 }
 
-void j1BuffManager::DeleteBuff(std::string buffName)
+void j1BuffManager::DeleteBuff(Buff* buff)
 {
 	std::list<Buff*>::iterator item = buffs.begin();
 	for (; item != buffs.end(); ++item)
 	{
-		if (buffName.compare((*item)->GetName()) == 0)
+		if ((*item) == buff)
 			buffs.remove(*item);
+	}
+}
+
+void j1BuffManager::AddItemStats(items * item)
+{
+	std::vector<Buff*>::iterator iter = item->stats.begin();
+	for (; iter != item->stats.end(); ++iter)
+	{
+		buffs.push_back(*iter);
+	}
+}
+
+void j1BuffManager::RemoveItemStat(items * item)
+{
+	std::vector<Buff*>::iterator iter = item->stats.begin();
+	for (; iter != item->stats.end(); ++iter)
+	{
+		buffs.remove(*iter);
 	}
 }
 
@@ -250,14 +247,4 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 
 
 	return ret;
-}
-
-//void j1BuffManager::ZoneAttack(j1Entity * attacker, std::vector<j1Entity*> defenders, float initialDamage)
-//{
-//	float powerAttack = CalculateStat(attacker->name, initialDamage);
-//}
-
-float j1BuffManager::GetBurnedDamage()
-{
-	return burnedTotalDamage;
 }

@@ -23,6 +23,7 @@ class j1EntityFactory;
 class j1PathFinding;
 class j1Fonts;
 class j1BuffManager;
+class j1ItemsManager;
 class j1AttackManager;
 class j1LootSystem;
 class j1App
@@ -108,6 +109,7 @@ public:
 	j1PathFinding*		pathfinding = nullptr; 
 	j1Fonts*			font = nullptr;
 	j1BuffManager*		buff = nullptr;
+	j1ItemsManager*		itemsManager = nullptr;
 	j1AttackManager*	attackManager = nullptr;
 	j1LootSystem*		loot = nullptr;
 	bool				vsync = false;

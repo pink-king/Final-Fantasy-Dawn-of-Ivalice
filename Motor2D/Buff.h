@@ -18,37 +18,40 @@ enum class BUFF_TYPE
 	NO_BUFF
 };
 
-enum class OBJECT_TYPE
+enum class ELEMENTAL_TYPE
 {
-	WEAPON_OBJECT,
-	ARMOR_OBJECT,
-	HEAD_OBJECT,
-	NO_OBJECT
-
+	FIRE_ELEMENT,
+	ICE_ELEMENT,
+	POISON_ELEMENT,
+	NORMAL_ELEMENT
 };
 
+enum class OBJECT_ROL
+{
+	ATTACK_ROL,
+	DEFENCE_ROL,
+	NO_ROL
+};
 class Buff
 {
 public:
-	Buff(BUFF_TYPE type, OBJECT_TYPE object, std::string name, std::string characer, std::string stat, float value);
+	Buff(BUFF_TYPE type, std::string character, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
 	~Buff();
 	BUFF_TYPE GetType();
-	OBJECT_TYPE GetObjectType();
-	std::string GetName();
+	ELEMENTAL_TYPE GetElementType();
+	OBJECT_ROL GetRol();
 	std::string GetCharacter();
-	std::string GetStat();
 	float GetValue();
-	uint GetSource();
 
-
+	bool GetIfExist(BUFF_TYPE type, std::string characer, ELEMENTAL_TYPE elementType, OBJECT_ROL rol);
 
 private:
 	BUFF_TYPE			type = BUFF_TYPE::NO_BUFF;
-	OBJECT_TYPE			objectType = OBJECT_TYPE::NO_OBJECT;
-	std::string			name = "\0";
+	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NORMAL_ELEMENT;
+	OBJECT_ROL			rol = OBJECT_ROL::NO_ROL;
 	std::string			character = "\0";
-	std::string			stat = "\0";
-	float				value = 0.f;// If the item have 2 values create 2 buff with similar name
+	float				value = 0.f;
+
 
 };
 

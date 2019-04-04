@@ -9,11 +9,12 @@
 	<entities />
 	<AttackManager />
 	<Buff />
+	<ItemsManager />
 	<pathfinding />
 	<gui />
 	<fonts />
 	<loot />
 	<renderer>
-		<camera x="500" y="80" />
+		<camera x="500" y="0" />
 	</renderer>
 </game_state>

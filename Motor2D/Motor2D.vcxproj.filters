@@ -112,6 +112,12 @@
     <ClCompile Include="Gold.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
     </ClCompile>
+    <ClCompile Include="Items.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="j1ItemsManager.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -242,6 +248,12 @@
     </ClInclude>
     <ClInclude Include="Gold.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="Items.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="j1ItemsManager.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

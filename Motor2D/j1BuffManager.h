@@ -6,6 +6,7 @@
 #include "j1Module.h"
 #include "Buff.h"
 #include "j1Entity.h"
+#include "Items.h"
 
 
 class j1BuffManager : public j1Module 
@@ -20,30 +21,29 @@ public:
 	bool Update(float dt);
 	bool PostUpdate() { return true; };
 	bool CleanUp();
-	//take buffs to html
-	void CreateBuff(BUFF_TYPE type,OBJECT_TYPE clas, std::string name, std::string character, std::string stat, float value);
-	void RemoveBuff(std::string name);
-	float CalculateStat(const j1Entity* ent, float initialDamage, std::string stat);
-	uint GetNewSourceID();
+	//by tipes of enemies
+	void CreateEnemyBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character, float value);
+	void RemoveEnemyBuff(std::string character);
+
+
+	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, OBJECT_ROL rol);
 
 	//combat functions
-	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, std::string stat);
+	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType);
 	bool DamageInTime(j1Entity* entity);
 	//functions to create buffs in entities
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime);
 	void CreateParalize(j1Entity* attacker, j1Entity* defender, uint time);
 
 	void ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType);
-	void DeleteBuff(std::string buffName);
-	float GetBurnedDamage();
+	void DeleteBuff(Buff* buff);
+
+	void AddItemStats(items* item);
+	void RemoveItemStat(items* item);
 
 private:
-	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
-
-	float							burnedDamagesecond = 0.f;
-	float							burnedTotalDamage = 0.f;
 
 	std::list<j1Entity*>			entitiesTimeDamage;
 	
