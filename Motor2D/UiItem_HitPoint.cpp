@@ -58,7 +58,21 @@ void UiItem_HitPoint::Draw(const float & dt)
 	// TODO: blit hitPoints with an extra value: the scaling
 
 	returnLifeState(); 
-	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor);
+
+	if (this->numerOrText == variant::number)
+	{
+		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);
+	}
+	else if(this->valueInformation.string == "FIERCE")
+	{
+		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, -10.0f);  // rotate hitlabels
+	}
+	else if (this->valueInformation.string == "BRUTAL")
+	{
+		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
+	}
+
+
 }
 
 
@@ -106,6 +120,13 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 void UiItem_HitPoint::CleanUp()
 {
+
+	if (this->numerOrText == variant::text)
+	{
+		App->HPManager->labelsSpawned.totalLabels--;
+	}
+
+
 	if (texture != nullptr)
 		App->tex->UnLoad(texture);
 }

@@ -188,7 +188,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor) const  // TODO: Add extra value for Resizing Images
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle) const  // TODO: Add extra value for Resizing Images
 {
 	bool ret = true;
 
@@ -211,11 +211,12 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 	rect.w *= scaleFactor; 
 	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section. It has a proportion less.
 
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, 0, 0, SDL_FLIP_NONE) != 0)
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, flippingAngle, 0, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
 	}
+	
 
 	return ret;
 }

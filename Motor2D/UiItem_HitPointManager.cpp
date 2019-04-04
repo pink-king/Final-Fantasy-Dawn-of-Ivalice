@@ -57,7 +57,9 @@ bool UiItem_HitPointManager::Update(float dt)
 	}
 
 	
+
 	calculatePlayerCombo();
+
 
 	return true;
 }
@@ -109,7 +111,7 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 		c = { 255, 0, 0, 255 };
 		break; 
 	default: 
-		c = { 0, 0, 0, 255 };
+		c = { 0, 0, 255, 255 };
 		break; 
 	}
 	
@@ -126,13 +128,13 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 void UiItem_HitPointManager::calculatePlayerCombo()
 {
 
-	// streak = number of labels and summation of their scores 
+	// streak = number of score labels and summation of their scores 
 	if (!hitPointLabels.empty())
 	{
-		playerStreak = hitPointLabels.size() * labelScoreAccum;  // correct: this takes into account the own text labels, which shouldn't 
+		playerStreak = (hitPointLabels.size() - labelsSpawned.totalLabels) * labelScoreAccum;  // text labels must not be considerated
 	}
 
-	LOG(" ...............................................................................  accumulated score is %i", labelScoreAccum); 
+	LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);
 
 	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
 	{
@@ -143,18 +145,20 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
+		labelsSpawned.totalLabels++; 
 	}
 
-	if (playerStreak > 80 && !labelsSpawned.brutal)                         // brutal   
+	if (playerStreak > 200 && !labelsSpawned.brutal)                         // brutal   
 	{
 		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x;
 		int posY = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
 		iPoint pos(posX, posY);
 
 		pos.x += 300; // to sepparate both labels
-		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
+		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->shatterBoxx48, pos, nullptr, variant::text);
 		
 		labelsSpawned.brutal = true;
+		labelsSpawned.totalLabels++; 
 	}
 
 

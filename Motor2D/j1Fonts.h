@@ -46,7 +46,10 @@ public:
 	_TTF_Font*				default;
 	_TTF_Font*			    openSansBold18;
 	_TTF_Font*			    openSansBold36;
+
+	// hitpoint labels
 	_TTF_Font*              shatterBoxx36; 
+	_TTF_Font*              shatterBoxx48;
 
 	
 };

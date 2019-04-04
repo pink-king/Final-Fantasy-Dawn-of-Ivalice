@@ -18,6 +18,7 @@ struct labelsSpawned
 {
 	bool fierce = false; 
 	bool brutal = false; 
+	uint totalLabels = 0; 
 };
 
 class UiItem_HitPointManager : public j1Module
