@@ -92,11 +92,11 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			break;
 		case GUI_TYPES::BUTTON:
-			if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 			{
 				selected_object->state = CLICK;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_UP)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
@@ -150,7 +150,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
-					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w && (*item)->hitBox.y > selected_object->hitBox.y - 30 && (*item)->hitBox.y < selected_object->hitBox.y + 40)
+					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w && (*item)->hitBox.y == selected_object->hitBox.y)
 					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
@@ -197,7 +197,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
-					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x && (*item)->hitBox.y>selected_object->hitBox.y-30 && (*item)->hitBox.y<selected_object->hitBox.y+40 )
+					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x && (*item)->hitBox.y == selected_object->hitBox.y)
 
 					{
 						selected_object->tabbed = false;
@@ -249,8 +249,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && (*item)->guiType==GUI_TYPES::BUTTON)
 				{
-					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x>(selected_object->hitBox.x-30) && (*item)->hitBox.x<(selected_object->hitBox.x+100))
-					{ //needs to be fixed, now this is hardcoded
+					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
+					{ 
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
@@ -298,7 +298,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
-					if ((*item)->hitBox.y > selected_object->hitBox.y && (*item)->hitBox.x > (selected_object->hitBox.x - 30) && (*item)->hitBox.x < (selected_object->hitBox.x + 100))
+					if ((*item)->hitBox.y > selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object

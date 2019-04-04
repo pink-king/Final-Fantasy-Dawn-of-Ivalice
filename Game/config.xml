@@ -66,8 +66,8 @@
          <section x="721" y="481" w="338" h="308"/>
          <position x="150" y="150"/>
        </image>
-       
-	   
+
+        
 	    <image name="panelTest">
          <section x="721" y="480" w="338" h="308"/>
          <position x="150" y="190"/>
@@ -116,8 +116,7 @@
 	   
        </images>
 	   
-    <bars>
-	 
+    <bars> 
 	 <bar name="sliderHorizontal">
          <section_bar x="1101" y="613" w="170" h="46"/>
          <position x="50" y="300"/>
@@ -162,6 +161,7 @@
 	 </healthbar>
 	 
 	 </healthbars>
+   
     </InGameUi>  
 
         
@@ -290,12 +290,7 @@
           <clickSec x="555" y="572" w="140" h="33" />
           <position x="101" y="430"/>
         </button>
-      <button name="button_ingame2" function = "Nothing">
-          <idleSec x="305" y="572" w="81" h="37"/>
-          <hoverSec x="387" y="572" w="83" h="39" />
-          <clickSec x="471" y="572" w="83" h="39" />
-          <position x="450" y="360"/>
-        </button>
+        
       </buttons> 
     </StartMenu>  
     
