@@ -25,6 +25,8 @@ UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_R
 		frames[HOVER] = *idle;
 
 	this->guiType = GUI_TYPES::BUTTON;
+	hitBox.w = idle->w;
+	hitBox.h = idle->h;
 }
 
 

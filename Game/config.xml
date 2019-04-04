@@ -264,7 +264,7 @@
         </image>
       </images>
       <buttons>
-        <button name="button_test" function = "FadeToScene">
+        <button name="button_ingame" function = "FadeToScene">
           <idleSec x="305" y="572" w="81" h="37"/>
           <hoverSec x="387" y="572" w="83" h="39" />
           <clickSec x="471" y="572" w="83" h="39" />
@@ -275,6 +275,12 @@
           <hoverSec x="445" y="613" w="140" h="33" />
           <clickSec x="555" y="572" w="140" h="33" />
           <position x="101" y="430"/>
+        </button>
+      <button name="button_ingame2" function = "Nothing">
+          <idleSec x="305" y="572" w="81" h="37"/>
+          <hoverSec x="387" y="572" w="83" h="39" />
+          <clickSec x="471" y="572" w="83" h="39" />
+          <position x="450" y="360"/>
         </button>
       </buttons>
     </StartMenu>
