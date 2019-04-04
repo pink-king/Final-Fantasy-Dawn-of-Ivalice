@@ -150,7 +150,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
-					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w)
+					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w && (*item)->hitBox.y > selected_object->hitBox.y - 30 && (*item)->hitBox.y < selected_object->hitBox.y + 40)
 					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
@@ -197,7 +197,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
-					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x)
+					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x && (*item)->hitBox.y>selected_object->hitBox.y-30 && (*item)->hitBox.y<selected_object->hitBox.y+40 )
 
 					{
 						selected_object->tabbed = false;
@@ -298,7 +298,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
-					if ((*item)->hitBox.y > selected_object->hitBox.y)
+					if ((*item)->hitBox.y > selected_object->hitBox.y && (*item)->hitBox.x > (selected_object->hitBox.x - 30) && (*item)->hitBox.x < (selected_object->hitBox.x + 100))
 					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
