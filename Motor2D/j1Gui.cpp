@@ -119,23 +119,26 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	{
 		for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
-			//if ((*item)->guiType == CHECKBOX)
-			//{
-
-			//	selected_object = (*item);     // first set as selected the leftmost bar (first created)  
-			//	selected_object->state = HOVER;
-			//	selected_object->tabbed = true;
-			//	setClicked = true;
-			//	break; 
-			//}
-			if ((*item)->guiType == BUTTON)
+			if ((*item)->parent->enable)
 			{
+				if ((*item)->guiType == CHECKBOX)
+				{
 
-				selected_object = (*item);     // first set as selected the leftmost bar (first created)  
-				selected_object->state = HOVER;
-				selected_object->tabbed = true;
-				setClicked = true;
-				break;
+					selected_object = (*item);     // first set as selected the leftmost bar (first created)  
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
+					break;
+				}
+				if ((*item)->guiType == BUTTON)
+				{
+
+					selected_object = (*item);     // first set as selected the leftmost bar (first created)  
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
+					break;
+				}
 			}
 		}
 	}

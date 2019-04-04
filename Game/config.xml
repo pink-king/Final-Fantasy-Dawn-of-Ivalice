@@ -63,86 +63,50 @@
          <position x="41" y="118"/>
        </image>
        <image name="coin">
-         <section x="721" y="481" w="338" h="308"/>
-         <position x="150" y="150"/>
+         <section x="59" y="519" w="25" h="25"/>
+         <position x="1000" y="41"/>
        </image>
-
-        
 	    <image name="panelTest">
          <section x="721" y="480" w="338" h="308"/>
          <position x="150" y="190"/>
 		 <flag isPanel = "1" panelName = "panelTest"/>
-		  
-		  <panelBars>
-	   
-	 <panelBar name="sliderHorizontal">
-         <section_bar x="1101" y="613" w="170" h="46"/>
-         <position x="150" y="300"/>
-		 <section_thumb x="1112" y="566" w="31" h="45"/>
-		 <type value = "HORIZONTAL"/>
-       </panelBar>
-	  
-	   
-	    </panelBars>
-		
-		 <PanelCheckboxes>
-	  <PanelCheckbox name="test checkbox">
-	    <panelPosition x="200" y="200"/>
-		<panelSection x="293" y="666" w="200" h="36"/>
-        <boxSection x="518" y="673" w="25" h="25"/>   
-        <tickSection x="555" y="678" w="18" h="18"/>    		
-		<font value = "Open_Sans Bold"/>
-		
-		
-		 <checkboxLabels>
-	  <checkboxLabel name="labelInsideCheckbox">
-        <text value = "This text is resized to fit"/>
-		<color R="22" G="233" B="44" A="200"/>
-		<font value = "1" size = "18"/>
-      </checkboxLabel>
-	 </checkboxLabels>
-	 
-	 
-      </PanelCheckbox>
-	 </PanelCheckboxes>
-	 
-	 
-	 	   
-	
-	 
-	 
-		
        </image>   
 	   
        </images>
-	   
-    <bars> 
-	 <bar name="sliderHorizontal">
-         <section_bar x="1101" y="613" w="170" h="46"/>
-         <position x="50" y="300"/>
-		 <section_thumb x="1112" y="566" w="31" h="45"/>
-		 <type value = "HORIZONTAL"/>
-       </bar>
-	    </bars>
-	   
-	 <labels>
-	  <label name="lel">
-        <text value = "Best Game Ever"/>
-        <position x="50" y="50"/>
-		<color R="200" G="100" B="100" A="200"/>
-		<font value = "Open_Sans Bold"/>
-      </label>
-	 </labels>
-	 
-	  <checkboxes>
-	  <checkbox name="test checkbox">
-	    <panelPosition x="500" y="200"/>
-		<panelSection x="293" y="666" w="200" h="36"/>
-        <boxSection x="518" y="673" w="25" h="25"/>   
-        <tickSection x="555" y="678" w="18" h="18"/>    		
-		<font value = "Open_Sans Bold"/>
-      </checkbox>
-	 </checkboxes>  
+      
+    <panelBars>
+
+        <panelBar name="sliderHorizontal">
+          <section_bar x="1101" y="613" w="170" h="46"/>
+          <position x="150" y="300"/>
+          <section_thumb x="1112" y="566" w="31" h="45"/>
+          <type value = "HORIZONTAL"/>
+        </panelBar>
+
+
+      </panelBars>
+
+
+      <PanelCheckboxes>
+        
+        <PanelCheckbox name="test checkbox">
+          <panelPosition x="150" y="200"/>
+          <panelSection x="293" y="666" w="200" h="36"/>
+          <boxSection x="518" y="673" w="25" h="25"/>
+          <tickSection x="555" y="678" w="18" h="18"/>
+          <font value = "Open_Sans Bold"/>
+
+          <checkboxLabels>
+            <checkboxLabel name="labelInsideCheckbox">
+              <text value = "This text is resized to fit"/>
+              <color R="22" G="233" B="44" A="200"/>
+              <font value = "1" size = "18"/>
+            </checkboxLabel>
+            
+          </checkboxLabels>
+        </PanelCheckbox>
+        
+      </PanelCheckboxes>
 	 
 	 
 	 <healthbars>

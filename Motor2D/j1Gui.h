@@ -67,8 +67,8 @@ private:
 	bool debug_ = false;  
 	UiItem* selected_object = nullptr;
 
-
-	bool resetHoverSwapping = false; 
+public:
+	bool resetHoverSwapping = false;
 };
 
 #endif
