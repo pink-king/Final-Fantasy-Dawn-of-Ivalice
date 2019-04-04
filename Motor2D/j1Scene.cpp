@@ -206,13 +206,15 @@ bool j1Scene::Update(float dt)
 	}
 
 
-	/*if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	
+	// - - - - - - - - - - - - - - - - - - - - - - Simulate attack to the player - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
 
-		App->HPManager->callHPLabelSpawn(nullptr, 50);
+		App->entityFactory->player->selectedCharacterEntity->life -= 20; 
 	}
-	*/
-	//App->win->SetTitle(App->title.data());
+
 
 
 	return true;

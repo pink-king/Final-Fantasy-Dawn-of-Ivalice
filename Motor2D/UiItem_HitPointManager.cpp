@@ -58,7 +58,7 @@ bool UiItem_HitPointManager::Update(float dt)
 
 	
 
-	calculatePlayerCombo();
+	calculatePlayerCombo();    // TODO: ideate condition so that this is not executed every frame, BUT it must not break the label spawning looping 
 
 
 	return true;
@@ -134,7 +134,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 		playerStreak = (hitPointLabels.size() - labelsSpawned.totalLabels) * labelScoreAccum;  // text labels must not be considerated
 	}
 
-	LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);
+	//LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);
 
 	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
 	{

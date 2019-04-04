@@ -15,6 +15,9 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
+	// TODO: load from XML 
+	life = 100; 
+
 	return true;
 }
 
