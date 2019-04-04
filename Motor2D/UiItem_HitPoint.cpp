@@ -6,13 +6,14 @@
 #include "j1Render.h"
 #include "p2Log.h"
 
-UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start(); 
 
 	texture = App->font->Print(valueInfo.string.data(), color, font);
 	
+	this->numerOrText = type;
 
 	this->guiType = GUI_TYPES::HITPOINT;
 	
@@ -26,6 +27,30 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 	this->parent = parent;
 
 }
+
+
+UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
+{
+	// TODO: Initialize timer
+	lifeSpan.Start();
+
+	texture = App->font->Print(text.data(), color, font);
+
+	// distinguish both types
+	this->numerOrText = type; 
+
+	this->guiType = GUI_TYPES::HITPOINT;
+
+	this->valueInformation.string = text;
+
+	this->color = color;
+	this->font = font;
+
+	// the parent
+	this->parent = parent;
+
+}
+
 
 void UiItem_HitPoint::Draw(const float & dt)
 {

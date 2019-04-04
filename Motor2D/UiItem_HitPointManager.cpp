@@ -7,6 +7,8 @@
 
 #include "j1Map.h"
 #include "j1Fonts.h"
+#include "j1EntityFactory.h"
+#include "PlayerEntityManager.h"
 #include <string.h>
 
 UiItem_HitPointManager::UiItem_HitPointManager()
@@ -45,13 +47,17 @@ bool UiItem_HitPointManager::Update(float dt)
 		}
 		else
 		{
+			labelScoreAccum -= (*hitPointIterator)->valueInformation.number; 
 			// cleanup
 			(*hitPointIterator)->CleanUp();
 			delete (*hitPointIterator);
 			hitPointIterator = hitPointLabels.erase(hitPointIterator);
+			 
 		}
 	}
 
+	
+	calculatePlayerCombo();
 
 	return true;
 }
@@ -94,7 +100,6 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 	};
 
 
-	// possible: color depending on damage type 
 	// TODO: load colors and fonts from XML 
 
 	SDL_Color c = {}; 
@@ -112,7 +117,49 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 	iPoint pos(App->render->WorldToScreen(enemy->position.x, enemy->position.y));                                               // adjust this  
 
 
-	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr);    // big font for testing
+	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr, variant::number);    // big font for testing
+	labelScoreAccum += damage; 
+
+}
 
 
+void UiItem_HitPointManager::calculatePlayerCombo()
+{
+
+	// streak = number of labels and summation of their scores 
+	if (!hitPointLabels.empty())
+	{
+		playerStreak = hitPointLabels.size() * labelScoreAccum;
+	}
+
+	LOG(" ...............................................................................  accumulated score is %i", labelScoreAccum); 
+
+	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
+	{
+		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x; 
+		int posY= (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
+		iPoint pos(posX, posY); 
+		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->openSansBold36, pos, nullptr, variant::text);
+
+		labelsSpawned.fierce = true;
+	}
+
+	if (playerStreak > 80 && !labelsSpawned.brutal)                         // brutal   
+	{
+		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x;
+		int posY = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
+		iPoint pos(posX, posY);
+		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->openSansBold36, pos, nullptr, variant::text);
+		
+		labelsSpawned.brutal = true;
+	}
+
+
+	if (labelScoreAccum == 0)     // reset all labels when player loses streak
+	{
+		playerStreak = 0; 
+		labelsSpawned.fierce = false;
+		labelsSpawned.brutal = false;
+
+	}
 }

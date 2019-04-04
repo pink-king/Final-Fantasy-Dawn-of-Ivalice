@@ -20,10 +20,16 @@ enum lifeState {
 	dead
 };
 
+enum variant {
+	number,
+	text
+};
+
 class UiItem_HitPoint : public UiItem
 {
 public:
-	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
+	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = number);
+	UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = text);       // for labels like "brutal" etc
 	void Draw(const float& dt) override;
 	void CleanUp(); 
 public:
@@ -33,6 +39,7 @@ public:
 
 protected:
 	valueInfo valueInformation; 
+	variant numerOrText; 
 	SDL_Color color;
 	TTF_Font* font = nullptr;
 	SDL_Texture* texture = nullptr;

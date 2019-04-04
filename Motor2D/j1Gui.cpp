@@ -471,14 +471,31 @@ UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_sect
 	return (UiItem_Checkbox*)newUIItem;
 }
 
-UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent)
+UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type)
 {
 	UiItem_HitPoint* newUIItem = nullptr;
-	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent);
+	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent, type);
 	
 	
 	
   // Add the hitpoint directly to the hitpoin manager list, and not in the listitemui
+
+	App->HPManager->hitPointLabels.push_back(newUIItem);
+
+
+	return (UiItem_HitPoint*)newUIItem;
+
+}
+
+
+UiItem_HitPoint * j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type)
+{
+	UiItem_HitPoint* newUIItem = nullptr;
+	newUIItem = new UiItem_HitPoint(text, color, font, position, parent, type);
+
+
+
+	// Add the hitpoint directly to the hitpoin manager list, and not in the listitemui
 
 	App->HPManager->hitPointLabels.push_back(newUIItem);
 

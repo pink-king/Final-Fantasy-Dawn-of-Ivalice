@@ -26,7 +26,7 @@
     <atlas file="gui/atlasUi.png"/>
   </gui>
 
-  <scene>
+ <!--  <scene>
     <InGameUi>
      <images>
        <image name="box_abilities_grey">
@@ -285,7 +285,7 @@
       </buttons>
     </StartMenu>
     
-  </scene>
+  </scene>    -->
 
   <map>
     <folder>maps/</folder>
