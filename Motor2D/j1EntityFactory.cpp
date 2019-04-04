@@ -157,6 +157,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 	case NO_TYPE:
 		break;
 	case ENTITY_STATIC:
+		//ret = new
 		break;
 	case ENTITY_DYNAMIC:
 		break;
@@ -168,7 +169,9 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		entities.push_back(ret);
 		LOG("Created a entity");
 		break;
-
+	case LOOT:
+		//ret = new LootEntity((LOOT_TYPE))
+		break;
 	default:
 		break;
 	}

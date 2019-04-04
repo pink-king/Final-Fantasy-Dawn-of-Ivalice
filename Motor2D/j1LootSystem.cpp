@@ -2,6 +2,8 @@
 #include"j1App.h"
 #include "p2Log.h"
 #include <iostream>
+#include <random>
+
 j1LootSystem::j1LootSystem() 
 {
 	
@@ -37,18 +39,20 @@ bool j1LootSystem::PostUpdate()
 	
 	if (trigger)
 	{
-
-		lootchance = rand() % 4 + 1;
+		GoldSystem = false;
+	lootchance = GetRandomValue(1, 4);
+		LOG("LootChance: %i", lootchance);
 		if (lootchance == 1)
 		{
-			element = rand() % 100 + 1;
-
-			if (element >= 55)
+			element = GetRandomValue(1, 100);
+			LOG("element: %i", element);
+			if (element <= 55)
 			{
-				if (element >= 15)
+				GoldSystem = true;
+				if (element <= 15)
 					id = 1; 
 				
-				else if (element > 15 && element >= 40)
+				else if (element > 15 && element <= 40)
 					id = 2;
 
 				else if (element > 40 && element <= 55)
@@ -62,8 +66,6 @@ bool j1LootSystem::PostUpdate()
 			
 			else id = 0;
 			
-
-			
 		}
 		
 		trigger = false;
@@ -72,28 +74,29 @@ bool j1LootSystem::PostUpdate()
 	return true;
 }
 
+int j1LootSystem::GetRandomValue( const int& min, const  int& max)
+{
+	static std::default_random_engine generator;
+	std::uniform_int_distribution<int> range(min, max);
+	int ret_value = range(generator);
+
+	LOG("value %i", ret_value);
+
+	return ret_value;
+}
+
 void j1LootSystem::MatchGold(int id)
 {
 	
-	switch (id)
-	{
-	case 1:
-		goldearned = gold_value[0];
-		break;
-	case 2:
-		goldearned = gold_value[1];
-		break;
-	case 3:
-		goldearned = gold_value[2];
-	}
-		/*if (id == gold_id[0])
+	
+		if (id == gold_id[0])
 			goldearned = gold_value[0];
 
-		if (id == gold_id[1])
+		else if (id == gold_id[1])
 			goldearned = gold_value[1];
 
-		if (id == gold_id[2])
+		else if (id == gold_id[2])
 			goldearned = gold_value[2];
 	
-		id = 0;*/
+	
 }

@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
+    <ClCompile Include="Gold.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1Entity.cpp" />
@@ -96,6 +97,8 @@
     <ClCompile Include="j1PerfTimer.cpp" />
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Timer.cpp" />
+    <ClCompile Include="LootEntity.cpp" />
+    <ClCompile Include="LootEntityManager.cpp" />
     <ClCompile Include="Marche.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1Render.cpp" />
@@ -116,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="EnemyTest.h" />
+    <ClInclude Include="Gold.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1Entity.h" />
@@ -128,6 +132,8 @@
     <ClInclude Include="j1PerfTimer.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Timer.h" />
+    <ClInclude Include="LootEntity.h" />
+    <ClInclude Include="LootEntityManager.h" />
     <ClInclude Include="Marche.h" />
     <ClInclude Include="p2DynArray.h" />
     <ClInclude Include="j1Audio.h" />
@@ -163,6 +169,9 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="Loot.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\maps\iso_walk.tmx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
