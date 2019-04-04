@@ -14,6 +14,7 @@
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
 #include "UiItem_HitPointManager.h"
+#include "UiItem_HealthBar.h"
 #include "j1BuffManager.h"
 
 
@@ -386,6 +387,20 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection);
 	}*/
 	
+
+
+	// health bar 
+
+	pugi::xml_node uiNode = node.child("healthbar"); 
+
+
+	SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
+	SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
+
+
+	iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
+
+    App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr);
 
 }
 

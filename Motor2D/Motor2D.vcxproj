@@ -107,6 +107,7 @@
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
+    <ClCompile Include="UiItem_HealthBar.cpp" />
     <ClCompile Include="UiItem_HitPoint.cpp" />
     <ClCompile Include="UiItem_HitPointManager.cpp" />
     <ClCompile Include="UiItem_Image.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />
+    <ClInclude Include="UiItem_HealthBar.h" />
     <ClInclude Include="UiItem_HitPoint.h" />
     <ClInclude Include="UiItem_HitPointManager.h" />
     <ClInclude Include="UiItem_Image.h" />

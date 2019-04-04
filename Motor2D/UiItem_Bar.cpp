@@ -21,13 +21,13 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	this->hitBox.y = position.y;
 
 	// bar 
-	bar = App->gui->AddImage(position, section, parent);
+	bar = App->gui->AddImage(position, section, parent);   // TODO: this should have as pareNT "this"
 
 
 	// thumb
 	iPoint thumbPos(position.x + 5, position.y + 9);
 
-	thumb = App->gui->AddImage(thumbPos, thumb_section, parent);
+	thumb = App->gui->AddImage(thumbPos, thumb_section, parent);    // TODO: this should have as pareNT "this"
 	thumb->slidable = true; 
 	thumb->parent = bar; 
 	thumb->iFriend = this; 

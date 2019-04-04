@@ -13,7 +13,7 @@
 #include "UiItem_Button.h"
 #include "UiItem_HitPoint.h"
 #include "UiItem_HitPointManager.h"
-
+#include "UiItem_HealthBar.h"
 
 struct labelInfo
 {
@@ -52,6 +52,10 @@ public:
 	// TODO: AddHitPoint();
 	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
 	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
+
+
+	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, UiItem*const parent = nullptr); // , TypeBar type = VERTICAL);
+
 
 	SDL_Texture* GetAtlas();
 	void FadeToScene();

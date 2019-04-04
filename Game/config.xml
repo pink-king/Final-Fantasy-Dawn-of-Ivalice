@@ -26,14 +26,15 @@
     <atlas file="gui/atlasUi.png"/>
   </gui>
 
- <!--  <scene>
+ <scene>
     <InGameUi>
-     <images>
+     <!-- <images>
+	   
        <image name="box_abilities_grey">
          <section x="1" y="545" w="165" h="43"/>
          <position x="557" y="675"/>
-       </image>
-       <image name="life_bar">
+       </image> 
+       <image name="life_bar">                            
          <section x="110" y="482" w="134" h="26"/>
          <position x="113" y="78"/>
        </image>
@@ -111,11 +112,11 @@
 	 
 	 
 		
-       </image>
+       </image>   
 	   
        </images>
 	   
-     <bars>
+    <bars>
 	 
 	 <bar name="sliderHorizontal">
          <section_bar x="1101" y="613" w="170" h="46"/>
@@ -142,17 +143,20 @@
         <tickSection x="555" y="678" w="18" h="18"/>    		
 		<font value = "Open_Sans Bold"/>
       </checkbox>
-	 </checkboxes>
+	 </checkboxes>  -->
 	 
 	 
+	 <healthbar name="life_bar">
+	     <staticSection x="110" y="482" w="134" h="26"/>
+		 <dynamicSection x="111" y="515" w="132" h="24"/>
+         <position x="113" y="78"/>
+	 </healthbar>
 	 
-    </InGameUi>
+    </InGameUi>  
 
-    
-      
         
       
-    <InGameUiM>
+   <!-- <InGameUiM>
       <images>
         <image name="sword">
          <section x="167" y="545" w="36" h="36"/>
@@ -282,10 +286,10 @@
           <clickSec x="471" y="572" w="83" h="39" />
           <position x="450" y="360"/>
         </button>
-      </buttons>
-    </StartMenu>
+      </buttons> 
+    </StartMenu>  -->
     
-  </scene>    -->
+  </scene>    
 
   <map>
     <folder>maps/</folder>

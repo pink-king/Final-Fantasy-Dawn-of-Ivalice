@@ -38,7 +38,7 @@ private:
 public: 
 	friend class UiItem_Bar; 
 	friend class UiItem_Checkbox;
-
+	friend class UiItem_HealthBar; 
 };
 
 #endif
