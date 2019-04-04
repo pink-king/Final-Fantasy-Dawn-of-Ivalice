@@ -129,7 +129,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 	// streak = number of labels and summation of their scores 
 	if (!hitPointLabels.empty())
 	{
-		playerStreak = hitPointLabels.size() * labelScoreAccum;
+		playerStreak = hitPointLabels.size() * labelScoreAccum;  // correct: this takes into account the own text labels, which shouldn't 
 	}
 
 	LOG(" ...............................................................................  accumulated score is %i", labelScoreAccum); 
@@ -139,7 +139,8 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x; 
 		int posY= (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
 		iPoint pos(posX, posY); 
-		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->openSansBold36, pos, nullptr, variant::text);
+		
+		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
 	}
@@ -149,7 +150,9 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x;
 		int posY = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
 		iPoint pos(posX, posY);
-		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->openSansBold36, pos, nullptr, variant::text);
+
+		pos.x += 300; // to sepparate both labels
+		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 		
 		labelsSpawned.brutal = true;
 	}

@@ -8,6 +8,9 @@
 #include "j1PerfTimer.h"
 #include <cstdint>
 
+#define NUMBER_LIFE 1300
+#define TEXT_LIFE 2300
+
 struct valueInfo {
 	std::string string; 
 	uint number; 

@@ -38,7 +38,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 
 	openSansBold18 = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
 	openSansBold36 = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
-
+	shatterBoxx36 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 36);
 	
 	
 

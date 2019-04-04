@@ -68,26 +68,36 @@ lifeState UiItem_HitPoint::returnLifeState() {
 	uint lifeMoment = lifeSpan.ReadMs(); 
 
 
-	// These are semi random numbers, needs adjustment
-
-	if (lifeMoment < 300)
+	// first considerate the type
+	uint maxLife = 0; 
+	if (this->numerOrText == variant::number)
 	{
-		ret = fadeIn; 
-	}
-	else if (lifeMoment >= 300 && lifeMoment <= 1000)
-	{
-		ret = Middle;
-	}
-	else if(lifeMoment > 1000 && lifeMoment <= 1300)
-	{
-		ret = fadeOut;
+		maxLife = NUMBER_LIFE; 
 	}
 	else
 	{
-		ret = dead; 
-		//CleanUp(); 
-		to_delete = true;
+		maxLife = TEXT_LIFE;
+
 	}
+
+		if (lifeMoment < 300)
+		{
+			ret = fadeIn;
+		}
+		else if (lifeMoment >= 300 && lifeMoment <= 1000)
+		{
+			ret = Middle;
+		}
+		else if (lifeMoment > 1000 && lifeMoment <= maxLife)
+		{
+			ret = fadeOut;
+		}
+		else
+		{
+			ret = dead;
+			//CleanUp(); 
+			to_delete = true;
+		}
 
 
 	return ret; 
@@ -102,7 +112,10 @@ void UiItem_HitPoint::CleanUp()
 
 void UiItem_HitPoint::updateHitPointPositions()
 {
-	hitBox.y -= 2;
+	if (this->numerOrText == variant::number)
+	{
+		hitBox.y -= 2;
+	}
 
 			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
 			/*int w, h;
@@ -116,16 +129,30 @@ void UiItem_HitPoint::updateHitPointSizes()
 
 	if (returnLifeState() != dead)
 	{
+
 		switch (returnLifeState())
 		{
 			case fadeIn:
 				scaleFactor *= 1.03f;
 				break;
 			case Middle:
-				scaleFactor /= 1.003f;
+
+				if (this->numerOrText == variant::number)
+				{
+					scaleFactor /= 1.003f;
+				}
+
 				break;
 			case fadeOut:
-				scaleFactor /= 1.02f;
+
+				if (this->numerOrText == variant::number)
+				{
+					scaleFactor /= 1.02f;
+				}
+				else
+				{
+					scaleFactor /= 1.005f;
+				}
 				break;
 		}
 	}
@@ -143,10 +170,25 @@ void UiItem_HitPoint::updateHitPointOpacities()
 				alphaValue *= 3;
 				break;
 			case Middle:
-				alphaValue /= 1.1f;
+				if (this->numerOrText == variant::number)
+				{
+					alphaValue /= 1.1f;
+				}
+				else
+				{
+					alphaValue /= 1.01f;
+				}
+
 				break;
 			case fadeOut:
-				alphaValue /= 1.7f;
+				if (this->numerOrText == variant::number)
+				{
+					alphaValue /= 1.7f;
+				}
+				else
+				{
+					alphaValue /= 1.1f;
+				}
 				break;
 			}
 			SDL_SetTextureAlphaMod(texture,alphaValue);
