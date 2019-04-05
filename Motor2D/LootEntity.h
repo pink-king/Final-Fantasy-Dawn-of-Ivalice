@@ -5,7 +5,7 @@
 #include "j1Entity.h"
 #include "Buff.h"
 #include "j1LootSystem.h"
-
+#include "EnemyTest.h"
 
 struct SDL_Texture;
 
@@ -32,7 +32,11 @@ public:
 	LOOT_TYPE loot_type;
 	bool enemy_dead = false;
 	void GetEnemySubtile(int x, int y);
+
 	SDL_Texture* lootTex;
+	SDL_Rect rect_test;
+
+	EnemyTest* enemy;
 
 	int value;
 	//Pasar textures i posició de l'enemic, 

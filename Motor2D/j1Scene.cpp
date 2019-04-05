@@ -184,8 +184,8 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-		App->loot->trigger = true;
+	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->loot->trigger = true;*/
 	
 	App->map->Draw();
 
@@ -200,6 +200,13 @@ bool j1Scene::Update(float dt)
 	{
 		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 		cont++;
+	}
+
+	if (App->loot->GoldSystem)
+	{
+		
+
+		App->entityFactory->CreateLoot({App->loot->loot_pos.x, App->loot->loot_pos.y });
 	}
 	static char title[90];
 	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i instantiated ENTITIES", App->entityFactory->entities.size());

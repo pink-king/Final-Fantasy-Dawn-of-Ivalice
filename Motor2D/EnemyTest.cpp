@@ -6,6 +6,8 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
+#include "j1LootSystem.h"
+
 #include <random>
 
 EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
@@ -27,7 +29,10 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 
 EnemyTest::~EnemyTest()
 {
-	LOG("Bye Enemy Test");
+	
+	
+	/*LOG("LOOtValue %iX %iY", App->loot->loot_pos.x, App->loot->loot_pos.y);*/
+	LOG("Bye Enemy Test %fx %fy ", position.x, position.y);
 } 
 
 bool EnemyTest::Start()

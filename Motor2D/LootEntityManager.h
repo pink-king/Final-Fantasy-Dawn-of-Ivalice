@@ -3,9 +3,8 @@
 
 #include "j1Module.h"
 #include "Gold.h"
-
 #include <vector>
-
+#include <list>
 class LootEntityManager : public j1Entity
 {
 public:
@@ -18,16 +17,16 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
-	//bool CleanUp();
+	bool CleanUp();
+	void SelectLoot();
 
-	Gold* gold = nullptr;
 
-	void SelectedItem();
 public:
-
+	Gold * gold = nullptr;
 	LOOT_TYPE lootSelectType;
 	LootEntity* selectedLootEntity = nullptr;
 
 	std::vector<LootEntity*> lootItems;
+	std::list<LootEntity*> lootList;
 };
 #endif // !LOOTENTITYMAGANER_H__

@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "j1Entity.h"
 #include "PlayerEntityManager.h"
+#include "LootEntityManager.h"
 #include <vector>
 
 struct entityDataMap
@@ -31,6 +32,7 @@ public:
 
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
+	LootEntityManager* CreateLoot(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	void Debug(j1Entity* ent);
 	void CreateEntitiesDataMap(int width, int height);
@@ -51,6 +53,7 @@ public:
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
+	LootEntityManager*		loot = nullptr;
 	SDL_Texture*			texture = nullptr;
 	std::vector<j1Entity*>	entities;
 private:

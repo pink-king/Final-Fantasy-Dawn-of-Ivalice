@@ -40,7 +40,7 @@ public:
 
 	void AddItemStats(items* item);
 	void RemoveItemStat(items* item);
-
+	iPoint enemydeadsubtile;
 private:
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;

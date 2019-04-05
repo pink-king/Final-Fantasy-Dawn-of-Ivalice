@@ -204,6 +204,19 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
+LootEntityManager*	j1EntityFactory::CreateLoot(iPoint position)
+{
+
+	loot = new LootEntityManager(position);
+
+	if (loot != nullptr)
+	{
+
+		entities.push_back(loot);
+		return loot;
+	}
+}
+
 
 bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * entity2)
 {

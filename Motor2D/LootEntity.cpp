@@ -5,6 +5,7 @@
 
 LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
 {
+	//GetEnemySubtile(posX, posY);
 }
 
 
@@ -27,6 +28,11 @@ bool LootEntity::PreUpdate()
 
 bool LootEntity::Update(float dt)
 {
+	
+	if (lootTex != nullptr)
+	{
+		App->render->Blit(lootTex, position.x, position.y, &rect_test);
+	}
 	return true;
 }
 
@@ -42,18 +48,27 @@ bool LootEntity::PostUpdate()
 //	return true;
 //}
 
+//TO FIX blit image,  for now   DRAW() isn't called
 void LootEntity::Draw()
 {
 	if (lootTex != nullptr)
 	{
-		App->render->Blit(lootTex, position.x, position.y);
+		App->render->Blit(lootTex, position.x, position.y, &rect_test);
     }
 }
 
 void LootEntity::GetEnemySubtile(int x , int y)
 {
-	if (enemy_dead)
+
+	
+	iPoint enemySubtile;
+	if (enemy->life <= 0)
 	{
-		
+		x =enemy->GetSubtilePos().x;
+		y = enemy->GetSubtilePos().y;
 	}
+
+	enemySubtile = enemy->GetSubtilePos();
+	x= enemySubtile.x;
+	y = enemySubtile.y;
 }
