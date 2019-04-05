@@ -69,6 +69,11 @@ public:
 		return controller[id];
 	}
 
+	j1KeyState GetControllerAxisPulsation(int id) const
+	{
+		return controller_axis[id];
+	}
+
 
 	// Check if a certain window event happened
 	bool GetWindowEvent(int code);
@@ -84,6 +89,7 @@ private:
 	j1KeyState*	keyboard = nullptr;
 	j1KeyState*	mouse_buttons = nullptr;
 	j1KeyState* controller = nullptr;
+	j1KeyState* controller_axis = nullptr;
 	int			mouse_motion_x;
 	int			mouse_motion_y;
 	int			mouse_x;
