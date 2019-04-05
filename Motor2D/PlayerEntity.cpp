@@ -112,38 +112,43 @@ bool PlayerEntity::InputMovement(float dt)
 
 bool PlayerEntity::InputCombat()
 {
-	combat_state = combatState::IDLE;
-
-	Sint16 xAxisRight = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
-	Sint16 yAxisRight = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);
-
-	Sint16 leftTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-	Sint16 rightTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-
-	if (leftTrigger > 0 || rightTrigger > 0)
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
 	{
-		if (inputDelayer.Read() > 50)
-		{
-			if (leftTrigger > 0 && rightTrigger > 0)
-			{
-				LOG("two triggers triggered");
-			}
-			else if (leftTrigger > 0)
-			{
-				LOG("only left");
-			}
-			else if (rightTrigger > 0)
-			{
-				LOG("only right");
-			}
-		}
-		/*else
-			inputDelayer.Start();*/
+		LOG("bla");
 	}
-	else
-	{
-		inputDelayer.Start();
-	}
+
+	//combat_state = combatState::IDLE;
+
+	//Sint16 xAxisRight = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
+	//Sint16 yAxisRight = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);
+
+	//Sint16 leftTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+	//Sint16 rightTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+
+	//if (leftTrigger > 0 || rightTrigger > 0)
+	//{
+	//	if (inputDelayer.Read() > 50)
+	//	{
+	//		if (leftTrigger > 0 && rightTrigger > 0)
+	//		{
+	//			LOG("two triggers triggered");
+	//		}
+	//		else if (leftTrigger > 0)
+	//		{
+	//			LOG("only left");
+	//		}
+	//		else if (rightTrigger > 0)
+	//		{
+	//			LOG("only right");
+	//		}
+	//	}
+	//	/*else
+	//		inputDelayer.Start();*/
+	//}
+	//else
+	//{
+	//	inputDelayer.Start();
+	//}
 
 
 

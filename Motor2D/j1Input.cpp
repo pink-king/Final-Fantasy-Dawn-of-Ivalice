@@ -18,6 +18,8 @@ j1Input::j1Input() : j1Module()
 	memset(mouse_buttons, KEY_IDLE, sizeof(j1KeyState) * NUM_MOUSE_BUTTONS);
 	controller = new j1KeyState[SDL_CONTROLLER_BUTTON_MAX];
 	memset(controller, KEY_IDLE, sizeof(j1KeyState) * SDL_CONTROLLER_BUTTON_MAX);
+	controller_axis = new j1KeyState[SDL_CONTROLLER_AXIS_MAX];
+	memset(controller_axis, KEY_IDLE, sizeof(j1KeyState)* SDL_CONTROLLER_AXIS_MAX);
 }
 
 // Destructor
@@ -26,6 +28,7 @@ j1Input::~j1Input()
 	delete[] keyboard;
 	delete[] mouse_buttons;
 	delete[] controller;
+	delete[] controller_axis;
 }
 
 // Called before render is available
@@ -60,10 +63,6 @@ bool j1Input::Awake(pugi::xml_node& config)
 	}
 	// ------------------------
 
-	
-	
-
-
 	return ret;
 }
 
@@ -82,6 +81,7 @@ bool j1Input::PreUpdate()
 
 	// gamepad input -------------------------------
 
+	// BUTTONS
 	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
 		if (SDL_GameControllerGetButton(gamePad1, (SDL_GameControllerButton)i) == 1) {
 			if (controller[i] == KEY_IDLE) {
@@ -100,6 +100,25 @@ bool j1Input::PreUpdate()
 				controller[i] = KEY_IDLE;
 			}
 		}
+	}
+	// TRIGGERS STATE
+	for (int i = 0; i < SDL_CONTROLLER_AXIS_MAX; ++i)
+	{
+		if (SDL_GameControllerGetAxis(gamePad1, (SDL_GameControllerAxis)i) > 0)
+		{
+			if (controller_axis[i] == KEY_IDLE)
+				controller_axis[i] = KEY_DOWN;
+			else
+				controller_axis[i] = KEY_REPEAT;
+		}
+		else
+		{
+			if (controller_axis[i] == KEY_REPEAT || controller_axis[i] == KEY_DOWN)
+				controller_axis[i] = KEY_UP;
+			else
+				controller_axis[i] = KEY_IDLE;
+		}
+		
 	}
 
 	// -----------------------------------------------

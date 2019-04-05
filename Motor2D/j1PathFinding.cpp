@@ -6,6 +6,7 @@
 #include "j1Render.h"
 #include "j1Map.h"
 #include "j1Textures.h"
+#include "j1EntityFactory.h"
 
 j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
 {
@@ -251,6 +252,147 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill, const iPoint destin
 
 }
 
+
+
+uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destination)
+{
+	iPoint cell;
+	iPoint tile;
+	// DIAGONAL CASES
+
+	// North - West
+	cell.create(pos.x - 1, pos.y - 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+
+	// North - East
+	cell.create(pos.x + 1, pos.y - 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// South - East
+	cell.create(pos.x + 1, pos.y + 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// South - Weast
+	cell.create(pos.x - 1, pos.y + 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+
+	// Queen cases
+
+	// North 
+	cell.create(pos.x, pos.y - 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// East
+	cell.create(pos.x + 1, pos.y);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// South
+	cell.create(pos.x, pos.y + 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// West
+	cell.create(pos.x - 1, pos.y);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	return list_to_fill.pathNodeList.size();
+}
+
+// NOT TRYING WALKABILITY
+
+//uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destination)
+//{
+//	iPoint cell;
+//	iPoint tile;
+//	// DIAGONAL CASES
+//
+//	// North - West
+//	cell.create(pos.x - 1, pos.y - 1);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+//
+//	// North - East
+//	cell.create(pos.x + 1, pos.y - 1);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+//
+//	// South - East
+//	cell.create(pos.x + 1, pos.y + 1);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+//
+//	// South - Weast
+//	cell.create(pos.x - 1, pos.y + 1);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+//
+//
+//	// Queen cases
+//
+//	// North 
+//	cell.create(pos.x, pos.y - 1);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+//
+//	// East
+//	cell.create(pos.x + 1, pos.y);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+//
+//	// South
+//	cell.create(pos.x, pos.y + 1);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+//
+//	// West
+//	cell.create(pos.x - 1, pos.y);
+//	if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+//		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE, cell.DistanceManhattan(destination), cell, this));
+//
+//	return list_to_fill.pathNodeList.size();
+//}
+
 // PathNode -------------------------------------------------------------------------
 // Calculates this tile score
 // ----------------------------------------------------------------------------------
@@ -258,7 +400,6 @@ int PathNode::Score() const
 {
 	return g + h;
 }
-
 // PathNode -------------------------------------------------------------------------
 // Calculate the F for a specific destination tile
 // ----------------------------------------------------------------------------------
@@ -364,6 +505,100 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		}
 
 	}
+}
+
+int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & destination)
+{
+	int cont = 0; 
+	last_path.clear();
+
+	if (origin == destination /*|| !IsWalkable(origin) || !IsWalkable(destination)*/)
+		return -1;
+
+	// Create two lists: open, close
+	PathList open;
+	PathList close;
+
+	// Add the origin tile to open
+	PathNode originNode(0, origin.DistanceTo(destination), origin, nullptr);
+	open.pathNodeList.push_back(originNode);
+
+	// Iterate while we have tile in the open list
+	while (open.pathNodeList.size() > 0)
+	{
+
+		// Move the lowest score cell from open list to the closed list
+		PathNode* curr = (PathNode*)open.GetNodeLowestScore();
+
+		close.pathNodeList.push_back(*curr);
+
+		// Erase element from list -----
+		std::list<PathNode>::iterator it = open.pathNodeList.begin();
+		while (it != open.pathNodeList.end()) {
+
+			if (&(*it) == &(*curr))
+				break;
+			it++;
+		}
+		open.pathNodeList.erase(it);
+		// Erase element from list -----
+
+		// If we just added the destination, we are done!
+		// Backtrack to create the final path
+		if (close.pathNodeList.back().pos == destination) {
+
+			for (PathNode iterator = close.pathNodeList.back(); iterator.parent != nullptr;
+				iterator = *close.Find(iterator.parent->pos)) {
+
+				last_path.push_back(iterator.pos);
+			}
+
+			last_path.push_back(close.pathNodeList.front().pos);
+
+			// Flip() the path when you are finish
+			reverse(last_path.begin(), last_path.end());
+
+			return last_path.size();
+		}
+
+		else
+		{
+			// Fill a list of all adjancent nodes
+			PathList neighbors;
+			close.pathNodeList.back().FindSubtileAdjacents(neighbors, destination);
+
+			// Iterate adjancent nodes:
+			std::list<PathNode>::iterator iterator = neighbors.pathNodeList.begin();
+
+			while (iterator != neighbors.pathNodeList.end()) {
+				// ignore nodes in the closed list
+				if (close.Find((*iterator).pos) != NULL) {
+					iterator++;
+					continue;
+				}
+
+				(*iterator).CalculateF(destination);
+				// If it is already in the open list, check if it is a better path (compare G)
+				if (open.Find((*iterator).pos) != NULL) {
+
+					// If it is a better path, Update the parent
+					PathNode open_node = *open.Find((*iterator).pos);
+					if ((*iterator).g < open_node.g)
+						open_node.parent = (*iterator).parent;
+				}
+				else {
+					// If it is NOT found, calculate its F and add it to the open list
+					open.pathNodeList.push_back(*iterator);
+				}
+				iterator++;
+			}
+			neighbors.pathNodeList.clear();
+			cont++;
+		}
+		if (cont > 25)
+			return -1; 
+	}
+	return 0;
 }
 
 

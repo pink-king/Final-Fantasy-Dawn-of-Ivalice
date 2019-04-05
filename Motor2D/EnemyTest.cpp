@@ -79,8 +79,18 @@ void EnemyTest::SetState(float dt)
 	}
 		break; 
 
-	case EnemyState::WAITING:
+	case EnemyState::WAITING:	// In  some cases would be attack 
 		// Lacks coding of waiting entities to move
+		if (App->entityFactory->player->ChangedTile() || checkTime.Read() > GetRandomValue(250, 1000))
+		{
+			if (!CheckDistance())
+			{
+				isMeleeRange = false;
+				state = EnemyState::SEARCHPATH;
+			}
+			else state = EnemyState::SEARCHSUBPATH;
+		}
+
 		break;
 
 	case EnemyState::SEARCHPATH:
@@ -93,10 +103,28 @@ void EnemyTest::SetState(float dt)
 	}
 		break;
 
+	case EnemyState::SEARCHSUBPATH:
+	{
+		checkTime.Start(); 
+		if (SearchNewSubPath())
+			state = EnemyState::GET_NEXT_TILE;
+		else state = EnemyState::WAITING; 
+
+		
+	}
+	break; 
 	case EnemyState::GET_NEXT_TILE:
 	{
+		if (CheckDistance() && isMeleeRange == false)
+		{
+			isMeleeRange = true;
+			state = EnemyState::SEARCHSUBPATH;
+			break;
+		}
+
 		if (path_to_follow.size() == 0)
-			state = EnemyState::IDLE;
+			state = EnemyState::WAITING;
+
 		else
 		{
 			tileToGo = path_to_follow.front(); // Get the first element of the list
@@ -107,9 +135,21 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		iPoint toGo = App->map->MapToWorld(tileToGo.x + 1, tileToGo.y);			// Places the next node correctly (1 row below)
-		fPoint toGoCenter = { (float)toGo.x, (float)toGo.y + App->map->data.tile_height * 0.5F};	// Center of the tile 
+
+		iPoint toGo;			// Places the next node correctly (1 row below)
+		fPoint toGoCenter;		// Center of the tile 
 		App->render->DrawCircle(toGoCenter.x, toGoCenter.y, 5, 255, 0, 0, 255, false);
+
+		if (!isMeleeRange)
+		{
+			toGo = App->map->MapToWorld(tileToGo.x + 1, tileToGo.y);
+			toGoCenter = { (float)toGo.x, (float)toGo.y + App->map->data.tile_height * 0.5F };
+		}
+		else
+		{
+			toGo = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
+			toGoCenter = { (float)toGo.x, (float)toGo.y + App->map->data.tile_height * 0.5F * 0.5F};
+		}
 
 		velocity = toGoCenter - GetPivotPos();
 		velocity.Normalize(); 
@@ -119,10 +159,10 @@ void EnemyTest::SetState(float dt)
 
 		if (onSubtilePosTemp != previousSubtilePos)
 		{
-			if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp))
+			if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp) && !isMeleeRange)
 			{
 				position -= velocity * dt *speed; 
-				// state = EnemyState::WAITING; 6
+				 state = EnemyState::WAITING; 
 			}
 		}
 
@@ -166,11 +206,34 @@ bool EnemyTest::SearchNewPath()
 	return ret; 
 }
 
-bool EnemyTest::isNextSubtileFree(int x, int y) const
+bool EnemyTest::SearchNewSubPath()
 {
-	//iPoint subTile = App->map->WorldToSubtileMap(x, y);
-	return App->entityFactory->isThisSubtileEmpty(iPoint(x,y));
+	bool ret = false;
+	path_to_follow.clear();
+	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
+	iPoint playerTile = App->map->WorldToSubtileMap((int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y);
+
+	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
+	{
+		if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) != -1)
+		{
+			path_to_follow = *App->pathfinding->GetLastPath();
+			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+			path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+			ret = (path_to_follow.size() > 0);
+		}
+		else LOG("Could not create path correctly");
+	}
+
+	return ret;
 }
+
+bool EnemyTest::CheckDistance()
+{
+	return (GetTilePos().DistanceManhattan(App->entityFactory->player->GetTilePos()) < 3);
+}
+
+
 
 int EnemyTest::GetRandomValue(const int& min,  const int& max)
 {
