@@ -81,7 +81,7 @@ bool PlayerEntityManager::Update(float dt)
 	static char title[30];
 	sprintf_s(title, 30, " | player life: %f", (*selectedCharacterEntity).life);
 	App->win->AddStringToTitle(title);
-
+	App->win->ClearTitle();
 
 	return ret;
 }

@@ -260,5 +260,16 @@
       <id id="54" character="ritz" name="legendary_mantle" level ="3"  cooldown ="1.4" insta_death="0.15" />
     </equipment>
   </loot>
+
+  <ItemsManager>
+    <item name ="superSword">
+      <buff type = "additive" character ="Marche" element ="poison" rol ="attack" value ="10.0"/>
+      <buff type = "multiplicative" character ="Marche" element ="poison" rol ="attack" value ="0.5"/>
+    </item>
+
+    <item name ="sword2">
+      <buff type = "additive" character ="Marche" element ="poison" rol ="attack" value ="50.0"/>
+    </item>
+  </ItemsManager>
   
 </config>

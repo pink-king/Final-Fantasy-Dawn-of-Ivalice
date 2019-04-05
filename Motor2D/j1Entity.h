@@ -7,6 +7,7 @@
 
 #include "j1Module.h"
 #include "j1Textures.h"
+#include "Items.h"
 
 #include "SDL_image/include/SDL_image.h"
 
@@ -103,6 +104,9 @@ public:
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
+
+	std::vector<items*>		equipedObjects;
+	std::vector<items*>		bagObjects;
 
 	int value;
 protected:

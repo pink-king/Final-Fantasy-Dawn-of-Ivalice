@@ -1,7 +1,7 @@
 #include "Buff.h"
 
-Buff::Buff(BUFF_TYPE type,OBJECT_TYPE object, std::string name, std::string character, std::string stat, float value) : 
-	type(type),objectType(object), name(name), character(character), stat(stat), value(value)
+Buff::Buff(BUFF_TYPE type, std::string character, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value) :
+	type(type), character(character), elementType(elementType), rol(rol), value(value)
 {
 }
 
@@ -14,27 +14,27 @@ BUFF_TYPE Buff::GetType()
 	return type;
 }
 
-OBJECT_TYPE Buff::GetObjectType()
-{
-	return objectType;
-}
-
-std::string Buff::GetName()
-{
-	return name;
-}
-
 std::string Buff::GetCharacter()
 {
 	return character;
 }
 
-std::string Buff::GetStat()
+ELEMENTAL_TYPE Buff::GetElementType()
 {
-	return stat;
+	return elementType;
+}
+
+OBJECT_ROL Buff::GetRol()
+{
+	return rol;
 }
 
 float Buff::GetValue()
 {
 	return value;
+}
+
+bool Buff::GetIfExist(BUFF_TYPE type, std::string character, ELEMENTAL_TYPE elementType, OBJECT_ROL rol)
+{
+	return (this->type == type && this->character.compare(character) && this->elementType == elementType && this->rol == rol);
 }

@@ -136,6 +136,8 @@ bool j1EntityFactory::CleanUp()
 	}
 	entities.clear();
 
+	RELEASE_ARRAY(entitiesDataMap);
+
 
 	//unload texture
 
@@ -215,8 +217,8 @@ void j1EntityFactory::CreateEntitiesDataMap(int width, int height)
 
 	if (entitiesDataMap != nullptr)
 	{
-		RELEASE(entitiesDataMap);
-		//RELEASE_ARRAY(entitiesDataMap);
+		//RELEASE(entitiesDataMap);
+		RELEASE_ARRAY(entitiesDataMap);
 	}
 
 	entitiesDataMap = new entityDataMap[subtileWidth * subtileHeight];
