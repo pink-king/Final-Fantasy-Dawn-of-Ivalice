@@ -65,6 +65,10 @@ bool j1Scene::Start()
 		App->map->active = true;
 		
 		inGamePanel->enable = true;
+		uiMarche->enable = true;
+		uiShara->enable = true;
+		uiRitz->enable = true;
+		settingPanel->enable = false;
 		if (startMenu->enable)
 			startMenu->enable = false;
 	}
@@ -156,7 +160,6 @@ bool j1Scene::Update(float dt)
 	{
 		App->map->active = false;
 		inGamePanel->enable = false;
-		//startMenu->enable = true;
 		uiMarche->enable = false;
 		uiRitz->enable = false;
 		uiShara->enable = false;

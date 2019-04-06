@@ -73,7 +73,8 @@
        </image>   
 	   
        </images>
-      
+    
+      <!--
     <panelBars>
 
         <panelBar name="sliderHorizontal">
@@ -86,7 +87,7 @@
 
       </panelBars>
 
-<!--
+
       <PanelCheckboxes>
         
         <PanelCheckbox name="test checkbox">
@@ -265,11 +266,35 @@
     </StartMenu>
 
    <Settings>
-     <!--
+     
+       <images>
+         <image name="backgroundSettings">
+           <section x="0" y="1531" w="1280" h="720"/>
+           <position x="0" y="0"/>
+         </image>
+       </images>
+
+     <panelBars>
+
+       <panelBar name="volumeSlider">
+         <section_bar x="1101" y="613" w="170" h="46"/>
+         <position x="588" y="267"/>
+         <section_thumb x="1112" y="566" w="31" h="45"/>
+         <type value = "HORIZONTAL"/>
+       </panelBar>
+       <panelBar name="fxSlider">
+         <section_bar x="1101" y="613" w="170" h="46"/>
+         <position x="588" y="364"/>
+         <section_thumb x="1112" y="566" w="31" h="45"/>
+         <type value = "HORIZONTAL"/>
+       </panelBar>
+
+     </panelBars>
+
      <PanelCheckboxes>
 
-       <PanelCheckbox name="test checkbox">
-         <panelPosition x="150" y="200"/>
+       <PanelCheckbox name="test_checkbox">
+         <panelPosition x="588" y="473"/>
          <panelSection x="293" y="666" w="200" h="36"/>
          <boxSection x="518" y="673" w="25" h="25"/>
          <tickSection x="555" y="678" w="18" h="18"/>
@@ -278,7 +303,7 @@
          <checkboxLabels>
            <checkboxLabel name="labelInsideCheckbox">
              <text value = "FPS Cap"/>
-             <color R="22" G="233" B="44" A="200"/>
+             <color R="0" G="0" B="0" A="255"/>
              <font value = "1" size = "18"/>
            </checkboxLabel>
 
@@ -286,14 +311,14 @@
        </PanelCheckbox>
 
      </PanelCheckboxes>
-     -->
-       <images>
-         <image name="backgroundSettings">
-           <section x="0" y="1531" w="1280" h="720"/>
-           <position x="0" y="0"/>
-         </image>
-       </images>
 
+     <button name="button_backMenu" function = "GoBackToMenu">
+       <idleSec x="305" y="614" w="138" h="32"/>
+       <hoverSec x="445" y="613" w="140" h="33" />
+       <clickSec x="555" y="572" w="140" h="33" />
+       <position x="588" y="561"/>
+     </button>
+     
      </Settings>
     
   </scene>    

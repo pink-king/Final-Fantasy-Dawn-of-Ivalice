@@ -29,7 +29,7 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 
 	thumb = App->gui->AddImage(thumbPos, thumb_section, parent);    // TODO: this should have as pareNT "this"
 	thumb->slidable = true; 
-	thumb->parent = bar; 
+	//thumb->parent = bar; 
 	thumb->iFriend = this; 
 
 	// to check mouse 
