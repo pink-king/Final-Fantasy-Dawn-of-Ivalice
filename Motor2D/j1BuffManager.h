@@ -22,8 +22,8 @@ public:
 	bool PostUpdate() { return true; };
 	bool CleanUp();
 	//by tipes of enemies
-	void CreateEnemyBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character,std::string stat, float value);
-	void RemoveEnemyBuff(std::string character);
+	void CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character,std::string stat, float value);
+	void RemoveBuff(std::string character);
 
 
 	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string stat);

@@ -83,7 +83,7 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateEnemyBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character, std::string stat, float value)
+void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character, std::string stat, float value)
 {
 	bool exist = false;
 	std::list<Buff*>::iterator item = buffs.begin();
@@ -104,7 +104,7 @@ void j1BuffManager::CreateEnemyBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, 
 	}
 }
 
-void j1BuffManager::RemoveEnemyBuff(std::string character)
+void j1BuffManager::RemoveBuff(std::string character)
 {
 	std::list<Buff*>::iterator item = buffs.begin();
 	for (; item != buffs.end(); ++item)
