@@ -225,3 +225,8 @@ int PlayerEntity::GetPointingDir(float angle)
 
 	return pointingDir;
 }
+
+float PlayerEntity::GetLastHeadingAngle() const
+{
+	return lastAxisMovAngle;
+}

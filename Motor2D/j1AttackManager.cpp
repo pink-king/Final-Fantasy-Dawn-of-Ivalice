@@ -74,6 +74,7 @@ bool j1AttackManager::Update(float dt)
 		{
 			LOG("Involved %i entities", (*attacksDataIterator)->combo);
 			delete(*attacksDataIterator);
+			(*attacksDataIterator) = nullptr;
 			attacksDataIterator = currentPropagationAttacks.erase(attacksDataIterator);
 		}
 	}

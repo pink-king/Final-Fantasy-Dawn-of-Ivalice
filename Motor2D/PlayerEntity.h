@@ -70,6 +70,7 @@ public:
 	bool InputMovement(float dt);
 	bool InputCombat();
 	int GetPointingDir(float angle);
+	float GetLastHeadingAngle() const;
 	void CheckRenderFlip(); // animation relative
 	void Draw();
 

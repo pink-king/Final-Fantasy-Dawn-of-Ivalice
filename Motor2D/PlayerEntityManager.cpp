@@ -74,6 +74,7 @@ bool PlayerEntityManager::Update(float dt)
 	selectedCharacterEntity->Update(dt);
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
+	lastCharHeadingAngle = selectedCharacterEntity->GetLastHeadingAngle();
 
 	if (selectedCharacterEntity->IsAiming())
 	{
@@ -178,6 +179,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
 			selectedCharacterEntity->position = tempPosition;
 			selectedCharacterEntity->pointingDir = pointingDirectionTemp;
+			selectedCharacterEntity->lastAxisMovAngle = lastCharHeadingAngle;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
@@ -215,6 +217,7 @@ void PlayerEntityManager::SetNextCharacter()
 			selectedCharacterEntity->currentAnimation->SetCurrentFrame(current_frame);
 			selectedCharacterEntity->position = tempPosition;
 			selectedCharacterEntity->pointingDir = pointingDirectionTemp;
+			selectedCharacterEntity->lastAxisMovAngle = lastCharHeadingAngle;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
@@ -273,6 +276,11 @@ iPoint PlayerEntityManager::GetCrossHairSubtile()
 	return ret;
 }
 
+const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
+{
+	return lastCharHeadingAngle;
+}
+
 // CROSSHAIR class -------------------------------------------------------------------------------------
 
 Crosshair::Crosshair()
@@ -309,6 +317,8 @@ Crosshair::Crosshair()
 
 	pivotOffset.create(36, 10);
 
+	maxRadiusDistance = 110.0f; // world coords.
+
 
 }
 
@@ -317,17 +327,26 @@ Crosshair::~Crosshair()
 
 bool Crosshair::Start()
 {
+	fPoint headingVector = GetHeadingVector(App->entityFactory->player->GetLastPlayerHeadingAngle());
+	headingVector = headingVector * maxRadiusDistance;
+
+	position = App->entityFactory->player->GetPivotPos() + headingVector;
+	position.x -= pivotOffset.x;
+	position.y -= pivotOffset.y;
+
 	return true;
 }
 
 bool Crosshair::Update(float dt)
 {
-	if (isReseted) 
+	if (isReseted)
+	{
+		Start();
 		isReseted = !isReseted;
+	}
 
 	ManageInput(dt);
 
-	//SDL_Rect fitToRect = { position.x,position.y, 142,42 };
 	// draw animations
 	if (!startAnim.Finished())
 		App->render->Blit(tex, position.x, position.y, &startAnim.GetCurrentFrame(), 1.0f, SDL_FLIP_NONE, 0.35f);
@@ -357,13 +376,22 @@ bool Crosshair::ManageInput(float dt)
 
 		if (RX < maxClampThreshold && RY < maxClampThreshold) // if the player movement exceeds a threshold, not search
 		{
+			//// relative position to player
+			//fPoint relativePos = position  - App->entityFactory->player->GetPivotPos();
+			//relativePos.x += pivotOffset.x;
+			//relativePos.y += pivotOffset.y;
+			//LOG("relapos %f, %f", relativePos.x, relativePos.y);
 			// search for enemy on this subtile
 			clampedEntity = SearchForTargetOnThisSubtile(GetSubtilePoint());
 
 			if (clampedEntity != nullptr)
 				clamped = true;
 		}
-		//else
+		else
+		{
+			//LOG("");
+		}
+			
 			//LOG("DONT SEARCH");
 	}
 	else
@@ -393,6 +421,8 @@ bool Crosshair::ManageInput(float dt)
 		{
 			position.x = position.x + (RJoystickX * 0.003f * sensitivitySpeed.x) * dt;
 			position.y = position.y + (RJoystickY * 0.003f * sensitivitySpeed.y) * dt;
+
+			
 		}
 
 	}
@@ -404,6 +434,15 @@ bool Crosshair::ManageInput(float dt)
 	}
 
 	return true;
+}
+
+fPoint Crosshair::GetHeadingVector(float angle) // radians
+{
+	fPoint retVec;
+	retVec.create(cos(angle), sin(angle));
+	
+	LOG("heading vector %f,%f", retVec.x, retVec.y);
+	return retVec;
 }
 
 iPoint Crosshair::GetSubtilePoint()

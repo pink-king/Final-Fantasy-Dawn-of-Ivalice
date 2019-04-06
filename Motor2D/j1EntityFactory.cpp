@@ -91,6 +91,7 @@ bool j1EntityFactory::Update(float dt)
 			{
 				(*item)->CleanUp();
 				delete(*item);
+				(*item) = nullptr;
 				item = entities.erase(item);
 			}
 		}

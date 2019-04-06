@@ -28,9 +28,11 @@ private:
 	bool ManageInput(float dt);
 	iPoint GetPivotPos();
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
+	fPoint GetHeadingVector(float angle);
 
 public:
 	bool isReseted = false;
+	fPoint relativePosition;
 	fPoint position;
 	iPoint pivotOffset; // the point of the "center" of the crosshair graphic
 	SDL_Texture* tex = nullptr;
@@ -40,6 +42,7 @@ private:
 	j1Entity* clampedEntity = nullptr;
 	fPoint sensitivitySpeed = { 5.f,5.f };
 	bool clamped = false; // following a enemy entity
+	float maxRadiusDistance;
 };
 
 class PlayerEntityManager : public j1Entity
@@ -71,9 +74,10 @@ public:
 
 public:
 	const j1Entity* GetSelectedCharacterEntity() const;
+	const float GetLastPlayerHeadingAngle() const;
 
 private:
-
+	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
