@@ -142,6 +142,19 @@ public:
 	{
 		return abs(v.x - x) + abs(v.y - y);
 	}
+
+	p2Point<int> ReturniPoint() const
+	{
+		p2Point<int> r((int)x, (int)y);
+		return r;
+	}
+
+	p2Point<float> Return_fPoint() const
+	{
+		p2Point<float> r((float)x, (float)y);
+		return r;
+	}
+
 };
 
 typedef p2Point<int> iPoint;

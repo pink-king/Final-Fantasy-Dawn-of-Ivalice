@@ -116,7 +116,6 @@ void j1Entity::UpdateTilePositions()
 		{
 			changedTile = true; 
 			previousTilePos = imOnTile; 
-			LOG("Hey, player changed tile!");
 		}
 
 	}
