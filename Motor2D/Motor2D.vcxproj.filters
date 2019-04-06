@@ -34,24 +34,6 @@
     <ClCompile Include="j1Map.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Image.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Label.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Bar.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Button.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="j1PerfTimer.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
@@ -94,17 +76,41 @@
     <ClCompile Include="j1BuffManager.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Image.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Label.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Bar.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Button.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClCompile>
     <ClCompile Include="UiItem_Checkbox.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HitPoint.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HitPointManager.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_HealthBar.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_HitPoint.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_HitPointManager.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_CooldownClockManager.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_CooldownClock.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,24 +165,6 @@
     <ClInclude Include="j1Map.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Image.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Label.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Bar.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Button.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="j1PerfTimer.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
@@ -219,17 +207,41 @@
     <ClInclude Include="j1BuffManager.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Image.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Label.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Bar.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Button.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
+    </ClInclude>
     <ClInclude Include="UiItem_Checkbox.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HitPoint.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HitPointManager.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI\Base items</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_HealthBar.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_HitPoint.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_HitPointManager.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_CooldownClockManager.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_CooldownClock.h">
+      <Filter>Desenvolupament  ========\Modules\GUI\Special items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +274,18 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities\Enemies">
       <UniqueIdentifier>{08d64058-d931-412e-ba90-826c6b64e970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUI\Core">
+      <UniqueIdentifier>{671372d6-4f4f-43ef-9d3b-43cd1c3da9a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUI\Special items">
+      <UniqueIdentifier>{9f26d419-6883-4732-a9ae-242526de6f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUI\Special items\Managers">
+      <UniqueIdentifier>{e598586a-960f-448b-af9e-53a16e2c9049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUI\Base items">
+      <UniqueIdentifier>{db814098-67e4-4a93-af4d-4647997153ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
