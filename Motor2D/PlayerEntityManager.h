@@ -9,6 +9,39 @@
 #include "Shara.h"
 #include "j1Input.h"
 
+class Crosshair
+{
+public:
+	Crosshair();
+	~Crosshair();
+
+	bool Start();
+	bool Update(float dt);
+	bool PostUpdate();
+	bool Reset();
+	bool CleanUp();
+
+public:
+	iPoint GetSubtilePoint();
+
+private:
+	bool ManageInput(float dt);
+	iPoint GetPivotPos();
+	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
+
+public:
+	bool isReseted = false;
+	fPoint position;
+	iPoint pivotOffset; // the point of the "center" of the crosshair graphic
+	SDL_Texture* tex = nullptr;
+	Animation startAnim;
+	Animation loopAnim;
+private:
+	j1Entity* clampedEntity = nullptr;
+	fPoint sensitivitySpeed = { 5.f,5.f };
+	bool clamped = false; // following a enemy entity
+};
+
 class PlayerEntityManager : public j1Entity
 {
 public:
@@ -33,6 +66,7 @@ public:
 	void SetPreviousCharacter();
 	void SetNextCharacter();
 	void SetCurrentAnimation();
+	iPoint GetCrossHairSubtile();
 	void Draw();
 
 public:
@@ -46,6 +80,7 @@ private:
 	Marche* marche = nullptr;
 	Ritz* ritz = nullptr;
 	Shara* shara = nullptr;
+	Crosshair* crossHair = nullptr;
 
 	std::vector<PlayerEntity*> characters;
 	
