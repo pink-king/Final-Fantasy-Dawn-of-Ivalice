@@ -94,7 +94,8 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		// store actual
 		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
-		currentAnimation = &run[(int)GetPointingDir(atan2f(yAxis, xAxis))];
+		lastAxisMovAngle = atan2f(yAxis, xAxis);
+		currentAnimation = &run[(int)GetPointingDir(lastAxisMovAngle)];
 		currentAnimation->SetCurrentFrame(current_cycle_frame);
 	}
 	else
@@ -112,52 +113,50 @@ bool PlayerEntity::InputMovement(float dt)
 
 bool PlayerEntity::InputCombat()
 {
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
+	combat_state = combatState::IDLE;
+	
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN || 
+		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) ==  KEY_REPEAT)
 	{
-		LOG("bla");
+		if(App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
+			aiming = true;
+
+		// check ultimate trigger
+		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
+		{
+			combat_state = combatState::ULTIMATE;
+			//LOG("ULTIMATE");
+		}
+		// check basic attack
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+		{
+			combat_state = combatState::BASIC;
+			LOG("BASIC");
+		}
+		// check dodge
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			combat_state = combatState::DODGE;
+			LOG("DODGE");
+		}
+		// etc
+		// code under construction ...
+		//LOG("");
 	}
-
-	//combat_state = combatState::IDLE;
-
-	//Sint16 xAxisRight = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
-	//Sint16 yAxisRight = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);
-
-	//Sint16 leftTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-	//Sint16 rightTrigger = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-
-	//if (leftTrigger > 0 || rightTrigger > 0)
-	//{
-	//	if (inputDelayer.Read() > 50)
-	//	{
-	//		if (leftTrigger > 0 && rightTrigger > 0)
-	//		{
-	//			LOG("two triggers triggered");
-	//		}
-	//		else if (leftTrigger > 0)
-	//		{
-	//			LOG("only left");
-	//		}
-	//		else if (rightTrigger > 0)
-	//		{
-	//			LOG("only right");
-	//		}
-	//	}
-	//	/*else
-	//		inputDelayer.Start();*/
-	//}
-	//else
-	//{
-	//	inputDelayer.Start();
-	//}
-
-
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP)
+	{
+		aiming = false;
+		return false;
+	}
 
 	return true;
 }
 
+//combatState PlayerEntity::GetInstantCombatState()
+
 void PlayerEntity::CheckRenderFlip()
 {
-	if (pointingDir == 3 || pointingDir == 4 || pointingDir == 7)
+	if (pointingDir == int(facingDirection::SW) || pointingDir == 4 || pointingDir == 7)
 	{
 		flip = SDL_FLIP_HORIZONTAL;
 	}
