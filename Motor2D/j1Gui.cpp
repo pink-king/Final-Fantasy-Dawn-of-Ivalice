@@ -147,8 +147,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
-			std::list<UiItem*> candidates; 
-			
+			std::list<UiItem*> candidates;
 			for (; item != ListItemUI.end(); item++)                
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
@@ -537,5 +536,11 @@ void j1Gui::FadeToScene()
 void j1Gui::ExitGame()
 {
 	App->scene->exitGame = true;
+}
+
+void j1Gui::SettingsScreen()
+{
+	App->scene->startMenu->enable = false;
+	App->scene->settingPanel->enable = true;
 }
 

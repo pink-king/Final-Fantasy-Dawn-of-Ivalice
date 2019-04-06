@@ -41,6 +41,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->FadeToScene();
 	if (functionName == "ExitGame")
 		App->gui->ExitGame();
+	if (functionName == "SettingsScreen")
+		App->gui->SettingsScreen();
 }
 
 void UiItem_Button::Draw(const float &dt)

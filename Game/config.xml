@@ -86,7 +86,7 @@
 
       </panelBars>
 
-
+<!--
       <PanelCheckboxes>
         
         <PanelCheckbox name="test checkbox">
@@ -107,7 +107,7 @@
         </PanelCheckbox>
         
       </PanelCheckboxes>
-	 
+	 -->
 	 
 	 <healthbars>
 	 <healthbar name="life_bar">
@@ -248,18 +248,58 @@
           <clickSec x="471" y="572" w="83" h="39" />
           <position x="101" y="360"/>
         </button>
+        <button name="button_settings" function = "SettingsScreen">
+          <idleSec x="585" y="613" w="114" h="31"/>
+          <hoverSec x="570" y="511" w="112" h="32" />
+          <clickSec x="585" y="645" w="112" h="32" />
+          <position x="101" y="430"/>
+        </button>
         <button name="button_exit" function = "ExitGame">
           <idleSec x="305" y="614" w="138" h="32"/>
           <hoverSec x="445" y="613" w="140" h="33" />
           <clickSec x="555" y="572" w="140" h="33" />
-          <position x="101" y="430"/>
+          <position x="101" y="500"/>
         </button>
         
       </buttons> 
-    </StartMenu>  
+    </StartMenu>
+
+   <Settings>
+     <!--
+     <PanelCheckboxes>
+
+       <PanelCheckbox name="test checkbox">
+         <panelPosition x="150" y="200"/>
+         <panelSection x="293" y="666" w="200" h="36"/>
+         <boxSection x="518" y="673" w="25" h="25"/>
+         <tickSection x="555" y="678" w="18" h="18"/>
+         <font value = "Open_Sans Bold"/>
+
+         <checkboxLabels>
+           <checkboxLabel name="labelInsideCheckbox">
+             <text value = "FPS Cap"/>
+             <color R="22" G="233" B="44" A="200"/>
+             <font value = "1" size = "18"/>
+           </checkboxLabel>
+
+         </checkboxLabels>
+       </PanelCheckbox>
+
+     </PanelCheckboxes>
+     -->
+       <images>
+         <image name="backgroundSettings">
+           <section x="0" y="1531" w="1280" h="720"/>
+           <position x="0" y="0"/>
+         </image>
+       </images>
+
+     </Settings>
     
   </scene>    
 
+  
+  
   <map>
     <folder>maps/</folder>
 	  <levels>

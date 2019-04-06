@@ -49,6 +49,7 @@ public:
 	UiItem * uiShara = nullptr;
 	UiItem * uiRitz = nullptr;
 	UiItem * startMenu = nullptr;
+	UiItem * settingPanel = nullptr;
 	// UiItem_Image* testPanel = nullptr; 
 	bool debug = false;
 	bool exitGame = false;
@@ -63,6 +64,7 @@ private:
 	bool LoadInGameUi(pugi::xml_node& nodeScene);
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadPlayerUi(pugi::xml_node& nodeScene);
+	bool LoadSettings(pugi::xml_node& nodeScene);
 
 	PlayerEntityManager* player_selected = nullptr;
 };

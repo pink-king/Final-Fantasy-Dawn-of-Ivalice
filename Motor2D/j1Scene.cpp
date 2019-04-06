@@ -65,10 +65,8 @@ bool j1Scene::Start()
 		App->map->active = true;
 		
 		inGamePanel->enable = true;
-		uiMarche->enable = false;
-		uiShara->enable = false;
-		uiRitz->enable = false;
-		startMenu->enable = false;
+		if (startMenu->enable)
+			startMenu->enable = false;
 	}
 	if (state == SceneState::STARTMENU)
 	{
@@ -77,12 +75,16 @@ bool j1Scene::Start()
 			LoadInGameUi(sceneNode);
 			LoadStartMenu(sceneNode);
 			LoadPlayerUi(sceneNode);
+			LoadSettings(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
 		startMenu->enable = true;
-		if (inGamePanel->enable)
-			inGamePanel->enable = false;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		settingPanel->enable = false;
+		inGamePanel->enable = false;
 	}
 	return true;
 }
@@ -154,10 +156,11 @@ bool j1Scene::Update(float dt)
 	{
 		App->map->active = false;
 		inGamePanel->enable = false;
-		startMenu->enable = true;
+		//startMenu->enable = true;
 		uiMarche->enable = false;
 		uiRitz->enable = false;
 		uiShara->enable = false;
+		//settingPanel->enable = false;
 	}
 
 	if (state == SceneState::GAME)
@@ -165,6 +168,7 @@ bool j1Scene::Update(float dt)
 		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
+		//settingPanel->enable = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 		{
 			LOG("marche");
@@ -216,8 +220,6 @@ bool j1Scene::Update(float dt)
 
 		App->entityFactory->player->selectedCharacterEntity->life -= 20; 
 	}
-
-
 	return true;
 }
 
@@ -456,5 +458,13 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node & nodeScene)
 	uiRitz = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitz, ritzNode);
 
+	return true;
+}
+
+bool j1Scene::LoadSettings(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node settingNode = nodeScene.child("Settings");
+	settingPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(settingPanel, settingNode);
 	return true;
 }
