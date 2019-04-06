@@ -61,6 +61,7 @@ public:
 	void FadeToScene();
 	void ExitGame();
 	void SettingsScreen();
+	void GoBackToMenu();
 
 private:
 	SDL_Texture * atlas;

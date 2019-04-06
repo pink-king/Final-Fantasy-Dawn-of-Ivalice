@@ -150,6 +150,7 @@ bool j1Scene::Update(float dt)
 		{
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
+			startMenu->enable = true;
 		}
 		else
 			state = SceneState::GAME;

@@ -121,6 +121,14 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		{
 			if ((*item)->parent->enable)
 			{
+				if ((*item)->guiType == BAR)
+				{
+					selected_object = (*item);     // first set as selected the leftmost bar (first created)  
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
+					break;
+				}
 				if ((*item)->guiType == CHECKBOX)
 				{
 
@@ -540,7 +548,15 @@ void j1Gui::ExitGame()
 
 void j1Gui::SettingsScreen()
 {
+	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
 	App->scene->settingPanel->enable = true;
+}
+
+void j1Gui::GoBackToMenu()
+{
+	resetHoverSwapping = false;
+	App->scene->settingPanel->enable = false;
+	App->scene->startMenu->enable = true;
 }
 
