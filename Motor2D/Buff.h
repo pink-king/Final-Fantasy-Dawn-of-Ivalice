@@ -35,21 +35,23 @@ enum class OBJECT_ROL
 class Buff
 {
 public:
-	Buff(BUFF_TYPE type, std::string character, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
+	Buff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
 	~Buff();
 	BUFF_TYPE GetType();
 	ELEMENTAL_TYPE GetElementType();
 	OBJECT_ROL GetRol();
 	std::string GetCharacter();
+	std::string GetStat();
 	float GetValue();
 
-	bool GetIfExist(BUFF_TYPE type, std::string characer, ELEMENTAL_TYPE elementType, OBJECT_ROL rol);
+	bool GetIfExist(BUFF_TYPE type, std::string characer, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol);
 
 private:
 	BUFF_TYPE			type = BUFF_TYPE::NO_BUFF;
 	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NORMAL_ELEMENT;
 	OBJECT_ROL			rol = OBJECT_ROL::NO_ROL;
 	std::string			character = "\0";
+	std::string			stat = "\0";
 	float				value = 0.f;
 
 

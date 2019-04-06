@@ -181,9 +181,9 @@ void j1ItemsManager::LoadItemData(items* item)
 				if (data.compare("poison") == 0)
 					element = ELEMENTAL_TYPE::POISON_ELEMENT;
 				else if (data.compare("fire") == 0)
-					element = ELEMENTAL_TYPE::POISON_ELEMENT;
+					element = ELEMENTAL_TYPE::FIRE_ELEMENT;
 				else if (data.compare("ice") == 0)
-					element = ELEMENTAL_TYPE::POISON_ELEMENT;
+					element = ELEMENTAL_TYPE::ICE_ELEMENT;
 				else
 					element = ELEMENTAL_TYPE::NORMAL_ELEMENT;
 
@@ -198,7 +198,8 @@ void j1ItemsManager::LoadItemData(items* item)
 
 				float value = iterator2.attribute("value").as_float();
 				
-				item->CreateBuff(type, character, element, rol, value);
+				std::string stat = iterator2.attribute("stat").as_string();
+				item->CreateBuff(type, character,stat, element, rol, value);
 			}
 		}
 	}

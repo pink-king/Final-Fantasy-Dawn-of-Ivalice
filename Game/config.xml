@@ -263,8 +263,8 @@
 
   <ItemsManager>
     <item name ="superSword">
-      <buff type = "additive" character ="Marche" element ="poison" rol ="attack" value ="10.0"/>
-      <buff type = "multiplicative" character ="Marche" element ="poison" rol ="attack" value ="0.5"/>
+      <buff type = "additive" character ="Marche" stat ="iteligence" element ="poison" rol ="attack" value ="10.0"/>
+      <buff type = "multiplicative" character ="Marche" stat ="iteligence" element ="poison" rol ="attack" value ="0.5"/>
     </item>
 
     <item name ="sword2">

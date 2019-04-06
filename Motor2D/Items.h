@@ -19,7 +19,7 @@ public:
 
 	std::string GetName();
 	OBJECT_TYPE GetType();
-	void CreateBuff(BUFF_TYPE type, std::string character, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
+	void CreateBuff(BUFF_TYPE type, std::string character,std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
 
 private:
 	std::string			name;
