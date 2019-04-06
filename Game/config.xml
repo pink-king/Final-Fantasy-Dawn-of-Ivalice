@@ -312,12 +312,14 @@
 
      </PanelCheckboxes>
 
-     <button name="button_backMenu" function = "GoBackToMenu">
-       <idleSec x="305" y="614" w="138" h="32"/>
-       <hoverSec x="445" y="613" w="140" h="33" />
-       <clickSec x="555" y="572" w="140" h="33" />
-       <position x="588" y="561"/>
-     </button>
+     <buttons>
+       <button name="button_backMenu" function = "GoBackToMenu">
+         <idleSec x="585" y="678" w="93" h="40"/>
+         <hoverSec x="585" y="719" w="94" h="42" />
+         <clickSec x="585" y="762" w="95" h="42" />
+         <position x="588" y="561"/>
+       </button>
+     </buttons>
      
      </Settings>
     
