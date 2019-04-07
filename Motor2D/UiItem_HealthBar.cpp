@@ -37,6 +37,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 			conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
 		}
 
+		lastSection = dynamicImage->section.w; 
 		dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
 
 	
@@ -45,7 +46,10 @@ void UiItem_HealthBar::Draw(const float& dt)
 			damageBarTimer.Start();
 			DamageLogic();
 		}
-		
+		else if (damageBarTimer.ReadMs() > 2000)
+		{
+			DamageQuadReset(); 
+		}
 
 }
 
@@ -54,12 +58,27 @@ void UiItem_HealthBar::DamageLogic()
 {
 
 	
-	int destinationRectWidth = maxSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
+	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
+
+	
+
 	iPoint destinationRectPos = iPoint(dynamicImage->hitBox.x + dynamicImage->section.w, dynamicImage->hitBox.y);
 
 
 	damageImage->hide = false; 
 	damageImage->resizedRect = { destinationRectPos.x , destinationRectPos.y, destinationRectWidth, damageImage->hitBox.h };
 
+	damageInform.doDamage = false; 
+}
+
+
+void UiItem_HealthBar::DamageQuadReset()
+{
+
+
+	damageImage->hide = true; 
+	damageImage->resizedRect = { 0, 0, 0, 0 }; 
+
 
 }
+

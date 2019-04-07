@@ -31,6 +31,7 @@ public:
 	void Draw(const float& dt);
 	 
 	void DamageLogic(); 
+	void DamageQuadReset(); 
 
 private: 
 	UiItem_Image* staticImage = nullptr;
@@ -38,11 +39,13 @@ private:
 	UiItem_Image* damageImage = nullptr;
 
 	uint maxSection = 0; 
+	uint lastSection = 0; 
 	float conversionFactor = 0.0f; 
 
 
 	type variantType; 
 	j1PerfTimer damageBarTimer; 
+	
 
 public:
 	damageInfo damageInform; 
