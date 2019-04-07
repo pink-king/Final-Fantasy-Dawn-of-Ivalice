@@ -14,6 +14,8 @@
 #include "UiItem_HitPoint.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
+#include "UiItem_CooldownClock.h"
+#include "UiItem_CooldownClockManager.h"
 
 struct labelInfo
 {
@@ -55,6 +57,7 @@ public:
 
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, type variant, UiItem*const parent = nullptr); 
+	UiItem_CooldownClock* AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent = nullptr);
 
 
 	SDL_Texture* GetAtlas();

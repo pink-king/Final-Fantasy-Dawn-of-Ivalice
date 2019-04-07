@@ -19,6 +19,7 @@
 #include "j1Fonts.h"
 #include "j1BuffManager.h"
 #include "UiItem_HitPointManager.h"
+#include "UiItem_CooldownClockManager.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -40,6 +41,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	font = new j1Fonts();
 	buff = new j1BuffManager();
 	HPManager = new UiItem_HitPointManager(); 
+	ClockManager = new UiItem_CooldownClockManager(); 
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -55,6 +57,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(gui);
 	AddModule(font);
 	AddModule(HPManager); 
+	AddModule(ClockManager); 
 
 	// render last to swap buffer
 	AddModule(render);

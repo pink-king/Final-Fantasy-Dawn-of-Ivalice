@@ -24,6 +24,7 @@ class j1PathFinding;
 class j1Fonts;
 class j1BuffManager;
 class UiItem_HitPointManager;
+class UiItem_CooldownClockManager;
 
 class j1App
 {
@@ -109,6 +110,7 @@ public:
 	j1Fonts*			font = nullptr;
 	j1BuffManager*		buff = nullptr;
 	UiItem_HitPointManager*   HPManager = nullptr; 
+	UiItem_CooldownClockManager* ClockManager = nullptr; 
 
 	bool				vsync = false;
 	bool				pause = false;

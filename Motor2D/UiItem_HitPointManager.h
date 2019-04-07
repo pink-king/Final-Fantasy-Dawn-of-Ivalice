@@ -7,7 +7,7 @@
 #include "j1Entity.h"
 
 
-enum damageType{
+enum damageType{  // TODO: Get this from dev branch
 BURN,
 PARALIZE,
 VENOM,
@@ -32,20 +32,16 @@ public:
 	bool PreUpdate() { return true; };
 	bool Update(float dt);
 	bool PostUpdate() { return true; };
-	bool CleanUp();               // TO THINK: does this need celanup? Or Gui cpp does the cleanup of all items?? That must be enough 
-
-	//void updateHitPointPositions();   // TODO: increment all current hitpoins Y position 
-	//void updateHitPointSizes();   // TODO: switch current hitpoint's states, and change size depending on the state    // use the scaling factor variable inside each hitbox
-	//void updateHitPointOpacities();  // TODO: switch current hitpoint's states, and change opacity depending on the state  (fadeIn and fadeOut)
+	bool CleanUp();              
 
 
 public: 
-	void callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type = STANDARD); // TODO: variables =  enemy pos, enemy rect top, enemy damage (buffmanager)   // TODO: call "AddHitPoint"
+	void callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type = STANDARD); 
 	void calculatePlayerCombo(); 
 
 
 public:
-	std::vector<UiItem_HitPoint*>			hitPointLabels;   // caution: there is already a ui item list, so hitpoint will appear in both lists ????!!!!
+	std::vector<UiItem_HitPoint*>			hitPointLabels;   
 	uint		                            labelScoreAccum;
 	uint                                    playerStreak = 0; 
 	labelsSpawned                           labelsSpawned; 

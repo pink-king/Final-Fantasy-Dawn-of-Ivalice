@@ -126,6 +126,17 @@
 	 </healthbar>
 	 
 	 </healthbars>
+	 
+	 
+	  <clocks>
+	 <clock name=" clock 1">
+	     <section x="780" y="216" w="119" h="119"/>
+         <position x="650" y="550"/>
+		 <type value="ability1"/>
+	 </clock>
+	 
+	 </clocks>
+	 
    
     </InGameUi>  
 

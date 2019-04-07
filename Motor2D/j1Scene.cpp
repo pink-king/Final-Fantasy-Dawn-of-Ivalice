@@ -16,7 +16,8 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "j1BuffManager.h"
-
+#include "UiItem_CooldownClockManager.h"
+#include "UiItem_CooldownClock.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -428,6 +429,21 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 	}
 
+	// cooldown clocks    
+
+	for (pugi::xml_node uiNode = node.child("clocks").child("clock"); uiNode; uiNode = uiNode.next_sibling("clock"))
+	{
+		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
+		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
+
+		std::string type = uiNode.child("type").attribute("value").as_string(); 
+
+		if (type == "ability1")
+		{
+			App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel); 
+		}
+
+	}
 	
 }
 

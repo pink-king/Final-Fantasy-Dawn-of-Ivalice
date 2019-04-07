@@ -188,7 +188,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle) const  // TODO: Add extra value for Resizing Images
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle) const
 {
 	bool ret = true;
 
@@ -205,11 +205,11 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 
 	else
 	{
-		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h); 
 	}
 
 	rect.w *= scaleFactor; 
-	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section. It has a proportion less.
+	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section.
 
 	if (SDL_RenderCopyEx(renderer, texture, section, &rect, flippingAngle, 0, SDL_FLIP_NONE) != 0)
 	{

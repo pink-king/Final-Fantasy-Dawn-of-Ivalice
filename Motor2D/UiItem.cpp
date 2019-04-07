@@ -6,6 +6,7 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "UiItem_HitPointManager.h"
+#include "UiItem_CooldownClockManager.h"
 
 UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
@@ -51,12 +52,18 @@ void UiItem::DrawUi(float dt)
 			
 	}
 
-	// separate draw for hitpoints lables, with their own list
 
 	for (std::vector<UiItem_HitPoint*>::iterator iter = App->HPManager->hitPointLabels.begin(); iter != App->HPManager->hitPointLabels.end(); ++iter)
 	{
-		if((*iter) != nullptr)         // IMPORTANT !! ---> remove hitpoint from the list in the manager
+		if((*iter) != nullptr)        
 		(*iter)->Draw(dt);
+	}
+
+
+	for (std::vector<UiItem_CooldownClock*>::iterator iter = App->ClockManager->clocks.begin(); iter != App->ClockManager->clocks.end(); ++iter)
+	{
+		if ((*iter) != nullptr && (*iter)->parent != NULL && (*iter)->parent->enable)
+			(*iter)->Draw(dt);
 	}
 
 
