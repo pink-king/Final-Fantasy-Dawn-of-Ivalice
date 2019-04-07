@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 #include "SDL/include/SDL_rect.h"
+#include "p2Point.h"
+#include "j1Timer.h"
 
 
 
@@ -22,12 +24,19 @@ public:
 
 	// functionality ------
 
+public:
+	void SetCameraPos(iPoint pos);
+	void SetCameraPos(int x, int y);
+	void SetCameraRect(SDL_Rect camRect);
+	const SDL_Rect* GetCameraRectPtr() const;
+private:
+	fPoint lerp(fPoint v0, fPoint v1, float t);
+
+	j1Timer lerpTimer;
 
 public:
-
-
-private:
 	SDL_Rect camera;
+private:
 };
 
 #endif //__J1MODULECAMERA2D_H__

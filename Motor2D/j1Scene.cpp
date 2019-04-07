@@ -15,6 +15,7 @@
 #include "UiItem_Image.h"
 #include "j1AttackManager.h"
 #include "j1LootSystem.h"
+#include "j1ModuleCamera2D.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -55,7 +56,8 @@ bool j1Scene::Start()
 	debug_tex = App->tex->Load("maps/path2.png");
 	
 	// More perspective on the map since the beggining
-	App->render->camera.x = 500;
+	//App->render->camera.x = 500;
+	App->camera2D->SetCameraPos({ 500,0 });
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
@@ -134,16 +136,16 @@ bool j1Scene::Update(float dt)
 		App->SaveGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
-		App->render->camera.y += 1000 * dt;
+		App->camera2D->camera.y += 1000 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
-		App->render->camera.y -= 1000 * dt;
+		App->camera2D->camera.y -= 1000 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
-		App->render->camera.x += 1000 * dt;
+		App->camera2D->camera.x += 1000 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-		App->render->camera.x -= 1000 * dt;
+		App->camera2D->camera.x -= 1000 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
 		debug = !debug;
@@ -191,7 +193,7 @@ bool j1Scene::Update(float dt)
 
 	int x, y;
 	App->input->GetMousePosition(x, y);
-	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
+	iPoint map_coordinates = App->map->WorldToMap(x - App->camera2D->camera.x, y - App->camera2D->camera.y);
 
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
