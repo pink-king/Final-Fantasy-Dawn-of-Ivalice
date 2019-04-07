@@ -295,6 +295,63 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	return ret;
 }
 
+bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
+{
+	iPoint playerPos = player->GetSubtilePos(); 
+	
+	return (abs(playerPos.x - pos.x) <= 1 &&  abs(playerPos.y - pos.y) <=1 );
+}
+
+iPoint j1EntityFactory::TranslateToRelativePlayerPos(const iPoint & pos) const
+{
+	iPoint playerPos = player->GetSubtilePos(); 
+	return iPoint((pos.x - playerPos.x) +1, (pos.y - playerPos.y) +1);
+}
+
+int j1EntityFactory::GetAdjacentIndex(const iPoint & pos) const
+{
+	return (pos.y * 3) + pos.x;
+}
+
+void j1EntityFactory::ReserveAdjacent(const iPoint& pos)
+{
+	if (isPlayerAdjacent(pos))
+	{
+		iPoint reserve = TranslateToRelativePlayerPos(pos);
+		reservedAdjacentSubtiles[GetAdjacentIndex(reserve)] = true; 
+		LOG("Reserved adjacent: %i x , %i y.", reserve.x, reserve.y);
+	}
+}
+
+void j1EntityFactory::FreeAdjacent(const iPoint & pos)
+{
+	if (isPlayerAdjacent(pos))
+	{
+		iPoint reserve = TranslateToRelativePlayerPos(pos);
+		reservedAdjacentSubtiles[GetAdjacentIndex(reserve)] = false;
+		LOG("Released reserved adjacent: %i x , %i y.", reserve.x, reserve.y);
+	}
+}
+
+bool j1EntityFactory::isThisSubtileReserved(const iPoint & pos) const
+{
+	if (isPlayerAdjacent(pos))
+	{
+		iPoint aux = TranslateToRelativePlayerPos(pos);
+		return reservedAdjacentSubtiles[GetAdjacentIndex(aux)];
+	}
+	else return false; 
+}
+
+void j1EntityFactory::ReleaseAllReservedSubtiles()
+{
+	for (uint i = 0; i < 8; ++i)
+	{
+		reservedAdjacentSubtiles[i] = false; 
+	}
+	LOG("RELEASED ALL RESERVED SUBTILES");
+}
+
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 {
 	return (pos.x >= 0 && pos.x < subtileWidth &&
