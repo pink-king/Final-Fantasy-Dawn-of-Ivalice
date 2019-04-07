@@ -430,6 +430,32 @@ bool Crosshair::ManageInput(float dt)
 
 	}
 
+	// Clamp position to limited radius
+	// get distance from player to this point
+	iPoint crossPivotPos = GetPivotPos();
+	fPoint pppt = App->entityFactory->player->GetPivotPos();
+	iPoint playerPivotPos = { (int)pppt.x, (int)pppt.y };
+	float distance = crossPivotPos.DistanceTo(playerPivotPos);
+
+	// if we exceed max radius distance, normalize the vector and multiplicate for max radius
+
+	if (distance >= maxRadiusDistance)
+	{
+		fPoint headingVector;
+		headingVector.x = crossPivotPos.x - playerPivotPos.x;
+		headingVector.y = crossPivotPos.y - playerPivotPos.y;
+		headingVector.Normalize();
+		
+		position.x = playerPivotPos.x - pivotOffset.x;
+		position.y = playerPivotPos.y - pivotOffset.y;
+
+		position.x += headingVector.x * maxRadiusDistance;
+		position.y += headingVector.y * maxRadiusDistance;
+	}
+	
+
+	//LOG("crosshair distance to player: %f", distance);
+
 	// draw pivot position
 	if (debug)
 	{
@@ -513,3 +539,8 @@ bool Crosshair::CleanUp()
 	
 	return true;
 }
+
+//float Crosshair::Clamp(float n, float lower, float upper)
+//{
+//	return MAX(lower, MIN(n, upper));
+//}

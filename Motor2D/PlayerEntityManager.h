@@ -29,6 +29,7 @@ private:
 	iPoint GetPivotPos();
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
 	fPoint GetHeadingVector(float angle);
+	/*float Clamp(float value, float min, float max);*/
 
 public:
 	bool isReseted = false;
