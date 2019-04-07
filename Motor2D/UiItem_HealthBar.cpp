@@ -66,7 +66,15 @@ void UiItem_HealthBar::DamageLogic()
 
 
 	damageImage->hide = false; 
-	damageImage->resizedRect = { destinationRectPos.x , destinationRectPos.y, destinationRectWidth, damageImage->hitBox.h };
+
+	if (destinationRectPos.x >= damageImage->hitBox.x)                              // check that it does not go byond left limit
+	{
+		damageImage->resizedRect = { destinationRectPos.x , destinationRectPos.y, destinationRectWidth, damageImage->hitBox.h };
+	}
+	else
+	{
+		damageImage->hide = true; 
+	}
 
 	damageInform.doDamage = false; 
 }
