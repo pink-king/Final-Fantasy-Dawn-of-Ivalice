@@ -17,11 +17,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	name.assign("Marche");
 
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/ritz/Ritz_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	entityTex = spritesheet;
-
-	// TEMPORARY RITZ SPRITESHEET HERE, 
-	// others needs art redesign and on the code side this is the testing functionality base char
 
 	// IDLE
 
@@ -115,10 +112,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 }
 
 Marche::~Marche()
-{
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
-}
+{}
 
 bool Marche::Start()
 {

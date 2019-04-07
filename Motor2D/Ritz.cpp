@@ -10,101 +10,105 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	name.assign("Ritz");
 
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/ritz/ritz_run_test.png");
+	spritesheet = App->tex->Load("textures/characters/ritz/Ritz_run_WIP.png");
 	entityTex = spritesheet;
 
 	// IDLE
-
-	idle[(int)facingDirection::N].PushBack({ 129,8,32,49 });
-	idle[(int)facingDirection::S].PushBack({ 0,8,32,49 });
-	idle[(int)facingDirection::E].PushBack({ 64,9,32,49 });
-	idle[(int)facingDirection::W].PushBack({ 64,9,32,49 }); // same as E but flipped - 4
-	idle[(int)facingDirection::NE].PushBack({ 97,8,32,49 });
-	idle[(int)facingDirection::SE].PushBack({ 32,8,32,49 });
-	idle[(int)facingDirection::SW].PushBack({ 32,8,32,49 }); // same as SE but flipped - 3
-	idle[(int)facingDirection::NW].PushBack({ 97,8,32,49 }); // same as NE but flipped - 7
+	idle[(int)facingDirection::N].PushBack({ 177,0,45,60 });
+	idle[(int)facingDirection::S].PushBack({ 0,0,45,60 });
+	idle[(int)facingDirection::E].PushBack({ 90,0,45,60 });
+	idle[(int)facingDirection::W].PushBack({ 90,0,45,60 }); // same as E but flipped - 4
+	idle[(int)facingDirection::NE].PushBack({ 135,0,45,60 });
+	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 });
+	idle[(int)facingDirection::SW].PushBack({ 45,0,45,60 }); // same as SE but flipped - 3
+	idle[(int)facingDirection::NW].PushBack({ 135,0,45,60 }); // same as NE but flipped - 7
 	// one frame doesnt need speed
 	//idle[(int)facingDirection::N].speed = 10.0f;
 
 	// RUN
-
-	run[(int)facingDirection::N].PushBack({ 0,196,32,45 });
-	run[(int)facingDirection::N].PushBack({ 33,196,32,45 });
-	run[(int)facingDirection::N].PushBack({ 64,196,32,45 });
-	run[(int)facingDirection::N].PushBack({ 95,196,32,45 });
-	run[(int)facingDirection::N].PushBack({ 128,196,32,45 });
-	run[(int)facingDirection::N].PushBack({ 160,196,32,45 });
+	run[(int)facingDirection::N].PushBack({ 0,180,45,60 });
+	run[(int)facingDirection::N].PushBack({ 45,180,45,60 });
+	run[(int)facingDirection::N].PushBack({ 90,180,45,60 });
+	run[(int)facingDirection::N].PushBack({ 135,180,45,60 });
+	run[(int)facingDirection::N].PushBack({ 180,180,45,60 });
+	run[(int)facingDirection::N].PushBack({ 225,180,45,60 });
 	run[(int)facingDirection::N].speed = 10.0f;
 
-	run[(int)facingDirection::S].PushBack({ 0,74,32,45 });
-	run[(int)facingDirection::S].PushBack({ 33,74,32,45 });
-	run[(int)facingDirection::S].PushBack({ 64,74,32,45 });
-	run[(int)facingDirection::S].PushBack({ 95,74,32,45 });
-	run[(int)facingDirection::S].PushBack({ 128,74,32,45 });
-	run[(int)facingDirection::S].PushBack({ 160,74,32,45 });
+	run[(int)facingDirection::S].PushBack({ 0,60,45,60 });
+	run[(int)facingDirection::S].PushBack({ 45,60,45,60 });
+	run[(int)facingDirection::S].PushBack({ 90,60,45,60 });
+	run[(int)facingDirection::S].PushBack({ 135,60,45,60 });
+	run[(int)facingDirection::S].PushBack({ 180,60,45,60 });
+	run[(int)facingDirection::S].PushBack({ 225,60,45,60 });
 	run[(int)facingDirection::S].speed = 10.0f;
 
-	run[(int)facingDirection::E].PushBack({ 0,136,32,40 });
-	run[(int)facingDirection::E].PushBack({ 33,136,32,40 });
-	run[(int)facingDirection::E].PushBack({ 64,136,32,40 });
-	run[(int)facingDirection::E].PushBack({ 95,136,32,40 });
-	run[(int)facingDirection::E].PushBack({ 128,136,32,40 });
-	run[(int)facingDirection::E].PushBack({ 160,136,32,40 });
+	run[(int)facingDirection::E].PushBack({ 0,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 45,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 90,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 135,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 180,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 225,120,45,60 });
 	run[(int)facingDirection::E].speed = 10.0f;
 
-	run[(int)facingDirection::W].PushBack({ 0,136,32,40 });
-	run[(int)facingDirection::W].PushBack({ 33,136,32,40 });
-	run[(int)facingDirection::W].PushBack({ 64,136,32,40 });
-	run[(int)facingDirection::W].PushBack({ 95,136,32,40 });
-	run[(int)facingDirection::W].PushBack({ 128,136,32,40 });
-	run[(int)facingDirection::W].PushBack({ 160,136,32,40 });
+	run[(int)facingDirection::W].PushBack({ 0,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 45,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 90,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 135,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 180,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 225,120,45,60 });
 	run[(int)facingDirection::W].speed = 10.0f;
 
-	run[(int)facingDirection::SE].PushBack({ 0,261,32,45 });
-	run[(int)facingDirection::SE].PushBack({ 33,261,32,45 });
-	run[(int)facingDirection::SE].PushBack({ 64,261,32,45 });
-	run[(int)facingDirection::SE].PushBack({ 95,261,32,45 });
-	run[(int)facingDirection::SE].PushBack({ 128,261,32,45 });
-	run[(int)facingDirection::SE].PushBack({ 160,261,32,45 });
+	run[(int)facingDirection::SE].PushBack({ 0,240,45,60 });
+	run[(int)facingDirection::SE].PushBack({ 45,240,45,60 });
+	run[(int)facingDirection::SE].PushBack({ 90,240,45,60 });
+	run[(int)facingDirection::SE].PushBack({ 135,240,45,60 });
+	run[(int)facingDirection::SE].PushBack({ 180,240,45,60 });
+	run[(int)facingDirection::SE].PushBack({ 225,240,45,60 });
 	run[(int)facingDirection::SE].speed = 10.0f;
 
-	run[(int)facingDirection::SW].PushBack({ 0,261,32,45 });
-	run[(int)facingDirection::SW].PushBack({ 33,261,32,45 });
-	run[(int)facingDirection::SW].PushBack({ 64,261,32,45 });
-	run[(int)facingDirection::SW].PushBack({ 95,261,32,45 });
-	run[(int)facingDirection::SW].PushBack({ 128,261,32,45 });
-	run[(int)facingDirection::SW].PushBack({ 160,261,32,45 });
+	run[(int)facingDirection::SW].PushBack({ 0,240,45,60 });
+	run[(int)facingDirection::SW].PushBack({ 45,240,45,60 });
+	run[(int)facingDirection::SW].PushBack({ 90,240,45,60 });
+	run[(int)facingDirection::SW].PushBack({ 135,240,45,60 });
+	run[(int)facingDirection::SW].PushBack({ 180,240,45,60 });
+	run[(int)facingDirection::SW].PushBack({ 225,240,45,60 });
 	run[(int)facingDirection::SW].speed = 10.0f;
 
-	run[(int)facingDirection::NE].PushBack({ 0,327,32,45 });
-	run[(int)facingDirection::NE].PushBack({ 33,327,32,45 });
-	run[(int)facingDirection::NE].PushBack({ 64,327,32,45 });
-	run[(int)facingDirection::NE].PushBack({ 95,327,32,45 });
-	run[(int)facingDirection::NE].PushBack({ 128,327,32,45 });
-	run[(int)facingDirection::NE].PushBack({ 160,327,32,45 });
+	run[(int)facingDirection::NE].PushBack({ 0,300,45,60 });
+	run[(int)facingDirection::NE].PushBack({ 45,300,45,60 });
+	run[(int)facingDirection::NE].PushBack({ 90,300,45,60 });
+	run[(int)facingDirection::NE].PushBack({ 135,300,45,60 });
+	run[(int)facingDirection::NE].PushBack({ 180,300,45,60 });
+	run[(int)facingDirection::NE].PushBack({ 225,300,45,60 });
 	run[(int)facingDirection::NE].speed = 10.0f;
 
-	run[(int)facingDirection::NW].PushBack({ 0,327,32,45 });
-	run[(int)facingDirection::NW].PushBack({ 33,327,32,45 });
-	run[(int)facingDirection::NW].PushBack({ 64,327,32,45 });
-	run[(int)facingDirection::NW].PushBack({ 95,327,32,45 });
-	run[(int)facingDirection::NW].PushBack({ 128,327,32,45 });
-	run[(int)facingDirection::NW].PushBack({ 160,327,32,45 });
+	run[(int)facingDirection::NW].PushBack({ 0,300,45,60 });
+	run[(int)facingDirection::NW].PushBack({ 45,300,45,60 });
+	run[(int)facingDirection::NW].PushBack({ 90,300,45,60 });
+	run[(int)facingDirection::NW].PushBack({ 135,300,45,60 });
+	run[(int)facingDirection::NW].PushBack({ 180,300,45,60 });
+	run[(int)facingDirection::NW].PushBack({ 225,300,45,60 });
 	run[(int)facingDirection::NW].speed = 10.0f;
 
-	currentAnimation = &run[(int)facingDirection::E];
+	currentAnimation = &run[(int)facingDirection::SE];
+
+	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
+	coolDownData.basic.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.special1.cooldownTime = 500;
+	coolDownData.special2.cooldownTime = 1000;
+	coolDownData.ultimate.cooldownTime = 3000;
+
+	previousPos = position;
 }
 
 Ritz::~Ritz()
-{
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
-}
+{}
 
 bool Ritz::Start()
 {
-	SetPivot(16, 40);
-	size = { 32,45 };
+	SetPivot(23, 48);
+	size.create(45, 60);
 	return true;
 }
 
@@ -116,6 +120,7 @@ bool Ritz::PreUpdate()
 bool Ritz::Update(float dt)
 {
 	InputMovement(dt);
+	InputCombat();
 
 	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
 		&& !isBurned)

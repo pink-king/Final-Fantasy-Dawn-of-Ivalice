@@ -163,6 +163,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 	{
 		if ((*leftItem) == selectedCharacterEntity)
 		{
+			bool tempAim = selectedCharacterEntity->aiming;
 			selectedCharacterEntity->aiming = false;
 			// stores needed data to swap
 			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
@@ -180,6 +181,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			selectedCharacterEntity->position = tempPosition;
 			selectedCharacterEntity->pointingDir = pointingDirectionTemp;
 			selectedCharacterEntity->lastAxisMovAngle = lastCharHeadingAngle;
+			selectedCharacterEntity->aiming = tempAim;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
@@ -204,6 +206,7 @@ void PlayerEntityManager::SetNextCharacter()
 	{
 		if ((*nextItem) == selectedCharacterEntity)
 		{
+			bool tempAim = selectedCharacterEntity->aiming;
 			selectedCharacterEntity->aiming = false;
 			current_frame = selectedCharacterEntity->currentAnimation->GetCurrentFloatFrame();
 			tempPosition = selectedCharacterEntity->position;
@@ -218,6 +221,7 @@ void PlayerEntityManager::SetNextCharacter()
 			selectedCharacterEntity->position = tempPosition;
 			selectedCharacterEntity->pointingDir = pointingDirectionTemp;
 			selectedCharacterEntity->lastAxisMovAngle = lastCharHeadingAngle;
+			selectedCharacterEntity->aiming = tempAim;
 			selectedCharacterName = selectedCharacterEntity->character;
 			// sets current animation
 			SetCurrentAnimation();
