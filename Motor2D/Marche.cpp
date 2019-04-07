@@ -8,6 +8,7 @@
 #include "j1Input.h"
 #include "j1EntityFactory.h"
 #include "j1ItemsManager.h"
+#include "j1AttackManager.h"
 
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
@@ -16,11 +17,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	name.assign("Marche");
 
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/ritz/Ritz_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	entityTex = spritesheet;
-
-	// TEMPORARY RITZ SPRITESHEET HERE, 
-	// others needs art redesign and on the code side this is the testing functionality base char
 
 	// IDLE
 
@@ -103,14 +101,18 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	currentAnimation = &run[(int)facingDirection::SE];
 
+	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
+	coolDownData.basic.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.special1.cooldownTime = 500;
+	coolDownData.special2.cooldownTime = 1000;
+	coolDownData.ultimate.cooldownTime = 3000;
+
 	previousPos = position;
 }
 
 Marche::~Marche()
-{
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
-}
+{}
 
 bool Marche::Start()
 {
@@ -151,8 +153,43 @@ bool Marche::Update(float dt)
 		position = previousPos;
 	}
 
+	// CHECK COMBAT STATE
+	switch (combat_state)
+	{
+	case combatState::IDLE:
+		break;
+	case combatState::BASIC:
+		if (coolDownData.basic.timer.Read() > coolDownData.basic.cooldownTime)
+		{
+			LOG("Launch BASIC");
+			coolDownData.basic.timer.Start();
+			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
+		}
+		break;
+	case combatState::DODGE:
+		break;
+	case combatState::SPECIAL1:
+		break;
+	case combatState::SPECIAL2:
+		break;
+	case combatState::ULTIMATE:
+	{
+		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
+		{
+			LOG("Launch ULTIMATE");
+			coolDownData.ultimate.timer.Start();
+			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
+		}
+		break;
+	}
+	case combatState::MAX:
+		break;
+	default:
+		break;
+	}
+
 	//test buff
-	j1Entity* j1 = nullptr;
+	/*j1Entity* j1 = nullptr;
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
 	{
 		
@@ -195,7 +232,7 @@ bool Marche::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{
 		App->itemsManager->CreateItem("sword2", OBJECT_TYPE::WEAPON_OBJECT, this);
-	}
+	}*/
 	//if (App->input->GetKey(SDL_SCANCODE_3) == 1)
 	//{
 	//	

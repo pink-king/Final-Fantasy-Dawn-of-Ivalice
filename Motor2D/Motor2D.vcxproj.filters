@@ -117,6 +117,8 @@
     </ClCompile>
     <ClCompile Include="EquipableLoot.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    <ClCompile Include="j1ModuleCamera2D.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +256,8 @@
     </ClInclude>
     <ClInclude Include="EquipableLoot.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    <ClInclude Include="j1ModuleCamera2D.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

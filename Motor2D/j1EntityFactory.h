@@ -44,6 +44,15 @@ public:
 	void AssignEntityToSubtile(j1Entity* entity) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
+	// Subyacent subtiles functions
+
+	bool isPlayerAdjacent(const iPoint& pos) const; 
+	iPoint TranslateToRelativePlayerPos(const iPoint& pos) const; 
+	int GetAdjacentIndex(const iPoint& pos) const; 
+	void ReserveAdjacent(const iPoint& pos);
+	void FreeAdjacent(const iPoint& pos);
+	bool isThisSubtileReserved(const iPoint& pos) const;
+	void ReleaseAllReservedSubtiles();
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
@@ -55,9 +64,10 @@ public:
 	std::vector<j1Entity*>	entities;
 private:
 	std::vector<j1Entity*>	draw_entities;
-
 	// subtile data map, associated entities to subtile
 	entityDataMap* entitiesDataMap = nullptr;
+	bool reservedAdjacentSubtiles[9];
+
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
 

@@ -266,7 +266,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 
@@ -276,25 +276,27 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
+
 	// South - East
 	cell.create(pos.x + 1, pos.y + 1);
 	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
+
 	// South - Weast
 	cell.create(pos.x - 1, pos.y + 1);
 	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 
@@ -306,7 +308,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	// East
@@ -315,7 +317,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	// South
@@ -324,7 +326,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	// West
@@ -333,7 +335,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if (App->entityFactory->isThisSubtileEmpty(cell) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	return list_to_fill.pathNodeList.size();

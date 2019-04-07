@@ -16,9 +16,10 @@ enum class EnemyState
 	WAITING,
 	IDLE, 
 	SEARCHPATH,
-	SEARCHSUBPATH,
 	GET_NEXT_TILE,
 	GO_NEXT_TILE,
+	CHECK,
+	ATTACK,
 	MAX
 };
 
@@ -34,10 +35,13 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
+
+
 	void SetState(float dt);
 	bool SearchNewPath();
 	bool SearchNewSubPath();
 	bool CheckDistance();
+
 	int GetRandomValue(const int& min, const int& max); 
 	bool CleanUp() override;
 
@@ -51,15 +55,16 @@ private:
 	
 	EnemyState state = EnemyState::IDLE;
 
-	iPoint tileToGo; 
+	iPoint currentDestiny; 
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint speed = 45;
+	uint speed = 75;
 
 	Animation idle;
 	j1Timer checkTime; 
 
 	bool isMeleeRange = false; 
+	bool freePass = false;		// Needs a re-planing
 
 	SDL_Texture* debugSubtile = nullptr; 
 };

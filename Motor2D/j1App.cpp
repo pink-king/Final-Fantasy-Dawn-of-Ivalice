@@ -21,6 +21,7 @@
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
 #include "j1LootManager.h"
+#include "j1ModuleCamera2D.h"
 #include "Brofiler/Brofiler.h"
 
 // Constructor
@@ -43,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	itemsManager = new j1ItemsManager();
 	attackManager = new j1AttackManager();
 	lootManager = new j1LootManager();
+	camera2D = new j1ModuleCamera2D();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -59,6 +61,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(gui);
 	AddModule(font);
 	AddModule(lootManager);
+	// 
+	AddModule(camera2D);
 	// render last to swap buffer
 	AddModule(render);
 

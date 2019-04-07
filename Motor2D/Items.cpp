@@ -27,8 +27,8 @@ OBJECT_TYPE items::GetType()
 	return type;
 }
 
-void items::CreateBuff(BUFF_TYPE type, std::string character, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value)
+void items::CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value)
 {
-	stats.push_back(new Buff(type, character, elementType, rol, value));
+	stats.push_back(new Buff(type, character,stat, elementType, rol, value));
 }
 

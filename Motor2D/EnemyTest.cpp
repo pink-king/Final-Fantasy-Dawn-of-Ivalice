@@ -70,139 +70,189 @@ void EnemyTest::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
-		fPoint p_position = App->entityFactory->player->position;
-
-		// translate to map coords
-		iPoint thisPos = App->map->WorldToMap((int)position.x, (int)position.y);
-		iPoint playerPos = App->map->WorldToMap((int)p_position.x, (int)p_position.y);
-
-	if (thisPos.DistanceManhattan(playerPos) < RANGE /*&& App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN*/)
-			state = EnemyState::SEARCHPATH; 
-	}
-		break; 
-
-	case EnemyState::WAITING:	// In  some cases would be attack 
-		// Lacks coding of waiting entities to move
-		if (App->entityFactory->player->ChangedTile() || checkTime.Read() > GetRandomValue(250, 1000))
-		{
-			if (!CheckDistance())
-			{
-				isMeleeRange = false;
-				state = EnemyState::SEARCHPATH;
-			}
-			else state = EnemyState::SEARCHSUBPATH;
-		}
-
-		break;
-
-	case EnemyState::SEARCHPATH:
-	{
-		checkTime.Start(); 
-		if (SearchNewPath())
-			state = EnemyState::GET_NEXT_TILE;
-		else state = EnemyState::IDLE;
-
-	}
-		break;
-
-	case EnemyState::SEARCHSUBPATH:
-	{
-		checkTime.Start(); 
-		if (SearchNewSubPath())
-			state = EnemyState::GET_NEXT_TILE;
-		else state = EnemyState::WAITING; 
-
-		
-	}
-	break; 
-	case EnemyState::GET_NEXT_TILE:
-	{
-		if (CheckDistance() && isMeleeRange == false)
-		{
-			isMeleeRange = true;
-			state = EnemyState::SEARCHSUBPATH;
-			break;
-		}
-
-		if (path_to_follow.size() == 0)
-			state = EnemyState::WAITING;
-
-		else
-		{
-			tileToGo = path_to_follow.front(); // Get the first element of the list
-			state = EnemyState::GO_NEXT_TILE;
-		}
-		break;
-	}
-
-	case EnemyState::GO_NEXT_TILE:
-	{
-
-		iPoint toGo;			// Places the next node correctly (1 row below)
-		fPoint toGoCenter;		// Center of the tile 
-		App->render->DrawCircle(toGoCenter.x, toGoCenter.y, 5, 255, 0, 0, 255, false);
-
-		if (!isMeleeRange)
-		{
-			toGo = App->map->MapToWorld(tileToGo.x + 1, tileToGo.y);
-			toGoCenter = { (float)toGo.x, (float)toGo.y + App->map->data.tile_height * 0.5F };
-		}
-		else
-		{
-			toGo = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
-			toGoCenter = { (float)toGo.x, (float)toGo.y + App->map->data.tile_height * 0.5F * 0.5F};
-		}
-
-		velocity = toGoCenter - GetPivotPos();
-		velocity.Normalize(); 
-		position +=  velocity * dt * speed;
-		
-		iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(GetPivotPos().x, GetPivotPos().y);
-
-		if (onSubtilePosTemp != previousSubtilePos)
-		{
-			if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp) && !isMeleeRange)
-			{
-				position -= velocity * dt *speed; 
-				 state = EnemyState::WAITING; 
-			}
-		}
-
-		if (App->entityFactory->player->ChangedTile() && checkTime.Read() > GetRandomValue(250, 1000))
+		if (GetPivotPos().DistanceManhattan(App->entityFactory->player->GetPivotPos()) > RANGE)
 		{
 			state = EnemyState::SEARCHPATH;
 		}
-		else if (GetPivotPos().DistanceTo(toGoCenter) < 5 )
+		// else go back to spawn point?
+
+	}
+	break;
+	case EnemyState::SEARCHPATH:
+	{
+		if (!isMeleeRange)
 		{
-			path_to_follow.erase(path_to_follow.begin());
-			state = EnemyState::GET_NEXT_TILE;
+			SearchNewPath();
+			//LOG("Pathing");
+		}
+		else
+		{
+			SearchNewSubPath();
+			//LOG("Subpathing");
 		}
 
+		if (path_to_follow.size() > 0)
+			state = EnemyState::GET_NEXT_TILE;
+
+		else state = EnemyState::CHECK;
+	}
+	break;
+
+	case EnemyState::GET_NEXT_TILE:
+	{
+		iPoint tileToGo = path_to_follow.front();
+		if (!isMeleeRange)
+		{
+			currentDestiny = App->map->MapToWorld(tileToGo.x + 1, tileToGo.y);
+			currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F) }; // Center of the tile
+		}
+		else
+		{
+			currentDestiny = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
+			currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F * 0.5F) };
+		}
+		state = EnemyState::GO_NEXT_TILE;
+	}
+	break;
+
+	case EnemyState::GO_NEXT_TILE:
+	{
+		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
+		velocity.Normalize();
+		position += velocity * dt * speed;
+
+		// Collision between them currently not working properly
+
+		//iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(GetPivotPos().x, GetPivotPos().y);
+		//if (onSubtilePosTemp != previousSubtilePos)
+		//{
+		//	if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp) && !freePass /*&& !isMeleeRange*/)
+		//	{
+		//		position -= velocity * dt *speed;
+		//		state = EnemyState::WAITING;
+		//		checkTime.Start();
+		//		break;
+		//	}
+		//}
+		state = EnemyState::CHECK;
+	}
+	break;
+
+	case EnemyState::CHECK:
+	{
+
+		if (App->entityFactory->player->ChangedTile())
+		{
+			App->entityFactory->ReleaseAllReservedSubtiles();
+			if(checkTime.Read() > GetRandomValue(250, 1000))
+				state = EnemyState::SEARCHPATH;
+		}
+		else if (GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5)
+		{
+			if (path_to_follow.size() == 1 && isMeleeRange)
+			{
+				App->entityFactory->FreeAdjacent(App->map->WorldToSubtileMap(currentDestiny.x, currentDestiny.y));
+			}
+
+			if (path_to_follow.size() > 0)
+			{
+				path_to_follow.erase(path_to_follow.begin());
+				state = EnemyState::GET_NEXT_TILE;
+			}
+		}
+		else state = EnemyState::GO_NEXT_TILE;
+
+		if (path_to_follow.size() <= 0 )
+		{
+			if (GetSubtilePos().DistanceTo(App->entityFactory->player->GetSubtilePos()) <= 1)
+			{
+				state = EnemyState::ATTACK;
+				LOG("Attacking!");
+				checkTime.Start();
+			}
+			else state = EnemyState::SEARCHPATH;
+		}
+		
+
+		// Changes range conditions
+
+		if (GetTilePos().DistanceManhattan(App->entityFactory->player->GetTilePos()) < 3)
+		{
+			if (!isMeleeRange)
+				state = EnemyState::SEARCHPATH;
+			isMeleeRange = true;
+		}
+		else
+		{
+			if (isMeleeRange)
+				state = EnemyState::SEARCHPATH;
+			isMeleeRange = false;
+		}
+		break;
+	}
+	case EnemyState::ATTACK:
+	{
+		if (checkTime.ReadSec() > 1)
+			state = EnemyState::CHECK;
 	}
 		break;
-
+	case EnemyState::WAITING:	// Needs a re-planning
+	{	
+		static int cont = 0; 
+		if (checkTime.Read() > 2)
+		{
+			state = EnemyState::GO_NEXT_TILE;
+			cont++;
+		}
+		if (cont > 50)
+		{
+			freePass = true;
+			cont = 0; 
+			LOG("Gave a free pass!");
+		}
+		break;
+	}
 	default:
-		break; 
+		break;
 	}
 }
+
+
 
 bool EnemyTest::SearchNewPath()
 {
 	bool ret = false;
+	if (path_to_follow.size() > 0)
+	{
+		std::vector<iPoint>::iterator item = path_to_follow.begin();
+		for (; item != path_to_follow.end(); ++item)
+		{
+			if (App->entityFactory->isThisSubtileReserved(*item))
+			{
+				App->entityFactory->FreeAdjacent(*item);
+				break; 
+			}
+		}
+	}
+
 	path_to_follow.clear(); 
 	iPoint thisTile = App->map->WorldToMap((int)GetPivotPos().x, (int)GetPivotPos().y);
 	iPoint playerTile = App->map->WorldToMap((int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y);
 
 	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
 	{
-		if (App->pathfinding->CreatePath(thisTile, playerTile) != -1)
+		if (App->pathfinding->CreatePath(thisTile, playerTile) > 0)
 		{
 			path_to_follow = *App->pathfinding->GetLastPath();
-			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
-			//path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+			if (path_to_follow.size() > 1)
+				path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+			
+			/*if (path_to_follow.size() > 0)
+				path_to_follow.pop_back();*/							// Enemy doesnt eat the player, stays at 1 tile
+			//path_to_follow.pop_back();
 			ret = (path_to_follow.size() > 0);
 		}
-		else LOG("Could not create path correctly");
+		//else LOG("Could not create path correctly");
 	}
 
 	return ret; 
@@ -211,17 +261,36 @@ bool EnemyTest::SearchNewPath()
 bool EnemyTest::SearchNewSubPath()
 {
 	bool ret = false;
+	if (path_to_follow.size() > 0)
+	{
+		std::vector<iPoint>::iterator item = path_to_follow.begin();
+		for (; item != path_to_follow.end(); ++item)
+		{
+			if (App->entityFactory->isThisSubtileReserved(*item))
+			{
+				App->entityFactory->FreeAdjacent(*item);
+				break;
+			}
+		}
+	}
+
 	path_to_follow.clear();
 	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
-	iPoint playerTile = App->map->WorldToSubtileMap((int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y);
+	iPoint playerTile = App->entityFactory->player->GetSubtilePos();
 
 	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
 	{
-		if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) != -1)
+		if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) > 0)
 		{
 			path_to_follow = *App->pathfinding->GetLastPath();
-			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
-			path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+			if (path_to_follow.size() > 1)
+				path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+			
+			if(path_to_follow.size() > 0)
+				path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+			
+			iPoint adj = path_to_follow.back();
+			App->entityFactory->ReserveAdjacent(adj);
 			ret = (path_to_follow.size() > 0);
 		}
 		else LOG("Could not create path correctly");
@@ -286,9 +355,18 @@ void EnemyTest::DebugPath() const
 {
 	for (uint i = 0; i < path_to_follow.size(); ++i)
 	{
-		iPoint pos = App->map->MapToWorld(path_to_follow[i].x + 1, path_to_follow[i].y);		// X + 1, Same problem with map
-		App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
-		//App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
+		if (!isMeleeRange) {
+			iPoint pos = App->map->MapToWorld(path_to_follow[i].x + 1, path_to_follow[i].y);		// X + 1, Same problem with map
+			App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
+			//App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
+		}
+		else
+		{
+			iPoint pos = App->map->SubTileMapToWorld(path_to_follow[i].x + 1, path_to_follow[i].y);		// X + 1, Same problem with map
+			App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F * 0.5F, 5, 0, 255, 0, 255, false);
+			//App->render->Blit(App->pathfinding->debug_texture, pos.x, pos.y);
+		}
+		
 	}
 	
 	iPoint subTilePos = GetSubtilePos();
@@ -307,6 +385,5 @@ void EnemyTest::Draw()
 			App->render->Blit(entityTex, position.x, position.y);
 	}
 
-	DebugPath(); 
-
+	DebugPath();
 }
