@@ -188,7 +188,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle) const
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle, SDL_Rect wantedRect) const
 {
 	bool ret = true;
 
@@ -208,8 +208,23 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h); 
 	}
 
-	rect.w *= scaleFactor; 
-	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section.
+	
+	if (wantedRect.h && wantedRect.w)       // adjust texture rect position and dimensions
+	{
+		rect.h = wantedRect.h; 
+		rect.w = wantedRect.w;
+		rect.x = wantedRect.x;
+		rect.y = wantedRect.y;
+
+	}
+
+
+
+
+		rect.w *= scaleFactor;
+		rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section.
+
+	
 
 	if (SDL_RenderCopyEx(renderer, texture, section, &rect, flippingAngle, 0, SDL_FLIP_NONE) != 0)
 	{

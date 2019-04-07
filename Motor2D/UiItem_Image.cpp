@@ -33,6 +33,6 @@ void UiItem_Image::Draw(const float& dt)
 {
 	if (!hide)
 	{
-		App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F);
+		App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, 1.0f, 0.0f, resizedRect);
 	}
 }

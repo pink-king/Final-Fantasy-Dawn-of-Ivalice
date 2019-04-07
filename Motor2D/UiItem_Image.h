@@ -35,6 +35,8 @@ private:
 	bool hide = false; 
 	bool isPanel = false; 
 
+	SDL_Rect resizedRect; 
+
 public: 
 	friend class UiItem_Bar; 
 	friend class UiItem_Checkbox;

@@ -223,7 +223,10 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
 
-		App->entityFactory->player->selectedCharacterEntity->life -= 20; 
+		App->entityFactory->player->selectedCharacterEntity->life -= 20;
+
+		App->gui->healthBar->damageInform.doDamage = true;
+		App->gui->healthBar->damageInform.damageValue = 20;
 	}
 	return true;
 }
@@ -414,17 +417,18 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
+		SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string variant = uiNode.child("type").attribute("value").as_string();
 		if (variant == "health")
 		{
-			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, type::health, inGamePanel);
+			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::health, inGamePanel);
 		}
-		else if(variant == "cooldown")
+		/*else if(variant == "cooldown")
 		{
-			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, type::cooldown, inGamePanel);
-		}
+			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr, type::cooldown, inGamePanel);
+		}*/
 		
 
 	}
