@@ -199,8 +199,10 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
-		cont++;
 	}
+	static char title[90];
+	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
+	App->win->AddStringToTitle(title);
 
 	if (App->loot->GoldSystem)
 	{
@@ -208,9 +210,7 @@ bool j1Scene::Update(float dt)
 
 		App->entityFactory->CreateLoot({App->loot->loot_pos.x, App->loot->loot_pos.y });
 	}
-	static char title[90];
-	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i instantiated ENTITIES", App->entityFactory->entities.size());
-	App->win->AddStringToTitle(title);
+	
 	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
 
 	//App->win->SetTitle(App->title.data());

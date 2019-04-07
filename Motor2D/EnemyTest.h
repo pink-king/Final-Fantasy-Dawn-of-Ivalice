@@ -58,7 +58,7 @@ private:
 	iPoint currentDestiny; 
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint speed = 45;
+	uint speed = 75;
 
 	Animation idle;
 	j1Timer checkTime; 
