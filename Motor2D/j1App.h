@@ -25,7 +25,7 @@ class j1Fonts;
 class j1BuffManager;
 class j1ItemsManager;
 class j1AttackManager;
-class j1LootSystem;
+class j1LootManager;
 class j1App
 {
 public:
@@ -111,7 +111,7 @@ public:
 	j1BuffManager*		buff = nullptr;
 	j1ItemsManager*		itemsManager = nullptr;
 	j1AttackManager*	attackManager = nullptr;
-	j1LootSystem*		loot = nullptr;
+	j1LootManager*		lootManager = nullptr;
 	bool				vsync = false;
 	bool				pause = false;
 

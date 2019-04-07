@@ -20,7 +20,7 @@
 #include "j1ItemsManager.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-#include "j1LootSystem.h"
+#include "j1LootManager.h"
 #include "Brofiler/Brofiler.h"
 
 // Constructor
@@ -42,7 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	buff = new j1BuffManager();
 	itemsManager = new j1ItemsManager();
 	attackManager = new j1AttackManager();
-	loot = new j1LootSystem();
+	lootManager = new j1LootManager();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -58,7 +58,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(gui);
 	AddModule(font);
-	AddModule(loot);
+	AddModule(lootManager);
 	// render last to swap buffer
 	AddModule(render);
 

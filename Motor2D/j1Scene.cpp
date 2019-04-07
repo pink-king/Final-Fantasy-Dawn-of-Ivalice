@@ -14,7 +14,7 @@
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
 #include "j1AttackManager.h"
-#include "j1LootSystem.h"
+
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -202,12 +202,7 @@ bool j1Scene::Update(float dt)
 		cont++;
 	}
 
-	if (App->loot->GoldSystem)
-	{
-		
 
-		App->entityFactory->CreateLoot({App->loot->loot_pos.x, App->loot->loot_pos.y });
-	}
 	static char title[90];
 	sprintf_s(title, 90, " | CURRENTLY THERE ARE %i instantiated ENTITIES", App->entityFactory->entities.size());
 	App->win->AddStringToTitle(title);

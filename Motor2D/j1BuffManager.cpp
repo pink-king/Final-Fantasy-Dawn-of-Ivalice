@@ -2,7 +2,7 @@
 #include <string.h>
 #include "j1EntityFactory.h"
 #include "j1Window.h"
-#include "j1LootSystem.h"
+#include "j1Map.h"
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -138,11 +138,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	defender->life -= CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL);
 	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 	{
-		App->loot->loot_pos = defender->GetSubtilePos();
-		LOG("POsition %f ", defender->GetPosition());
-		App->loot->trigger = true;
+		
 		defender->to_delete = true;
-		LOG("POsition %f ", App->loot->loot_pos);
+		
 
 	} 
 }

@@ -4,6 +4,7 @@
 #include "EnemyTest.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
+#include "LootEntity.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -172,7 +173,11 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");
 		break;
 	case LOOT:
-		//ret = new LootEntity((LOOT_TYPE))
+		ret = new LootEntity(positionX, positionY);
+		ret->type = LOOT;
+		ret->name = name;
+		entities.push_back(ret);
+		LOG("From factory Loot Entity");
 		break;
 	default:
 		break;
@@ -204,18 +209,6 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
-LootEntityManager*	j1EntityFactory::CreateLoot(iPoint position)
-{
-
-	loot = new LootEntityManager(position);
-
-	if (loot != nullptr)
-	{
-
-		entities.push_back(loot);
-		return loot;
-	}
-}
 
 
 bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * entity2)

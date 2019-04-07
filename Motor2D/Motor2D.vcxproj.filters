@@ -103,20 +103,20 @@
     <ClCompile Include="LootEntity.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
     </ClCompile>
-    <ClCompile Include="j1LootSystem.cpp">
-      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
-    </ClCompile>
-    <ClCompile Include="LootEntityManager.cpp">
-      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
-    </ClCompile>
-    <ClCompile Include="Gold.cpp">
-      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
-    </ClCompile>
     <ClCompile Include="Items.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="j1ItemsManager.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="J1LootManager.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableLoot.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    </ClCompile>
+    <ClCompile Include="EquipableLoot.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,20 +240,20 @@
     <ClInclude Include="LootEntity.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
     </ClInclude>
-    <ClInclude Include="j1LootSystem.h">
-      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
-    </ClInclude>
-    <ClInclude Include="LootEntityManager.h">
-      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
-    </ClInclude>
-    <ClInclude Include="Gold.h">
-      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
-    </ClInclude>
     <ClInclude Include="Items.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="j1ItemsManager.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1LootManager.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableLoot.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipableLoot.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Loot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

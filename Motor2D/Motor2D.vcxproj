@@ -79,8 +79,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
-    <ClCompile Include="Gold.cpp" />
+    <ClCompile Include="EquipableLoot.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
@@ -89,7 +90,6 @@
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
     <ClCompile Include="j1ItemsManager.cpp" />
-    <ClCompile Include="j1LootSystem.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -100,7 +100,7 @@
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="LootEntity.cpp" />
-    <ClCompile Include="LootEntityManager.cpp" />
+    <ClCompile Include="J1LootManager.cpp" />
     <ClCompile Include="Marche.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1Render.cpp" />
@@ -120,8 +120,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="EnemyTest.h" />
-    <ClInclude Include="Gold.h" />
+    <ClInclude Include="EquipableLoot.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
@@ -130,14 +131,13 @@
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
     <ClInclude Include="j1ItemsManager.h" />
-    <ClInclude Include="j1LootSystem.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1PathFinding.h" />
     <ClInclude Include="j1PerfTimer.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Timer.h" />
     <ClInclude Include="LootEntity.h" />
-    <ClInclude Include="LootEntityManager.h" />
+    <ClInclude Include="j1LootManager.h" />
     <ClInclude Include="Marche.h" />
     <ClInclude Include="p2DynArray.h" />
     <ClInclude Include="j1Audio.h" />
