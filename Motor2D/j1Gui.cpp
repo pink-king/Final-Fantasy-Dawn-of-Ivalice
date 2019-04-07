@@ -117,7 +117,32 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	std::list<UiItem*>::iterator item = ListItemUI.begin();
 	if (!setClicked)
 	{
-		for (; item != ListItemUI.end(); item++)                   // this should work for all types
+		iPoint item_pos = { 0,0 };
+		bool first = false;
+			for (; item != ListItemUI.end(); ++item)
+			{
+				if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON) && (*item)->parent->enable)
+				{
+					if (!first)
+					{
+						item_pos.x = (*item)->hitBox.x;
+						item_pos.y = (*item)->hitBox.y;
+						first = true;
+						selected_object = (*item);
+					}
+					else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
+					{
+						item_pos.x = (*item)->hitBox.x;
+						item_pos.y = (*item)->hitBox.y;
+						selected_object = (*item);
+					}
+				}
+			}
+		
+		selected_object->state = HOVER;
+		selected_object->tabbed = true;
+		setClicked = true;
+		/*for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
 			if ((*item)->parent->enable)
 			{
@@ -148,7 +173,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					break;
 				}
 			}
-		}
+		}*/
 	}
 	else                                                       // this is done in loops
 	{
