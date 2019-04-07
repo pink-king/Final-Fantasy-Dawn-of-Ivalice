@@ -19,7 +19,7 @@ public:
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
-	//bool PostUpdate();
+	bool PostUpdate();
 	virtual bool CleanUp();
 
 	// functionality ------

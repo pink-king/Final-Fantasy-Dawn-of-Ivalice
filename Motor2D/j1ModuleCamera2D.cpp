@@ -1,6 +1,7 @@
 #include "j1ModuleCamera2D.h"
 #include "j1EntityFactory.h"
 #include "j1Window.h"
+#include "j1Render.h"
 
 j1ModuleCamera2D::j1ModuleCamera2D()
 {
@@ -29,22 +30,30 @@ bool j1ModuleCamera2D::PreUpdate()
 
 bool j1ModuleCamera2D::Update(float dt)
 {
-	// test - figuring out
-	float smooth = 1.0f;
+	// test - figuring out camera core functionality
+	// todo: 
+	// camera transitions (different types of shakes)
+	// clamping to desired entity target
+	// zooming
+	float smooth = 3.0f;
+	fPoint offset{ 640,360 }; // pivot of the "screen" itself at center pos
+	offset.y += 30.0f; // offset for character height compensation
 
-	fPoint playerPos = App->entityFactory->player->GetPivotPos();
+	fPoint playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
 
 	fPoint test;
 	test.x = camera.x;
 	test.y = camera.y;
 
-	test = lerp(test, { -playerPos.x, -playerPos.y }, dt * smooth);
+	test = lerp(test, { -playerPos.x + offset.x, -playerPos.y + offset.y }, 0.016f * smooth);
 	camera.x = test.x;
 	camera.y = test.y;
 
-	LOG("Camera: %i,%i", camera.x, camera.y);
-	LOG("Player: %f,%f", playerPos.x, playerPos.y);
+	return true;
+}
 
+bool j1ModuleCamera2D::PostUpdate()
+{
 	return true;
 }
 
