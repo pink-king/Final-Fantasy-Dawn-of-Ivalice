@@ -396,7 +396,7 @@ bool Crosshair::ManageInput(float dt)
 	}
 	else
 	{
-		if (clampedEntity != nullptr) // for if the entity is killed protection
+		if (clampedEntity != nullptr && !clampedEntity->to_delete) // for if the entity is killed protection
 		{
 			position = clampedEntity->GetPivotPos();
 			position.x -= pivotOffset.x;
@@ -404,7 +404,10 @@ bool Crosshair::ManageInput(float dt)
 
 		}
 		else
+		{
 			clamped = false; // protection
+			clampedEntity = nullptr;
+		}
 	}
 
 
