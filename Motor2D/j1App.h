@@ -25,6 +25,7 @@ class j1Fonts;
 class j1BuffManager;
 class j1ItemsManager;
 class j1AttackManager;
+class j1ModuleCamera2D;
 class j1LootSystem;
 class j1App
 {
@@ -112,6 +113,7 @@ public:
 	j1ItemsManager*		itemsManager = nullptr;
 	j1AttackManager*	attackManager = nullptr;
 	j1LootSystem*		loot = nullptr;
+	j1ModuleCamera2D*	camera2D = nullptr;
 	bool				vsync = false;
 	bool				pause = false;
 
