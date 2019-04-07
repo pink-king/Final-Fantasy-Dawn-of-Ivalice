@@ -42,7 +42,7 @@ private:
 	uint lastSection = 0; 
 	float conversionFactor = 0.0f; 
 
-
+	bool recuperating = false; 
 	type variantType; 
 	j1PerfTimer damageBarTimer; 
 	

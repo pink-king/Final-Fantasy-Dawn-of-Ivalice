@@ -243,6 +243,13 @@ bool j1Scene::Update(float dt)
 
 
 
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
+	{
+
+		App->entityFactory->player->selectedCharacterEntity->life += 30;
+	}
+
+
 
 
 
