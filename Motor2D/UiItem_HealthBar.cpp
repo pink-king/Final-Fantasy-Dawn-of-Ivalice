@@ -43,12 +43,16 @@ void UiItem_HealthBar::Draw(const float& dt)
 	dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
 
 
-	if (damageInform.doDamage)
+	if (damageInform.doDamage && App->entityFactory->player->life >= 0 && App->entityFactory->player->life)
 	{
 		damageBarTimer.Start();
 		DamageLogic();
 	}
-	else if (damageBarTimer.ReadMs() > 2000)
+	else if (damageBarTimer.ReadMs() > 2000) // if time's over
+	{
+		DamageQuadReset();
+	}
+	else if (lastSection < dynamicImage->section.w) // if life being recuperated
 	{
 		DamageQuadReset();
 	}

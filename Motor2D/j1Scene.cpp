@@ -233,6 +233,7 @@ bool j1Scene::Update(float dt)
 	{
 
 		App->entityFactory->player->selectedCharacterEntity->life += 30;
+		App->gui->healthBar->damageInform.damageValue = -30;
 	}
 
 
