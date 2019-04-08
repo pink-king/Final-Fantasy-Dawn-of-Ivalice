@@ -471,7 +471,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		if (type == "ability1")
 		{
-			App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel);
+			//App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel);
 		}
 
 	}
