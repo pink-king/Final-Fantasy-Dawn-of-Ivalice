@@ -47,9 +47,16 @@ void UiItem::DrawUi(float dt)
 
 	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter != App->gui->ListItemUI.end(); ++iter)
 	{
-		if ((*iter)->parent != NULL && (*iter)->parent->enable)
-			(*iter)->Draw(dt);
-
+		if ((*iter)->parent!=App->gui->canvas)
+		{
+			if ((*iter)->parent != NULL && (*iter)->parent->enable && (*iter)->parent->parent == App->gui->canvas)
+				(*iter)->Draw(dt);
+			else if ((*iter)->parent->parent != App->gui->canvas)
+			{
+				if ((*iter)->parent->parent->enable)
+					(*iter)->Draw(dt);
+			}
+		}
 	}
 
 
