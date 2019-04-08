@@ -188,6 +188,7 @@ bool j1Scene::Update(float dt)
 	if (state == SceneState::STARTMENU)
 	{
 		result_volume = volume_bar->GetBarValue();
+		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
 		App->map->active = false;
 		inGamePanel->enable = false;
