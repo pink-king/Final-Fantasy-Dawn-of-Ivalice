@@ -54,7 +54,7 @@ bool j1LootManager::Start()
 
 bool j1LootManager::PreUpdate()
 {
-	WillDrop();
+	//WillDrop();
 	return true;
 }
 bool j1LootManager::Update(float dt)
@@ -62,7 +62,7 @@ bool j1LootManager::Update(float dt)
 	if (enemyDead)
 	{
 		
-		SetLootPos(lootPos.x, lootPos.y);
+		//SetLootPos(lootPos.x, lootPos.y);
 		//see if works usign the same var
 		LOG("lootpos %i x %i y", lootPos);
 		//CreateLoot(lootPos.x, lootPos.y, "LootTest");
@@ -98,12 +98,13 @@ void j1LootManager::CreateLoot(int x , int y, std::string name)
 	App->entityFactory->CreateEntity(ENTITY_TYPE::LOOT, x, y, name);
 }
 
-void j1LootManager::SetLootPos(int x, int y)
+iPoint j1LootManager::SetLootPos(int x, int y)
 {
 
-	lootPos = App->map->SubTileMapToWorld(x, y);
+	return App->map->SubTileMapToWorld(x, y);
 
 }
+
 
 int j1LootManager::GetRandomValue(int min, int max)
 {
@@ -117,17 +118,61 @@ int j1LootManager::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-void j1LootManager::WillDrop()
+j1Entity* j1LootManager::CreateLootType(int x, int y)
 {
+	//randomvalue = GetRandomValue(1, 20);
+	////LOG("THIS is choose entity %i", testvalue);
+	//if (randomvalue <= 15)
+	//	loot_type = LOOT_TYPE::CONSUMABLE;
+
+	//else
+	//	loot_type = LOOT_TYPE::EQUIPABLE;
+	j1Entity * ret = nullptr;
+	
+	switch (WillDrop())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+		
+		ret = new Consumable(x, y);
+		break;
+
+	case LOOT_TYPE::EQUIPABLE:
+		ret = new Equipable(x, y);
+		break;
+
+	default:
+		break;
+	}
+	return ret;
+}
+
+LOOT_TYPE j1LootManager::WillDrop()
+{
+
+	int randvalue = GetRandomValue(1, 100);
 	if (enemyDead)
 	{
-		if (lootChance == GetRandomValue(1, 4))
+		if (randvalue <= 100)
+		{
 			toDrop = true;
+			if (randvalue <= 15)
+				return  LOOT_TYPE::CONSUMABLE;
+
+			else  
+				return  LOOT_TYPE::EQUIPABLE;
+
+
+		}
 
 		else toDrop = false;
+
+		
 	}
-	
-	enemyDead = false;
+	else
+		enemyDead = false;
+
+	return LOOT_TYPE::NO_LOOT;
+
 }
 //LootEntityManager::LootEntityManager(iPoint pos) : j1Entity(LOOT, pos.x, pos.y, "LootItem")
 //{

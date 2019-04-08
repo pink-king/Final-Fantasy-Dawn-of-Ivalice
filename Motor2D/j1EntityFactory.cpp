@@ -6,7 +6,7 @@
 #include "j1Scene.h"
 #include "LootEntity.h"
 #include <algorithm>
-
+#include "j1LootManager.h"
 j1EntityFactory::j1EntityFactory()
 {
 	name.assign("entities");
@@ -174,10 +174,14 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");
 		break;
 	case LOOT:
-		ret = new LootEntity(positionX, positionY);
-		ret->type = LOOT;
-		ret->name = name;
-		entities.push_back(ret);
+		
+		ret = App->lootManager->CreateLootType(positionX, positionY);
+		if (ret != nullptr)
+		{
+			ret->type = LOOT;
+			ret->name = name;
+			entities.push_back(ret);
+		}
 		LOG("From factory Loot Entity");
 		break;
 	default:

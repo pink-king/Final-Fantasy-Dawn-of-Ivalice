@@ -26,7 +26,7 @@ public:
 
 	bool CheckEnemyDeath(EnemyTest*);
 
-	void SetLootPos(int x, int y);
+	iPoint SetLootPos(int x, int y);
 	//void GetAttributes(LootEntity*);
 	//void SetAttributes(LootEntity*);
 
@@ -34,27 +34,26 @@ public:
 	void CreateLoot(int x, int y, std::string name);
 	iPoint GetEnemySubtile(EnemyTest*);
 
-	void WillDrop();
+	LOOT_TYPE WillDrop();
 	int GetRandomValue(int min, int max);
-
+	j1Entity* CreateLootType(int x , int y);
 public:
 	bool enemyDead = false;
 	bool toDrop = false;
 
 	
 	int health;
-	int lootChance = 1;
+	int lootChance = 25;
 
 	iPoint lootPos;
 	iPoint mynewpos;
 	//SDL_Texture * goldTex;
 	//SDL_Texture* potionHPTex;
 	SDL_Texture* LootTexture;
-
+	
 	std::vector<int> goldValue;
 	std::vector<int> EquipmentID;
-	Consumable *consumableLoot;
-	Equipable *equipableLoot;
+	
 };
 //class LootEntityManager : public j1Entity
 //{

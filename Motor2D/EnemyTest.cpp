@@ -29,10 +29,12 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 
 EnemyTest::~EnemyTest()
 {
-	App->lootManager->CheckEnemyDeath(this);
 
-	if (App->lootManager->toDrop)
-		App->lootManager->GetEnemySubtile(this);
+	iPoint enemypos = { App->lootManager->GetEnemySubtile(this).x, App->lootManager->GetEnemySubtile(this).y };
+
+
+
+	App->lootManager->CreateLoot(App->lootManager->SetLootPos(enemypos.x,enemypos.y).x, App->lootManager->SetLootPos(enemypos.x, enemypos.y).y, "no");
 	/*LOG("LOOtValue %iX %iY", App->loot->loot_pos.x, App->loot->loot_pos.y);*/
 	LOG("Bye Enemy Test %fx %fy ", position.x, position.y);
 } 

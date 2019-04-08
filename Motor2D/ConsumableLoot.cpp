@@ -5,8 +5,9 @@
 
 Consumable::Consumable(int posX, int posY) : LootEntity(posX, posY)
 {
-	entityTex = App->lootManager->LootTexture;
+	
 
+	
 	SetConsumable();
 }
 
@@ -22,10 +23,8 @@ bool Consumable::Update(float dt)
 	return true;
 }
 
-bool Consumable::CleanUp()
-{
-	return true;
-}
+
+
 void Consumable::ChooseConsumable()
 {
 	chance = GetRandomValue(1, 10);
@@ -53,23 +52,20 @@ void Consumable::SetConsumable()
 		
 
 		loot_rect = { 13,27,22,23 };
-		SetPivot(16, 32);
-
 		size.create(22, 23);
+
+		SetPivot(16, 20);
+
 		break;
 
 	case CONSUMABLE_TYPE::POTION:
 
-		
-		size.create(10, 12);
-		SetPivot(7, 14);
 		loot_rect = { 60,32,10,12 };
+
+		size.create(10, 12);
+		SetPivot(5, 10);
 		break;
 	}
 
 }
 
-void Consumable::Draw()
-{
-
-}

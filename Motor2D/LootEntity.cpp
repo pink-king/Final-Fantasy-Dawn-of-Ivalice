@@ -8,24 +8,11 @@
 
 LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
 {
-	entityTex = App->lootManager->LootTexture;
-	ChooseEntity();
+	entityTex = App->tex->Load("textures/loot/loot_items.png");
+	//ChooseEntity();
 
 	//TO FIX if there is the more than one new  in the  switch constructor, crashes
-	switch (loot_type)
-	{
-	case LOOT_TYPE::CONSUMABLE:
-	 
-		App->lootManager->consumableLoot = new Consumable(posX, posY);
-		
-		break;
-
-	case LOOT_TYPE::EQUIPABLE:
-		
-		//App->lootManager->equipableLoot = new Equipable(posX, posY);
-		break;
-	}
-
+	
 }
 
 LootEntity::~LootEntity()
@@ -66,19 +53,7 @@ LOOT_TYPE LootEntity::GetType()
 
 
 
-void LootEntity::ChooseEntity()
-{
-	
-	randomvalue = GetRandomValue(1, 20);
-	//LOG("THIS is choose entity %i", testvalue);
-	if (randomvalue <= 15)
-		loot_type = LOOT_TYPE::CONSUMABLE;
 
-	else 
-		loot_type = LOOT_TYPE::EQUIPABLE;
-
-	
-}
 
 //Quan arriba aqui per primera vegada ya ha fet 10 randoms WTF
 int LootEntity::GetRandomValue(int min, int max)
@@ -97,7 +72,7 @@ void LootEntity::Draw()
 {
 	//TO FIX only blits pivot
 	if (entityTex != nullptr)
-		App->render->Blit(entityTex, 100, 100, &loot_rect, 1.0f);
+		App->render->Blit(entityTex, position.x, position.y, &loot_rect);
 	//LOG("painting loot");
 
 	

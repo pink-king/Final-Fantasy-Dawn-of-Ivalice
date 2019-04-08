@@ -11,8 +11,8 @@ struct SDL_Texture;
 enum class LOOT_TYPE
 {
 	CONSUMABLE,
-	EQUIPABLE
-	
+	EQUIPABLE,
+	NO_LOOT
 };
 
 
@@ -24,12 +24,10 @@ public:
 	LootEntity(int posX, int posY);
 	~LootEntity();
 
-	bool Update(float dt);
+	virtual bool Update(float dt);
 	std::string GetName();
 	LOOT_TYPE GetType();
-	int CheckPlayerPos(PlayerEntity*);
-	void SetEnemyPos();
-	void ChooseEntity();
+	
 	void Draw();
 	int GetRandomValue(int min, int max);
 	

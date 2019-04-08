@@ -23,12 +23,11 @@ public:
 	bool Update(float dt);
 //	bool CleanUp();
 
-	void ChooseEquipable();
+	EQUIPABLE_TYPE ChooseEquipable();
 	void SetEquipable();
-	void Draw();
+
 public:
 
-	EQUIPABLE_TYPE equipable_type;
 
 	int id;
 	int itemLevel;
