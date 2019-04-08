@@ -187,7 +187,7 @@ void j1Audio::SetVolume(float volume)
 
 void j1Audio::SetFxVolume(float volume)
 {
-	/*final_fx_volume = MIX_MAX_VOLUME * volume;;
+	final_fx_volume = MIX_MAX_VOLUME * volume;;
 	if (final_fx_volume < 0.0f || final_fx_volume > MIX_MAX_VOLUME)
 		final_fx_volume = (final_fx_volume < 0.0f) ? 0.0f : MIX_MAX_VOLUME;
 
@@ -195,5 +195,5 @@ void j1Audio::SetFxVolume(float volume)
 	for (std::list<Mix_Chunk*>::iterator item_fx = fx.begin();item_fx!=fx.end() ; ++item_fx)
 	{
 		Mix_VolumeChunk((*item_fx), final_fx_volume);
-	}*/
+	}
 }
