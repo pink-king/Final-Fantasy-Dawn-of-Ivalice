@@ -100,7 +100,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
-				selected_object->state = HOVER;
+				selected_object->state = IDLE;
+				selected_object->tabbed = true;
 			}
 			break;
 
@@ -109,6 +110,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 	}
+
 
 
 
@@ -541,11 +543,11 @@ UiItem_HitPoint * j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TT
 
 
 
-UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, type variant, UiItem*const parent) // , TypeBar type)
+UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_HealthBar(position, staticSection, dynamicSection, variant, parent);
+	newUIItem = new UiItem_HealthBar(position, staticSection, dynamicSection, damageSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -562,7 +564,7 @@ UiItem_CooldownClock * j1Gui::AddClock(iPoint position, const SDL_Rect* section,
 	newUIItem = new UiItem_CooldownClock(position, section, parent);
 
 	App->ClockManager->clocks.push_back(newUIItem);
-	
+
 	return (UiItem_CooldownClock*)newUIItem;
 
 }

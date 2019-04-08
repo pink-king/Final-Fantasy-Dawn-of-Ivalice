@@ -114,6 +114,7 @@
         <healthbar name="life_bar">
           <staticSection x="110" y="482" w="134" h="26"/>
           <dynamicSection x="111" y="515" w="132" h="24"/>
+          <damageSection x="32" y="595" w="115" h="26"/>
           <position x="113" y="78"/>
           <type value="health"/>
         </healthbar>
