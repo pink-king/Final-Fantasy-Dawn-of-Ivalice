@@ -23,7 +23,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	LOG("Init True Type Font library");
 	bool ret = true;
 
-	if(TTF_Init() == -1)
+	if (TTF_Init() == -1)
 	{
 		LOG("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 		ret = false;
@@ -36,9 +36,12 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	}
 
 
-	sans = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
-	//fonts.push_back(sans); 
-	
+	openSansBold18 = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
+	openSansBold36 = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
+
+	shatterBoxx36 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 36);
+	shatterBoxx48 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 48);
+
 
 	return ret;
 }
@@ -47,10 +50,9 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 bool j1Fonts::CleanUp()
 {
 	LOG("Freeing True Type fonts and library");
-	std::list<TTF_Font*>::iterator item = fonts.begin();
-	// std::vector<TTF_Font*>::iterator item = fonts.begin();
+	std::vector<TTF_Font*>::iterator item = fonts.begin();
 
-	for(; item != fonts.end(); ++item)
+	for (; item != fonts.end(); ++item)
 	{
 		TTF_CloseFont(*item);
 	}
@@ -65,7 +67,7 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 {
 	TTF_Font* font = TTF_OpenFont(path, size);
 
-	if(font == NULL)
+	if (font == NULL)
 	{
 		LOG("Could not load TTF font with path: %s. TTF_OpenFont: %s", path, TTF_GetError());
 	}
@@ -103,7 +105,7 @@ bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* fon
 {
 	bool ret = false;
 
-	if(TTF_SizeText((font) ? font : default, text, &width, &height) != 0)
+	if (TTF_SizeText((font) ? font : default, text, &width, &height) != 0)
 		LOG("Unable to calc size of text surface! SDL_ttf Error: %s\n", TTF_GetError());
 	else
 		ret = true;

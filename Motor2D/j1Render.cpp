@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include "j1ModuleCamera2D.h"
 
 j1Render::j1Render() : j1Module()
 {
@@ -40,10 +41,12 @@ bool j1Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		camera.w = App->win->screen_surface->w;
+		camera = App->camera2D->GetCameraRectPtr();
+		App->camera2D->SetCameraRect({ 0,0, App->win->screen_surface->w,App->win->screen_surface->h});
+		/*camera.w = App->win->screen_surface->w;
 		camera.h = App->win->screen_surface->h;
 		camera.x = 0;
-		camera.y = 0;
+		camera.y = 0;*/
 	}
 
 	return ret;
@@ -88,8 +91,8 @@ bool j1Render::CleanUp()
 // Load Game State
 bool j1Render::Load(pugi::xml_node& data)
 {
-	camera.x = data.child("camera").attribute("x").as_int();
-	camera.y = data.child("camera").attribute("y").as_int();
+	/*camera.x = data.child("camera").attribute("x").as_int();
+	camera.y = data.child("camera").attribute("y").as_int();*/
 
 	return true;
 }
@@ -99,8 +102,8 @@ bool j1Render::Save(pugi::xml_node& data) const
 {
 	pugi::xml_node cam = data.append_child("camera");
 
-	cam.append_attribute("x") = camera.x;
-	cam.append_attribute("y") = camera.y;
+	/*cam.append_attribute("x") = camera.x;
+	cam.append_attribute("y") = camera.y;*/
 
 	return true;
 }
@@ -124,11 +127,17 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 {
 	iPoint ret;
 	int scale = App->win->GetScale();
-
-	ret.x = (x - camera.x / scale);
-	ret.y = (y - camera.y / scale);
+	
+	ret.x = (x - camera->x / scale);
+	ret.y = (y - camera->y / scale);
 
 	return ret;
+}
+
+iPoint j1Render::WorldToScreen(int x, int y) const
+{
+
+	return iPoint(x*App->win->GetScale() + camera->x, y*App->win->GetScale() + camera->y);
 }
 
 bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const
@@ -136,24 +145,24 @@ bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int
 	int scale = App->win->GetScale();
 
 	SDL_Rect r = { x*scale,y*scale,w*scale,h*scale };
-	SDL_Rect cam = { -camera.x,-camera.y,camera.w,camera.h };
+	SDL_Rect cam = { -camera->x,-camera->y,camera->w,camera->h };
 
 	return SDL_HasIntersection(&r, &cam);
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, double angle, int pivot_x, int pivot_y) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale,double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.x = (int)(camera->x * speed) + x * scale;
+	rect.y = (int)(camera->y * speed) + y * scale;
 
 	if(section != NULL)
 	{
-		rect.w = section->w;
-		rect.h = section->h;
+		rect.w = section->w * spriteScale;
+		rect.h = section->h * spriteScale;
 	}
 	else
 	{
@@ -182,29 +191,50 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed) const
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle, SDL_Rect wantedRect) const
 {
 	bool ret = true;
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x;
-	rect.y = (int)(camera.y * speed) + y;
+	rect.x = (int)(camera->x * speed) + x;
+	rect.y = (int)(camera->y * speed) + y;
 
 	if (section != NULL)
 	{
 		rect.w = section->w;
 		rect.h = section->h;
+
 	}
+
 	else
 	{
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, 0, 0, SDL_FLIP_NONE) != 0)
+
+	if (wantedRect.h && wantedRect.w)       // adjust texture rect position and dimensions
+	{
+		rect.h = wantedRect.h;
+		rect.w = wantedRect.w;
+		rect.x = wantedRect.x;
+		rect.y = wantedRect.y;
+
+	}
+
+
+
+
+	rect.w *= scaleFactor;
+	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section.
+
+
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, flippingAngle, 0, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
 	}
+
 
 	return ret;
 }
@@ -220,8 +250,8 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 	SDL_Rect rec(rect);
 	if(use_camera)
 	{
-		rec.x = (int)(camera.x + rect.x * scale);
-		rec.y = (int)(camera.y + rect.y * scale);
+		rec.x = (int)(camera->x + rect.x * scale);
+		rec.y = (int)(camera->y + rect.y * scale);
 		rec.w *= scale;
 		rec.h *= scale;
 	}
@@ -248,7 +278,7 @@ bool j1Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 	int result = -1;
 
 	if(use_camera)
-		result = SDL_RenderDrawLine(renderer, camera.x + x1 * scale, camera.y + y1 * scale, camera.x + x2 * scale, camera.y + y2 * scale);
+		result = SDL_RenderDrawLine(renderer, camera->x + x1 * scale, camera->y + y1 * scale, camera->x + x2 * scale, camera->y + y2 * scale);
 	else
 		result = SDL_RenderDrawLine(renderer, x1 * scale, y1 * scale, x2 * scale, y2 * scale);
 
@@ -283,8 +313,8 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 		}
 		else
 		{
-			points[i].x = (int)((x + camera.x) + radius * cos(i * factor));
-			points[i].y = (int)((y + camera.y) + radius * sin(i * factor));
+			points[i].x = (int)((x + camera->x) + radius * cos(i * factor));
+			points[i].y = (int)((y + camera->y) + radius * sin(i * factor));
 		}
 	}
 

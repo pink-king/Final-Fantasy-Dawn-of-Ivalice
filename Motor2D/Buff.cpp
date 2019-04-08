@@ -1,9 +1,14 @@
 #include "Buff.h"
 
-Buff::Buff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value, uint source_id) : 
-	type(type), name(name), character(character), stat(stat), value(value), source_id(source_id)
+Buff::Buff(BUFF_TYPE type, std::string character,std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value) :
+	type(type), character(character), stat(stat), elementType(elementType), rol(rol), value(value)
 {
 }
+
+//Buff::Buff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value, uint source_id) :
+//	type(type), name(name), character(character), stat(stat), value(value), source_id(source_id)
+//{
+//}
 
 Buff::~Buff()
 {
@@ -12,11 +17,6 @@ Buff::~Buff()
 BUFF_TYPE Buff::GetType()
 {
 	return type;
-}
-
-std::string Buff::GetName()
-{
-	return name;
 }
 
 std::string Buff::GetCharacter()
@@ -29,17 +29,28 @@ std::string Buff::GetStat()
 	return stat;
 }
 
+ELEMENTAL_TYPE Buff::GetElementType()
+{
+	return elementType;
+}
+
+OBJECT_ROL Buff::GetRol()
+{
+	return rol;
+}
+
 float Buff::GetValue()
 {
 	return value;
 }
 
-uint Buff::GetSource()
+bool Buff::GetIfExist(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol)
 {
-	return source_id;
+	return (this->type == type && this->character.compare(character) && this->elementType == elementType && this->rol == rol && this->stat == stat);
 }
 
-bool Buff::IsCausedBySource(uint source_id)
-{
-	return this->source_id == source_id;
-}
+
+//bool Buff::IsCausedBySource(uint source_id)
+//{
+//	return this->source_id == source_id;
+//}

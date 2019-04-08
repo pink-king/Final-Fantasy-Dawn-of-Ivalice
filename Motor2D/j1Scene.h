@@ -7,6 +7,15 @@ struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
 class UiItem;
+class PlayerEntityManager;
+
+
+enum class SceneState
+{
+	STARTMENU,
+	GAME,
+	MAX_STATES
+};
 
 class j1Scene : public j1Module
 {
@@ -41,17 +50,25 @@ public:
 	UiItem * uiShara = nullptr;
 	UiItem * uiRitz = nullptr;
 	UiItem * startMenu = nullptr;
+	UiItem * settingPanel = nullptr;
+	// UiItem_Image* testPanel = nullptr; 
 	bool debug = false;
+	bool exitGame = false;
+	SceneState state = SceneState::STARTMENU;
 
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
+	bool LoadedUi = false;
+
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 	bool LoadInGameUi(pugi::xml_node& nodeScene);
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadPlayerUi(pugi::xml_node& nodeScene);
+	bool LoadSettings(pugi::xml_node& nodeScene);
 
+	PlayerEntityManager* player_selected = nullptr;
 };
 
 #endif // __j1SCENE_H__
