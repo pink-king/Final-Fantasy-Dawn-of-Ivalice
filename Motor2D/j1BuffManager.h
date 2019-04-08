@@ -7,6 +7,7 @@
 #include "Buff.h"
 #include "j1Entity.h"
 #include "Items.h"
+#include "UiItem_HitPointManager.h"
 
 
 class j1BuffManager : public j1Module 
@@ -42,11 +43,14 @@ public:
 	void RemoveItemStat(items* item);
 	iPoint enemydeadsubtile;
 private:
+	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
 
 	std::list<j1Entity*>			entitiesTimeDamage;
 	
+public:
+	float powerAttack = 5;
 };
 
 #endif

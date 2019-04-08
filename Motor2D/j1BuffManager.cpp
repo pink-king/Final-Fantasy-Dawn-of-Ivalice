@@ -28,7 +28,7 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (entitiesTimeDamage.size() != 0)
+	/*if (entitiesTimeDamage.size() != 0)
 	{
 		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
 		for (; item != entitiesTimeDamage.end() && ret; ++item)
@@ -41,7 +41,7 @@ bool j1BuffManager::Update(float dt)
 		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
 		for (; item != entitiesTimeDamage.end() && ret; ++item)
 			DamageInTime(*item);
-	}
+	}*/
 
 	/*static char title[30];
 	std::string name;
@@ -138,7 +138,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	defender->life -= CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
 	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 	{
-		
+		App->HPManager->callHPLabelSpawn(defender, powerAttack);
 		defender->to_delete = true;
 		
 
@@ -215,6 +215,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					entity->life -= (*item)->secDamage;
 					(*item)->count.Start();
 					--(*item)->totalTime;
+					App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, damageType::BURN);
 					//TODO: call create hitpoint label
 				}
 			}

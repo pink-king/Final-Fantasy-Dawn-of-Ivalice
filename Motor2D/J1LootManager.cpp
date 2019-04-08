@@ -65,7 +65,7 @@ bool j1LootManager::Update(float dt)
 		SetLootPos(lootPos.x, lootPos.y);
 		//see if works usign the same var
 		LOG("lootpos %i x %i y", lootPos);
-		CreateLoot(lootPos.x, lootPos.y, "LootTest");
+		//CreateLoot(lootPos.x, lootPos.y, "LootTest");
 		
 		enemyDead = false;
 	}

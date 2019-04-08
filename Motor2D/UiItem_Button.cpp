@@ -6,27 +6,48 @@
 #include "p2Point.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include <assert.h>
 
-UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot) : UiItem(pivot, parent)
+
+UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, function, parent)
 {
+	assert(parent != nullptr);
+	frames[IDLE] = *idle;
+
+	if (click)
+		frames[CLICK] = *click;
+	else
+		frames[CLICK] = *idle;
+
+	if (hover)
+		frames[HOVER] = *hover;
+	else
+		frames[HOVER] = *idle;
+
+	this->guiType = GUI_TYPES::BUTTON;
+	hitBox.w = idle->w;
+	hitBox.h = idle->h;
 }
 
-void UiItem_Button::AddFuntion(void(*funtionOnClick)(), bool Down)
+
+void UiItem_Button::AddFuntion(std::string & string)
 {
+
 }
 
-void UiItem_Button::AddFuntion(std::string & string, bool Down)
+void UiItem_Button::DoLogicClicked(std::string &functionName)
 {
+	if (functionName == "FadeToScene")
+		App->gui->FadeToScene();
+	if (functionName == "ExitGame")
+		App->gui->ExitGame();
+	if (functionName == "SettingsScreen")
+		App->gui->SettingsScreen();
+	if (functionName == "GoBackToMenu")
+		App->gui->GoBackToMenu();
 }
 
-void UiItem_Button::Draw(const float &)
+void UiItem_Button::Draw(const float &dt)
 {
-}
-
-void UiItem_Button::OnClickUp()
-{
-}
-
-void UiItem_Button::OnClickDown()
-{
+	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }
