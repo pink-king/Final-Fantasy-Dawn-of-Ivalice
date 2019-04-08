@@ -13,6 +13,8 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
+#include "j1AttackManager.h"
+#include "j1ModuleCamera2D.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "j1BuffManager.h"
@@ -22,7 +24,6 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
-	
 }
 
 // Destructor
@@ -51,20 +52,24 @@ bool j1Scene::Start()
 			App->pathfinding->SetMap(w, h, data);
 
 		RELEASE_ARRAY(data);
+
+		// re set entities data map (create or delete/create if we have a previous one)
+		App->entityFactory->CreateEntitiesDataMap(App->map->data.width*2, App->map->data.height*2);
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
 	
 	// More perspective on the map since the beggining
-	App->render->camera.x = 500;
+	//App->render->camera.x = 500;
+	App->camera2D->SetCameraPos({ 500,0 });
 
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });
-	
+
 	if (state == SceneState::GAME)
 	{
 		App->map->active = true;
-		
+
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
@@ -91,13 +96,14 @@ bool j1Scene::Start()
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
 	}
+
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	// debug pathfing ------------------
 
 	int x, y;
@@ -112,6 +118,26 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		App->win->SetScale(2);
 
+	// debug testing subtiles entities empty
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
+		iPoint clickedTile = entitySubTilePoint;
+		clickedTile = App->map->WorldToMap(clickedTile.x, clickedTile.y);
+		entitySubTilePoint = App->map->WorldToSubtileMap(entitySubTilePoint.x, entitySubTilePoint.y);
+
+		LOG("clicked tile: %i, %i", clickedTile.x, clickedTile.y);
+		LOG("clicked subtile %i,%i", entitySubTilePoint.x, entitySubTilePoint.y);
+
+		if (App->entityFactory->isThisSubtileEmpty(entitySubTilePoint))
+			LOG("subtile empty");
+		else
+			LOG("subtile NOT empty");
+
+		// DEBUG attack propagation!
+		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
+
+	}
 
 	return true;
 }
@@ -131,16 +157,16 @@ bool j1Scene::Update(float dt)
 		App->SaveGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
-		App->render->camera.y += 1000 * dt;
+		App->camera2D->camera.y += 1000 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
-		App->render->camera.y -= 1000 * dt;
+		App->camera2D->camera.y -= 1000 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
-		App->render->camera.x += 1000 * dt;
+		App->camera2D->camera.x += 1000 * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-		App->render->camera.x -= 1000 * dt;
+		App->camera2D->camera.x -= 1000 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
 		debug = !debug;
@@ -155,7 +181,7 @@ bool j1Scene::Update(float dt)
 		}
 		else
 			state = SceneState::GAME;
-			
+
 	}
 
 	if (state == SceneState::STARTMENU)
@@ -176,72 +202,32 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 		{
-			LOG("marche");
+			//LOG("marche");
 			uiMarche->enable = true;
 			uiRitz->enable = false;
 			uiShara->enable = false;
 		}
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
 		{
-			LOG("marche");
+			//LOG("marche");
 			uiMarche->enable = false;
 			uiRitz->enable = true;
 			uiShara->enable = false;
 		}
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
 		{
-			LOG("marche");
+			//LOG("marche");
 			uiMarche->enable = false;
 			uiRitz->enable = false;
 			uiShara->enable = true;
 		}
 	}
-	if (App->map->active)
-		App->map->Draw();
-
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
-
-
-	iPoint coords = App->render->ScreenToWorld(x, y);
-
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		// App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
-		
-		// App->HPManager->callHPLabelSpawn(App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 50);
-
-
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21);
-	}
-
-
-	
-	// - - - - - - - - - - - - - - - - - - - - - - Simulate attack to the player - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
-
 		App->entityFactory->player->selectedCharacterEntity->life -= 20;
-
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = 20;
 	}
-
-
-
-	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-	{
-
-		App->entityFactory->player->selectedCharacterEntity->life -= 35;
-
-		App->gui->healthBar->damageInform.doDamage = true;
-		App->gui->healthBar->damageInform.damageValue = 35;
-	}
-
-
-
 
 	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
 	{
@@ -250,8 +236,33 @@ bool j1Scene::Update(float dt)
 	}
 
 
+	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->loot->trigger = true;*/
+	if(App->map->active)
+		App->map->Draw();
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint map_coordinates = App->map->WorldToMap(x - App->camera2D->camera.x, y - App->camera2D->camera.y);
 
 
+	iPoint coords = App->render->ScreenToWorld(x, y);
+	static int cont = 0;
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
+		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+	}
+
+
+	/*static char title[90];
+	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
+	App->win->AddStringToTitle(title);*/
+
+	
+	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
+
+	//App->win->SetTitle(App->title.data());
 
 
 	return true;
@@ -308,15 +319,15 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			// TODO: INTRODUCE PARENT NAME IN XML, SO THAT WE DISTINGUISH ITEMS WITH OTHER PARENTS
 
 			// BARS INSIDE PANEL
-			
+
 			/*for (pugi::xml_node uiNode2 = uiNode.child("panelBars").child("panelBar"); uiNode2; uiNode2 = uiNode2.next_sibling("panelBar"))
 			{
-			   
 
-				iPoint position = { uiNode2.child("position").attribute("x").as_int(), uiNode2.child("position").attribute("y").as_int() };
-				SDL_Rect section_bar = { uiNode2.child("section_bar").attribute("x").as_int(), uiNode2.child("section_bar").attribute("y").as_int(), uiNode2.child("section_bar").attribute("w").as_int(), uiNode2.child("section_bar").attribute("h").as_int() };
-				SDL_Rect section_thumb = { uiNode2.child("section_thumb").attribute("x").as_int(), uiNode2.child("section_thumb").attribute("y").as_int(), uiNode2.child("section_thumb").attribute("w").as_int(), uiNode2.child("section_thumb").attribute("h").as_int() };
-				App->gui->AddBar(position, &section_bar, &section_thumb, defaultPanel);
+
+			iPoint position = { uiNode2.child("position").attribute("x").as_int(), uiNode2.child("position").attribute("y").as_int() };
+			SDL_Rect section_bar = { uiNode2.child("section_bar").attribute("x").as_int(), uiNode2.child("section_bar").attribute("y").as_int(), uiNode2.child("section_bar").attribute("w").as_int(), uiNode2.child("section_bar").attribute("h").as_int() };
+			SDL_Rect section_thumb = { uiNode2.child("section_thumb").attribute("x").as_int(), uiNode2.child("section_thumb").attribute("y").as_int(), uiNode2.child("section_thumb").attribute("w").as_int(), uiNode2.child("section_thumb").attribute("h").as_int() };
+			App->gui->AddBar(position, &section_bar, &section_thumb, defaultPanel);
 			}*/
 
 
@@ -376,7 +387,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			sectionClick = &click;
 		}
 
-		
+
 
 		App->gui->AddButton(position, functionPath, &sectionIdle, parent, sectionClick, sectionHove);
 	}
@@ -388,11 +399,11 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		std::string text = uiNode.child("text").attribute("value").as_string();
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
-		
+
 		App->gui->AddLabel(text.data(), color, App->font->openSansBold18, position, parent);
 
 	}
-	
+
 	// bars 
 	for (pugi::xml_node uiNode = node.child("panelBars").child("panelBar"); uiNode; uiNode = uiNode.next_sibling("panelBar"))
 	{
@@ -403,7 +414,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		SDL_Rect section_thumb = { uiNode.child("section_thumb").attribute("x").as_int(), uiNode.child("section_thumb").attribute("y").as_int(), uiNode.child("section_thumb").attribute("w").as_int(), uiNode.child("section_thumb").attribute("h").as_int() };
 		App->gui->AddBar(position, &section_bar, &section_thumb, parent);
 	}
-	
+
 
 	// checkboxes
 
@@ -433,7 +444,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
 
 	}
-	
+
 
 
 	// health bar and cooldown bar
@@ -453,9 +464,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		}
 		/*else if(variant == "cooldown")
 		{
-			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr, type::cooldown, inGamePanel);
+		App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr, type::cooldown, inGamePanel);
 		}*/
-		
 
 	}
 
@@ -466,15 +476,15 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
-		std::string type = uiNode.child("type").attribute("value").as_string(); 
+		std::string type = uiNode.child("type").attribute("value").as_string();
 
 		if (type == "ability1")
 		{
-			App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel); 
+			//App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel);
 		}
 
 	}
-	
+
 }
 
 bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)

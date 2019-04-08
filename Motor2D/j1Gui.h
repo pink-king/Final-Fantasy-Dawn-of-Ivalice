@@ -34,9 +34,9 @@ public:
 	//Override funtions from class j1Module
 	bool Awake(pugi::xml_node&);
 	bool Start();
-	bool Update(float dt); 
-	void DoLogicSelected(); 
-	void ApplyTabBetweenSimilar(bool setClicked = false); 
+	bool Update(float dt);
+	void DoLogicSelected();
+	void ApplyTabBetweenSimilar(bool setClicked = false);
 
 	bool PostUpdate();
 	bool CleanUp();
@@ -66,14 +66,12 @@ public:
 	void SettingsScreen();
 	void GoBackToMenu();
 
-
-	
-	UiItem_HealthBar* healthBar = nullptr; 
+	UiItem_HealthBar* healthBar = nullptr;
 
 private:
 	SDL_Texture * atlas;
 	std::string atlas_file_name;
-	bool debug_ = false;  
+	bool debug_ = false;
 	UiItem* selected_object = nullptr;
 
 public:

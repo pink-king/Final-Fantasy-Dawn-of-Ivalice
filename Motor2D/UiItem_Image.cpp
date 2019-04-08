@@ -5,18 +5,19 @@
 #include "j1Gui.h"
 #include "j1Scene.h"
 
+
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel) : UiItem(position, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
 
 
-	this->hitBox.w = section->w; 
+	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
 
 	if (isPanel == 1)
 	{
-		this->isPanel = true; 
+		this->isPanel = true;
 	}
 
 	// the parent
@@ -25,7 +26,7 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 
 	this->hitBox.x = position.x;
-	this->hitBox.y = position.y; 
+	this->hitBox.y = position.y;
 
 }
 

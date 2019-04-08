@@ -16,7 +16,7 @@
 UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem * const parent) :UiItem(position, parent)
 {
 
-	assert(parent != NULL); 
+	assert(parent != NULL);
 
 	this->panel_section = *panel_section;
 	this->captureIdleSection = *panel_section;
@@ -30,7 +30,7 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 
 	// do this in XML ? 
 
-	int box_offset_y = 9; 
+	int box_offset_y = 9;
 	int box_offset_x = 16;
 
 	iPoint boxPos(position.x + box_offset_x, position.y + box_offset_y);
@@ -43,22 +43,22 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 
 	// - - - - - - - - - - - - - - - - - - - -
 
-	
+
 
 
 	// panel 
-	panel = App->gui->AddImage(position, panel_section, this);
+	panel = App->gui->AddImage(position, panel_section, parent);
 
 	// box
-	box = App->gui->AddImage(boxPos, box_section, this);
+	box = App->gui->AddImage(boxPos, box_section, parent);
 
 	// tick
-	tick = App->gui->AddImage(tickPos, tick_section, this);
+	tick = App->gui->AddImage(tickPos, tick_section, parent);
 	tick->hide = true;
 
 
 	// label    
-	uint offsetFromBox = 28; 
+	uint offsetFromBox = 28;
 	iPoint labelPos(boxPos.x + offsetFromBox, boxPos.y);
 
 	App->gui->AddLabel(labelInfo->labelText, labelInfo->labelColor, App->font->fonts.at(labelInfo->labelIndex), labelPos, parent);
@@ -80,7 +80,7 @@ void UiItem_Checkbox::Draw(const float & dt)
 
 void UiItem_Checkbox::DoLogicClicked() {
 
-	tick->hide = !tick->hide; 
+	tick->hide = !tick->hide;
 }
 
 

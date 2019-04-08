@@ -15,32 +15,33 @@ public:
 	void Draw(const float& dt);
 	SDL_Rect section;
 
-	
-private: 
 
-	iPoint* ReturnPos()
+private:
+
+	iPoint * ReturnPos()
 	{
-		iPoint* ret = { 0 }; 
+		iPoint* ret = { 0 };
 		ret->x = this->hitBox.x;
 		ret->y = this->hitBox.y;
-		return ret; 
+		return ret;
 
 	}
 
 	void SetPos(iPoint pos) {
-		this->hitBox.x = pos.x; 
+		this->hitBox.x = pos.x;
 		this->hitBox.y = pos.y;
 	}
 
-	bool hide = false; 
-	bool isPanel = false; 
+	bool hide = false;
+	bool isPanel = false;
 
-	SDL_Rect resizedRect; 
+	SDL_Rect resizedRect;
 
-public: 
-	friend class UiItem_Bar; 
+public:
+	friend class UiItem_Bar;
 	friend class UiItem_Checkbox;
-	friend class UiItem_HealthBar; 
+	friend class UiItem_HealthBar;
 };
+
 
 #endif

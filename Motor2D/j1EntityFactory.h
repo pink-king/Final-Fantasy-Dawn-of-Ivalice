@@ -6,6 +6,15 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+struct entityDataMap
+{
+	std::vector<j1Entity*> entities;
+
+	bool isEmpty()
+	{
+		return entities.size() > 0;
+	}
+};
 
 class j1EntityFactory : public j1Module
 {
@@ -24,10 +33,28 @@ public:
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	void Debug(j1Entity* ent);
+	void CreateEntitiesDataMap(int width, int height);
+	bool isThisSubtileEmpty(const iPoint position) const;
+	int GetSubtileEntityIndexAt(const iPoint position) const;
 
-	void DestroyEntity(j1Entity* entity);
+	std::vector<j1Entity*>* GetSubtileEntityVectorAt(const iPoint pos) const;
 
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
+
+	void AssignEntityToSubtile(j1Entity* entity) const;
+	bool DeleteEntityFromSubtile( j1Entity* entity) const;
+
+	// Subyacent subtiles functions
+
+	bool isPlayerAdjacent(const iPoint& pos) const; 
+	iPoint TranslateToRelativePlayerPos(const iPoint& pos) const; 
+	int GetAdjacentIndex(const iPoint& pos) const; 
+	void ReserveAdjacent(const iPoint& pos);
+	void FreeAdjacent(const iPoint& pos);
+	bool isThisSubtileReserved(const iPoint& pos) const;
+	void ReleaseAllReservedSubtiles();
+//private:
+	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
 public:
 
@@ -37,6 +64,12 @@ public:
 	std::vector<j1Entity*>	entities;
 private:
 	std::vector<j1Entity*>	draw_entities;
+	// subtile data map, associated entities to subtile
+	entityDataMap* entitiesDataMap = nullptr;
+	bool reservedAdjacentSubtiles[9];
+
+	int subtileWidth = 0; // stores the size in subtiles scale
+	int subtileHeight = 0;
 
 };
 

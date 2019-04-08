@@ -31,10 +31,10 @@ class UiItem
 protected:
 	// UiItem* parent = NULL;
 public:
-	UiItem* parent = NULL;
+	UiItem * parent = NULL;
 
 	UI_STATES state = IDLE;
-	GUI_TYPES guiType = UNKNOWN; 
+	GUI_TYPES guiType = UNKNOWN;
 	SDL_Rect hitBox = { 0,0,0,0 };
 	std::string function;
 	// p2Point<int> pivot = { 0,0 };
@@ -45,17 +45,17 @@ public:
 	~UiItem();
 	virtual void Draw(const float&) {};
 
-	void DrawUi(float dt); 
+	void DrawUi(float dt);
 
 	void Draw_Cursor(float dt);
-	bool slidable = false; 
-	bool tabbed = false; 
+	bool slidable = false;
+	bool tabbed = false;
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 
-	virtual void DoLogicClicked() {}; 
-	virtual void DoLogicClicked(std::string &functionName) {}; 
-	virtual void DoLogicHovered(){}; 
+	virtual void DoLogicClicked() {};
+	virtual void DoLogicClicked(std::string &functionName) {};
+	virtual void DoLogicHovered() {};
 	virtual void DoLogicAbandoned() {};
 };
 

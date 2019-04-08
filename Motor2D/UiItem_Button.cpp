@@ -9,7 +9,7 @@
 #include <assert.h>
 
 
-UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position,function, parent)
+UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, function, parent)
 {
 	assert(parent != nullptr);
 	frames[IDLE] = *idle;
@@ -51,7 +51,3 @@ void UiItem_Button::Draw(const float &dt)
 {
 	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }
-
-
-
-

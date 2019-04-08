@@ -52,6 +52,13 @@ bool j1AttackManager::Update(float dt)
 {
 	bool ret = true;
 
+	// check if we have any attack queued to instantiate
+	/*while (!queuedAttacks.empty())
+	{
+		AddPropagationAttack(queuedAttacks.front());
+		queuedAttacks.pop();
+	}*/
+
 	std::vector<attackData*>::iterator attacksDataIterator = currentPropagationAttacks.begin();
 
 	for (; attacksDataIterator != currentPropagationAttacks.end();)
@@ -67,6 +74,7 @@ bool j1AttackManager::Update(float dt)
 		{
 			LOG("Involved %i entities", (*attacksDataIterator)->combo);
 			delete(*attacksDataIterator);
+			(*attacksDataIterator) = nullptr;
 			attacksDataIterator = currentPropagationAttacks.erase(attacksDataIterator);
 		}
 	}
@@ -104,11 +112,21 @@ void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint st
 	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
 }
 
+//void j1AttackManager::AddPropagationAttack(attackData* data)
+//{
+//	currentPropagationAttacks.push_back(data);
+//}
+//
+//void j1AttackManager::AddPropagationAttackToQueue(attackData* data)
+//{
+//	queuedAttacks.push(data);
+//}
+
 // ATTACK DATA CLASS -------------------------------------------------------------------------------------------------
 
 attackData::attackData()
 {
-	Start();
+	//Start();
 }
 
 attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
@@ -125,8 +143,10 @@ attackData::~attackData()
 
 bool attackData::Start()
 {
+	// check detection resolution
+	//propagationResolution = PROPAGATION_RESOLUTION;
+	// -----
 	stepTimer.Start();
-
 	// puts startpoint to algoritm
 	frontier.push(startSubtilePoint);
 	visited.push_back(startSubtilePoint);
@@ -155,6 +175,8 @@ bool attackData::Update(float dt)
 			CheckEntitiesFromSubtileStep(); // checks an adds filtered entities to final queue to communicate with buff manager
 			DoDirectAttack(); // attack all entities involved on last frame update on the affected step subtiles
 		}
+		
+		//InstatiateReplica();
 	}
 
 	// debug draw
@@ -195,6 +217,21 @@ bool attackData::PostUpdate()
 {
 	return true;
 }
+
+//bool attackData::InstatiateReplica()
+//{
+//	if (propagationResolution > 1)
+//	{
+//		attackData* newAttackData = new attackData();
+//		*newAttackData = *this;
+//		newAttackData->propagationResolution--;
+//		this->propagationResolution--;
+//		
+//		App->attackManager->AddPropagationAttackToQueue(newAttackData);
+//	}
+//
+//	return true;
+//}
 
 bool attackData::DoNextPropagationStep()
 {
@@ -272,7 +309,7 @@ bool attackData::DoDirectAttack()
 		// pass the type etc of the attack, for now pass a direct attack
 		j1Entity* defender = entitiesQueue.front();
 		entitiesQueue.pop();
-		App->buff->DirectAttack((j1Entity*)fromEntity, defender, 100, "hability");
+		App->buff->DirectAttack((j1Entity*)fromEntity, defender, 100, ELEMENTAL_TYPE::NORMAL_ELEMENT,"inteligence");
 
 		// updates combo counter
 		++combo;
@@ -282,47 +319,52 @@ bool attackData::DoDirectAttack()
 
 bool attackData::DoNextStepBFS()
 {
-	//int numNeighbours = 4; // up,down,left,right
+
+	int frontierRadius = 1; // test for twice step (more resolution, but less "wave effect")
+
 	if (!frontier.empty())
 	{
-		int steps = frontier.size();
-		for (int i = 0; i < steps; ++i)
+		for (int z = 0; z < frontierRadius; ++z)
 		{
-			//LOG("DOING: %i", i);
-			iPoint currentSubtile = frontier.front();//front();
-			frontier.pop(); // pops last queue value
-
-			// each relative subtile neighbour
-			iPoint neighbours[4];
-			neighbours[0] = { currentSubtile.x, currentSubtile.y - 1 }; // N
-			neighbours[1] = { currentSubtile.x + 1, currentSubtile.y }; // E
-			neighbours[2] = { currentSubtile.x, currentSubtile.y + 1 }; // S
-			neighbours[3] = { currentSubtile.x - 1, currentSubtile.y }; // W
-
-			for (int i = 0; i < 4; ++i)
+			int steps = frontier.size();
+			for (int i = 0; i < steps; ++i)
 			{
-				if (std::find(visited.begin(), visited.end(), neighbours[i]) != visited.end())
-					continue;
-				else
+				//LOG("DOING: %i", i);
+				iPoint currentSubtile = frontier.front();//front();
+				frontier.pop(); // pops last queue value
+
+				// each relative subtile neighbour
+				iPoint neighbours[4];
+				neighbours[0] = { currentSubtile.x, currentSubtile.y - 1 }; // N
+				neighbours[1] = { currentSubtile.x + 1, currentSubtile.y }; // E
+				neighbours[2] = { currentSubtile.x, currentSubtile.y + 1 }; // S
+				neighbours[3] = { currentSubtile.x - 1, currentSubtile.y }; // W
+
+				for (int i = 0; i < 4; ++i)
 				{
-					// check subtile walkability
-					iPoint subtileWalkabilityCheck = neighbours[i]; // TODO: we need a direct conversor function
-					subtileWalkabilityCheck = App->map->SubTileMapToWorld(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
-					subtileWalkabilityCheck = App->map->WorldToMap(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
-					if (App->pathfinding->IsWalkable(subtileWalkabilityCheck))
+					if (std::find(visited.begin(), visited.end(), neighbours[i]) != visited.end())
+						continue;
+					else
 					{
-						frontier.push(neighbours[i]);
-						visited.push_back(neighbours[i]);
-						// adds to subtile queue too
-						subtileQueue.push(neighbours[i]);
+						// check subtile walkability
+						iPoint subtileWalkabilityCheck = neighbours[i]; // TODO: we need a direct conversor function
+						subtileWalkabilityCheck = App->map->SubTileMapToWorld(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
+						subtileWalkabilityCheck = App->map->WorldToMap(subtileWalkabilityCheck.x, subtileWalkabilityCheck.y);
+						if (App->pathfinding->IsWalkable(subtileWalkabilityCheck))
+						{
+							frontier.push(neighbours[i]);
+							visited.push_back(neighbours[i]);
+							// adds to subtile queue too
+							subtileQueue.push(neighbours[i]);
+						}
 					}
 				}
 			}
+			// increase step
+			++currentPropagationStep;
+			/*LOG("current propagation step:%i", currentPropagationStep);
+			LOG("frontier size: %i", frontier.size());*/
 		}
-		// increase step
-		++currentPropagationStep;
-		/*LOG("current propagation step:%i", currentPropagationStep);
-		LOG("frontier size: %i", frontier.size());*/
 	}
 	else
 		to_erase = true; // invalid start position eraser

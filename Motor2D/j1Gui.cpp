@@ -9,7 +9,7 @@
 #include "j1Window.h"
 #include "p2Log.h"
 
-j1Gui::j1Gui() : j1Module() 
+j1Gui::j1Gui() : j1Module()
 {
 	name.assign("gui");
 	canvas = new UiItem({ 0,0 }, NULL);
@@ -35,14 +35,14 @@ bool j1Gui::Start()
 
 bool j1Gui::Update(float dt)
 {
-	DoLogicSelected(); 
+	DoLogicSelected();
 
 	// TESTING TAB, its "faked" for the mom, only bars 
 
 	if (!resetHoverSwapping)
 	{
 		ApplyTabBetweenSimilar(resetHoverSwapping);
-		resetHoverSwapping = true; 
+		resetHoverSwapping = true;
 	}
 	else {
 		ApplyTabBetweenSimilar(resetHoverSwapping);
@@ -55,7 +55,7 @@ void j1Gui::DoLogicSelected() {
 
 	if (selected_object != nullptr)
 	{
-		switch (selected_object->state) 
+		switch (selected_object->state)
 		{
 
 		case CLICK: selected_object->DoLogicClicked();
@@ -75,10 +75,10 @@ void j1Gui::DoLogicSelected() {
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
-	
+
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
-	
- if (selected_object && selected_object->tabbed)
+
+	if (selected_object && selected_object->tabbed)
 	{
 		switch (selected_object->guiType)
 		{
@@ -108,11 +108,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 		}
 
-		
+
 	}
-	
-	
-	
+
+
+
+
 	// MOVEMENT - - - - - - - - - - - - - - - - - - - - -
 
 	std::list<UiItem*>::iterator item = ListItemUI.begin();
@@ -120,60 +121,60 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	{
 		iPoint item_pos = { 0,0 };
 		bool first = false;
-			for (; item != ListItemUI.end(); ++item)
+		for (; item != ListItemUI.end(); ++item)
+		{
+			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON) && (*item)->parent->enable)
 			{
-				if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON) && (*item)->parent->enable)
+				if (!first)
 				{
-					if (!first)
-					{
-						item_pos.x = (*item)->hitBox.x;
-						item_pos.y = (*item)->hitBox.y;
-						first = true;
-						selected_object = (*item);
-					}
-					else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
-					{
-						item_pos.x = (*item)->hitBox.x;
-						item_pos.y = (*item)->hitBox.y;
-						selected_object = (*item);
-					}
+					item_pos.x = (*item)->hitBox.x;
+					item_pos.y = (*item)->hitBox.y;
+					first = true;
+					selected_object = (*item);
+				}
+				else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
+				{
+					item_pos.x = (*item)->hitBox.x;
+					item_pos.y = (*item)->hitBox.y;
+					selected_object = (*item);
 				}
 			}
-		
+		}
+
 		selected_object->state = HOVER;
 		selected_object->tabbed = true;
 		setClicked = true;
 		/*for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
-			if ((*item)->parent->enable)
-			{
-				if ((*item)->guiType == BAR)
-				{
-					selected_object = (*item);     // first set as selected the leftmost bar (first created)  
-					selected_object->state = HOVER;
-					selected_object->tabbed = true;
-					setClicked = true;
-					break;
-				}
-				if ((*item)->guiType == CHECKBOX)
-				{
+		if ((*item)->parent->enable)
+		{
+		if ((*item)->guiType == BAR)
+		{
+		selected_object = (*item);     // first set as selected the leftmost bar (first created)
+		selected_object->state = HOVER;
+		selected_object->tabbed = true;
+		setClicked = true;
+		break;
+		}
+		if ((*item)->guiType == CHECKBOX)
+		{
 
-					selected_object = (*item);     // first set as selected the leftmost bar (first created)  
-					selected_object->state = HOVER;
-					selected_object->tabbed = true;
-					setClicked = true;
-					break;
-				}
-				if ((*item)->guiType == BUTTON)
-				{
+		selected_object = (*item);     // first set as selected the leftmost bar (first created)
+		selected_object->state = HOVER;
+		selected_object->tabbed = true;
+		setClicked = true;
+		break;
+		}
+		if ((*item)->guiType == BUTTON)
+		{
 
-					selected_object = (*item);     // first set as selected the leftmost bar (first created)  
-					selected_object->state = HOVER;
-					selected_object->tabbed = true;
-					setClicked = true;
-					break;
-				}
-			}
+		selected_object = (*item);     // first set as selected the leftmost bar (first created)
+		selected_object->state = HOVER;
+		selected_object->tabbed = true;
+		setClicked = true;
+		break;
+		}
+		}
 		}*/
 	}
 	else                                                       // this is done in loops
@@ -182,7 +183,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
-			for (; item != ListItemUI.end(); item++)                
+			for (; item != ListItemUI.end(); item++)
 			{
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
@@ -190,10 +191,10 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
-						selected_object->DoLogicAbandoned();           
+						selected_object->DoLogicAbandoned();
 
 						candidates.push_back(*item);       // add objects on the right to a list
-						
+
 					}
 				}
 			}
@@ -203,25 +204,25 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
 
-				item = candidates.begin(); 
+				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
 					currentDistance = (*item)->hitBox.x - (selected_object->hitBox.x + selected_object->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
-					{                   
+					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
-					          
-	 
+
+
 					}
 				}
 
 				selected_object->state = HOVER;
 				selected_object->tabbed = true;
 			}
-			
+
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
@@ -255,25 +256,25 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = selected_object->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w); 
+					currentDistance = selected_object->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
-						distanceToBeat = currentDistance;  
+						distanceToBeat = currentDistance;
 						selected_object = (*item);           // make the closest item be the current one 
 					}
-    
+
 				}
 
-				
-				selected_object->state = HOVER;            
+
+				selected_object->state = HOVER;
 				selected_object->tabbed = true;
-				
+
 			}
 
 		}
 
-		
+
 
 
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
@@ -286,7 +287,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
-					{ 
+					{
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
@@ -306,7 +307,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance =  selected_object->hitBox.y - (*item)->hitBox.y;
+					currentDistance = selected_object->hitBox.y - (*item)->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -375,8 +376,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	}
 
-		
-	
+
+
 
 }
 
@@ -386,11 +387,11 @@ bool j1Gui::PostUpdate()
 
 	// temporal debug 
 
-	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {  
+	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
 		debug_ = !debug_;
 	}
 
-	
+
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
@@ -416,7 +417,7 @@ bool j1Gui::PostUpdate()
 			}
 
 		}
-		
+
 	}
 	return true;
 }
@@ -424,9 +425,9 @@ bool j1Gui::PostUpdate()
 bool j1Gui::CleanUp()
 {
 	if (atlas != nullptr)
-		App->tex->UnLoad(atlas);  
+		App->tex->UnLoad(atlas);
 	// TODO: Remove items from list, not hitlabels (they are on their own list)
-	
+
 	ListItemUI.clear();
 	return true;
 }
@@ -437,7 +438,7 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	newUIItem = new UiItem_Label(text, color, font, position, parent);
 	ListItemUI.push_back(newUIItem);
 	return (UiItem_Label*)newUIItem;
-	
+
 }
 
 UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel)
@@ -501,7 +502,7 @@ UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_sect
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, labelInfo, parent); 
+	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, labelInfo, parent);
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
@@ -511,10 +512,10 @@ UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, 
 {
 	UiItem_HitPoint* newUIItem = nullptr;
 	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent, type);
-	
-	
-	
-  // Add the hitpoint directly to the hitpoin manager list, and not in the listitemui
+
+
+
+	// Add the hitpoint directly to the hitpoin manager list, and not in the listitemui
 
 	App->HPManager->hitPointLabels.push_back(newUIItem);
 
@@ -556,13 +557,13 @@ UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSe
 
 
 
-UiItem_CooldownClock * j1Gui::AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent) 
+UiItem_CooldownClock * j1Gui::AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent)
 {
 	UiItem_CooldownClock* newUIItem = nullptr;
 
 	newUIItem = new UiItem_CooldownClock(position, section, parent);
 
-	App->ClockManager->clocks.push_back(newUIItem); 
+	App->ClockManager->clocks.push_back(newUIItem);
 
 	return (UiItem_CooldownClock*)newUIItem;
 
@@ -599,6 +600,3 @@ void j1Gui::GoBackToMenu()
 	App->scene->settingPanel->enable = false;
 	App->scene->startMenu->enable = true;
 }
-
-
-

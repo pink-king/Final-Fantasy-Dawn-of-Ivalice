@@ -23,11 +23,33 @@ enum class facingDirection // WARNING: no modify this order
 	MAX
 };
 
+enum class combatState
+{
+	IDLE,
+	BASIC,
+	DODGE,
+	SPECIAL1,
+	SPECIAL2,
+	ULTIMATE,
+	MAX
+};
+
 enum class characterName
 {
 	MARCHE,
 	RITZ,
 	SHARA
+};
+
+struct coolDown
+{
+	struct data
+	{
+		uint32 cooldownTime;
+		j1Timer timer;
+	};
+
+	data basic,dodge,special1,special2,ultimate;
 };
 
 class PlayerEntity : public j1Entity
@@ -46,18 +68,28 @@ public:
 
 	// functionality ------
 	bool InputMovement(float dt);
+	bool InputCombat();
 	int GetPointingDir(float angle);
-	void GetInputFromKeyboard(float dt);
+	float GetLastHeadingAngle() const;
 	void CheckRenderFlip(); // animation relative
 	void Draw();
-	
 
+	bool IsAiming()
+	{
+		return aiming;
+	}
+	
 public:
 
-	//j1Entity*				Player = nullptr;
+	bool aiming = false;
+	
+protected:
+	combatState combat_state;
+	coolDown coolDownData;
 
 public:
 	
+	float lastAxisMovAngle = 0.f;
 	fPoint previousPos;
 	int pointingDir = 0; // relative to facing direction enum order
 	characterName character;
@@ -74,6 +106,10 @@ public:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	std::vector<Buff*>		buffs;
+private:
+	j1Timer inputDelayer;
+	j1Timer pulsationTimeRecorder;
+
 };
 
 #endif

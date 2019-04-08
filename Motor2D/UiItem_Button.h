@@ -1,5 +1,6 @@
 #ifndef UIITEM_BUTTON_H
 #define UIITEM_BUTTON_H
+
 #include "UiItem.h"
 #include "p2Point.h"
 #include "j1Textures.h"
@@ -15,7 +16,7 @@ public:
 	void AddFuntion(std::string & string);
 	void DoLogicClicked(std::string &functionName);
 	void Draw(const float&);
-	
+
 
 };
 

@@ -6,14 +6,15 @@
 #include "j1BuffManager.h"
 #include "p2Log.h"
 #include "Brofiler\Brofiler.h"
+#include "j1PathFinding.h"
+#include "j1Map.h"
 
 j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::string name) : type(type), position(positionX,positionY), name(name)
 {}
 
 j1Entity::~j1Entity()
 {
-	//if (collider.collider != nullptr)
-	//	collider.collider->to_delete = true;
+	App->entityFactory->DeleteEntityFromSubtile(this);
 }
 
 bool j1Entity::Start()
@@ -38,12 +39,6 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
-	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end(); ++item)
-	{
-		stat.remove(*item);
-	}
-	stat.clear();
 	return true;
 }
 
@@ -75,3 +70,57 @@ bool j1Entity::Move(float dt)
 void j1Entity::LoadEntitydata(pugi::xml_node& node)
 {}
 
+bool j1Entity::ChangedTile() const
+{
+	return changedTile;
+}
+
+iPoint j1Entity::GetTilePos() const
+{
+	return imOnTile;
+}
+
+iPoint j1Entity::GetSubtilePos() const
+{
+	return imOnSubtile;
+}
+
+iPoint j1Entity::GetPreviousSubtilePos() const
+{
+	return previousSubtilePos;
+}
+
+void j1Entity::UpdateTilePositions()
+{
+	changedTile = false; 
+	fPoint pivotPos = GetPivotPos();
+
+	// extra protection TODO: rework the player/entities invalid walkability return positions
+	iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(pivotPos.x, pivotPos.y);
+	if (App->entityFactory->CheckSubtileMapBoundaries(onSubtilePosTemp))
+	{
+		imOnTile = App->map->WorldToMap(pivotPos.x, pivotPos.y);
+		imOnSubtile = onSubtilePosTemp;//App->map->WorldToSubtileMap(pivotPos.x, pivotPos.y);
+
+		if (previousSubtilePos != imOnSubtile)
+		{
+			//LOG("subtile pos changed");
+			// assign this entity to a tile vector
+			App->entityFactory->AssignEntityToSubtile(this);
+			App->entityFactory->DeleteEntityFromSubtile(this);
+			// updates previousPosition to new position
+			previousSubtilePos = imOnSubtile;
+		}
+
+		if (previousTilePos != imOnTile && App->pathfinding->IsWalkable(imOnTile)) // TODO: not only player change tile (just in case)
+		{
+			changedTile = true; 
+			previousTilePos = imOnTile; 
+		}
+
+	}
+	else
+	{
+		//LOG("invalid updateTilePositions, ignoring");
+	}	
+}

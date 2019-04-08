@@ -11,7 +11,7 @@
 #include "p2Point.h"
 #include "p2log.h"
 
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent/*, TypeBar type*/):UiItem(position, parent)
+UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent/*, TypeBar type*/) :UiItem(position, parent)
 {
 
 	this->section = *section;
@@ -21,16 +21,16 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 	this->hitBox.y = position.y;
 
 	// bar 
-	bar = App->gui->AddImage(position, section, this);   // TODO: this should have as pareNT "this"
+	bar = App->gui->AddImage(position, section, parent);   // TODO: this should have as pareNT "this"
 
 
-	// thumb
+														   // thumb
 	iPoint thumbPos(position.x + 5, position.y + 9);
 
-	thumb = App->gui->AddImage(thumbPos, thumb_section, this);    // TODO: this should have as pareNT "this"
-	thumb->slidable = true; 
+	thumb = App->gui->AddImage(thumbPos, thumb_section, parent);    // TODO: this should have as pareNT "this"
+	thumb->slidable = true;
 	//thumb->parent = bar; 
-	thumb->iFriend = this; 
+	thumb->iFriend = this;
 
 	// to check mouse 
 	this->hitBox.w = section->w;
@@ -38,7 +38,7 @@ UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect
 
 
 	// the parent
-	this->parent = parent; 
+	this->parent = parent;
 }
 
 void UiItem_Bar::Draw(const float & dt)
@@ -52,33 +52,33 @@ void UiItem_Bar::Draw(const float & dt)
 
 
 void UiItem_Bar::DoLogicHovered() {
- 
+
 	if (!thumbReposition)
 	{
 		thumb->hitBox.y += 4;
 		thumbReposition = !thumbReposition;
 	}
 
-	bar->section.x = 1088; 
+	bar->section.x = 1088;
 	bar->section.y = 476;
 	bar->section.w = 191;
 	bar->section.h = 58;
 
-		uint nexPosX = 0;
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		{
-			nexPosX = thumb->hitBox.x + 2;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			nexPosX = thumb->hitBox.x - 2;
-		}
+	uint nexPosX = 0;
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		nexPosX = thumb->hitBox.x + 2;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		nexPosX = thumb->hitBox.x - 2;
+	}
 
-		if (nexPosX >= bar->hitBox.x && nexPosX <= bar->hitBox.x + bar->hitBox.w)
-		{
-			thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
-		}
-	
+	if (nexPosX >= bar->hitBox.x && nexPosX <= bar->hitBox.x + bar->hitBox.w)
+	{
+		thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
+	}
+
 
 }
 
@@ -86,11 +86,11 @@ void UiItem_Bar::DoLogicAbandoned() {
 
 	if (thumbReposition)
 	{
-	thumb->hitBox.y -= 4;
-	thumbReposition = !thumbReposition;
+		thumb->hitBox.y -= 4;
+		thumbReposition = !thumbReposition;
 	}
 
-	bar->section = this->section; 
+	bar->section = this->section;
 }
 
 

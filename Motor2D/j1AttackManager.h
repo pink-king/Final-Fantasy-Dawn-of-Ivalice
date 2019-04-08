@@ -8,6 +8,8 @@
 #include "j1Timer.h"
 #include "j1Entity.h"
 
+//#define PROPAGATION_RESOLUTION 2 // num of attack replicas propagation for better detection
+
 class j1Entity;
 
 enum class propagationType
@@ -48,8 +50,10 @@ private:
 	void CheckEntitiesFromSubtileStep(); // when a "step" is done, this function is called
 	bool AddEntityToQueueFiltered(j1Entity* entityToQueue); // filter only the desired type of entities
 	bool DoDirectAttack(); // final stage, communicates with buff manager passing it the substep resultant desired entities
+	//bool InstatiateReplica();
 
 private:
+	//int propagationResolution = 1;
 	bool debug = true;
 	// propagation data itself -----------
 	const j1Entity* fromEntity = nullptr;
@@ -93,7 +97,8 @@ public:
 
 	// functionality
 	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed);
-
+	/*void AddPropagationAttack(attackData* );
+	void AddPropagationAttackToQueue(attackData*);*/
 
 public:
 	SDL_Texture* debugSubtileTex = nullptr;
@@ -104,6 +109,7 @@ public:
 private:
 	std::vector<attackData*> currentPropagationAttacks;
 	//bool debug = true;
+	//std::queue<attackData*> queuedAttacks;
 	
 };
 

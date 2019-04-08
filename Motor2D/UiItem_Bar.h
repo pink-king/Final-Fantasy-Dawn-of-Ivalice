@@ -24,8 +24,8 @@ protected:
 
 	//void DoLogicClicked(bool do_slide = false); 
 	void DoLogicHovered();
-	void DoLogicDragged(); 
-	void DoLogicAbandoned(); 
+	void DoLogicDragged();
+	void DoLogicAbandoned();
 
 public:
 	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent/*, TypeBar type = VERTICAL*/);
@@ -34,12 +34,11 @@ public:
 	float GetBarValue();
 
 
-private: 
-	bool thumbReposition = false; 
+private:
+	bool thumbReposition = false;
 
 
 };
-
 
 #endif // UIITEM_BAR_H
 
