@@ -76,11 +76,11 @@ public:
 public:
 	const j1Entity* GetSelectedCharacterEntity() const;
 	const float GetLastPlayerHeadingAngle() const;
+	PlayerEntity* selectedCharacterEntity = nullptr;
 
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
-	PlayerEntity* selectedCharacterEntity = nullptr;
 
 	Marche* marche = nullptr;
 	Ritz* ritz = nullptr;

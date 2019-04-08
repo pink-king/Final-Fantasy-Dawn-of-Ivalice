@@ -134,6 +134,12 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
+iPoint j1Render::WorldToScreen(int x, int y) const
+{
+
+	return iPoint(x*App->win->GetScale() + camera->x, y*App->win->GetScale() + camera->y);
+}
+
 bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const
 {
 	int scale = App->win->GetScale();
@@ -185,7 +191,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed) const
+bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle, SDL_Rect wantedRect) const
 {
 	bool ret = true;
 
@@ -197,17 +203,38 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 	{
 		rect.w = section->w;
 		rect.h = section->h;
+
 	}
+
 	else
 	{
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, 0, 0, SDL_FLIP_NONE) != 0)
+
+	if (wantedRect.h && wantedRect.w)       // adjust texture rect position and dimensions
+	{
+		rect.h = wantedRect.h;
+		rect.w = wantedRect.w;
+		rect.x = wantedRect.x;
+		rect.y = wantedRect.y;
+
+	}
+
+
+
+
+	rect.w *= scaleFactor;
+	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section.
+
+
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, flippingAngle, 0, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
 	}
+
 
 	return ret;
 }

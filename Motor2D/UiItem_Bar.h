@@ -23,20 +23,22 @@ protected:
 	SDL_Rect section;
 
 	//void DoLogicClicked(bool do_slide = false); 
-	void DoLogicHovered(bool do_slide = false);
-	void DoLogicDragged(bool do_slide = false); 
-	void DoLogicAbandoned(bool slidable = false); 
+	void DoLogicHovered();
+	void DoLogicDragged();
+	void DoLogicAbandoned();
 
 public:
-	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent, TypeBar type = VERTICAL);
+	UiItem_Bar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent/*, TypeBar type = VERTICAL*/);
 	~UiItem_Bar() {}
 	void Draw(const float& dt);
 	float GetBarValue();
 
 
+private:
+	bool thumbReposition = false;
+
 
 };
-
 
 #endif // UIITEM_BAR_H
 

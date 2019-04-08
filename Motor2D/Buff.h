@@ -54,6 +54,13 @@ private:
 	std::string			stat = "\0";
 	float				value = 0.f;
 
+	//===== UI
+	//bool IsCausedBySource(uint source_id);
+	//Buff(BUFF_TYPE type, std::string name, std::string characer, std::string stat, float value, uint source_id);
+	//bool				isActive = true;
+	//uint				source_id = 0u;//ID from which modifier (object, spell, etc) the buff came from
+	//std::string			name = "\0";
+	//====
 
 };
 

@@ -5,6 +5,11 @@ Buff::Buff(BUFF_TYPE type, std::string character,std::string stat, ELEMENTAL_TYP
 {
 }
 
+//Buff::Buff(BUFF_TYPE type, std::string name, std::string character, std::string stat, float value, uint source_id) :
+//	type(type), name(name), character(character), stat(stat), value(value), source_id(source_id)
+//{
+//}
+
 Buff::~Buff()
 {
 }
@@ -43,3 +48,9 @@ bool Buff::GetIfExist(BUFF_TYPE type, std::string character, std::string stat, E
 {
 	return (this->type == type && this->character.compare(character) && this->elementType == elementType && this->rol == rol && this->stat == stat);
 }
+
+
+//bool Buff::IsCausedBySource(uint source_id)
+//{
+//	return this->source_id == source_id;
+//}

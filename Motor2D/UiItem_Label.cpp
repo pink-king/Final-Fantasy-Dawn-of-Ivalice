@@ -9,13 +9,17 @@
 
 UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent) :UiItem(position, parent)
 {
-	
+
 	texture = App->font->Print(text.data(), color, font);
 	this->guiType = GUI_TYPES::LABEL;
 	this->text = text;
 	this->color = color;
 	this->font = font;
-	
+
+
+
+	// the parent
+	this->parent = parent;
 
 }
 
@@ -36,3 +40,4 @@ void UiItem_Label::Draw(const float & dt)
 
 
 }
+
