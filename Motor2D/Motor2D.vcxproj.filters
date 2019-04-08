@@ -136,6 +136,9 @@
     <ClCompile Include="j1Map.cpp">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Desenvolupament ========\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LootEntity.h">
@@ -290,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="j1Module.h">
       <Filter>Desenvolupament ========</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Desenvolupament ========\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
