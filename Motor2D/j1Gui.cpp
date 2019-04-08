@@ -100,7 +100,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
-				selected_object->state = HOVER;
+				selected_object->state = IDLE;
+				selected_object->tabbed = true;
 			}
 			break;
 
