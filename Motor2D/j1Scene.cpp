@@ -13,6 +13,7 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
+#include "UiItem_Bar.h"
 #include "j1AttackManager.h"
 #include "j1ModuleCamera2D.h"
 #include "UiItem_HitPointManager.h"
@@ -186,6 +187,8 @@ bool j1Scene::Update(float dt)
 
 	if (state == SceneState::STARTMENU)
 	{
+		result_volume = volume_bar->GetBarValue();
+		result_fx = fx_bar->GetBarValue();
 		App->map->active = false;
 		inGamePanel->enable = false;
 		uiMarche->enable = false;
@@ -409,11 +412,19 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	for (pugi::xml_node uiNode = node.child("panelBars").child("panelBar"); uiNode; uiNode = uiNode.next_sibling("panelBar"))
 	{
 
-
+		std::string name = uiNode.attribute("name").as_string();
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		SDL_Rect section_bar = { uiNode.child("section_bar").attribute("x").as_int(), uiNode.child("section_bar").attribute("y").as_int(), uiNode.child("section_bar").attribute("w").as_int(), uiNode.child("section_bar").attribute("h").as_int() };
 		SDL_Rect section_thumb = { uiNode.child("section_thumb").attribute("x").as_int(), uiNode.child("section_thumb").attribute("y").as_int(), uiNode.child("section_thumb").attribute("w").as_int(), uiNode.child("section_thumb").attribute("h").as_int() };
-		App->gui->AddBar(position, &section_bar, &section_thumb, parent);
+		UiItem_Bar* slider_volume = App->gui->AddBar(position, name, &section_bar, &section_thumb, parent);
+		if (name == "volumeSlider")
+		{
+			volume_bar = slider_volume;
+		}
+		if (name == "fxSlider")
+		{
+			fx_bar = slider_volume;
+		}
 	}
 
 

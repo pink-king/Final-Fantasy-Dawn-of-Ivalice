@@ -11,15 +11,16 @@
 #include "p2Point.h"
 #include "p2log.h"
 
-UiItem_Bar::UiItem_Bar(iPoint position, const SDL_Rect * section, const SDL_Rect* thumb_section, UiItem * const parent/*, TypeBar type*/) :UiItem(position, parent)
-{
 
+
+UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, UiItem * const parent): UiItem(position, parent)
+{
 	this->section = *section;
 	this->guiType = GUI_TYPES::BAR;
 
 	this->hitBox.x = position.x;
 	this->hitBox.y = position.y;
-
+	this->name = name;
 	// bar 
 	bar = App->gui->AddImage(position, section, this);   // TODO: this should have as pareNT "this"
 
@@ -79,7 +80,14 @@ void UiItem_Bar::DoLogicHovered() {
 		thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
 	}
 
+	/*if (this->name == "volumeSlider")
+	{
+		GetBarValue();
+	}
+	if (this->name == "fxSlider")
+	{
 
+	}*/
 }
 
 void UiItem_Bar::DoLogicAbandoned() {
@@ -96,6 +104,10 @@ void UiItem_Bar::DoLogicAbandoned() {
 
 float UiItem_Bar::GetBarValue()
 {
-	return 0.0f;
+	float ipos_bar = thumb->hitBox.x + (thumb->section.w / 2);
+	float fixed_pos = bar->hitBox.x + (thumb->section.w / 2);
+	float fpos_bar = bar->hitBox.x + bar->section.w - (thumb->section.w / 2);
+	float final_pos = (ipos_bar - fixed_pos) / (fpos_bar - fixed_pos);
+	return final_pos;
 }
 
