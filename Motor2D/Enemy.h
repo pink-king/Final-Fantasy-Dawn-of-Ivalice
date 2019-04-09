@@ -35,10 +35,18 @@ enum class EnemyState
 	MAX
 };
 
+enum class EnemyType
+{
+	MELEE,
+	DISTANCE,
+	TRAP,
+	TEST,
+};
+
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position);
+	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange);
 	~Enemy();
 
 	//core loops ------
@@ -46,7 +54,8 @@ public:
 
 	bool SearchNewPath();
 	bool SearchNewSubPath();
-	int GetRandomValue(const int& min, const int& max);
+	int GetRandomValue(const int& min, const int& max) const;
+	bool isInDetectionRange() const;
 	void Draw() override;
 
 	void DebugPath() const;
@@ -61,13 +70,15 @@ protected:
 	iPoint currentDestiny;
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint speed = 75;
+	uint speed = 0;
 
 	Animation idle[(int)facingDirectionEnemy::MAX];
 	Animation run[(int)facingDirectionEnemy::MAX];
 	Animation basicAttack[(int)facingDirectionEnemy::MAX];
 	Animation receiveDamage[(int)facingDirectionEnemy::MAX];
 	
+	uint detectionRange = 0; 
+	uint attackRange = 0; 
 	bool isSubpathRange = false;
 
 	SDL_Texture* debugSubtile = nullptr;

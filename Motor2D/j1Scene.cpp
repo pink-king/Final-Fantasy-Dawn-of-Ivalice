@@ -256,10 +256,14 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, iPoint(coords.x, coords.y), 100, 12, 1), 21, 10,"burn");
 		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
+	{
+		App->entityFactory->CreateEnemy(EnemyType::TEST, iPoint(coords.x, coords.y), 0, 12, 1);
+	}
 
 	/*static char title[90];
 	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());

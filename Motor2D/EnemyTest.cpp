@@ -10,7 +10,7 @@
 
 #include <random>
 
-EnemyTest::EnemyTest(iPoint position) : Enemy(position)
+EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange) : Enemy(position, speed, detectionRange, attackRange)
 {
 	name.assign("Test");
 
@@ -70,7 +70,7 @@ void EnemyTest::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
-		if (GetPivotPos().DistanceManhattan(App->entityFactory->player->GetPivotPos()) > RANGE)
+		if (isInDetectionRange() && speed > 0)
 		{
 			state = EnemyState::SEARCHPATH;
 		}

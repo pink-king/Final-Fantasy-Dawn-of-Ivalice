@@ -6,7 +6,7 @@
 #include "j1Map.h"
 #include <random>
 
-Enemy::Enemy(iPoint position) : j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
+Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange) : speed(movementSpeed), detectionRange(detectionRange), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
 {
 	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
 }
@@ -96,12 +96,18 @@ bool Enemy::SearchNewSubPath()
 	return ret;
 }
 
-int Enemy::GetRandomValue(const int& min, const int& max)
+int Enemy::GetRandomValue(const int& min, const int& max) const
 {
 	static std::default_random_engine generator;
 	std::uniform_int_distribution<int> distribution(min, max);
 	float dice_roll = distribution(generator);
 	return dice_roll;
+}
+
+bool Enemy::isInDetectionRange() const
+{
+	iPoint playerPos = App->entityFactory->player->GetTilePos(); 
+	return (GetTilePos().DistanceManhattan(playerPos) < detectionRange);
 }
 
 
