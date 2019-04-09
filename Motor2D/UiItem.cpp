@@ -20,6 +20,19 @@ UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
+
+
+
+UiItem::UiItem(UiItem * const parent)
+{
+	
+	if (parent != nullptr)
+		this->parent = parent;
+
+	SDL_ShowCursor(SDL_DISABLE);
+}
+
+
 UiItem::UiItem(const iPoint & pos, std::string &function, UiItem *const parent) : parent(parent)
 {
 	hitBox.x = pos.x;

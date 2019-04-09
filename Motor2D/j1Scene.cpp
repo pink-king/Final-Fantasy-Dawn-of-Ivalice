@@ -498,6 +498,33 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		std::string type = uiNode.child("type").attribute("value").as_string();
 
+		
+		if (type == "ability1")
+		{
+			App->gui->allclocksData.ability1.position = position; 
+			App->gui->allclocksData.ability1.section = section;
+			App->gui->allclocksData.ability1.type = type;
+		}
+		else if (type == "ability2")
+		{
+
+			App->gui->allclocksData.ability2.position = position;
+			App->gui->allclocksData.ability2.section = section;
+			App->gui->allclocksData.ability2.type = type;
+		}
+		else if (type == "ulti")
+		{
+
+			App->gui->allclocksData.ulti.position = position;
+			App->gui->allclocksData.ulti.section = section;
+			App->gui->allclocksData.ulti.type = type;
+		}
+
+		else if (type == "potion")
+		{
+
+		}
+
 	}
 
 }

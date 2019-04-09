@@ -200,9 +200,6 @@
     <ClInclude Include="Items.h">
       <Filter>Desenvolupament ========\Modules\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="j1AttackManager.h">
-      <Filter>Desenvolupament ========\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="j1Audio.h">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClInclude>
@@ -274,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="UiItem_HitPointManager.h">
       <Filter>Desenvolupament ========\Modules\GUI\SpecialItems\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="j1AttackManager.h">
+      <Filter>Desenvolupament ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,13 +15,29 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "UiItem_CooldownClock.h"
-
+#include "PlayerEntityManager.h"
+#include "PlayerEntity.h"
 
 struct labelInfo
 {
 	std::string labelText;
 	SDL_Color labelColor;
 	uint labelIndex;
+};
+
+
+struct coolDownClockData
+{
+	iPoint position; 
+	SDL_Rect section; 
+	std::string type; 
+};
+
+struct theClocks
+{
+
+	coolDownClockData ability1, ability2, ulti, potion; 
+
 };
 
 class j1Gui : public j1Module
@@ -57,7 +73,7 @@ public:
 
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent = nullptr);
-	UiItem_CooldownClock* AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent = nullptr);
+	UiItem_CooldownClock* AddClock(std::string type, PlayerEntity* callback = nullptr, UiItem*const parent = nullptr);
 
 
 	SDL_Texture* GetAtlas();
@@ -76,6 +92,13 @@ private:
 
 public:
 	bool resetHoverSwapping = false;
+	theClocks allclocksData; 
+
 };
+
+
+
+
+
 
 #endif
