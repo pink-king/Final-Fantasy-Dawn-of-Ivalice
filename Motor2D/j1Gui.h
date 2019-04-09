@@ -15,7 +15,7 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "UiItem_CooldownClock.h"
-#include "UiItem_CooldownClockManager.h"
+
 
 struct labelInfo
 {

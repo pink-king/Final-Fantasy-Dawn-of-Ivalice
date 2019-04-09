@@ -4,6 +4,7 @@
 #include "UiItem.h"
 #include "p2Point.h"
 #include <cstdint>
+#include "j1Timer.h"
 
 enum State {
 	stop,
@@ -19,19 +20,18 @@ public:
 	void Draw(const float& dt) override;
 	void CleanUp();
 
+	void DoLogic(); 
 
 
-	State ReturnState(); 
+	void CheckState(); 
 
 private: 
 	SDL_Texture* texture = nullptr;
 	SDL_Rect section; 
 
-public: 
 
-	friend class UiItem_CooldownClockManager;
+	State theState; 
 
-	bool to_delete = false;
 };
 
 #endif

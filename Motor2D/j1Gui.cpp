@@ -559,11 +559,11 @@ UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSe
 
 UiItem_CooldownClock * j1Gui::AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent)
 {
-	UiItem_CooldownClock* newUIItem = nullptr;
+	UiItem* newUIItem = nullptr;
 
 	newUIItem = new UiItem_CooldownClock(position, section, parent);
 
-	App->ClockManager->clocks.push_back(newUIItem);
+	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_CooldownClock*)newUIItem;
 

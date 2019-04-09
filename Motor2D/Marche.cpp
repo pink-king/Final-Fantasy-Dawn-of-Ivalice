@@ -9,7 +9,7 @@
 #include "j1EntityFactory.h"
 #include "j1ItemsManager.h"
 #include "j1AttackManager.h"
-
+#include "j1Gui.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -109,6 +109,12 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.ultimate.cooldownTime = 3000;
 
 	previousPos = position;
+
+
+	// better speed 
+	characterBaseSpeed.x /= 1.3f; 
+	characterBaseSpeed.y /= 1.3f;
+
 }
 
 Marche::~Marche()
@@ -168,10 +174,27 @@ bool Marche::Update(float dt)
 		break;
 	case combatState::DODGE:
 		break;
+
+
+		// right now the following two lines are meant just for testing 
+
+
 	case combatState::SPECIAL1:
+		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
+		{
+			coolDownData.special1.timer.Start();
+			//App->gui->AddClock(); 
+		}
 		break;
 	case combatState::SPECIAL2:
+		if (coolDownData.special2.timer.Read() > coolDownData.ultimate.cooldownTime)
+		{
+			coolDownData.ultimate.timer.Start();
+
+		}
 		break;
+
+
 	case combatState::ULTIMATE:
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)

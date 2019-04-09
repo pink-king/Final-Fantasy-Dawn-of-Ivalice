@@ -127,6 +127,23 @@ bool PlayerEntity::InputCombat()
 			combat_state = combatState::ULTIMATE;
 			//LOG("ULTIMATE");
 		}
+
+		// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
+		// check ability 1 trigger
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		{
+			combat_state = combatState::SPECIAL1;
+			//LOG("ULTIMATE");
+		}
+
+		// check ability 2 trigger
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		{
+			combat_state = combatState::SPECIAL2;
+			//LOG("ULTIMATE");
+		}
+
+
 		// check basic attack
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 		{

@@ -18,7 +18,6 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "j1BuffManager.h"
-#include "UiItem_CooldownClockManager.h"
 #include "UiItem_CooldownClock.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -44,7 +43,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/iso_walk.tmx"))
+	if (App->map->Load("maps/level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -61,10 +60,18 @@ bool j1Scene::Start()
 	
 	// More perspective on the map since the beggining
 	//App->render->camera.x = 500;
-	App->camera2D->SetCameraPos({ 500,0 });
+	/*App->camera2D->SetCameraPos({ 500,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ 300,300 });
+	App->entityFactory->CreatePlayer({ 300,300 });*/
+
+
+
+	App->camera2D->SetCameraPos({ 2000,0 });
+
+	// create player for testing purposes here
+	App->entityFactory->CreatePlayer({ 1800, 2000 });
+
 
 	if (state == SceneState::GAME)
 	{
@@ -478,11 +485,6 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string type = uiNode.child("type").attribute("value").as_string();
-
-		if (type == "ability1")
-		{
-			//App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel);
-		}
 
 	}
 

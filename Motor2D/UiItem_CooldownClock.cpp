@@ -1,5 +1,4 @@
 #include "UiItem_CooldownClock.h"
-#include "UiItem_CooldownClockManager.h"
 #include "j1App.h"
 #include "j1Gui.h"
 #include "j1Textures.h"
@@ -19,19 +18,17 @@ void UiItem_CooldownClock::Draw(const float & dt)
 {
 
 	
-	
+	DoLogic(); 
 	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F);
 
 }
 
 
-State UiItem_CooldownClock::ReturnState() {
+void UiItem_CooldownClock::CheckState() {
 
 
 	// TODO 
 
-
-	return State::await;
 }
 
 
@@ -40,4 +37,12 @@ void UiItem_CooldownClock::CleanUp()
 
 	if (texture != nullptr)
 		App->tex->UnLoad(texture);
+}
+
+
+void UiItem_CooldownClock::DoLogic()
+{
+
+
+
 }

@@ -6,7 +6,7 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "UiItem_HitPointManager.h"
-#include "UiItem_CooldownClockManager.h"
+
 
 UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
@@ -67,11 +67,6 @@ void UiItem::DrawUi(float dt)
 	}
 
 
-	for (std::vector<UiItem_CooldownClock*>::iterator iter = App->ClockManager->clocks.begin(); iter != App->ClockManager->clocks.end(); ++iter)
-	{
-		if ((*iter) != nullptr && (*iter)->parent != NULL && (*iter)->parent->enable)
-			(*iter)->Draw(dt);
-	}
 
 
 

@@ -124,9 +124,6 @@
     <ClCompile Include="UiItem_HitPoint.cpp">
       <Filter>Desenvolupament ========\Modules\GUI\SpecialItems</Filter>
     </ClCompile>
-    <ClCompile Include="UiItem_CooldownClockManager.cpp">
-      <Filter>Desenvolupament ========\Modules\GUI\SpecialItems\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="UiItem_HitPointManager.cpp">
       <Filter>Desenvolupament ========\Modules\GUI\SpecialItems\Managers</Filter>
     </ClCompile>
@@ -274,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="UiItem_HitPoint.h">
       <Filter>Desenvolupament ========\Modules\GUI\SpecialItems</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_CooldownClockManager.h">
-      <Filter>Desenvolupament ========\Modules\GUI\SpecialItems\Managers</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_HitPointManager.h">
       <Filter>Desenvolupament ========\Modules\GUI\SpecialItems\Managers</Filter>
