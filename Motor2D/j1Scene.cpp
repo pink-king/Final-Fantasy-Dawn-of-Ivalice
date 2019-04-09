@@ -260,10 +260,15 @@ bool j1Scene::Update(float dt)
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
 	static int cont = 0;
+
+
+	//               ADD     ENEMY     WITH     HEALTHBAR
+
+
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
-		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+		//App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
+		App->gui->AddHealthBarToEnemy(&App->gui->healthBar->staticImage->section, &App->gui->healthBar->dynamicImage->section, &App->gui->healthBar->damageImage->section, type::enemy, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), inGamePanel);
 	}
 
 
@@ -467,7 +472,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 
 
-	// health bar and cooldown bar
+	// health bar 
 
 	for (pugi::xml_node uiNode = node.child("healthbars").child("healthbar"); uiNode; uiNode = uiNode.next_sibling("healthbar"))
 	{
@@ -480,13 +485,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		std::string variant = uiNode.child("type").attribute("value").as_string();
 		if (variant == "health")
 		{
-			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::health, inGamePanel);
+			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
 		}
-		/*else if(variant == "cooldown")
-		{
-		App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr, type::cooldown, inGamePanel);
-		}*/
-
+	
 	}
 
 	// cooldown clocks    

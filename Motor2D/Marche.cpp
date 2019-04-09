@@ -245,7 +245,7 @@ bool Marche::Update(float dt)
 	}
 
 	//test buff
-	/*j1Entity* j1 = nullptr;
+/*	j1Entity* j1 = nullptr;
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
 	{
 		

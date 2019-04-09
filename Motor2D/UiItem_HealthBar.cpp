@@ -27,35 +27,63 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSectio
 
 }
 
+
+UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent, j1Entity* deliever) : UiItem(parent)
+{
+	this->guiType = GUI_TYPES::HEALTHBAR;
+	this->variantType = variant;
+
+	int x = (int)deliever->position.x; 
+	int y = (int)deliever->position.y; 
+
+	iPoint staticPos(x,y);                       
+	staticImage = App->gui->AddImage(staticPos, staticSection, this);
+
+
+	iPoint newPos(staticPos.x + (staticSection->w - dynamicSection->w) / 2, staticPos.y + (staticSection->h - dynamicSection->h) / 2);
+
+	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
+
+	damageImage = App->gui->AddImage(newPos + iPoint(8, 0), damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	damageImage->hide = true;
+
+	maxSection = dynamicImage->section.w;
+
+}
+
+
+
 void UiItem_HealthBar::Draw(const float& dt)
 {
 
 	// we will use the draw call to calculate, but the two images are drawn in image cpp
 
-/*	if (this->variantType == type::health)
-	{*/
-	if (conversionFactor == 0.0f)
+	if (this->variantType == type::player)
 	{
-		conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
-	}
 
-	lastSection = dynamicImage->section.w;
-	dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
+			if (conversionFactor == 0.0f)
+			{
+				conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
+			}
+
+			lastSection = dynamicImage->section.w;
+			dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
 
 
-	if (damageInform.doDamage)
-	{
-		damageBarTimer.Start();
-		DamageLogic();
-	}
-	else if (damageBarTimer.ReadMs() > 2000) // if time's over
-	{
-		DamageQuadReset();
-	}
-	else if (lastSection < dynamicImage->section.w ) // if life being recuperated
-	{
-		DamageQuadReset();
-	}
+			if (damageInform.doDamage)
+			{
+				damageBarTimer.Start();
+				DamageLogic();
+			}
+			else if (damageBarTimer.ReadMs() > 2000) // if time's over
+			{
+				DamageQuadReset();
+			}
+			else if (lastSection < dynamicImage->section.w) // if life being recuperated
+			{
+				DamageQuadReset();
+			}
+		}
 
 }
 
