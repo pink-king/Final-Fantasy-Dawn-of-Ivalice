@@ -44,7 +44,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/iso_walk.tmx"))
+	if (App->map->Load("maps/iso_walk.tmx")) //level1_Block_rev.tmx"))   //iso_walk.tmx
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -145,6 +145,12 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	int mx, my;
+	App->input->GetMousePosition(mx, my);
+	iPoint mousePos = App->render->ScreenToWorld(mx, my);
+	LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
+	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
+	LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 
 	// map debug draw grids
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)

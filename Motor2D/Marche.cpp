@@ -142,6 +142,8 @@ bool Marche::Update(float dt)
 			currentAnimation->speed = 10.f;
 			InputMovement(dt);
 			InputCombat();
+
+			//LOG("player pipos: %f,%f", GetPivotPos().x, GetPivotPos().y);
 		}
 		else
 		{
