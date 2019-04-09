@@ -14,8 +14,10 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 	// first capture sections according to the ability type. They are defined in gui cpp 
 
 
-	this->position = position; 
+	this->hitBox.x = position.x;
+	this->hitBox.y = position.y;
 	this->section = *section;
+	maxHeight = section->h;      // capture the section height, it will be modified
 	this->type = type;
 
 	// then load the ability type 
@@ -47,7 +49,7 @@ void UiItem_CooldownClock::Draw(const float & dt)
 
 	
 	DoLogic(); 
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F);
+	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section);
 
 }
 
@@ -56,37 +58,7 @@ void UiItem_CooldownClock::CheckState()
 {
 
 
-	// ability 1 
-	if (keepAnEye.ability == "special1")
-	{
-		if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
-			>= App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
-		{
-
-		}
-	}
-
-
-	// ability 2
-	if (keepAnEye.ability == "special2")
-	{
-		if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
-			>= App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
-		{
-
-		}
-	}
-
-
-	// ulti 
-	if (keepAnEye.ability == "ulti")
-	{
-		if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
-			>= App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
-		{
-
-		}
-	}
+	
 
 
 	// potion    // TODO (when potion cooldonwn available 
@@ -109,6 +81,54 @@ void UiItem_CooldownClock::DoLogic()
 
 
 
+	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
+		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
+		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
+	{
+
+		float proportion = 0.0f; 
+
+		// ability 1 
+		if (keepAnEye.ability == "special1")
+		{
+			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
+				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
+			{
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight; 
+
+				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion; 
+			}
+		}
+
+
+		// ability 2
+		if (keepAnEye.ability == "special2")
+		{
+			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
+				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
+			{
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime / maxHeight;
+
+				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
+
+			}
+		}
+
+
+		// ulti 
+		if (keepAnEye.ability == "ulti")
+		{
+			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
+				< App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
+			{
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
+
+			}
+		}
+
+		
+
+	}
 
 
 }

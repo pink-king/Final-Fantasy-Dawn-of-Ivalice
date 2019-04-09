@@ -35,6 +35,7 @@ private:
 	SDL_Texture* texture = nullptr;
 	
 	SDL_Rect section; 
+	uint maxHeight; 
 	iPoint position; 
 	std::string type; 
 

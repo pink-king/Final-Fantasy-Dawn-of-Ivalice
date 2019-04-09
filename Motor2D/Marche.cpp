@@ -182,7 +182,7 @@ bool Marche::Update(float dt)
 
 
 	case combatState::SPECIAL1:
-		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
+		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
 
@@ -205,9 +205,9 @@ bool Marche::Update(float dt)
 		break;
 
 	case combatState::SPECIAL2:
-		if (coolDownData.special2.timer.Read() > coolDownData.ultimate.cooldownTime)
+		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
-			coolDownData.ultimate.timer.Start();
+			coolDownData.special2.timer.Start();
 
 			// add gui clock
 
