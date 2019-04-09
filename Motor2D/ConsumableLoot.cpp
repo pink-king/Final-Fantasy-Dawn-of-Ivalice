@@ -5,9 +5,7 @@
 
 Consumable::Consumable(int posX, int posY) : LootEntity(posX, posY)
 {
-	
-
-	
+		
 	SetConsumable();
 }
 

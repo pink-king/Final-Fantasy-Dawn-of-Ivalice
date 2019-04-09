@@ -150,26 +150,22 @@ LOOT_TYPE j1LootManager::WillDrop()
 {
 
 	int randvalue = GetRandomValue(1, 100);
-	if (enemyDead)
-	{
-		if (randvalue <= 100)
-		{
-			toDrop = true;
-			if (randvalue <= 15)
-				return  LOOT_TYPE::CONSUMABLE;
 
-			else  
-				return  LOOT_TYPE::EQUIPABLE;
+	if (randvalue <= 100)
+	{
+		toDrop = true;
+		if (randvalue <= 15)
+			return  LOOT_TYPE::CONSUMABLE;
+
+		else  
+			return  LOOT_TYPE::EQUIPABLE;
 
 
 		}
 
 		else toDrop = false;
 
-		
-	}
-	else
-		enemyDead = false;
+
 
 	return LOOT_TYPE::NO_LOOT;
 
