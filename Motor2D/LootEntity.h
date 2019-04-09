@@ -15,32 +15,49 @@ enum class LOOT_TYPE
 	NO_LOOT
 };
 
+enum class OBJECT_TYPE
+{
+	WEAPON_OBJECT,
+	ARMOR_OBJECT,
+	HEAD_OBJECT,
+	POTIONS,
+	GOLD,
 
+	NO_OBJECT
+};
 
 class LootEntity : public j1Entity
 {
 
 public:
-	LootEntity(int posX, int posY);
+	LootEntity(LOOT_TYPE type, int posX, int posY);
 	~LootEntity();
 
 	virtual bool Update(float dt);
 	std::string GetName();
 	LOOT_TYPE GetType();
-	
+	OBJECT_TYPE GetObjectType();
 	void Draw();
 	int GetRandomValue(int min, int max);
 	
+	void CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
 public:
 	
-	int randomvalue;
 	iPoint loot_pos;
-	LOOT_TYPE loot_type;
 	std::string lootname;
 	PlayerEntity* player;
 	EnemyTest* enemy;
 	SDL_Rect loot_rect;
 	SDL_Texture* goldTex;
+
+	std::vector<Buff*>	stats;
+
+	uint price = 10;
+
+protected:
+
+	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
+	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
 };
 

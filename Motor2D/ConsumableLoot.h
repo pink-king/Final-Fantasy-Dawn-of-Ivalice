@@ -5,8 +5,8 @@
 
 enum class CONSUMABLE_TYPE
 {
-	GOLD,
-	POTION
+	POTION,
+	NO_CONSUMIBLE
 };
 class Consumable : public LootEntity
 {

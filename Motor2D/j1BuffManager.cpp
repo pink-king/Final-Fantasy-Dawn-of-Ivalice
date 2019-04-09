@@ -3,6 +3,8 @@
 #include "j1EntityFactory.h"
 #include "j1Window.h"
 #include "j1Map.h"
+
+
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -181,7 +183,8 @@ void j1BuffManager::DeleteBuff(Buff* buff)
 	}
 }
 
-void j1BuffManager::AddItemStats(items * item)
+
+void j1BuffManager::AddItemStats(LootEntity * item)
 {
 	std::vector<Buff*>::iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)
@@ -190,7 +193,7 @@ void j1BuffManager::AddItemStats(items * item)
 	}
 }
 
-void j1BuffManager::RemoveItemStat(items * item)
+void j1BuffManager::RemoveItemStat(LootEntity * item)
 {
 	std::vector<Buff*>::iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)

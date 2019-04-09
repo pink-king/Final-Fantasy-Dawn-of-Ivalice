@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1EntityFactory.h"
+#include "j1BuffManager.h"
 #include <random>
 
 
@@ -36,7 +37,7 @@ bool j1LootManager::Awake(pugi::xml_node& config)
 		{
 			//EquipmentID[i] = node.attribute("id").as_int();
 			//LOG("equipment %i added", EquipmentID[i]);
-			i++;
+			++i;
 		}
 		return ret;
 	
@@ -44,42 +45,33 @@ bool j1LootManager::Awake(pugi::xml_node& config)
 
 bool j1LootManager::Start()
 {
-	/*goldTex = App->tex->Load("textures/loot/Gold.png");
-	potionHPTex = App->tex->Load("textures/loot/health_potion.png");*/
 
-	LootTexture = App->tex->Load("textures/loot/loot_items.png");
 	return true;
 
 }
 
 bool j1LootManager::PreUpdate()
 {
-	//WillDrop();
 	return true;
 }
 bool j1LootManager::Update(float dt)
 {
-	if (enemyDead)
-	{
-		
-		//SetLootPos(lootPos.x, lootPos.y);
-		//see if works usign the same var
-		LOG("lootpos %i x %i y", lootPos);
-		//CreateLoot(lootPos.x, lootPos.y, "LootTest");
-		
-		enemyDead = false;
-	}
+	for(std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
+		{
+			if (CollectLoot((LootEntity*)(*item)))
+			{
+				App->entityFactory->DeleteEntityFromSubtile(*item);
+				item = App->entityFactory->entities.erase(item);
+				break;
+			}
+		}
+
+	LOG("lootpos %i x %i y", lootPos);
 
 	return true;
 }
 
-bool j1LootManager::CheckEnemyDeath(EnemyTest* enemy)
-{
-	if (enemy->life <= 0)
-		return enemyDead = true;
-
-	
-}
 
 //iPoint j1LootManager::GetPlayerSubtile(PlayerEntity* player)
 //{
@@ -87,9 +79,8 @@ bool j1LootManager::CheckEnemyDeath(EnemyTest* enemy)
 //}
 
 //retard in the set position, when enemy dies his position is saved until the next drop (DESFASE)
-iPoint j1LootManager::GetEnemySubtile(EnemyTest* enemy)
+iPoint j1LootManager::GetEnemySubtile(j1Entity* enemy)
 {
-	
 	return lootPos = enemy->GetSubtilePos();
 }
 
@@ -120,13 +111,7 @@ int j1LootManager::GetRandomValue(int min, int max)
 
 j1Entity* j1LootManager::CreateLootType(int x, int y)
 {
-	//randomvalue = GetRandomValue(1, 20);
-	////LOG("THIS is choose entity %i", testvalue);
-	//if (randomvalue <= 15)
-	//	loot_type = LOOT_TYPE::CONSUMABLE;
 
-	//else
-	//	loot_type = LOOT_TYPE::EQUIPABLE;
 	j1Entity * ret = nullptr;
 	
 	switch (WillDrop())
@@ -151,7 +136,7 @@ LOOT_TYPE j1LootManager::WillDrop()
 
 	int randvalue = GetRandomValue(1, 100);
 
-	if (randvalue <= 100)
+	if (randvalue <= lootChance)
 	{
 		toDrop = true;
 		if (randvalue <= 15)
@@ -169,6 +154,54 @@ LOOT_TYPE j1LootManager::WillDrop()
 
 	return LOOT_TYPE::NO_LOOT;
 
+}
+
+bool j1LootManager::CollectLoot(LootEntity* entityLoot)
+{
+	//LoadItemData(object);
+	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
+	{
+		if (App->entityFactory->player->equipedObjects.size() == 0)
+		{
+			App->entityFactory->player->equipedObjects.push_back(entityLoot);
+			App->buff->AddItemStats(entityLoot);
+		}
+		else
+		{
+			bool existSimilar = false;
+			std::vector<LootEntity*>::iterator item = App->entityFactory->player->equipedObjects.begin();
+			for (; item != App->entityFactory->player->equipedObjects.end(); ++item)
+			{
+
+				if (entityLoot->GetObjectType() == (*item)->GetObjectType())
+					existSimilar = true;
+			}
+
+			if (!existSimilar)
+			{
+				App->entityFactory->player->equipedObjects.push_back(entityLoot);
+				App->buff->AddItemStats(entityLoot);
+			}
+			else
+			{
+				App->entityFactory->player->bagObjects.push_back(entityLoot);
+			}
+		}
+	}
+	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+	{
+		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
+			App->entityFactory->player->consumibles.push_back(entityLoot);
+
+		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
+		{
+			App->entityFactory->player->gold += entityLoot->price;
+			entityLoot->to_delete = true;
+			return false;
+		}
+
+	}
+	return true;
 }
 //LootEntityManager::LootEntityManager(iPoint pos) : j1Entity(LOOT, pos.x, pos.y, "LootItem")
 //{

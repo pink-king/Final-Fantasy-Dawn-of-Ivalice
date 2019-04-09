@@ -23,22 +23,18 @@ public:
 	//void GetItem(LootEntity*, j1Entity*);
 	//bool GetSelectedLoot();
 
-
-	bool CheckEnemyDeath(EnemyTest*);
-
 	iPoint SetLootPos(int x, int y);
-	//void GetAttributes(LootEntity*);
-	//void SetAttributes(LootEntity*);
 
-	//iPoint GetPlayerSubtile(PlayerEntity*);
 	void CreateLoot(int x, int y, std::string name);
-	iPoint GetEnemySubtile(EnemyTest*);
+	iPoint GetEnemySubtile(j1Entity*);
 
 	LOOT_TYPE WillDrop();
 	int GetRandomValue(int min, int max);
 	j1Entity* CreateLootType(int x , int y);
+
+	bool CollectLoot(LootEntity* etityLoot);
 public:
-	bool enemyDead = false;
+
 	bool toDrop = false;
 
 	
@@ -47,9 +43,6 @@ public:
 
 	iPoint lootPos;
 	iPoint mynewpos;
-	//SDL_Texture * goldTex;
-	//SDL_Texture* potionHPTex;
-	SDL_Texture* LootTexture;
 	
 	std::vector<int> goldValue;
 	std::vector<int> EquipmentID;
@@ -79,4 +72,4 @@ public:
 //	std::vector<LootEntity*> lootItems;
 //	std::list<LootEntity*> lootList;
 //};
-#endif // !LOOTENTITYMAGANER_H__
+#endif // !LOOTENTITYMAGANER_H

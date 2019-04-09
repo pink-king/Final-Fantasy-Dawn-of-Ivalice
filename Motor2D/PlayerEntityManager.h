@@ -8,6 +8,7 @@
 #include "Ritz.h"
 #include "Shara.h"
 #include "j1Input.h"
+#include "LootEntity.h"
 
 class Crosshair
 {
@@ -77,6 +78,13 @@ public:
 	const j1Entity* GetSelectedCharacterEntity() const;
 	const float GetLastPlayerHeadingAngle() const;
 	PlayerEntity* selectedCharacterEntity = nullptr;
+
+	//Loot vectors
+	std::vector<LootEntity*>		equipedObjects;
+	std::vector<LootEntity*>		bagObjects;
+	std::vector<LootEntity*>		consumibles;
+
+	uint							gold = 0;
 
 private:
 	float lastCharHeadingAngle; // rad

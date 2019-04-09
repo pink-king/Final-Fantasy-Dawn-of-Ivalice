@@ -4,10 +4,8 @@
 
 
 
-Equipable::Equipable(int posX, int posY) : LootEntity(posX, posY)
+Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
-	entityTex = App->lootManager->LootTexture;
-
 	SetEquipable();
 }
 
@@ -56,7 +54,7 @@ void Equipable::SetEquipable()
 	switch (ChooseEquipable())
 	{
 	case EQUIPABLE_TYPE::SWORD:
-
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 59,67,16,16 };
 		SetPivot(8, 12);
 
@@ -64,22 +62,29 @@ void Equipable::SetEquipable()
 		break;
 	
 	case EQUIPABLE_TYPE::BOW:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 93,32,13,13 };
 		SetPivot(7, 9);
 
 		size.create(13, 13);
 		break;
 	case EQUIPABLE_TYPE::ROD:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 12,67,11,16 };
 		SetPivot(18, 75);
 
 		size.create(5, 13);
 		break;
 	case EQUIPABLE_TYPE::ARMOR:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		break;
 	case EQUIPABLE_TYPE::VEST:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+
 		break;
 	case EQUIPABLE_TYPE::MANTLE:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+
 		break;
 	}
 }

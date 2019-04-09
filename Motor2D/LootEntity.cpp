@@ -6,7 +6,7 @@
 #include "p2Log.h"
 #include <random>
 
-LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
+LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	entityTex = App->tex->Load("textures/loot/loot_items.png");
 	//ChooseEntity();
@@ -51,9 +51,10 @@ LOOT_TYPE LootEntity::GetType()
 
 }
 
-
-
-
+OBJECT_TYPE LootEntity::GetObjectType()
+{
+	return objectType;
+}
 
 //Quan arriba aqui per primera vegada ya ha fet 10 randoms WTF
 int LootEntity::GetRandomValue(int min, int max)
@@ -68,15 +69,21 @@ int LootEntity::GetRandomValue(int min, int max)
 	return ret;
 }
 
+void LootEntity::CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value)
+{
+	stats.push_back(new Buff(type, character, stat, elementType, rol, value));
+}
+
 void LootEntity::Draw()
 {
 	//TO FIX only blits pivot
 	if (entityTex != nullptr)
 		App->render->Blit(entityTex, position.x, position.y, &loot_rect);
 	//LOG("painting loot");
-
-	
 }
+
+
+
 //LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
 //{
 //	SetLootSubtile(posX, posY);

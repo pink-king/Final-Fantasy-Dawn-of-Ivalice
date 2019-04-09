@@ -46,6 +46,8 @@ public:
 
 	int equipableChance;
 
+	uint level;
+
 
 };
 

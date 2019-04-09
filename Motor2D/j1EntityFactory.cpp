@@ -76,6 +76,9 @@ bool j1EntityFactory::Update(float dt)
 	{
 		if ((*item) != nullptr) 
 		{
+			bool createLoot = false;
+			iPoint enemypos;
+
 			if (!(*item)->to_delete)
 			{
 				ret = (*item)->Update(dt);
@@ -90,10 +93,21 @@ bool j1EntityFactory::Update(float dt)
 			}
 			else
 			{
+				//if entit is diffetent to player create loot
+				if ((*item)->type != ENTITY_TYPE::PLAYER)
+				{
+					createLoot = true;
+					enemypos = { App->lootManager->GetEnemySubtile((*item)).x, App->lootManager->GetEnemySubtile((*item)).y };
+				}
 				(*item)->CleanUp();
 				delete(*item);
 				(*item) = nullptr;
 				item = entities.erase(item);
+
+			}
+			if (createLoot)
+			{
+				App->lootManager->CreateLoot(App->lootManager->SetLootPos(enemypos.x, enemypos.y).x, App->lootManager->SetLootPos(enemypos.x, enemypos.y).y, "no");
 			}
 		}
 	}

@@ -30,11 +30,6 @@ EnemyTest::EnemyTest(iPoint position) : j1Entity(ENEMY_TEST, position.x, positio
 EnemyTest::~EnemyTest()
 {
 
-	iPoint enemypos = { App->lootManager->GetEnemySubtile(this).x, App->lootManager->GetEnemySubtile(this).y };
-
-
-
-	App->lootManager->CreateLoot(App->lootManager->SetLootPos(enemypos.x,enemypos.y).x, App->lootManager->SetLootPos(enemypos.x, enemypos.y).y, "no");
 	/*LOG("LOOtValue %iX %iY", App->loot->loot_pos.x, App->loot->loot_pos.y);*/
 	LOG("Bye Enemy Test %fx %fy ", position.x, position.y);
 } 
@@ -335,19 +330,6 @@ bool EnemyTest::CleanUp()
 	{
 		App->tex->UnLoad(entityTex);
 		entityTex = nullptr;
-	}
-
-	std::vector<items*>::iterator iter = bagObjects.begin();
-	for (; iter != bagObjects.end(); ++iter)
-	{
-		delete *iter;
-		*iter = nullptr;
-	}
-	std::vector<items*>::iterator iter2 = equipedObjects.begin();
-	for (; iter2 != equipedObjects.end(); ++iter2)
-	{
-		delete *iter2;
-		*iter2 = nullptr;
 	}
 
 	return true;
