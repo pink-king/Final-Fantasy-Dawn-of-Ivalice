@@ -49,7 +49,7 @@ void UiItem_CooldownClock::Draw(const float & dt)
 
 	
 	DoLogic(); 
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section);
+	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0f);
 
 }
 
