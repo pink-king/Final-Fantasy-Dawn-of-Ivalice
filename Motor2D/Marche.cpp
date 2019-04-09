@@ -10,6 +10,8 @@
 #include "j1ItemsManager.h"
 #include "j1AttackManager.h"
 #include "j1Gui.h"
+#include "j1App.h"
+#include "j1Scene.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -183,7 +185,10 @@ bool Marche::Update(float dt)
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-			//App->gui->AddClock(); 
+
+			// add gui clock
+
+			App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "ability1", this, App->scene->inGamePanel);
 		}
 		break;
 	case combatState::SPECIAL2:
@@ -191,6 +196,9 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.ultimate.timer.Start();
 
+			// add gui clock
+
+			App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "ability2", this, App->scene->inGamePanel);
 		}
 		break;
 

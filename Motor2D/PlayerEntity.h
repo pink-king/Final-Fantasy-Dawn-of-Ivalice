@@ -83,7 +83,7 @@ public:
 
 	bool aiming = false;
 	
-protected:
+public:
 	combatState combat_state;
 	coolDown coolDownData;
 

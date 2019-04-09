@@ -5,41 +5,19 @@
 #include "j1Render.h"
 #include "p2Log.h"
 
-UiItem_CooldownClock::UiItem_CooldownClock(std::string theType, PlayerEntity* callback, UiItem*const parent) :UiItem(parent)
+UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, PlayerEntity* callback, UiItem*const parent) :UiItem(position, parent)
 {
 
 	// first capture sections according to the ability type. They are defined in gui cpp 
 
-	if (theType == "ability1")
-	{
-		position = App->gui->allclocksData.ability1.position;
-		section = App->gui->allclocksData.ability1.section;
-	}
 
-	else if (theType == "ability2")
-	{
-		position = App->gui->allclocksData.ability2.position;
-		section = App->gui->allclocksData.ability2.section;
-	}
-
-	else if (theType == "ulti")
-	{
-		position = App->gui->allclocksData.ulti.position;
-		section = App->gui->allclocksData.ulti.section;
-	}
-
-	else if (theType == "potion")
-	{
-		position = App->gui->allclocksData.potion.position;
-		section = App->gui->allclocksData.potion.section;
-	}
-
-	hitBox.x = position.x; 
-	hitBox.y = position.y;
+	this->position = position; 
+	this->section = *section;
+	this->type = type;
 
 	// then load the ability type 
 
-	keepAnEye.ability = theType; 
+	keepAnEye.ability = type; 
 
 
 	// lastly, define the player to keep an eye at
@@ -75,6 +53,8 @@ void UiItem_CooldownClock::CheckState() {
 
 
 	// TODO 
+
+
 
 }
 

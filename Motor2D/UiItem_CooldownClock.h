@@ -26,7 +26,7 @@ struct toCheck {
 class UiItem_CooldownClock : public UiItem
 {
 public:
-	UiItem_CooldownClock(std::string theType, PlayerEntity* callback, UiItem*const parent);              // add stuff
+	UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, PlayerEntity* callback, UiItem*const parent);              // add stuff
 	void Draw(const float& dt) override;
 	void CleanUp();
 
@@ -36,10 +36,9 @@ public:
 private: 
 	SDL_Texture* texture = nullptr;
 	
-	
-	iPoint position; 
 	SDL_Rect section; 
-
+	iPoint position; 
+	std::string type; 
 
 	State theState; 
 	toCheck keepAnEye; 

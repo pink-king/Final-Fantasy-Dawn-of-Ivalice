@@ -73,7 +73,7 @@ public:
 
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent = nullptr);
-	UiItem_CooldownClock* AddClock(std::string type, PlayerEntity* callback = nullptr, UiItem*const parent = nullptr);
+	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, PlayerEntity* callback = nullptr, UiItem*const parent = nullptr);
 
 
 	SDL_Texture* GetAtlas();

@@ -558,11 +558,11 @@ UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSe
 
 
 
-UiItem_CooldownClock * j1Gui::AddClock(std::string type, PlayerEntity* callback, UiItem*const parent)
+UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::string type, PlayerEntity* callback, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_CooldownClock(type, callback, parent);
+	newUIItem = new UiItem_CooldownClock(position, section, type, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
 
