@@ -49,6 +49,8 @@ void UiItem_CooldownClock::Draw(const float & dt)
 
 	
 	DoLogic(); 
+
+	if(!hide)
 	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0f);
 
 }
@@ -85,6 +87,8 @@ void UiItem_CooldownClock::DoLogic()
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
 	{
+
+		hide = false; 
 
 		float proportion = 0.0f; 
 
@@ -128,6 +132,10 @@ void UiItem_CooldownClock::DoLogic()
 
 		
 
+	}
+	else
+	{
+		hide = true; 
 	}
 
 

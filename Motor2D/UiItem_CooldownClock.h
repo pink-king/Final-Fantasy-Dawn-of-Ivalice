@@ -41,6 +41,7 @@ private:
 
 	State theState; 
 	toCheck keepAnEye; 
+	bool hide = false; 
 
 };
 
