@@ -23,6 +23,7 @@ enum GUI_TYPES
 	CHECKBOX,
 	HITPOINT,
 	HEALTHBAR,
+	CLOCK,
 	UNKNOWN
 };
 
@@ -52,6 +53,8 @@ public:
 	bool tabbed = false;
 	bool enable = true;
 	UiItem* iFriend = nullptr;
+
+
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string &functionName) {};

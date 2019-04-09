@@ -188,9 +188,22 @@ bool Marche::Update(float dt)
 
 			// add gui clock
 
-			App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "ability1", this, App->scene->inGamePanel);
+			if (!App->gui->spawnedClocks.Marche.special1)
+			{
+
+				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Marche", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Marche.special1 = true;
+			}
+			else
+			{
+				myUIClocks.special1->Restart(); 
+			}
+
+
 		}
 		break;
+
 	case combatState::SPECIAL2:
 		if (coolDownData.special2.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
@@ -198,7 +211,19 @@ bool Marche::Update(float dt)
 
 			// add gui clock
 
-			App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "ability2", this, App->scene->inGamePanel);
+			if (!App->gui->spawnedClocks.Marche.special2)
+			{
+
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Marche.special2 = true;
+			}
+			else
+			{
+				myUIClocks.special2->Restart();
+			}
+
+
 		}
 		break;
 

@@ -275,6 +275,9 @@
     <ClInclude Include="j1AttackManager.h">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="GUI_Definitions.h">
+      <Filter>Desenvolupament ========\Modules\GUI\help</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml" />
@@ -329,6 +332,9 @@
     </Filter>
     <Filter Include="Desenvolupament ========\Modules\GUI\SpecialItems\Managers">
       <UniqueIdentifier>{2b852de9-6821-490c-9c5c-2adec93c557c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament ========\Modules\GUI\help">
+      <UniqueIdentifier>{a181e39f-af10-43ef-baff-9c00f9258ca7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

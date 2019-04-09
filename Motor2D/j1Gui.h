@@ -15,8 +15,7 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "UiItem_CooldownClock.h"
-#include "PlayerEntityManager.h"
-#include "PlayerEntity.h"
+#include "GUI_Definitions.h"
 
 struct labelInfo
 {
@@ -26,6 +25,9 @@ struct labelInfo
 };
 
 
+
+
+/*// - - - - - - - the following two methods are only meant for loading the xml data - - - - - - - 
 struct coolDownClockData
 {
 	iPoint position; 
@@ -36,9 +38,37 @@ struct coolDownClockData
 struct theClocks
 {
 
-	coolDownClockData ability1, ability2, ulti, potion; 
+	coolDownClockData ability1, ability2, ulti, potion;
 
 };
+
+// - - - - - - - the following two methods are meant for checking created clocks according to type and player - - - - - - - 
+
+struct createdClocks {
+	bool special1 = false; 
+	bool special2 = false;
+	bool ulti = false;
+	bool potion = false;
+};
+
+
+struct clockOwners {
+	createdClocks Marche, Ritz, Shara; 
+};
+
+// - - - - - - - - - - - - - this method is meant to contain all clocks for a single player - - - - - - - - - - - - // 
+
+
+
+struct myClocks {
+	UiItem_CooldownClock* special1 = nullptr; 
+	UiItem_CooldownClock* special2 = nullptr;
+	UiItem_CooldownClock* ulti = nullptr;
+	UiItem_CooldownClock* potion = nullptr;
+};*/
+
+struct theClocks;
+struct clockOwners; 
 
 class j1Gui : public j1Module
 {
@@ -73,7 +103,7 @@ public:
 
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent = nullptr);
-	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, PlayerEntity* callback = nullptr, UiItem*const parent = nullptr);
+	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent = nullptr);
 
 
 	SDL_Texture* GetAtlas();
@@ -93,6 +123,7 @@ private:
 public:
 	bool resetHoverSwapping = false;
 	theClocks allclocksData; 
+	clockOwners spawnedClocks;
 
 };
 

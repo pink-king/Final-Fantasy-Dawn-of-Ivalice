@@ -128,6 +128,7 @@
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
+    <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />

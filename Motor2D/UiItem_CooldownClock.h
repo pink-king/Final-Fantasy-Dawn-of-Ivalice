@@ -5,13 +5,12 @@
 #include "p2Point.h"
 #include <cstdint>
 #include "j1Timer.h"
-#include "PlayerEntity.h"
-#include "j1EntityFactory.h"
+
 
 enum State {
 	stop,
 	run,
-	await
+	await    
 };
 
 struct toCheck {
@@ -26,10 +25,9 @@ struct toCheck {
 class UiItem_CooldownClock : public UiItem
 {
 public:
-	UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, PlayerEntity* callback, UiItem*const parent);              // add stuff
+	UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, std::string charName, UiItem*const parent);              // add stuff
 	void Draw(const float& dt) override;
-	void CleanUp();
-
+	void Restart();    // once created, the clock loops, it does not destroy itself
 	void DoLogic(); 
 	void CheckState(); 
 
@@ -42,6 +40,7 @@ private:
 
 	State theState; 
 	toCheck keepAnEye; 
+
 };
 
 #endif

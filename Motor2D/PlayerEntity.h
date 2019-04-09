@@ -6,6 +6,9 @@
 #include "j1Entity.h"
 #include "Buff.h"
 
+
+
+
 #define PI 3.14159265359f
 
 struct SDL_Texture;

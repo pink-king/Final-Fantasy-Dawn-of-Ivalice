@@ -4,9 +4,12 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1EntityFactory.h"
 
-UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, PlayerEntity* callback, UiItem*const parent) :UiItem(position, parent)
+UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, std::string charName, UiItem*const parent) :UiItem(position, parent)
 {
+
+	this->guiType = GUI_TYPES::CLOCK; 
 
 	// first capture sections according to the ability type. They are defined in gui cpp 
 
@@ -22,15 +25,15 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 
 	// lastly, define the player to keep an eye at
 
-	if (callback->character == characterName::MARCHE)
+	if (charName == "Marche")
 	{
 		keepAnEye.character = "Marche"; 
 	}
-	else if (callback->character == characterName::RITZ)
+	else if (charName == "Ritz")
 	{
 		keepAnEye.character = "Ritz";
 	}
-	else if (callback->character == characterName::SHARA)
+	else if (charName == "Shara")
 	{
 		keepAnEye.character = "Shara";
 	}
@@ -49,21 +52,55 @@ void UiItem_CooldownClock::Draw(const float & dt)
 }
 
 
-void UiItem_CooldownClock::CheckState() {
+void UiItem_CooldownClock::CheckState() 
+{
 
 
-	// TODO 
+	// ability 1 
+	if (keepAnEye.ability == "special1")
+	{
+		if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
+			>= App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
+		{
+
+		}
+	}
+
+
+	// ability 2
+	if (keepAnEye.ability == "special2")
+	{
+		if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
+			>= App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
+		{
+
+		}
+	}
+
+
+	// ulti 
+	if (keepAnEye.ability == "ulti")
+	{
+		if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
+			>= App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
+		{
+
+		}
+	}
+
+
+	// potion    // TODO (when potion cooldonwn available 
+	
 
 
 
 }
 
 
-void UiItem_CooldownClock::CleanUp()
+
+void UiItem_CooldownClock::Restart()
 {
 
-	if (texture != nullptr)
-		App->tex->UnLoad(texture);
 }
 
 
