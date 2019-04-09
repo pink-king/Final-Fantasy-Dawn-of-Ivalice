@@ -455,17 +455,18 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
-UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent) // , TypeBar type)
+UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Bar(position, section, thumb_section, parent); // , type);
+	newUIItem = new UiItem_Bar(position, name, section, thumb_section, parent);
 
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Bar*)newUIItem;
-
 }
+
+
 
 UiItem_Button * j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
 {

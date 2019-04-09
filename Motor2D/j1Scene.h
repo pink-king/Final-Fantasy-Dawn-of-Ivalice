@@ -6,6 +6,7 @@
 struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
+class UiItem_Bar;
 class UiItem;
 class PlayerEntityManager;
 
@@ -60,6 +61,10 @@ private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
 	bool LoadedUi = false;
+	UiItem_Bar* volume_bar = nullptr;
+	UiItem_Bar* fx_bar = nullptr;
+	float result_volume = 0.0f;
+	float result_fx = 0.0f;
 
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
