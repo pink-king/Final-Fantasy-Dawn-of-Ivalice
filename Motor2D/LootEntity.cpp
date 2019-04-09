@@ -26,7 +26,7 @@ LootEntity::~LootEntity()
 
 bool LootEntity::Update(float dt)
 {
-	//Draw();
+	
 	return true;
 }
 
@@ -82,72 +82,7 @@ void LootEntity::Draw()
 	//LOG("painting loot");
 }
 
-
-
-//LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
-//{
-//	SetLootSubtile(posX, posY);
-//	LOG("LootEntity Created");
-//}
-//
-//
-//LootEntity::~LootEntity()
-//{
-//}
-//
-//
-//bool Start()
-//{
-//	return true;
-//}
-//
-//
-//bool LootEntity::PreUpdate()
-//{
-//	return true;
-//}
-//
-//
-//bool LootEntity::Update(float dt)
-//{
-//	player->GetSubtilePos();
-//	if (lootTex != nullptr)
-//	{
-//		App->render->Blit(lootTex, position.x, position.y, &rect_test);
-//	}
-//	return true;
-//}
-//
-//
-//bool LootEntity::PostUpdate()
-//{
-//	return true;
-//}
-//
-//
-////bool LootEntity::CleanUp()
-////{
-////	return true;
-////}
-//
-////TO FIX blit image,  for now   DRAW() isn't called
-//void LootEntity::Draw()
-//{
-//	if (lootTex != nullptr)
-//	{
-//		App->render->Blit(lootTex, position.x, position.y, &rect_test);
-//    }
-//}
-//
-//void LootEntity::SetLootSubtile(int x , int y)
-//{
-//
-//	
-//	iPoint enemyPosition;
-//	enemyPosition = App->map->SubTileMapToWorld(App->lootManager->loot_pos.x, App->lootManager->loot_pos.y);
-//	LOG("LootSUbtilePos %i X  %i Y", enemyPosition.x, enemyPosition.y);
-//	App->lootManager->loot_posX = enemyPosition.x;
-//	App->lootManager->loot_posY = enemyPosition.y;
-//	x = enemyPosition.x;
-//	y = enemyPosition.y;
-//}
+EQUIPABLE_TYPE LootEntity::GetEquipable()
+{
+	return equipableType;
+}

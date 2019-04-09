@@ -3,16 +3,16 @@
 
 #include "LootEntity.h"
 
-enum class EQUIPABLE_TYPE
-{
-	SWORD,
-	BOW,
-	ROD,
-	ARMOR,
-	VEST,
-	MANTLE
-	
-};
+//enum class EQUIPABLE_TYPE
+//{
+//	SWORD,
+//	BOW,
+//	ROD,
+//	ARMOR,
+//	VEST,
+//	MANTLE
+//	
+//};
 
 class Equipable : public LootEntity
 {
@@ -25,29 +25,23 @@ public:
 
 	EQUIPABLE_TYPE ChooseEquipable();
 	void SetEquipable();
-
+	
 public:
 
 
 	int id;
-	int itemLevel;
+	
 
 	std::string character;
 	std::string itemName;
 
-
-	float dmg;
-	float burn;
-	float cooldown;
-	float dmg_back;
-	float attck_spd;
-	float slow;
-	float poisonBack;
+	
 
 	int equipableChance;
 
 	uint level;
 
+	
 
 };
 

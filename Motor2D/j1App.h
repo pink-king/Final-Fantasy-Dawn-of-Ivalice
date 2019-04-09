@@ -92,7 +92,7 @@ private:
 	bool LoadGameNow();
 	bool SavegameNow() const;
 
-private:
+public:
 
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;

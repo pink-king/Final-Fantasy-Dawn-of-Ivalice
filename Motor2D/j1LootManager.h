@@ -9,6 +9,7 @@
 #include "j1App.h"
 #include"j1Entity.h"
 #include "EnemyTest.h"
+
 struct SDL_Texture;
 class j1LootManager : public j1Module
 {
@@ -16,7 +17,7 @@ public:
 	j1LootManager();
 	~j1LootManager();
 
-	bool Awake(pugi::xml_node&);
+	//bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
@@ -33,11 +34,11 @@ public:
 	j1Entity* CreateLootType(int x , int y);
 
 	bool CollectLoot(LootEntity* etityLoot);
+	bool LoadLootData(LootEntity* lootentity, pugi::xml_node&);
 public:
 
 	bool toDrop = false;
 
-	
 	int health;
 	int lootChance = 25;
 
@@ -48,28 +49,5 @@ public:
 	std::vector<int> EquipmentID;
 	
 };
-//class LootEntityManager : public j1Entity
-//{
-//public:
-//
-//	LootEntityManager(iPoint position);
-//	~LootEntityManager();
-//
-//	bool Start();
-//
-//	bool PreUpdate();
-//	bool Update(float dt);
-//	bool PostUpdate();
-//	bool CleanUp();
-//	void SelectLoot();
-//
-//
-//public:
-//	Gold * gold = nullptr;
-//	LOOT_TYPE lootSelectType;
-//	LootEntity* selectedLootEntity = nullptr;
-//
-//	std::vector<LootEntity*> lootItems;
-//	std::list<LootEntity*> lootList;
-//};
+
 #endif // !LOOTENTITYMAGANER_H

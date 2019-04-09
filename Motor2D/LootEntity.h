@@ -25,7 +25,16 @@ enum class OBJECT_TYPE
 
 	NO_OBJECT
 };
+enum class EQUIPABLE_TYPE
+{
+	SWORD,
+	BOW,
+	ROD,
+	ARMOR,
+	VEST,
+	MANTLE
 
+};
 class LootEntity : public j1Entity
 {
 
@@ -41,6 +50,7 @@ public:
 	int GetRandomValue(int min, int max);
 	
 	void CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
+	EQUIPABLE_TYPE GetEquipable();
 public:
 	
 	iPoint loot_pos;
@@ -54,37 +64,25 @@ public:
 
 	uint price = 10;
 
+	EQUIPABLE_TYPE equipableType;
 protected:
 
 	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
+public:
+	//---Equipable stats---//
+	int itemLevel;
+	float dmg;
+	float burn;
+	float cooldown;
+	float dmg_back;
+	float attck_spd;
+	float slow;
+	float poisonBack;
+	float heal;
+	float paralize;
+	int chanceTo;
 };
 
-//class LootEntity : public j1Entity
-//{
-//public:
-//	LootEntity(int posX, int posY);
-//	~LootEntity();
-//
-//	bool PreUpdate();
-//	
-//	bool Update(float dt);
-//	bool PostUpdate();
-//	//virtual bool CleanUp();
-//
-//	void Draw();
-//	LOOT_TYPE loot_type;
-//	bool enemy_dead = false;
-//	void SetLootSubtile(int x, int y);
-//
-//	SDL_Texture* lootTex;
-//	SDL_Rect rect_test;
-//	PlayerEntity* player;
-//	EnemyTest* enemy;
-//
-//	int value;
-//	//Pasar textures i posició de l'enemic, 
-//	//també pasar les variables del LootSystem
-//};
 #endif
