@@ -30,7 +30,7 @@ class UiItem_HealthBar : public UiItem
 
 public:
 	UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent);
-	UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent, j1Entity* deliever);
+	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem*const parent, j1Entity* deliever);
 
 	void Draw(const float& dt);
 
@@ -55,10 +55,10 @@ private:
 	type variantType;
 	j1PerfTimer damageBarTimer;
 
-	iPoint dynamicImagePosoffset; 
-	iPoint damageImagePosoffset; 
-	iPoint offsetFromEnemy; 
 
+	iPoint offsetFromEnemy; 
+	uint enemyMaxLife; 
+	bool startShowing = false; 
 public:
 	damageInfo damageInform;
 	j1Entity* deliever = nullptr; 

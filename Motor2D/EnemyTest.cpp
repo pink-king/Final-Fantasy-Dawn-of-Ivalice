@@ -55,6 +55,26 @@ bool EnemyTest::Update(float dt)
 	SetState(dt);
 
 
+	// --------------------------------------------------------------------------- This is faked: recieve attack from player
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	{
+		life -= 20; 
+		
+	}
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	{
+		life -= 30;
+	}
+
+	if (life <= 0)
+	{
+		CleanUp(); 
+	}
+
+	// --------------------------------------------------------------------------- This is faked: recieve attack from player
+
 	return true;
 }
 
