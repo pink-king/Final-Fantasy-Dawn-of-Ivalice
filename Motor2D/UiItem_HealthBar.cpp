@@ -81,7 +81,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 				damageBarTimer.Start();
 				DamageLogic();
 			}
-			else if (damageBarTimer.ReadMs() > 2000) // if time's over
+			else if (damageBarTimer.ReadMs() > 400) // if time's over
 			{
 				DamageQuadReset();
 			}
