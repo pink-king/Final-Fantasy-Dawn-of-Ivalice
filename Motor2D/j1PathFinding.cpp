@@ -32,63 +32,63 @@ bool j1PathFinding::Start()
 bool j1PathFinding::PostUpdate()
 {
 
-	//static iPoint origin;
-	//static bool origin_selected = false;
-	//static bool createdDebugPath = false;
+	static iPoint origin;
+	static bool origin_selected = false;
+	static bool createdDebugPath = false;
 
-	//iPoint mousePos;
-	//App->input->GetMousePosition(mousePos.x, mousePos.y);
-	//iPoint p = App->render->ScreenToWorld(mousePos.x, mousePos.y);
-	//p = App->map->WorldToMap(p.x, p.y);
+	iPoint mousePos;
+	App->input->GetMousePosition(mousePos.x, mousePos.y);
+	iPoint p = App->render->ScreenToWorld(mousePos.x, mousePos.y);
+	p = App->map->WorldToMap(p.x, p.y);
 
-	//if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	//{
-	//	if (origin_selected == true)
-	//	{
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
 
-	//		origin_selected = false;
+			origin_selected = false;
 
-	//		if (CreatePath(origin, p) != -1)
-	//		{
-	//			createdDebugPath = true;
-	//		}
+			if (CreatePath(origin, p) != -1)
+			{
+				createdDebugPath = true;
+			}
 
-	//	}
-	//	else
-	//	{
-	//		origin = p;
-	//		origin_selected = true;
-	//		createdDebugPath = false;
-	//		debugPath.clear();
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+			createdDebugPath = false;
+			debugPath.clear();
 
-	//	}
-	//}
+		}
+	}
 
-	//if (createdDebugPath)
-	//{
-	//	uint debugPathSize = debugPath.size();
-	//	if (debugPathSize == 0)
-	//	{
+	if (createdDebugPath)
+	{
+		uint debugPathSize = debugPath.size();
+		if (debugPathSize == 0)
+		{
 
-	//		const std::vector<iPoint>* path = App->pathfinding->GetLastPath();
-	//		uint sizeArray = path->size();
-	//		for (uint i = 0; i < sizeArray; ++i)
-	//		{
-	//			debugPath.push_back(path->at(i));
-	//		}
-	//	}
-	//	else
-	//	{
-	//		for (uint i = 0; i < debugPathSize; ++i)
-	//		{
-	//			iPoint pos = App->map->MapToWorld(debugPath.at(i).x, debugPath.at(i).y);
-	//			App->render->Blit(debug_texture, pos.x, pos.y);
-	//			App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
-	//			//LOG("Tile to print %i %i ", debugPath.at(i).x, debugPath.at(i).y);
-	//		}
-	//	}
+			const std::vector<iPoint>* path = App->pathfinding->GetLastPath();
+			uint sizeArray = path->size();
+			for (uint i = 0; i < sizeArray; ++i)
+			{
+				debugPath.push_back(path->at(i));
+			}
+		}
+		else
+		{
+			for (uint i = 0; i < debugPathSize; ++i)
+			{
+				iPoint pos = App->map->MapToWorld(debugPath.at(i).x, debugPath.at(i).y);
+				App->render->Blit(debug_texture, pos.x, pos.y);
+				App->render->DrawCircle(pos.x, pos.y + App->map->data.tile_height * 0.5F, 10, 0, 255, 255, 255, false);
+				//LOG("Tile to print %i %i ", debugPath.at(i).x, debugPath.at(i).y);
+			}
+		}
 
-	//}
+	}
 	return true;
 }
 

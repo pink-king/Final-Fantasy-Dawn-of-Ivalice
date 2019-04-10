@@ -132,9 +132,9 @@ bool Marche::Update(float dt)
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
-	/*if (App->pathfinding->IsWalkable(onTilePos))
+	if (App->pathfinding->IsWalkable(onTilePos))
 	{
-		previousPos = position;*/
+		previousPos = position;
 
 		
 		if (!isParalize)
@@ -142,18 +142,16 @@ bool Marche::Update(float dt)
 			currentAnimation->speed = 10.f;
 			InputMovement(dt);
 			InputCombat();
-
-			//LOG("player pipos: %f,%f", GetPivotPos().x, GetPivotPos().y);
 		}
 		else
 		{
 			currentAnimation->speed = 0.f;
 		}
-	/*}
+	}
 	else
 	{
 		position = previousPos;
-	}*/
+	}
 
 	// CHECK COMBAT STATE
 	switch (combat_state)
