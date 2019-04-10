@@ -26,6 +26,12 @@ bool j1Map::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	folder.assign(config.child("folder").child_value());
+
+	// configures the pixel offset (center top up isometric corner to real 0,0 world coord 
+	// if not, all the rest are 1 tile displaced
+	// for this, the worldToMap function on x needs to be workarounded by substracting -1
+	pixelTileOffset.create(0, 0);//-32, -16);//-64 * 0.5f, -32 * 0.5f);
+
 	return ret;
 }
 
@@ -58,7 +64,7 @@ void j1Map::Draw()
 							SDL_Rect r = tileset->GetTileRect(tile_id);
 							iPoint pos = MapToWorld(i, j);
 
-							App->render->Blit(tileset->texture, pos.x, pos.y, &r, (*layer)->properties.parallaxSpeed);
+							App->render->Blit(tileset->texture, pos.x + pixelTileOffset.x, pos.y + pixelTileOffset.y, &r, (*layer)->properties.parallaxSpeed);
 
 						}
 					}
@@ -146,8 +152,8 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int( (x / half_width + y / half_height) / 2) - 1;
-		ret.y = int( (y / half_height - (x / half_width)) / 2);
+		ret.x = int((x / half_width + (y / half_height)) * 0.5f) - 1; // this is caused because the sprite doesnt fit to 0,0 on real world
+		ret.y = int( (y / half_height - (x / half_width)) * 0.5f);	   // and needs this offset to match ( 1 tile displacement )
 	}
 	else
 	{

@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+
+
     <ClCompile Include="LootEntity.cpp">
       <Filter>Desenvolupament ========\Modules\Entities\Loot</Filter>
     </ClCompile>
@@ -21,6 +23,7 @@
     </ClCompile>
     <ClCompile Include="Ritz.cpp">
       <Filter>Desenvolupament ========\Modules\Entities\Player</Filter>
+
     </ClCompile>
     <ClCompile Include="Shara.cpp">
       <Filter>Desenvolupament ========\Modules\Entities\Player</Filter>
@@ -36,10 +39,12 @@
     </ClCompile>
     <ClCompile Include="j1Scene.cpp">
       <Filter>Desenvolupament ========\Scenes</Filter>
+
     </ClCompile>
-    <ClCompile Include="p2Log.cpp">
-      <Filter>p2Help</Filter>
+    <ClCompile Include="Shara.cpp">
+      <Filter>Desenvolupament ========\Modules\Entities\Player</Filter>
     </ClCompile>
+
     <ClCompile Include="j1PerfTimer.cpp">
       <Filter>Desenvolupament ========\Tools</Filter>
     </ClCompile>
@@ -133,13 +138,18 @@
     <ClCompile Include="j1Map.cpp">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Desenvolupament ========\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+
     <ClInclude Include="LootEntity.h">
       <Filter>Desenvolupament ========\Modules\Entities\Loot</Filter>
     </ClInclude>
     <ClInclude Include="EquipableLoot.h">
       <Filter>Desenvolupament ========\Modules\Entities\Loot</Filter>
+
     </ClInclude>
     <ClInclude Include="ConsumableLoot.h">
       <Filter>Desenvolupament ========\Modules\Entities\Loot</Filter>
@@ -156,6 +166,7 @@
     <ClInclude Include="Ritz.h">
       <Filter>Desenvolupament ========\Modules\Entities\Player</Filter>
     </ClInclude>
+
     <ClInclude Include="Shara.h">
       <Filter>Desenvolupament ========\Modules\Entities\Player</Filter>
     </ClInclude>
@@ -201,6 +212,7 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Desenvolupament ========\Tools\PuguiXML</Filter>
     </ClInclude>
+
     <ClInclude Include="j1AttackManager.h">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClInclude>
@@ -285,6 +297,9 @@
     <ClInclude Include="j1Module.h">
       <Filter>Desenvolupament ========</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Desenvolupament ========\Modules\Entities\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
@@ -296,10 +311,12 @@
     <Xml Include="..\Game\save_game.xml">
       <Filter>Desenvolupament ========\Files</Filter>
     </Xml>
+
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Desenvolupament ========">
       <UniqueIdentifier>{09cb9b81-da2c-4058-bc19-2c67af60e181}</UniqueIdentifier>
+
     </Filter>
     <Filter Include="Desenvolupament ========\Modules">
       <UniqueIdentifier>{8c928176-a081-47b3-b83c-a9cce185d981}</UniqueIdentifier>
@@ -318,6 +335,7 @@
     </Filter>
     <Filter Include="Desenvolupament ========\Scenes">
       <UniqueIdentifier>{8473c2b8-c816-49e5-b8f3-c7692c5bb735}</UniqueIdentifier>
+
     </Filter>
     <Filter Include="Desenvolupament ========\Tools">
       <UniqueIdentifier>{60a6d022-a421-4da4-8de8-4abdb81c7526}</UniqueIdentifier>
@@ -339,6 +357,7 @@
     </Filter>
     <Filter Include="Desenvolupament ========\Modules\GUI\SpecialItems\Managers">
       <UniqueIdentifier>{2b852de9-6821-490c-9c5c-2adec93c557c}</UniqueIdentifier>
+
     </Filter>
     <Filter Include="Desenvolupament ========\Files">
       <UniqueIdentifier>{5939b693-ca83-432c-ac13-b224309fc240}</UniqueIdentifier>
@@ -351,5 +370,6 @@
     <None Include="..\Game\maps\iso_walk.tmx">
       <Filter>Desenvolupament ========\Files</Filter>
     </None>
+
   </ItemGroup>
 </Project>

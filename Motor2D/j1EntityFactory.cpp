@@ -2,6 +2,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "EnemyTest.h"
+#include "Enemy.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
 #include "LootEntity.h"
@@ -181,11 +182,11 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		break;
 
 	case ENEMY_TEST:
-		ret = new EnemyTest(iPoint(positionX, positionY));
+		/*ret = new EnemyTest(iPoint(positionX, positionY));
 		ret->type = ENEMY_TEST;
 		ret->name = name; 
 		entities.push_back(ret);
-		LOG("Created a entity");
+		LOG("Created a entity");*/
 		break;
 	case LOOT:
 		
@@ -201,6 +202,34 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 	default:
 		break;
 	}
+
+	return ret;
+}
+
+Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange)
+{
+	Enemy* ret = nullptr; 
+
+	switch (etype)
+	{
+	case EnemyType::TEST:
+		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange); 
+		entities.push_back(ret);
+		break; 
+
+	case EnemyType::MELEE:
+		break; 
+
+	case EnemyType::DISTANCE:
+		break; 
+
+	case EnemyType::TRAP:
+		break;
+
+	default:
+		break;
+	}
+	
 
 	return ret;
 }

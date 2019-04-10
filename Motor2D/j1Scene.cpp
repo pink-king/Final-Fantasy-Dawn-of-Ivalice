@@ -44,7 +44,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/iso_walk.tmx"))
+	if (App->map->Load("maps/iso_walk.tmx")) //level1_Block_rev.tmx"))   //iso_walk.tmx
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -145,6 +145,12 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	/*int mx, my;
+	App->input->GetMousePosition(mx, my);
+	iPoint mousePos = App->render->ScreenToWorld(mx, my);
+	LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
+	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
+	LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);*/
 
 	// map debug draw grids
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
@@ -250,6 +256,7 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
+
 		App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 		//App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
 		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
@@ -259,6 +266,7 @@ bool j1Scene::Update(float dt)
 	{
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
 	}
+
 
 	/*static char title[90];
 	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
@@ -421,6 +429,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	}
 
 
+
 	// checkboxes
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
@@ -438,6 +447,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		uint fontIndex = uiNode3.child("font").attribute("value").as_uint();
 		uint fontSize = uiNode3.child("font").attribute("size").as_uint();
 		SDL_Color color = { uiNode3.child("color").attribute("R").as_uint(),uiNode3.child("color").attribute("G").as_uint(),uiNode3.child("color").attribute("B").as_uint(),uiNode3.child("color").attribute("A").as_uint() };
+
 
 
 		labelInfo labelInfo = {
