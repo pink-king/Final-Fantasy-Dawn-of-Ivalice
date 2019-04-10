@@ -145,12 +145,12 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	int mx, my;
+	/*int mx, my;
 	App->input->GetMousePosition(mx, my);
 	iPoint mousePos = App->render->ScreenToWorld(mx, my);
 	LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
-	LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
+	LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);*/
 
 	// map debug draw grids
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
