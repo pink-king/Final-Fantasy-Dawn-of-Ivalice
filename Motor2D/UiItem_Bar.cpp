@@ -26,7 +26,7 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * secti
 
 
 														   // thumb
-	iPoint thumbPos(position.x + 5, position.y + 9);
+	iPoint thumbPos(position.x + (section->w*0.5) - (thumb_section->w*0.5), position.y + (section->h*0.07));
 
 	thumb = App->gui->AddImage(thumbPos, thumb_section, this);    // TODO: this should have as pareNT "this"
 	thumb->slidable = true;
@@ -36,6 +36,8 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * secti
 	// to check mouse 
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
+	thumb->hitBox.w = thumb_section->w;
+	thumb->hitBox.h = thumb_section->h;
 
 
 	// the parent
@@ -56,14 +58,13 @@ void UiItem_Bar::DoLogicHovered() {
 
 	if (!thumbReposition)
 	{
-		thumb->hitBox.y += 4;
 		thumbReposition = !thumbReposition;
 	}
 
-	bar->section.x = 1088;
+	/*bar->section.x = 1088;
 	bar->section.y = 476;
 	bar->section.w = 191;
-	bar->section.h = 58;
+	bar->section.h = 58;*/
 
 	uint nexPosX = 0;
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
@@ -75,26 +76,16 @@ void UiItem_Bar::DoLogicHovered() {
 		nexPosX = thumb->hitBox.x - 2;
 	}
 
-	if (nexPosX >= bar->hitBox.x && nexPosX <= bar->hitBox.x + bar->hitBox.w)
+	if (nexPosX >= bar->hitBox.x && nexPosX <= (bar->hitBox.x + bar->hitBox.w - thumb->hitBox.w))
 	{
 		thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
 	}
-
-	/*if (this->name == "volumeSlider")
-	{
-		GetBarValue();
-	}
-	if (this->name == "fxSlider")
-	{
-
-	}*/
 }
 
 void UiItem_Bar::DoLogicAbandoned() {
 
 	if (thumbReposition)
 	{
-		thumb->hitBox.y -= 4;
 		thumbReposition = !thumbReposition;
 	}
 

@@ -268,15 +268,15 @@
       <panelBars>
 
         <panelBar name="volumeSlider">
-          <section_bar x="1101" y="613" w="170" h="46"/>
+          <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="267"/>
-          <section_thumb x="1112" y="566" w="31" h="45"/>
+          <section_thumb x="1115" y="558" w="29" h="38"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
-          <section_bar x="1101" y="613" w="170" h="46"/>
+          <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="364"/>
-          <section_thumb x="1112" y="566" w="31" h="45"/>
+          <section_thumb x="1115" y="558" w="29" h="38"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
