@@ -42,6 +42,14 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 	maxSection = dynamicImage->section.w;
 
+
+	
+	// capture the enemy's max life and hide image
+
+	enemyMaxLife = deliever->life; 
+	dynamicImage->hide = true; 
+
+
 }
 
 
@@ -82,6 +90,17 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 	else
 	{
+
+		// start showing bar only after first attack to the enemy
+
+		if (!startShowing && deliever->life < enemyMaxLife)
+		{
+			dynamicImage->hide = false; 
+			startShowing = true; 
+		}
+
+
+
 		if (deliever != nullptr)          // TODO: which condition should be here ???? 
 		{
 			UpdatePos();

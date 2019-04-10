@@ -57,7 +57,8 @@ private:
 
 
 	iPoint offsetFromEnemy; 
-
+	uint enemyMaxLife; 
+	bool startShowing = false; 
 public:
 	damageInfo damageInform;
 	j1Entity* deliever = nullptr; 
