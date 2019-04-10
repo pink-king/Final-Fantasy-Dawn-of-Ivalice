@@ -83,14 +83,12 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
-    <ClCompile Include="Items.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
-    <ClCompile Include="j1ItemsManager.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -131,7 +129,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
-    <ClInclude Include="Items.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1Entity.h" />

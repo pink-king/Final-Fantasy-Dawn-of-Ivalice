@@ -23,7 +23,6 @@ class j1EntityFactory;
 class j1PathFinding;
 class j1Fonts;
 class j1BuffManager;
-class j1ItemsManager;
 class j1AttackManager;
 class j1LootManager;
 class j1ModuleCamera2D;
@@ -93,7 +92,7 @@ private:
 	bool LoadGameNow();
 	bool SavegameNow() const;
 
-private:
+public:
 
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
@@ -114,7 +113,6 @@ public:
 	j1PathFinding*		pathfinding = nullptr; 
 	j1Fonts*			font = nullptr;
 	j1BuffManager*		buff = nullptr;
-	j1ItemsManager*		itemsManager = nullptr;
 	j1AttackManager*	attackManager = nullptr;
 	j1LootManager*		lootManager = nullptr;
 	j1ModuleCamera2D*	camera2D = nullptr;

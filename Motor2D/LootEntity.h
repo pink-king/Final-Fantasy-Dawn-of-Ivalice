@@ -11,65 +11,77 @@ struct SDL_Texture;
 enum class LOOT_TYPE
 {
 	CONSUMABLE,
-	EQUIPABLE
-	
+	EQUIPABLE,
+	NO_LOOT
 };
 
+enum class OBJECT_TYPE
+{
+	WEAPON_OBJECT,
+	ARMOR_OBJECT,
+	HEAD_OBJECT,
+	POTIONS,
+	GOLD,
 
+	NO_OBJECT
+};
 
+enum class EQUIPABLE_TYPE
+{
+	SWORD,
+	BOW,
+	ROD,
+	ARMOR,
+	VEST,
+	MANTLE
+
+};
 class LootEntity : public j1Entity
 {
 
 public:
-	LootEntity(int posX, int posY);
+	LootEntity(LOOT_TYPE type, int posX, int posY);
 	~LootEntity();
 
-	bool Update(float dt);
+	virtual bool Update(float dt);
 	std::string GetName();
 	LOOT_TYPE GetType();
-	int CheckPlayerPos(PlayerEntity*);
-	void SetEnemyPos();
-	void ChooseEntity();
+	OBJECT_TYPE GetObjectType();
 	void Draw();
 	int GetRandomValue(int min, int max);
-	
+
+	void CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
+	EQUIPABLE_TYPE GetEquipable();
 public:
-	
-	int randomvalue;
+
 	iPoint loot_pos;
-	LOOT_TYPE loot_type;
 	std::string lootname;
 	PlayerEntity* player;
 	EnemyTest* enemy;
 	SDL_Rect loot_rect;
 	SDL_Texture* goldTex;
 
-};
+	std::vector<Buff*>	stats;
 
-//class LootEntity : public j1Entity
-//{
-//public:
-//	LootEntity(int posX, int posY);
-//	~LootEntity();
-//
-//	bool PreUpdate();
-//	
-//	bool Update(float dt);
-//	bool PostUpdate();
-//	//virtual bool CleanUp();
-//
-//	void Draw();
-//	LOOT_TYPE loot_type;
-//	bool enemy_dead = false;
-//	void SetLootSubtile(int x, int y);
-//
-//	SDL_Texture* lootTex;
-//	SDL_Rect rect_test;
-//	PlayerEntity* player;
-//	EnemyTest* enemy;
-//
-//	int value;
-//	//Pasar textures i posició de l'enemic, 
-//	//també pasar les variables del LootSystem
-//};
+	uint price = 10;
+	EQUIPABLE_TYPE equipableType;
+public:
+	//---Equipable stats---//
+	int itemLevel;
+	float dmg;
+	float burn;
+	float cooldown;
+	float dmg_back;
+	float attck_spd;
+	float slow;
+	float poisonBack;
+	float heal;
+	float paralize;
+	int chanceTo;
+protected:
+
+	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
+	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
+
+};
 #endif

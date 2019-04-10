@@ -4,6 +4,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
+#include "j1LootManager.h"
 #include <random>
 
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange) : speed(movementSpeed), detectionRange(detectionRange), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")

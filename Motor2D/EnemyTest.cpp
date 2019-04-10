@@ -29,12 +29,9 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 
 EnemyTest::~EnemyTest()
 {
-	App->lootManager->CheckEnemyDeath(this);
-
-	if (App->lootManager->toDrop)
-		App->lootManager->GetEnemySubtile(this);
-	/*LOG("LOOtValue %iX %iY", App->loot->loot_pos.x, App->loot->loot_pos.y);*/
-	LOG("Bye Enemy Test %fx %fy ", position.x, position.y);
+	
+	
+	LOG("Bye Enemy Test ");
 } 
 
 bool EnemyTest::Start()
@@ -236,19 +233,6 @@ bool EnemyTest::CleanUp()
 	{
 		App->tex->UnLoad(entityTex);
 		entityTex = nullptr;
-	}
-
-	std::vector<items*>::iterator iter = bagObjects.begin();
-	for (; iter != bagObjects.end(); ++iter)
-	{
-		delete *iter;
-		*iter = nullptr;
-	}
-	std::vector<items*>::iterator iter2 = equipedObjects.begin();
-	for (; iter2 != equipedObjects.end(); ++iter2)
-	{
-		delete *iter2;
-		*iter2 = nullptr;
 	}
 
 	return true;
