@@ -35,7 +35,7 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect
 
 
 
-	offsetFromEnemy = iPoint(staticSection->w / 4 - deliever->size.x / 2, 10); 
+	offsetFromEnemy = iPoint(staticSection->w / 4 - deliever->size.x / 2, staticSection->h / 2);
 
 
 	iPoint staticPos(App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y- offsetFromEnemy.y));
