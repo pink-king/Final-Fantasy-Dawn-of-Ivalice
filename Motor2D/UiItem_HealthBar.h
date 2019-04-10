@@ -36,6 +36,7 @@ public:
 
 	void DamageLogic();
 	void DamageQuadReset();
+	void UpdatePos(); 
 
 public:
 	UiItem_Image * staticImage = nullptr;
@@ -52,9 +53,13 @@ private:
 	type variantType;
 	j1PerfTimer damageBarTimer;
 
+	iPoint dynamicImagePosoffset; 
+	iPoint damageImagePosoffset; 
 
 public:
 	damageInfo damageInform;
+	j1Entity* deliever = nullptr; 
+
 ; 
 };
 

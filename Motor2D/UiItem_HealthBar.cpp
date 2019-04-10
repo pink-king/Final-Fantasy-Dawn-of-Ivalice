@@ -15,7 +15,6 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSectio
 	iPoint staticPos = position;
 	staticImage = App->gui->AddImage(staticPos, staticSection, this);
 
-
 	iPoint newPos(staticPos.x + (staticSection->w - dynamicSection->w) / 2, staticPos.y + (staticSection->h - dynamicSection->h) / 2);
 
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
@@ -33,15 +32,17 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
-	iPoint staticPos(App->render->WorldToScreen(deliever->position.x, deliever->position.y));
-	            
-	staticImage = App->gui->AddImage(staticPos, staticSection, this);
+	this->deliever = deliever; 
 
-
-	iPoint newPos(staticPos.x + (staticSection->w - dynamicSection->w) / 2, staticPos.y + (staticSection->h - dynamicSection->h) / 2);
-
+	iPoint staticPos(App->render->WorldToScreen(deliever->position.x, deliever->position.y));	            
+	staticImage = App->gui->AddImage(staticPos, staticSection, this); 
+		
+	dynamicImagePosoffset = iPoint((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
+	iPoint newPos(staticPos.x + dynamicImagePosoffset.x, staticPos.y + dynamicImagePosoffset.y);
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
 
+
+	damageImagePosoffset = dynamicImagePosoffset + iPoint(8, 0);
 	damageImage = App->gui->AddImage(newPos + iPoint(8, 0), damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 	damageImage->hide = true;
 
@@ -54,8 +55,11 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect
 void UiItem_HealthBar::Draw(const float& dt)
 {
 
+	
+
 	// we will use the draw call to calculate, but the two images are drawn in image cpp
 
+	
 	if (this->variantType == type::player)
 	{
 
@@ -82,8 +86,34 @@ void UiItem_HealthBar::Draw(const float& dt)
 				DamageQuadReset();
 			}
 		}
+	else
+	{
+		if (deliever)
+		{
+			UpdatePos();
+		}
+		
+	}
 
 }
+
+
+void UiItem_HealthBar::UpdatePos()
+{
+	iPoint pos = App->render->WorldToScreen(deliever->position.x, deliever->position.y); 
+
+
+	staticImage->hitBox.x = pos.x;
+	staticImage->hitBox.y = pos.y;
+	dynamicImage->hitBox.x = pos.x + dynamicImagePosoffset.x;
+	dynamicImage->hitBox.y = pos.y + dynamicImagePosoffset.y;
+	/*damageImage->hitBox.x = pos.x;
+	damageImage->hitBox.y = pos.y;*/
+
+
+
+}
+
 
 
 void UiItem_HealthBar::DamageLogic()
