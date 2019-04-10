@@ -61,17 +61,14 @@ void UiItem_Bar::DoLogicHovered() {
 		thumbReposition = !thumbReposition;
 	}
 
-	/*bar->section.x = 1088;
-	bar->section.y = 476;
-	bar->section.w = 191;
-	bar->section.h = 58;*/
+	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
 
 	uint nexPosX = 0;
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || xAxis>0)
 	{
 		nexPosX = thumb->hitBox.x + 2;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || xAxis < 0)
 	{
 		nexPosX = thumb->hitBox.x - 2;
 	}

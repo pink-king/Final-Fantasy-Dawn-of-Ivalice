@@ -84,7 +84,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		{
 
 		case GUI_TYPES::CHECKBOX:
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked();
@@ -92,11 +92,11 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			break;
 		case GUI_TYPES::BUTTON:
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
 			{
 				selected_object->state = CLICK;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
