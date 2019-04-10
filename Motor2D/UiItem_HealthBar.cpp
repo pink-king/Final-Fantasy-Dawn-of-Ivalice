@@ -172,6 +172,9 @@ void UiItem_HealthBar::DamageQuadReset()
 void UiItem_HealthBar::CleanUp()
 {
 
+	// VERY IMPORTANT: the image must be deleted also, a part from the healthbar object
+
+	delete dynamicImage; 
 
 	delete this; 
 	
