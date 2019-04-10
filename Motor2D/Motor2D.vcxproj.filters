@@ -22,23 +22,11 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Desenvolupament ======\Tools\PuguiXML</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyTest.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Buff.cpp">
       <Filter>Desenvolupament ======\Modules\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsumableLoot.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClCompile>
-    <ClCompile Include="EquipableLoot.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClCompile>
-    <ClCompile Include="LootEntity.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
     </ClCompile>
     <ClCompile Include="j1Entity.cpp">
       <Filter>Desenvolupament ======\Modules\Entities</Filter>
@@ -79,18 +67,6 @@
     <ClCompile Include="UiItem_Label.cpp">
       <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
     </ClCompile>
-    <ClCompile Include="UiItem_HitPointManager.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HitPoint.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HealthBar.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_CooldownClock.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
     <ClCompile Include="j1Window.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClCompile>
@@ -103,13 +79,7 @@
     <ClCompile Include="j1PathFinding.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1ModuleCamera2D.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="j1Map.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="J1LootManager.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Input.cpp">
@@ -171,9 +141,6 @@
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
       <Filter>Desenvolupament ======\Tools\PuguiXML</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyTest.h">
       <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
     </ClInclude>
@@ -183,13 +150,7 @@
     <ClInclude Include="j1Entity.h">
       <Filter>Desenvolupament ======\Modules\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ConsumableLoot.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClInclude>
     <ClInclude Include="EquipableLoot.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClInclude>
-    <ClInclude Include="LootEntity.h">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
     </ClInclude>
     <ClInclude Include="Marche.h">
@@ -231,18 +192,6 @@
     <ClInclude Include="UiItem.h">
       <Filter>Desenvolupament ======\Modules\special items</Filter>
     </ClInclude>
-    <ClInclude Include="UiItem_HitPointManager.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HitPoint.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HealthBar.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_CooldownClock.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
     <ClInclude Include="j1Window.h">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClInclude>
@@ -255,16 +204,7 @@
     <ClInclude Include="j1PathFinding.h">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1ModuleCamera2D.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="j1Map.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1LootManager.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1ItemsManager.h">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Input.h">
@@ -284,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="j1AttackManager.h">
       <Filter>Desenvolupament ======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="p2SString.h">
+      <Filter>p2Help</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
