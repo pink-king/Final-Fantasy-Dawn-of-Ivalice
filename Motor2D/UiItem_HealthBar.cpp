@@ -92,7 +92,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 	else
 	{
-		if (deliever)
+		if (deliever->life > 0 )
 		{
 			UpdatePos();
 
@@ -104,6 +104,10 @@ void UiItem_HealthBar::Draw(const float& dt)
 			lastSection = dynamicImage->section.w;
 			dynamicImage->section.w = conversionFactor * deliever->life;
 
+		}
+		else
+		{
+			CleanUp(); 
 		}
 		
 	}
@@ -158,5 +162,15 @@ void UiItem_HealthBar::DamageQuadReset()
 	damageImage->hide = true;
 	damageImage->resizedRect = { 0, 0, 0, 0 };
 
+
+}
+
+
+void UiItem_HealthBar::CleanUp()
+{
+
+
+	delete this; 
+	
 
 }
