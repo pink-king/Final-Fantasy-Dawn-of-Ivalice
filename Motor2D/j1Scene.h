@@ -18,6 +18,7 @@ enum class SceneState
 	MAX_STATES
 };
 
+
 class j1Scene : public j1Module
 {
 public:

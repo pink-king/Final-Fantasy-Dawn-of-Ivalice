@@ -27,28 +27,18 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSectio
 }
 
 
-UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent, j1Entity* deliever) : UiItem(parent)
+UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem*const parent, j1Entity* deliever) : UiItem(parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 	this->deliever = deliever; 
 
+	
+               // rigth now only the dynamic is needed
+	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, dynamicSection->h / 2);
 
-
-	offsetFromEnemy = iPoint(staticSection->w / 4 - deliever->size.x / 2, staticSection->h / 2);
-
-
-	iPoint staticPos(App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y- offsetFromEnemy.y));
-	staticImage = App->gui->AddImage(staticPos, staticSection, this); 
-		
-	dynamicImagePosoffset = iPoint((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
-	iPoint newPos(staticPos.x + dynamicImagePosoffset.x, staticPos.y + dynamicImagePosoffset.y);
+	iPoint newPos(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
-
-
-	/*damageImagePosoffset = dynamicImagePosoffset + iPoint(8, 0);
-	damageImage = App->gui->AddImage(newPos + iPoint(8, 0), damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
-	damageImage->hide = true;*/
 
 	maxSection = dynamicImage->section.w;
 
@@ -92,7 +82,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 	else
 	{
-		if (deliever->life > 0 )
+		if (deliever->life > 0)          
 		{
 			UpdatePos();
 
@@ -119,15 +109,9 @@ void UiItem_HealthBar::UpdatePos()
 {
 	iPoint pos = App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y); 
 
-
-	staticImage->hitBox.x = pos.x;
-	staticImage->hitBox.y = pos.y;
-	dynamicImage->hitBox.x = pos.x + dynamicImagePosoffset.x;
-	dynamicImage->hitBox.y = pos.y + dynamicImagePosoffset.y;
-	/*damageImage->hitBox.x = pos.x;
-	damageImage->hitBox.y = pos.y;*/
-
-
+	dynamicImage->hitBox.x = pos.x;
+	dynamicImage->hitBox.y = pos.y;
+	
 
 }
 

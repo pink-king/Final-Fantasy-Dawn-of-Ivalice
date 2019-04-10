@@ -46,11 +46,21 @@ struct myClocks {
 };
 
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - // 
+
+// health bar info 
+
+struct enemyHealthBarInfo
+{
+	SDL_Rect staticSection; 
+	SDL_Rect dynamicSection;
+	SDL_Rect damageSection;
+};
+
 
 
 class GUI_Definitions
 {
-
 
 
 };
