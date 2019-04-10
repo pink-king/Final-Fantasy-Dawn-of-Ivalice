@@ -224,13 +224,7 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uin
 
 	case EnemyType::TRAP:
 		break;
-	case LOOT:
-		ret = new LootEntity(positionX, positionY);
-		ret->type = LOOT;
-		ret->name = name;
-		entities.push_back(ret);
-		LOG("From factory Loot Entity");
-		break;
+	
 	default:
 		break;
 	}
