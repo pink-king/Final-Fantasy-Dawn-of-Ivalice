@@ -5,7 +5,8 @@
 
 #include "j1Module.h"
 #include "Buff.h"
-#include "LootEntity.h"
+#include "j1Entity.h"
+#include "Items.h"
 #include "UiItem_HitPointManager.h"
 
 
@@ -38,8 +39,8 @@ public:
 	void ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType);
 	void DeleteBuff(Buff* buff);
 
-	void AddItemStats(LootEntity* item);
-	void RemoveItemStat(LootEntity* item);
+	void AddItemStats(items* item);
+	void RemoveItemStat(items* item);
 	iPoint enemydeadsubtile;
 private:
 	uint							lastSourceID = 0u;

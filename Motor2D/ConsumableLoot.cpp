@@ -3,9 +3,10 @@
 #include "j1LootManager.h"
 
 
-Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
+Consumable::Consumable(int posX, int posY) : LootEntity(posX, posY)
 {
-		
+	entityTex = App->lootManager->LootTexture;
+
 	SetConsumable();
 }
 
@@ -21,8 +22,10 @@ bool Consumable::Update(float dt)
 	return true;
 }
 
-
-
+bool Consumable::CleanUp()
+{
+	return true;
+}
 void Consumable::ChooseConsumable()
 {
 	chance = GetRandomValue(1, 10);
@@ -30,17 +33,13 @@ void Consumable::ChooseConsumable()
 	if (chance <= 7)
 	{
 		LOG("consumable rand");
-		objectType = OBJECT_TYPE::GOLD;
+		consumableType = CONSUMABLE_TYPE::GOLD;
 	}
 
 	else if( 7 <  chance <=10)
 	{
-		objectType = OBJECT_TYPE::POTIONS;
-		if (chance <= 10)
-		{
-			consumableType = CONSUMABLE_TYPE::POTION;
-			//other Potions
-		}
+
+		consumableType = CONSUMABLE_TYPE::POTION;
 	}
 
 }
@@ -48,36 +47,29 @@ void Consumable::ChooseConsumable()
 void Consumable::SetConsumable()
 {
 	ChooseConsumable();
-	switch (objectType)
+	switch (consumableType)
 	{
-	case OBJECT_TYPE::GOLD:
+	case CONSUMABLE_TYPE::GOLD:
 		
 
 		loot_rect = { 13,27,22,23 };
+		SetPivot(16, 32);
+
 		size.create(22, 23);
-
-		SetPivot(16, 20);
-
 		break;
 
-	case OBJECT_TYPE::POTIONS:
+	case CONSUMABLE_TYPE::POTION:
 
-		switch (consumableType)
-		{
-		case CONSUMABLE_TYPE::POTION:
-			loot_rect = { 60,32,10,12 };
-
-			size.create(10, 12);
-			SetPivot(5, 10);
-			break;
-		default:
-			break;
-		}
-		break;
-
-	default:
+		
+		size.create(10, 12);
+		SetPivot(7, 14);
+		loot_rect = { 60,32,10,12 };
 		break;
 	}
 
 }
 
+void Consumable::Draw()
+{
+
+}

@@ -3,7 +3,6 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1EntityFactory.h"
-#include "j1BuffManager.h"
 #include <random>
 
 
@@ -18,37 +17,69 @@ j1LootManager::~j1LootManager()
 	
 }
 
+bool j1LootManager::Awake(pugi::xml_node& config)
+{
+	bool ret = true;
+		int i = 0;
+		
+		health = config.child("potion").child("health").attribute("value").as_int();
 
+		//use vectors
+		for (auto node : config.child("Money").children("gold"))
+		{
+			//goldValue[i] = node.attribute("value").as_int();
+		//gold_id[i] = node.attribute("id").as_int();
+			++i;
+		}
+		i = 0;
+		for (auto node : config.child("equipable").children("equipment"))
+		{
+			//EquipmentID[i] = node.attribute("id").as_int();
+			//LOG("equipment %i added", EquipmentID[i]);
+			i++;
+		}
+		return ret;
+	
+}
 
 bool j1LootManager::Start()
 {
+	/*goldTex = App->tex->Load("textures/loot/Gold.png");
+	potionHPTex = App->tex->Load("textures/loot/health_potion.png");*/
 
+	LootTexture = App->tex->Load("textures/loot/loot_items.png");
 	return true;
 
 }
 
 bool j1LootManager::PreUpdate()
 {
+	WillDrop();
 	return true;
 }
 bool j1LootManager::Update(float dt)
 {
-	for(std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
-		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
-		{
-			if (CollectLoot((LootEntity*)(*item)))
-			{
-				App->entityFactory->DeleteEntityFromSubtile(*item);
-				item = App->entityFactory->entities.erase(item);
-				break;
-			}
-		}
-
-	//LOG("lootpos %i x %i y", lootPos);
+	if (enemyDead)
+	{
+		
+		SetLootPos(lootPos.x, lootPos.y);
+		//see if works usign the same var
+		LOG("lootpos %i x %i y", lootPos);
+		//CreateLoot(lootPos.x, lootPos.y, "LootTest");
+		
+		enemyDead = false;
+	}
 
 	return true;
 }
 
+bool j1LootManager::CheckEnemyDeath(EnemyTest* enemy)
+{
+	if (enemy->life <= 0)
+		return enemyDead = true;
+
+	
+}
 
 //iPoint j1LootManager::GetPlayerSubtile(PlayerEntity* player)
 //{
@@ -56,8 +87,9 @@ bool j1LootManager::Update(float dt)
 //}
 
 //retard in the set position, when enemy dies his position is saved until the next drop (DESFASE)
-iPoint j1LootManager::GetEnemySubtile(j1Entity* enemy)
+iPoint j1LootManager::GetEnemySubtile(EnemyTest* enemy)
 {
+	
 	return lootPos = enemy->GetSubtilePos();
 }
 
@@ -66,13 +98,12 @@ void j1LootManager::CreateLoot(int x , int y, std::string name)
 	App->entityFactory->CreateEntity(ENTITY_TYPE::LOOT, x, y, name);
 }
 
-iPoint j1LootManager::SetLootPos(int x, int y)
+void j1LootManager::SetLootPos(int x, int y)
 {
 
-	return App->map->SubTileMapToWorld(x, y);
+	lootPos = App->map->SubTileMapToWorld(x, y);
 
 }
-
 
 int j1LootManager::GetRandomValue(int min, int max)
 {
@@ -86,265 +117,112 @@ int j1LootManager::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-j1Entity* j1LootManager::CreateLootType(int x, int y)
+void j1LootManager::WillDrop()
 {
-
-	j1Entity * ret = nullptr;
-	
-	switch (WillDrop())
+	if (enemyDead)
 	{
-	case LOOT_TYPE::CONSUMABLE:
-		
-		ret = new Consumable(x, y);
-		break;
-
-	case LOOT_TYPE::EQUIPABLE:
-		ret = new Equipable(x, y);
-		break;
-
-	default:
-		break;
-	}
-	return ret;
-}
-
-LOOT_TYPE j1LootManager::WillDrop()
-{
-
-	int randvalue = GetRandomValue(1, 100);
-
-	if (randvalue <= lootChance)
-	{
-		toDrop = true;
-		if (randvalue <= 15)
-			return  LOOT_TYPE::CONSUMABLE;
-
-		else  
-			return  LOOT_TYPE::EQUIPABLE;
-
-
-	}
+		if (lootChance == GetRandomValue(1, 4))
+			toDrop = true;
 
 		else toDrop = false;
-
-
-
-	return LOOT_TYPE::NO_LOOT;
-
-}
-
-bool j1LootManager::CollectLoot(LootEntity* entityLoot)
-{
-	//LoadItemData(object);
-    LoadLootData(entityLoot,App->config);
-	
-
-	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
-	{
-		if (App->entityFactory->player->equipedObjects.size() == 0)
-		{
-			App->entityFactory->player->equipedObjects.push_back(entityLoot);
-			App->buff->AddItemStats(entityLoot);
-		}
-		else
-		{
-			bool existSimilar = false;
-			std::vector<LootEntity*>::iterator item = App->entityFactory->player->equipedObjects.begin();
-			for (; item != App->entityFactory->player->equipedObjects.end(); ++item)
-			{
-
-				if (entityLoot->GetObjectType() == (*item)->GetObjectType())
-
-					existSimilar = true;
-			}
-
-			if (!existSimilar)
-			{
-				App->entityFactory->player->equipedObjects.push_back(entityLoot);
-				App->buff->AddItemStats(entityLoot);
-			}
-			else
-			{
-				App->entityFactory->player->bagObjects.push_back(entityLoot);
-			}
-		}
 	}
-	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
-	{
-		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
-			App->entityFactory->player->consumibles.push_back(entityLoot);
-
-		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
-		{
-			App->entityFactory->player->gold += entityLoot->price;
-			entityLoot->to_delete = true;
-			return false;
-		}
-
-	}
-	return true;
+	
+	enemyDead = false;
 }
-
-bool j1LootManager::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
-{
-	//pugi::xml_document config_file;
-	//config = App->config;
-	/*pugi::xml_node config;
-	pugi::xml_parse_result result = config_file.load_file("config.xml");
-	if (result == NULL)
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-	else
-		config = config_file.child("config").child("loot");*/
-	
-	OBJECT_TYPE object = lootEntity->GetObjectType();
-	int randID = 0;
-	int id;
-	
-	switch (object)
-	{
-	case OBJECT_TYPE::POTIONS:
-		for (auto node : config.child("loot").child("potions").children("health_potion"))
-		{
-			lootEntity->heal = node.attribute("value").as_int();
-			LOG("looking for potions");
-		}
-		break;
-
-	case OBJECT_TYPE::GOLD:
-		//TO FIX: in a single collect item iteration this case is siwtched twice instead of a single time
-		randID = GetRandomValue(1, 3);
-		
-		for (auto node : config.child("loot").child("Money").children("gold"))
-		{
-			id = node.attribute("id").as_int();
-			
-			if (id = randID)
-			{
-				lootEntity->price = node.attribute("value").as_int();
-				//gold_id[i] = node.attribute("id").as_int();
-				LOG("gold searched for");
-				break;
-			}
-		}
-		break;
-
-	case OBJECT_TYPE::WEAPON_OBJECT:
-		
-		randID = GetRandomValue(1, 9);
-		EQUIPABLE_TYPE equip = lootEntity->GetEquipable();
-		Marche* marche;
-		
-
-		switch (equip)
-		{
-			case EQUIPABLE_TYPE::SWORD:
-			
-				
-
-
-					randID = GetRandomValue(1, 9);
-					for (auto node : config.child("loot").child("equipable").child("sword").children("equipment"))
-					{
-						id = node.attribute("id").as_int();
-
-						if (id == randID)
-						{
-							lootEntity->itemLevel = node.attribute("level").as_int();
-
-							if (id <= 3)
-								lootEntity->dmg = node.attribute("dmg").as_float();
-
-							else if (id > 3 && id <= 6)
-								lootEntity->burn = node.attribute("burn").as_float();
-
-							else
-							{
-								lootEntity->dmg = node.attribute("dmg").as_float();
-								lootEntity->burn = node.attribute("burn").as_float();
-							}
-							LOG("looking for sword");
-							
-							
-							
-						}
-					}
-					LOG("hey");
-			
-			break;
-			
-		case EQUIPABLE_TYPE::BOW:
-			
-			for (auto node : config.child("loot").child("equipable").child("bow").children("equipment"))
-			{
-				id = node.attribute("id").as_int();
-
-				if (id == randID) {
-					lootEntity->itemLevel = node.attribute("level").as_int();
-
-					if (id <= 3)
-						lootEntity->attck_spd = node.attribute("attck_spd").as_float();
-
-					else if (id > 3 && id <= 6)
-						lootEntity->slow = node.attribute("slow").as_float();
-
-					else
-					{
-						lootEntity->attck_spd = node.attribute("attck_spd").as_float();
-						lootEntity->slow = node.attribute("slow").as_float();
-					}
-					LOG("looking for bow");
-					break;
-				}
-			}
-			break;
-
-		case EQUIPABLE_TYPE::ROD:
-			
-			for (auto node : config.child("loot").child("equipable").child("rod").children("equipment"))
-			{
-				id = node.attribute("id").as_int();
-				if (id == randID) {
-					lootEntity->itemLevel = node.attribute("level").as_int();
-					
-					if (id <= 3)
-					{
-						lootEntity->chanceTo = node.attribute("chance").as_float();
-						lootEntity->heal = node.attribute("heal").as_float();
-					}
-
-					else if (id > 3 && id <= 6)
-					lootEntity->paralize = node.attribute("paralyze").as_float();
-
-					else
-					{
-						lootEntity->paralize = node.attribute("paralyze").as_float();
-						lootEntity->chanceTo = node.attribute("chance").as_float();
-						lootEntity->heal = node.attribute("heal").as_float();
-					}
-					LOG("looking for rod");
-					break;
-				}
-			}
-			break;
-
-		default:
-			break;
-		}
-		break;
-	/*case OBJECT_TYPE::ARMOR_OBJECT:
-		break;
-	case OBJECT_TYPE::HEAD_OBJECT:
-		break;*/
-
-	/*case OBJECT_TYPE::NO_OBJECT:
-		break;*/
-	
-	}
-return true;
-}
-
-
-
-
-
-
+//LootEntityManager::LootEntityManager(iPoint pos) : j1Entity(LOOT, pos.x, pos.y, "LootItem")
+//{
+//	if (App->loot->GoldSystem)
+//	{
+//		gold = new Gold(pos.x, pos.y, App->loot->goldearned);
+//		lootItems.push_back(gold);
+//		lootList.push_back(gold);
+//		selectedLootEntity = gold;
+//		App->loot->GoldSystem = false;
+//	}
+//
+//	//SelectedItem();
+//}
+//
+//LootEntityManager::~LootEntityManager()
+//{
+//	delete gold;
+//}
+////void LootEntityManager::SelectedItem()
+////{
+////	if (App->loot->GoldSystem)
+////	{
+////		lootItems.push_back(gold);
+////	}
+////}
+//
+//bool LootEntityManager::Start()
+//{
+//	std::vector<LootEntity*>::iterator item = lootItems.begin();
+//
+//	for (; item != lootItems.end(); ++item)
+//		(*item)->Start();
+//
+//	return true;
+//}
+//
+//
+//bool LootEntityManager::PreUpdate()
+//{
+//	return true;
+//}
+//
+//bool LootEntityManager::Update(float dt)
+//{
+//
+//	//SelectLoot();
+//	
+//
+//	position = selectedLootEntity->position;
+//	std::vector<LootEntity*>::iterator item = lootItems.begin();
+//
+//	for (; item != lootItems.end(); ++item)
+//	{
+//		(*item)->value = selectedLootEntity->value;
+//	}
+//	selectedLootEntity->Update(dt);
+//	return true;
+//}
+//
+//
+//bool LootEntityManager::PostUpdate()
+//{
+//
+//	position.x = App->loot->loot_posX;
+//	/*std::vector
+//	App->loot->loot_posX = App->loot->loot_pos.x;
+//	App->loot->loot_pos = App->map->WorldToSubtileMap;*/
+//
+//	selectedLootEntity->PostUpdate();
+//	return true;
+//}
+//
+//
+//bool LootEntityManager::CleanUp()
+//{
+//
+//	std::vector<LootEntity*>::iterator item = lootItems.begin();
+//
+//	for (; item != lootItems.end(); ++item)
+//	{
+//		(*item)->CleanUp();
+//	}
+//	return true;
+//}
+//
+//void LootEntityManager::SelectLoot()
+//{
+//
+//	if (App->loot->GoldSystem)
+//	{
+//		gold = new Gold(position.x, position.y, App->loot->goldearned);
+//		lootItems.push_back(gold);
+//		lootList.push_back(gold);
+//		selectedLootEntity = gold;
+//		App->loot->GoldSystem = false;
+//	}
+//}

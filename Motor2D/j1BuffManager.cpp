@@ -3,8 +3,6 @@
 #include "j1EntityFactory.h"
 #include "j1Window.h"
 #include "j1Map.h"
-
-
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -30,7 +28,7 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (entitiesTimeDamage.size() != 0)
+	/*if (entitiesTimeDamage.size() != 0)
 	{
 		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
 		for (; item != entitiesTimeDamage.end() && ret; ++item)
@@ -43,7 +41,7 @@ bool j1BuffManager::Update(float dt)
 		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
 		for (; item != entitiesTimeDamage.end() && ret; ++item)
 			DamageInTime(*item);
-	}
+	}*/
 
 	/*static char title[30];
 	std::string name;
@@ -138,9 +136,8 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
 	defender->life -= CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER)
+	if (defender->life <= 0 && defender->name.compare("Marche") != 0 && defender->name.compare("Ritz") != 0 && defender->name.compare("Shara") != 0)
 	{
-
 		App->HPManager->callHPLabelSpawn(defender, powerAttack);
 		defender->to_delete = true;
 		
@@ -183,8 +180,7 @@ void j1BuffManager::DeleteBuff(Buff* buff)
 	}
 }
 
-
-void j1BuffManager::AddItemStats(LootEntity * item)
+void j1BuffManager::AddItemStats(items * item)
 {
 	std::vector<Buff*>::iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)
@@ -193,7 +189,7 @@ void j1BuffManager::AddItemStats(LootEntity * item)
 	}
 }
 
-void j1BuffManager::RemoveItemStat(LootEntity * item)
+void j1BuffManager::RemoveItemStat(items * item)
 {
 	std::vector<Buff*>::iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)
@@ -251,11 +247,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		}
 	}
 	if (entity->life <= 0 && entity->type != ENTITY_TYPE::PLAYER)
-	{
-
 		entity->to_delete = true;
-		return true;
-	}
 	if (entity->stat.size() == 0)
 		ret = true;
 
