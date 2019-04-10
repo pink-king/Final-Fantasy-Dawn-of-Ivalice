@@ -128,20 +128,6 @@ bool PlayerEntity::InputCombat()
 			//LOG("ULTIMATE");
 		}
 
-		// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
-		// check ability 1 trigger
-		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL1;
-			//LOG("ULTIMATE");
-		}
-
-		// check ability 2 trigger
-		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL2;
-			//LOG("ULTIMATE");
-		}
 
 
 		// check basic attack
@@ -160,6 +146,24 @@ bool PlayerEntity::InputCombat()
 		// code under construction ...
 		//LOG("");
 	}
+
+
+	// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
+	// check ability 1 trigger
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL1;
+		//LOG("ULTIMATE");
+	}
+
+	// check ability 2 trigger
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL2;
+		//LOG("ULTIMATE");
+	}
+
+
 	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP)
 	{
 		aiming = false;
