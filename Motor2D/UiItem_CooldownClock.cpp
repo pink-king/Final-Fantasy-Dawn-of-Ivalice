@@ -105,6 +105,10 @@ void UiItem_CooldownClock::DoLogic()
 
 				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion; 
 			}
+			else
+			{
+				// Restart();    dont't call it if it is already called from the player
+			}
 		}
 
 
@@ -119,6 +123,10 @@ void UiItem_CooldownClock::DoLogic()
 				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
 
 			}
+			else
+			{
+				// Restart();    dont't call it if it is already called from the player
+			}
 		}
 
 
@@ -130,6 +138,10 @@ void UiItem_CooldownClock::DoLogic()
 			{
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
 
+			}
+			else
+			{
+				// Restart();    dont't call it if it is already called from the player
 			}
 		}
 
@@ -143,6 +155,15 @@ void UiItem_CooldownClock::DoLogic()
 
 		// TODO: Prevent h section from diminishing when clock is paused 
 	}
+
+
+}
+
+void UiItem_CooldownClock::Restart()
+{
+	hide = true;
+
+	// TODO: Reset clock
 
 
 }

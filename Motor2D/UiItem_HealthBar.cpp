@@ -101,7 +101,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 
 
-		if (deliever != nullptr)          // TODO: which condition should be here ???? 
+		if (deliever->life > 0)          // TODO: which condition should be here ???? 
 		{
 			UpdatePos();
 

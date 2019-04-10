@@ -65,10 +65,10 @@ bool EnemyTest::Update(float dt)
 		life -= 30;
 	}
 
-	if (life <= 0)
+	/*if (life <= 0)
 	{
 		CleanUp(); 
-	}
+	}*/
 
 	// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
