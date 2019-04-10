@@ -55,6 +55,7 @@ private:
 
 	iPoint dynamicImagePosoffset; 
 	iPoint damageImagePosoffset; 
+	iPoint offsetFromEnemy; 
 
 public:
 	damageInfo damageInform;

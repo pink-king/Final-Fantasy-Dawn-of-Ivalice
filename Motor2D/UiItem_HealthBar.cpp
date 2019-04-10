@@ -31,10 +31,14 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
-
 	this->deliever = deliever; 
 
-	iPoint staticPos(App->render->WorldToScreen(deliever->position.x, deliever->position.y));	            
+
+
+	offsetFromEnemy = iPoint(staticSection->w / 4 - deliever->size.x / 2, 10); 
+
+
+	iPoint staticPos(App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y- offsetFromEnemy.y));
 	staticImage = App->gui->AddImage(staticPos, staticSection, this); 
 		
 	dynamicImagePosoffset = iPoint((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
@@ -42,9 +46,9 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
 
 
-	damageImagePosoffset = dynamicImagePosoffset + iPoint(8, 0);
+	/*damageImagePosoffset = dynamicImagePosoffset + iPoint(8, 0);
 	damageImage = App->gui->AddImage(newPos + iPoint(8, 0), damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
-	damageImage->hide = true;
+	damageImage->hide = true;*/
 
 	maxSection = dynamicImage->section.w;
 
@@ -91,6 +95,15 @@ void UiItem_HealthBar::Draw(const float& dt)
 		if (deliever)
 		{
 			UpdatePos();
+
+			if (conversionFactor == 0.0f)
+			{
+				conversionFactor = maxSection / deliever->life;
+			}
+
+			lastSection = dynamicImage->section.w;
+			dynamicImage->section.w = conversionFactor * deliever->life;
+
 		}
 		
 	}
@@ -100,7 +113,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 void UiItem_HealthBar::UpdatePos()
 {
-	iPoint pos = App->render->WorldToScreen(deliever->position.x, deliever->position.y); 
+	iPoint pos = App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y); 
 
 
 	staticImage->hitBox.x = pos.x;
