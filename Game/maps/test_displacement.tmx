@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="12" height="12" tilewidth="256" tileheight="128" infinite="0" nextlayerid="4" nextobjectid="3">
+ <tileset firstgid="1" name="testingTerrain" tilewidth="256" tileheight="256" tilecount="16" columns="4">
+  <image source="../../../../../Desktop/testingTerrain.png" width="1024" height="1024"/>
+  <terraintypes>
+   <terrain name="Nuevo Terreno" tile="0"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="2" terrain="0,0,0,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="0,0,0,0"/>
+  <tile id="5" terrain="0,0,0,0"/>
+  <tile id="6" terrain="0,0,0,0"/>
+  <tile id="7" terrain="0,0,0,0"/>
+  <tile id="8" terrain="0,0,0,0"/>
+  <tile id="9" terrain="0,0,0,0"/>
+  <tile id="10" terrain="0,0,0,0"/>
+ </tileset>
+ <layer id="1" name="Capa de Patrones 1" width="12" height="12">
+  <properties>
+   <property name="Nodraw" type="int" value="0"/>
+  </properties>
+  <data>
+   <tile gid="3"/>
+   <tile gid="2"/>
+   <tile gid="10"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="1"/>
+   <tile gid="2"/>
+   <tile gid="8"/>
+   <tile/>
+   <tile/>
+   <tile gid="10"/>
+   <tile gid="3"/>
+   <tile gid="10"/>
+   <tile gid="4"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="3"/>
+   <tile gid="9"/>
+   <tile/>
+   <tile/>
+   <tile gid="11"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="6"/>
+   <tile gid="9"/>
+   <tile gid="11"/>
+   <tile gid="4"/>
+   <tile gid="11"/>
+   <tile gid="7"/>
+   <tile gid="2"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile gid="11"/>
+   <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="8"/>
+   <tile gid="1"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="9"/>
+   <tile gid="7"/>
+   <tile gid="5"/>
+   <tile gid="6"/>
+   <tile gid="9"/>
+   <tile gid="1"/>
+   <tile gid="3"/>
+   <tile gid="10"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="8"/>
+   <tile gid="9"/>
+   <tile gid="4"/>
+   <tile gid="4"/>
+   <tile gid="6"/>
+   <tile gid="11"/>
+   <tile gid="8"/>
+   <tile gid="1"/>
+   <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile gid="8"/>
+   <tile gid="6"/>
+   <tile gid="2"/>
+   <tile gid="11"/>
+   <tile gid="1"/>
+   <tile gid="3"/>
+   <tile gid="4"/>
+   <tile gid="7"/>
+   <tile gid="10"/>
+   <tile gid="4"/>
+   <tile gid="4"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="7"/>
+   <tile gid="7"/>
+   <tile gid="6"/>
+   <tile gid="4"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="4"/>
+   <tile gid="8"/>
+   <tile gid="10"/>
+   <tile gid="7"/>
+   <tile gid="5"/>
+   <tile gid="8"/>
+   <tile gid="1"/>
+   <tile gid="4"/>
+   <tile gid="9"/>
+   <tile gid="2"/>
+   <tile gid="3"/>
+   <tile gid="8"/>
+   <tile gid="9"/>
+   <tile gid="5"/>
+   <tile gid="9"/>
+   <tile gid="7"/>
+   <tile gid="3"/>
+   <tile gid="4"/>
+   <tile gid="2"/>
+   <tile gid="10"/>
+   <tile gid="6"/>
+   <tile gid="5"/>
+   <tile gid="1"/>
+   <tile gid="8"/>
+   <tile gid="7"/>
+   <tile gid="5"/>
+   <tile gid="8"/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile gid="10"/>
+   <tile gid="9"/>
+   <tile gid="10"/>
+   <tile gid="3"/>
+   <tile gid="5"/>
+   <tile gid="3"/>
+   <tile gid="7"/>
+   <tile gid="8"/>
+   <tile gid="3"/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile gid="6"/>
+   <tile gid="11"/>
+   <tile gid="10"/>
+   <tile gid="7"/>
+   <tile gid="5"/>
+   <tile gid="8"/>
+   <tile gid="11"/>
+  </data>
+ </layer>
+ <objectgroup id="3" name="Capa de Objetos 1">
+  <object id="1" gid="1" x="368" y="-116" width="256" height="256"/>
+  <object id="2" gid="1" x="725" y="-13" width="256" height="264"/>
+ </objectgroup>
+ <layer id="2" name="Collisions" width="12" height="12">
+  <properties>
+   <property name="Navigation" type="int" value="1"/>
+  </properties>
+  <data>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+  </data>
+ </layer>
+</map>
