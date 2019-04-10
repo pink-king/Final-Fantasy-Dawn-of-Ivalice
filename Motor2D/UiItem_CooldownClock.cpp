@@ -75,12 +75,6 @@ void UiItem_CooldownClock::CheckState()
 
 
 
-void UiItem_CooldownClock::Restart()
-{
-
-}
-
-
 void UiItem_CooldownClock::DoLogic()
 {
 
