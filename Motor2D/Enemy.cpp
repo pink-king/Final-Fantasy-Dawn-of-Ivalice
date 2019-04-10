@@ -44,8 +44,8 @@ bool Enemy::SearchNewPath()
 			if (path_to_follow.size() > 1)
 				path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
 
-			/*if (path_to_follow.size() > 0)
-				path_to_follow.pop_back();*/							// Enemy doesnt eat the player, stays at 1 tile
+			if (path_to_follow.size() > 1)
+				path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
 				//path_to_follow.pop_back();
 			ret = (path_to_follow.size() > 0);
 		}
@@ -83,7 +83,7 @@ bool Enemy::SearchNewSubPath()
 			if (path_to_follow.size() > 1)
 				path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
 
-			if (path_to_follow.size() > 0)
+			if (path_to_follow.size() > 1)
 				path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
 
 			iPoint adj = path_to_follow.back();
@@ -108,6 +108,23 @@ bool Enemy::isInDetectionRange() const
 {
 	iPoint playerPos = App->entityFactory->player->GetTilePos(); 
 	return (GetTilePos().DistanceManhattan(playerPos) < detectionRange);
+}
+
+bool Enemy::isInAttackRange() const
+{
+	return (GetSubtilePos().DistanceTo(App->entityFactory->player->GetSubtilePos()) <= attackRange);
+}
+
+bool Enemy::isNextPosFree(iPoint futurePos)
+{
+	iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(futurePos.x, futurePos.y);
+
+	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp));
+}
+
+bool Enemy::isOnDestiny() const
+{
+	return GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5;
 }
 
 

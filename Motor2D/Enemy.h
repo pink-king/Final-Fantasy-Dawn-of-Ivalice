@@ -50,12 +50,14 @@ public:
 	~Enemy();
 
 	//core loops ------
-	//bool Awake(pugi::xml_node& node);
 
 	bool SearchNewPath();
 	bool SearchNewSubPath();
 	int GetRandomValue(const int& min, const int& max) const;
 	bool isInDetectionRange() const;
+	bool isInAttackRange() const;
+	bool isNextPosFree(iPoint futurePos); 
+	bool isOnDestiny() const; 
 	void Draw() override;
 
 	void DebugPath() const;

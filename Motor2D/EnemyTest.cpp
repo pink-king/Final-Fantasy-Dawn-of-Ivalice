@@ -80,6 +80,8 @@ void EnemyTest::SetState(float dt)
 	break;
 	case EnemyState::SEARCHPATH:
 	{
+		//freePass = false; 
+
 		if (!isSubpathRange)
 		{
 			SearchNewPath();
@@ -119,21 +121,17 @@ void EnemyTest::SetState(float dt)
 	{
 		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
 		velocity.Normalize();
-		position += velocity * dt * speed;
+		fPoint tempPos = GetPivotPos() + velocity * dt * speed;
 
 		// Collision between them currently not working properly
+		if (!isNextPosFree(tempPos.ReturniPoint()) && !freePass)
+		{	
+				state = EnemyState::WAITING;
+				checkTime.Start();
+				break;
+		}
+		else position = tempPos - pivot; 
 
-		//iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(GetPivotPos().x, GetPivotPos().y);
-		//if (onSubtilePosTemp != previousSubtilePos)
-		//{
-		//	if (!App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp) && !freePass /*&& !isMeleeRange*/)
-		//	{
-		//		position -= velocity * dt *speed;
-		//		state = EnemyState::WAITING;
-		//		checkTime.Start();
-		//		break;
-		//	}
-		//}
 		state = EnemyState::CHECK;
 	}
 	break;
@@ -147,7 +145,7 @@ void EnemyTest::SetState(float dt)
 			if(checkTime.Read() > GetRandomValue(250, 1000))
 				state = EnemyState::SEARCHPATH;
 		}
-		else if (GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5)
+		else if (isOnDestiny())
 		{
 			if (path_to_follow.size() == 1 && isSubpathRange)
 			{
@@ -164,7 +162,7 @@ void EnemyTest::SetState(float dt)
 
 		if (path_to_follow.size() <= 0 )
 		{
-			if (GetSubtilePos().DistanceTo(App->entityFactory->player->GetSubtilePos()) <= 1)
+			if (isInAttackRange())
 			{
 				state = EnemyState::ATTACK;
 				LOG("Attacking!");
@@ -190,12 +188,14 @@ void EnemyTest::SetState(float dt)
 		}
 		break;
 	}
+
 	case EnemyState::ATTACK:
 	{
 		if (checkTime.ReadSec() > 1)
 			state = EnemyState::CHECK;
 	}
 		break;
+
 	case EnemyState::WAITING:	// Needs a re-planning
 	{	
 		static int cont = 0; 
@@ -204,7 +204,7 @@ void EnemyTest::SetState(float dt)
 			state = EnemyState::GO_NEXT_TILE;
 			cont++;
 		}
-		if (cont > 50)
+		if (cont > 30)
 		{
 			freePass = true;
 			cont = 0; 
