@@ -48,6 +48,9 @@ void UiItem_CooldownClock::Draw(const float & dt)
 {
 
 	
+	
+	//SDL_SetTextureAlphaMod(App->gui->GetAtlas(), alphaValue);
+	
 	DoLogic(); 
 
 	if(!hide)
@@ -136,6 +139,9 @@ void UiItem_CooldownClock::DoLogic()
 	else
 	{
 		hide = true; 
+
+
+		// TODO: Prevent h section from diminishing when clock is paused 
 	}
 
 

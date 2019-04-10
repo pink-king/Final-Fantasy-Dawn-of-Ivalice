@@ -32,7 +32,7 @@ public:
 	void CheckState(); 
 
 private: 
-	SDL_Texture* texture = nullptr;
+
 	
 	SDL_Rect section; 
 	uint maxHeight; 
@@ -42,6 +42,8 @@ private:
 	State theState; 
 	toCheck keepAnEye; 
 	bool hide = false; 
+
+	uint8_t alphaValue = 56;
 
 };
 
