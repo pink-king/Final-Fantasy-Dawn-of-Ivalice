@@ -78,7 +78,7 @@ void LootEntity::Draw()
 {
 	//TO FIX only blits pivot
 	if (entityTex != nullptr)
-		App->render->Blit(entityTex, position.x, position.y, &loot_rect);
+		App->render->Blit(entityTex, position.x, position.y, &loot_rect,1.0f);
 	//LOG("painting loot");
 }
 

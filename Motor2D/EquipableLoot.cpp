@@ -30,7 +30,7 @@ bool Equipable::Update(float dt)
 EQUIPABLE_TYPE Equipable::ChooseEquipable()
 {
 	equipableChance = GetRandomValue(1, 100);
-	
+	LOG("this value %i",equipableChance);
 	if (equipableChance <= 33)
 	{
 		equipableType = EQUIPABLE_TYPE::SWORD;
@@ -42,7 +42,7 @@ EQUIPABLE_TYPE Equipable::ChooseEquipable()
 		equipableType = EQUIPABLE_TYPE::BOW;
 		return EQUIPABLE_TYPE::BOW;
 	}
-	else 
+	else if(  equipableChance > 66 )
 	{
 		equipableType = EQUIPABLE_TYPE::ROD;
 		return EQUIPABLE_TYPE::ROD;

@@ -137,6 +137,8 @@ bool j1LootManager::CollectLoot(LootEntity* entityLoot)
 {
 	//LoadItemData(object);
     LoadLootData(entityLoot,App->config);
+	
+
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
 		if (App->entityFactory->player->equipedObjects.size() == 0)
@@ -152,6 +154,7 @@ bool j1LootManager::CollectLoot(LootEntity* entityLoot)
 			{
 
 				if (entityLoot->GetObjectType() == (*item)->GetObjectType())
+
 					existSimilar = true;
 			}
 
@@ -192,16 +195,17 @@ bool j1LootManager::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
 	else
 		config = config_file.child("config").child("loot");*/
-
+	
 	OBJECT_TYPE object = lootEntity->GetObjectType();
 	int randID = 0;
 	int id;
+	
 	switch (object)
 	{
 	case OBJECT_TYPE::POTIONS:
 		for (auto node : config.child("loot").child("potions").children("health_potion"))
 		{
-			health = node.attribute("value").as_int();
+			lootEntity->heal = node.attribute("value").as_int();
 			LOG("looking for potions");
 		}
 		break;
@@ -228,37 +232,46 @@ bool j1LootManager::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 		
 		randID = GetRandomValue(1, 9);
 		EQUIPABLE_TYPE equip = lootEntity->GetEquipable();
+		Marche* marche;
 		
+
 		switch (equip)
 		{
+			case EQUIPABLE_TYPE::SWORD:
 			
-		case EQUIPABLE_TYPE::SWORD:
-			
-			for (auto node : config.child("loot").child("equipable").child("sword").children("equipment"))
-			{
-				id = node.attribute("id").as_int();
+				
 
-				if (id == randID) {
-					lootEntity->itemLevel =	node.attribute("level").as_int();		
 
-					if (id <= 3)
-						lootEntity->dmg = node.attribute("dmg").as_float();
-
-					else if (id > 3 && id <= 6)
-						lootEntity->burn = node.attribute("burn").as_float();
-
-					else
+					randID = GetRandomValue(1, 9);
+					for (auto node : config.child("loot").child("equipable").child("sword").children("equipment"))
 					{
-						lootEntity->dmg = node.attribute("dmg").as_float();
-						lootEntity->burn = node.attribute("burn").as_float();
-					}
-					LOG("looking for sword");
-					break;
-					
-				}
-			}
-			break;
+						id = node.attribute("id").as_int();
 
+						if (id == randID)
+						{
+							lootEntity->itemLevel = node.attribute("level").as_int();
+
+							if (id <= 3)
+								lootEntity->dmg = node.attribute("dmg").as_float();
+
+							else if (id > 3 && id <= 6)
+								lootEntity->burn = node.attribute("burn").as_float();
+
+							else
+							{
+								lootEntity->dmg = node.attribute("dmg").as_float();
+								lootEntity->burn = node.attribute("burn").as_float();
+							}
+							LOG("looking for sword");
+							
+							
+							
+						}
+					}
+					LOG("hey");
+			
+			break;
+			
 		case EQUIPABLE_TYPE::BOW:
 			
 			for (auto node : config.child("loot").child("equipable").child("bow").children("equipment"))
@@ -292,7 +305,7 @@ bool j1LootManager::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 				id = node.attribute("id").as_int();
 				if (id == randID) {
 					lootEntity->itemLevel = node.attribute("level").as_int();
-
+					
 					if (id <= 3)
 					{
 						lootEntity->chanceTo = node.attribute("chance").as_float();
@@ -329,5 +342,9 @@ bool j1LootManager::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 	}
 return true;
 }
+
+
+
+
 
 

@@ -85,7 +85,9 @@ public:
 	std::vector<LootEntity*>		consumibles;
 
 	uint							gold = 0;
-
+	int								sharaLevel = 3;
+	int								marcheLevel = 3;
+	int								ritzLevel = 3;
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;

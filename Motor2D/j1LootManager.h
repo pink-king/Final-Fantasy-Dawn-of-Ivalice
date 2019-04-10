@@ -35,6 +35,7 @@ public:
 
 	bool CollectLoot(LootEntity* etityLoot);
 	bool LoadLootData(LootEntity* lootentity, pugi::xml_node&);
+
 public:
 
 	bool toDrop = false;
