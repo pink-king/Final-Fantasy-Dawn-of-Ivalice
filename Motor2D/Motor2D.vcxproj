@@ -128,7 +128,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
-    <ClInclude Include="GUI_Definitions.h" />  
+    <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1Entity.h" />
@@ -182,10 +182,10 @@
     <Xml Include="..\Game\save_game.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="Loot.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\maps\iso_walk.tmx" />
+    <None Include="..\Game\maps\level1_Block_rev.tmx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
