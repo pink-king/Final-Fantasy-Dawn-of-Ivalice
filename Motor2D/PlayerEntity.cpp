@@ -162,6 +162,9 @@ bool PlayerEntity::InputCombat()
 			combat_state = combatState::ULTIMATE;
 			//LOG("ULTIMATE");
 		}
+
+
+
 		// check basic attack
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 		{

@@ -15,7 +15,7 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "UiItem_CooldownClock.h"
-#include "UiItem_CooldownClockManager.h"
+#include "GUI_Definitions.h"
 
 struct labelInfo
 {
@@ -23,6 +23,52 @@ struct labelInfo
 	SDL_Color labelColor;
 	uint labelIndex;
 };
+
+
+
+
+/*// - - - - - - - the following two methods are only meant for loading the xml data - - - - - - - 
+struct coolDownClockData
+{
+	iPoint position; 
+	SDL_Rect section; 
+	std::string type; 
+};
+
+struct theClocks
+{
+
+	coolDownClockData ability1, ability2, ulti, potion;
+
+};
+
+// - - - - - - - the following two methods are meant for checking created clocks according to type and player - - - - - - - 
+
+struct createdClocks {
+	bool special1 = false; 
+	bool special2 = false;
+	bool ulti = false;
+	bool potion = false;
+};
+
+
+struct clockOwners {
+	createdClocks Marche, Ritz, Shara; 
+};
+
+// - - - - - - - - - - - - - this method is meant to contain all clocks for a single player - - - - - - - - - - - - // 
+
+
+
+struct myClocks {
+	UiItem_CooldownClock* special1 = nullptr; 
+	UiItem_CooldownClock* special2 = nullptr;
+	UiItem_CooldownClock* ulti = nullptr;
+	UiItem_CooldownClock* potion = nullptr;
+};*/
+
+struct theClocks;
+struct clockOwners; 
 
 class j1Gui : public j1Module
 {
@@ -46,7 +92,7 @@ public:
 	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
 	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel = false);
-	UiItem_Bar* AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent); // , TypeBar type = VERTICAL);
+	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent); // , TypeBar type = VERTICAL);
 	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
 	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
@@ -57,7 +103,9 @@ public:
 
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent = nullptr);
-	UiItem_CooldownClock* AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent = nullptr);
+	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem*const parent = nullptr);
+
+	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent = nullptr);
 
 
 	SDL_Texture* GetAtlas();
@@ -76,6 +124,15 @@ private:
 
 public:
 	bool resetHoverSwapping = false;
+	theClocks allclocksData; 
+	clockOwners spawnedClocks;
+
+	enemyHealthBarInfo enemyLifeBarInfo; 
 };
+
+
+
+
+
 
 #endif

@@ -6,6 +6,9 @@
 #include "j1Entity.h"
 #include "Buff.h"
 
+
+
+
 #define PI 3.14159265359f
 
 struct SDL_Texture;
@@ -83,7 +86,7 @@ public:
 
 	bool aiming = false;
 	
-protected:
+public:
 	combatState combat_state;
 	coolDown coolDownData;
 

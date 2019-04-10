@@ -9,7 +9,9 @@
 #include "j1EntityFactory.h"
 #include "j1ItemsManager.h"
 #include "j1AttackManager.h"
-
+#include "j1Gui.h"
+#include "j1App.h"
+#include "j1Scene.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -109,6 +111,12 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.ultimate.cooldownTime = 3000;
 
 	previousPos = position;
+
+
+	// better speed 
+	characterBaseSpeed.x /= 1.3f; 
+	characterBaseSpeed.y /= 1.3f;
+
 }
 
 Marche::~Marche()
@@ -249,7 +257,6 @@ bool Marche::Update(float dt)
 
 bool Marche::CleanUp()
 {
-
 	return true;
 }
 

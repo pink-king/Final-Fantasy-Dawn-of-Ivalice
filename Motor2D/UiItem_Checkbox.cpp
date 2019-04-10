@@ -50,10 +50,10 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section
 	panel = App->gui->AddImage(position, panel_section, parent);
 
 	// box
-	box = App->gui->AddImage(boxPos, box_section, parent);
+	box = App->gui->AddImage(boxPos, box_section, this);
 
 	// tick
-	tick = App->gui->AddImage(tickPos, tick_section, parent);
+	tick = App->gui->AddImage(tickPos, tick_section, this);
 	tick->hide = true;
 
 

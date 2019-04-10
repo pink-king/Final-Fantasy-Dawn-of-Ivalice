@@ -8,6 +8,7 @@
 #include "j1Module.h"
 #include "j1Textures.h"
 
+
 #include "SDL_image/include/SDL_image.h"
 
 enum ENTITY_TYPE  // todo, pass to class

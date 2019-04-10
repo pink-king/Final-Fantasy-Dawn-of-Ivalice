@@ -13,13 +13,14 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UiItem_Image.h"
+#include "UiItem_Bar.h"
 #include "j1AttackManager.h"
 #include "j1ModuleCamera2D.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_HealthBar.h"
 #include "j1BuffManager.h"
-#include "UiItem_CooldownClockManager.h"
 #include "UiItem_CooldownClock.h"
+#include "GUI_Definitions.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -44,7 +45,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/iso_walk.tmx")) //level1_Block_rev.tmx"))   //iso_walk.tmx
+	if (App->map->Load("maps/level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -61,10 +62,18 @@ bool j1Scene::Start()
 	
 	// More perspective on the map since the beggining
 	//App->render->camera.x = 500;
-	App->camera2D->SetCameraPos({ 500,0 });
+	/*App->camera2D->SetCameraPos({ 500,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ 300,300 });
+	App->entityFactory->CreatePlayer({ 300,300 });*/
+
+
+
+	App->camera2D->SetCameraPos({ 2000,0 });
+
+	// create player for testing purposes here
+	App->entityFactory->CreatePlayer({ 1800, 2000 });
+
 
 	if (state == SceneState::GAME)
 	{
@@ -192,6 +201,9 @@ bool j1Scene::Update(float dt)
 
 	if (state == SceneState::STARTMENU)
 	{
+		result_volume = volume_bar->GetBarValue();
+		App->audio->SetVolume(result_volume);
+		result_fx = fx_bar->GetBarValue();
 		App->map->active = false;
 		inGamePanel->enable = false;
 		uiMarche->enable = false;
@@ -239,6 +251,7 @@ bool j1Scene::Update(float dt)
 	{
 
 		App->entityFactory->player->selectedCharacterEntity->life += 30;
+		App->gui->healthBar->damageInform.damageValue = -30;
 	}
 
 
@@ -418,11 +431,19 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	for (pugi::xml_node uiNode = node.child("panelBars").child("panelBar"); uiNode; uiNode = uiNode.next_sibling("panelBar"))
 	{
 
-
+		std::string name = uiNode.attribute("name").as_string();
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		SDL_Rect section_bar = { uiNode.child("section_bar").attribute("x").as_int(), uiNode.child("section_bar").attribute("y").as_int(), uiNode.child("section_bar").attribute("w").as_int(), uiNode.child("section_bar").attribute("h").as_int() };
 		SDL_Rect section_thumb = { uiNode.child("section_thumb").attribute("x").as_int(), uiNode.child("section_thumb").attribute("y").as_int(), uiNode.child("section_thumb").attribute("w").as_int(), uiNode.child("section_thumb").attribute("h").as_int() };
-		App->gui->AddBar(position, &section_bar, &section_thumb, parent);
+		UiItem_Bar* slider_volume = App->gui->AddBar(position, name, &section_bar, &section_thumb, parent);
+		if (name == "volumeSlider")
+		{
+			volume_bar = slider_volume;
+		}
+		if (name == "fxSlider")
+		{
+			fx_bar = slider_volume;
+		}
 	}
 
 
@@ -457,26 +478,28 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 
 
-	// health bar and cooldown bar
+	// health bar 
 
 	for (pugi::xml_node uiNode = node.child("healthbars").child("healthbar"); uiNode; uiNode = uiNode.next_sibling("healthbar"))
 	{
 
-		SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
-		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
-		SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
+		
+		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() }; 
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string variant = uiNode.child("type").attribute("value").as_string();
-		if (variant == "health")
-		{
-			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::health, inGamePanel);
-		}
-		/*else if(variant == "cooldown")
-		{
-		App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr, type::cooldown, inGamePanel);
-		}*/
 
+		if (variant == "player")
+		{
+			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
+			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
+			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
+		}
+		else if(variant == "enemy")
+		{
+			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
+		}
+	
 	}
 
 	// cooldown clocks    
@@ -488,9 +511,31 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		std::string type = uiNode.child("type").attribute("value").as_string();
 
+		
 		if (type == "ability1")
 		{
-			//App->ClockManager->ability1 = App->gui->AddClock(position, &section, inGamePanel);
+			App->gui->allclocksData.ability1.position = position; 
+			App->gui->allclocksData.ability1.section = section;
+			App->gui->allclocksData.ability1.type = type;
+		}
+		else if (type == "ability2")
+		{
+
+			App->gui->allclocksData.ability2.position = position;
+			App->gui->allclocksData.ability2.section = section;
+			App->gui->allclocksData.ability2.type = type;
+		}
+		else if (type == "ulti")
+		{
+
+			App->gui->allclocksData.ulti.position = position;
+			App->gui->allclocksData.ulti.section = section;
+			App->gui->allclocksData.ulti.type = type;
+		}
+
+		else if (type == "potion")
+		{
+
 		}
 
 	}

@@ -8,6 +8,7 @@
 #include "UiItem_HitPointManager.h"
 #include "UiItem_CooldownClockManager.h"
 
+
 UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
 	hitBox.x = pos.x;
@@ -19,6 +20,20 @@ UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 
 	SDL_ShowCursor(SDL_DISABLE);
 }
+
+
+UiItem::UiItem(UiItem * const parent)
+{
+	
+	if (parent != nullptr)
+		this->parent = parent;
+
+	this->function = function;
+
+	SDL_ShowCursor(SDL_DISABLE);
+}
+
+
 
 UiItem::UiItem(const iPoint & pos, std::string &function, UiItem *const parent) : parent(parent)
 {
@@ -47,9 +62,16 @@ void UiItem::DrawUi(float dt)
 
 	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter != App->gui->ListItemUI.end(); ++iter)
 	{
-		if ((*iter)->parent != NULL && (*iter)->parent->enable)
-			(*iter)->Draw(dt);
-
+		if ((*iter)->parent!=App->gui->canvas)
+		{
+			if ((*iter)->parent != NULL && (*iter)->parent->enable && (*iter)->parent->parent == App->gui->canvas)
+				(*iter)->Draw(dt);
+			else if ((*iter)->parent->parent != App->gui->canvas)
+			{
+				if ((*iter)->parent->parent->enable)
+					(*iter)->Draw(dt);
+			}
+		}
 	}
 
 
@@ -60,11 +82,6 @@ void UiItem::DrawUi(float dt)
 	}
 
 
-	for (std::vector<UiItem_CooldownClock*>::iterator iter = App->ClockManager->clocks.begin(); iter != App->ClockManager->clocks.end(); ++iter)
-	{
-		if ((*iter) != nullptr && (*iter)->parent != NULL && (*iter)->parent->enable)
-			(*iter)->Draw(dt);
-	}
 
 
 

@@ -53,7 +53,6 @@ bool j1LootManager::Update(float dt)
 }
 
 
-
 //iPoint j1LootManager::GetPlayerSubtile(PlayerEntity* player)
 //{
 //	return player->GetSubtilePos();

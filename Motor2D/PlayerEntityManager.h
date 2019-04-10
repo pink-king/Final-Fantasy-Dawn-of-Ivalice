@@ -46,6 +46,43 @@ private:
 	float maxRadiusDistance;
 };
 
+class Crosshair
+{
+public:
+	Crosshair();
+	~Crosshair();
+
+	bool Start();
+	bool Update(float dt);
+	bool PostUpdate();
+	bool Reset();
+	bool CleanUp();
+
+public:
+	iPoint GetSubtilePoint();
+
+private:
+	bool ManageInput(float dt);
+	iPoint GetPivotPos();
+	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
+	fPoint GetHeadingVector(float angle);
+	/*float Clamp(float value, float min, float max);*/
+
+public:
+	bool isReseted = false;
+	fPoint relativePosition;
+	fPoint position;
+	iPoint pivotOffset; // the point of the "center" of the crosshair graphic
+	SDL_Texture* tex = nullptr;
+	Animation startAnim;
+	Animation loopAnim;
+private:
+	j1Entity* clampedEntity = nullptr;
+	fPoint sensitivitySpeed = { 5.f,5.f };
+	bool clamped = false; // following a enemy entity
+	float maxRadiusDistance;
+};
+
 class PlayerEntityManager : public j1Entity
 {
 public:

@@ -46,7 +46,6 @@ std::string LootEntity::GetName()
 
 LOOT_TYPE LootEntity::GetType()
 {
-
 	return 	loot_type;
 
 }

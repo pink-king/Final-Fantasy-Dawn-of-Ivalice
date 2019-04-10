@@ -52,6 +52,26 @@ bool EnemyTest::Update(float dt)
 	SetState(dt);
 
 
+	// --------------------------------------------------------------------------- This is faked: recieve attack from player
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	{
+		life -= 20; 
+		
+	}
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	{
+		life -= 30;
+	}
+
+	if (life <= 0)
+	{
+		CleanUp(); 
+	}
+
+	// --------------------------------------------------------------------------- This is faked: recieve attack from player
+
 	return true;
 }
 
@@ -233,6 +253,19 @@ bool EnemyTest::CleanUp()
 	{
 		App->tex->UnLoad(entityTex);
 		entityTex = nullptr;
+	}
+
+	std::vector<items*>::iterator iter = bagObjects.begin();
+	for (; iter != bagObjects.end(); ++iter)
+	{
+		delete *iter;
+		*iter = nullptr;
+	}
+	std::vector<items*>::iterator iter2 = equipedObjects.begin();
+	for (; iter2 != equipedObjects.end(); ++iter2)
+	{
+		delete *iter2;
+		*iter2 = nullptr;
 	}
 
 	return true;

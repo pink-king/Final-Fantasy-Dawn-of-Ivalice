@@ -74,41 +74,6 @@
 
       </images>
 
-      <!--
-    <panelBars>
-
-        <panelBar name="sliderHorizontal">
-          <section_bar x="1101" y="613" w="170" h="46"/>
-          <position x="150" y="300"/>
-          <section_thumb x="1112" y="566" w="31" h="45"/>
-          <type value = "HORIZONTAL"/>
-        </panelBar>
-
-
-      </panelBars>
-
-
-      <PanelCheckboxes>
-        
-        <PanelCheckbox name="test checkbox">
-          <panelPosition x="150" y="200"/>
-          <panelSection x="293" y="666" w="200" h="36"/>
-          <boxSection x="518" y="673" w="25" h="25"/>
-          <tickSection x="555" y="678" w="18" h="18"/>
-          <font value = "Open_Sans Bold"/>
-
-          <checkboxLabels>
-            <checkboxLabel name="labelInsideCheckbox">
-              <text value = "This text is resized to fit"/>
-              <color R="22" G="233" B="44" A="200"/>
-              <font value = "1" size = "18"/>
-            </checkboxLabel>
-            
-          </checkboxLabels>
-        </PanelCheckbox>
-        
-      </PanelCheckboxes>
-	 -->
 
       <healthbars>
         <healthbar name="life_bar">
@@ -116,16 +81,15 @@
           <dynamicSection x="111" y="515" w="132" h="24"/>
           <damageSection x="32" y="595" w="115" h="26"/>
           <position x="113" y="78"/>
-          <type value="health"/>
+          <type value="player"/>
         </healthbar>
 
-        <healthbar name="ability_cooldown">
-          <staticSection x="110" y="482" w="134" h="26"/>
-          <dynamicSection x="111" y="515" w="132" h="24"/>
+		    <healthbar name="life_bar_enemy">
+          <dynamicSection x="90" y="690" w="52" h="6"/>
           <position x="113" y="78"/>
-          <type value="cooldown"/>
+          <type value="enemy"/>
         </healthbar>
-
+		
       </healthbars>
 
 
@@ -136,6 +100,19 @@
           <type value="ability1"/>
         </clock>
 
+		 <clock name=" clock 2">
+          <section x="780" y="214" w="123" h="123"/>
+          <position x="850" y="550"/>
+          <type value="ability2"/>
+        </clock>
+		
+		 <clock name=" clock 3">
+          <section x="780" y="214" w="123" h="123"/>
+          <position x="1050" y="550"/>
+          <type value="ulti"/>
+		  
+        </clock>
+		
       </clocks>
 
 
@@ -289,15 +266,15 @@
       <panelBars>
 
         <panelBar name="volumeSlider">
-          <section_bar x="1101" y="613" w="170" h="46"/>
+          <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="267"/>
-          <section_thumb x="1112" y="566" w="31" h="45"/>
+          <section_thumb x="1115" y="558" w="29" h="38"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
-          <section_bar x="1101" y="613" w="170" h="46"/>
+          <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="364"/>
-          <section_thumb x="1112" y="566" w="31" h="45"/>
+          <section_thumb x="1115" y="558" w="29" h="38"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
