@@ -249,21 +249,7 @@ bool Marche::Update(float dt)
 
 bool Marche::CleanUp()
 {
-	std::vector<items*>::iterator iter = bagObjects.begin();
-	for (; iter != bagObjects.end(); ++iter)
-	{
-		delete *iter;
-		*iter = nullptr;
-	}
-	bagObjects.clear();
-
-	std::vector<items*>::iterator iter2 = equipedObjects.begin();
-	for (; iter2 != equipedObjects.end(); ++iter2)
-	{
-		delete *iter2;
-		*iter2 = nullptr;
-	}
-	equipedObjects.clear();
+	
 	return true;
 }
 

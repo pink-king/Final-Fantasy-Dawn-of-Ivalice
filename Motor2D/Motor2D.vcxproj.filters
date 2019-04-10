@@ -54,9 +54,6 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Desenvolupament ========\Tools\PuguiXML</Filter>
     </ClCompile>
-    <ClCompile Include="Items.cpp">
-      <Filter>Desenvolupament ========\Modules\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="j1AttackManager.cpp">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClCompile>
@@ -215,10 +212,7 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Desenvolupament ========\Tools\PuguiXML</Filter>
     </ClInclude>
-    <ClInclude Include="Items.h">
-      <Filter>Desenvolupament ========\Modules\Entities</Filter>
 
-    </ClInclude>
     <ClInclude Include="j1AttackManager.h">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClInclude>
