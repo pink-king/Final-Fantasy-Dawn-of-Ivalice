@@ -256,7 +256,6 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, iPoint(coords.x, coords.y), 100, 12, 1), 21, 10,"burn");
 		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 	}
@@ -265,7 +264,6 @@ bool j1Scene::Update(float dt)
 	{
 		App->entityFactory->CreateEnemy(EnemyType::TEST, iPoint(coords.x, coords.y), 0, 12, 1);
 	}
-
 
 	/*static char title[90];
 	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
@@ -428,7 +426,6 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	}
 
 
-
 	// checkboxes
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
@@ -446,7 +443,6 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		uint fontIndex = uiNode3.child("font").attribute("value").as_uint();
 		uint fontSize = uiNode3.child("font").attribute("size").as_uint();
 		SDL_Color color = { uiNode3.child("color").attribute("R").as_uint(),uiNode3.child("color").attribute("G").as_uint(),uiNode3.child("color").attribute("B").as_uint(),uiNode3.child("color").attribute("A").as_uint() };
-
 
 
 		labelInfo labelInfo = {
