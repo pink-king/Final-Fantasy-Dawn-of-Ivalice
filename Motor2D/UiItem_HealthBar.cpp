@@ -33,10 +33,8 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* staticSection, const SDL_Rect
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
-	int x = (int)deliever->position.x; 
-	int y = (int)deliever->position.y; 
-
-	iPoint staticPos(x,y);                       
+	iPoint staticPos(App->render->WorldToScreen(deliever->position.x, deliever->position.y));
+	            
 	staticImage = App->gui->AddImage(staticPos, staticSection, this);
 
 
