@@ -136,9 +136,6 @@
     <ClCompile Include="j1Map.cpp">
       <Filter>Desenvolupament ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Desenvolupament ========\Modules\Entities\Enemies</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LootEntity.h">
@@ -206,9 +203,6 @@
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Desenvolupament ========\Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="Items.h">
-      <Filter>Desenvolupament ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1AttackManager.h">
       <Filter>Desenvolupament ========\Modules</Filter>
@@ -293,9 +287,6 @@
     </ClInclude>
     <ClInclude Include="j1Module.h">
       <Filter>Desenvolupament ========</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Desenvolupament ========\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

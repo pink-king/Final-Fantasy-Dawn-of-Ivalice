@@ -80,7 +80,6 @@
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
     <ClCompile Include="Items.cpp" />
@@ -128,7 +127,6 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="ConsumableLoot.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
     <ClInclude Include="Items.h" />

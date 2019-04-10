@@ -44,7 +44,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/iso_walk.tmx")) //level1_Block_rev.tmx"))   //iso_walk.tmx
+	if (App->map->Load("maps/iso_walk.tmx"))
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -52,9 +52,6 @@ bool j1Scene::Start()
 			App->pathfinding->SetMap(w, h, data);
 
 		RELEASE_ARRAY(data);
-
-		// re set entities data map (create or delete/create if we have a previous one)
-		App->entityFactory->CreateEntitiesDataMap(App->map->data.width*2, App->map->data.height*2);
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
@@ -104,6 +101,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+
 	// debug pathfing ------------------
 
 	int x, y;
@@ -118,26 +116,6 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		App->win->SetScale(2);
 
-	// debug testing subtiles entities empty
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
-		iPoint clickedTile = entitySubTilePoint;
-		clickedTile = App->map->WorldToMap(clickedTile.x, clickedTile.y);
-		entitySubTilePoint = App->map->WorldToSubtileMap(entitySubTilePoint.x, entitySubTilePoint.y);
-
-		LOG("clicked tile: %i, %i", clickedTile.x, clickedTile.y);
-		LOG("clicked subtile %i,%i", entitySubTilePoint.x, entitySubTilePoint.y);
-
-		if (App->entityFactory->isThisSubtileEmpty(entitySubTilePoint))
-			LOG("subtile empty");
-		else
-			LOG("subtile NOT empty");
-
-		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
-
-	}
 
 	return true;
 }
@@ -145,12 +123,6 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	/*int mx, my;
-	App->input->GetMousePosition(mx, my);
-	iPoint mousePos = App->render->ScreenToWorld(mx, my);
-	LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
-	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
-	LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);*/
 
 	// map debug draw grids
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
@@ -179,7 +151,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
-		if (state == SceneState::GAME)
+		if (inGamePanel->enable)
 		{
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
@@ -200,7 +172,7 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 	}
 
-	if (state == SceneState::GAME)
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
 	{
 		App->map->active = true;
 		inGamePanel->enable = true;
@@ -211,36 +183,25 @@ bool j1Scene::Update(float dt)
 			//LOG("marche");
 			uiMarche->enable = true;
 			uiRitz->enable = false;
-			uiShara->enable = false;
 		}
-		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
+		else if (uiShara->enable)
 		{
 			//LOG("marche");
 			uiMarche->enable = false;
 			uiRitz->enable = true;
 			uiShara->enable = false;
+			uiRitz->enable = true;
+			uiMarche->enable = false;
 		}
-		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
+		else if (uiRitz->enable)
 		{
 			//LOG("marche");
 			uiMarche->enable = false;
 			uiRitz->enable = false;
-			uiShara->enable = true;
+			uiMarche->enable = true;
+			uiShara->enable = false;
 		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
-	{
-		App->entityFactory->player->selectedCharacterEntity->life -= 20;
-		App->gui->healthBar->damageInform.doDamage = true;
-		App->gui->healthBar->damageInform.damageValue = 20;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
-	{
-
-		App->entityFactory->player->selectedCharacterEntity->life += 30;
-	}
-
 
 	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		App->loot->trigger = true;*/
@@ -256,15 +217,15 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, iPoint(coords.x, coords.y), 100, 12, 1), 21, 10,"burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever"), 21, 10,"burn");
 		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
-		App->entityFactory->CreateEnemy(EnemyType::TEST, iPoint(coords.x, coords.y), 0, 12, 1);
-	}
 
+		App->entityFactory->player->selectedCharacterEntity->life -= 20;
+	}
 	/*static char title[90];
 	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
 	App->win->AddStringToTitle(title);*/
@@ -285,9 +246,6 @@ bool j1Scene::PostUpdate()
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-
-	if (exitGame)
-		return false;
 
 	return ret;
 }
@@ -464,18 +422,18 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
-		SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string variant = uiNode.child("type").attribute("value").as_string();
 		if (variant == "health")
 		{
-			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::health, inGamePanel);
+			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, type::health, inGamePanel);
 		}
-		/*else if(variant == "cooldown")
+		else if (variant == "cooldown")
 		{
-		App->gui->AddHealthBar(position, &staticSection, &dynamicSection, nullptr, type::cooldown, inGamePanel);
-		}*/
+			App->gui->AddHealthBar(position, &staticSection, &dynamicSection, type::cooldown, inGamePanel);
+		}
+
 
 	}
 
@@ -494,6 +452,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		}
 
 	}
+
+
 
 }
 

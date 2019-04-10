@@ -3,7 +3,6 @@
 
 #include "j1Module.h"
 #include "j1Entity.h"
-#include "Enemy.h"
 #include "PlayerEntityManager.h"
 #include <vector>
 
@@ -33,7 +32,6 @@ public:
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
-	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange);
 	void Debug(j1Entity* ent);
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
