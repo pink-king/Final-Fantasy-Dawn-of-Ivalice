@@ -72,7 +72,7 @@ bool j1Scene::Start()
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ 1800, 2000 });
+	App->entityFactory->CreatePlayer({ -980, 2440 });
 
 
 	if (state == SceneState::GAME)
