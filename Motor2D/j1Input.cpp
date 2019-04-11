@@ -304,3 +304,11 @@ uint j1Input::GetCurrentMouseButtonDown()
 	}
 	return 0;
 }
+
+void j1Input::DoGamePadRumble(float strength, uint32 duration) const
+{
+	//SDL_GameControllerRumble() // TO bypass haptic etc and do the order directly to gamecontroller (for simple rumble)
+	// for simple rumble too (for now)
+	SDL_HapticRumblePlay(haptic, strength, duration);
+
+}

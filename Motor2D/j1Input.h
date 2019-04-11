@@ -85,6 +85,8 @@ public:
 
 	uint GetCurrentMouseButtonDown(); 
 
+	void DoGamePadRumble(float strength, uint32 duration) const;
+
 private:
 	bool		windowEvents[WE_COUNT];
 	j1KeyState*	keyboard = nullptr;
@@ -97,8 +99,9 @@ private:
 	int			mouse_y;
 
 	SDL_GameController* gamePad1 = nullptr;
-public:
 	SDL_Haptic* haptic = nullptr;
+public:
+	
 	
 };
 
