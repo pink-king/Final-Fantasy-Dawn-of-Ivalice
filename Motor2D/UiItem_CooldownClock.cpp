@@ -97,7 +97,7 @@ void UiItem_CooldownClock::DoLogic()
 			{
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight; 
 
-				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion; 
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
 			}
 			else
 			{
@@ -114,7 +114,7 @@ void UiItem_CooldownClock::DoLogic()
 			{
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime / maxHeight;
 
-				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
 
 			}
 			else
