@@ -403,7 +403,7 @@ bool j1Gui::PostUpdate()
 		if (debug_)
 		{
 
-			if ((*iter)->hitBox.x > 0)
+			if ((*iter)->hitBox.x > 0 && (*iter))
 			{
 				SDL_Rect r;
 				r.x = (*iter)->hitBox.x;

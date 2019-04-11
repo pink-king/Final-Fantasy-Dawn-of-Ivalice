@@ -54,7 +54,7 @@ public:
 	bool tabbed = false;
 	bool enable = true;
 	UiItem* iFriend = nullptr;
-
+	bool to_delete = false; 
 
 
 	virtual void DoLogicClicked() {};
