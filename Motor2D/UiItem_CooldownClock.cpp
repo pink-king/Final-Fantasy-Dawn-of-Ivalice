@@ -78,7 +78,7 @@ void UiItem_CooldownClock::CheckState()
 void UiItem_CooldownClock::DoLogic()
 {
 
-
+	LastHeight = this->section.h; 
 
 	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
@@ -95,9 +95,15 @@ void UiItem_CooldownClock::DoLogic()
 			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
 			{
+
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight; 
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
+			
+				heightDiff = LastHeight - this->section.h;
+
+				this->hitBox.y += heightDiff; 
+			
 			}
 			else
 			{
@@ -112,9 +118,14 @@ void UiItem_CooldownClock::DoLogic()
 			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
 			{
+
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime / maxHeight;
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
+
+				heightDiff = LastHeight - this->section.h; 
+
+				this->hitBox.y += heightDiff;
 
 			}
 			else

@@ -36,6 +36,8 @@ private:
 	
 	SDL_Rect section; 
 	uint maxHeight; 
+	uint LastHeight; 
+	uint heightDiff; 
 	iPoint position; 
 	std::string type; 
 
