@@ -59,18 +59,28 @@ UiItem::~UiItem()
 
 void UiItem::DrawUi(float dt)
 {
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); 
 
-	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter != App->gui->ListItemUI.end(); ++iter)
+	for (; iter != App->gui->ListItemUI.end(); )
 	{
-		if ((*iter)->parent!=App->gui->canvas)
+		if (!(*iter)->to_delete)
 		{
-			if ((*iter)->parent != NULL && (*iter)->parent->enable && (*iter)->parent->parent == App->gui->canvas)
-				(*iter)->Draw(dt);
-			else if ((*iter)->parent->parent != App->gui->canvas)
+			if ((*iter)->parent != App->gui->canvas)
 			{
-				if ((*iter)->parent->parent->enable)
+				if ((*iter)->parent != NULL && (*iter)->parent->enable && (*iter)->parent->parent == App->gui->canvas)
 					(*iter)->Draw(dt);
+				else if ((*iter)->parent->parent != App->gui->canvas)
+				{
+					if ((*iter)->parent->parent->enable)
+						(*iter)->Draw(dt);
+				}
 			}
+			++iter; 
+		}
+		else
+		{
+			delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
+			iter = App->gui->ListItemUI.erase(iter);          // and erase from the list 
 		}
 	}
 
@@ -80,7 +90,6 @@ void UiItem::DrawUi(float dt)
 		if ((*iter) != nullptr)
 			(*iter)->Draw(dt);
 	}
-
 
 
 
