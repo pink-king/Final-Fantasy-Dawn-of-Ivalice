@@ -53,8 +53,16 @@ void UiItem_CooldownClock::Draw(const float & dt)
 	
 	DoLogic(); 
 
-	if(!hide)
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0f);
+	if (!hide)
+	{
+		//App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0f);
+
+		SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 100);
+		section.x = hitBox.x; // NOTE: improve the other code, to skip this on everyframe,
+		section.y = hitBox.y; // the icons itself on HUD, never moves on world coords, always remains "static"
+		SDL_RenderFillRect(App->render->renderer, &section);
+	}
+	
 
 }
 
@@ -78,7 +86,7 @@ void UiItem_CooldownClock::CheckState()
 void UiItem_CooldownClock::DoLogic()
 {
 
-	LastHeight = this->section.h; 
+	LastHeight = this->section.w; 
 
 	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
@@ -98,11 +106,11 @@ void UiItem_CooldownClock::DoLogic()
 
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight; 
 
-				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
+				this->section.w = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
 			
-				heightDiff = LastHeight - this->section.h;
+				heightDiff = LastHeight - this->section.w;
 
-				this->hitBox.y += heightDiff; 
+				this->hitBox.w += heightDiff; 
 			
 			}
 			else
