@@ -124,7 +124,16 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)   
+		App->win->SetScale(2);
+
+
+	// FAKE KEYS FOR TESTING 
+
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		App->win->SetScale(1);
+
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
 		App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
