@@ -13,7 +13,7 @@
 #include "p2log.h"
 #include <assert.h> 
 
-UiItem_Checkbox::UiItem_Checkbox(iPoint position, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem * const parent) :UiItem(position, parent)
+UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string &function, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem * const parent) :UiItem(position, function, parent)
 {
 
 	assert(parent != NULL);
@@ -78,9 +78,11 @@ void UiItem_Checkbox::Draw(const float & dt)
 }
 
 
-void UiItem_Checkbox::DoLogicClicked() {
+void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 
 	tick->hide = !tick->hide;
+	if (functionName == "fpsCap")
+		App->gui->FpsCap();
 }
 
 

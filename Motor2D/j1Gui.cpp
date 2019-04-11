@@ -87,7 +87,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				std::string function = selected_object->function;
-				selected_object->DoLogicClicked();
+				selected_object->DoLogicClicked(function);
 			}
 
 			break;
@@ -502,11 +502,11 @@ UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent)
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, labelInfo, parent);
+	newUIItem = new UiItem_Checkbox(position, function, panel_section, box_section, tick_section, labelInfo, parent);
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
@@ -618,4 +618,10 @@ void j1Gui::GoBackToMenu()
 	resetHoverSwapping = false;
 	App->scene->settingPanel->enable = false;
 	App->scene->startMenu->enable = true;
+}
+
+void j1Gui::FpsCap()
+{
+	
+	
 }
