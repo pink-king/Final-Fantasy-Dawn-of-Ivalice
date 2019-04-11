@@ -92,7 +92,7 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type)
+UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type)
 {
 
 	std::string str = std::to_string(damage); 
@@ -133,8 +133,10 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* reciever, uint damage, E
 	iPoint pos(App->render->WorldToScreen(reciever->position.x, reciever->position.y));                                               // adjust this  
 
 
-	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr, variant::number, reciever);    // big font for testing
+	
 	labelScoreAccum += damage; 
+
+	return App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr, variant::number, reciever);    // big font for testing
 
 }
 
