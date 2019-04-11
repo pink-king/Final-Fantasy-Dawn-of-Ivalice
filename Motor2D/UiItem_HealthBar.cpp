@@ -101,7 +101,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 
 
-		if (deliever->life > 0)          // TODO: which condition should be here ???? 
+		/*if (deliever->life > 0)          // TODO: DO THIS FROM THE ENEMY 
 		{
 			UpdatePos();
 
@@ -120,7 +120,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 			dynamicImage->to_delete = true; 
 			to_delete = true; 
-		}
+		}*/
 		
 	}
 

@@ -141,7 +141,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 		hitBox.y -= 2;
 
 
-		if (attachedEntity->life > 0)    // have a "pivot" on the enemy
+		/*if (attachedEntity->life > 0)    // TODO: DO THIS FROM THE ENEMY
 		{
 			//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
 			
@@ -152,7 +152,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 			hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w/2;
 
 
-		}
+		}*/
 	}
 
 			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
