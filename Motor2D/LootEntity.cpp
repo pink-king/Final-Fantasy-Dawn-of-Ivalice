@@ -6,25 +6,12 @@
 #include "p2Log.h"
 #include <random>
 
-LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
+LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
-	entityTex = App->lootManager->LootTexture;
-	ChooseEntity();
+	entityTex = App->tex->Load("textures/loot/loot_items.png");
+	//ChooseEntity();
 
 	//TO FIX if there is the more than one new  in the  switch constructor, crashes
-	switch (loot_type)
-	{
-	case LOOT_TYPE::CONSUMABLE:
-	 
-		App->lootManager->consumableLoot = new Consumable(posX, posY);
-		
-		break;
-
-	case LOOT_TYPE::EQUIPABLE:
-		
-		//App->lootManager->equipableLoot = new Equipable(posX, posY);
-		break;
-	}
 
 }
 
@@ -39,7 +26,7 @@ LootEntity::~LootEntity()
 
 bool LootEntity::Update(float dt)
 {
-	//Draw();
+	
 	return true;
 }
 
@@ -59,25 +46,13 @@ std::string LootEntity::GetName()
 
 LOOT_TYPE LootEntity::GetType()
 {
-	
 	return 	loot_type;
 
 }
 
-
-
-void LootEntity::ChooseEntity()
+OBJECT_TYPE LootEntity::GetObjectType()
 {
-	
-	randomvalue = GetRandomValue(1, 20);
-	//LOG("THIS is choose entity %i", testvalue);
-	if (randomvalue <= 15)
-		loot_type = LOOT_TYPE::CONSUMABLE;
-
-	else 
-		loot_type = LOOT_TYPE::EQUIPABLE;
-
-	
+	return objectType;
 }
 
 //Quan arriba aqui per primera vegada ya ha fet 10 randoms WTF
@@ -93,79 +68,20 @@ int LootEntity::GetRandomValue(int min, int max)
 	return ret;
 }
 
+void LootEntity::CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value)
+{
+	stats.push_back(new Buff(type, character, stat, elementType, rol, value));
+}
+
 void LootEntity::Draw()
 {
 	//TO FIX only blits pivot
 	if (entityTex != nullptr)
-		App->render->Blit(entityTex, 100, 100, &loot_rect, 1.0f);
+		App->render->Blit(entityTex, position.x, position.y, &loot_rect,1.0f);
 	//LOG("painting loot");
-
-	
 }
-//LootEntity::LootEntity(int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent")
-//{
-//	SetLootSubtile(posX, posY);
-//	LOG("LootEntity Created");
-//}
-//
-//
-//LootEntity::~LootEntity()
-//{
-//}
-//
-//
-//bool Start()
-//{
-//	return true;
-//}
-//
-//
-//bool LootEntity::PreUpdate()
-//{
-//	return true;
-//}
-//
-//
-//bool LootEntity::Update(float dt)
-//{
-//	player->GetSubtilePos();
-//	if (lootTex != nullptr)
-//	{
-//		App->render->Blit(lootTex, position.x, position.y, &rect_test);
-//	}
-//	return true;
-//}
-//
-//
-//bool LootEntity::PostUpdate()
-//{
-//	return true;
-//}
-//
-//
-////bool LootEntity::CleanUp()
-////{
-////	return true;
-////}
-//
-////TO FIX blit image,  for now   DRAW() isn't called
-//void LootEntity::Draw()
-//{
-//	if (lootTex != nullptr)
-//	{
-//		App->render->Blit(lootTex, position.x, position.y, &rect_test);
-//    }
-//}
-//
-//void LootEntity::SetLootSubtile(int x , int y)
-//{
-//
-//	
-//	iPoint enemyPosition;
-//	enemyPosition = App->map->SubTileMapToWorld(App->lootManager->loot_pos.x, App->lootManager->loot_pos.y);
-//	LOG("LootSUbtilePos %i X  %i Y", enemyPosition.x, enemyPosition.y);
-//	App->lootManager->loot_posX = enemyPosition.x;
-//	App->lootManager->loot_posY = enemyPosition.y;
-//	x = enemyPosition.x;
-//	y = enemyPosition.y;
-//}
+
+EQUIPABLE_TYPE LootEntity::GetEquipable()
+{
+	return equipableType;
+}

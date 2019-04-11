@@ -9,7 +9,9 @@
 #include "j1EntityFactory.h"
 #include "j1ItemsManager.h"
 #include "j1AttackManager.h"
-
+#include "j1Gui.h"
+#include "j1App.h"
+#include "j1Scene.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -109,6 +111,12 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.ultimate.cooldownTime = 3000;
 
 	previousPos = position;
+
+
+	// better speed 
+	characterBaseSpeed.x /= 1.3f; 
+	characterBaseSpeed.y /= 1.3f;
+
 }
 
 Marche::~Marche()
@@ -132,9 +140,9 @@ bool Marche::Update(float dt)
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
-	if (App->pathfinding->IsWalkable(onTilePos))
+	/*if (App->pathfinding->IsWalkable(onTilePos))
 	{
-		previousPos = position;
+		previousPos = position;*/
 
 		
 		if (!isParalize)
@@ -142,16 +150,18 @@ bool Marche::Update(float dt)
 			currentAnimation->speed = 10.f;
 			InputMovement(dt);
 			InputCombat();
+
+			//LOG("player pipos: %f,%f", GetPivotPos().x, GetPivotPos().y);
 		}
 		else
 		{
 			currentAnimation->speed = 0.f;
 		}
-	}
+	/*}
 	else
 	{
 		position = previousPos;
-	}
+	}*/
 
 	// CHECK COMBAT STATE
 	switch (combat_state)
@@ -164,14 +174,61 @@ bool Marche::Update(float dt)
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
+			// TODO: Adds a camera shaking based on "x" needed data from attack components
+			// same applies when we receive damage
+			App->camera2D->AddTrauma(10.0f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);
+			
 		}
 		break;
 	case combatState::DODGE:
 		break;
 	case combatState::SPECIAL1:
+		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
+		{
+			coolDownData.special1.timer.Start();
+
+			// add gui clock
+
+			if (!App->gui->spawnedClocks.Marche.special1)
+			{
+
+				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Marche", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Marche.special1 = true;
+			}
+			else
+			{
+				myUIClocks.special1->Restart();
+			}
+
+
+		}
 		break;
+
 	case combatState::SPECIAL2:
+		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
+		{
+			coolDownData.special2.timer.Start();
+
+			// add gui clock
+
+			if (!App->gui->spawnedClocks.Marche.special2)
+			{
+
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Marche.special2 = true;
+			}
+			else
+			{
+				myUIClocks.special2->Restart();
+			}
+
+
+		}
 		break;
+
 	case combatState::ULTIMATE:
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
@@ -179,6 +236,8 @@ bool Marche::Update(float dt)
 			LOG("Launch ULTIMATE");
 			coolDownData.ultimate.timer.Start();
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
+			App->camera2D->AddTrauma(70.0f / 100.f);
+			App->input->DoGamePadRumble(0.7f, 400);
 		}
 		break;
 	}
@@ -247,21 +306,6 @@ bool Marche::Update(float dt)
 
 bool Marche::CleanUp()
 {
-	std::vector<items*>::iterator iter = bagObjects.begin();
-	for (; iter != bagObjects.end(); ++iter)
-	{
-		delete *iter;
-		*iter = nullptr;
-	}
-	bagObjects.clear();
-
-	std::vector<items*>::iterator iter2 = equipedObjects.begin();
-	for (; iter2 != equipedObjects.end(); ++iter2)
-	{
-		delete *iter2;
-		*iter2 = nullptr;
-	}
-	equipedObjects.clear();
 	return true;
 }
 

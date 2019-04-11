@@ -2,9 +2,11 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "EnemyTest.h"
+#include "Enemy.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
 #include "LootEntity.h"
+#include "j1LootManager.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -76,6 +78,9 @@ bool j1EntityFactory::Update(float dt)
 	{
 		if ((*item) != nullptr) 
 		{
+			bool createLoot = false;
+			iPoint enemypos;
+
 			if (!(*item)->to_delete)
 			{
 				ret = (*item)->Update(dt);
@@ -90,10 +95,20 @@ bool j1EntityFactory::Update(float dt)
 			}
 			else
 			{
+				//if entit is diffetent to player create loot
+				if ((*item)->type != ENTITY_TYPE::PLAYER)
+				{
+					createLoot = true;
+					enemypos = { App->lootManager->GetEnemySubtile((*item)).x, App->lootManager->GetEnemySubtile((*item)).y };
+				}
 				(*item)->CleanUp();
 				delete(*item);
 				(*item) = nullptr;
 				item = entities.erase(item);
+			}
+			if (createLoot)
+			{
+				App->lootManager->CreateLoot(App->lootManager->SetLootPos(enemypos.x, enemypos.y).x, App->lootManager->SetLootPos(enemypos.x, enemypos.y).y, "no");
 			}
 		}
 	}
@@ -167,22 +182,53 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		break;
 
 	case ENEMY_TEST:
-		ret = new EnemyTest(iPoint(positionX, positionY));
+		/*ret = new EnemyTest(iPoint(positionX, positionY));
 		ret->type = ENEMY_TEST;
 		ret->name = name; 
 		entities.push_back(ret);
-		LOG("Created a entity");
+		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		ret = new LootEntity(positionX, positionY);
-		ret->type = LOOT;
-		ret->name = name;
-		entities.push_back(ret);
+		ret = App->lootManager->CreateLootType(positionX, positionY);
+		if (ret != nullptr)
+		{
+			ret->type = LOOT;
+			ret->name = name;
+			entities.push_back(ret);
+		}
 		LOG("From factory Loot Entity");
 		break;
 	default:
 		break;
 	}
+
+	return ret;
+}
+
+Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, float attackSpeed)
+{
+	Enemy* ret = nullptr; 
+
+	switch (etype)
+	{
+	case EnemyType::TEST:
+		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange, attackSpeed); 
+		entities.push_back(ret);
+		break; 
+
+	case EnemyType::MELEE:
+		break; 
+
+	case EnemyType::DISTANCE:
+		break; 
+
+	case EnemyType::TRAP:
+		break;
+	
+	default:
+		break;
+	}
+	
 
 	return ret;
 }

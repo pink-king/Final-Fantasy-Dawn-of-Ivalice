@@ -84,19 +84,19 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		{
 
 		case GUI_TYPES::CHECKBOX:
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				std::string function = selected_object->function;
-				selected_object->DoLogicClicked();
+				selected_object->DoLogicClicked(function);
 			}
 
 			break;
 		case GUI_TYPES::BUTTON:
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
 			{
 				selected_object->state = CLICK;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
@@ -179,7 +179,10 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 	else                                                       // this is done in loops
 	{
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
+		Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || xAxis>30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -225,7 +228,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || xAxis < -30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -277,7 +280,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || yAxis<-30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -325,7 +328,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		}
 
 
-		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || yAxis > 30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -400,7 +403,7 @@ bool j1Gui::PostUpdate()
 		if (debug_)
 		{
 
-			if ((*iter)->hitBox.x > 0)
+			if ((*iter)->hitBox.x > 0 && (*iter))
 			{
 				SDL_Rect r;
 				r.x = (*iter)->hitBox.x;
@@ -455,17 +458,18 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
-UiItem_Bar * j1Gui::AddBar(iPoint position, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent) // , TypeBar type)
+UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Bar(position, section, thumb_section, parent); // , type);
+	newUIItem = new UiItem_Bar(position, name, section, thumb_section, parent);
 
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Bar*)newUIItem;
-
 }
+
+
 
 UiItem_Button * j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
 {
@@ -498,20 +502,20 @@ UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent)
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Checkbox(position, panel_section, box_section, tick_section, labelInfo, parent);
+	newUIItem = new UiItem_Checkbox(position, function, panel_section, box_section, tick_section, labelInfo, parent);
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
 }
 
-UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type)
+UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type, j1Entity* receiver)
 {
 	UiItem_HitPoint* newUIItem = nullptr;
-	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent, type);
+	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent, type, receiver);
 
 
 
@@ -557,13 +561,28 @@ UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSe
 
 
 
-UiItem_CooldownClock * j1Gui::AddClock(iPoint position, const SDL_Rect* section, UiItem*const parent)
+UiItem_HealthBar * j1Gui::AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem*const parent) // , TypeBar type)
 {
-	UiItem_CooldownClock* newUIItem = nullptr;
+	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_CooldownClock(position, section, parent);
+	newUIItem = new UiItem_HealthBar(dynamicSection, variant, parent, deliever);
 
-	App->ClockManager->clocks.push_back(newUIItem);
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_HealthBar*)newUIItem;
+
+}
+
+
+
+UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_CooldownClock(position, section, type, charName, parent);
+
+	ListItemUI.push_back(newUIItem);
+
 
 	return (UiItem_CooldownClock*)newUIItem;
 
@@ -599,4 +618,10 @@ void j1Gui::GoBackToMenu()
 	resetHoverSwapping = false;
 	App->scene->settingPanel->enable = false;
 	App->scene->startMenu->enable = true;
+}
+
+void j1Gui::FpsCap()
+{
+	
+	
 }

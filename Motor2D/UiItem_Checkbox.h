@@ -24,12 +24,12 @@ protected:
 	SDL_Rect tick_section;
 	SDL_Rect captureIdleSection;
 
-	void DoLogicClicked();   // clicking logic matters the most
+	void DoLogicClicked(std::string &functionName);   // clicking logic matters the most
 	void DoLogicHovered();
 	void DoLogicAbandoned();
 
 public:
-	UiItem_Checkbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
+	UiItem_Checkbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
 	~UiItem_Checkbox() {}
 	void Draw(const float& dt);
 

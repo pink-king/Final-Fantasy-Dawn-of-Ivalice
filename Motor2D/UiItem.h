@@ -23,6 +23,7 @@ enum GUI_TYPES
 	CHECKBOX,
 	HITPOINT,
 	HEALTHBAR,
+	CLOCK,
 	UNKNOWN
 };
 
@@ -41,6 +42,7 @@ public:
 	uint mouseButtonDown = 0;
 	UiItem(const iPoint& pos, UiItem *const parent);
 	UiItem(const iPoint& pos, std::string &function, UiItem *const parent);
+	UiItem(UiItem *const parent);
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
@@ -52,6 +54,8 @@ public:
 	bool tabbed = false;
 	bool enable = true;
 	UiItem* iFriend = nullptr;
+	bool to_delete = false; 
+
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string &functionName) {};

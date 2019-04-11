@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1Map.h"
+#include "j1PathFinding.h"
 
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
@@ -45,6 +46,13 @@ bool PlayerEntity::CleanUp()
 bool PlayerEntity::InputMovement(float dt)
 {
 	bool isMoving = false;
+
+	fPoint previousPosF = position;//GetPivotPos();
+	/*iPoint previousPosInt;
+	previousPosInt.x = GetPivotPos().x;
+	previousPosInt.y = GetPivotPos().y;*/
+	/*previousPosInt.x = position.x;
+	previousPosInt.y = position.y;*/
 
 	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
 	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
@@ -90,6 +98,33 @@ bool PlayerEntity::InputMovement(float dt)
 		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 	}
 
+	// check individually collisions for each axis movement
+
+	if (isMoving)
+	{
+		iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
+		if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
+		{
+			// check x
+			fPoint tempPos = previousPosF;
+			tempPos.x = position.x;
+			iPoint checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
+			if (!App->pathfinding->IsWalkable(checker))
+			{
+				position.x = previousPosF.x;
+			}
+			//previousPosF = position;
+			tempPos = previousPosF;
+			tempPos.y = position.y;
+			checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
+			if (!App->pathfinding->IsWalkable(checker))
+			{
+				position.y = previousPosF.y;
+			}
+		}
+	}
+	
+
 	if (isMoving)// if we get any input, any direction
 	{
 		// store actual
@@ -127,6 +162,9 @@ bool PlayerEntity::InputCombat()
 			combat_state = combatState::ULTIMATE;
 			//LOG("ULTIMATE");
 		}
+
+
+
 		// check basic attack
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 		{
@@ -143,6 +181,26 @@ bool PlayerEntity::InputCombat()
 		// code under construction ...
 		//LOG("");
 	}
+
+
+	// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
+		// check ability 1 trigger
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL1;
+		//LOG("ULTIMATE");
+	}
+
+	// check ability 2 trigger
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL2;
+		//LOG("ULTIMATE");
+	}
+
+
+
+
 	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP)
 	{
 		aiming = false;

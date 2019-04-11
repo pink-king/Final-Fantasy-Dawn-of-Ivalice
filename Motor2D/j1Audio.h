@@ -2,6 +2,7 @@
 #define __j1AUDIO_H__
 
 #include "j1Module.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 #include <list>
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
@@ -33,10 +34,19 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	// Set music volume
+	void SetVolume(float volume);
+
+	// Set FX volume
+	void SetFxVolume(float volume);
+
 private:
 
 	_Mix_Music*			music = NULL;
 	std::list<Mix_Chunk*>	fx;
+	float final_volume = MIX_MAX_VOLUME;
+	float final_fx_volume = MIX_MAX_VOLUME;
+	float last_volume = 0.0f;
 };
 
 #endif // __j1AUDIO_H__

@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "SDL/include/SDL_gamecontroller.h"
+#include "SDL/include/SDL_haptic.h"
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
@@ -84,6 +85,8 @@ public:
 
 	uint GetCurrentMouseButtonDown(); 
 
+	void DoGamePadRumble(float strength, uint32 duration) const;
+
 private:
 	bool		windowEvents[WE_COUNT];
 	j1KeyState*	keyboard = nullptr;
@@ -96,6 +99,10 @@ private:
 	int			mouse_y;
 
 	SDL_GameController* gamePad1 = nullptr;
+	SDL_Haptic* haptic = nullptr;
+public:
+	
+	
 };
 
 #endif // __j1INPUT_H__

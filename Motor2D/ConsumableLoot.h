@@ -5,8 +5,9 @@
 
 enum class CONSUMABLE_TYPE
 {
-	GOLD,
-	POTION
+	
+	POTION,
+	NO_CONSUMABLE
 };
 class Consumable : public LootEntity
 {
@@ -16,10 +17,10 @@ public:
 	~Consumable();
 
 	bool Update(float dt);
-	bool CleanUp();
+	
 	void ChooseConsumable();
 	void SetConsumable();
-	void Draw();
+	
 	//void ConstructConsumable();
 public:
 	CONSUMABLE_TYPE  consumableType;

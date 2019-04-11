@@ -4,11 +4,12 @@
 #include "j1App.h"
 #include "j1Gui.h"
 #include "j1Render.h"
-
 #include "j1Map.h"
 #include "j1Fonts.h"
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
+
+
 #include <string.h>
 
 UiItem_HitPointManager::UiItem_HitPointManager()
@@ -91,7 +92,7 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type)
+void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type)
 {
 
 	std::string str = std::to_string(damage); 
@@ -107,19 +108,32 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 	SDL_Color c = {}; 
 	switch (type)
 	{
-	case BURN: 
+	case ELEMENTAL_TYPE::FIRE_ELEMENT:
 		c = { 255, 0, 0, 255 };
 		break; 
+
+	case ELEMENTAL_TYPE::POISON_ELEMENT:
+		c = { 76, 40, 130, 255 };
+		break;
+
+	case ELEMENTAL_TYPE::ICE_ELEMENT:
+		c = { 153, 175, 255, 255 };
+		break;
+
+	case ELEMENTAL_TYPE::NORMAL_ELEMENT:
+		c = { 30, 30, 30, 255 };
+		break;
+
 	default: 
-		c = { 0, 0, 255, 255 };
+		c = { 30, 30, 30, 255 };
 		break; 
 	}
 	
 
-	iPoint pos(App->render->WorldToScreen(enemy->position.x, enemy->position.y));                                               // adjust this  
+	iPoint pos(App->render->WorldToScreen(reciever->position.x, reciever->position.y));                                               // adjust this  
 
 
-	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr, variant::number);    // big font for testing
+	App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr, variant::number, reciever);    // big font for testing
 	labelScoreAccum += damage; 
 
 }
@@ -138,10 +152,9 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
 	{
-		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x; 
-		int posY= (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
-		iPoint pos(posX, posY); 
-		
+		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
+	    
+		pos.x -= 300; 
 		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
@@ -150,9 +163,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 	if (playerStreak > 200 && !labelsSpawned.brutal)                         // brutal   
 	{
-		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x;
-		int posY = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
-		iPoint pos(posX, posY);
+		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 
 		pos.x += 300; // to sepparate both labels
 		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->shatterBoxx48, pos, nullptr, variant::text);

@@ -173,3 +173,27 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 	return ret;
 }
+
+void j1Audio::SetVolume(float volume)
+{
+	final_volume = MIX_MAX_VOLUME * volume;
+	if (final_volume < 0.0f || final_volume > MIX_MAX_VOLUME)
+		final_volume = (final_volume < 0.0f) ? 0.0f : MIX_MAX_VOLUME;
+
+
+	Mix_VolumeMusic(final_volume);
+	last_volume = volume;
+}
+
+void j1Audio::SetFxVolume(float volume)
+{
+	final_fx_volume = MIX_MAX_VOLUME * volume;;
+	if (final_fx_volume < 0.0f || final_fx_volume > MIX_MAX_VOLUME)
+		final_fx_volume = (final_fx_volume < 0.0f) ? 0.0f : MIX_MAX_VOLUME;
+
+
+	for (std::list<Mix_Chunk*>::iterator item_fx = fx.begin();item_fx!=fx.end() ; ++item_fx)
+	{
+		Mix_VolumeChunk((*item_fx), final_fx_volume);
+	}
+}

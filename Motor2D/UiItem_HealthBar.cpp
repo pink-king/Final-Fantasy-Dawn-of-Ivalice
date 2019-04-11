@@ -15,7 +15,6 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSectio
 	iPoint staticPos = position;
 	staticImage = App->gui->AddImage(staticPos, staticSection, this);
 
-
 	iPoint newPos(staticPos.x + (staticSection->w - dynamicSection->w) / 2, staticPos.y + (staticSection->h - dynamicSection->h) / 2);
 
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
@@ -27,45 +26,125 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSectio
 
 }
 
+
+UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem*const parent, j1Entity* deliever) : UiItem(parent)
+{
+	this->guiType = GUI_TYPES::HEALTHBAR;
+	this->variantType = variant;
+	this->deliever = deliever; 
+
+	
+               // rigth now only the dynamic is needed
+	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, dynamicSection->h / 2);
+
+	iPoint newPos(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
+	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
+
+	maxSection = dynamicImage->section.w;
+
+
+	
+	// capture the enemy's max life and hide image
+
+	enemyMaxLife = deliever->life; 
+	dynamicImage->hide = true; 
+
+
+}
+
+
+
 void UiItem_HealthBar::Draw(const float& dt)
 {
 
+	
+
 	// we will use the draw call to calculate, but the two images are drawn in image cpp
 
-/*	if (this->variantType == type::health)
-	{*/
-	if (conversionFactor == 0.0f)
+	
+	if (this->variantType == type::player)
 	{
-		conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
-	}
 
-	lastSection = dynamicImage->section.w;
-	dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
+			if (conversionFactor == 0.0f)
+			{
+				conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
+			}
+
+			lastSection = dynamicImage->section.w;
+			dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
 
 
-	if (damageInform.doDamage)
+			if (damageInform.doDamage)
+			{
+				damageBarTimer.Start();
+				DamageLogic();
+			}
+			else if (damageBarTimer.ReadMs() > 400) // if time's over
+			{
+				DamageQuadReset();
+			}
+			else if (lastSection < dynamicImage->section.w) // if life being recuperated
+			{
+				DamageQuadReset();
+			}
+		}
+	else
 	{
-		damageBarTimer.Start();
-		DamageLogic();
-	}
-	else if (damageBarTimer.ReadMs() > 2000)
-	{
-		DamageQuadReset();
+
+		// start showing bar only after first attack to the enemy
+
+		if (!startShowing && deliever->life < enemyMaxLife)
+		{
+			dynamicImage->hide = false; 
+			startShowing = true; 
+		}
+
+
+
+		/*if (deliever->life > 0)          // TODO: DO THIS FROM THE ENEMY 
+		{
+			UpdatePos();
+
+			if (conversionFactor == 0.0f)
+			{
+				conversionFactor = maxSection / deliever->life;
+			}
+
+			lastSection = dynamicImage->section.w;
+			dynamicImage->section.w = conversionFactor * deliever->life;
+
+		}
+		else
+		{
+			// delete both the image and the health bar and remove them from the list 
+
+			dynamicImage->to_delete = true; 
+			to_delete = true; 
+		}*/
+		
 	}
 
 }
 
 
+void UiItem_HealthBar::UpdatePos()
+{
+	iPoint pos = App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y); 
+
+	dynamicImage->hitBox.x = pos.x;
+	dynamicImage->hitBox.y = pos.y;
+	
+
+}
+
+
+
 void UiItem_HealthBar::DamageLogic()
 {
 
-
 	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
 
-
-
 	iPoint destinationRectPos = iPoint(dynamicImage->hitBox.x + dynamicImage->section.w, dynamicImage->hitBox.y);
-
 
 	damageImage->hide = false;
 
@@ -91,3 +170,5 @@ void UiItem_HealthBar::DamageQuadReset()
 
 
 }
+
+

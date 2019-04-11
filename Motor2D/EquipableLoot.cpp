@@ -4,10 +4,8 @@
 
 
 
-Equipable::Equipable(int posX, int posY) : LootEntity(posX, posY)
+Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
-	entityTex = App->lootManager->LootTexture;
-
 	SetEquipable();
 }
 
@@ -29,61 +27,67 @@ bool Equipable::Update(float dt)
 //	return true;
 //}
 
-void Equipable::ChooseEquipable()
+EQUIPABLE_TYPE Equipable::ChooseEquipable()
 {
 	equipableChance = GetRandomValue(1, 100);
 
 	if (equipableChance <= 33)
 	{
-		equipable_type = EQUIPABLE_TYPE::SWORD;
+		equipableType = EQUIPABLE_TYPE::SWORD;
+		return EQUIPABLE_TYPE::SWORD;
 	}
 	else if (33 < equipableChance <= 66)
 	{
-		equipable_type = EQUIPABLE_TYPE::BOW;
+		equipableType = EQUIPABLE_TYPE::BOW;
+		return EQUIPABLE_TYPE::BOW;
 	}
-	else if (66 < equipableChance <= 100)
+	else if(equipableChance > 66)
 	{
-		equipable_type = EQUIPABLE_TYPE::ROD;
+		equipableType = EQUIPABLE_TYPE::ROD;
+		return EQUIPABLE_TYPE::ROD;
 
 	}
+
 }
 
 
 void Equipable::SetEquipable()
 {
 
-	ChooseEquipable();
-
-	switch (equipable_type)
+	switch (ChooseEquipable())
 	{
 	case EQUIPABLE_TYPE::SWORD:
-
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 59,67,16,16 };
-		SetPivot(67, 75);
+		SetPivot(8, 12);
 
 		size.create(16, 16);
 		break;
-	
+
 	case EQUIPABLE_TYPE::BOW:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 93,32,13,13 };
-		SetPivot(100, 39);
+		SetPivot(7, 9);
 
 		size.create(13, 13);
 		break;
 	case EQUIPABLE_TYPE::ROD:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 12,67,11,16 };
 		SetPivot(18, 75);
 
-		size.create(16, 16);
+		size.create(5, 13);
 		break;
 	case EQUIPABLE_TYPE::ARMOR:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		break;
 	case EQUIPABLE_TYPE::VEST:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+
 		break;
 	case EQUIPABLE_TYPE::MANTLE:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+
 		break;
 	}
-}
-void Equipable::Draw()
-{
 }

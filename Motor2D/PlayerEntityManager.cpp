@@ -95,10 +95,13 @@ bool PlayerEntityManager::Update(float dt)
 	//		(*item)->life = selectedCharacterEntity->life;
 	//}
 
-	/*static char title[30];
-	sprintf_s(title, 30, " | player life: %f", (*selectedCharacterEntity).life);
-	App->win->AddStringToTitle(title);
-	App->win->ClearTitle();*/
+	for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
+	{
+		static char title[30];
+		sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
+		App->win->AddStringToTitle(title);
+	}
+	App->win->ClearTitle();
 
 	return ret;
 }
@@ -127,6 +130,21 @@ bool PlayerEntityManager::CleanUp()
 	/*delete marche;
 	delete ritz;
 	delete shara;*/
+	std::vector<LootEntity*>::iterator iter = bagObjects.begin();
+	for (; iter != bagObjects.end(); ++iter)
+	{
+		delete *iter;
+		*iter = nullptr;
+	}
+	bagObjects.clear();
+
+	std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
+	for (; iter2 != equipedObjects.end(); ++iter2)
+	{
+		delete *iter2;
+		*iter2 = nullptr;
+	}
+	equipedObjects.clear();
 
 	return true;
 }

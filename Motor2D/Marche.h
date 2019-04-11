@@ -2,6 +2,10 @@
 #define __MARCHE_H__
 
 #include "PlayerEntity.h"
+#include "GUI_Definitions.h"
+
+
+struct myClocks; 
 
 class Marche : public PlayerEntity
 {
@@ -22,6 +26,8 @@ public:
 
 public:
 
+    
+	myClocks myUIClocks;
 
 private:
 

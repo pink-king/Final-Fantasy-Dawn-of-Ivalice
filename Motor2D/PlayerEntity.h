@@ -5,6 +5,7 @@
 #include "p2Animation.h"
 #include "j1Entity.h"
 #include "Buff.h"
+#include "j1ModuleCamera2D.h"
 
 #define PI 3.14159265359f
 
@@ -83,7 +84,7 @@ public:
 
 	bool aiming = false;
 	
-protected:
+public:
 	combatState combat_state;
 	coolDown coolDownData;
 

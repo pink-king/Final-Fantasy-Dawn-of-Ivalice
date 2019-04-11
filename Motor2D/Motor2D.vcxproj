@@ -80,16 +80,15 @@
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
-    <ClCompile Include="Items.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
-    <ClCompile Include="j1ItemsManager.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -116,7 +115,6 @@
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
     <ClCompile Include="UiItem_CooldownClock.cpp" />
-    <ClCompile Include="UiItem_CooldownClockManager.cpp" />
     <ClCompile Include="UiItem_HealthBar.cpp" />
     <ClCompile Include="UiItem_HitPoint.cpp" />
     <ClCompile Include="UiItem_HitPointManager.cpp" />
@@ -127,9 +125,10 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="ConsumableLoot.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
-    <ClInclude Include="Items.h" />
+    <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1Entity.h" />
@@ -169,7 +168,6 @@
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />
     <ClInclude Include="UiItem_CooldownClock.h" />
-    <ClInclude Include="UiItem_CooldownClockManager.h" />
     <ClInclude Include="UiItem_HealthBar.h" />
     <ClInclude Include="UiItem_HitPoint.h" />
     <ClInclude Include="UiItem_HitPointManager.h" />
@@ -184,10 +182,10 @@
     <Xml Include="..\Game\save_game.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="Loot.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\maps\iso_walk.tmx" />
+    <None Include="..\Game\maps\level1_Block_rev.tmx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
