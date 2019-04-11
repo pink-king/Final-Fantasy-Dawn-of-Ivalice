@@ -72,7 +72,7 @@ bool j1Scene::Start()
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ 1800, 2000 });
+	App->entityFactory->CreatePlayer({ -980, 2440 });
 
 
 	if (state == SceneState::GAME)
@@ -145,7 +145,7 @@ bool j1Scene::PreUpdate()
 
 		// DEBUG attack propagation!
 		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
-
+		App->camera2D->AddTrauma(0.7f);
 	}
 
 	return true;
@@ -269,13 +269,13 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 10);
+		App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 1, 0.8F);
 		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100,20,10), 21, 10, "burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100,20,10, 2.F), 21, 10, "burn");
 	}
 
 	/*static char title[90];

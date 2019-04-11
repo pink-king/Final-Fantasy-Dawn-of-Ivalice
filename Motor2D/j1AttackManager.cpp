@@ -23,6 +23,10 @@ j1AttackManager::j1AttackManager()
 	matrix[ENEMY01][PLAYER] = true;
 	matrix[ENEMY01][ENEMY_TEST] = false;
 
+	matrix[ENEMY_TEST][PLAYER] = true;
+	matrix[ENEMY_TEST][ENEMY01] = false;
+	matrix[ENEMY_TEST][ENEMY_TEST] = false;
+
 }
 
 j1AttackManager::~j1AttackManager()

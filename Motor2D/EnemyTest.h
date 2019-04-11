@@ -25,7 +25,7 @@ struct SDL_Texture;
 class EnemyTest : public Enemy
 {
 public:
-	EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange);
+	EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, float attackSpeed);
 	~EnemyTest();
 
 	//core loops ------

@@ -174,6 +174,11 @@ bool Marche::Update(float dt)
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
+			// TODO: Adds a camera shaking based on "x" needed data from attack components
+			// same applies when we receive damage
+			App->camera2D->AddTrauma(10.0f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);
+			
 		}
 		break;
 	case combatState::DODGE:
@@ -189,6 +194,8 @@ bool Marche::Update(float dt)
 			LOG("Launch ULTIMATE");
 			coolDownData.ultimate.timer.Start();
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
+			App->camera2D->AddTrauma(70.0f / 100.f);
+			App->input->DoGamePadRumble(0.7f, 400);
 		}
 		break;
 	}
