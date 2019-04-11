@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "SDL/include/SDL_gamecontroller.h"
+#include "SDL/include/SDL_haptic.h"
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
@@ -96,6 +97,9 @@ private:
 	int			mouse_y;
 
 	SDL_GameController* gamePad1 = nullptr;
+public:
+	SDL_Haptic* haptic = nullptr;
+	
 };
 
 #endif // __j1INPUT_H__

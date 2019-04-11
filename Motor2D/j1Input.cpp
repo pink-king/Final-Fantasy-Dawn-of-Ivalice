@@ -4,7 +4,7 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "SDL/include/SDL.h"
-#include "SDL/include/SDL_gamecontroller.h"
+//#include "SDL/include/SDL_gamecontroller.h"
 
 #define MAX_KEYS 300
 
@@ -49,18 +49,12 @@ bool j1Input::Awake(pugi::xml_node& config)
 		LOG("SDL_GAMECONTROLLER could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	//Open the first available controller
-	for (int i = 0; i < SDL_NumJoysticks(); ++i) {
-		if (SDL_IsGameController(i)) {
-			gamePad1 = SDL_GameControllerOpen(i);
-			if (gamePad1) {
-				break;
-			}
-			else {
-				LOG("gamepad awake assign failed");
-			}
-		}
+	if (SDL_InitSubSystem(SDL_INIT_HAPTIC) < 0)
+	{
+		LOG("SDL_GAMECONTROLLER HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
 	}
+	
 	// ------------------------
 
 	return ret;
@@ -203,27 +197,50 @@ bool j1Input::PreUpdate()
 
 			case SDL_CONTROLLERDEVICEADDED:
 			{
-				// Open the first available controller
+				//Open the first available controller
 				for (int i = 0; i < SDL_NumJoysticks(); ++i) {
-					if (SDL_IsGameController(i) && gamePad1 == nullptr) {
-						LOG("gamepad added");
+					if (SDL_IsGameController(i)) {
 						gamePad1 = SDL_GameControllerOpen(i);
 						if (gamePad1) {
-							LOG("success");
-							break;
+
+							if (SDL_JoystickIsHaptic(SDL_GameControllerGetJoystick(gamePad1)) > 0)
+							{
+								haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(gamePad1));
+
+								if (haptic != nullptr)
+								{
+									LOG("HAPTIC SUCCESS");
+									//Get initialize rumble 
+									if (SDL_HapticRumbleInit(haptic) < 0) // initialize simple rumble
+									{
+										LOG("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
+									}
+
+									if (SDL_HapticRumblePlay(haptic, 0.3f, 1000) < 0)
+									{
+										LOG("rumble play error");
+									}
+								}
+							}
+							else
+							{
+								LOG("haptic error! SDL_Error: %s\n", SDL_GetError());
+							}
 						}
 						else {
-							LOG("Could not open gamecontroller");
+							LOG("gamepad awake assign failed");
 						}
 					}
 				}
+				break;
 			}
-			break;
 
 			case SDL_CONTROLLERDEVICEREMOVED:
 				LOG("disconnected gamepad");
 				if (gamePad1 != nullptr)
 				{
+					SDL_HapticClose(haptic);
+					haptic = nullptr;
 					SDL_GameControllerClose(gamePad1);
 					gamePad1 = nullptr;
 					break;
@@ -239,7 +256,12 @@ bool j1Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
+	SDL_HapticStopAll(haptic);
+	SDL_HapticClose(haptic);
+	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
+	//SDL_GameControllerClose(gamePad1);
 	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
+	
 	return true;
 }
 
