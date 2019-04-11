@@ -81,7 +81,7 @@ void UiItem_Checkbox::Draw(const float & dt)
 void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 
 	tick->hide = !tick->hide;
-	if (functionName == "fpsCap")
+	if (functionName == "FpsCap")
 		App->gui->FpsCap();
 }
 
