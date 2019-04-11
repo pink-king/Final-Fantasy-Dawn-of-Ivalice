@@ -174,9 +174,14 @@ void UiItem_HealthBar::CleanUp()
 
 	// VERY IMPORTANT: the image must be deleted also, a part from the healthbar object
 
-	delete dynamicImage; 
+	dynamicImage->enable = false;  //   needed?  BlitGui crashes
 
+	delete dynamicImage; 
+	dynamicImage = nullptr; 
+
+	this->enable = false;    //   needed?  BlitGui crashes
 	delete this; 
-	
+
+	//    dynamicImage->parent = nullptr;  nullptr' the healthbar through the image
 
 }
