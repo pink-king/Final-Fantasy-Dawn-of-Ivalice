@@ -182,7 +182,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
 		Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || xAxis>0)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || xAxis>30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -228,7 +228,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || xAxis < 15000)
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || xAxis < -30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -280,7 +280,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || yAxis<-15000)
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || yAxis<-30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -328,7 +328,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		}
 
 
-		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || yAxis > 0 )
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || yAxis > 30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
