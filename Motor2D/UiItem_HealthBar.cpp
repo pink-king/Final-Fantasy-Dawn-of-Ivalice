@@ -116,7 +116,10 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 		else
 		{
-			CleanUp(); 
+			// delete both the image and the health bar and remove them from the list 
+
+			dynamicImage->to_delete = true; 
+			to_delete = true; 
 		}
 		
 	}
@@ -169,19 +172,3 @@ void UiItem_HealthBar::DamageQuadReset()
 }
 
 
-void UiItem_HealthBar::CleanUp()
-{
-
-	// VERY IMPORTANT: the image must be deleted also, a part from the healthbar object
-
-	dynamicImage->enable = false;  //   needed?  BlitGui crashes
-
-	delete dynamicImage; 
-	dynamicImage = nullptr; 
-
-	this->enable = false;    //   needed?  BlitGui crashes
-	delete this; 
-
-	//    dynamicImage->parent = nullptr;  nullptr' the healthbar through the image
-
-}

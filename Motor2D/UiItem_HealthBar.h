@@ -37,7 +37,6 @@ public:
 	void DamageLogic();
 	void DamageQuadReset();
 	void UpdatePos(); 
-	void CleanUp(); 
 
 
 public:
