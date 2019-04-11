@@ -145,7 +145,7 @@ bool j1Scene::PreUpdate()
 
 		// DEBUG attack propagation!
 		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
-
+		App->camera2D->AddTrauma(0.7f);
 	}
 
 	return true;

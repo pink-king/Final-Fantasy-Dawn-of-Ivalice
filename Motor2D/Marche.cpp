@@ -192,6 +192,7 @@ bool Marche::Update(float dt)
 			LOG("Launch ULTIMATE");
 			coolDownData.ultimate.timer.Start();
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
+			App->camera2D->AddTrauma(70.0f / 100.f);
 		}
 		break;
 	}

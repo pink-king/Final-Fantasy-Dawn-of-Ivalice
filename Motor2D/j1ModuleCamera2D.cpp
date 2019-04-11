@@ -143,7 +143,7 @@ fPoint j1ModuleCamera2D::lerp(fPoint v0, fPoint v1, float t)
 
 float j1ModuleCamera2D::GetFloatNegOneToOne()
 {
-	std::uniform_real_distribution<float> dis(-1.0f, std::nextafter(1, DBL_MAX));
+	std::uniform_real_distribution<float> dis(-1.0f, std::nextafter(1.0f, DBL_MAX));
 
 	return dis(gen);
 }
