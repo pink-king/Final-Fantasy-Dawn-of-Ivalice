@@ -140,18 +140,22 @@ void UiItem_HitPoint::updateHitPointPositions()
 	{
 		hitBox.y -= 2;
 
-
-		if (attachedEntity->life > 0)    // have a "pivot" on the enemy
+	/*	if (to_delete)
+			LOG("");*/
+		if (attachedEntity != nullptr)
 		{
-			//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
-			
-
-			int w, h; 
-			SDL_QueryTexture(this->texture, NULL, NULL, &w, &h); 
-			
-			hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w/2;
+			if (attachedEntity->life > 0)    // have a "pivot" on the enemy
+			{
+				//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
 
 
+				int w, h;
+				SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
+
+				hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w / 2;
+
+
+			}
 		}
 	}
 
