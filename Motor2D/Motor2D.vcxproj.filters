@@ -28,9 +28,6 @@
     <ClCompile Include="EnemyTest.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Buff.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="ConsumableLoot.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="LootEntity.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Entity.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Marche.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
@@ -130,6 +124,12 @@
     <ClCompile Include="UiItem_HitPointManager.cpp">
       <Filter>Desenvolupament ======\Modules\GUI\managers</Filter>
     </ClCompile>
+    <ClCompile Include="j1Entity.cpp">
+      <Filter>Desenvolupament ======\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
+      <Filter>Desenvolupament ======\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Module.h">
@@ -176,12 +176,6 @@
     </ClInclude>
     <ClInclude Include="EnemyTest.h">
       <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Buff.h">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Entity.h">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="ConsumableLoot.h">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
@@ -284,6 +278,12 @@
     </ClInclude>
     <ClInclude Include="UiItem_HitPointManager.h">
       <Filter>Desenvolupament ======\Modules\GUI\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Entity.h">
+      <Filter>Desenvolupament ======\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
+      <Filter>Desenvolupament ======\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

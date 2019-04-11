@@ -91,7 +91,7 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type)
+void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, ELEMENTAL_TYPE type)
 {
 
 	std::string str = std::to_string(damage); 
@@ -107,11 +107,24 @@ void UiItem_HitPointManager::callHPLabelSpawn(j1Entity* enemy, uint damage, dama
 	SDL_Color c = {}; 
 	switch (type)
 	{
-	case BURN: 
+	case ELEMENTAL_TYPE::FIRE_ELEMENT:
 		c = { 255, 0, 0, 255 };
 		break; 
+
+	case ELEMENTAL_TYPE::POISON_ELEMENT:
+		c = { 76, 40, 130, 255 };
+		break;
+
+	case ELEMENTAL_TYPE::ICE_ELEMENT:
+		c = { 153, 175, 255, 255 };
+		break;
+
+	case ELEMENTAL_TYPE::NORMAL_ELEMENT:
+		c = { 30, 30, 30, 255 };
+		break;
+
 	default: 
-		c = { 0, 0, 255, 255 };
+		c = { 30, 30, 30, 255 };
 		break; 
 	}
 	

@@ -7,6 +7,7 @@
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
 #include "j1LootManager.h"
+#include "UiItem_HitPointManager.h"
 
 #include <random>
 
@@ -57,12 +58,14 @@ bool EnemyTest::Update(float dt)
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		life -= 20; 
+		App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
 		
 	}
 
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 	{
 		life -= 30;
+		App->HPManager->callHPLabelSpawn(this, 30, ELEMENTAL_TYPE::POISON_ELEMENT);
 	}
 
 	/*if (life <= 0)
