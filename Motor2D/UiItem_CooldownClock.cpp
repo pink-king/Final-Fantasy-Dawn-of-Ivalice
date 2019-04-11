@@ -53,8 +53,16 @@ void UiItem_CooldownClock::Draw(const float & dt)
 	
 	DoLogic(); 
 
-	if(!hide)
-	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0f);
+	if (!hide)
+	{
+		//App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0f);
+
+		SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 100);
+		section.x = hitBox.x; // NOTE: improve the other code, to skip this on everyframe,
+		section.y = hitBox.y; // the icons itself on HUD, never moves on world coords, always remains "static"
+		SDL_RenderFillRect(App->render->renderer, &section);
+	}
+	
 
 }
 
@@ -75,16 +83,10 @@ void UiItem_CooldownClock::CheckState()
 
 
 
-void UiItem_CooldownClock::Restart()
-{
-
-}
-
-
 void UiItem_CooldownClock::DoLogic()
 {
 
-
+	LastHeight = this->section.h; 
 
 	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
@@ -101,9 +103,19 @@ void UiItem_CooldownClock::DoLogic()
 			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
 			{
+
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight; 
 
-				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion; 
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
+			
+				heightDiff = LastHeight - this->section.h;
+
+				this->hitBox.y += heightDiff; 
+			
+			}
+			else
+			{
+				// Restart();    dont't call it if it is already called from the player
 			}
 		}
 
@@ -114,10 +126,19 @@ void UiItem_CooldownClock::DoLogic()
 			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
 			{
+
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime / maxHeight;
 
-				this->section.h = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
 
+				heightDiff = LastHeight - this->section.h; 
+
+				this->hitBox.y += heightDiff;
+
+			}
+			else
+			{
+				// Restart();    dont't call it if it is already called from the player
 			}
 		}
 
@@ -131,6 +152,10 @@ void UiItem_CooldownClock::DoLogic()
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
 
 			}
+			else
+			{
+				// Restart();    dont't call it if it is already called from the player
+			}
 		}
 
 		
@@ -143,6 +168,15 @@ void UiItem_CooldownClock::DoLogic()
 
 		// TODO: Prevent h section from diminishing when clock is paused 
 	}
+
+
+}
+
+void UiItem_CooldownClock::Restart()
+{
+	hide = true;
+
+	// TODO: Reset clock
 
 
 }

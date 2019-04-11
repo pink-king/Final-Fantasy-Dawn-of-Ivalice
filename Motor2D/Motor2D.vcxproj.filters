@@ -28,9 +28,6 @@
     <ClCompile Include="EnemyTest.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Buff.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="ConsumableLoot.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="LootEntity.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Entity.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Marche.cpp">
       <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
@@ -78,9 +72,6 @@
     </ClCompile>
     <ClCompile Include="UiItem_Label.cpp">
       <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HitPointManager.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_HitPoint.cpp">
       <Filter>Desenvolupament ======\Modules\special items</Filter>
@@ -130,6 +121,15 @@
     <ClCompile Include="j1AttackManager.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="UiItem_HitPointManager.cpp">
+      <Filter>Desenvolupament ======\Modules\GUI\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Entity.cpp">
+      <Filter>Desenvolupament ======\Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
+      <Filter>Desenvolupament ======\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Module.h">
@@ -177,12 +177,6 @@
     <ClInclude Include="EnemyTest.h">
       <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Buff.h">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Entity.h">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="ConsumableLoot.h">
       <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
     </ClInclude>
@@ -207,9 +201,6 @@
     <ClInclude Include="Shara.h">
       <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_Definitions.h">
-      <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
-    </ClInclude>
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
     </ClInclude>
@@ -227,12 +218,6 @@
     </ClInclude>
     <ClInclude Include="UiItem_Label.h">
       <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HitPointManager.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_HitPoint.h">
       <Filter>Desenvolupament ======\Modules\special items</Filter>
@@ -283,6 +268,21 @@
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1AttackManager.h">
+      <Filter>Desenvolupament ======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem.h">
+      <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Definitions.h">
+      <Filter>Desenvolupament ======\Modules\GUI\help</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_HitPointManager.h">
+      <Filter>Desenvolupament ======\Modules\GUI\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Entity.h">
+      <Filter>Desenvolupament ======\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -339,6 +339,12 @@
     </Filter>
     <Filter Include="Desenvolupament ======\XML">
       <UniqueIdentifier>{3ac7798b-ea0c-4d5d-bbc3-3fead91e4556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament ======\Modules\GUI\help">
+      <UniqueIdentifier>{287d2e4b-faed-4f84-bb54-1f6e528519e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament ======\Modules\GUI\managers">
+      <UniqueIdentifier>{bae3aad3-5463-4932-aa2f-32fa20943063}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

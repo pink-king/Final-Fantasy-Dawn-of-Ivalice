@@ -5,14 +5,9 @@
 #include "j1Module.h"
 #include "UiItem_HitPoint.h"
 #include "j1Entity.h"
+#include "Buff.h"
 
 
-enum damageType{  // TODO: Get this from dev branch
-BURN,
-PARALIZE,
-VENOM,
-STANDARD,
-};
 
 struct labelsSpawned
 {
@@ -36,7 +31,7 @@ public:
 
 
 public: 
-	void callHPLabelSpawn(j1Entity* enemy, uint damage, damageType type = STANDARD); 
+	void callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NORMAL_ELEMENT);
 	void calculatePlayerCombo(); 
 
 

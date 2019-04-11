@@ -95,7 +95,7 @@
 
       <clocks>
         <clock name=" clock 1">
-          <section x="780" y="214" w="123" h="123"/>
+          <section x="651" y="0" w="123" h="123"/>
           <position x="650" y="550"/>
           <type value="ability1"/>
         </clock>
@@ -121,10 +121,15 @@
 
 
     <InGameUiM>
-      <images>
+      <images>                                         <!-- sword image changed to test   -->
         <image name="sword">
+		<!--
           <section x="167" y="545" w="36" h="36"/>
-          <position x="561" y="679 "/>
+          <position x="561" y="679 "/> -->
+		  
+		   <section x="784" y="0" w="120" h="120"/>
+          <position x="650" y="550 "/>
+		  
         </image>
         <image name="sword_ability">
           <section x="0" y="482" w="36" h="36"/>
@@ -282,7 +287,7 @@
 
       <PanelCheckboxes>
 
-        <PanelCheckbox name="test_checkbox">
+        <PanelCheckbox name="test_checkbox" function = "FpsCap">
           <panelPosition x="588" y="473"/>
           <panelSection x="293" y="666" w="200" h="36"/>
           <boxSection x="518" y="673" w="25" h="25"/>

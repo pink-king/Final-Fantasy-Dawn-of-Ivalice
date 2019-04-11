@@ -124,7 +124,16 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)   
+		App->win->SetScale(2);
+
+
+	// FAKE KEYS FOR TESTING 
+
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		App->win->SetScale(1);
+
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
 		App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
@@ -269,8 +278,7 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 1, 0.8F);
-		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+		App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 10,10), inGamePanel);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
@@ -451,6 +459,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
 	{
+		std::string functionPath = uiNode.attribute("function").as_string();
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
 		SDL_Rect boxSection = { uiNode.child("boxSection").attribute("x").as_int(), uiNode.child("boxSection").attribute("y").as_int(), uiNode.child("boxSection").attribute("w").as_int(), uiNode.child("boxSection").attribute("h").as_int() };
@@ -472,7 +481,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			fontIndex,
 		};
 
-		App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
+		App->gui->AddCheckbox(panelPosition, functionPath, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
 
 	}
 
