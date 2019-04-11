@@ -4,11 +4,12 @@
 #include "j1App.h"
 #include "j1Gui.h"
 #include "j1Render.h"
-
 #include "j1Map.h"
 #include "j1Fonts.h"
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
+
+
 #include <string.h>
 
 UiItem_HitPointManager::UiItem_HitPointManager()
@@ -151,10 +152,9 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
 	{
-		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x; 
-		int posY= (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
-		iPoint pos(posX, posY); 
-		
+		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
+	    
+		pos.x -= 300; 
 		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
@@ -163,9 +163,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 	if (playerStreak > 200 && !labelsSpawned.brutal)                         // brutal   
 	{
-		int posX = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().x;
-		int posY = (int)App->entityFactory->player->selectedCharacterEntity->GetPosition().y;
-		iPoint pos(posX, posY);
+		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 
 		pos.x += 300; // to sepparate both labels
 		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->shatterBoxx48, pos, nullptr, variant::text);
