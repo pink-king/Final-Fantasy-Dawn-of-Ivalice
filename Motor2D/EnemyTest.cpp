@@ -7,10 +7,11 @@
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
 #include "j1LootManager.h"
+#include "j1AttackManager.h"
 
 #include <random>
 
-EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange) : Enemy(position, speed, detectionRange, attackRange)
+EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, attackSpeed)
 {
 	name.assign("Test");
 
@@ -208,8 +209,11 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::ATTACK:
 	{
-		if (checkTime.ReadSec() > 1)
+		if (checkTime.ReadSec() > attackSpeed)
+		{
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, 10, 4, 50);
 			state = EnemyState::CHECK;
+		}	
 	}
 		break;
 
