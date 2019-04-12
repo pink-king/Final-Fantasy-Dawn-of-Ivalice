@@ -19,10 +19,10 @@ class UiItem_Bar :public UiItem
 protected:
 	TypeBar type = HORIZONTAL;
 	UiItem_Image* thumb = nullptr;
-	//UiItem_Image* nameBar = nullptr;
+	UiItem_Image* nameBar = nullptr;
 	UiItem_Image* bar = nullptr;
 	SDL_Rect section;
-	//SDL_Rect prove;
+	SDL_Rect prove;
 	std::string name;
 	//void DoLogicClicked(bool do_slide = false); 
 	void DoLogicHovered();
