@@ -69,7 +69,7 @@ bool EnemyTest::Update(float dt)
 		
 	}*/
 
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
 	{
 		life -= 20;
 		//App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
