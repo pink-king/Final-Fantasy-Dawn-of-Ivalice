@@ -142,18 +142,18 @@ void UiItem_HitPoint::updateHitPointPositions()
 
 		if (attachedEntity != nullptr)
 		{
-			if (attachedEntity->life > 0)    // TODO: DO THIS FROM THE ENEMY
+			  // TODO: DO THIS FROM THE ENEMY
+			
+			if (attachedEntity->life > 0)    // have a "pivot" on the enemy
 			{
-				if (attachedEntity->life > 0)    // have a "pivot" on the enemy
-				{
-					//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
-					int w, h;
-					SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
+				//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
+				int w, h;
+				SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
 
-					hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w / 2;
+				hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w / 2;
 
-				}
 			}
+			
 		}
 		else
 			LOG("");

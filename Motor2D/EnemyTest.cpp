@@ -49,6 +49,12 @@ bool EnemyTest::PreUpdate()
 
 bool EnemyTest::Update(float dt)
 {
+	/*hitPoint->attachedEntity->name;
+
+	if (hitPoint != nullptr)
+	{
+		LOG("");
+	}*/
 
 	SetState(dt);
 

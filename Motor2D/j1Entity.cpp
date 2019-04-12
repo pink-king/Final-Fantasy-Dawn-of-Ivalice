@@ -15,6 +15,9 @@ j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::strin
 j1Entity::~j1Entity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
+	// point linked elements to null
+	if (hitPoint != nullptr)
+		hitPoint->attachedEntity = nullptr;
 }
 
 bool j1Entity::Start()

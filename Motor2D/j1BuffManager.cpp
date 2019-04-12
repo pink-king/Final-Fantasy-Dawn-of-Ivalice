@@ -138,12 +138,14 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
+	// but if we have a previous one, unlink
+	if (defender->hitPoint != nullptr)
+		defender->hitPoint->attachedEntity = nullptr;
 	defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
 	// but, enemy can die now
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
 		defender->to_delete = true;
-		defender->hitPoint->attachedEntity = nullptr; // if enemy dies, the label must complete its own cycle
 	} 
 	
 }
@@ -218,7 +220,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					entity->life -= (*item)->secDamage;
 					(*item)->count.Start();
 					--(*item)->totalTime;
-					App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
+					// remove previous hitpoint link
+					if(entity->hitPoint != nullptr)
+						entity->hitPoint->attachedEntity = nullptr;
+					entity->hitPoint = App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
 					//TODO: call create hitpoint label
 				}
 			}
