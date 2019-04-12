@@ -422,7 +422,7 @@ int PathNode::CalculateF(const iPoint& destination)
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	last_path.clear();
-
+	uint cont = 0; 
 	if (origin == destination || !IsWalkable(origin) || !IsWalkable(destination))
 		return -1;
 
@@ -504,9 +504,12 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				iterator++;
 			}
 			neighbors.pathNodeList.clear();
+			cont++; 
 		}
-
+		if (cont > 20)
+			return -1;
 	}
+
 }
 
 int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & destination)
@@ -597,7 +600,7 @@ int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & desti
 			neighbors.pathNodeList.clear();
 			cont++;
 		}
-		if (cont > 25)
+		if (cont > 20)
 			return -1; 
 	}
 	return 0;
