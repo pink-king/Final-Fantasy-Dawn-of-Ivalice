@@ -122,7 +122,7 @@ bool Enemy::isNextPosFree(iPoint futurePos)
 {
 	iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(futurePos.x, futurePos.y);
 
-	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp));
+	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEnemyFree(onSubtilePosTemp));
 }
 
 bool Enemy::isOnDestiny() const
