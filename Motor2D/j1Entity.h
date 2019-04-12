@@ -9,10 +9,7 @@
 #include "j1Textures.h"
 
 
-
 #include "SDL_image/include/SDL_image.h"
-
-class UiItem_HitPoint;
 
 enum ENTITY_TYPE  // todo, pass to class
 	{
@@ -107,8 +104,6 @@ public:
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
-	// FOR GUI ELEMENTS
-	UiItem_HitPoint* hitPoint = nullptr;
 
 	
 
