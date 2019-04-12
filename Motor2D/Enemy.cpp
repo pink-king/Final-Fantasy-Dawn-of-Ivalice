@@ -157,13 +157,14 @@ void Enemy::DebugPath() const
 
 void Enemy::Draw() 
 {
+
+	DebugPath();
+
 	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
 			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
-	}
-
-	DebugPath();
+	}	
 }

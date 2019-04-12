@@ -160,8 +160,11 @@ void EnemyTest::SetState(float dt)
 		if (App->entityFactory->player->ChangedTile())
 		{
 			App->entityFactory->ReleaseAllReservedSubtiles();
-			if(checkTime.Read() > GetRandomValue(250, 1000))
-				state = EnemyState::SEARCHPATH;
+			if (checkTime.Read() > GetRandomValue(250, 1000))
+			{
+				path_to_follow.clear();
+				state = EnemyState::IDLE;
+			}
 		}
 		else if (isOnDestiny())
 		{
@@ -186,7 +189,7 @@ void EnemyTest::SetState(float dt)
 				LOG("Attacking!");
 				checkTime.Start();
 			}
-			else state = EnemyState::SEARCHPATH;
+			else state = EnemyState::IDLE;
 		}
 		
 
