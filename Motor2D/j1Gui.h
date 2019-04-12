@@ -114,6 +114,7 @@ public:
 	void SettingsScreen();
 	void GoBackToMenu();
 	void FpsCap();
+	void GoBackToGame();
 
 	UiItem_HealthBar* healthBar = nullptr;
 

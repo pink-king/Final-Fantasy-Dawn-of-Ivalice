@@ -101,7 +101,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 
 
-		/*if (deliever->life > 0)          // TODO: DO THIS FROM THE ENEMY 
+		if (!to_delete)          // TODO: DO THIS FROM THE ENEMY 
 		{
 			UpdatePos();
 
@@ -116,12 +116,11 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 		else
 		{
-			// delete both the image and the health bar and remove them from the list 
+			int a = 0; 
+		}
 
-			dynamicImage->to_delete = true; 
-			to_delete = true; 
-		}*/
-		
+
+
 	}
 
 }
