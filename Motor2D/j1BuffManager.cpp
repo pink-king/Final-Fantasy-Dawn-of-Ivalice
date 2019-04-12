@@ -3,6 +3,9 @@
 #include "j1EntityFactory.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Scene.h"
+#include "UiItem_Image.h"
+
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -139,12 +142,31 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
-	if (defender->hitPoint != nullptr)
-		defender->hitPoint->attachedEntity = nullptr;
-	defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
-	// but, enemy can die now
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
+	/*if (defender->hitPoint != nullptr)
 	{
+		defender->hitPoint->attachedEntity = nullptr;
+
+	}
+	else
+	{
+		defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
+	}*/
+		
+	
+	
+																													  
+																													  
+																													  // but, enemy can die now
+	
+	if (defender->life <= 0 /*&& defender->type != ENTITY_TYPE::PLAYER*/) // ONLY FOR DELETE
+	{
+		// first delete associated gui elements
+
+		//defender->hitPoint->to_delete = true;          /// already dies when the time's over                // cleaned in hitpoint manager
+		
+		defender->lifeBar->dynamicImage->to_delete = true; 
+		defender->lifeBar->to_delete = true;                             // cleaned in UiItem cpp draw
+
 		defender->to_delete = true;
 	} 
 	
@@ -223,7 +245,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					// remove previous hitpoint link
 					if(entity->hitPoint != nullptr)
 						entity->hitPoint->attachedEntity = nullptr;
-					entity->hitPoint = App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
+					//entity->hitPoint = App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
 					//TODO: call create hitpoint label
 				}
 			}
