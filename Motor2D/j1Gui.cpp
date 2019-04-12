@@ -625,3 +625,9 @@ void j1Gui::FpsCap()
 	
 	
 }
+
+void j1Gui::GoBackToGame()
+{
+	App->pause = false;
+	App->scene->pausePanel->enable = false;
+}
