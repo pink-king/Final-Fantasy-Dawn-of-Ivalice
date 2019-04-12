@@ -22,8 +22,8 @@ public:
 	bool PostUpdate() { return true; };
 	bool CleanUp();
 	//by tipes of enemies
-	void CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character,std::string stat, float value);
-	void RemoveBuff(std::string character);
+	void CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, j1Entity* character,std::string stat, float value);
+	void RemoveBuff(j1Entity* character);
 
 
 	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string stat);
@@ -35,7 +35,7 @@ public:
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat);
 	void CreateParalize(j1Entity* attacker, j1Entity* defender, uint time);
 
-	void ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType);
+	void ActiveBuff(std::string buffName, j1Entity* character, OBJECT_TYPE clasType);
 	void DeleteBuff(Buff* buff);
 
 	void AddItemStats(LootEntity* item);

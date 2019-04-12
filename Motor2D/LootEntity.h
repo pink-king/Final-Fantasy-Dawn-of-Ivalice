@@ -50,9 +50,11 @@ public:
 	void Draw();
 	int GetRandomValue(int min, int max);
 
-	void CreateBuff(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value);
+	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* item);
 	EQUIPABLE_TYPE GetEquipable();
 public:
+
+	uint level;
 
 	iPoint loot_pos;
 	std::string lootname;
@@ -65,19 +67,9 @@ public:
 
 	uint price = 10;
 	EQUIPABLE_TYPE equipableType;
-public:
-	//---Equipable stats---//
-	int itemLevel;
-	float dmg;
-	float burn;
-	float cooldown;
-	float dmg_back;
-	float attck_spd;
-	float slow;
-	float poisonBack;
-	float heal;
-	float paralize;
-	int chanceTo;
+	ELEMENTAL_TYPE elemetalType;
+
+	j1Entity* character = nullptr;
 protected:
 
 	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;

@@ -303,6 +303,21 @@ const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 	return lastCharHeadingAngle;
 }
 
+j1Entity * PlayerEntityManager::GetMarche()
+{
+	return marche;
+}
+
+j1Entity * PlayerEntityManager::GetRitz()
+{
+	return ritz;
+}
+
+j1Entity * PlayerEntityManager::GetShara()
+{
+	return shara;
+}
+
 // CROSSHAIR class -------------------------------------------------------------------------------------
 
 Crosshair::Crosshair()
