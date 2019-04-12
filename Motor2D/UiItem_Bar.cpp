@@ -13,7 +13,9 @@
 
 
 
+
 UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem*const parent) : UiItem(position, parent)
+
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::BAR;
@@ -30,6 +32,7 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* sectio
 	iPoint thumbPos(position.x + (section->w*0.5) - (thumb_section->w*0.5), position.y + (section->h*0.07));
 
 	thumb = App->gui->AddImage(thumbPos, thumb_section, this);    // TODO: this should have as pareNT "this"
+
 	image_bar = App->gui->AddImage({ position.x - 100, position.y }, &this->image_idle, this);
 	thumb->slidable = true;
 	//thumb->parent = bar; 
