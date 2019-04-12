@@ -600,7 +600,7 @@ int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & desti
 			neighbors.pathNodeList.clear();
 			cont++;
 		}
-		if (cont > 20)
+		if (cont > 25)
 			return -1; 
 	}
 	return 0;

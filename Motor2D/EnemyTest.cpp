@@ -243,6 +243,21 @@ void EnemyTest::SetState(float dt)
 
 bool EnemyTest::CleanUp()
 {
+	if (path_to_follow.size() > 0)
+	{
+		std::vector<iPoint>::iterator item = path_to_follow.begin();
+		for (; item != path_to_follow.end(); ++item)
+		{
+			if (App->entityFactory->isThisSubtileReserved(*item))
+			{
+				App->entityFactory->FreeAdjacent(*item);
+				break;
+			}
+		}
+	}
+
+	path_to_follow.clear();
+
 	if (debugSubtile != nullptr)
 	{
 		App->tex->UnLoad(debugSubtile);
