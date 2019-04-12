@@ -13,11 +13,12 @@
 
 
 
-UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, UiItem * const parent): UiItem(position, parent)
+UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem*const parent) : UiItem(position, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::BAR;
-	//this->prove = *thumb_section;
+	this->image_idle = *image_idle;
+	this->image_hover = *image_hover;
 	this->hitBox.x = position.x;
 	this->hitBox.y = position.y;
 	this->name = name;
@@ -25,11 +26,11 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * secti
 	bar = App->gui->AddImage(position, section, this);   // TODO: this should have as pareNT "this"
 
 
-														   // thumb
+														 // thumb
 	iPoint thumbPos(position.x + (section->w*0.5) - (thumb_section->w*0.5), position.y + (section->h*0.07));
 
 	thumb = App->gui->AddImage(thumbPos, thumb_section, this);    // TODO: this should have as pareNT "this"
-	//nameBar = App->gui->AddImage({ 500,473 }, thumb_section, this);
+	image_bar = App->gui->AddImage({ position.x - 100, position.y }, &this->image_idle, this);
 	thumb->slidable = true;
 	//thumb->parent = bar; 
 	thumb->iFriend = this;
@@ -57,10 +58,7 @@ void UiItem_Bar::Draw(const float & dt)
 
 void UiItem_Bar::DoLogicHovered() {
 
-	/*nameBar->section.x = 37;
-	nameBar->section.y = 482;
-	nameBar->section.w = 36;
-	nameBar->section.h = 36;*/
+	image_bar->section = image_hover;
 
 	if (!thumbReposition)
 	{
@@ -93,7 +91,7 @@ void UiItem_Bar::DoLogicAbandoned() {
 	}
 
 	bar->section = this->section;
-	//nameBar->section = this->prove;
+	image_bar->section = this->image_idle;
 }
 
 
@@ -105,4 +103,3 @@ float UiItem_Bar::GetBarValue()
 	float final_pos = (ipos_bar - fixed_pos) / (fpos_bar - fixed_pos);
 	return final_pos;
 }
-

@@ -446,7 +446,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		SDL_Rect section_bar = { uiNode.child("section_bar").attribute("x").as_int(), uiNode.child("section_bar").attribute("y").as_int(), uiNode.child("section_bar").attribute("w").as_int(), uiNode.child("section_bar").attribute("h").as_int() };
 		SDL_Rect section_thumb = { uiNode.child("section_thumb").attribute("x").as_int(), uiNode.child("section_thumb").attribute("y").as_int(), uiNode.child("section_thumb").attribute("w").as_int(), uiNode.child("section_thumb").attribute("h").as_int() };
-		UiItem_Bar* slider_volume = App->gui->AddBar(position, name, &section_bar, &section_thumb, parent);
+		SDL_Rect image_idle = { uiNode.child("image_idle").attribute("x").as_int(), uiNode.child("image_idle").attribute("y").as_int(), uiNode.child("image_idle").attribute("w").as_int(), uiNode.child("image_idle").attribute("h").as_int() };
+		SDL_Rect image_hover = { uiNode.child("image_hover").attribute("x").as_int(), uiNode.child("image_hover").attribute("y").as_int(), uiNode.child("image_hover").attribute("w").as_int(), uiNode.child("image_hover").attribute("h").as_int() };
+		UiItem_Bar* slider_volume = App->gui->AddBar(position, name, &section_bar, &section_thumb, &image_idle, &image_hover, parent);
 		if (name == "volumeSlider")
 		{
 			volume_bar = slider_volume;
