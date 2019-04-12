@@ -274,6 +274,8 @@
           <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="267"/>
           <section_thumb x="1115" y="558" w="29" h="38"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
