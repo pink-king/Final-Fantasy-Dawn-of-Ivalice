@@ -31,7 +31,7 @@ public:
 
 
 public: 
-	UiItem_HitPoint* callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NORMAL_ELEMENT);
+	void callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NORMAL_ELEMENT);
 	void calculatePlayerCombo(); 
 
 

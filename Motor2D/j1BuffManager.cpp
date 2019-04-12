@@ -135,17 +135,14 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
-	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
-	defender->life -= lifeToSubstract;
-	// add always a hitpoint
-	defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
-	// but, enemy can die now
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
+	defender->life -= CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
+	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER)
 	{
+		App->HPManager->callHPLabelSpawn(defender, powerAttack, ELEMENTAL_TYPE::NORMAL_ELEMENT);
 		defender->to_delete = true;
-		defender->hitPoint->attachedEntity = nullptr; // if enemy dies, the label must complete its own cycle
+		
+
 	} 
-	
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat)
