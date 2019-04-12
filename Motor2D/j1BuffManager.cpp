@@ -142,7 +142,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
-	/*if (defender->hitPoint != nullptr)
+	if (defender->hitPoint != nullptr)
 	{
 		defender->hitPoint->attachedEntity = nullptr;
 
@@ -150,7 +150,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	else
 	{
 		defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
-	}*/
+	}
 		
 	
 	
