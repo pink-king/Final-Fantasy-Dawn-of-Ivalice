@@ -137,6 +137,7 @@ attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, prop
 	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), baseDamage(baseDamage), 
 	 subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
 {
+	fromType = fromEntity->type;
 	Start();
 }
 
@@ -298,7 +299,7 @@ void attackData::CheckEntitiesFromSubtileStep()
 bool attackData::AddEntityToQueueFiltered(j1Entity* entityToFilter)
 {
 	
-	if (App->attackManager->matrix[fromEntity->type][entityToFilter->type])
+	if (App->attackManager->matrix[fromType][entityToFilter->type])
 	{
 		entitiesQueue.push(entityToFilter);
 	}
