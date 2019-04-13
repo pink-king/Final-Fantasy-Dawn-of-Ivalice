@@ -115,6 +115,7 @@
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
     <ClCompile Include="UiItem_CooldownClock.cpp" />
+    <ClCompile Include="UiItem_Description.cpp" />
     <ClCompile Include="UiItem_HealthBar.cpp" />
     <ClCompile Include="UiItem_HitPoint.cpp" />
     <ClCompile Include="UiItem_HitPointManager.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />
     <ClInclude Include="UiItem_CooldownClock.h" />
+    <ClInclude Include="UiItem_Description.h" />
     <ClInclude Include="UiItem_HealthBar.h" />
     <ClInclude Include="UiItem_HitPoint.h" />
     <ClInclude Include="UiItem_HitPointManager.h" />

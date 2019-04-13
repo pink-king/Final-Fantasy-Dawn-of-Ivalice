@@ -130,6 +130,9 @@
     <ClCompile Include="Buff.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="UiItem_Description.cpp">
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Module.h">
@@ -284,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="Buff.h">
       <Filter>Desenvolupament ======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Description.h">
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

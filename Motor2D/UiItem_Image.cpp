@@ -32,8 +32,12 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 void UiItem_Image::Draw(const float& dt)
 {
+
+	
 	if (!hide)
 	{
+		// TODO: don't blit the icon in the loot item description using the GUI atlas, but instead the Loot atlas 
+
 		App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, 1.0f, 0.0f, resizedRect);
 	}
 }
