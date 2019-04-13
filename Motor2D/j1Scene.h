@@ -54,6 +54,7 @@ public:
 	UiItem * startMenu = nullptr;
 	UiItem * settingPanel = nullptr;
 	UiItem * pausePanel = nullptr;
+	UiItem_Label * coins_label = nullptr;
 	
 	bool debug = false;
 	bool exitGame = false;

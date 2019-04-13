@@ -529,6 +529,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
+	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansBold18, { 900,30 }, inGamePanel);
 	return true;
 }
 
