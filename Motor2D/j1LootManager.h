@@ -10,6 +10,7 @@
 #include"j1Entity.h"
 #include "Enemy.h"
 struct SDL_Texture;
+class UiItem_Label;
 class j1LootManager : public j1Module
 {
 public:

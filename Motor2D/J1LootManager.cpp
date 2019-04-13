@@ -4,6 +4,9 @@
 #include "j1Map.h"
 #include "j1EntityFactory.h"
 #include "j1BuffManager.h"
+#include "j1Scene.h"
+#include "UiItem.h"
+#include "UiItem_Label.h"
 #include <random>
 
 
@@ -174,6 +177,8 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
 		 {
 			 App->entityFactory->player->gold += entityLoot->price;
 			 entityLoot->to_delete = true;
+			 App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold);
+			 App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 			 return false;
 		 }
 

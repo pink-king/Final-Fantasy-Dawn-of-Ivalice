@@ -92,6 +92,7 @@ public:
 	std::vector<LootEntity*>		consumibles;
 
 	uint							gold = 0;
+	std::string						str_coin;
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
