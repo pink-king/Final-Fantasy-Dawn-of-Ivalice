@@ -123,15 +123,15 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
-	if (defender->hitPoint != nullptr)
+	/*if (defender->hitPoint != nullptr)
 	{
 		defender->hitPoint->attachedEntity = nullptr;
 
 	}
 	else
-	{
+	{*/
 		defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
-	}
+//	}
 		
 	
 	
@@ -155,13 +155,6 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
-		// first delete associated gui elements
-
-		//defender->hitPoint->to_delete = true;          /// already dies when the time's over                // cleaned in hitpoint manager
-		
-		defender->lifeBar->dynamicImage->to_delete = true; 
-		defender->lifeBar->to_delete = true;                             // cleaned in UiItem cpp draw
-
 		defender->to_delete = true;
 	} 
 

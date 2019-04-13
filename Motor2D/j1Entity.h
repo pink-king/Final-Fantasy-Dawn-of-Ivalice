@@ -11,8 +11,12 @@
 
 #include "SDL_image/include/SDL_image.h"
 
+#include "UiItem_HealthBar.h"
+#include "UiItem_Image.h"
+
 class UiItem_HitPoint;
 class UiItem_HealthBar; 
+class UiItem_Image; 
 
 enum ENTITY_TYPE  // todo, pass to class
 	{

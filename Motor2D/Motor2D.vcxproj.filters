@@ -74,13 +74,13 @@
       <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_HitPoint.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_HealthBar.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_CooldownClock.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClCompile>
     <ClCompile Include="j1Window.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
@@ -220,13 +220,13 @@
       <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_HitPoint.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_HealthBar.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_CooldownClock.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
+      <Filter>Desenvolupament ======\Modules\GUI\special items</Filter>
     </ClInclude>
     <ClInclude Include="j1Window.h">
       <Filter>Desenvolupament ======\Modules</Filter>
@@ -334,9 +334,6 @@
     <Filter Include="Desenvolupament ======\Modules\GUI\basic">
       <UniqueIdentifier>{3194119e-7ffb-434a-9fc6-3a8e3bbbf30d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament ======\Modules\special items">
-      <UniqueIdentifier>{b80e7e2c-237d-4733-b894-f326f4f605fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Desenvolupament ======\XML">
       <UniqueIdentifier>{3ac7798b-ea0c-4d5d-bbc3-3fead91e4556}</UniqueIdentifier>
     </Filter>
@@ -345,6 +342,9 @@
     </Filter>
     <Filter Include="Desenvolupament ======\Modules\GUI\managers">
       <UniqueIdentifier>{bae3aad3-5463-4932-aa2f-32fa20943063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament ======\Modules\GUI\special items">
+      <UniqueIdentifier>{b80e7e2c-237d-4733-b894-f326f4f605fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
