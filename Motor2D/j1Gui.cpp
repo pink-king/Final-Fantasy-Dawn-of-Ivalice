@@ -429,9 +429,19 @@ bool j1Gui::CleanUp()
 {
 	if (atlas != nullptr)
 		App->tex->UnLoad(atlas);
-	// TODO: Remove items from list, not hitlabels (they are on their own list)
 
+	// TODO: Remove items from list, not hitlabels (they are on their own list)
+	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
+	{
+		if ((*item) != nullptr)
+		{
+			delete *item;
+			*item = nullptr;
+		}
+	}
 	ListItemUI.clear();
+
+
 	return true;
 }
 
