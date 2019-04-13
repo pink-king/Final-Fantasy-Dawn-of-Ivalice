@@ -94,21 +94,21 @@
 
 
       <clocks>
-        <clock name=" clock 1">
-          <section x="651" y="0" w="123" h="123"/>
-          <position x="650" y="550"/>
+        <clock name="ability1_clock">
+          <section x="828" y="137" w="43" h="43"/>
+          <position x="601" y="679"/>
           <type value="ability1"/>
         </clock>
 
-		 <clock name=" clock 2">
-          <section x="780" y="214" w="123" h="123"/>
-          <position x="850" y="550"/>
+		 <clock name="ability2_clock">
+          <section x="828" y="137" w="43" h="43"/>
+          <position x="641" y="679"/>
           <type value="ability2"/>
         </clock>
 		
-		 <clock name=" clock 3">
-          <section x="780" y="214" w="123" h="123"/>
-          <position x="1050" y="550"/>
+		 <clock name="ulti_clock">
+          <section x="828" y="137" w="43" h="43"/>
+          <position x="681" y="679"/>
           <type value="ulti"/>
 		  
         </clock>
@@ -121,26 +121,21 @@
 
 
     <InGameUiM>
-      <images>                                         <!-- sword image changed to test   -->
-        <image name="sword">
-		<!--
-          <section x="167" y="545" w="36" h="36"/>
-          <position x="561" y="679 "/> -->
-		  
-		   <section x="784" y="0" w="120" h="120"/>
-          <position x="650" y="550 "/>
-		  
+      <images>                                         
+        <image name="basic_marche">
+          <section x="650" y="137" w="43" h="43"/>   
+         <position x="561" y="679 "/>
         </image>
-        <image name="sword_ability">
-          <section x="0" y="482" w="36" h="36"/>
-          <position x="601" y="679"/>
+        <image name="ability1_marche">
+          <section x="695" y="137" w="43" h="43"/>   
+         <position x="601" y="679"/>
         </image>
-        <image name="glove">
-          <section x="37" y="482" w="36" h="36"/>
+        <image name="ability2_marche">
+          <section x="739" y="137" w="43" h="43"/>   
           <position x="641" y="679"/>
         </image>
-        <image name="orbe">
-          <section x="74" y="482" w="35" h="36"/>
+		 <image name="ulti_marche">
+          <section x="783" y="137" w="43" h="43"/>   
           <position x="681" y="679"/>
         </image>
         <image name="marche">
@@ -162,19 +157,19 @@
     <InGameUiS>
       <images>
         <image name="basic_shara">
-          <section x="167" y="545" w="36" h="36"/>
+          <section x="650" y="137" w="43" h="43"/>   
           <position x="561" y="679 "/>
         </image>
         <image name="ability1_shara">
-          <section x="0" y="482" w="36" h="36"/>
+          <section x="695" y="137" w="43" h="43"/>   
           <position x="601" y="679"/>
         </image>
         <image name="ability2_shara">
-          <section x="37" y="482" w="36" h="36"/>
+          <section x="739" y="137" w="43" h="43"/>   
           <position x="641" y="679"/>
         </image>
         <image name="ulti_shara">
-          <section x="74" y="482" w="35" h="36"/>
+          <section x="783" y="137" w="43" h="43"/>   
           <position x="681" y="679"/>
         </image>
         <image name="shara">
@@ -197,19 +192,19 @@
     <InGameUiR>
       <images>
         <image name="basic_ritz">
-          <section x="167" y="545" w="36" h="36"/>
+          <section x="650" y="137" w="43" h="43"/>   
           <position x="561" y="679 "/>
         </image>
         <image name="ability1_ritz">
-          <section x="0" y="482" w="36" h="36"/>
+          <section x="695" y="137" w="43" h="43"/>   
           <position x="601" y="679"/>
         </image>
         <image name="ability2_ritz">
-          <section x="37" y="482" w="36" h="36"/>
+          <section x="739" y="137" w="43" h="43"/>   
           <position x="641" y="679"/>
         </image>
         <image name="ulti_ritz">
-          <section x="74" y="482" w="35" h="36"/>
+          <section x="783" y="137" w="43" h="43"/>   
           <position x="681" y="679"/>
         </image>
         <image name="ritz">
