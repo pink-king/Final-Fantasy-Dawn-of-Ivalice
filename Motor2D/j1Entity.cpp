@@ -16,8 +16,20 @@ j1Entity::~j1Entity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
 	// point linked elements to null
-	/*if (hitPoint != nullptr)
-		hitPoint->attachedEntity = nullptr;*/ // already doing this in buff manager direct attack
+	if (hitPoint != nullptr)
+		hitPoint->attachedEntity = nullptr; 
+
+
+	// put the lifeBar to delete here, to ensure that every time an entity is killed, the lifebar does so
+	
+	if (lifeBar != nullptr)
+	{
+		lifeBar->deliever = nullptr; 
+		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+		lifeBar->to_delete = true;
+	}
+
+
 }
 
 bool j1Entity::Start()

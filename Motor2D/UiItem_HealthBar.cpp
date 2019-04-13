@@ -93,7 +93,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 	
 
-		if (!to_delete)          // TODO: DO THIS FROM THE ENEMY 
+		if (!to_delete && deliever)          // TODO: DO THIS FROM THE ENEMY 
 		{
 
 			// start showing bar only after first attack to the enemy
@@ -117,11 +117,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 			dynamicImage->section.w = conversionFactor * deliever->life;
 
 		}
-		else
-		{
-			int a = 0; 
-		}
-
+	
 
 
 	}
