@@ -7,12 +7,13 @@
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
 #include "j1LootManager.h"
+#include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_Image.h"
 
 #include <random>
 
-EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange) : Enemy(position, speed, detectionRange, attackRange)
+EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, attackSpeed)
 {
 	name.assign("Test");
 
@@ -65,7 +66,7 @@ bool EnemyTest::Update(float dt)
 	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		life -= 20; 
-		//App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
+		App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
 		
 	}*/
 
@@ -79,7 +80,7 @@ bool EnemyTest::Update(float dt)
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 	{
 		life -= 30;
-		//App->HPManager->callHPLabelSpawn(this, 30, ELEMENTAL_TYPE::POISON_ELEMENT);
+		App->HPManager->callHPLabelSpawn(this, 30, ELEMENTAL_TYPE::POISON_ELEMENT);
 	}
 
 	/*if (life <= 0)
@@ -176,8 +177,11 @@ void EnemyTest::SetState(float dt)
 		if (App->entityFactory->player->ChangedTile())
 		{
 			App->entityFactory->ReleaseAllReservedSubtiles();
-			if(checkTime.Read() > GetRandomValue(250, 1000))
-				state = EnemyState::SEARCHPATH;
+			if (checkTime.Read() > GetRandomValue(250, 1000))
+			{
+				path_to_follow.clear();
+				state = EnemyState::IDLE;
+			}
 		}
 		else if (isOnDestiny())
 		{
@@ -202,7 +206,7 @@ void EnemyTest::SetState(float dt)
 				LOG("Attacking!");
 				checkTime.Start();
 			}
-			else state = EnemyState::SEARCHPATH;
+			else state = EnemyState::IDLE;
 		}
 		
 
@@ -225,8 +229,11 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::ATTACK:
 	{
-		if (checkTime.ReadSec() > 1)
+		if (checkTime.ReadSec() > attackSpeed)
+		{
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, 10, 4, 50);
 			state = EnemyState::CHECK;
+		}	
 	}
 		break;
 
@@ -253,6 +260,21 @@ void EnemyTest::SetState(float dt)
 
 bool EnemyTest::CleanUp()
 {
+	if (path_to_follow.size() > 0)
+	{
+		std::vector<iPoint>::iterator item = path_to_follow.begin();
+		for (; item != path_to_follow.end(); ++item)
+		{
+			if (App->entityFactory->isThisSubtileReserved(*item))
+			{
+				App->entityFactory->FreeAdjacent(*item);
+				break;
+			}
+		}
+	}
+
+	path_to_follow.clear();
+
 	if (debugSubtile != nullptr)
 	{
 		App->tex->UnLoad(debugSubtile);

@@ -5,9 +5,7 @@
 #include "p2Animation.h"
 #include "j1Entity.h"
 #include "Buff.h"
-
-
-
+#include "j1ModuleCamera2D.h"
 
 #define PI 3.14159265359f
 

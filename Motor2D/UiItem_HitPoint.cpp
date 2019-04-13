@@ -140,7 +140,8 @@ void UiItem_HitPoint::updateHitPointPositions()
 	{
 		hitBox.y -= 2;
 
-		if (attachedEntity != nullptr)
+
+		/*if (attachedEntity->life > 0)    // TODO: DO THIS FROM THE ENEMY
 		{
 			  // TODO: DO THIS FROM THE ENEMY
 			
@@ -158,6 +159,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 		else
 			LOG("");
 
+		}*/
 	}
 
 			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left

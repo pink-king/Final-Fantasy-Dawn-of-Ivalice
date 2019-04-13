@@ -7,9 +7,11 @@
 #include "j1LootManager.h"
 #include <random>
 
-Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange) : speed(movementSpeed), detectionRange(detectionRange), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
+Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, float attackSpeed) 
+	: speed(movementSpeed), detectionRange(detectionRange), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
 {
 	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
+	this->attackSpeed = 1 / attackSpeed;
 }
 
 Enemy::~Enemy()
@@ -120,7 +122,7 @@ bool Enemy::isNextPosFree(iPoint futurePos)
 {
 	iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(futurePos.x, futurePos.y);
 
-	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp));
+	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEnemyFree(onSubtilePosTemp));
 }
 
 bool Enemy::isOnDestiny() const
@@ -155,13 +157,14 @@ void Enemy::DebugPath() const
 
 void Enemy::Draw() 
 {
+
+	DebugPath();
+
 	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
 			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
-	}
-
-	DebugPath();
+	}	
 }

@@ -23,6 +23,10 @@ j1AttackManager::j1AttackManager()
 	matrix[ENEMY01][PLAYER] = true;
 	matrix[ENEMY01][ENEMY_TEST] = false;
 
+	matrix[ENEMY_TEST][PLAYER] = true;
+	matrix[ENEMY_TEST][ENEMY01] = false;
+	matrix[ENEMY_TEST][ENEMY_TEST] = false;
+
 }
 
 j1AttackManager::~j1AttackManager()
@@ -133,6 +137,7 @@ attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, prop
 	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), baseDamage(baseDamage), 
 	 subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
 {
+	fromType = fromEntity->type;
 	Start();
 }
 
@@ -294,7 +299,7 @@ void attackData::CheckEntitiesFromSubtileStep()
 bool attackData::AddEntityToQueueFiltered(j1Entity* entityToFilter)
 {
 	
-	if (App->attackManager->matrix[fromEntity->type][entityToFilter->type])
+	if (App->attackManager->matrix[fromType][entityToFilter->type])
 	{
 		entitiesQueue.push(entityToFilter);
 	}

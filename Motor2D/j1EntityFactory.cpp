@@ -205,14 +205,14 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 	return ret;
 }
 
-Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange)
+Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, float attackSpeed)
 {
 	Enemy* ret = nullptr; 
 
 	switch (etype)
 	{
 	case EnemyType::TEST:
-		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange); 
+		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange, attackSpeed); 
 		entities.push_back(ret);
 		break; 
 
@@ -297,6 +297,27 @@ bool j1EntityFactory::isThisSubtileEmpty(const iPoint pos) const
 		return !entitiesDataMap[GetSubtileEntityIndexAt(pos)].isEmpty();
 	else
 		return false;
+}
+
+bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
+{
+	bool ret = false; 
+
+	if (CheckSubtileMapBoundaries(pos))
+	{
+		ret = true; 
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST) // || other enemy types 
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
 }
 
 int j1EntityFactory::GetSubtileEntityIndexAt(const iPoint pos) const

@@ -33,10 +33,11 @@ public:
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
-	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange);
+	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, float attackSpeed);
 	void Debug(j1Entity* ent);
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
+	bool isThisSubtileEnemyFree(const iPoint pos) const; 
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 
 	std::vector<j1Entity*>* GetSubtileEntityVectorAt(const iPoint pos) const;

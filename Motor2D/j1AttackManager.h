@@ -57,6 +57,7 @@ private:
 	bool debug = true;
 	// propagation data itself -----------
 	const j1Entity* fromEntity = nullptr;
+	ENTITY_TYPE fromType = ENTITY_TYPE::NO_TYPE;
 	iPoint startSubtilePoint;
 	propagationType propaType;
 	int baseDamage;

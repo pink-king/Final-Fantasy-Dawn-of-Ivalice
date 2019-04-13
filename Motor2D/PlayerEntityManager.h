@@ -79,6 +79,13 @@ public:
 	const float GetLastPlayerHeadingAngle() const;
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
+public:
+
+	j1Entity* GetMarche();
+	j1Entity* GetRitz();
+	j1Entity* GetShara();
+
+public:
 	//Loot vectors
 	std::vector<LootEntity*>		equipedObjects;
 	std::vector<LootEntity*>		bagObjects;

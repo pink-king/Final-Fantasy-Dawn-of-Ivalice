@@ -34,11 +34,8 @@ public:
 	std::string character;
 	std::string itemName;
 
-
-
 	int equipableChance;
 
-	uint level;
 };
 
 #endif // !_EQUIPABLELOOT_H__

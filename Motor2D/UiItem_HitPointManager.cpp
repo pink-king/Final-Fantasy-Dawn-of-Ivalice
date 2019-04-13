@@ -132,11 +132,9 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(j1Entity* reciever, ui
 
 	iPoint pos(App->render->WorldToScreen(reciever->position.x, reciever->position.y));                                               // adjust this  
 
-
-	
-	labelScoreAccum += damage; 
-
+	labelScoreAccum += damage;
 	return App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, pos, nullptr, variant::number, reciever);    // big font for testing
+	 
 
 }
 

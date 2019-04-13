@@ -1,7 +1,8 @@
 #include "Buff.h"
+#include "LootEntity.h"
 
-Buff::Buff(BUFF_TYPE type, std::string character,std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value) :
-	type(type), character(character), stat(stat), elementType(elementType), rol(rol), value(value)
+Buff::Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* object) :
+	type(type), character(character), stat(stat), elementType(elementType), rol(rol), value(value), object(object)
 {
 }
 
@@ -19,9 +20,14 @@ BUFF_TYPE Buff::GetType()
 	return type;
 }
 
-std::string Buff::GetCharacter()
+j1Entity* Buff::GetCharacter()
 {
 	return character;
+}
+
+LootEntity * Buff::GetItemObject()
+{
+	return object;
 }
 
 std::string Buff::GetStat()
@@ -44,9 +50,9 @@ float Buff::GetValue()
 	return value;
 }
 
-bool Buff::GetIfExist(BUFF_TYPE type, std::string character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol)
+bool Buff::GetIfExist(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol)
 {
-	return (this->type == type && this->character.compare(character) && this->elementType == elementType && this->rol == rol && this->stat == stat);
+	return (this->type == type && this->character == character && this->elementType == elementType && this->rol == rol && this->stat == stat);
 }
 
 

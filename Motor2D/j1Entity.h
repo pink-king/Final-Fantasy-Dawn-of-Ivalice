@@ -9,7 +9,6 @@
 #include "j1Textures.h"
 
 
-
 #include "SDL_image/include/SDL_image.h"
 
 class UiItem_HitPoint;

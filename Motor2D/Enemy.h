@@ -43,10 +43,12 @@ enum class EnemyType
 	TEST,
 };
 
+// TODO Add struct to hold enemy stats
+
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange);
+	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, float attackSpeed);
 	~Enemy();
 
 	//core loops ------
@@ -81,6 +83,7 @@ protected:
 	
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
+	float attackSpeed = 0; 
 	bool isSubpathRange = false;
 
 	SDL_Texture* debugSubtile = nullptr;
