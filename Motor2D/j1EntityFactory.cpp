@@ -299,6 +299,27 @@ bool j1EntityFactory::isThisSubtileEmpty(const iPoint pos) const
 		return false;
 }
 
+bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
+{
+	bool ret = false; 
+
+	if (CheckSubtileMapBoundaries(pos))
+	{
+		ret = true; 
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST) // || other enemy types 
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
 int j1EntityFactory::GetSubtileEntityIndexAt(const iPoint pos) const
 {
 	return (pos.y * subtileWidth) + pos.x;

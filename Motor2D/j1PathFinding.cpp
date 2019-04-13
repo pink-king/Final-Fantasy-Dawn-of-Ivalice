@@ -266,7 +266,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 
@@ -276,7 +276,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 
@@ -286,7 +286,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 
@@ -296,7 +296,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 
@@ -308,7 +308,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	// East
@@ -317,7 +317,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	// South
@@ -326,7 +326,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	// West
@@ -335,7 +335,7 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	tile = App->map->WorldToMap(tile.x, tile.y);
 	if (App->pathfinding->IsWalkable(tile))
 	{
-		if ((App->entityFactory->isThisSubtileEmpty(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
+		if ((App->entityFactory->isThisSubtileEnemyFree(cell) && !App->entityFactory->isThisSubtileReserved(cell)) || cell == destination)
 			list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
 	}
 	return list_to_fill.pathNodeList.size();
@@ -422,7 +422,7 @@ int PathNode::CalculateF(const iPoint& destination)
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	last_path.clear();
-
+	uint cont = 0; 
 	if (origin == destination || !IsWalkable(origin) || !IsWalkable(destination))
 		return -1;
 
@@ -504,9 +504,12 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				iterator++;
 			}
 			neighbors.pathNodeList.clear();
+			cont++; 
 		}
-
+		if (cont > 20)
+			return -1;
 	}
+
 }
 
 int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & destination)

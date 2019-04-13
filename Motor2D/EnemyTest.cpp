@@ -9,6 +9,7 @@
 #include "j1LootManager.h"
 #include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
+#include "UiItem_Image.h"
 
 #include <random>
 
@@ -50,23 +51,36 @@ bool EnemyTest::PreUpdate()
 
 bool EnemyTest::Update(float dt)
 {
+	/*hitPoint->attachedEntity->name;
+
+	if (hitPoint != nullptr)
+	{
+		LOG("");
+	}*/
 
 	SetState(dt);
 
 
 	// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		life -= 20; 
-		//App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
+		App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
 		
+	}*/
+
+	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+	{
+		life -= 20;
+		//App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
+
 	}
 
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 	{
 		life -= 30;
-		//App->HPManager->callHPLabelSpawn(this, 30, ELEMENTAL_TYPE::POISON_ELEMENT);
+		App->HPManager->callHPLabelSpawn(this, 30, ELEMENTAL_TYPE::POISON_ELEMENT);
 	}
 
 	/*if (life <= 0)
@@ -163,8 +177,11 @@ void EnemyTest::SetState(float dt)
 		if (App->entityFactory->player->ChangedTile())
 		{
 			App->entityFactory->ReleaseAllReservedSubtiles();
-			if(checkTime.Read() > GetRandomValue(250, 1000))
-				state = EnemyState::SEARCHPATH;
+			if (checkTime.Read() > GetRandomValue(250, 1000))
+			{
+				path_to_follow.clear();
+				state = EnemyState::IDLE;
+			}
 		}
 		else if (isOnDestiny())
 		{
@@ -189,7 +206,7 @@ void EnemyTest::SetState(float dt)
 				LOG("Attacking!");
 				checkTime.Start();
 			}
-			else state = EnemyState::SEARCHPATH;
+			else state = EnemyState::IDLE;
 		}
 		
 
@@ -243,6 +260,21 @@ void EnemyTest::SetState(float dt)
 
 bool EnemyTest::CleanUp()
 {
+	if (path_to_follow.size() > 0)
+	{
+		std::vector<iPoint>::iterator item = path_to_follow.begin();
+		for (; item != path_to_follow.end(); ++item)
+		{
+			if (App->entityFactory->isThisSubtileReserved(*item))
+			{
+				App->entityFactory->FreeAdjacent(*item);
+				break;
+			}
+		}
+	}
+
+	path_to_follow.clear();
+
 	if (debugSubtile != nullptr)
 	{
 		App->tex->UnLoad(debugSubtile);

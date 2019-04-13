@@ -45,6 +45,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->SettingsScreen();
 	if (functionName == "GoBackToMenu")
 		App->gui->GoBackToMenu();
+	if (functionName == "GoBackToGame")
+		App->gui->GoBackToGame();
 }
 
 void UiItem_Button::Draw(const float &dt)

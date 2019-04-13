@@ -1,8 +1,12 @@
 #include "j1BuffManager.h"
 #include <string.h>
 #include "j1EntityFactory.h"
+#include "j1LootManager.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Scene.h"
+#include "UiItem_Image.h"
+
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -36,26 +40,6 @@ bool j1BuffManager::Update(float dt)
 			if (DamageInTime(*item))
 				entitiesTimeDamage.remove(*item);
 	}
-	else
-	{
-		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
-		for (; item != entitiesTimeDamage.end() && ret; ++item)
-			DamageInTime(*item);
-	}
-
-	/*static char title[30];
-	std::string name;
-	std::list<Buff*>::iterator item =buffs.begin();
-	for (; item != buffs.end(); ++item)
-	{
-
-		name = (*item)->GetName();
-		sprintf_s(title, 30, " |  buff: %s", name.data());
-		App->win->AddStringToTitle(title);
-		
-	}
-	App->win->ClearTitle();
-*/
 	return ret;
 }
 
@@ -83,7 +67,7 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string character, std::string stat, float value)
+void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, j1Entity* character, std::string stat, float value)
 {
 	bool exist = false;
 	std::list<Buff*>::iterator item = buffs.begin();
@@ -104,11 +88,11 @@ void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJEC
 	}
 }
 
-void j1BuffManager::RemoveBuff(std::string character)
+void j1BuffManager::RemoveBuff(j1Entity* character)
 {
 	std::list<Buff*>::iterator item = buffs.begin();
 	for (; item != buffs.end(); ++item)
-		if(name.compare((*item)->GetCharacter()) == 0)
+		if(character == (*item)->GetCharacter())
 			buffs.remove(*item);
 }
 
@@ -118,8 +102,8 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (elementType == (*iter)->GetElementType() && rol == (*iter)->GetRol() &&
-			(ent->name.compare((*iter)->GetCharacter()) == 0 || ent->name.compare("all") == 0) && stat.compare((*iter)->GetStat()))
+		if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::NORMAL_ELEMENT) && rol == (*iter)->GetRol() &&
+			(ent == (*iter)->GetCharacter()))
 		{
 					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 						initialDamage += (*iter)->GetValue();
@@ -138,13 +122,49 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
-	defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
-	// but, enemy can die now
+	// but if we have a previous one, unlink
+	if (defender->hitPoint != nullptr)
+	{
+		defender->hitPoint->attachedEntity = nullptr;
+
+	}
+	else
+	{
+		defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
+	}
+		
+	
+	
+																													  
+	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
+	{
+		if (App->lootManager->GetRandomValue(1, 10) == 1)
+		{
+			CreateBurned(attacker, defender, initialDamage*0.1, 10, "\0");
+		}
+	}
+
+	if (elementType == ELEMENTAL_TYPE::ICE_ELEMENT)
+	{
+		if (App->lootManager->GetRandomValue(1, 10) == 1)
+		{
+			CreateParalize(attacker, defender, 3);
+		}
+	}
+																													  // but, enemy can die now
+	
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
+		// first delete associated gui elements
+
+		//defender->hitPoint->to_delete = true;          /// already dies when the time's over                // cleaned in hitpoint manager
+		
+		defender->lifeBar->dynamicImage->to_delete = true; 
+		defender->lifeBar->to_delete = true;                             // cleaned in UiItem cpp draw
+
 		defender->to_delete = true;
-		defender->hitPoint->attachedEntity = nullptr; // if enemy dies, the label must complete its own cycle
 	} 
+
 	
 }
 
@@ -168,7 +188,7 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uin
 }
 
 
-void j1BuffManager::ActiveBuff(std::string buffName, std::string character, OBJECT_TYPE clasType)
+void j1BuffManager::ActiveBuff(std::string buffName, j1Entity* character, OBJECT_TYPE clasType)
 {
 	
 }
@@ -187,17 +207,17 @@ void j1BuffManager::AddItemStats(LootEntity * item)
 {
 	std::vector<Buff*>::iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)
-	{
 		buffs.push_back(*iter);
-	}
 }
+
 
 void j1BuffManager::RemoveItemStat(LootEntity * item)
 {
-	std::vector<Buff*>::iterator iter = item->stats.begin();
-	for (; iter != item->stats.end(); ++iter)
+	std::list<Buff*>::iterator iter = buffs.begin();
+	for (; iter != buffs.end(); ++iter)
 	{
-		buffs.remove(*iter);
+		if ((*iter)->GetItemObject() == item)
+			buffs.remove(*iter);
 	}
 }
 
@@ -218,7 +238,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					entity->life -= (*item)->secDamage;
 					(*item)->count.Start();
 					--(*item)->totalTime;
-					App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
+					// remove previous hitpoint link
+					if(entity->hitPoint != nullptr)
+						entity->hitPoint->attachedEntity = nullptr;
+					//entity->hitPoint = App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
 					//TODO: call create hitpoint label
 				}
 			}

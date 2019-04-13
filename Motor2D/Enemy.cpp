@@ -122,7 +122,7 @@ bool Enemy::isNextPosFree(iPoint futurePos)
 {
 	iPoint onSubtilePosTemp = App->map->WorldToSubtileMap(futurePos.x, futurePos.y);
 
-	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEmpty(onSubtilePosTemp));
+	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEnemyFree(onSubtilePosTemp));
 }
 
 bool Enemy::isOnDestiny() const
@@ -157,13 +157,14 @@ void Enemy::DebugPath() const
 
 void Enemy::Draw() 
 {
+
+	DebugPath();
+
 	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
 			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
-	}
-
-	DebugPath();
+	}	
 }
