@@ -181,6 +181,26 @@ bool PlayerEntity::InputCombat()
 		// code under construction ...
 		//LOG("");
 	}
+
+
+	// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
+		// check ability 1 trigger
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL1;
+		//LOG("ULTIMATE");
+	}
+
+	// check ability 2 trigger
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL2;
+		//LOG("ULTIMATE");
+	}
+
+
+
+
 	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP)
 	{
 		aiming = false;

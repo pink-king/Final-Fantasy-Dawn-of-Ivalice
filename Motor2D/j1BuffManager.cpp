@@ -4,6 +4,8 @@
 #include "j1LootManager.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Scene.h"
+#include "UiItem_Image.h"
 
 j1BuffManager::j1BuffManager()
 {
@@ -117,19 +119,23 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
-	float damage = CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat);
-	float defence = CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
-	if (damage > defence)
-		defender->life -= damage - defence;
-	else
-		defender->life -= 1;
-
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER)
+	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
+	defender->life -= lifeToSubstract;
+	// add always a hitpoint
+	// but if we have a previous one, unlink
+	if (defender->hitPoint != nullptr)
 	{
-		App->HPManager->callHPLabelSpawn(defender, powerAttack);
-		defender->to_delete = true;
-	} 
+		defender->hitPoint->attachedEntity = nullptr;
 
+	}
+	else
+	{
+		defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
+	}
+		
+	
+	
+																													  
 	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
 	{
 		if (App->lootManager->GetRandomValue(1, 10) == 1)
@@ -145,6 +151,21 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			CreateParalize(attacker, defender, 3);
 		}
 	}
+																													  // but, enemy can die now
+	
+	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
+	{
+		// first delete associated gui elements
+
+		//defender->hitPoint->to_delete = true;          /// already dies when the time's over                // cleaned in hitpoint manager
+		
+		defender->lifeBar->dynamicImage->to_delete = true; 
+		defender->lifeBar->to_delete = true;                             // cleaned in UiItem cpp draw
+
+		defender->to_delete = true;
+	} 
+
+	
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat)
@@ -217,7 +238,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					entity->life -= (*item)->secDamage;
 					(*item)->count.Start();
 					--(*item)->totalTime;
-					App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, damageType::BURN);
+					// remove previous hitpoint link
+					if(entity->hitPoint != nullptr)
+						entity->hitPoint->attachedEntity = nullptr;
+					//entity->hitPoint = App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
 					//TODO: call create hitpoint label
 				}
 			}

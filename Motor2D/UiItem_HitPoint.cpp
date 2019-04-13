@@ -6,7 +6,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 
-UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type, j1Entity* receiver) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start(); 
@@ -25,6 +25,9 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 
 	// the parent
 	this->parent = parent;
+
+	if (receiver)
+	attachedEntity = receiver; 
 
 }
 
@@ -136,6 +139,27 @@ void UiItem_HitPoint::updateHitPointPositions()
 	if (this->numerOrText == variant::number)
 	{
 		hitBox.y -= 2;
+
+
+		/*if (attachedEntity->life > 0)    // TODO: DO THIS FROM THE ENEMY
+		{
+			  // TODO: DO THIS FROM THE ENEMY
+			
+			if (attachedEntity->life > 0)    // have a "pivot" on the enemy
+			{
+				//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
+				int w, h;
+				SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
+
+				hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w / 2;
+
+			}
+			
+		}
+		else
+			LOG("");
+
+		}*/
 	}
 
 			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left

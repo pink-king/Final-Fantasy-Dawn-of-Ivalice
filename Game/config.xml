@@ -95,7 +95,7 @@
 
       <clocks>
         <clock name=" clock 1">
-          <section x="780" y="214" w="123" h="123"/>
+          <section x="651" y="0" w="123" h="123"/>
           <position x="650" y="550"/>
           <type value="ability1"/>
         </clock>
@@ -121,10 +121,15 @@
 
 
     <InGameUiM>
-      <images>
+      <images>                                         <!-- sword image changed to test   -->
         <image name="sword">
+		<!--
           <section x="167" y="545" w="36" h="36"/>
-          <position x="561" y="679 "/>
+          <position x="561" y="679 "/> -->
+		  
+		   <section x="784" y="0" w="120" h="120"/>
+          <position x="650" y="550 "/>
+		  
         </image>
         <image name="sword_ability">
           <section x="0" y="482" w="36" h="36"/>
@@ -262,6 +267,17 @@
           <position x="0" y="0"/>
         </image>
       </images>
+      
+      <labels>
+        <label name="test">
+          <position x="0" y="0"/>
+          <color R="255" G="255" B="255" A="255"/>
+          <text value="Hello this is just a test to see
+                if this can handle different lines
+                I doubt it xD Lmao"/>
+          
+        </label>
+      </labels>
 
       <panelBars>
 
@@ -269,6 +285,8 @@
           <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="267"/>
           <section_thumb x="1115" y="558" w="29" h="38"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
@@ -282,7 +300,7 @@
 
       <PanelCheckboxes>
 
-        <PanelCheckbox name="test_checkbox">
+        <PanelCheckbox name="test_checkbox" function = "FpsCap">
           <panelPosition x="588" y="473"/>
           <panelSection x="293" y="666" w="200" h="36"/>
           <boxSection x="518" y="673" w="25" h="25"/>
@@ -311,6 +329,27 @@
       </buttons>
 
     </Settings>
+
+    <SettingsInGame>
+      
+      <labels>
+        <label name="test">
+          <position x="530" y="70"/>
+          <color R="255" G="255" B="255" A="255"/>
+          <text value="PAUSE MENU"/>
+        </label>
+      </labels>
+
+      <buttons>
+        <button name="button_backGame" function = "GoBackToGame">
+          <idleSec x="585" y="678" w="93" h="40"/>
+          <hoverSec x="585" y="719" w="94" h="42" />
+          <clickSec x="585" y="762" w="95" h="42" />
+          <position x="588" y="561"/>
+        </button>
+      </buttons>
+      
+    </SettingsInGame>
 
   </scene>
 

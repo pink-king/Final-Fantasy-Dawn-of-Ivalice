@@ -92,13 +92,13 @@ public:
 	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
 	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel = false);
-	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, UiItem*const parent); // , TypeBar type = VERTICAL);
+	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent); // , TypeBar type = VERTICAL);
 	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
-	UiItem_Checkbox* AddCheckbox(iPoint position, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
+	UiItem_Checkbox* AddCheckbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
 
 	// TODO: AddHitPoint();
-	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
+	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type, j1Entity* receiver);
 	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
 
 
@@ -113,6 +113,8 @@ public:
 	void ExitGame();
 	void SettingsScreen();
 	void GoBackToMenu();
+	void FpsCap();
+	void GoBackToGame();
 
 	UiItem_HealthBar* healthBar = nullptr;
 

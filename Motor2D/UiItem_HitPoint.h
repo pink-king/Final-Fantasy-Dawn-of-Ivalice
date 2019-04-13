@@ -6,6 +6,7 @@
 #include "p2Point.h"
 #include "SDL_ttf/include/SDL_ttf.h"
 #include "j1PerfTimer.h"
+#include "j1Entity.h"
 #include <cstdint>
 
 #define NUMBER_LIFE 1300
@@ -31,7 +32,7 @@ enum variant {
 class UiItem_HitPoint : public UiItem
 {
 public:
-	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = number);
+	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = number, j1Entity* receiver = nullptr);
 	UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = text);       // for labels like "brutal" etc
 	void Draw(const float& dt) override;
 	void CleanUp(); 
@@ -60,6 +61,8 @@ public: // public or protected?
 	friend class UiItem_HitPointManager; 
 
 	bool to_delete = false;
+
+	j1Entity* attachedEntity = nullptr;
 
 };
 

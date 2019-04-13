@@ -95,6 +95,7 @@ bool j1Scene::Start()
 			LoadStartMenu(sceneNode);
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
+			LoadPauseSettings(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
@@ -104,6 +105,7 @@ bool j1Scene::Start()
 		uiRitz->enable = false;
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
+		pausePanel->enable = false;
 	}
 
 
@@ -124,7 +126,16 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)   
+		App->win->SetScale(2);
+
+
+	// FAKE KEYS FOR TESTING 
+
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		App->win->SetScale(1);
+
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
 		App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
@@ -239,6 +250,20 @@ bool j1Scene::Update(float dt)
 			uiRitz->enable = false;
 			uiShara->enable = true;
 		}
+
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
+		{
+			App->gui->resetHoverSwapping = false;
+			App->pause = !App->pause;
+			if (App->pause)
+			{
+				pausePanel->enable = true;
+			}
+			else
+			{
+				pausePanel->enable = false;
+			}
+		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
@@ -269,8 +294,10 @@ bool j1Scene::Update(float dt)
 	static int cont = 0;
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 11, 1, 0.8F);
-		//App->entityFactory->CreateEntity(ENTITY_TYPE::ENEMY_TEST, coords.x, coords.y, "whatever");
+		j1Entity* ent; 
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 0.8f,1); 
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
@@ -335,54 +362,6 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		else
 		{
 
-			// testPanel = App->gui->AddImage(position, &section, parent, isPanel);
-
-			//UiItem_Image* defaultPanel = App->gui->AddImage(position, &section, parent, isPanel);
-
-			// TODO: INTRODUCE PARENT NAME IN XML, SO THAT WE DISTINGUISH ITEMS WITH OTHER PARENTS
-
-			// BARS INSIDE PANEL
-
-			/*for (pugi::xml_node uiNode2 = uiNode.child("panelBars").child("panelBar"); uiNode2; uiNode2 = uiNode2.next_sibling("panelBar"))
-			{
-
-
-			iPoint position = { uiNode2.child("position").attribute("x").as_int(), uiNode2.child("position").attribute("y").as_int() };
-			SDL_Rect section_bar = { uiNode2.child("section_bar").attribute("x").as_int(), uiNode2.child("section_bar").attribute("y").as_int(), uiNode2.child("section_bar").attribute("w").as_int(), uiNode2.child("section_bar").attribute("h").as_int() };
-			SDL_Rect section_thumb = { uiNode2.child("section_thumb").attribute("x").as_int(), uiNode2.child("section_thumb").attribute("y").as_int(), uiNode2.child("section_thumb").attribute("w").as_int(), uiNode2.child("section_thumb").attribute("h").as_int() };
-			App->gui->AddBar(position, &section_bar, &section_thumb, defaultPanel);
-			}*/
-
-
-			// CHECKBOXES INSIDE PANEL
-
-			//for (pugi::xml_node uiNode2 = uiNode.child("PanelCheckboxes").child("PanelCheckbox"); uiNode2; uiNode2 = uiNode2.next_sibling("PanelCheckbox"))
-			//{
-			//	iPoint panelPosition = { uiNode2.child("panelPosition").attribute("x").as_int(), uiNode2.child("panelPosition").attribute("y").as_int() };
-			//	SDL_Rect panelSection = { uiNode2.child("panelSection").attribute("x").as_int(), uiNode2.child("panelSection").attribute("y").as_int(), uiNode2.child("panelSection").attribute("w").as_int(), uiNode2.child("panelSection").attribute("h").as_int() };
-			//	SDL_Rect boxSection = { uiNode2.child("boxSection").attribute("x").as_int(), uiNode2.child("boxSection").attribute("y").as_int(), uiNode2.child("boxSection").attribute("w").as_int(), uiNode2.child("boxSection").attribute("h").as_int() };
-			//	SDL_Rect tickSection = { uiNode2.child("tickSection").attribute("x").as_int(), uiNode2.child("tickSection").attribute("y").as_int(), uiNode2.child("tickSection").attribute("w").as_int(), uiNode2.child("tickSection").attribute("h").as_int() };
-
-
-			//	// LABEL INSIDE CHECKBOX 
-			//	pugi::xml_node uiNode3 = uiNode2.child("checkboxLabels").child("checkboxLabel");
-			//	
-			//		std::string text = uiNode3.child("text").attribute("value").as_string();
-			//		uint fontIndex = uiNode3.child("font").attribute("value").as_uint();
-			//		uint fontSize = uiNode3.child("font").attribute("size").as_uint();
-			//		SDL_Color color = { uiNode3.child("color").attribute("R").as_uint(),uiNode3.child("color").attribute("G").as_uint(),uiNode3.child("color").attribute("B").as_uint(),uiNode3.child("color").attribute("A").as_uint() };
-
-
-			//		labelInfo labelInfo = {
-			//			text,
-			//			color ,
-			//			fontIndex,
-			//		}; 
-
-			//		App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, defaultPanel);
-
-			//}
-
 		}
 
 	}
@@ -423,7 +402,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 
-		App->gui->AddLabel(text.data(), color, App->font->openSansBold18, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->openSansBold36, position, parent);
 
 	}
 
@@ -435,7 +414,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 		SDL_Rect section_bar = { uiNode.child("section_bar").attribute("x").as_int(), uiNode.child("section_bar").attribute("y").as_int(), uiNode.child("section_bar").attribute("w").as_int(), uiNode.child("section_bar").attribute("h").as_int() };
 		SDL_Rect section_thumb = { uiNode.child("section_thumb").attribute("x").as_int(), uiNode.child("section_thumb").attribute("y").as_int(), uiNode.child("section_thumb").attribute("w").as_int(), uiNode.child("section_thumb").attribute("h").as_int() };
-		UiItem_Bar* slider_volume = App->gui->AddBar(position, name, &section_bar, &section_thumb, parent);
+		SDL_Rect image_idle = { uiNode.child("image_idle").attribute("x").as_int(), uiNode.child("image_idle").attribute("y").as_int(), uiNode.child("image_idle").attribute("w").as_int(), uiNode.child("image_idle").attribute("h").as_int() };
+		SDL_Rect image_hover = { uiNode.child("image_hover").attribute("x").as_int(), uiNode.child("image_hover").attribute("y").as_int(), uiNode.child("image_hover").attribute("w").as_int(), uiNode.child("image_hover").attribute("h").as_int() };
+		UiItem_Bar* slider_volume = App->gui->AddBar(position, name, &section_bar, &section_thumb, &image_idle, &image_hover, parent);
 		if (name == "volumeSlider")
 		{
 			volume_bar = slider_volume;
@@ -451,6 +432,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
 	{
+		std::string functionPath = uiNode.attribute("function").as_string();
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
 		SDL_Rect boxSection = { uiNode.child("boxSection").attribute("x").as_int(), uiNode.child("boxSection").attribute("y").as_int(), uiNode.child("boxSection").attribute("w").as_int(), uiNode.child("boxSection").attribute("h").as_int() };
@@ -472,7 +454,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			fontIndex,
 		};
 
-		App->gui->AddCheckbox(panelPosition, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
+		App->gui->AddCheckbox(panelPosition, functionPath, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
 
 	}
 
@@ -581,5 +563,13 @@ bool j1Scene::LoadSettings(pugi::xml_node & nodeScene)
 	pugi::xml_node settingNode = nodeScene.child("Settings");
 	settingPanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(settingPanel, settingNode);
+	return true;
+}
+
+bool j1Scene::LoadPauseSettings(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node settingPauseNode = nodeScene.child("SettingsInGame");
+	pausePanel=App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(pausePanel, settingPauseNode);
 	return true;
 }

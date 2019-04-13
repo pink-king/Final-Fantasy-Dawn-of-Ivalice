@@ -6,10 +6,11 @@
 #include "j1Textures.h"
 #include "p2Log.h"
 #include "j1PerfTimer.h"
-#include "j1Entity.h"
+// #include "j1Entity.h"
 
 
 class UiItem_Image;
+class j1Entity; 
 
 enum type
 {
@@ -37,7 +38,6 @@ public:
 	void DamageLogic();
 	void DamageQuadReset();
 	void UpdatePos(); 
-	void CleanUp(); 
 
 
 public:

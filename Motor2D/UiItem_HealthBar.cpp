@@ -101,7 +101,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 
 
-		if (deliever != nullptr)          // TODO: which condition should be here ???? 
+		if (!to_delete)          // TODO: DO THIS FROM THE ENEMY 
 		{
 			UpdatePos();
 
@@ -116,9 +116,11 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 		else
 		{
-			CleanUp(); 
+			int a = 0; 
 		}
-		
+
+
+
 	}
 
 }
@@ -169,11 +171,3 @@ void UiItem_HealthBar::DamageQuadReset()
 }
 
 
-void UiItem_HealthBar::CleanUp()
-{
-
-
-	delete this; 
-	
-
-}

@@ -13,11 +13,14 @@
 
 
 
-UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, UiItem * const parent): UiItem(position, parent)
+
+UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem*const parent) : UiItem(position, parent)
+
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::BAR;
-
+	this->image_idle = *image_idle;
+	this->image_hover = *image_hover;
 	this->hitBox.x = position.x;
 	this->hitBox.y = position.y;
 	this->name = name;
@@ -25,10 +28,12 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect * secti
 	bar = App->gui->AddImage(position, section, this);   // TODO: this should have as pareNT "this"
 
 
-														   // thumb
+														 // thumb
 	iPoint thumbPos(position.x + (section->w*0.5) - (thumb_section->w*0.5), position.y + (section->h*0.07));
 
 	thumb = App->gui->AddImage(thumbPos, thumb_section, this);    // TODO: this should have as pareNT "this"
+
+	image_bar = App->gui->AddImage({ position.x - 100, position.y }, &this->image_idle, this);
 	thumb->slidable = true;
 	//thumb->parent = bar; 
 	thumb->iFriend = this;
@@ -56,6 +61,8 @@ void UiItem_Bar::Draw(const float & dt)
 
 void UiItem_Bar::DoLogicHovered() {
 
+	image_bar->section = image_hover;
+
 	if (!thumbReposition)
 	{
 		thumbReposition = !thumbReposition;
@@ -64,11 +71,11 @@ void UiItem_Bar::DoLogicHovered() {
 	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
 
 	uint nexPosX = 0;
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || xAxis>0)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || xAxis>0 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT)
 	{
 		nexPosX = thumb->hitBox.x + 2;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || xAxis < 0)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || xAxis < 0 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT)
 	{
 		nexPosX = thumb->hitBox.x - 2;
 	}
@@ -87,6 +94,7 @@ void UiItem_Bar::DoLogicAbandoned() {
 	}
 
 	bar->section = this->section;
+	image_bar->section = this->image_idle;
 }
 
 
@@ -98,4 +106,3 @@ float UiItem_Bar::GetBarValue()
 	float final_pos = (ipos_bar - fixed_pos) / (fpos_bar - fixed_pos);
 	return final_pos;
 }
-
