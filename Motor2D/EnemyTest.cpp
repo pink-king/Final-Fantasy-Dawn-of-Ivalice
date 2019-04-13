@@ -9,6 +9,7 @@
 #include "j1LootManager.h"
 #include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
+#include "UiItem_Image.h"
 
 #include <random>
 
@@ -50,17 +51,30 @@ bool EnemyTest::PreUpdate()
 
 bool EnemyTest::Update(float dt)
 {
+	/*hitPoint->attachedEntity->name;
+
+	if (hitPoint != nullptr)
+	{
+		LOG("");
+	}*/
 
 	SetState(dt);
 
 
 	// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		life -= 20; 
 		App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
 		
+	}*/
+
+	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+	{
+		life -= 20;
+		//App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
+
 	}
 
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)

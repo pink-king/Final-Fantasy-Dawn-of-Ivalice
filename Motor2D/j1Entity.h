@@ -11,6 +11,9 @@
 
 #include "SDL_image/include/SDL_image.h"
 
+class UiItem_HitPoint;
+class UiItem_HealthBar; 
+
 enum ENTITY_TYPE  // todo, pass to class
 	{
 		NO_TYPE,
@@ -105,6 +108,9 @@ public:
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
 
+	// FOR GUI ELEMENTS
+	UiItem_HitPoint* hitPoint = nullptr;
+	UiItem_HealthBar* lifeBar = nullptr; 
 	
 
 	int value;

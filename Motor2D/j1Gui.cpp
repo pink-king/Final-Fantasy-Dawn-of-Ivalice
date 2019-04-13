@@ -458,11 +458,11 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
-UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, UiItem * const parent)
+UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Bar(position, name, section, thumb_section, parent);
+	newUIItem = new UiItem_Bar(position, name, section, thumb_section, image_idle, image_hover, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -624,4 +624,10 @@ void j1Gui::FpsCap()
 {
 	
 	
+}
+
+void j1Gui::GoBackToGame()
+{
+	App->pause = false;
+	App->scene->pausePanel->enable = false;
 }

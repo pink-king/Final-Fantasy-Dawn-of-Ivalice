@@ -7,6 +7,7 @@
 #include "Buff.h"
 #include "LootEntity.h"
 #include "UiItem_HitPointManager.h"
+#include "UiItem_HealthBar.h"
 
 
 class j1BuffManager : public j1Module 
