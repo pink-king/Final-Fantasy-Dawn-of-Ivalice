@@ -15,10 +15,6 @@ j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::strin
 j1Entity::~j1Entity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	// point linked elements to null
-	if (hitPoint != nullptr)
-		hitPoint->attachedEntity = nullptr; 
-
 
 	// put the lifeBar to delete here, to ensure that every time an entity is killed, the lifebar does so
 	
