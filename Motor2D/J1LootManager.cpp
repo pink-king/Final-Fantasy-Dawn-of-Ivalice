@@ -177,7 +177,7 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
 		 {
 			 App->entityFactory->player->gold += entityLoot->price;
 			 entityLoot->to_delete = true;
-			 App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold);
+			 App->entityFactory->player->str_coin = "x  " + std::to_string(App->entityFactory->player->gold);
 			 App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 			 return false;
 		 }

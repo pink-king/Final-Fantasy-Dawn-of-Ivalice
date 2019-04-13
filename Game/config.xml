@@ -64,7 +64,7 @@
         </image>
         <image name="coin">
           <section x="59" y="519" w="25" h="25"/>
-          <position x="1000" y="41"/>
+          <position x="1055" y="31"/>
         </image>
         <image name="panelTest">
           <section x="721" y="480" w="338" h="308"/>
