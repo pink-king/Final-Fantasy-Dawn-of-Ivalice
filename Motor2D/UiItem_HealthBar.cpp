@@ -91,18 +91,21 @@ void UiItem_HealthBar::Draw(const float& dt)
 	else
 	{
 
-		// start showing bar only after first attack to the enemy
-
-		if (!startShowing && deliever->life < enemyMaxLife)
-		{
-			dynamicImage->hide = false; 
-			startShowing = true; 
-		}
-
-
+	
 
 		if (!to_delete)          // TODO: DO THIS FROM THE ENEMY 
 		{
+
+			// start showing bar only after first attack to the enemy
+
+			if (!startShowing && deliever->life < enemyMaxLife)
+			{
+				dynamicImage->hide = false;
+				startShowing = true;
+			}
+
+
+
 			UpdatePos();
 
 			if (conversionFactor == 0.0f)

@@ -16,8 +16,8 @@ j1Entity::~j1Entity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
 	// point linked elements to null
-	if (hitPoint != nullptr)
-		hitPoint->attachedEntity = nullptr;
+	/*if (hitPoint != nullptr)
+		hitPoint->attachedEntity = nullptr;*/ // already doing this in buff manager direct attack
 }
 
 bool j1Entity::Start()
