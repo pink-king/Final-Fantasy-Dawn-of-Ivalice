@@ -14,7 +14,6 @@
 #include "UiItem_HealthBar.h"
 #include "UiItem_Image.h"
 
-class UiItem_HitPoint;
 class UiItem_HealthBar; 
 class UiItem_Image; 
 
@@ -113,7 +112,6 @@ public:
 	SDL_Texture*			entityTex = nullptr;
 
 	// FOR GUI ELEMENTS
-	UiItem_HitPoint* hitPoint = nullptr;
 	UiItem_HealthBar* lifeBar = nullptr; 
 	
 

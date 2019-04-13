@@ -130,7 +130,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 	else
 	{*/
-		defender->hitPoint = App->HPManager->callHPLabelSpawn(defender, lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
 //	}
 		
 	
@@ -232,9 +232,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					(*item)->count.Start();
 					--(*item)->totalTime;
 					// remove previous hitpoint link
-					if(entity->hitPoint != nullptr)
-						entity->hitPoint->attachedEntity = nullptr;
-					//entity->hitPoint = App->HPManager->callHPLabelSpawn(entity, (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
+					
+					
 					//TODO: call create hitpoint label
 				}
 			}
