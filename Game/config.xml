@@ -30,10 +30,10 @@
     <InGameUi>
       <images>
 
-        <image name="box_abilities_grey">
+        <!--<image name="box_abilities_grey">
           <section x="1" y="545" w="165" h="43"/>
           <position x="557" y="675"/>
-        </image>
+        </image> --> 
         <image name="life_bar">
           <section x="110" y="482" w="134" h="26"/>
           <position x="113" y="78"/>
@@ -193,19 +193,19 @@
       <images>
         <image name="basic_ritz">
           <section x="650" y="126" w="51" h="51"/> 
-          <position x="561" y="679 "/>
+          <position x="40" y="630 "/>
         </image>
         <image name="ability1_ritz">
           <section x="704" y="126" w="51" h="51"/>    
-          <position x="601" y="679"/>
+          <position x="100" y="630"/>
         </image>
         <image name="ability2_ritz">
           <section x="755" y="126" w="51" h="51"/>      
-          <position x="641" y="679"/>
+          <position x="160" y="630"/>
         </image>
         <image name="ulti_ritz">
           <section x="807" y="126" w="51" h="51"/> 
-          <position x="681" y="679"/>
+          <position x="220" y="630"/>
         </image>
         <image name="ritz">
           <section x="204" y="545" w="53" h="64"/>
