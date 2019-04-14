@@ -296,21 +296,23 @@
           <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="267"/>
           <section_thumb x="1115" y="558" w="29" h="38"/>
-          <image_idle x="504" y="722" w="58" h="59"/>
-          <image_hover x="221" y="721" w="61" h="61"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
           <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="364"/>
           <section_thumb x="1115" y="558" w="29" h="38"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
       </panelBars>
 
       <PanelCheckboxes>
-
+<!--
         <PanelCheckbox name="test_checkbox" function = "FpsCap">
           <panelPosition x="588" y="473"/>
           <panelSection x="293" y="666" w="200" h="36"/>
@@ -327,7 +329,7 @@
 
           </checkboxLabels>
         </PanelCheckbox>
-
+-->
       </PanelCheckboxes>
 
       <buttons>
@@ -361,13 +363,13 @@
           <idleSec x="1061" y="772" w="195" h="37"/>
           <hoverSec x="1061" y="732" w="196" h="39" />
           <clickSec x="1061" y="692" w="196" h="39" />
-          <position x="588" y="500"/>
+          <position x="530" y="500"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
           <idleSec x="585" y="678" w="93" h="40"/>
           <hoverSec x="585" y="719" w="94" h="42" />
           <clickSec x="585" y="762" w="95" h="42" />
-          <position x="588" y="561"/>
+          <position x="530" y="561"/>
         </button>
       </buttons>
       
