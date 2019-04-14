@@ -77,9 +77,13 @@ public:
 
 	// - - - - - - - LootEntity stats in XML - - - - - - - // 
 	std::string name; 
+	std::string description;   // we don't have one right now
+	uint level; 
+	int damage; 
+	float attackSpeed; 
+	float cooldown; 
 
-
-	// - - - - - - - The attached description  - - - - - - - // 
+	// - - - - - - - The attached UI description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
 
 protected:
