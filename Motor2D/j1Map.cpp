@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Window.h"
+#include "j1EntityFactory.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -27,10 +28,10 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 	folder.assign(config.child("folder").child_value());
 
-	// configures the pixel offset (center top up isometric corner to real 0,0 world coord 
+	// configures the pixel offset (center top up isometric corner to real 0,0 world coord
 	// if not, all the rest are 1 tile displaced
 	// for this, the worldToMap function on x needs to be workarounded by substracting -1
-	pixelTileOffset.create(0, 0);//-32, -16);//-64 * 0.5f, -32 * 0.5f);
+	pixelTileOffset.create(-32, -32);//-64 * 0.5f, -32 * 0.5f);
 
 	return ret;
 }
@@ -152,7 +153,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int((x / half_width + (y / half_height)) * 0.5f) - 1; // this is caused because the sprite doesnt fit to 0,0 on real world
+		ret.x = int((x / half_width + (y / half_height)) * 0.5f); // this is caused because the sprite doesnt fit to 0,0 on real world
 		ret.y = int( (y / half_height - (x / half_width)) * 0.5f);	   // and needs this offset to match ( 1 tile displacement )
 	}
 	else
@@ -160,6 +161,19 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
+
+	return ret;
+}
+
+iPoint j1Map::IsoToWorld(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	/*ret.x = (2 * y + x) * 0.5f;
+	ret.y = -(2 * y - x) * 0.5f;*/
+
+	ret.x = (x - y) * 0.5f;
+	ret.y = (x + y) * 0.5f;
 
 	return ret;
 }
@@ -312,23 +326,29 @@ bool j1Map::Load(const char* file_name)
 		std::string tmp(objectGroup.attribute("name").as_string());
 		//MapObjects* obj = new MapObjects();
 
-		if (tmp == "Colliders")
-		{
-			//for(pugi::xml_node collidersGroup = objectGroup.child("objectgroup"))
-			ret = LoadMapColliders(objectGroup);//, obj);
-			LOG("loading Map colliders");
-		}
-		else if (tmp == "Player")
-		{
-			// TODO, check latest handout
-			pugi::xml_node player = objectGroup.child("objectgroup").child("object");
-			playerData.name = player.attribute("name").as_string();
-			playerData.x = player.attribute("x").as_int();
-			playerData.y = player.attribute("y").as_int();
+		//if (tmp == "Colliders")
+		//{
+		//	//for(pugi::xml_node collidersGroup = objectGroup.child("objectgroup"))
+		//	ret = LoadMapColliders(objectGroup);//, obj);
+		//	LOG("loading Map colliders");
+		//}
+		//else if (tmp == "Player")
+		//{
+		//	// TODO, check latest handout
+		//	pugi::xml_node player = objectGroup.child("objectgroup").child("object");
+		//	playerData.name = player.attribute("name").as_string();
+		//	playerData.x = player.attribute("x").as_int();
+		//	playerData.y = player.attribute("y").as_int();
 
-			// load custom properties
-			LoadProperties(objectGroup.child("objectgroup"), playerData.properties);
+		//	// load custom properties
+		//	LoadProperties(objectGroup.child("objectgroup"), playerData.properties);
+		//}
+		if (tmp == "Assets") // if we found a assets folder
+		{
+			//ret = 
+			LoadMapAssets(objectGroup);
 		}
+	 
 	}
 
 	if (ret == true)
@@ -360,6 +380,58 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	map_loaded = ret;
+
+	return ret;
+}
+
+bool j1Map::LoadMapAssets(pugi::xml_node& node)
+{
+	bool ret = true;
+
+	for (pugi::xml_node assetsGroup = node.child("group"); assetsGroup && ret; assetsGroup = assetsGroup.next_sibling("group"))
+	{
+		std::string assetGroupName = assetsGroup.attribute("name").as_string();
+		if (assetGroupName == "walls")
+		{
+			LOG("Walls group");
+			// iterate all possible object group layers for walls
+			for (pugi::xml_node wallsGroup = assetsGroup.child("objectgroup"); wallsGroup && ret; wallsGroup = wallsGroup.next_sibling("objectgroup"))
+			{
+				std::string wallObjectGroupTypeName = wallsGroup.attribute("name").as_string();
+
+				if (wallObjectGroupTypeName == "walls")
+				{
+					// load all objects on this object group walls
+					for (pugi::xml_node walls = wallsGroup.child("object"); walls && ret; walls = walls.next_sibling("object"))
+					{
+						std::string wallTypeName = walls.attribute("name").as_string();
+						
+						// check different types of walls
+						if (wallTypeName == "wall1")
+						{
+							// load walls as entities
+							iPoint positionOnWorld; // x and y are on iso coords, needs conversion
+							positionOnWorld.x = walls.attribute("x").as_int(0);
+							positionOnWorld.y = walls.attribute("y").as_int(0);
+							positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
+							positionOnWorld.x = positionOnWorld.x * 2;
+
+							//App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
+
+						}
+						// else if(wallTypeName == "wall2") {} etc
+					}
+
+				}
+				else if (wallObjectGroupTypeName == "walls2") // different groups for different layers, just in case but not necessary
+				{											  // we can load several types of wall in one layer just changing the object name on tiled
+					// load all objects on this object group walls
+				}
+				// etc
+			}
+		}
+		
+	}
 
 	return ret;
 }

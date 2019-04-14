@@ -12,6 +12,14 @@
 j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::string name) : type(type), position(positionX,positionY), name(name)
 {}
 
+j1Entity::j1Entity(iPoint worldPos, SDL_Rect spriteAtlasRect) : type(NO_TYPE), drawAtlasRect(spriteAtlasRect)
+{
+	position.x = worldPos.x;
+	position.y = worldPos.y;
+
+	pivot.create(spriteAtlasRect.w * 0.5f, spriteAtlasRect.h * 0.75f); // places pivot always on sprite "tile midpoint"
+}
+
 j1Entity::~j1Entity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
@@ -56,6 +64,17 @@ bool j1Entity::CleanUp()
 void j1Entity::Draw()
 {
 	//App->render->DrawCircle((position.x + pivot.x), (position.y + pivot.y), 3, 255, 0, 0, 255, false);
+	
+	// Default draw (if the entity itself has nothing specific)
+	if (entityTex != nullptr) // if we have any specific linked texture
+	{
+		App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect);
+	}
+	else // if not, use atlas
+	{
+		App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &drawAtlasRect);
+	}
+
 }
 
 fPoint j1Entity::GetPosition()

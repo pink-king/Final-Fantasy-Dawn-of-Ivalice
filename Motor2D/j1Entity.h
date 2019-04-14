@@ -64,6 +64,11 @@ class j1Entity
 {
 public:
 	j1Entity(ENTITY_TYPE type, float positionX, float positionY, std::string name);
+	// assets constructor ---
+	// static sprite environment asset
+	j1Entity(iPoint position, SDL_Rect spriteAtlasRect);
+	// static sprite with animation
+	//j1Entity(//TODO);
 	virtual ~j1Entity();
 
 	virtual bool Start();
@@ -90,6 +95,7 @@ public:
 	
 
 public:
+	SDL_Rect drawAtlasRect; // for static draw from spritesheet
 	bool					to_delete = false;
 	std::string				name;
 	fPoint					position;
