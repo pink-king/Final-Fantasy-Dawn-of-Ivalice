@@ -92,7 +92,7 @@ EQUIPABLE_TYPE LootEntity::GetEquipable()
 }
 
 
-void LootEntity::GetAttributesForDescription()
+/*void LootEntity::GetAttributesForDescription()
 {
 
 	std::vector<Buff*>::iterator stat = stats.begin();
@@ -123,4 +123,4 @@ void LootEntity::GetAttributesForDescription()
 		// TODO for vests, etc 
 	}
 
-}
+}*/

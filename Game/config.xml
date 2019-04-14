@@ -30,14 +30,26 @@
     <InGameUi>
       <images>
 
-        <!--<image name="box_abilities_grey">
-          <section x="1" y="545" w="165" h="43"/>
-          <position x="557" y="675"/>
-        </image> --> 
 		 <image name="loot_item_panel">
           <section x="640" y="238" w="244" h="257"/>
 		  <flag  value="loot" />
         </image>
+		
+		<image name="ability1_button">
+          <section x="714" y="91" w="22" h="31"/>
+		  <position x="114" y="589"/>
+        </image>
+		
+		<image name="ability2_button">
+          <section x="766" y="91" w="22" h="31"/>
+		  <position x="174" y="589"/>
+        </image>
+		
+		<image name="ulti_button">
+          <section x="807" y="91" w="47" h="31"/>
+		  <position x="222" y="589"/>
+        </image>
+		
 		
         <image name="life_bar">
           <section x="110" y="482" w="134" h="26"/>
