@@ -57,11 +57,11 @@
         </image>
         <image name="bag">
           <section x="245" y="482" w="37" h="42"/>
-          <position x="1210" y="675"/>
+          <position x="1210" y="660"/>
         </image>
         <image name="squareButton">
-          <section x="283" y="482" w="35" h="15"/>
-          <position x="1170" y="700"/>
+          <section x="275" y="546" w="30" h="30"/>
+          <position x="1170" y="669"/>
         </image>
         <image name="LButton">
           <section x="244" y="525" w="30" h="19"/>
@@ -162,11 +162,11 @@
           <position x="41" y="37"/>
         </image>
         <image name="player2">
-          <section x="342" y=" 498" w="64" h="64"/>
+          <section x="342" y=" 481" w="64" h="64"/>
           <position x="229" y="41"/>
         </image>
         <image name="player3">
-          <section x="283" y="498" w="58" h="64"/>
+          <section x="283" y="481" w="58" h="64"/>
           <position x="153" y="41"/>
         </image>
       </images>
@@ -196,11 +196,11 @@
           <position x="41" y="29"/>
         </image>
         <image name="player2">
-          <section x="407" y="498" w="62" h="62"/>
+          <section x="407" y="481" w="62" h="62"/>
           <position x="229" y="41"/>
         </image>
         <image name="player3">
-          <section x="342" y=" 498" w="64" h="64"/>
+          <section x="342" y=" 481" w="64" h="64"/>
           <position x="153" y="41"/>
         </image>
       </images>
@@ -231,11 +231,11 @@
           <position x="41" y="33"/>
         </image>
         <image name="player2">
-          <section x="283" y=" 498" w="58" h="64"/>
+          <section x="283" y=" 481" w="58" h="64"/>
           <position x="229" y="41"/>
         </image>
         <image name="player3">
-          <section x="407" y="498" w="62" h="62"/>
+          <section x="407" y="481" w="62" h="62"/>
           <position x="153" y="41"/>
         </image>
       </images>
@@ -345,7 +345,7 @@
     </Settings>
 
     <SettingsInGame>
-      
+      <!--
       <labels>
         <label name="test">
           <position x="530" y="70"/>
@@ -362,7 +362,7 @@
           <position x="588" y="561"/>
         </button>
       </buttons>
-      
+      -->
     </SettingsInGame>
 
   </scene>
