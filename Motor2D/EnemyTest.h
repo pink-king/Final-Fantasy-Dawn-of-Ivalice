@@ -39,7 +39,6 @@ public:
 	// functionality ------
 
 	void SetState(float dt);
-	bool CheckDistance();
 
 
 private:

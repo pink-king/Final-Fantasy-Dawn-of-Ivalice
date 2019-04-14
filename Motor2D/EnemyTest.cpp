@@ -328,7 +328,7 @@ void EnemyTest::SetState(float dt)
 
 		// Changes range conditions
 
-		if (GetTilePos().DistanceManhattan(App->entityFactory->player->GetTilePos()) < 3)
+	if (GetTilePos().DistanceManhattan(App->entityFactory->player->GetTilePos()) < 3)
 		{
 			if (!isSubpathRange)
 				state = EnemyState::SEARCHPATH;

@@ -2,13 +2,13 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "EnemyTest.h"
+#include "EnemyBomb.h"
 #include "Enemy.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
 #include "LootEntity.h"
 #include "j1LootManager.h"
 #include <algorithm>
-
 j1EntityFactory::j1EntityFactory()
 {
 	name.assign("entities");
@@ -99,11 +99,15 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				/*if ((*item)->type != ENTITY_TYPE::PLAYER)
+				if ((*item)->type != ENTITY_TYPE::PLAYER)
 				{
 					createLoot = true;
 					enemypos = { App->lootManager->GetEnemySubtile((*item)).x, App->lootManager->GetEnemySubtile((*item)).y };
-				}*/
+				}
+<<<<<<< HEAD
+
+=======
+>>>>>>> 5943cb72fc73d9fb867a568fb4f019b4d3e8f2a3
 				(*item)->CleanUp();
 				delete(*item);
 				(*item) = nullptr;
@@ -216,6 +220,10 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uin
 
 	switch (etype)
 	{
+	case EnemyType::BOMB:
+		ret = new EnemyBomb(pos, speed, tilesDetectionRange, attackRange, baseDamage);
+		entities.push_back(ret);
+		break;
 	case EnemyType::TEST:
 		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange, baseDamage, attackSpeed); 
 		entities.push_back(ret);

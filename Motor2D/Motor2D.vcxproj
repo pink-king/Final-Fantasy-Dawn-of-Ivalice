@@ -82,6 +82,7 @@
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyBomb.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBomb.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
     <ClInclude Include="GUI_Definitions.h" />

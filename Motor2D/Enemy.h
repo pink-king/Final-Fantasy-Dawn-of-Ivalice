@@ -42,7 +42,8 @@ enum class EnemyType
 	MELEE,
 	DISTANCE,
 	TRAP,
-	TEST,
+	BOMB,
+	TEST
 };
 
 // TODO Add struct to hold enemy stats
