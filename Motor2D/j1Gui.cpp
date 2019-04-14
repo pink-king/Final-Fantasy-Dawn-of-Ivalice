@@ -600,7 +600,7 @@ UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::
 
 
 
-UiItem_Description* j1Gui::AddWDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType)
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType)
 {
 
 	UiItem* newUIItem = nullptr;
@@ -614,11 +614,11 @@ UiItem_Description* j1Gui::AddWDescriptionToWeapon(iPoint position, std::string 
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float AbilityPower) {
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance) {
 	
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, AbilityPower);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance);
 
 	ListItemUI.push_back(newUIItem);
 

@@ -6,9 +6,11 @@
 #include "Buff.h"
 #include "EnemyTest.h"
 #include "PlayerEntity.h"
+#include "j1Scene.h"
 
 #include <string>
-#include "UiItem_Description.h"
+#include "j1Gui.h"
+
 
 struct SDL_Texture;
 

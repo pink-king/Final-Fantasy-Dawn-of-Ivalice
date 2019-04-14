@@ -232,8 +232,13 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
 				 //weapon type
 				 id = node.attribute("id").as_int();
 
+				
+
 				 if (id == randID)
 				 {
+					 // item name
+                     lootEntity->lootname = node.attribute("name").as_string();
+
 					 switch (GetRandomValue(1, 12))
 					 {
 					 case 1:

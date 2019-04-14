@@ -1,12 +1,44 @@
 #include "EquipableLoot.h"
 #include "j1Entity.h"
 #include "j1LootManager.h"
-
+#include "j1Render.h"
 
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
 	SetEquipable();
+
+	std::vector<Buff*>::iterator stat = this->stats.begin(); 
+
+	float attack, resistance; 
+
+	for (; stat != this->stats.end(); ++stat)
+	{
+
+		if ((*stat)->GetRol() == OBJECT_ROL::ATTACK_ROL)
+		{
+			attack = (*stat)->GetValue(); 
+		}
+		else if ((*stat)->GetRol() == OBJECT_ROL::DEFENCE_ROL)
+		{
+			resistance = (*stat)->GetValue();
+		}
+
+
+	}
+	/*if (this->equipableType == EQUIPABLE_TYPE::SWORD || this->equipableType == EQUIPABLE_TYPE::BOW || this->equipableType == EQUIPABLE_TYPE::ROD)
+	{
+		this->MyDescription = App->gui->AddDescriptionToWeapon(App->render->WorldToScreen(posX, posY), this->lootname, App->scene->lootPanelRect, &this->loot_rect, attack, resistance);
+	}
+	else
+	{
+		// TODO for vests, etc 
+	}*/
+	
+
+	
+
+	
 }
 
 

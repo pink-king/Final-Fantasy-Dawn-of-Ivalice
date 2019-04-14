@@ -353,6 +353,13 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
+
+		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
+		if ( lootFlag == "loot")
+		{
+
+			lootPanelRect = &section; 
+		}
 		// PANELS
 
 		if (isPanel != 1)

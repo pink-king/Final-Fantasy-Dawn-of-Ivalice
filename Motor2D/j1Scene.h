@@ -55,6 +55,7 @@ public:
 	UiItem * settingPanel = nullptr;
 	UiItem * pausePanel = nullptr;
 	UiItem_Label * coins_label = nullptr;
+	SDL_Rect * lootPanelRect = nullptr; 
 	
 	bool debug = false;
 	bool exitGame = false;

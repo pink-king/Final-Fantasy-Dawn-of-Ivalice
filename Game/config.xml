@@ -34,6 +34,11 @@
           <section x="1" y="545" w="165" h="43"/>
           <position x="557" y="675"/>
         </image> --> 
+		 <image name="loot_item_panel">
+          <section x="640" y="238" w="244" h="257"/>
+		  <flag  value="loot" />
+        </image>
+		
         <image name="life_bar">
           <section x="110" y="482" w="134" h="26"/>
           <position x="113" y="78"/>
