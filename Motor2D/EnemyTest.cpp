@@ -13,7 +13,7 @@
 
 #include <random>
 
-EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, attackSpeed)
+EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, baseDamage, attackSpeed)
 {
 	name.assign("Test");
 
@@ -105,7 +105,7 @@ void EnemyTest::SetState(float dt)
 	{
 		if (isInDetectionRange() && speed > 0)
 		{
-			//state = EnemyState::SEARCHPATH;
+			state = EnemyState::SEARCHPATH;
 		}
 		// else go back to spawn point?
 
@@ -120,7 +120,7 @@ void EnemyTest::SetState(float dt)
 			SearchNewPath();
 			//LOG("Pathing");
 		}
-		else
+		else if(!App->entityFactory->areAllSubtilesReserved())
 		{
 			SearchNewSubPath();
 			//LOG("Subpathing");
@@ -229,7 +229,7 @@ void EnemyTest::SetState(float dt)
 	{
 		if (checkTime.ReadSec() > attackSpeed)
 		{
-			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, 10, 40, 500);
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
 			state = EnemyState::CHECK;
 		}	
 	}

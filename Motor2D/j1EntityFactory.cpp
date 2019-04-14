@@ -205,14 +205,14 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 	return ret;
 }
 
-Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, float attackSpeed)
+Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed)
 {
 	Enemy* ret = nullptr; 
 
 	switch (etype)
 	{
 	case EnemyType::TEST:
-		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange, attackSpeed); 
+		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange, baseDamage, attackSpeed); 
 		entities.push_back(ret);
 		break; 
 
@@ -324,6 +324,25 @@ int j1EntityFactory::GetSubtileEntityIndexAt(const iPoint pos) const
 {
 	return (pos.y * subtileWidth) + pos.x;
 }
+
+bool j1EntityFactory::areAllSubtilesReserved() const
+{
+	bool ret = true;
+	for (uint i = 0; i < 8; ++i)
+	{
+		if (reservedAdjacentSubtiles[i] == false)
+		{
+			if (i != 4)
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
 
 void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 {
