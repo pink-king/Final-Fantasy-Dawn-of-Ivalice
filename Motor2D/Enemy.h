@@ -50,7 +50,7 @@ enum class EnemyType
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, float attackSpeed);
+	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed);
 	~Enemy();
 
 	//core loops ------
@@ -86,6 +86,7 @@ protected:
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
 	float attackSpeed = 0; 
+	uint baseDamage = 0;
 	bool isSubpathRange = false;
 
 	SDL_Texture* debugSubtile = nullptr;
