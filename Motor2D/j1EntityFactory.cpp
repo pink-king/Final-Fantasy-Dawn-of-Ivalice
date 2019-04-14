@@ -104,10 +104,7 @@ bool j1EntityFactory::Update(float dt)
 					createLoot = true;
 					enemypos = { App->lootManager->GetEnemySubtile((*item)).x, App->lootManager->GetEnemySubtile((*item)).y };
 				}
-<<<<<<< HEAD
 
-=======
->>>>>>> 5943cb72fc73d9fb867a568fb4f019b4d3e8f2a3
 				(*item)->CleanUp();
 				delete(*item);
 				(*item) = nullptr;
