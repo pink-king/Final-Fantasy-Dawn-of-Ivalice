@@ -16,6 +16,7 @@
 #include "UiItem_HealthBar.h"
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
+#include "UiItem_Description.h"
 
 struct labelInfo
 {
@@ -106,6 +107,10 @@ public:
 	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem*const parent = nullptr);
 
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent = nullptr);
+
+
+	UiItem_Description* AddWDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType);
+	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float AbilityPower);
 
 
 	SDL_Texture* GetAtlas();

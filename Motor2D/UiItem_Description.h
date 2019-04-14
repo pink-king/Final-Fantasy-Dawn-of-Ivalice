@@ -25,8 +25,8 @@ class UiItem_Description: public UiItem
 {
 
 public:
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType);   // for equipment
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* iconRect, float Attack, float AbilityPower);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType);   // for equipment
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float AbilityPower);   // for weapons, right now we will print TWO variables
 
 //	void Draw(const float& dt);   // do we need this?? I bet we don't 
 

@@ -6,6 +6,10 @@
 #include "Buff.h"
 #include "EnemyTest.h"
 #include "PlayerEntity.h"
+
+#include <string>
+#include "UiItem_Description.h"
+
 struct SDL_Texture;
 
 enum class LOOT_TYPE
@@ -70,6 +74,14 @@ public:
 	ELEMENTAL_TYPE elemetalType;
 
 	j1Entity* character = nullptr;
+
+	// - - - - - - - LootEntity stats in XML - - - - - - - // 
+	std::string name; 
+
+
+	// - - - - - - - The attached description  - - - - - - - // 
+	UiItem_Description* MyDescription = nullptr; 
+
 protected:
 
 	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;

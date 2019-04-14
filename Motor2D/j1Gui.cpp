@@ -600,6 +600,37 @@ UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::
 
 
 
+UiItem_Description* j1Gui::AddWDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType)
+{
+
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
+
+}
+
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float AbilityPower) {
+	
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, AbilityPower);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
+
+}
+
+
+
+
+
 SDL_Texture * j1Gui::GetAtlas()
 {
 	return atlas;
