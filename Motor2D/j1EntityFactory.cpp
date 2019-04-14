@@ -99,11 +99,11 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				/*if ((*item)->type != ENTITY_TYPE::PLAYER)
+				if ((*item)->type != ENTITY_TYPE::PLAYER)
 				{
 					createLoot = true;
 					enemypos = { App->lootManager->GetEnemySubtile((*item)).x, App->lootManager->GetEnemySubtile((*item)).y };
-				}*/
+				}
 				(*item)->CleanUp();
 				delete(*item);
 				(*item) = nullptr;
