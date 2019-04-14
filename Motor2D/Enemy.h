@@ -62,6 +62,11 @@ public:
 	bool isInAttackRange() const;
 	bool isNextPosFree(iPoint futurePos); 
 	bool isOnDestiny() const; 
+
+	int GetPointingDir(float angle);
+	void CheckRenderFlip();
+	void SetLookingTo(const fPoint& dir);
+
 	void Draw() override;
 
 	void DebugPath() const;
@@ -89,6 +94,7 @@ protected:
 	uint baseDamage = 0;
 	bool isSubpathRange = false;
 
+	uint pointingDir; 
 	SDL_Texture* debugSubtile = nullptr;
 
 };

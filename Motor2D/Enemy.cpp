@@ -10,7 +10,7 @@
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) 
 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
 {
-	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
+	currentAnimation = &idle[(int)facingDirectionEnemy::S];
 	this->attackSpeed = 1.f / attackSpeed;
 }
 
@@ -132,6 +132,75 @@ bool Enemy::isOnDestiny() const
 	return GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5;
 }
 
+int Enemy::GetPointingDir(float angle)
+{
+
+	int numAnims = 8;
+		//LOG("angle: %f", angle);
+		// divide the semicircle in 4 portions
+	float animDistribution = PI / (numAnims * 0.5f); // each increment between portions //two semicircles
+
+	int i = 0;
+	if (angle >= 0) // is going right or on bottom semicircle range to left
+	{
+		// iterate between portions to find a match
+		for (float portion = animDistribution * 0.5f; portion <= PI; portion += animDistribution) // increment on portion units
+		{
+			if (portion >= angle) // if the portion is on angle range
+			{
+				// return the increment position matching with enumerator direction animation
+				// TODO: not the best workaround, instead do with std::map
+				/*LOG("bottom semicircle");
+				LOG("portion: %i", i);*/
+				break;
+			}
+			++i;
+		}
+	}
+	else if (angle <= 0) // animations relatives to upper semicircle
+	{
+		i = 0; // the next 4 on the enum direction
+
+		for (float portion = -animDistribution * 0.5f; portion >= -PI; portion -= animDistribution)
+		{
+			if (i == 1) i = numAnims * 0.5f + 1;
+			if (portion <= angle)
+			{
+				/*LOG("upper semicircle");
+				LOG("portion: %i", i);*/
+				break;
+			}
+			++i;
+		}
+	}
+
+	pointingDir = i;
+	if (pointingDir == numAnims) // if max direction
+		pointingDir = numAnims - 1; // set to prev
+
+	//LOG("portion: %i", pointingDir);
+
+	return pointingDir;
+}
+
+void Enemy::CheckRenderFlip()
+{
+	if (pointingDir == int(facingDirection::SW) || pointingDir == 4 || pointingDir == 7)
+	{
+		flip = SDL_FLIP_HORIZONTAL;
+	}
+	else
+		flip = SDL_FLIP_NONE;
+}
+
+void Enemy::SetLookingTo(const fPoint& dir)
+{
+	fPoint aux;
+	aux = dir - GetPivotPos();
+	aux.Normalize();
+	GetPointingDir(atan2f(aux.y, aux.x));
+	CheckRenderFlip();
+}
 
 void Enemy::DebugPath() const
 {
