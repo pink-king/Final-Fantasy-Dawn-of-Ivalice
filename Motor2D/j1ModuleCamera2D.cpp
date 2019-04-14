@@ -76,8 +76,8 @@ bool j1ModuleCamera2D::Update(float dt)
 		
 		if (debug)
 		{
-			LOG("Trauma:%f", trauma);
-			LOG("Shake amount: %f", GetShakeAmount());
+			/*LOG("Trauma:%f", trauma);
+			LOG("Shake amount: %f", GetShakeAmount());*/
 
 			uint w, h;
 			App->win->GetWindowSize(w, h);

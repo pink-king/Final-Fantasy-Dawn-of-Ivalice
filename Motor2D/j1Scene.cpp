@@ -155,7 +155,7 @@ bool j1Scene::PreUpdate()
 			LOG("subtile NOT empty");
 
 		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
+		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 100, 20, 40);
 		App->camera2D->AddTrauma(0.7f);
 	}
 
@@ -295,14 +295,14 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 1, 1.0f); 
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 11, 1, 10, 1.0f); 
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 2.F), 21, 10, "burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
 	}
 
 	/*static char title[90];

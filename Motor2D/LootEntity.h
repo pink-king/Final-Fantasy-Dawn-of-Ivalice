@@ -83,7 +83,7 @@ public:
 	PlayerEntity* player;
 	EnemyTest* enemy;
 	SDL_Rect loot_rect;
-	SDL_Texture* goldTex;
+	//SDL_Texture* goldTex;
 
 	std::vector<Buff*>	stats;
 

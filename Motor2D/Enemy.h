@@ -6,10 +6,12 @@
 #include "p2Point.h"
 #include "j1Timer.h"
 #include <vector>
-
+#include "j1AttackManager.h"
 
 #define RANGE 20
+
 struct SDL_Texture;
+
 enum class facingDirectionEnemy // WARNING: no modify this order
 {
 	E, // right - 0
@@ -48,7 +50,7 @@ enum class EnemyType
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, float attackSpeed);
+	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed);
 	~Enemy();
 
 	//core loops ------
@@ -60,6 +62,11 @@ public:
 	bool isInAttackRange() const;
 	bool isNextPosFree(iPoint futurePos); 
 	bool isOnDestiny() const; 
+
+	int GetPointingDir(float angle);
+	void CheckRenderFlip();
+	void SetLookingTo(const fPoint& dir);
+
 	void Draw() override;
 
 	void DebugPath() const;
@@ -84,9 +91,12 @@ protected:
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
 	float attackSpeed = 0; 
+	uint baseDamage = 0;
 	bool isSubpathRange = false;
 
+	uint pointingDir; 
 	SDL_Texture* debugSubtile = nullptr;
+
 };
 
 #endif

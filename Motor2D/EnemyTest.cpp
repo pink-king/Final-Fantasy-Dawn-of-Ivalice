@@ -7,33 +7,78 @@
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
 #include "j1LootManager.h"
-#include "j1AttackManager.h"
+//#include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_Image.h"
 
 #include <random>
 
-EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, attackSpeed)
+EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, baseDamage, attackSpeed)
 {
 	name.assign("Test");
 
 	// TODO: import from xml
-	entityTex = App->tex->Load("textures/enemies/GoblinEnemy.png"); // TODO: note, repetead entities/enemies, load texture once time
+	entityTex = App->tex->Load("textures/enemies/enemygoblin.png"); // TODO: note, repetead entities/enemies, load texture once time
 	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
 
-	idle[(int)facingDirectionEnemy::SE].PushBack({ 7,34,13,36 });
+	idle[(int)facingDirectionEnemy::SE].PushBack({ 12, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SE].PushBack({ 29, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SE].PushBack({ 46, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SE].PushBack({ 29, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SE].speed = 7.F;
+
+	idle[(int)facingDirectionEnemy::S].PushBack({ 12, 48, 16, 27 });
+	idle[(int)facingDirectionEnemy::S].PushBack({ 29, 47, 16, 27 });
+	idle[(int)facingDirectionEnemy::S].PushBack({ 46, 48, 16, 27 });
+	idle[(int)facingDirectionEnemy::S].PushBack({ 29, 47, 16, 27 });
+	idle[(int)facingDirectionEnemy::S].speed = 7.F;
+
+	// Same as SE - flipped
+	idle[(int)facingDirectionEnemy::SW].PushBack({ 12, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SW].PushBack({ 29, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SW].PushBack({ 46, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SW].PushBack({ 29, 14, 16, 28 });
+	idle[(int)facingDirectionEnemy::SW].speed = 7.F;
+
+
+	idle[(int)facingDirectionEnemy::NE].PushBack({ 12, 81, 16, 27 });
+	idle[(int)facingDirectionEnemy::NE].PushBack({ 29, 80, 16, 28 });
+	idle[(int)facingDirectionEnemy::NE].PushBack({ 46, 81, 16, 26 });
+	idle[(int)facingDirectionEnemy::NE].PushBack({ 29, 80, 16, 28 });
+	idle[(int)facingDirectionEnemy::NE].speed = 7.F;
+
+
+	idle[(int)facingDirectionEnemy::NW].PushBack({ 12, 81, 16, 27 });
+	idle[(int)facingDirectionEnemy::NW].PushBack({ 29, 80, 16, 28 });
+	idle[(int)facingDirectionEnemy::NW].PushBack({ 46, 81, 16, 26 });
+	idle[(int)facingDirectionEnemy::NW].PushBack({ 29, 80, 16, 28 });
+	idle[(int)facingDirectionEnemy::NW].speed = 7.F;
+
+
+	idle[(int)facingDirectionEnemy::N].PushBack({ 12, 114, 16, 28 });
+	idle[(int)facingDirectionEnemy::N].PushBack({ 29, 113, 16, 28 });
+	idle[(int)facingDirectionEnemy::N].PushBack({ 46, 114, 16, 28 });
+	idle[(int)facingDirectionEnemy::N].PushBack({ 29, 113, 16, 28 });
+	idle[(int)facingDirectionEnemy::N].speed = 7.F;
+
+
+	idle[(int)facingDirectionEnemy::E].PushBack({ 13, 145, 17, 22 });
+	idle[(int)facingDirectionEnemy::W].PushBack({ 13, 145, 17, 22 });
+
+
 
 	//currentAnimation = &idle[(int)facingDirectionEnemy::SE];
-	SetPivot(6, 32);
-	size.create(13,36);
+	/*SetPivot(8, 32);
+	size.create(13,36);*/
+
+	SetPivot(8, 25);
+	size.create(16, 28);
 
 	life = 100;
 }
 
 EnemyTest::~EnemyTest()
 {
-	
-	
 	LOG("Bye Enemy Test ");
 } 
 
@@ -122,7 +167,7 @@ void EnemyTest::SetState(float dt)
 			SearchNewPath();
 			//LOG("Pathing");
 		}
-		else
+		else if(!App->entityFactory->areAllSubtilesReserved())
 		{
 			SearchNewSubPath();
 			//LOG("Subpathing");
@@ -157,6 +202,14 @@ void EnemyTest::SetState(float dt)
 		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
 		velocity.Normalize();
 		fPoint tempPos = GetPivotPos() + velocity * dt * speed;
+
+		/*currentAnimation = &idle[(int)GetPointingDir(atan2f(velocity.y, velocity.x))];
+		CheckRenderFlip();*/
+		SetLookingTo(currentDestiny.Return_fPoint()); 
+		currentAnimation = &idle[pointingDir];
+
+		//float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
+		//currentAnimation->SetCurrentFrame(current_cycle_frame);
 
 		// Collision between them currently not working properly
 		if (!isNextPosFree(tempPos.ReturniPoint()) && !freePass)
@@ -229,9 +282,11 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::ATTACK:
 	{
+		SetLookingTo(App->entityFactory->player->GetPivotPos());
+		currentAnimation = &idle[pointingDir];
 		if (checkTime.ReadSec() > attackSpeed)
 		{
-			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, 10, 4, 50);
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
 			state = EnemyState::CHECK;
 		}	
 	}
