@@ -7,7 +7,7 @@
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
 #include "j1LootManager.h"
-#include "j1AttackManager.h"
+//#include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_Image.h"
 
@@ -32,8 +32,6 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 
 EnemyTest::~EnemyTest()
 {
-	
-	
 	LOG("Bye Enemy Test ");
 } 
 
@@ -107,7 +105,7 @@ void EnemyTest::SetState(float dt)
 	{
 		if (isInDetectionRange() && speed > 0)
 		{
-			state = EnemyState::SEARCHPATH;
+			//state = EnemyState::SEARCHPATH;
 		}
 		// else go back to spawn point?
 
@@ -231,7 +229,7 @@ void EnemyTest::SetState(float dt)
 	{
 		if (checkTime.ReadSec() > attackSpeed)
 		{
-			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, 10, 4, 50);
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, 10, 40, 500);
 			state = EnemyState::CHECK;
 		}	
 	}

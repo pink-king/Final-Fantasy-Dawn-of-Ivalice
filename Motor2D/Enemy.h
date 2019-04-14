@@ -6,10 +6,12 @@
 #include "p2Point.h"
 #include "j1Timer.h"
 #include <vector>
-
+#include "j1AttackManager.h"
 
 #define RANGE 20
+
 struct SDL_Texture;
+
 enum class facingDirectionEnemy // WARNING: no modify this order
 {
 	E, // right - 0
@@ -87,6 +89,7 @@ protected:
 	bool isSubpathRange = false;
 
 	SDL_Texture* debugSubtile = nullptr;
+
 };
 
 #endif

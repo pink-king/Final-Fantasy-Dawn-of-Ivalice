@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1Render.h"
@@ -158,6 +157,7 @@ bool attackData::Start()
 	// " and do the first propagation step "
 	subtileQueue.push(startSubtilePoint);
 	CheckEntitiesFromSubtileStep();
+	DoDirectAttack();
 
 	return true;
 }
@@ -168,7 +168,7 @@ bool attackData::Update(float dt)
 	{
 		//LOG("DO next propagation step");
 		stepTimer.Start();
-		if (currentPropagationStep >= subTileStepRadius - 1) // -1 because how frontier works
+		if (currentPropagationStep >= subTileStepRadius - 1 ) // -1 because how frontier works
 		{
 			to_erase = true;
 		}
@@ -298,13 +298,17 @@ void attackData::CheckEntitiesFromSubtileStep()
 
 bool attackData::AddEntityToQueueFiltered(j1Entity* entityToFilter)
 {
-	
-	if (App->attackManager->matrix[fromType][entityToFilter->type])
+	if (fromEntity != nullptr)
 	{
-		entitiesQueue.push(entityToFilter);
+		if (App->attackManager->matrix[fromEntity->type][entityToFilter->type])
+		{
+			entitiesQueue.push(entityToFilter);
+		}
+
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 bool attackData::DoDirectAttack()
@@ -314,6 +318,8 @@ bool attackData::DoDirectAttack()
 		// pass the type etc of the attack, for now pass a direct attack
 		j1Entity* defender = entitiesQueue.front();
 		entitiesQueue.pop();
+		if (fromEntity == nullptr)
+			LOG("");
 		App->buff->DirectAttack((j1Entity*)fromEntity, defender, 100, ELEMENTAL_TYPE::NORMAL_ELEMENT,"inteligence");
 
 		// updates combo counter
@@ -375,4 +381,39 @@ bool attackData::DoNextStepBFS()
 		to_erase = true; // invalid start position eraser
 
 	return true;
+}
+
+const j1Entity* attackData::GetLinkedEntity() const
+{
+	return fromEntity;
+}
+
+const void attackData::UnlinkFromEntity() // unlink and deletes
+{
+	fromEntity = nullptr;
+	to_erase = true;
+}
+
+bool j1AttackManager::DestroyAllMyCurrentAttacks(const j1Entity* me) const // one enemy may can have multiple instantiated propagation attacks
+{
+	bool ret = false;
+
+	std::vector<attackData*>::const_iterator currentAttacksItr = currentPropagationAttacks.cbegin();
+	
+	uint numCurrentAttacks = 0;
+
+	for (; currentAttacksItr != currentPropagationAttacks.end(); ++currentAttacksItr)
+	{
+		if ((*currentAttacksItr)->GetLinkedEntity() == me)
+		{
+			(*currentAttacksItr)->UnlinkFromEntity();
+			//LOG("unliked attack from attacker");
+			++numCurrentAttacks;
+			ret = true;
+		}
+	}
+
+	LOG("unliked %i attacks", numCurrentAttacks);
+
+	return ret;
 }

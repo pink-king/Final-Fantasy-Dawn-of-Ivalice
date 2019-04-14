@@ -11,12 +11,14 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 	: speed(movementSpeed), detectionRange(detectionRange), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
 {
 	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
-	this->attackSpeed = 1 / attackSpeed;
+	this->attackSpeed = 1.f / attackSpeed;
 }
 
 Enemy::~Enemy()
 {
 	// TODO: Loot spawn in all enemies? 
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
+	LOG("parent enemy bye");
 }
 
 bool Enemy::SearchNewPath()
