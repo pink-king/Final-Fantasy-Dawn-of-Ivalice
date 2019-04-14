@@ -280,17 +280,14 @@
           <section x="0" y="1531" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
+        <image name="TitleSettings">
+          <section x="911" y="111" w="269" h="65"/>
+          <position x="504" y="109"/>
+        </image>
       </images>
       
       <labels>
-        <label name="test">
-          <position x="0" y="0"/>
-          <color R="255" G="255" B="255" A="255"/>
-          <text value="Hello this is just a test to see
-                if this can handle different lines
-                I doubt it xD Lmao"/>
-          
-        </label>
+     
       </labels>
 
       <panelBars>
