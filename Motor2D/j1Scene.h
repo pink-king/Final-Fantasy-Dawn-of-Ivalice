@@ -54,6 +54,7 @@ public:
 	UiItem * startMenu = nullptr;
 	UiItem * settingPanel = nullptr;
 	UiItem * pausePanel = nullptr;
+	UiItem * inventory = nullptr;
 	UiItem_Label * coins_label = nullptr;
 	SDL_Rect * lootPanelRect = nullptr; 
 	
@@ -78,6 +79,7 @@ private:
 	bool LoadPlayerUi(pugi::xml_node& nodeScene);
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
+	bool LoadInventory(pugi::xml_node& nodeScene);
 
 	PlayerEntityManager* player_selected = nullptr;
 };

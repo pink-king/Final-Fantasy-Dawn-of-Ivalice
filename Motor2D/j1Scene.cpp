@@ -74,7 +74,6 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ -980, 2440 });
 
-
 	if (state == SceneState::GAME)
 	{
 		App->map->active = true;
@@ -96,6 +95,7 @@ bool j1Scene::Start()
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
+			LoadInventory(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
@@ -106,6 +106,7 @@ bool j1Scene::Start()
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
+		inventory->enable = false;
 	}
 
 
@@ -264,6 +265,14 @@ bool j1Scene::Update(float dt)
 			{
 				pausePanel->enable = false;
 			}
+		}
+
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+		{
+			if (inventory->enable)
+				inventory->enable = false;
+			else
+				inventory->enable = true;
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -584,5 +593,13 @@ bool j1Scene::LoadPauseSettings(pugi::xml_node & nodeScene)
 	pugi::xml_node settingPauseNode = nodeScene.child("SettingsInGame");
 	pausePanel=App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(pausePanel, settingPauseNode);
+	return true;
+}
+
+bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
+	inventory = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(inventory, inventoryNode);
 	return true;
 }

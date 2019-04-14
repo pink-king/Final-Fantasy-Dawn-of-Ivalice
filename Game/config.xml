@@ -85,11 +85,6 @@
           <section x="59" y="519" w="25" h="25"/>
           <position x="1055" y="31"/>
         </image>
-        <image name="panelTest">
-          <section x="721" y="480" w="338" h="308"/>
-          <position x="150" y="190"/>
-          <flag isPanel = "1" panelName = "panelTest"/>
-        </image>
 
       </images>
 
@@ -374,6 +369,15 @@
       </buttons>
       
     </SettingsInGame>
+
+    <Inventory>
+      <images>
+        <image name="panelTest">
+          <section x="721" y="480" w="338" h="308"/>
+          <position x="150" y="190"/>
+        </image>
+      </images>
+    </Inventory>
 
   </scene>
 
