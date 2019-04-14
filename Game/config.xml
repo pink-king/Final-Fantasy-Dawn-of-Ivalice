@@ -342,7 +342,12 @@
     </Settings>
 
     <SettingsInGame>
-      <!--
+      
+      <images>
+        
+      </images>
+      
+      
       <labels>
         <label name="test">
           <position x="530" y="70"/>
@@ -352,6 +357,12 @@
       </labels>
 
       <buttons>
+        <button name="button_backMenu" function = "GoBackToStartMenu">
+          <idleSec x="1061" y="772" w="195" h="37"/>
+          <hoverSec x="1061" y="732" w="196" h="39" />
+          <clickSec x="1061" y="692" w="196" h="39" />
+          <position x="588" y="500"/>
+        </button>
         <button name="button_backGame" function = "GoBackToGame">
           <idleSec x="585" y="678" w="93" h="40"/>
           <hoverSec x="585" y="719" w="94" h="42" />
@@ -359,7 +370,7 @@
           <position x="588" y="561"/>
         </button>
       </buttons>
-      -->
+      
     </SettingsInGame>
 
   </scene>

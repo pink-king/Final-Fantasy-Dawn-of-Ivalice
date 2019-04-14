@@ -60,6 +60,7 @@ public:
 	bool debug = false;
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
+	
 
 private:
 	SDL_Texture* debug_tex;

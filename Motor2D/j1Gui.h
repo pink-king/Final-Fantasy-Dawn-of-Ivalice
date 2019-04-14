@@ -120,6 +120,7 @@ public:
 	void GoBackToMenu();
 	void FpsCap();
 	void GoBackToGame();
+	void GoBackToStartMenu();
 
 	UiItem_HealthBar* healthBar = nullptr;
 

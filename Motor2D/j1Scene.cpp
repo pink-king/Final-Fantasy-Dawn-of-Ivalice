@@ -215,6 +215,7 @@ bool j1Scene::Update(float dt)
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
+		App->audio->SetFxVolume(result_fx);
 		App->map->active = false;
 		inGamePanel->enable = false;
 		uiMarche->enable = false;
@@ -278,6 +279,7 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->player->selectedCharacterEntity->life += 30;
 		App->gui->healthBar->damageInform.damageValue = -30;
 	}
+	
 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)

@@ -123,7 +123,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		bool first = false;
 		for (; item != ListItemUI.end(); ++item)
 		{
-			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON) && (*item)->parent->enable)
+			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON || (*item)->tabbable)  && (*item)->parent->enable)
 			{
 				if (!first)
 				{
@@ -671,4 +671,13 @@ void j1Gui::GoBackToGame()
 {
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
+}
+
+void j1Gui::GoBackToStartMenu()
+{
+	resetHoverSwapping = false;
+	App->pause = false;
+	App->scene->pausePanel->enable = false;
+	App->scene->startMenu->enable = true;
+	App->scene->state = SceneState::STARTMENU;
 }
