@@ -64,12 +64,12 @@
           <position x="1170" y="700"/>
         </image>
         <image name="LButton">
-          <section x="319" y="482" w="35" h="15"/>
-          <position x="165" y="21 "/>
+          <section x="244" y="525" w="30" h="19"/>
+          <position x="173" y="19 "/>
         </image>
         <image name="RButton">
-          <section x="355" y="482" w="35" h="15"/>
-          <position x="248" y="23 "/>
+          <section x="244" y="545" w="30" h="19"/>
+          <position x="252" y="19 "/>
         </image>
         <image name="box_player">
           <section x="1033" y="1" w="94" h="109"/>
