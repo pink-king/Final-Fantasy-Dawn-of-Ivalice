@@ -154,6 +154,7 @@ public:
 	iPoint WorldToMap(int x, int y) const;
 	iPoint SubTileMapToWorld(int x, int y) const;
 	iPoint WorldToSubtileMap(int x, int y) const;
+	iPoint IsoToWorld(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 
 private:
@@ -164,6 +165,7 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool LoadMapColliders(pugi::xml_node& node);
+	bool LoadMapAssets(pugi::xml_node& node);
 
 
 	TileSet* GetTilesetFromTileId(int id) const;

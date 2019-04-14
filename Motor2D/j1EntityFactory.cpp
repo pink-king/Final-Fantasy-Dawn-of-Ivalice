@@ -48,7 +48,10 @@ bool j1EntityFactory::Start()
 	{
 		(*item)->Start();
 	}
+	
 	//load texture
+	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+
 	return true;
 }
 
@@ -155,8 +158,9 @@ bool j1EntityFactory::CleanUp()
 
 	RELEASE_ARRAY(entitiesDataMap);
 
-
 	//unload texture
+	App->tex->UnLoad(texture);
+	App->tex->UnLoad(assetsAtlasTex);
 
 	return ret;
 }
@@ -437,3 +441,23 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
+void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
+{
+	j1Entity* assetEntity = nullptr;
+
+	switch (type)
+	{
+	case EnvironmentAssetsTypes::NO_TYPE:
+		break;
+	case EnvironmentAssetsTypes::WALL:
+		assetEntity = new j1Entity(worldPos, atlasSpriteRect);
+		entities.push_back(assetEntity);
+		break;
+	case EnvironmentAssetsTypes::WALL1:
+		break;
+	case EnvironmentAssetsTypes::MAX:
+		break;
+	default:
+		break;
+	}
+}

@@ -31,7 +31,7 @@ bool j1ModuleCamera2D::PreUpdate()
 	return true;
 }
 
-bool j1ModuleCamera2D::Update(float dt)
+bool j1ModuleCamera2D::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
@@ -91,7 +91,7 @@ bool j1ModuleCamera2D::Update(float dt)
 		}
 
 		// decay trauma
-		trauma -= dt * traumaDecay * (trauma + 0.3f);
+		trauma -= App->GetDt() * traumaDecay * (trauma + 0.3f);
 	}
 	else // update preshake pos
 	{
@@ -102,7 +102,7 @@ bool j1ModuleCamera2D::Update(float dt)
 	return true;
 }
 
-bool j1ModuleCamera2D::PostUpdate()
+bool j1ModuleCamera2D::Update(float dt)
 {
 	return true;
 }

@@ -7,6 +7,15 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+enum class EnvironmentAssetsTypes
+{
+	NO_TYPE,
+	WALL,
+	WALL1,
+	// ---
+	MAX
+};
+
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
@@ -57,14 +66,19 @@ public:
 	void FreeAdjacent(const iPoint& pos);
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
+	// ---------
+	void CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
+
+
 
 public:
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 	SDL_Texture*			texture = nullptr;
+	SDL_Texture*			assetsAtlasTex = nullptr;
 	std::vector<j1Entity*>	entities;
 private:
 	std::vector<j1Entity*>	draw_entities;
