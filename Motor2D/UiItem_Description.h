@@ -19,33 +19,48 @@ enum EquipmentStatType
 	ATT,
 };
 
+enum descriptionType
+{
+	WEAPON,
+	EQUIPMENT
+};
 
 
 class UiItem_Description: public UiItem
 {
 
 public:
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType);   // for equipment
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent);   // for equipment
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, UiItem*const parent);   // for weapons, right now we will print TWO variables
 
 //	void Draw(const float& dt);   // do we need this?? I bet we don't 
 
+	void HideAllElements(bool hide = true); 
+	void DeleteEverything(); 
 
 public:
+	// - - - - common - - - - // 
 	UiItem_Image* iconImage = nullptr;
 	UiItem_Image* panelWithButton = nullptr; 
 	UiItem_Label* name = nullptr;
 	
+	// for weapons
+	UiItem_Label* damageLabel = nullptr; 
+	UiItem_Label* reistanceLabel = nullptr;
 
 	bool hide = false; 
 
 
 	// TODO: cooldown and other stats
 
+
+
+	// TODO: variable to_delete: description (and all items contained) are only deleted when the loot item is sold in the store
+
 private:
 
 	EquipmentStatType equipmentLootInfo; 
-	
+	descriptionType descrType; 
 };
 
 #endif

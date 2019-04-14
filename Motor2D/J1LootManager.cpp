@@ -139,6 +139,7 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
  bool j1LootManager::CollectLoot(LootEntity* entityLoot)
  {
 	 LoadLootData(entityLoot, App->config);
+
 	 if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	 {
 		 if (App->entityFactory->player->equipedObjects.size() == 0)

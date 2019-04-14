@@ -16,7 +16,11 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 }
 
 LootEntity::~LootEntity()
-{}
+{
+	// TODO: call DeleteEverything() in the associated GUI description
+
+
+}
 
 
 //bool LootEntity::PreUpdate()
@@ -84,4 +88,38 @@ void LootEntity::Draw()
 EQUIPABLE_TYPE LootEntity::GetEquipable()
 {
 	return equipableType;
+}
+
+
+void LootEntity::GetAttributesForDescription()
+{
+
+	std::vector<Buff*>::iterator stat = stats.begin();
+
+	float attack = 0.0f;
+	float resistance = 0.0f;
+
+	for (; stat != stats.end(); ++stat)
+	{
+
+		if ((*stat)->GetRol() == OBJECT_ROL::ATTACK_ROL)
+		{
+			attack = (*stat)->GetValue();
+		}
+		else if ((*stat)->GetRol() == OBJECT_ROL::DEFENCE_ROL)
+		{
+			resistance = (*stat)->GetValue();
+		}
+
+	}
+
+	if (this->objectType == OBJECT_TYPE::WEAPON_OBJECT)
+	{
+		this->MyDescription = App->gui->AddDescriptionToWeapon(App->render->WorldToScreen(loot_pos.x, loot_pos.y), this->lootname, App->scene->lootPanelRect, &this->loot_rect, attack, resistance, App->scene->inGamePanel);
+	}
+	else
+	{
+		// TODO for vests, etc 
+	}
+
 }

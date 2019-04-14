@@ -55,6 +55,7 @@ public:
 	OBJECT_TYPE GetObjectType();
 	void Draw();
 	int GetRandomValue(int min, int max);
+	void GetAttributesForDescription(); 
 
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* item);
 	EQUIPABLE_TYPE GetEquipable();

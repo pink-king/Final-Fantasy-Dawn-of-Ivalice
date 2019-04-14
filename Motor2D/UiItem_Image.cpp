@@ -4,7 +4,7 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include "j1Scene.h"
-
+#include "j1LootManager.h"
 
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel) : UiItem(position, parent)
 {
@@ -38,6 +38,15 @@ void UiItem_Image::Draw(const float& dt)
 	{
 		// TODO: don't blit the icon in the loot item description using the GUI atlas, but instead the Loot atlas 
 
-		App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, 1.0f, 0.0f, resizedRect);
+		if (!printFromLoot)
+		{
+			App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, 1.0f, 0.0f, resizedRect);
+		}
+		else
+		{
+			// TODO: check that this works
+			App->render->BlitGui(App->lootManager->LootTexture, hitBox.x, hitBox.y, &this->section, 0.0F);
+		}
+		
 	}
 }

@@ -360,16 +360,19 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 			lootPanelRect = &section; 
 		}
-		// PANELS
-
-		if (isPanel != 1)
-		{
-			App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
-		}
 		else
-		{
+		{                                  // this is useless now
+			if (isPanel != 1)
+			{
+				App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
+			}
+			else
+			{
+
+			}
 
 		}
+		
 
 	}
 
