@@ -110,6 +110,7 @@ bool j1EntityFactory::Update(float dt)
 			{
 				App->lootManager->CreateLoot(App->lootManager->SetLootPos(enemypos.x, enemypos.y).x, App->lootManager->SetLootPos(enemypos.x, enemypos.y).y, "no");
 			}
+			
 		}
 	}
 

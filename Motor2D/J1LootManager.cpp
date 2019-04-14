@@ -9,7 +9,6 @@
 #include "UiItem_Label.h"
 #include <random>
 
-
 j1LootManager::j1LootManager() 
 {
 	name.assign("loot");
@@ -40,6 +39,7 @@ bool j1LootManager::PreUpdate()
 bool j1LootManager::Update(float dt)
 {
 	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+	{
 		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
 		{
 			if (CollectLoot((LootEntity*)(*item)))
@@ -49,7 +49,7 @@ bool j1LootManager::Update(float dt)
 				break;
 			}
 		}
-
+	}
 	//LOG("lootpos %i x %i y", lootPos);
 
 	return true;
@@ -67,6 +67,9 @@ iPoint j1LootManager::GetEnemySubtile(j1Entity* enemy)
 	
 	return lootPos = enemy->GetSubtilePos();
 }
+
+
+
 
 void j1LootManager::CreateLoot(int x , int y, std::string name)
 {
@@ -139,6 +142,7 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
  bool j1LootManager::CollectLoot(LootEntity* entityLoot)
  {
 	 LoadLootData(entityLoot, App->config);
+	 
 	 if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	 {
 		 if (App->entityFactory->player->equipedObjects.size() == 0)
@@ -231,9 +235,10 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
 			 {
 				 //weapon type
 				 id = node.attribute("id").as_int();
-
+				 SDL_Rect hola = lootEntity->loot_rect;
 				 if (id == randID)
 				 {
+					 lootEntity->lootname = node.attribute("name").as_string();
 					 switch (GetRandomValue(1, 12))
 					 {
 					 case 1:
@@ -291,6 +296,7 @@ j1Entity * j1LootManager::CreateLootType(int x, int y)
 					 {
 						 if (lootEntity->level == 1)
 						 {
+							 lootEntity->dmg = node.attribute("dmg").as_int();
 							 lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, OBJECT_ROL::ATTACK_ROL, GetRandomValue(1, 5), lootEntity);
 							 lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, OBJECT_ROL::DEFENCE_ROL, GetRandomValue(10, 15)* 0.01, lootEntity);
 						 }

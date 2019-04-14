@@ -14,6 +14,8 @@
 #include "UiItem_HealthBar.h"
 #include "UiItem_Image.h"
 
+#include <math.h>
+
 class UiItem_HealthBar; 
 class UiItem_Image; 
 
