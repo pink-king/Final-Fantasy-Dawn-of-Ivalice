@@ -9,6 +9,7 @@
 #include "j1App.h"
 #include"j1Entity.h"
 #include "Enemy.h"
+#include "easing.h"
 struct SDL_Texture;
 class UiItem_Label;
 class j1LootManager : public j1Module
@@ -39,6 +40,7 @@ public:
 	bool CollectLoot(LootEntity* etityLoot);
 	bool LoadLootData(LootEntity* lootentity, pugi::xml_node&);
 
+	
 public:
 	
 	SDL_Texture * LootTexture;

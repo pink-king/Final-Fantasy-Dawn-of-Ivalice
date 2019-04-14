@@ -7,6 +7,8 @@
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
 	SetEquipable();
+	originPos.x = position.x;
+	start = true;
 }
 
 
@@ -18,7 +20,23 @@ Equipable::~Equipable()
 
 bool Equipable::Update(float dt)
 {
+	if (start)
+	{
+		goalPos = SetDestinationPos(goalPos.x, goalPos.y);
+		start = false;
+		position.y + 5;
 
+		DecideExplosion();
+	}
+
+	dt = EaseOutBack(displacementTime.ReadMs())*0.000001; 
+
+	if (displacementTime.ReadMs() <= 280)
+	{
+		ExplosionMaker(dt);
+		LOG("displaced %f", position.x - originPos.x);
+		LOG("actual time %f", timeTest);
+	}
 	return true;
 }
 

@@ -375,9 +375,9 @@
 
     <equipable>
       <sword>
-        <equipment id="1" character="marche" name="sword_1" />
-        <equipment id="2" character="marche" name="sword_2" />
-        <equipment id="3" character="marche" name="legendary_sword"/>
+        <equipment id="1" character="marche" name="sword_1" dmg ="10" />
+        <equipment id="2" character="marche" name="sword_2" dmg ="16"/>
+        <equipment id="3" character="marche" name="legendary_sword" dmg ="20"/>
       </sword>
       
       <armor>

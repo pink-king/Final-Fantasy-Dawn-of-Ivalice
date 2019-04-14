@@ -130,6 +130,9 @@
     <ClCompile Include="Buff.cpp">
       <Filter>Desenvolupament ======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="easing.cpp">
+      <Filter>Desenvolupament ======\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Module.h">
@@ -284,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="Buff.h">
       <Filter>Desenvolupament ======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="easing.h">
+      <Filter>Desenvolupament ======\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
