@@ -7,6 +7,11 @@
 #include "EnemyTest.h"
 #include "PlayerEntity.h"
 #include "j1PerfTimer.h"
+#include <random>
+
+//#include "pcg_random.hpp"
+
+
 struct SDL_Texture;
 
 enum class LOOT_TYPE
@@ -114,5 +119,11 @@ protected:
 	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
+	std::random_device rd;
+	std::mt19937 engine;
+	
+	//pcg_extras::seed_seq_from <std::random_device> seed_source;
+
+	
 };
 #endif

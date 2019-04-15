@@ -4,17 +4,17 @@
 #include "LootEntity.h"
 #include "j1LootManager.h"
 #include "p2Log.h"
-#include <random>
-#include <math.h>
 #include "j1Map.h"
+
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	entityTex = App->tex->Load("textures/loot/loot_items.png");
 	//ChooseEntity();
 	lootSubtile.x = posX;
 	lootSubtile.y = posY;
+	engine.seed(rd());
 	
-	//TO FIX if there is the more than one new  in the  switch constructor, crashes
+
 	
 }
 
@@ -119,9 +119,11 @@ OBJECT_TYPE LootEntity::GetObjectType()
 //Quan arriba aqui per primera vegada ya ha fet 10 randoms WTF
 int LootEntity::GetRandomValue(int min, int max)
 {
-	static std::default_random_engine generator;
+	
+	
 	std::uniform_int_distribution<int> range(min, max);
-	int ret = range(generator);
+	
+	int ret = range(rd);
 
 	LOG("RANDOM VALUE %i", ret);
 	//LOG("value %i", ret_value);
@@ -172,7 +174,7 @@ EQUIPABLE_TYPE LootEntity::GetEquipable()
 void LootEntity::DecideExplosion()
 {
 	EXPLOSION_DIRECTION  randVale;
-	int randVal = GetRandomValue(0, 5);
+	int randVal = GetRandomValue(0, 6);
 
 	switch (randVal)
 	{
@@ -238,7 +240,17 @@ void LootEntity::DecideExplosion()
 		incrementY = 2.5;
 		decrementY = 3.8;
 		break;
+
+	case 6:
+		timeXmid = 160.0f;
+		incrementX = -0.1f;
+		decrementX = -0.1f;
+		timeYmid = 80.0f;
+		incrementY = 2.0f;
+		decrementY = 3.0f;
+		break;
 	}
+	
 }
 
 void LootEntity::ExplosionMaker(float dt)
