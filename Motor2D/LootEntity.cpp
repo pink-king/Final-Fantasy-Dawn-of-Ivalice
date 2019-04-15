@@ -2,10 +2,9 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "LootEntity.h"
-#include "j1LootManager.h"
 #include "p2Log.h"
 #include "j1Map.h"
-
+#include "j1EntityFactory.h"
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	entityTex = App->tex->Load("textures/loot/loot_items.png");
@@ -71,7 +70,7 @@ iPoint LootEntity::GetFinalPos()
 }
 iPoint LootEntity::GetPosition()
 {
-	return App->map->SubTileMapToWorld(App->lootManager->GetEnemySubtile(this).x, App->lootManager->GetEnemySubtile(this).y);
+	return App->map->SubTileMapToWorld(App->entityFactory->GetEnemySubtile(this).x, App->entityFactory->GetEnemySubtile(this).y);
 }
 /* ARc
 
@@ -152,7 +151,8 @@ fPoint LootEntity::Lerp(fPoint origin, fPoint destination, float t)
 }
 
 
-void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* item)
+
+void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item)
 {
 	stats.push_back(new Buff(type, character, stat, elementType, rol, value, item));
 

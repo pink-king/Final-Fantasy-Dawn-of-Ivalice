@@ -6,7 +6,6 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
-#include "j1LootManager.h"
 //#include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_Image.h"

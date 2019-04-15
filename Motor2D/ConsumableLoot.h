@@ -5,7 +5,6 @@
 
 enum class CONSUMABLE_TYPE
 {
-	
 	POTION,
 	NO_CONSUMABLE
 };
@@ -30,5 +29,6 @@ public:
 	
 	
 	float originTest;
+	bool isUsed = false;
 };
 #endif // ! _CONSUMABLE_LOOT_H__
