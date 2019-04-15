@@ -372,9 +372,9 @@
 
     <Inventory>
       <images>
-        <image name="panelTest">
-          <section x="721" y="480" w="338" h="308"/>
-          <position x="150" y="190"/>
+        <image name="inventoryPanel">
+          <section x="1" y="1" w="369" h="406"/>
+          <position x="750" y="190"/>
         </image>
       </images>
     </Inventory>
