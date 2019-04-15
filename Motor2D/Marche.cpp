@@ -245,20 +245,20 @@ bool Marche::Update(float dt)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->bagObjects.begin();
 		if(item != App->entityFactory->player->bagObjects.end())
-			App->lootManager->EquipItem(*item);
+			App->entityFactory->player->EquipItem(*item);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->equipedObjects.begin();
 		if (item != App->entityFactory->player->equipedObjects.end())
-			App->lootManager->DesequipItem(*item);
+			App->entityFactory->player->DesequipItem(*item);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == 1)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
 		if (item != App->entityFactory->player->consumables.end())
-			App->lootManager->ConsumConsumable(*item,this);
+			App->entityFactory->player->ConsumConsumable(*item,this);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == 1)

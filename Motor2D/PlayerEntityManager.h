@@ -79,6 +79,13 @@ public:
 	const float GetLastPlayerHeadingAngle() const;
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
+	//loot funtions
+	bool CollectLoot(LootEntity* entityLoot);
+
+	void EquipItem(LootEntity* entityLoot);
+	void DesequipItem(LootEntity* entityLoot);
+
+	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 public:
 
 	j1Entity* GetMarche();
@@ -109,6 +116,7 @@ private:
 	bool debug = true;
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
+	
 	
 
 };

@@ -35,13 +35,7 @@ public:
 
 	j1Entity* CreateLootType(int x, int y);
 
-	bool CollectLoot(LootEntity* etityLoot);
-	//functions to move items inside entity
-	void EquipItem(LootEntity* entityLoot);
-	void DesequipItem(LootEntity* entityLoot);
-
-	//consumible funtions
-	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
+	
 
 	bool LoadLootData(LootEntity* lootentity, pugi::xml_node&);
 
