@@ -363,11 +363,9 @@
   </map>
 
   <loot>
-    <Money>
-    <gold id ="1" value ="30"/>
-    <gold id ="2" value ="40"/>
-    <gold id ="3" value ="50"/>
-    </Money>
+    
+    <gold min ="50" max ="300"/>
+   
     
     <potions>
       <health_potion id="1" value ="2"/>  

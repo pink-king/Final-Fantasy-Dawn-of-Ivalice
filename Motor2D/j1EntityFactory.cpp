@@ -115,6 +115,7 @@ bool j1EntityFactory::Update(float dt)
 			{
 				
 				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y,"lootitem");
+				
 			}
 			
 		}
@@ -495,6 +496,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 {
 	int randID = 0;
 	int id;
+	int min, max;
 	switch (lootEntity->GetObjectType())
 	{
 	case OBJECT_TYPE::POTIONS:
@@ -506,23 +508,13 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 		break;
 
 	case OBJECT_TYPE::GOLD:
-		//TO FIX: in a single collect item iteration this case is siwtched twice instead of a single time
-		randID = GetRandomValue(1, 3);
-
-		for (auto node : config.child("loot").child("Money").children("gold"))
-		{
-			id = node.attribute("id").as_int();
-
-			if (id = randID)
-			{
-				lootEntity->price = node.attribute("value").as_int();
-				//gold_id[i] = node.attribute("id").as_int();
-				LOG("gold searched for");
-				break;
-			}
-		}
+		
+		min = config.child("loot").child("gold").attribute("min").as_int();
+	    max = config.child("loot").child("gold").attribute("max").as_int();
+		lootEntity->price = GetRandomValue(min, max);
+		LOG("gold amount %i", lootEntity->price);
 		break;
-
+		
 	case OBJECT_TYPE::WEAPON_OBJECT:
 
 		randID = GetRandomValue(1, 3);

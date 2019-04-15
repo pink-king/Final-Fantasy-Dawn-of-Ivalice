@@ -7,7 +7,9 @@
 #include "j1EntityFactory.h"
 //buff test
 #include "j1Window.h"
-
+#include "j1Scene.h"
+#include "UiItem.h"
+#include "UiItem_Label.h"
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
@@ -356,6 +358,8 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 		{
 			gold += entityLoot->price;
 			entityLoot->to_delete = true;
+			str_coin = "x  " + std::to_string(gold);
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 			return false;
 		}
 
