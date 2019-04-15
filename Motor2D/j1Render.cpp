@@ -4,6 +4,7 @@
 #include "j1Window.h"
 #include "j1Render.h"
 #include "j1ModuleCamera2D.h"
+#include "j1Map.h"
 
 j1Render::j1Render() : j1Module()
 {
@@ -263,6 +264,40 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
 		ret = false;
 	}
+
+	return ret;
+}
+
+bool j1Render::DrawIsoQuad(const SDL_Rect& rect, fPoint position) const
+{
+	bool ret = true;
+
+	// pick relative points
+	iPoint p1 = { 0, 0 };
+	iPoint p2 = { 0 + rect.w, 0 };
+	iPoint p3 = { 0 + rect.w, 0 + rect.h };
+	iPoint p4 = { 0 , 0 + rect.h};
+
+	p1 = App->map->WorldToIso(p1.x, p1.y);
+	p2 = App->map->WorldToIso(p2.x, p2.y);
+	p3 = App->map->WorldToIso(p3.x, p3.y);
+	p4 = App->map->WorldToIso(p4.x, p4.y);
+
+
+	p1.x += position.x;
+	p1.y += position.y -rect.h * 0.5f;
+	p2.x += position.x;
+	p2.y += position.y -rect.h * 0.5f;
+	p3.x += position.x;
+	p3.y += position.y -rect.h * 0.5f;
+	p4.x += position.x;
+	p4.y += position.y -rect.h * 0.5f;
+	
+ 	App->render->DrawLine(p1.x, p1.y, p2.x, p2.y, 255, 0, 0, 255, true);
+	App->render->DrawLine(p2.x, p2.y, p3.x, p3.y, 255, 0, 0, 255, true);
+	App->render->DrawLine(p3.x, p3.y, p4.x, p4.y, 255, 0, 0, 255, true);
+	App->render->DrawLine(p4.x, p4.y, p1.x, p1.y, 255, 0, 0, 255, true);
+	
 
 	return ret;
 }

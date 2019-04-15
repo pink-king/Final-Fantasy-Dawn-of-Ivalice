@@ -167,15 +167,44 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	return ret;
 }
 
-iPoint j1Map::IsoToWorld(int x, int y) const
+
+iPoint j1Map::IsoToWorld(int x, int y) const // TODO: check for importing from tiled assets, and rework the actual workaround for walls
 {
 	iPoint ret(0, 0);
 
-	/*ret.x = (2 * y + x) * 0.5f;
-	ret.y = -(2 * y - x) * 0.5f;*/
-
 	ret.x = (x - y) * 0.5f;
 	ret.y = (x + y) * 0.5f;
+
+	return ret;
+}
+
+// -------------------------------------------------------
+// for util world point (but from map space) to cartesian
+iPoint j1Map::IsoTo2D(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = (2 * y + x) * 0.5f;
+	ret.y = (2 * y - x) * 0.5f;
+
+	return ret;
+}
+iPoint j1Map::TwoDToIso(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = x - y;
+	ret.y = (x + y) * 0.5f;
+	return ret;
+}
+// -------------------------------------------------------
+
+iPoint j1Map::WorldToIso(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = int(x - y);// - 1// this is caused because the sprite doesnt fit to 0,0 on real world
+	ret.y = int((y + x ) * 0.5f);	   // and needs this offset to match ( 1 tile displacement )
 
 	return ret;
 }

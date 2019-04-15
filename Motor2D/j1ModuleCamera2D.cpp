@@ -141,6 +141,11 @@ fPoint j1ModuleCamera2D::lerp(fPoint v0, fPoint v1, float t)
 	return v0*(1 - t) + v1*t;
 }
 
+iPoint j1ModuleCamera2D::GetCamPos() const
+{
+	return { camera.x, camera.y };
+}
+
 float j1ModuleCamera2D::GetFloatNegOneToOne()
 {
 	std::uniform_real_distribution<float> dis(-1.0f, std::nextafter(1.0f, DBL_MAX));
