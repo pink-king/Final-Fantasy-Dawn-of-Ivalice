@@ -31,7 +31,7 @@ private:
 	j1Timer checkTime;
 
 	uint explosionRange = 0; 
-	uint explosionSecs = 1;
+	uint explosionDelay = 1;
 	bool freePass = false;		// Needs a re-planing
 
 };

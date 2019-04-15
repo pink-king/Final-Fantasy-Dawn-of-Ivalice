@@ -7,8 +7,127 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 {
 	entityTex = App->tex->Load("textures/enemies/enemyBomb.png"); // TODO: note, repetead entities/enemies, load texture once time
 	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
+	
+	idle[(int)facingDirectionEnemy::SE].PushBack({ 20, 2, 15, 22 });
+	idle[(int)facingDirectionEnemy::S].PushBack({ 19, 27, 16, 22 });
+	idle[(int)facingDirectionEnemy::SW].PushBack({ 20, 2, 15, 22 });
+	idle[(int)facingDirectionEnemy::NE].PushBack({ 19, 52, 15, 21 });
+	idle[(int)facingDirectionEnemy::NW].PushBack({ 19, 52, 15, 21 });
+	idle[(int)facingDirectionEnemy::N].PushBack({ 19, 77, 16, 21 });
+	idle[(int)facingDirectionEnemy::W].PushBack({ 20, 101, 19, 21 });
+	idle[(int)facingDirectionEnemy::E].PushBack({ 20, 101, 19, 21 });
 
 
+	run[(int)facingDirectionEnemy::SE].PushBack({ 3, 3, 15, 20 });
+	run[(int)facingDirectionEnemy::SE].PushBack({ 20, 2, 15, 22 });
+	run[(int)facingDirectionEnemy::SE].PushBack({ 37, 4, 15, 21 });
+	run[(int)facingDirectionEnemy::SE].PushBack({ 20, 2, 15, 22 });
+	run[(int)facingDirectionEnemy::SE].speed = 7.F;
+
+	run[(int)facingDirectionEnemy::SW].PushBack({ 3, 3, 15, 20 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 20, 2, 15, 22 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 37, 4, 15, 21 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 20, 2, 15, 22 });
+	run[(int)facingDirectionEnemy::SW].speed = 7.F;
+
+	run[(int)facingDirectionEnemy::S].PushBack({ 2, 28, 16, 20 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 19, 27, 16, 22 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 36, 28, 16, 22 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 19, 27, 16, 22 });
+	run[(int)facingDirectionEnemy::S].speed = 7.F;
+
+
+	run[(int)facingDirectionEnemy::NE].PushBack({ 2, 54, 15, 18 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 19, 52, 15, 21 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 35, 53, 15, 21 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 19, 52, 15, 21 });
+	run[(int)facingDirectionEnemy::NE].speed = 7.F;
+
+	run[(int)facingDirectionEnemy::NW].PushBack({ 2, 54, 15, 18 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 19, 52, 15, 21 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 35, 53, 15, 21 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 19, 52, 15, 21 });
+	run[(int)facingDirectionEnemy::NW].speed = 7.F;
+
+	run[(int)facingDirectionEnemy::N].PushBack({ 2, 79, 16, 18 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 19, 77, 16, 21 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 36, 78, 16, 21 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 19, 77, 16, 21 });
+	run[(int)facingDirectionEnemy::N].speed = 7.F;
+
+	run[(int)facingDirectionEnemy::E].PushBack({ 2, 102, 17, 19 });
+	run[(int)facingDirectionEnemy::E].PushBack({ 20, 101, 19, 21});
+	run[(int)facingDirectionEnemy::E].PushBack({ 39, 102, 19, 21 });
+	run[(int)facingDirectionEnemy::E].PushBack({ 20, 101, 19, 21 });
+	run[(int)facingDirectionEnemy::E].speed = 7.F;
+
+	run[(int)facingDirectionEnemy::W].PushBack({ 2, 102, 17, 19 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 20, 101, 19, 21 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 39, 102, 19, 21 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 20, 101, 19, 21 });
+	run[(int)facingDirectionEnemy::W].speed = 7.F;
+
+
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 57, 2, 14, 22 });
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 73, 3, 14, 21});
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 91, 2, 16, 17});
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 108, 2, 15, 18});
+	basicAttack[(int)facingDirectionEnemy::SW].loop = false;
+	basicAttack[(int)facingDirectionEnemy::SW].speed = 8.F;
+
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 57, 2, 14, 22 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 73, 3, 14, 21 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 91, 2, 16, 17 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 108, 2, 15, 18 });
+	basicAttack[(int)facingDirectionEnemy::SE].loop = false;
+	basicAttack[(int)facingDirectionEnemy::SE].speed = 8.F;
+
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 57, 27, 16, 20});
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 74, 27, 16, 21 });
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 91, 26, 16, 20});
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 108, 26, 16, 19});
+	basicAttack[(int)facingDirectionEnemy::S].loop = false;
+	basicAttack[(int)facingDirectionEnemy::S].speed = 8.F;
+
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 57, 78, 16, 18 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 74, 76, 16, 21 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 91, 76, 16, 21 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 108, 77, 16, 19 });
+	basicAttack[(int)facingDirectionEnemy::N].loop = false;
+	basicAttack[(int)facingDirectionEnemy::N].speed = 8.F;
+
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 57, 52, 15, 19});
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 74, 51, 16, 21 });
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 91, 56, 16, 19 });
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 110, 56, 14, 18});
+	basicAttack[(int)facingDirectionEnemy::NE].loop = false;
+	basicAttack[(int)facingDirectionEnemy::NE].speed = 8.F;
+
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 57, 52, 15, 19 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 74, 51, 16, 21 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 91, 56, 16, 19 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 110, 56, 14, 18 });
+	basicAttack[(int)facingDirectionEnemy::NW].loop = false;
+	basicAttack[(int)facingDirectionEnemy::NW].speed = 8.F;
+
+
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 63, 101, 15, 19 });
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 80, 101, 18, 20});
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 102, 103, 15, 16});
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 119, 102, 15, 16});
+	basicAttack[(int)facingDirectionEnemy::E].loop = false;
+	basicAttack[(int)facingDirectionEnemy::E].speed = 8.F;
+
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 63, 101, 15, 19 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 80, 101, 18, 20 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 102, 103, 15, 16 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 119, 102, 15, 16 });
+	basicAttack[(int)facingDirectionEnemy::W].loop = false;
+	basicAttack[(int)facingDirectionEnemy::W].speed = 8.F;
+
+
+	SetPivot(8, 18);
+	size.create(16, 20);
 
 }
 EnemyBomb::~EnemyBomb()
@@ -86,7 +205,7 @@ void EnemyBomb::SetState(float dt)
 		}
 		else if (!App->entityFactory->areAllSubtilesReserved())
 		{
-			SearchNewSubPath();
+			SearchNewSubPath(true);
 			//LOG("Subpathing");
 		}
 
@@ -120,12 +239,8 @@ void EnemyBomb::SetState(float dt)
 		velocity.Normalize();
 		position += velocity * dt * speed;
 
-		//currentAnimation = &idle[(int)GetPointingDir(atan2f(velocity.y, velocity.x))];
 		SetLookingTo(currentDestiny.Return_fPoint());
 		currentAnimation = &run[pointingDir];
-
-		//float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
-		//currentAnimation->SetCurrentFrame(current_cycle_frame);
 
 		state = EnemyState::CHECK;
 	}
@@ -192,7 +307,8 @@ void EnemyBomb::SetState(float dt)
 	case EnemyState::ATTACK:
 	{
 		currentAnimation = &basicAttack[pointingDir];
-		if (checkTime.ReadSec() > explosionSecs && currentAnimation->Finished())
+
+		if (checkTime.ReadSec() > explosionDelay && currentAnimation->Finished())
 		{
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
 			to_delete = true;

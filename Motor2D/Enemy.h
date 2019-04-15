@@ -57,7 +57,7 @@ public:
 	//core loops ------
 
 	bool SearchNewPath();
-	bool SearchNewSubPath();
+	bool SearchNewSubPath(bool ignoringColl = false);
 	int GetRandomValue(const int& min, const int& max) const;
 	bool isInDetectionRange() const;
 	bool isInAttackRange() const;
