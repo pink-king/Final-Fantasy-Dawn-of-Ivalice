@@ -6,7 +6,6 @@
 #include "j1BuffManager.h"
 #include "j1Scene.h"
 #include "LootEntity.h"
-#include "j1LootManager.h"
 #include <algorithm>
 
 j1EntityFactory::j1EntityFactory()
@@ -108,7 +107,8 @@ bool j1EntityFactory::Update(float dt)
 			}
 			if (createLoot)
 			{
-				App->lootManager->CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "no");
+				
+				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y,"lootitem");
 			}
 		}
 	}
@@ -189,7 +189,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		ret = App->lootManager->CreateLootType(positionX, positionY);
+		ret = CreateLootType(positionX, positionY);
 		if (ret != nullptr)
 		{
 			ret->type = LOOT;

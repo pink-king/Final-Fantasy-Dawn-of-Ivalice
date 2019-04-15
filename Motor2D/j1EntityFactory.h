@@ -7,6 +7,8 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 #include "j1Map.h"
+#include "ConsumableLoot.h"
+#include "EquipableLoot.h"
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;

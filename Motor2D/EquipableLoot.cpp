@@ -1,6 +1,6 @@
 #include "EquipableLoot.h"
 #include "j1Entity.h"
-#include "j1LootManager.h"
+
 
 
 

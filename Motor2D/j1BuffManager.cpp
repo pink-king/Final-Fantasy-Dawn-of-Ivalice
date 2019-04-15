@@ -1,7 +1,7 @@
 #include "j1BuffManager.h"
 #include <string.h>
 #include "j1EntityFactory.h"
-#include "j1LootManager.h"
+
 #include "j1Window.h"
 #include "j1Map.h"
 
@@ -124,7 +124,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
 	{
-		if (App->lootManager->GetRandomValue(1, 10) == 1)
+		if (App->entityFactory->GetRandomValue(1, 10) == 1)
 		{
 			CreateBurned(attacker, defender, initialDamage*0.1, 10, "\0");
 		}
@@ -132,7 +132,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 	if (elementType == ELEMENTAL_TYPE::ICE_ELEMENT)
 	{
-		if (App->lootManager->GetRandomValue(1, 10) == 1)
+		if (App->entityFactory->GetRandomValue(1, 10) == 1)
 		{
 			CreateParalize(attacker, defender, 3);
 		}

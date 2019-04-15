@@ -6,7 +6,7 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntity.h"
 #include "j1PathFinding.h"
-#include "j1LootManager.h"
+
 #include "j1AttackManager.h"
 
 #include <random>

@@ -7,7 +7,7 @@
 //test buff
 #include "j1Input.h"
 #include "j1EntityFactory.h"
-#include "j1LootManager.h"
+
 #include "j1AttackManager.h"
 #include "j1Gui.h"
 #include "j1App.h"

@@ -2,7 +2,6 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "LootEntity.h"
-#include "j1LootManager.h"
 #include "p2Log.h"
 #include <random>
 

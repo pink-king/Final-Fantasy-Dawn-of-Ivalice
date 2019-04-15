@@ -1,6 +1,6 @@
 #include "ConsumableLoot.h"
 #include "j1Entity.h"
-#include "j1LootManager.h"
+
 
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
