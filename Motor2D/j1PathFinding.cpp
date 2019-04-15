@@ -341,6 +341,86 @@ uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destin
 	return list_to_fill.pathNodeList.size();
 }
 
+
+uint PathNode::FindSubtileAdjacentsIgnoringColl(PathList & list_to_fill, const iPoint destination)
+{
+	iPoint cell;
+	iPoint tile;
+	// DIAGONAL CASES
+
+	// North - West
+	cell.create(pos.x - 1, pos.y - 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+
+	// North - East
+	cell.create(pos.x + 1, pos.y - 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+
+	// South - East
+	cell.create(pos.x + 1, pos.y + 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+
+	// South - Weast
+	cell.create(pos.x - 1, pos.y + 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+
+	// Queen cases
+
+	// North 
+	cell.create(pos.x, pos.y - 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// East
+	cell.create(pos.x + 1, pos.y);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// South
+	cell.create(pos.x, pos.y + 1);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	// West
+	cell.create(pos.x - 1, pos.y);
+	tile = App->map->SubTileMapToWorld(cell.x, cell.y);
+	tile = App->map->WorldToMap(tile.x, tile.y);
+	if (App->pathfinding->IsWalkable(tile))
+	{
+		list_to_fill.pathNodeList.push_back(PathNode(g + COST_TO_MOVE + 1, cell.DistanceManhattan(destination), cell, this));
+	}
+	return list_to_fill.pathNodeList.size();
+}
+
 // NOT TRYING WALKABILITY
 
 //uint PathNode::FindSubtileAdjacents(PathList & list_to_fill, const iPoint destination)
@@ -512,7 +592,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 }
 
-int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & destination)
+int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & destination, bool ignoringCollisions)
 {
 	int cont = 0; 
 	last_path.clear();
@@ -570,8 +650,10 @@ int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & desti
 		{
 			// Fill a list of all adjancent nodes
 			PathList neighbors;
-			close.pathNodeList.back().FindSubtileAdjacents(neighbors, destination);
+			if(!ignoringCollisions)		// Avoid other enemies 
+				close.pathNodeList.back().FindSubtileAdjacents(neighbors, destination);
 
+			else close.pathNodeList.back().FindSubtileAdjacentsIgnoringColl(neighbors, destination);
 			// Iterate adjancent nodes:
 			std::list<PathNode>::iterator iterator = neighbors.pathNodeList.begin();
 

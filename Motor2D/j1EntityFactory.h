@@ -43,7 +43,10 @@ public:
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed);
+	void CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg);
+	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
+
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
@@ -85,6 +88,9 @@ private:
 	// subtile data map, associated entities to subtile
 	entityDataMap* entitiesDataMap = nullptr;
 	bool reservedAdjacentSubtiles[9];
+
+	std::random_device rd;  //Will be used to obtain a seed for the random number engine
+	std::mt19937 gen; //Standard mersenne_twister_engine seeded with rd()
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;

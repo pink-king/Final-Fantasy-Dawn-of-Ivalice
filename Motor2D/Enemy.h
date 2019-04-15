@@ -42,7 +42,8 @@ enum class EnemyType
 	MELEE,
 	DISTANCE,
 	TRAP,
-	TEST,
+	BOMB,
+	TEST
 };
 
 // TODO Add struct to hold enemy stats
@@ -50,13 +51,13 @@ enum class EnemyType
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed);
+	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name);
 	~Enemy();
 
 	//core loops ------
 
 	bool SearchNewPath();
-	bool SearchNewSubPath();
+	bool SearchNewSubPath(bool ignoringColl = false);
 	int GetRandomValue(const int& min, const int& max) const;
 	bool isInDetectionRange() const;
 	bool isInAttackRange() const;

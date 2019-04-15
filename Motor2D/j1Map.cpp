@@ -31,7 +31,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 	// configures the pixel offset (center top up isometric corner to real 0,0 world coord
 	// if not, all the rest are 1 tile displaced
 	// for this, the worldToMap function on x needs to be workarounded by substracting -1
-	pixelTileOffset.create(-32, -32);//-64 * 0.5f, -32 * 0.5f);
+	pixelTileOffset.create(0,-16);//-64 * 0.5f, -32 * 0.5f);
 
 	return ret;
 }
@@ -120,6 +120,8 @@ iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret;
 
+	x -= 1; // TODO displacement
+
 	if(data.type == MAPTYPE_ORTHOGONAL)
 	{
 		ret.x = x * data.tile_width;
@@ -153,7 +155,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int((x / half_width + (y / half_height)) * 0.5f); // this is caused because the sprite doesnt fit to 0,0 on real world
+		ret.x = int((x / half_width + (y / half_height)) * 0.5f); // - 1// this is caused because the sprite doesnt fit to 0,0 on real world
 		ret.y = int( (y / half_height - (x / half_width)) * 0.5f);	   // and needs this offset to match ( 1 tile displacement )
 	}
 	else
@@ -415,8 +417,10 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							positionOnWorld.y = walls.attribute("y").as_int(0);
 							positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
 							positionOnWorld.x = positionOnWorld.x * 2;
+							positionOnWorld.x -= walls.attribute("width").as_int(0);
+							positionOnWorld.y -= walls.attribute("height").as_int(0);
 
-							//App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
+							App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
 
 						}
 						// else if(wallTypeName == "wall2") {} etc

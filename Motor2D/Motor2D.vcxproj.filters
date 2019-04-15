@@ -133,6 +133,9 @@
     <ClCompile Include="easing.cpp">
       <Filter>Desenvolupament ======\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBomb.cpp">
+      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Module.h">
@@ -290,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="easing.h">
       <Filter>Desenvolupament ======\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBomb.h">
+      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

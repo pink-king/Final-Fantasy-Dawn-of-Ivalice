@@ -7,8 +7,8 @@
 #include "j1LootManager.h"
 #include <random>
 
-Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) 
-	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
+Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
+	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, "ENEMY_TEST")
 {
 	currentAnimation = &idle[(int)facingDirectionEnemy::S];
 	this->attackSpeed = 1.f / attackSpeed;
@@ -60,7 +60,7 @@ bool Enemy::SearchNewPath()
 	return ret;
 }
 
-bool Enemy::SearchNewSubPath()
+bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other enemies
 {
 	bool ret = false;
 	if (path_to_follow.size() > 0)
@@ -82,24 +82,88 @@ bool Enemy::SearchNewSubPath()
 
 	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
 	{
-		if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) > 0)
+		if (!ignoringColl)
 		{
-			path_to_follow = *App->pathfinding->GetLastPath();
-			if (path_to_follow.size() > 1)
-				path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+			if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) > 0)
+			{
+				path_to_follow = *App->pathfinding->GetLastPath();
+				if (path_to_follow.size() > 1)
+					path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
 
-			if (path_to_follow.size() > 1)
-				path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+				if (path_to_follow.size() > 1)
+					path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
 
-			iPoint adj = path_to_follow.back();
-			App->entityFactory->ReserveAdjacent(adj);
-			ret = (path_to_follow.size() > 0);
+				iPoint adj = path_to_follow.back();
+				App->entityFactory->ReserveAdjacent(adj);
+				ret = (path_to_follow.size() > 0);
+			}
+			else LOG("Could not create path correctly");
 		}
-		else LOG("Could not create path correctly");
+		else if(App->pathfinding->CreateSubtilePath(thisTile, playerTile, true) > 0)
+			{
+				path_to_follow = *App->pathfinding->GetLastPath();
+				if (path_to_follow.size() > 1)
+					path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+
+				if (path_to_follow.size() > 1)
+					path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+
+				iPoint adj = path_to_follow.back();
+				App->entityFactory->ReserveAdjacent(adj);
+				ret = (path_to_follow.size() > 0);
+			}
+	else LOG("Could not create path correctly");
 	}
 
 	return ret;
 }
+
+//bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other enemies
+//{
+//	bool ret = false;
+//	if (path_to_follow.size() > 0)
+//	{
+//		std::vector<iPoint>::iterator item = path_to_follow.begin();
+//		for (; item != path_to_follow.end(); ++item)
+//		{
+//			if (App->entityFactory->isThisSubtileReserved(*item))
+//			{
+//				App->entityFactory->FreeAdjacent(*item);
+//				break;
+//			}
+//		}
+//	}
+//
+//	path_to_follow.clear();
+//	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
+//	iPoint playerTile = App->entityFactory->player->GetSubtilePos();
+//
+//	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
+//	{
+//		if (!ignoringColl)
+//			App->pathfinding->CreateSubtilePath(thisTile, playerTile);
+//		else
+//			App->pathfinding->CreateSubtilePath(thisTile, playerTile, true);
+//
+//		path_to_follow = *App->pathfinding->GetLastPath();
+//		if (path_to_follow.size() > 1)
+//			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+//
+//		if (path_to_follow.size() > 1)
+//			path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+//
+//		iPoint adj = path_to_follow.back();
+//		App->entityFactory->ReserveAdjacent(adj);
+//
+//		if (path_to_follow.size() > 0)
+//			ret = true; 
+//		else
+//			LOG("Could not create path correctly");
+//	}
+//
+//	return ret;
+//}
+
 
 int Enemy::GetRandomValue(const int& min, const int& max) const
 {

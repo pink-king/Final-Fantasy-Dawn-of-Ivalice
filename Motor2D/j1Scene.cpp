@@ -295,11 +295,22 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 11, 1, 10, 1.0f); 
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 70, 11, 1, 10, 1.0f); 
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		j1Entity* ent;
+		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
+	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	{
+		App->entityFactory->CreateEnemiesGroup(EnemyType::BOMB, EnemyType::TEST, SDL_Rect{ 2,2,4,4 }, 2, 10, 10, 50);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");

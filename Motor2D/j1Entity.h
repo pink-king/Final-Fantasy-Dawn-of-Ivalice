@@ -26,7 +26,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		ENTITY_DYNAMIC,
 		//---------------
 		PLAYER,
-		ENEMY01,
+		ENEMY_BOMB,
 		ENEMY02,
 		//etc
 		LOOT,
