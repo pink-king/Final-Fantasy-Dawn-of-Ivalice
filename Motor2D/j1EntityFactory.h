@@ -6,7 +6,7 @@
 #include "Enemy.h"
 #include "PlayerEntityManager.h"
 #include <vector>
-
+#include "j1Map.h"
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
@@ -58,6 +58,13 @@ public:
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
+	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	int GetRandomValue(int min, int max);
+	j1Entity* CreateLootType(int x, int y);
+	LOOT_TYPE WillDrop();
+	iPoint GetEnemySubtile(j1Entity* enemy);
+	iPoint SetLootPos(int x, int y);
+
 public:
 
 	//j1Entity*				Player = nullptr;
@@ -72,6 +79,8 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
+	bool toDrop = false;
+	int lootChance = 25;
 
 };
 

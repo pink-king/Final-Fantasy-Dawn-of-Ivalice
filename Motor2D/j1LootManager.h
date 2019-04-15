@@ -43,7 +43,7 @@ public:
 	//consumible funtions
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 
-	bool LoadLootData(LootEntity* lootentity, pugi::xml_node&);
+	
 
 public:
 	
