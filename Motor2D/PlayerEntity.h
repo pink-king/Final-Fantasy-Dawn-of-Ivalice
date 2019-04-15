@@ -81,7 +81,7 @@ public:
 	}
 private:
 
-	bool CheckCollisionBetweenDynaCol2TileNeighbours(const SDL_Rect& collider);
+	bool Collision2D(SDL_Rect& collider);
 	
 public:
 
