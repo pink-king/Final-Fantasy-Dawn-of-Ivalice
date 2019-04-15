@@ -13,7 +13,7 @@
 
 #include <random>
 
-EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, baseDamage, attackSpeed)
+EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, baseDamage, attackSpeed, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
 {
 	name.assign("Test");
 

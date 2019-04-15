@@ -3,7 +3,7 @@
 #include "j1EntityFactory.h"
 #include "j1Map.h"
 
-EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage) : Enemy(position, speed, detectionRange, attackRange, baseDamage, 0)
+EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage) : Enemy(position, speed, detectionRange, attackRange, baseDamage, 0, ENTITY_TYPE::ENEMY_BOMB, "Enemy Bomb")
 {
 	entityTex = App->tex->Load("textures/enemies/enemyBomb.png"); // TODO: note, repetead entities/enemies, load texture once time
 	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
