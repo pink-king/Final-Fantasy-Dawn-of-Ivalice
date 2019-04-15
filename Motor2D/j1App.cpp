@@ -19,7 +19,7 @@
 #include "j1Fonts.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-#include "j1LootManager.h"
+
 #include "j1ModuleCamera2D.h"
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
@@ -42,7 +42,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	font = new j1Fonts();
 	buff = new j1BuffManager();
 	attackManager = new j1AttackManager();
-	lootManager = new j1LootManager();
 	camera2D = new j1ModuleCamera2D();
 	HPManager = new UiItem_HitPointManager();
 
@@ -61,7 +60,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(gui);
 	AddModule(font);
-	AddModule(lootManager);
 	AddModule(camera2D);
 	AddModule(HPManager);
 	// render last to swap buffer

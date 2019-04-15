@@ -320,7 +320,7 @@ bool attackData::DoDirectAttack()
 		entitiesQueue.pop();
 		if (fromEntity == nullptr)
 			LOG("");
-		App->buff->DirectAttack((j1Entity*)fromEntity, defender, baseDamage, ELEMENTAL_TYPE::NORMAL_ELEMENT,"inteligence");
+		App->buff->DirectAttack((j1Entity*)fromEntity, defender, baseDamage, ELEMENTAL_TYPE::ALL_ELEMENTS,"inteligence");
 
 		// updates combo counter
 		++combo;

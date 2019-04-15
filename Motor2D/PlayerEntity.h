@@ -109,7 +109,6 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	std::vector<Buff*>		buffs;
 private:
 	j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;

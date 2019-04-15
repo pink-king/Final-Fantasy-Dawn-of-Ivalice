@@ -1,10 +1,9 @@
-#ifndef _LOOT_ENTITY_H__
-#define _LOOT_ENTITY_H__
+#ifndef _LOOTENTITY_H__
+#define _LOOTENTITY_H__
 
 #include "p2Point.h"
 #include "j1Entity.h"
 #include "Buff.h"
-#include "EnemyTest.h"
 #include "PlayerEntity.h"
 #include "j1PerfTimer.h"
 #include <random>
@@ -68,7 +67,7 @@ public:
 	int GetRandomValue(int min, int max);
 
 	float EaseOutBack(float t);
-	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* item);
+	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
 	fPoint Lerp(fPoint actual, fPoint destination, float t);
 	float LerpX(float actual, float destination, float t);
 	fPoint SetDestinationPos(float x, float y);
@@ -86,7 +85,6 @@ public:
 	iPoint loot_pos;
 	std::string lootname;
 	PlayerEntity* player;
-	EnemyTest* enemy;
 	SDL_Rect loot_rect;
 	//SDL_Texture* goldTex;
 
@@ -126,4 +124,5 @@ protected:
 
 	
 };
+
 #endif

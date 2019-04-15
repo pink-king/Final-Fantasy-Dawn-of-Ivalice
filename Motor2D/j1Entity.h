@@ -39,7 +39,10 @@ enum class STAT_TYPE
 {
 	NORMAL,
 	BURNED_STAT,
-	PARALIZE_STAT
+	PARALIZE_STAT,
+	COOLDOWN,
+	POTION_STAT,
+	ATTACKSPEED
 };
 
 class entityStat
@@ -106,6 +109,7 @@ public:
 	SDL_RendererFlip		flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
 	float					life = 100.f;
+	float					maxLife = 100.f;
 	float					defence = 0.f;
 	pugi::xml_document		file;
 	pugi::xml_parse_result	result;
@@ -113,6 +117,7 @@ public:
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
+	bool					isPotionActive = false;
 	
 	bool					changedTile = false; 
 	//Animation			idle;

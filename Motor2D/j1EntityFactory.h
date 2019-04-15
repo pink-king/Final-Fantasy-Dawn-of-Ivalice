@@ -16,6 +16,9 @@ enum class EnvironmentAssetsTypes
 	MAX
 };
 
+#include "j1Map.h"
+#include "ConsumableLoot.h"
+#include "EquipableLoot.h"
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
@@ -74,7 +77,12 @@ public:
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
-
+	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	int GetRandomValue(int min, int max);
+	j1Entity* CreateLootType(int x, int y);
+	LOOT_TYPE WillDrop();
+	iPoint GetEnemySubtile(j1Entity* enemy);
+	iPoint SetLootPos(int x, int y);
 
 public:
 
@@ -94,6 +102,8 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
+	bool toDrop = false;
+	int lootChance = 25;
 
 };
 

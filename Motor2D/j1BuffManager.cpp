@@ -1,7 +1,7 @@
 #include "j1BuffManager.h"
 #include <string.h>
 #include "j1EntityFactory.h"
-#include "j1LootManager.h"
+
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
@@ -67,25 +67,13 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, j1Entity* character, std::string stat, float value)
+void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character, std::string stat, float value)
 {
 	bool exist = false;
 	std::list<Buff*>::iterator item = buffs.begin();
-	if(buffs.size() == 0)
-		buffs.push_back(new Buff(type, character,stat, elementType, rol, value));
-	else
-	{
-		for (; item != buffs.end(); ++item)
-		{
-			if ((*item)->GetIfExist(type, character, stat, elementType, rol))
-				exist = true;
-		}
-
-		if (!exist)
-		{
-			buffs.push_back(new Buff(type, character,stat, elementType, rol, value));
-		}
-	}
+	buffs.push_back(new Buff(type, character,stat, elementType, rol, value));
+	if (rol != ROL::ATTACK_ROL && rol != ROL::DEFENCE_ROL)
+		ChangeEntityVariables(character, type, rol, value);
 }
 
 void j1BuffManager::RemoveBuff(j1Entity* character)
@@ -96,13 +84,13 @@ void j1BuffManager::RemoveBuff(j1Entity* character)
 			buffs.remove(*item);
 }
 
-float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string stat)
+float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEMENTAL_TYPE elementType, ROL rol, std::string stat)
 {
 
 	float totalMult = 0.f;
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::NORMAL_ELEMENT) && rol == (*iter)->GetRol() &&
+		if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
 			(ent == (*iter)->GetCharacter()))
 		{
 					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
@@ -112,14 +100,18 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 						totalMult += (*iter)->GetValue();	
 		}
 	}
-	
-	return initialDamage * (1 + totalMult);
+	if (initialDamage != 0)
+		return initialDamage * (1 + totalMult);
+	else if (totalMult != 0)
+		return 1 + totalMult;
+	else
+		return 0;
 }
 
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
-	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, OBJECT_ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, OBJECT_ROL::DEFENCE_ROL, stat);
+	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
@@ -138,7 +130,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 																													  
 	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
 	{
-		if (App->lootManager->GetRandomValue(1, 10) == 1)
+		if (App->entityFactory->GetRandomValue(1, 10) == 1)
 		{
 			CreateBurned(attacker, defender, initialDamage*0.1, 10, "\0");
 		}
@@ -146,7 +138,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 	if (elementType == ELEMENTAL_TYPE::ICE_ELEMENT)
 	{
-		if (App->lootManager->GetRandomValue(1, 10) == 1)
+		if (App->entityFactory->GetRandomValue(1, 10) == 1)
 		{
 			CreateParalize(attacker, defender, 3);
 		}
@@ -164,7 +156,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat)
 {
 	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT,totalTime, damageSecond);
-	newStat->secDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, OBJECT_ROL::ATTACK_ROL, stat) + CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, OBJECT_ROL::DEFENCE_ROL, stat);
+	newStat->secDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, stat) + CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, stat);
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
 	entitiesTimeDamage.push_back(defender);
@@ -180,10 +172,151 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uin
 	entitiesTimeDamage.push_back(defender);
 }
 
-
-void j1BuffManager::ActiveBuff(std::string buffName, j1Entity* character, OBJECT_TYPE clasType)
+void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 {
-	
+	entityStat* newStat = new entityStat(STAT_TYPE::POTION_STAT, time,lifeSecond);
+	newStat->count.Start();
+	entity->stat.push_back(newStat);
+	entity->isPotionActive = true;
+	entitiesTimeDamage.push_back(entity);
+}
+
+void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL rol, float value)
+{
+	if (entity != nullptr)
+	{
+		PlayerEntity* player = (PlayerEntity*)entity;
+		Enemy* enemy = (Enemy*)entity;
+		switch (rol)
+		{
+		case ROL::COOLDOWN:
+			if (entity->type== ENTITY_TYPE::PLAYER)
+			{
+				if (type == BUFF_TYPE::MULTIPLICATIVE)
+				{
+					player->coolDownData.basic.cooldownTime *= value;
+					player->coolDownData.dodge.cooldownTime *= value;
+					player->coolDownData.special1.cooldownTime *= value;
+					player->coolDownData.special2.cooldownTime *= value;
+					player->coolDownData.ultimate.cooldownTime *= value;
+				}
+				else if (type == BUFF_TYPE::ADDITIVE)
+				{
+					player->coolDownData.basic.cooldownTime -= value;
+					player->coolDownData.dodge.cooldownTime -= value;
+					player->coolDownData.special1.cooldownTime -= value;
+					player->coolDownData.special2.cooldownTime -= value;
+					player->coolDownData.ultimate.cooldownTime -= value;
+				}
+			}
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			{
+				if (type == BUFF_TYPE::MULTIPLICATIVE)
+					enemy->attackSpeed *= value;
+				else if (type == BUFF_TYPE::ADDITIVE)
+					enemy->attackSpeed -= value;
+			}
+			break;
+
+		case ROL::VELOCITY:
+			if (entity->type == ENTITY_TYPE::PLAYER)
+			{
+				if (type == BUFF_TYPE::MULTIPLICATIVE)
+				{
+					player->characterBaseSpeed.x *= value;
+					player->characterBaseSpeed.y *= value;
+				}
+				else if (type == BUFF_TYPE::ADDITIVE)
+				{
+					player->characterBaseSpeed.x += value;
+					player->characterBaseSpeed.y += value;
+				}
+			}
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			{
+				if (type == BUFF_TYPE::MULTIPLICATIVE)
+				{
+					enemy->speed *= value;
+				}
+
+				else if (type == BUFF_TYPE::ADDITIVE)
+				{
+					enemy->speed += value;				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+void j1BuffManager::ResetEntityVariables(Buff* buff)
+{
+	PlayerEntity* player = (PlayerEntity*)buff->GetCharacter();
+	Enemy* enemy = (Enemy*)buff->GetCharacter();
+	switch (buff->GetRol())
+	{
+	case ROL::COOLDOWN:
+		if (buff->GetCharacter()->type == ENTITY_TYPE::PLAYER)
+		{
+			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+			{
+				player->coolDownData.basic.cooldownTime /= buff->GetValue();
+				player->coolDownData.dodge.cooldownTime /= buff->GetValue();
+				player->coolDownData.special1.cooldownTime /= buff->GetValue();
+				player->coolDownData.special2.cooldownTime /= buff->GetValue();
+				player->coolDownData.ultimate.cooldownTime /= buff->GetValue();
+			}
+			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
+			{
+				player->coolDownData.basic.cooldownTime += buff->GetValue();
+				player->coolDownData.dodge.cooldownTime += buff->GetValue();
+				player->coolDownData.special1.cooldownTime += buff->GetValue();
+				player->coolDownData.special2.cooldownTime += buff->GetValue();
+				player->coolDownData.ultimate.cooldownTime += buff->GetValue();
+			}
+		}
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		{
+			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+				enemy->attackSpeed /= buff->GetValue();
+			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
+				enemy->attackSpeed += buff->GetValue();
+		}
+		break;
+
+	case ROL::VELOCITY:
+		if (buff->GetCharacter()->type == ENTITY_TYPE::PLAYER)
+		{
+			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+			{
+				player->characterBaseSpeed.x /= buff->GetValue();
+				player->characterBaseSpeed.y /= buff->GetValue();
+			}
+			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
+			{
+				player->characterBaseSpeed.x -= buff->GetValue();
+				player->characterBaseSpeed.y -= buff->GetValue();
+			}
+		}
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		{
+			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+			{
+				enemy->speed /= buff->GetValue();
+			}
+
+			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
+			{
+				enemy->speed -= buff->GetValue();
+			}
+		}
+		break;
+
+	default:
+		break;
+	}
 }
 
 void j1BuffManager::DeleteBuff(Buff* buff)
@@ -192,7 +325,11 @@ void j1BuffManager::DeleteBuff(Buff* buff)
 	for (; item != buffs.end(); ++item)
 	{
 		if ((*item) == buff)
+		{
+			if ((*item)->GetRol() != ROL::ATTACK_ROL && (*item)->GetRol() != ROL::DEFENCE_ROL)
+				ResetEntityVariables(*item);
 			buffs.remove(*item);
+		}
 	}
 }
 
@@ -200,17 +337,27 @@ void j1BuffManager::AddItemStats(LootEntity * item)
 {
 	std::vector<Buff*>::iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)
-		buffs.push_back(*iter);
+	{
+		if ((*iter)->GetRol() == ROL::ATTACK_ROL || (*iter)->GetRol() == ROL::DEFENCE_ROL)
+			buffs.push_back(*iter);
+
+		else
+			ChangeEntityVariables((*iter)->GetCharacter(), (*iter)->GetType(),(*iter)->GetRol(), (*iter)->GetValue());
+	}
 }
 
 
-void j1BuffManager::RemoveItemStat(LootEntity * item)
+void j1BuffManager::RemoveItemStat(const LootEntity * item)
 {
 	std::list<Buff*>::iterator iter = buffs.begin();
 	for (; iter != buffs.end(); ++iter)
 	{
 		if ((*iter)->GetItemObject() == item)
+		{
+			if ((*iter)->GetRol() == ROL::ATTACK_ROL || (*iter)->GetRol() == ROL::DEFENCE_ROL)
+				buffs.push_back(*iter);
 			buffs.remove(*iter);
+		}		
 	}
 }
 
@@ -258,6 +405,24 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 				}
 			}
 			break;
+		case STAT_TYPE::POTION_STAT:
+
+			if ((*item)->totalTime > 0)
+			{
+				if ((*item)->count.ReadSec() > 1)
+				{
+					entity->life += (*item)->secDamage;
+					(*item)->count.Start();
+					--(*item)->totalTime;
+					if (entity->life > entity->maxLife)
+						entity->life = entity->maxLife;
+				}
+			}
+			else
+			{
+				entity->isPotionActive = false;
+				entity->stat.remove(*item);
+			}
 		case STAT_TYPE::NORMAL:
 			break;
 		default:
