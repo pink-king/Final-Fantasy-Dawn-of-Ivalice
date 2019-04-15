@@ -17,7 +17,7 @@ j1Entity::j1Entity(iPoint worldPos, SDL_Rect spriteAtlasRect) : type(NO_TYPE), d
 	position.x = worldPos.x;
 	position.y = worldPos.y;
 
-	pivot.create(spriteAtlasRect.w * 0.5f, spriteAtlasRect.h * 0.75f); // places pivot always on sprite "tile midpoint"
+	pivot.create(spriteAtlasRect.w * 0.5f, spriteAtlasRect.h - 16.f); // places pivot always on sprite "tile midpoint"
 }
 
 j1Entity::~j1Entity()

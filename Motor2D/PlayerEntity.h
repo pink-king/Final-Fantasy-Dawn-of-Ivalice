@@ -79,6 +79,9 @@ public:
 	{
 		return aiming;
 	}
+private:
+
+	bool CheckCollisionBetweenDynaCol2TileNeighbours(const SDL_Rect& collider);
 	
 public:
 
@@ -109,6 +112,7 @@ public:
 private:
 	j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;
+
 
 };
 

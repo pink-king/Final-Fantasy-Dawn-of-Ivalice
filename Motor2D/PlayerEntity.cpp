@@ -4,6 +4,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1PathFinding.h"
+#include "j1EntityFactory.h"
 
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
@@ -100,8 +101,31 @@ bool PlayerEntity::InputMovement(float dt)
 
 	// check individually collisions for each axis movement
 
+	// draw iso col
+	int colSize = 16;
+
+	SDL_Rect collider = { GetPivotPos().x - colSize * 0.5f, GetPivotPos().y - colSize * 0.5f, colSize, colSize };
+
+	App->render->DrawIsoQuad(collider, GetPivotPos());
+
+	iPoint tempcolpos = { collider.x, collider.y };
+	tempcolpos = App->map->IsoTo2D(tempcolpos.x + colSize * 0.5f, tempcolpos.y);
+	collider.x = tempcolpos.x;
+	collider.y = tempcolpos.y;
+	if (CheckCollisionBetweenDynaCol2TileNeighbours(collider))
+	{
+		LOG("COLLISION");
+	}
+	App->render->DrawQuad(collider, 255, 255,0,255);
+
+	//App->render->DrawIsoQuad(collider, GetPivotPos());
+
+
+
 	if (isMoving)
 	{
+
+
 		iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
 		if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
 		{
@@ -287,4 +311,47 @@ int PlayerEntity::GetPointingDir(float angle)
 float PlayerEntity::GetLastHeadingAngle() const
 {
 	return lastAxisMovAngle;
+}
+
+bool PlayerEntity::CheckCollisionBetweenDynaCol2TileNeighbours(const SDL_Rect& collider)
+{
+	bool ret = false;
+
+	// check only the neighbours adjacents to player current TILE
+	iPoint currentTile = App->entityFactory->player->GetTilePos();
+	currentTile.x += 1; // TODO: MAP DISPLACEMENT...
+	//currentTile.y += 1;
+	iPoint tileNeighbours[8]; // include diagonals
+
+	// clockwise order, not relevant
+
+	tileNeighbours[0] = { currentTile.x, currentTile.y - 1 }; // N
+	tileNeighbours[1] = { currentTile.x + 1, currentTile.y - 1}; // NE
+	tileNeighbours[2] = { currentTile.x + 1, currentTile.y }; // E
+	tileNeighbours[3] = { currentTile.x + 1, currentTile.y + 1 }; // SE
+	tileNeighbours[4] = { currentTile.x, currentTile.y + 1}; // S
+	tileNeighbours[5] = { currentTile.x - 1, currentTile.y + 1}; // SW
+	tileNeighbours[6] = { currentTile.x - 1, currentTile.y }; // W
+	tileNeighbours[7] = { currentTile.x - 1, currentTile.y - 1}; // NW
+	
+	LOG("currTile: %i,%i", currentTile.x, currentTile.y);
+
+	for (int i = 0; i < 8; ++i)
+	{
+		tileNeighbours[i] = App->map->MapToWorld(tileNeighbours[i].x, tileNeighbours[i].y);
+
+		//App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, 32,32 }, { tileNeighbours[i].x, tileNeighbours[i].y });
+
+		tileNeighbours[i] = App->map->IsoTo2D(tileNeighbours[i].x, tileNeighbours[i].y);
+		SDL_Rect tileWorldRect = { tileNeighbours[i].x, tileNeighbours[i].y , 32,32 }; // size of tile data
+
+		App->render->DrawQuad(tileWorldRect, 255, 0, 0, 255);
+
+		if (SDL_HasIntersection(&collider, &tileWorldRect))
+		{
+			LOG("COLLISION");
+		}
+	}
+
+	return ret;
 }
