@@ -5,7 +5,6 @@
 
 enum class CONSUMABLE_TYPE
 {
-	
 	POTION,
 	NO_CONSUMABLE
 };
@@ -26,5 +25,6 @@ public:
 	CONSUMABLE_TYPE  consumableType;
 
 	int chance;
+	bool isUsed = false;
 };
 #endif // ! _CONSUMABLE_LOOT_H__

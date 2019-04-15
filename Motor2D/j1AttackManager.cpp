@@ -314,7 +314,7 @@ bool attackData::DoDirectAttack()
 		// pass the type etc of the attack, for now pass a direct attack
 		j1Entity* defender = entitiesQueue.front();
 		entitiesQueue.pop();
-		App->buff->DirectAttack((j1Entity*)fromEntity, defender, 100, ELEMENTAL_TYPE::NORMAL_ELEMENT,"inteligence");
+		App->buff->DirectAttack((j1Entity*)fromEntity, defender, 100, ELEMENTAL_TYPE::ALL_ELEMENTS,"inteligence");
 
 		// updates combo counter
 		++combo;

@@ -1,12 +1,10 @@
-#ifndef _LOOT_ENTITY_H__
-#define _LOOT_ENTITY_H__
+#ifndef _LOOTENTITY_H__
+#define _LOOTENTITY_H__
 
 #include "p2Point.h"
 #include "j1Entity.h"
 #include "Buff.h"
-#include "EnemyTest.h"
 #include "PlayerEntity.h"
-struct SDL_Texture;
 
 enum class LOOT_TYPE
 {
@@ -49,8 +47,7 @@ public:
 	OBJECT_TYPE GetObjectType();
 	void Draw();
 	int GetRandomValue(int min, int max);
-
-	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* item);
+	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
 	EQUIPABLE_TYPE GetEquipable();
 public:
 
@@ -59,7 +56,6 @@ public:
 	iPoint loot_pos;
 	std::string lootname;
 	PlayerEntity* player;
-	EnemyTest* enemy;
 	SDL_Rect loot_rect;
 	SDL_Texture* goldTex;
 
@@ -76,4 +72,5 @@ protected:
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
 };
+
 #endif

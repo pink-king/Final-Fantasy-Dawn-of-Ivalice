@@ -89,7 +89,7 @@ public:
 	//Loot vectors
 	std::vector<LootEntity*>		equipedObjects;
 	std::vector<LootEntity*>		bagObjects;
-	std::vector<LootEntity*>		consumibles;
+	std::vector<LootEntity*>		consumables;
 
 	uint							gold = 0;
 private:

@@ -21,25 +21,28 @@ public:
 	bool Update(float dt);
 	bool PostUpdate() { return true; };
 	bool CleanUp();
-	//by tipes of enemies
-	void CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, j1Entity* character,std::string stat, float value);
+	//by buff without items
+	void CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character,std::string stat, float value);
+	//for delete all buff of one entity
 	void RemoveBuff(j1Entity* character);
 
-
-	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, std::string stat);
+	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, ROL rol, std::string stat);
 
 	//combat functions
 	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat);
 	bool DamageInTime(j1Entity* entity);
-	//functions to create buffs in entities
+	//functions to create damage in time
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat);
 	void CreateParalize(j1Entity* attacker, j1Entity* defender, uint time);
+	void CreateHealth(j1Entity* entity, float lifeSecond, uint time);
 
-	void ActiveBuff(std::string buffName, j1Entity* character, OBJECT_TYPE clasType);
+	void ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL rol, float value);
+	void ResetEntityVariables(Buff* buff);
+	//delete one buff
 	void DeleteBuff(Buff* buff);
 
 	void AddItemStats(LootEntity* item);
-	void RemoveItemStat(LootEntity* item);
+	void RemoveItemStat(const LootEntity* item);
 	iPoint enemydeadsubtile;
 private:
 	uint							lastSourceID = 0u;

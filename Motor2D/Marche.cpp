@@ -7,7 +7,7 @@
 //test buff
 #include "j1Input.h"
 #include "j1EntityFactory.h"
-#include "j1ItemsManager.h"
+#include "j1LootManager.h"
 #include "j1AttackManager.h"
 #include "j1Gui.h"
 #include "j1App.h"
@@ -240,13 +240,32 @@ bool Marche::Update(float dt)
 	{
 		std::vector<items*>::iterator item = equipedObjects.begin();
 		App->itemsManager->DesequipItem(this, *item);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_5) == 1)
+	}*/
+	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
 	{
-		std::vector<items*>::iterator item = bagObjects.begin();
-		App->itemsManager->EquipItem(this, *item);
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->bagObjects.begin();
+		if(item != App->entityFactory->player->bagObjects.end())
+			App->lootManager->EquipItem(*item);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_6) == 1)
+	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->equipedObjects.begin();
+		if (item != App->entityFactory->player->equipedObjects.end())
+			App->lootManager->DesequipItem(*item);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == 1)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->lootManager->ConsumConsumable(*item,this);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
+	{
+		App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::NORMAL_ELEMENT, ROL::VELOCITY, this, "\0", 10);
+	}
+	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{
 		App->itemsManager->CreateItem("sword2", OBJECT_TYPE::WEAPON_OBJECT, this);
 	}*/

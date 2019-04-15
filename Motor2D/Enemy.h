@@ -65,7 +65,9 @@ public:
 	void DebugPath() const;
 	// functionality ------
 
-
+public:
+	float attackSpeed = 0;
+	uint speed = 0;
 protected:
 	std::vector<iPoint> path_to_follow;
 
@@ -74,7 +76,7 @@ protected:
 	iPoint currentDestiny;
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint speed = 0;
+	
 
 	Animation idle[(int)facingDirectionEnemy::MAX];
 	Animation run[(int)facingDirectionEnemy::MAX];
@@ -83,7 +85,6 @@ protected:
 	
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
-	float attackSpeed = 0; 
 	bool isSubpathRange = false;
 
 	SDL_Texture* debugSubtile = nullptr;

@@ -95,12 +95,16 @@ bool PlayerEntityManager::Update(float dt)
 	//		(*item)->life = selectedCharacterEntity->life;
 	//}
 
-	for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
+	static char title[30];
+	sprintf_s(title, 30, " | life: %f", life);
+	App->win->AddStringToTitle(title);
+
+	/*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
 	{
 		static char title[30];
 		sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
 		App->win->AddStringToTitle(title);
-	}
+	}*/
 	App->win->ClearTitle();
 
 	return ret;

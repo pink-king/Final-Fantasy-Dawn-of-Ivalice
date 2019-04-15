@@ -68,7 +68,7 @@ int LootEntity::GetRandomValue(int min, int max)
 	return ret;
 }
 
-void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* item)
+void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item)
 {
 	stats.push_back(new Buff(type, character, stat, elementType, rol, value, item));
 }

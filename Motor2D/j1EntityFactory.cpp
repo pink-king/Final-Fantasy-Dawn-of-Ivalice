@@ -194,6 +194,8 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		{
 			ret->type = LOOT;
 			ret->name = name;
+			App->lootManager->LoadLootData((LootEntity*)ret, App->config);
+
 			entities.push_back(ret);
 		}
 		LOG("From factory Loot Entity");
