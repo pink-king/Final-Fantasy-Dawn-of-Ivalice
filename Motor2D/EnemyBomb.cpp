@@ -132,7 +132,9 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 }
 EnemyBomb::~EnemyBomb()
 {
+	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
 }
+
 bool EnemyBomb::Start()
 {
 	return true;

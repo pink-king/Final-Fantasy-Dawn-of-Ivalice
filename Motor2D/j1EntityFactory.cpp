@@ -12,6 +12,7 @@
 j1EntityFactory::j1EntityFactory()
 {
 	name.assign("entities");
+
 }
 
 j1EntityFactory::~j1EntityFactory()
@@ -51,6 +52,8 @@ bool j1EntityFactory::Start()
 	
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+
+	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 
 	return true;
 }
@@ -241,6 +244,26 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uin
 	
 
 	return ret;
+}
+
+void j1EntityFactory::CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg)
+{
+	Enemy* ret = nullptr; 
+	uint numEnemies = CreateRandomBetween(minNum, maxNum); 
+	for (uint i = 0; i < numEnemies; ++i)
+	{
+		//ret = CreateEnemy(etype1, { zone.x, zone.y }, 75, 1, 1, 10, 1.F); 
+
+	}
+
+}
+
+uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
+{
+	// Doesnt admit unsigned ints, but can cast it later
+	std::uniform_real_distribution<float> dis(min, max);
+
+	return (uint)dis(gen);
 }
 
 void j1EntityFactory::Debug(j1Entity* ent)
