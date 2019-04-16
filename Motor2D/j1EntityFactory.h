@@ -7,6 +7,18 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+enum class EnvironmentAssetsTypes
+{
+	NO_TYPE,
+	WALL,
+	WALL1,
+	// ---
+	MAX
+};
+
+#include "j1Map.h"
+#include "ConsumableLoot.h"
+#include "EquipableLoot.h"
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
@@ -33,12 +45,16 @@ public:
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
-	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, float attackSpeed);
+	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed);
+	void CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg);
+	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
+
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
 	int GetSubtileEntityIndexAt(const iPoint position) const;
+	bool areAllSubtilesReserved() const; 
 
 	std::vector<j1Entity*>* GetSubtileEntityVectorAt(const iPoint pos) const;
 
@@ -56,14 +72,24 @@ public:
 	void FreeAdjacent(const iPoint& pos);
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
+	// ---------
+	void CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
+
+	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	int GetRandomValue(int min, int max);
+	j1Entity* CreateLootType(int x, int y);
+	LOOT_TYPE WillDrop();
+	iPoint GetEnemySubtile(j1Entity* enemy);
+	iPoint SetLootPos(int x, int y);
 
 public:
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 	SDL_Texture*			texture = nullptr;
+	SDL_Texture*			assetsAtlasTex = nullptr;
 	std::vector<j1Entity*>	entities;
 private:
 	std::vector<j1Entity*>	draw_entities;
@@ -71,8 +97,13 @@ private:
 	entityDataMap* entitiesDataMap = nullptr;
 	bool reservedAdjacentSubtiles[9];
 
+	std::random_device rd;  //Will be used to obtain a seed for the random number engine
+	std::mt19937 gen; //Standard mersenne_twister_engine seeded with rd()
+
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
+	bool toDrop = false;
+	int lootChance = 25;
 
 };
 

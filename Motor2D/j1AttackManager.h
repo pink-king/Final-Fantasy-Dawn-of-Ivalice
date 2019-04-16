@@ -1,6 +1,7 @@
 #ifndef __j1ATTACKMANAGER_H__
 #define __j1ATTACKMANAGER_H__
 
+#include <algorithm>
 #include <queue>
 #include <vector>
 #include "j1Module.h"
@@ -36,11 +37,15 @@ public:
 	bool Start();
 	bool Update(float dt);
 	bool PostUpdate();
+	// ------------------------
+	const j1Entity* GetLinkedEntity() const;
+	const void UnlinkFromEntity();
 
 protected:
 	bool DoNextPropagationStep();
 	bool DoNextStepBFS();
 	//bool DoNextStepHeuristic();
+	
 	
 public:
 	bool to_erase = false;
@@ -100,6 +105,7 @@ public:
 	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed);
 	/*void AddPropagationAttack(attackData* );
 	void AddPropagationAttackToQueue(attackData*);*/
+	bool DestroyAllMyCurrentAttacks(const j1Entity* entity) const;
 
 public:
 	SDL_Texture* debugSubtileTex = nullptr;

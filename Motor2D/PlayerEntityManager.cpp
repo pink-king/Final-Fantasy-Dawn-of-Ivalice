@@ -7,7 +7,9 @@
 #include "j1EntityFactory.h"
 //buff test
 #include "j1Window.h"
-
+#include "j1Scene.h"
+#include "UiItem.h"
+#include "UiItem_Label.h"
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
@@ -83,8 +85,17 @@ bool PlayerEntityManager::Update(float dt)
 	else if (!crossHair->isReseted)
 		crossHair->Reset();
 		
-
-	
+	//collect loot
+	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
+		{
+			if (CollectLoot((LootEntity*)(*item)))
+			{
+				App->entityFactory->DeleteEntityFromSubtile(*item);
+				item = App->entityFactory->entities.erase(item);
+				break;
+			}
+		}
 	
 	// WARNING: search other way to do this
 	////provisional function to life
@@ -95,12 +106,16 @@ bool PlayerEntityManager::Update(float dt)
 	//		(*item)->life = selectedCharacterEntity->life;
 	//}
 
-	for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
+	static char title[30];
+	sprintf_s(title, 30, " | life: %f", life);
+	App->win->AddStringToTitle(title);
+
+	/*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
 	{
 		static char title[30];
 		sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
 		App->win->AddStringToTitle(title);
-	}
+	}*/
 	App->win->ClearTitle();
 
 	return ret;
@@ -301,6 +316,118 @@ iPoint PlayerEntityManager::GetCrossHairSubtile()
 const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 {
 	return lastCharHeadingAngle;
+}
+
+bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
+{
+	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
+	{
+		if (equipedObjects.size() == 0)
+		{
+			equipedObjects.push_back(entityLoot);
+			App->buff->AddItemStats(entityLoot);
+		}
+		else
+		{
+			bool existSimilar = false;
+			std::vector<LootEntity*>::iterator item = equipedObjects.begin();
+			for (; item != equipedObjects.end(); ++item)
+			{
+
+				if (entityLoot->GetObjectType() == (*item)->GetObjectType() && entityLoot->character == (*item)->character)
+					existSimilar = true;
+			}
+
+			if (!existSimilar && App->entityFactory->player != nullptr)
+			{
+				equipedObjects.push_back(entityLoot);
+				App->buff->AddItemStats(entityLoot);
+			}
+			else if (existSimilar && App->entityFactory->player != nullptr)
+			{
+				bagObjects.push_back(entityLoot);
+			}
+		}
+	}
+	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+	{
+		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
+			consumables.push_back(entityLoot);
+
+		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
+		{
+			gold += entityLoot->price;
+			entityLoot->to_delete = true;
+			str_coin = "x  " + std::to_string(gold);
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+			return false;
+		}
+
+	}
+	return true;
+}
+
+void PlayerEntityManager::EquipItem(LootEntity * entityLoot)
+{
+	for (std::vector<LootEntity*>::iterator item = bagObjects.begin(); item != bagObjects.end(); ++item)
+	{
+		if (entityLoot == *item)
+		{
+			bagObjects.erase(item);
+			break;
+		}
+	}
+	if (equipedObjects.size() == 0)
+	{
+		equipedObjects.push_back(entityLoot);
+		App->buff->AddItemStats(entityLoot);
+	}
+	else
+	{
+		for (std::vector<LootEntity*>::iterator item = equipedObjects.begin(); item != equipedObjects.end(); ++item)
+		{
+
+			if (entityLoot->GetObjectType() == (*item)->GetObjectType() && entityLoot->character == (*item)->character)
+			{
+				App->buff->RemoveItemStat(*item);
+				bagObjects.push_back(*item);
+				equipedObjects.erase(item);
+				break;
+			}
+		}
+		equipedObjects.push_back(entityLoot);
+		App->buff->AddItemStats(entityLoot);
+	}
+}
+
+void PlayerEntityManager::DesequipItem(LootEntity * entityLoot)
+{
+	for (std::vector<LootEntity*>::iterator item = equipedObjects.begin(); item != equipedObjects.end(); ++item)
+	{
+		if (entityLoot == *item)
+		{
+			App->buff->RemoveItemStat(*item);
+			equipedObjects.erase(item);
+			bagObjects.push_back(entityLoot);
+			break;
+		}
+	}
+}
+
+void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * entity)
+{
+	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
+	{
+		if (consumable == *item)
+		{
+			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
+			{
+				App->buff->CreateHealth((*iter)->GetCharacter(), (*iter)->GetValue(), 8);
+			}
+			item = consumables.erase(item);
+			break;
+		}
+	}
 }
 
 j1Entity * PlayerEntityManager::GetMarche()

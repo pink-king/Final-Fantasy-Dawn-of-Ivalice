@@ -45,7 +45,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	if (App->map->Load("maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -72,7 +72,7 @@ bool j1Scene::Start()
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ -980, 2440 });
+	App->entityFactory->CreatePlayer({ 300,300 });//-980, 2440 });
 
 
 	if (state == SceneState::GAME)
@@ -132,11 +132,11 @@ bool j1Scene::PreUpdate()
 
 	// FAKE KEYS FOR TESTING 
 
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 		App->win->SetScale(1);
 
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
-		App->win->SetScale(2);
+		App->win->SetScale(2);*/
 
 	// debug testing subtiles entities empty
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
@@ -155,7 +155,7 @@ bool j1Scene::PreUpdate()
 			LOG("subtile NOT empty");
 
 		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 10, 20, 40);
+		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 100, 20, 40);
 		App->camera2D->AddTrauma(0.7f);
 	}
 
@@ -165,12 +165,12 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	/*int mx, my;
+	int mx, my;
 	App->input->GetMousePosition(mx, my);
 	iPoint mousePos = App->render->ScreenToWorld(mx, my);
-	LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
+	//LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
-	LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);*/
+	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 
 	// map debug draw grids
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
@@ -295,14 +295,25 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 100, 20, 1, 1.0f); 
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 70, 11, 1, 10, 1.0f); 
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		j1Entity* ent;
+		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
+	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	{
+		App->entityFactory->CreateEnemiesGroup(EnemyType::BOMB, EnemyType::TEST, SDL_Rect{ 2,2,4,4 }, 2, 10, 10, 50);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 2.F), 21, 10, "burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
 	}
 
 	/*static char title[90];

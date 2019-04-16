@@ -14,6 +14,8 @@
 #include "UiItem_HealthBar.h"
 #include "UiItem_Image.h"
 
+#include <math.h>
+
 class UiItem_HealthBar; 
 class UiItem_Image; 
 
@@ -24,7 +26,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		ENTITY_DYNAMIC,
 		//---------------
 		PLAYER,
-		ENEMY01,
+		ENEMY_BOMB,
 		ENEMY02,
 		//etc
 		LOOT,
@@ -37,7 +39,10 @@ enum class STAT_TYPE
 {
 	NORMAL,
 	BURNED_STAT,
-	PARALIZE_STAT
+	PARALIZE_STAT,
+	COOLDOWN,
+	POTION_STAT,
+	ATTACKSPEED
 };
 
 class entityStat
@@ -62,6 +67,11 @@ class j1Entity
 {
 public:
 	j1Entity(ENTITY_TYPE type, float positionX, float positionY, std::string name);
+	// assets constructor ---
+	// static sprite environment asset
+	j1Entity(iPoint position, SDL_Rect spriteAtlasRect);
+	// static sprite with animation
+	//j1Entity(//TODO);
 	virtual ~j1Entity();
 
 	virtual bool Start();
@@ -88,6 +98,7 @@ public:
 	
 
 public:
+	SDL_Rect drawAtlasRect; // for static draw from spritesheet
 	bool					to_delete = false;
 	std::string				name;
 	fPoint					position;
@@ -98,6 +109,7 @@ public:
 	SDL_RendererFlip		flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
 	float					life = 100.f;
+	float					maxLife = 100.f;
 	float					defence = 0.f;
 	pugi::xml_document		file;
 	pugi::xml_parse_result	result;
@@ -105,6 +117,7 @@ public:
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
+	bool					isPotionActive = false;
 	
 	bool					changedTile = false; 
 	//Animation			idle;

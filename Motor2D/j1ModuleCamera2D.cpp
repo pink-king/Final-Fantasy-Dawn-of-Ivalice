@@ -31,7 +31,7 @@ bool j1ModuleCamera2D::PreUpdate()
 	return true;
 }
 
-bool j1ModuleCamera2D::Update(float dt)
+bool j1ModuleCamera2D::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
@@ -76,8 +76,8 @@ bool j1ModuleCamera2D::Update(float dt)
 		
 		if (debug)
 		{
-			LOG("Trauma:%f", trauma);
-			LOG("Shake amount: %f", GetShakeAmount());
+			/*LOG("Trauma:%f", trauma);
+			LOG("Shake amount: %f", GetShakeAmount());*/
 
 			uint w, h;
 			App->win->GetWindowSize(w, h);
@@ -91,7 +91,7 @@ bool j1ModuleCamera2D::Update(float dt)
 		}
 
 		// decay trauma
-		trauma -= dt * traumaDecay * (trauma + 0.3f);
+		trauma -= App->GetDt() * traumaDecay * (trauma + 0.3f);
 	}
 	else // update preshake pos
 	{
@@ -102,7 +102,7 @@ bool j1ModuleCamera2D::Update(float dt)
 	return true;
 }
 
-bool j1ModuleCamera2D::PostUpdate()
+bool j1ModuleCamera2D::Update(float dt)
 {
 	return true;
 }
@@ -139,6 +139,11 @@ const SDL_Rect* j1ModuleCamera2D::GetCameraRectPtr() const
 fPoint j1ModuleCamera2D::lerp(fPoint v0, fPoint v1, float t)
 {
 	return v0*(1 - t) + v1*t;
+}
+
+iPoint j1ModuleCamera2D::GetCamPos() const
+{
+	return { camera.x, camera.y };
 }
 
 float j1ModuleCamera2D::GetFloatNegOneToOne()

@@ -4,6 +4,9 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1PathFinding.h"
+#include "j1EntityFactory.h"
+#include "j1Window.h"
+#include <math.h>
 
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
@@ -100,8 +103,26 @@ bool PlayerEntity::InputMovement(float dt)
 
 	// check individually collisions for each axis movement
 
+	// draw iso col
+	int colSize = 16;
+
+	iPoint pivot_pos = (iPoint)GetPivotPos() - iPoint(0, colSize * 0.5f);
+
+	SDL_Rect collider = { pivot_pos.x, pivot_pos.y, colSize, colSize};
+
+	// Red isometric quad
+	App->render->DrawIsoQuad(collider);
+
+	// Check collisions
+	if (Collision2D(collider))
+	{
+		LOG("COLLISION");
+	}
+
 	if (isMoving)
 	{
+
+
 		iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
 		if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
 		{
@@ -287,4 +308,67 @@ int PlayerEntity::GetPointingDir(float angle)
 float PlayerEntity::GetLastHeadingAngle() const
 {
 	return lastAxisMovAngle;
+}
+
+bool PlayerEntity::Collision2D(SDL_Rect& collider)
+{
+	bool ret = false;
+
+	int tile_size = 32;
+
+	iPoint tempcolpos = App->map->IsoTo2D(collider.x, collider.y);
+	collider.x = tempcolpos.x;
+	collider.y = tempcolpos.y;
+
+	// check only the neighbours adjacents to player current TILE
+	iPoint currentTile = App->entityFactory->player->GetTilePos();
+	currentTile.x += 1; // TODO: MAP DISPLACEMENT...
+	//currentTile.y += 1;
+	iPoint tileNeighbours[8]
+	{
+		{ currentTile.x,	 currentTile.y - 1	}, // N
+		{ currentTile.x + 1, currentTile.y - 1	}, // NE
+		{ currentTile.x + 1, currentTile.y		}, // E
+		{ currentTile.x + 1, currentTile.y + 1	}, // SE
+		{ currentTile.x,	 currentTile.y + 1	}, // S
+		{ currentTile.x - 1, currentTile.y + 1	}, // SW
+		{ currentTile.x - 1, currentTile.y		}, // W
+		{ currentTile.x - 1, currentTile.y - 1	}  // NW
+	};
+
+	int scale =  (int)App->win->GetScale();
+
+	iPoint offset = App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
+	offset = App->map->IsoTo2D(offset.x, offset.y);
+	offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
+	//Place it on the right corner of the screen
+	uint w, h;
+	App->win->GetWindowSize(w, h);
+	offset.x -= round((int)w / scale) - tile_size * 3;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		//Isometric
+		tileNeighbours[i] = App->map->MapToWorld(tileNeighbours[i].x, tileNeighbours[i].y);
+		App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, tile_size,tile_size });
+
+		//Orthogonal
+		tileNeighbours[i] = App->map->IsoTo2D(tileNeighbours[i].x, tileNeighbours[i].y);
+		SDL_Rect tileWorldRect = { tileNeighbours[i].x , tileNeighbours[i].y, tile_size,tile_size }; // size of tile data
+		App->render->DrawQuad(
+			{ tileWorldRect.x - offset.x, tileWorldRect.y - offset.y, tileWorldRect.w, tileWorldRect.h },
+			255, 0, 0, 255);
+
+		if (SDL_HasIntersection(&collider, &tileWorldRect))
+		{
+			LOG("COLLISION");
+		}
+	}
+
+	//Draw yellow quad
+	App->render->DrawQuad(
+		{collider.x - offset.x, collider.y - offset.y, collider.w, collider.h},
+		255, 255, 0, 255);
+
+	return ret;
 }

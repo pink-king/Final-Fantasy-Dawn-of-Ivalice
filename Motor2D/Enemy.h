@@ -6,10 +6,12 @@
 #include "p2Point.h"
 #include "j1Timer.h"
 #include <vector>
-
+#include "j1AttackManager.h"
 
 #define RANGE 20
+
 struct SDL_Texture;
+
 enum class facingDirectionEnemy // WARNING: no modify this order
 {
 	E, // right - 0
@@ -40,7 +42,8 @@ enum class EnemyType
 	MELEE,
 	DISTANCE,
 	TRAP,
-	TEST,
+	BOMB,
+	TEST
 };
 
 // TODO Add struct to hold enemy stats
@@ -48,24 +51,31 @@ enum class EnemyType
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, float attackSpeed);
+	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name);
 	~Enemy();
 
 	//core loops ------
 
 	bool SearchNewPath();
-	bool SearchNewSubPath();
+	bool SearchNewSubPath(bool ignoringColl = false);
 	int GetRandomValue(const int& min, const int& max) const;
 	bool isInDetectionRange() const;
 	bool isInAttackRange() const;
 	bool isNextPosFree(iPoint futurePos); 
 	bool isOnDestiny() const; 
+
+	int GetPointingDir(float angle);
+	void CheckRenderFlip();
+	void SetLookingTo(const fPoint& dir);
+
 	void Draw() override;
 
 	void DebugPath() const;
 	// functionality ------
 
-
+public:
+	float attackSpeed = 0;
+	uint speed = 0;
 protected:
 	std::vector<iPoint> path_to_follow;
 
@@ -74,7 +84,7 @@ protected:
 	iPoint currentDestiny;
 	iPoint direction = { 0,0 };
 	fPoint velocity = { 0,0 };
-	uint speed = 0;
+	
 
 	Animation idle[(int)facingDirectionEnemy::MAX];
 	Animation run[(int)facingDirectionEnemy::MAX];
@@ -83,10 +93,12 @@ protected:
 	
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
-	float attackSpeed = 0; 
 	bool isSubpathRange = false;
 
+	uint pointingDir; 
 	SDL_Texture* debugSubtile = nullptr;
+	uint baseDamage;
+
 };
 
 #endif

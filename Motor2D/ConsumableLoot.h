@@ -5,7 +5,6 @@
 
 enum class CONSUMABLE_TYPE
 {
-	
 	POTION,
 	NO_CONSUMABLE
 };
@@ -15,16 +14,21 @@ class Consumable : public LootEntity
 public:
 	Consumable(int posX, int posY);
 	~Consumable();
-
+	bool Start();
 	bool Update(float dt);
 	
 	void ChooseConsumable();
 	void SetConsumable();
 	
+
 	//void ConstructConsumable();
 public:
 	CONSUMABLE_TYPE  consumableType;
 
 	int chance;
+	
+	
+	float originTest;
+	bool isUsed = false;
 };
 #endif // ! _CONSUMABLE_LOOT_H__
