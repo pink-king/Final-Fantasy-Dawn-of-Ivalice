@@ -47,6 +47,8 @@ public:
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed);
 	void CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg);
+	LootEntity* CreateLoot( int posX, int posY);
+	LootEntity* CreateGold(int posX, int posY);
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
 
@@ -79,7 +81,7 @@ public:
 
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	int GetRandomValue(int min, int max);
-	j1Entity* CreateLootType(int x, int y);
+	//j1Entity* CreateLootType(int x, int y);
 	LOOT_TYPE WillDrop();
 	iPoint GetEnemySubtile(j1Entity* enemy);
 	iPoint SetLootPos(int x, int y);
@@ -91,6 +93,7 @@ public:
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
 	std::vector<j1Entity*>	entities;
+	bool justGold;
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile
@@ -102,8 +105,7 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
-	bool toDrop = false;
-	int lootChance = 25;
+	int lootChance = 15;
 
 };
 

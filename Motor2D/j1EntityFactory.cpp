@@ -53,7 +53,7 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
-
+	justGold = false;
 	return true;
 }
 
@@ -113,9 +113,11 @@ bool j1EntityFactory::Update(float dt)
 			}
 			if (createLoot)
 			{
+				CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				justGold = true;
+				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				
-				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y,"lootitem");
-				
+
 			}
 			
 		}
@@ -198,7 +200,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		ret = CreateLootType(positionX, positionY);
+		/*ret = CreateLootType(positionX, positionY);
 		if (ret != nullptr)
 		{
 			ret->type = LOOT;
@@ -206,7 +208,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 			LoadLootData((LootEntity*)ret, App->config);
 
 			entities.push_back(ret);
-		}
+		}*/
 		LOG("From factory Loot Entity");
 		break;
 	default:
@@ -258,6 +260,42 @@ void j1EntityFactory::CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL
 
 	}
 
+}
+
+LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
+{
+	LootEntity* ret = nullptr;
+	 
+
+	switch (WillDrop())
+	{
+	case LOOT_TYPE::EQUIPABLE:
+		ret = new Equipable(posX, posY);
+			LoadLootData(ret, App->config);
+			entities.push_back(ret);
+			break;
+
+	case LOOT_TYPE::CONSUMABLE:
+		ret = new Consumable(posX, posY);
+		//ret->objectType = OBJECT_TYPE::GOLD;
+		LoadLootData(ret, App->config);
+		entities.push_back(ret);
+		break;
+	}
+	return ret;
+	
+}
+
+LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
+{
+	LootEntity* ret = nullptr;
+	if (GetRandomValue(1, 4) == 1)
+	{
+		ret = new Consumable(posX, posY);
+		LoadLootData(ret, App->config);
+		entities.push_back(ret);
+	}
+	return nullptr;
 }
 
 uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
@@ -809,27 +847,27 @@ int j1EntityFactory::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-j1Entity * j1EntityFactory::CreateLootType(int x, int y)
-{
-	j1Entity * ret = nullptr;
-
-	switch (WillDrop())
-	{
-	case LOOT_TYPE::CONSUMABLE:
-
-		ret = new Consumable(x, y);
-		break;
-
-	case LOOT_TYPE::EQUIPABLE:
-		ret = new Equipable(x, y);
-		break;
-
-	default:
-		break;
-	}
-
-	return ret;
-}
+//j1Entity * j1EntityFactory::CreateLootType(int x, int y)
+//{
+//	j1Entity * ret = nullptr;
+//
+//	switch (WillDrop())
+//	{
+//	case LOOT_TYPE::CONSUMABLE:
+//
+//		ret = new Consumable(x, y);
+//		break;
+//
+//	case LOOT_TYPE::EQUIPABLE:
+//		ret = new Equipable(x, y);
+//		break;
+//
+//	default:
+//		break;
+//	}
+//
+//	return ret;
+//}
 
 LOOT_TYPE j1EntityFactory::WillDrop()
 {
@@ -837,8 +875,7 @@ LOOT_TYPE j1EntityFactory::WillDrop()
 
 	if (randvalue <= lootChance)
 	{
-		toDrop = true;
-		if (randvalue <= 15)
+		if (randvalue <= 5)
 			return  LOOT_TYPE::CONSUMABLE;
 
 		else
@@ -847,11 +884,8 @@ LOOT_TYPE j1EntityFactory::WillDrop()
 
 	}
 
-	else toDrop = false;
-
-
-
-	return LOOT_TYPE::NO_LOOT;
+	else return LOOT_TYPE::NO_LOOT;
+	
 }
 
 iPoint j1EntityFactory::GetEnemySubtile(j1Entity * enemy)
