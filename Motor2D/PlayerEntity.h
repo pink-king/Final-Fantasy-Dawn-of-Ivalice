@@ -79,6 +79,9 @@ public:
 	{
 		return aiming;
 	}
+private:
+
+	bool Collision2D(SDL_Rect& collider);
 	
 public:
 
@@ -106,10 +109,10 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	std::vector<Buff*>		buffs;
 private:
 	j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;
+
 
 };
 

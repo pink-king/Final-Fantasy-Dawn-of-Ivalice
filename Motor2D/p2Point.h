@@ -85,6 +85,22 @@ public:
 		return r;
 	}
 
+	p2Point operator/ (const TYPE & num) const {
+		p2Point r;
+		r.x = x / num;
+		r.y = y / num;
+		return r;
+	}
+
+	p2Point RoundPoint()
+	{
+		return p2Point
+		(
+			round(x),
+			round(y)
+		);
+	}
+
 	bool operator ==(const p2Point& v) const
 	{
 		return (x == v.x && y == v.y);
@@ -93,6 +109,13 @@ public:
 	bool operator !=(const p2Point& v) const
 	{
 		return (x != v.x || y != v.y);
+	}
+
+	const p2Point operator /=(const TYPE& v)
+	{
+		x /= v;
+		y /= v;
+		return (*this);
 	}
 
 	// Utils ------------------------------------------------
@@ -153,6 +176,16 @@ public:
 	{
 		p2Point<float> r((float)x, (float)y);
 		return r;
+	}
+
+	explicit operator p2Point<int>() const
+	{
+		return p2Point<int>((int)x, (int)y);
+	}
+
+	explicit operator p2Point<float>() const
+	{
+		return p2Point<float>((float)x, (float)y);
 	}
 
 };

@@ -1,25 +1,50 @@
 #include "ConsumableLoot.h"
 #include "j1Entity.h"
-#include "j1LootManager.h"
-
+#include "easing.h"
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
-
+	
 	SetConsumable();
+	originPos.x = position.x;
+	start = true;
 }
 
 
 Consumable::~Consumable()
 {
-
+	
 }
 
-
-bool Consumable::Update(float dt)
+bool Consumable::Start()
 {
+	
 	return true;
 }
+bool Consumable::Update(float dt)
+{
+	
+		if (start)
+		{
+			goalPos = SetDestinationPos(goalPos.x, goalPos.y);
+			start = false;
+			position.y + 5;
+			
+			DecideExplosion();
+		}
+
+		dt = EaseOutBack(displacementTime.ReadMs())*0.000001;
+
+		if (displacementTime.ReadMs() <= 280)
+		{
+			ExplosionMaker(dt);
+			LOG("displaced %f",position.x - originPos.x);
+			LOG("actual time %f", timeTest);
+		}
+    
+	return true;
+}
+
 
 
 

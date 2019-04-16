@@ -391,21 +391,19 @@
   </map>
 
   <loot>
-    <Money>
-    <gold id ="1" value ="30"/>
-    <gold id ="2" value ="40"/>
-    <gold id ="3" value ="50"/>
-    </Money>
+    
+    <gold min ="50" max ="300"/>
+   
     
     <potions>
-      <health_potion id="1" value ="25"/>  
+      <health_potion id="1" value ="2"/>  
     </potions>
 
     <equipable>
       <sword>
-        <equipment id="1" character="marche" name="sword_1" />
-        <equipment id="2" character="marche" name="sword_2" />
-        <equipment id="3" character="marche" name="legendary_sword"/>
+        <equipment id="1" character="marche" name="sword_1" dmg ="10" />
+        <equipment id="2" character="marche" name="sword_2" dmg ="16"/>
+        <equipment id="3" character="marche" name="legendary_sword" dmg ="20"/>
       </sword>
       
       <armor>

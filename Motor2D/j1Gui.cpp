@@ -30,6 +30,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.data());
+	lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	return true;
 }
 
@@ -635,6 +636,8 @@ SDL_Texture * j1Gui::GetAtlas()
 {
 	return atlas;
 }
+
+
 
 void j1Gui::FadeToScene()
 {

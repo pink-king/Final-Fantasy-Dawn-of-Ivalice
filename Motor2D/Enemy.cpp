@@ -4,19 +4,21 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
-#include "j1LootManager.h"
+
 #include <random>
 
-Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, float attackSpeed) 
-	: speed(movementSpeed), detectionRange(detectionRange), attackRange(attackRange), j1Entity(ENEMY_TEST, position.x, position.y, "ENEMY_TEST")
+Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
+ 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, "ENEMY_TEST")
 {
-	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
-	this->attackSpeed = 1 / attackSpeed;
+	currentAnimation = &idle[(int)facingDirectionEnemy::S];
+	this->attackSpeed = 1.f / attackSpeed;
 }
 
 Enemy::~Enemy()
 {
 	// TODO: Loot spawn in all enemies? 
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
+	LOG("parent enemy bye");
 }
 
 bool Enemy::SearchNewPath()
@@ -58,7 +60,7 @@ bool Enemy::SearchNewPath()
 	return ret;
 }
 
-bool Enemy::SearchNewSubPath()
+bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other enemies
 {
 	bool ret = false;
 	if (path_to_follow.size() > 0)
@@ -80,24 +82,88 @@ bool Enemy::SearchNewSubPath()
 
 	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
 	{
-		if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) > 0)
+		if (!ignoringColl)
 		{
-			path_to_follow = *App->pathfinding->GetLastPath();
-			if (path_to_follow.size() > 1)
-				path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+			if (App->pathfinding->CreateSubtilePath(thisTile, playerTile) > 0)
+			{
+				path_to_follow = *App->pathfinding->GetLastPath();
+				if (path_to_follow.size() > 1)
+					path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
 
-			if (path_to_follow.size() > 1)
-				path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+				if (path_to_follow.size() > 1)
+					path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
 
-			iPoint adj = path_to_follow.back();
-			App->entityFactory->ReserveAdjacent(adj);
-			ret = (path_to_follow.size() > 0);
+				iPoint adj = path_to_follow.back();
+				App->entityFactory->ReserveAdjacent(adj);
+				ret = (path_to_follow.size() > 0);
+			}
+			else LOG("Could not create path correctly");
 		}
-		else LOG("Could not create path correctly");
+		else if(App->pathfinding->CreateSubtilePath(thisTile, playerTile, true) > 0)
+			{
+				path_to_follow = *App->pathfinding->GetLastPath();
+				if (path_to_follow.size() > 1)
+					path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+
+				if (path_to_follow.size() > 1)
+					path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+
+				iPoint adj = path_to_follow.back();
+				App->entityFactory->ReserveAdjacent(adj);
+				ret = (path_to_follow.size() > 0);
+			}
+	else LOG("Could not create path correctly");
 	}
 
 	return ret;
 }
+
+//bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other enemies
+//{
+//	bool ret = false;
+//	if (path_to_follow.size() > 0)
+//	{
+//		std::vector<iPoint>::iterator item = path_to_follow.begin();
+//		for (; item != path_to_follow.end(); ++item)
+//		{
+//			if (App->entityFactory->isThisSubtileReserved(*item))
+//			{
+//				App->entityFactory->FreeAdjacent(*item);
+//				break;
+//			}
+//		}
+//	}
+//
+//	path_to_follow.clear();
+//	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
+//	iPoint playerTile = App->entityFactory->player->GetSubtilePos();
+//
+//	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
+//	{
+//		if (!ignoringColl)
+//			App->pathfinding->CreateSubtilePath(thisTile, playerTile);
+//		else
+//			App->pathfinding->CreateSubtilePath(thisTile, playerTile, true);
+//
+//		path_to_follow = *App->pathfinding->GetLastPath();
+//		if (path_to_follow.size() > 1)
+//			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+//
+//		if (path_to_follow.size() > 1)
+//			path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+//
+//		iPoint adj = path_to_follow.back();
+//		App->entityFactory->ReserveAdjacent(adj);
+//
+//		if (path_to_follow.size() > 0)
+//			ret = true; 
+//		else
+//			LOG("Could not create path correctly");
+//	}
+//
+//	return ret;
+//}
+
 
 int Enemy::GetRandomValue(const int& min, const int& max) const
 {
@@ -130,6 +196,75 @@ bool Enemy::isOnDestiny() const
 	return GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5;
 }
 
+int Enemy::GetPointingDir(float angle)
+{
+
+	int numAnims = 8;
+		//LOG("angle: %f", angle);
+		// divide the semicircle in 4 portions
+	float animDistribution = PI / (numAnims * 0.5f); // each increment between portions //two semicircles
+
+	int i = 0;
+	if (angle >= 0) // is going right or on bottom semicircle range to left
+	{
+		// iterate between portions to find a match
+		for (float portion = animDistribution * 0.5f; portion <= PI; portion += animDistribution) // increment on portion units
+		{
+			if (portion >= angle) // if the portion is on angle range
+			{
+				// return the increment position matching with enumerator direction animation
+				// TODO: not the best workaround, instead do with std::map
+				/*LOG("bottom semicircle");
+				LOG("portion: %i", i);*/
+				break;
+			}
+			++i;
+		}
+	}
+	else if (angle <= 0) // animations relatives to upper semicircle
+	{
+		i = 0; // the next 4 on the enum direction
+
+		for (float portion = -animDistribution * 0.5f; portion >= -PI; portion -= animDistribution)
+		{
+			if (i == 1) i = numAnims * 0.5f + 1;
+			if (portion <= angle)
+			{
+				/*LOG("upper semicircle");
+				LOG("portion: %i", i);*/
+				break;
+			}
+			++i;
+		}
+	}
+
+	pointingDir = i;
+	if (pointingDir == numAnims) // if max direction
+		pointingDir = numAnims - 1; // set to prev
+
+	//LOG("portion: %i", pointingDir);
+
+	return pointingDir;
+}
+
+void Enemy::CheckRenderFlip()
+{
+	if (pointingDir == int(facingDirection::SW) || pointingDir == 4 || pointingDir == 7)
+	{
+		flip = SDL_FLIP_HORIZONTAL;
+	}
+	else
+		flip = SDL_FLIP_NONE;
+}
+
+void Enemy::SetLookingTo(const fPoint& dir)
+{
+	fPoint aux;
+	aux = dir - GetPivotPos();
+	aux.Normalize();
+	GetPointingDir(atan2f(aux.y, aux.x));
+	CheckRenderFlip();
+}
 
 void Enemy::DebugPath() const
 {
