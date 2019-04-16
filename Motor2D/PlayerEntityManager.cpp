@@ -322,6 +322,12 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 {
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
+		// when a loot item is collected, the description should be hiden
+		entityLoot->MyDescription->HideAllElements(true); 
+
+
+
+
 		if (equipedObjects.size() == 0)
 		{
 			equipedObjects.push_back(entityLoot);
@@ -565,6 +571,24 @@ bool Crosshair::ManageInput(float dt)
 			position = clampedEntity->GetPivotPos();
 			position.x -= pivotOffset.x;
 			position.y -= pivotOffset.y;
+
+
+			// if clamped type is loot, it can be picked 
+
+		
+			if (clampedEntity->type == ENTITY_TYPE::LOOT)
+			{
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+				{
+					
+					/*if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity)))
+					{
+						App->entityFactory->DeleteEntityFromSubtile(clampedEntity);
+						clampedEntity = App->entityFactory->entities.erase(clampedEntity);
+					}*/
+			
+				}
+			}
 
 		}
 		else

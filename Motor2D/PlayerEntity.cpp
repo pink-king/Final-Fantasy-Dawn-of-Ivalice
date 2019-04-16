@@ -204,7 +204,7 @@ bool PlayerEntity::InputCombat()
 	}
 
 
-	// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
+	// - - - - - - - -  - - - - - - faked ability 1, 2 & ulti buttons
 		// check ability 1 trigger
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
@@ -219,6 +219,13 @@ bool PlayerEntity::InputCombat()
 		//LOG("ULTIMATE");
 	}
 
+
+	// check ulti trigger
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	{
+		combat_state = combatState::ULTIMATE;
+		//LOG("ULTIMATE");
+	}
 
 
 

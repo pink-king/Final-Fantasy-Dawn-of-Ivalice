@@ -21,24 +21,10 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 	this->type = type;
 
 	// then load the ability type 
-
 	keepAnEye.ability = type; 
 
-
 	// lastly, define the player to keep an eye at
-
-	if (charName == "Marche")
-	{
-		keepAnEye.character = "Marche"; 
-	}
-	else if (charName == "Ritz")
-	{
-		keepAnEye.character = "Ritz";
-	}
-	else if (charName == "Shara")
-	{
-		keepAnEye.character = "Shara";
-	}
+	keepAnEye.character = charName; 
 
 	
 	this->parent = parent; 
@@ -74,7 +60,7 @@ void UiItem_CooldownClock::CheckState()
 	
 
 
-	// potion    // TODO (when potion cooldonwn available 
+
 	
 
 
