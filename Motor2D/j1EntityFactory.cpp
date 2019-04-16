@@ -833,7 +833,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
-			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(320, 380), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(320, 300), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 			lootItem->MyDescription->iconImage->printFromLoot = true;
 
 

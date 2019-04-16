@@ -52,7 +52,7 @@ public:
 
 	bool hide = false; 
 
-
+	uint offsetFromLoot = 1000; 
 
 	iPoint referencePanelPosition; 
 

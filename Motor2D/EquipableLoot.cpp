@@ -40,7 +40,7 @@ bool Equipable::Update(float dt)
 	}
 	else if(!repositionDescription)
 	{
-		this->MyDescription->RepositionAllElements(iPoint((int)position.x, (int)position.y));   // what here?? :/
+		this->MyDescription->RepositionAllElements(App->render->WorldToScreen((int)position.x, (int)position.y));   // what here?? :/
 		repositionDescription = true; 
 	}
 

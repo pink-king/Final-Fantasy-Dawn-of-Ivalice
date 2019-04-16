@@ -79,8 +79,14 @@ void UiItem_Description::HideAllElements(bool hide)
 void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 {
 
-	this->panelWithButton->hitBox.x = referencePanelPosition.x; 
-	this->panelWithButton->hitBox.x = referencePanelPosition.y;
+	this->panelWithButton->hitBox.x = referencePanelPosition.x - panelWithButton->section.w / 2;
+	this->panelWithButton->hitBox.y = referencePanelPosition.y - 50;
+
+
+
+	this->iconImage->hitBox.x = panelWithButton->hitBox.x + 20; 
+	this->iconImage->hitBox.y = panelWithButton->hitBox.y + 35;
+
 
 	// switch description type and reposition everything
 
