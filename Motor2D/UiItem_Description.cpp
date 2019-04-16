@@ -47,7 +47,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	// hide all until the scope focuses the loot item
 
-	HideAllElements(true); 
+	//HideAllElements(true); 
 
 }
 
