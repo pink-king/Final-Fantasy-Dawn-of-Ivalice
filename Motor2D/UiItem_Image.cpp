@@ -66,12 +66,17 @@ void UiItem_Image::Draw(const float& dt)
 
 		if (!printFromLoot)
 		{
-			App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, 1.0f, 0.0f, resizedRect);
+			float speed = 0.0f; 
+
+			if (!useCamera)
+				speed = 1.0f; 
+
+			App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, speed, 1.0f, 0.0f, resizedRect);
 		}
 		else
 		{
 			// TODO: check that this works, loot tex wrong
-			App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0F, 4.0f);
+			App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F);
 
 
 		}

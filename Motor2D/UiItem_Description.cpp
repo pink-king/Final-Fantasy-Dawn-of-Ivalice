@@ -19,7 +19,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->parent = parent;
 
 	panelWithButton = App->gui->AddImage(iPoint(300, 300), panelRect, this);
-
+	panelWithButton->useCamera = false; 
 
 	if (itemName.empty())
 	{
@@ -27,19 +27,20 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	}
 
     name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(330, 340), this);
-
+	name->useCamera = false;
 	
 
 	std::string resString("Resistance: "); 
 	resString.append(std::to_string((int)resistance));
-
 	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 410), this);
 	
+	resistanceLabel->useCamera = false;
+
 	std::string dmgString("Damage: ");
 	dmgString.append(std::to_string((int)Attack));
-
-	damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 380), this);
-
+    damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 380), this);
+	
+	damageLabel->useCamera = false;
 
 
 	// the icon image is created after creating description in loot spawning
@@ -72,6 +73,16 @@ void UiItem_Description::HideAllElements(bool hide)
 
 		}
 
+
+}
+
+void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
+{
+
+	this->panelWithButton->hitBox.x = referencePanelPosition.x; 
+	this->panelWithButton->hitBox.x = referencePanelPosition.y;
+
+	// switch description type and reposition everything
 
 }
 

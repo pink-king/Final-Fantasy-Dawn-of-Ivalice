@@ -36,6 +36,8 @@ public:
 //	void Draw(const float& dt);   // do we need this?? I bet we don't 
 
 	void HideAllElements(bool hide = true); 
+	void RepositionAllElements(iPoint referencePanelPosition); 
+
 	// void DeleteEverything(); 
 
 public:
@@ -51,9 +53,8 @@ public:
 	bool hide = false; 
 
 
-	// TODO: cooldown and other stats
 
-
+	iPoint referencePanelPosition; 
 
 	// TODO: variable to_delete: description (and all items contained) are only deleted when the loot item is sold in the store
 

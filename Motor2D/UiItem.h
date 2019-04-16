@@ -56,7 +56,7 @@ public:
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 	bool to_delete = false; 
-
+	bool useCamera = true; 
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string &functionName) {};
