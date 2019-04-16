@@ -708,3 +708,28 @@ bool Crosshair::CleanUp()
 //{
 //	return MAX(lower, MIN(n, upper));
 //}
+
+
+j1Entity* Crosshair::GetClampedEntity() const
+{
+	j1Entity* ret = nullptr;
+
+	std::vector<j1Entity*>::reverse_iterator entitiesItem = App->entityFactory->entities.rbegin();
+
+	while (entitiesItem != App->entityFactory->entities.rend())
+	{
+	     
+		if (!(*entitiesItem)->to_delete)
+		{
+			if ((*entitiesItem) == clampedEntity)
+			{
+
+				ret = (*entitiesItem); 
+			}
+				++entitiesItem;
+		}
+		
+	}
+
+	return ret; 
+}

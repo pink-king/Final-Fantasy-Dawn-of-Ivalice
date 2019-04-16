@@ -24,6 +24,8 @@ public:
 public:
 	iPoint GetSubtilePoint();
 
+	j1Entity* GetClampedEntity() const; 
+
 private:
 	bool ManageInput(float dt);
 	iPoint GetPivotPos();

@@ -43,6 +43,12 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	// the icon image is created after creating description in loot spawning
 	
+
+
+	// hide all until the scope focuses the loot item
+
+	HideAllElements(true); 
+
 }
 
 
