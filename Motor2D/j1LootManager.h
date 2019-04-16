@@ -1,6 +1,0 @@
-#ifndef _J1LOOTMANAGER_H__
-#define _J1LOOTMANAGER_H__
-
-
-
-#endif // !LOOTENTITYMAGANER_H__

@@ -4,7 +4,7 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include "j1Scene.h"
-#include "j1LootManager.h"
+#include "LootEntity.h"
 
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel) : UiItem(position, parent)
 {
@@ -45,7 +45,7 @@ void UiItem_Image::Draw(const float& dt)
 		else
 		{
 			// TODO: check that this works
-			App->render->BlitGui(App->lootManager->LootTexture, hitBox.x, hitBox.y, &this->section, 0.0F);
+			App->render->BlitGui(App->gui->lootTexture, hitBox.x, hitBox.y, &this->section, 0.0F);
 		}
 		
 	}
