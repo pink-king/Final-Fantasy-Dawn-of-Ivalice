@@ -23,7 +23,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	if (itemName != "")
 	{
-		name = App->gui->AddLabel(itemName, { 144, 122, 200, 255 }, App->font->openSansBold18, iPoint(300, 300), this);
+		name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(330, 340), this);
 
 	}
 
@@ -32,12 +32,12 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	std::string resString("Resistance: "); 
 	resString.append(std::to_string((int)resistance));
 
-	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(350, 400), this);
+	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 410), this);
 	
 	std::string dmgString("Damage: ");
 	dmgString.append(std::to_string((int)Attack));
 
-	damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(350, 430), this);
+	damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 380), this);
 
 
 
