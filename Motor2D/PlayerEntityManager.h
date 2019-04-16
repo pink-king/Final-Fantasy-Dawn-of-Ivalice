@@ -102,6 +102,13 @@ public:
 
 	uint							gold = 0;
 	std::string						str_coin;
+
+
+	Crosshair* GetCrosshair()
+	{
+		return crossHair; 
+	}
+
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;

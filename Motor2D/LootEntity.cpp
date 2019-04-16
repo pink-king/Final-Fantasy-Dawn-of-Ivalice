@@ -41,7 +41,7 @@ bool LootEntity::Start()
 }
 bool LootEntity::Update(float dt)
 {
-	
+
 	return true;
 }
 float LootEntity::LerpX(float origin, float destination, float t )
@@ -254,3 +254,17 @@ void LootEntity::ExplosionMaker(float dt)
 }
 
 
+void LootEntity::CheckClampedCrossHairToSpawnDescription()
+{
+
+
+	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
+	{
+
+		this->MyDescription->HideAllElements(false); 
+
+		spawnedDescription = true; 
+	}
+
+
+}

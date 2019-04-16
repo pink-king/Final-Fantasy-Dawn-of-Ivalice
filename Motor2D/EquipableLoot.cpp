@@ -38,6 +38,13 @@ bool Equipable::Update(float dt)
 		LOG("displaced %f", position.x - originPos.x);
 		LOG("actual time %f", timeTest);
 	}
+
+	if (!spawnedDescription)
+	{
+		CheckClampedCrossHairToSpawnDescription();
+	}
+
+
 	return true;
 }
 
