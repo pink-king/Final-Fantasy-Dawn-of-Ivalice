@@ -9,6 +9,8 @@
 //#include "j1AttackManager.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_Image.h"
+#include "j1BuffManager.h"
+
 
 #include <random>
 
@@ -182,7 +184,7 @@ bool EnemyTest::Update(float dt)
 
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 	{
-		life -= 30;
+		App->buff->DirectAttack(App->entityFactory->player->selectedCharacterEntity, this, 30, ELEMENTAL_TYPE::ICE_ELEMENT, "meh");
 		App->HPManager->callHPLabelSpawn(iPoint(this->position.x, this->position.y), 30, ELEMENTAL_TYPE::POISON_ELEMENT);
 	}
 

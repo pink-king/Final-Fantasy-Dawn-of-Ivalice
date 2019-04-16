@@ -30,6 +30,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.data());
+	lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	return true;
 }
 
@@ -123,7 +124,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		bool first = false;
 		for (; item != ListItemUI.end(); ++item)
 		{
-			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON) && (*item)->parent->enable)
+			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON || (*item)->tabbable)  && (*item)->parent->enable)
 			{
 				if (!first)
 				{
@@ -429,9 +430,19 @@ bool j1Gui::CleanUp()
 {
 	if (atlas != nullptr)
 		App->tex->UnLoad(atlas);
-	// TODO: Remove items from list, not hitlabels (they are on their own list)
 
+	// TODO: Remove items from list, not hitlabels (they are on their own list)
+	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
+	{
+		if ((*item) != nullptr)
+		{
+			delete *item;
+			*item = nullptr;
+		}
+	}
 	ListItemUI.clear();
+
+
 	return true;
 }
 
@@ -590,10 +601,43 @@ UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::
 
 
 
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent)
+{
+
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
+
+}
+
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, UiItem*const parent) {
+	
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
+
+}
+
+
+
+
+
 SDL_Texture * j1Gui::GetAtlas()
 {
 	return atlas;
 }
+
+
 
 void j1Gui::FadeToScene()
 {
@@ -630,4 +674,13 @@ void j1Gui::GoBackToGame()
 {
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
+}
+
+void j1Gui::GoBackToStartMenu()
+{
+	resetHoverSwapping = false;
+	App->pause = false;
+	App->scene->pausePanel->enable = false;
+	App->scene->startMenu->enable = true;
+	App->scene->state = SceneState::STARTMENU;
 }

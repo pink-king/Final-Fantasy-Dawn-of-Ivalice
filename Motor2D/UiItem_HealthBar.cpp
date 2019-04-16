@@ -104,8 +104,6 @@ void UiItem_HealthBar::Draw(const float& dt)
 				startShowing = true;
 			}
 
-
-
 			UpdatePos();
 
 			if (conversionFactor == 0.0f)

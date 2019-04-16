@@ -9,6 +9,10 @@
 #include <random>
 
 //#include "pcg_random.hpp"
+#include "j1Scene.h"
+
+#include <string>
+#include "j1Gui.h"
 
 
 struct SDL_Texture;
@@ -65,6 +69,7 @@ public:
 	void Draw();
 	iPoint GetPosition();
 	int GetRandomValue(int min, int max);
+	//void GetAttributesForDescription(); 
 
 	float EaseOutBack(float t);
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
@@ -95,6 +100,15 @@ public:
 	ELEMENTAL_TYPE elemetalType;
 
 	j1Entity* character = nullptr;
+
+	// - - - - - - - LootEntity stats in XML - - - - - - - // 
+	std::string name; 
+
+
+	// - - - - - - - The attached description  - - - - - - - // 
+	UiItem_Description* MyDescription = nullptr; 
+
+protected:
 
 	int dmg;
 	std::string itemname;

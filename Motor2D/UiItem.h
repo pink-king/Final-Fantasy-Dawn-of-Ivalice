@@ -52,6 +52,7 @@ public:
 	void Draw_Cursor(float dt);
 	bool slidable = false;
 	bool tabbed = false;
+	bool tabbable = false;
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 	bool to_delete = false; 

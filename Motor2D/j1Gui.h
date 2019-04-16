@@ -16,6 +16,7 @@
 #include "UiItem_HealthBar.h"
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
+#include "UiItem_Description.h"
 
 struct labelInfo
 {
@@ -108,6 +109,10 @@ public:
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent = nullptr);
 
 
+	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent = nullptr);
+	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float reistance, UiItem*const parent = nullptr);
+	
+
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
 	void ExitGame();
@@ -115,11 +120,13 @@ public:
 	void GoBackToMenu();
 	void FpsCap();
 	void GoBackToGame();
+	void GoBackToStartMenu();
 
 	UiItem_HealthBar* healthBar = nullptr;
-
+	SDL_Texture * lootTexture;
 private:
 	SDL_Texture * atlas;
+
 	std::string atlas_file_name;
 	bool debug_ = false;
 	UiItem* selected_object = nullptr;

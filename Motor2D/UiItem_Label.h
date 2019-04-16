@@ -19,5 +19,10 @@ protected:
 	SDL_Color color;
 	TTF_Font* font = nullptr;
 	SDL_Texture* texture = nullptr;
+
+
+public:  
+	bool hide = false;
+
 };
 #endif
