@@ -346,8 +346,8 @@
       
       
       <labels>
-        <label name="test">
-          <position x="530" y="70"/>
+        <label name="PauseMenu">
+          <position x="529" y="70"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="PAUSE MENU"/>
         </label>
@@ -373,8 +373,8 @@
     <Inventory>
       <images>
         <image name="inventoryPanel">
-          <section x="1" y="1" w="369" h="406"/>
-          <position x="750" y="190"/>
+          <section x="0" y="2252" w="740" h="519"/>
+          <position x="274" y="101"/>
         </image>
       </images>
     </Inventory>

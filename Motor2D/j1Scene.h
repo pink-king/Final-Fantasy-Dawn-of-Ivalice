@@ -71,6 +71,7 @@ private:
 	UiItem_Bar* fx_bar = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
+	SDL_Rect inventory_transparency = { 0,0,1280,720 };
 
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
