@@ -161,6 +161,13 @@ bool PlayerEntityManager::CleanUp()
 	}
 	equipedObjects.clear();
 
+	std::vector<LootEntity*>::iterator iter3 = consumables.begin();
+	for (; iter3 != consumables.end(); ++iter3)
+	{
+		delete *iter3;
+		*iter3 = nullptr;
+	}
+	consumables.clear();
 	return true;
 }
 
