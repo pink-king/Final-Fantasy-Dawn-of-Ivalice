@@ -32,7 +32,6 @@ public:
 
 	int id;
 	std::string character;
-	std::string itemName;
 
 	int equipableChance;
 

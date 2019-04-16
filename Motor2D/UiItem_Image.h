@@ -32,12 +32,14 @@ private:
 		this->hitBox.y = pos.y;
 	}
 
-	bool hide = false;
 	bool isPanel = false;
-
 	SDL_Rect resizedRect;
 
-public:
+public: 
+	bool hide = false;
+	bool printFromLoot = false;   // TODO: use to print the loot description icon from the loot texture
+
+
 	friend class UiItem_Bar;
 	friend class UiItem_Checkbox;
 	friend class UiItem_HealthBar;

@@ -13,12 +13,17 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	lootSubtile.y = posY;
 	engine.seed(rd());
 	
+	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 
 	
 }
 
 LootEntity::~LootEntity()
-{}
+{
+	// TODO: call DeleteEverything() in the associated GUI description
+
+
+}
 
 
 //bool LootEntity::PreUpdate()
@@ -37,11 +42,6 @@ bool LootEntity::Start()
 bool LootEntity::Update(float dt)
 {
 	
-	
-
-	
-	
-
 	return true;
 }
 float LootEntity::LerpX(float origin, float destination, float t )
@@ -72,33 +72,7 @@ iPoint LootEntity::GetPosition()
 {
 	return App->map->SubTileMapToWorld(App->entityFactory->GetEnemySubtile(this).x, App->entityFactory->GetEnemySubtile(this).y);
 }
-/* ARc
 
-posY = sin(angle) * currenttime - gravity*t^2/2
-y = xtan(angle) - gravity*x^2 / (2*cos^2(angle))
-*/
-//Basic trigonometry example
-//
-//cosine for x axis
-//
-//sine for y axis
-//
-//speed is whatever you would like the movement each time to increment by... Obviously the higher the number the more pixels it will move at any given time so the quicker it will be.
-//
-//dx = (double)(Math.cos(angle) * speed);
-//dy = (double)(Math.sin(angle) * speed);
-//
-//A.x += dx;
-//A.y += dy;
-//bool LootEntity::PostUpdate()
-//{
-//	return true;
-//}
-//
-//bool LootEntity::CleanUp()
-//{
-//	return true;
-//}
 std::string LootEntity::GetName()
 {
 	return name;
@@ -280,3 +254,36 @@ void LootEntity::ExplosionMaker(float dt)
 }
 
 
+
+/*void LootEntity::GetAttributesForDescription()
+{
+
+	std::vector<Buff*>::iterator stat = stats.begin();
+
+	float attack = 0.0f;
+	float resistance = 0.0f;
+
+	for (; stat != stats.end(); ++stat)
+	{
+
+		if ((*stat)->GetRol() == OBJECT_ROL::ATTACK_ROL)
+		{
+			attack = (*stat)->GetValue();
+		}
+		else if ((*stat)->GetRol() == OBJECT_ROL::DEFENCE_ROL)
+		{
+			resistance = (*stat)->GetValue();
+		}
+
+	}
+
+	if (this->objectType == OBJECT_TYPE::WEAPON_OBJECT)
+	{
+		this->MyDescription = App->gui->AddDescriptionToWeapon(App->render->WorldToScreen(loot_pos.x, loot_pos.y), this->lootname, App->scene->lootPanelRect, &this->loot_rect, attack, resistance, App->scene->inGamePanel);
+	}
+	else
+	{
+		// TODO for vests, etc 
+	}
+
+}*/

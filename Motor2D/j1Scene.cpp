@@ -74,7 +74,6 @@ bool j1Scene::Start()
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ 300,300 });//-980, 2440 });
 
-
 	if (state == SceneState::GAME)
 	{
 		App->map->active = true;
@@ -96,6 +95,7 @@ bool j1Scene::Start()
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
+			LoadInventory(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
@@ -106,6 +106,7 @@ bool j1Scene::Start()
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
+		inventory->enable = false;
 	}
 
 
@@ -215,6 +216,7 @@ bool j1Scene::Update(float dt)
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
+		App->audio->SetFxVolume(result_fx);
 		App->map->active = false;
 		inGamePanel->enable = false;
 		uiMarche->enable = false;
@@ -264,6 +266,14 @@ bool j1Scene::Update(float dt)
 				pausePanel->enable = false;
 			}
 		}
+
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+		{
+			if (inventory->enable)
+				inventory->enable = false;
+			else
+				inventory->enable = true;
+		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
@@ -278,6 +288,7 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->player->selectedCharacterEntity->life += 30;
 		App->gui->healthBar->damageInform.damageValue = -30;
 	}
+	
 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -364,16 +375,26 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
-		// PANELS
 
-		if (isPanel != 1)
+		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
+		if ( lootFlag == "loot")
 		{
-			App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
+
+			lootPanelRect = &section; 
 		}
 		else
-		{
+		{                                  // this is useless now
+			if (isPanel != 1)
+			{
+				App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
+			}
+			else
+			{
+
+			}
 
 		}
+		
 
 	}
 
@@ -540,7 +561,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
-	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansBold18, { 900,30 }, inGamePanel);
+	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1090,26 }, inGamePanel);
 	return true;
 }
 
@@ -583,5 +604,13 @@ bool j1Scene::LoadPauseSettings(pugi::xml_node & nodeScene)
 	pugi::xml_node settingPauseNode = nodeScene.child("SettingsInGame");
 	pausePanel=App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(pausePanel, settingPauseNode);
+	return true;
+}
+
+bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
+	inventory = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(inventory, inventoryNode);
 	return true;
 }
