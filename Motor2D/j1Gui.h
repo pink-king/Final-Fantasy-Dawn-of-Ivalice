@@ -112,6 +112,8 @@ public:
 	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent = nullptr);
 	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float reistance, UiItem*const parent = nullptr);
 	
+	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex = nullptr);
+
 
 	SDL_Texture* GetAtlas();
 	void FadeToScene();

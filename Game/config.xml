@@ -31,7 +31,7 @@
       <images>
 
 		 <image name="loot_item_panel">
-          <section x="640" y="238" w="244" h="257"/>
+          <section x="640" y="222" w="244" h="257"/>
 		  <flag  value="loot" />
         </image>
 		

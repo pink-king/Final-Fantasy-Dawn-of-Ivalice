@@ -56,7 +56,7 @@ public:
 	UiItem * pausePanel = nullptr;
 	UiItem * inventory = nullptr;
 	UiItem_Label * coins_label = nullptr;
-	SDL_Rect * lootPanelRect = nullptr; 
+	SDL_Rect lootPanelRect; 
 	
 	bool debug = false;
 	bool exitGame = false;

@@ -469,6 +469,22 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
+
+
+UiItem_Image * j1Gui::AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex)
+{
+	UiItem* newUIItem = nullptr;
+
+	
+    newUIItem = new UiItem_Image(position, section, parent, newTex);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Image*)newUIItem;
+}
+
+
+
 UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;

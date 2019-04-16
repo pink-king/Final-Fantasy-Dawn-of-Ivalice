@@ -46,7 +46,7 @@ public:
 	
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 
-	UiItem_Label* reistanceLabel = nullptr;
+	UiItem_Label* resistanceLabel = nullptr;
 
 	bool hide = false; 
 

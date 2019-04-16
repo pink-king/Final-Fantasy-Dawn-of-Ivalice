@@ -530,6 +530,10 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 				//weapon type
 				id = node.attribute("id").as_int();
 
+				// the fucking name
+
+				lootEntity->lootname = node.attribute("name").as_string(); 
+
 				if (id == randID)
 				{
 					switch (GetRandomValue(1, 12))
@@ -806,7 +810,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		float attack, resistance; 
 		attack = resistance = 0.0f;
 
-		iPoint pos(/*App->render->WorldToScreen(*/lootItem->GetPosition().x, lootItem->GetPosition().y)/*)*/;
+		iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
 
 		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
 		for (; iter != lootItem->stats.end(); ++iter)
@@ -822,8 +826,17 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			
 		}
 
-		lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, App->scene->lootPanelRect, &lootItem->loot_rect, attack, resistance, App->scene->inGamePanel);
+		SDL_Rect destRect = App->scene->lootPanelRect; 
 
+		lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, App->scene->inGamePanel);
+
+
+		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+        lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(300, 300), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+		lootItem->MyDescription->iconImage->printFromLoot = true; 
+
+	
 		break;
 
 	}

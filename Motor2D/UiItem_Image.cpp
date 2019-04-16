@@ -30,6 +30,32 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 }
 
+
+
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, SDL_Texture* newTex) : UiItem(position, parent)
+{
+	this->section = *section;
+	this->guiType = GUI_TYPES::IMAGE;
+
+
+	this->hitBox.w = section->w;
+	this->hitBox.h = section->h;
+
+
+	// the parent
+	this->parent = parent;
+
+
+
+	this->hitBox.x = position.x;
+	this->hitBox.y = position.y;
+
+	// new texture for loot image
+	this->newTex = newTex; 
+
+}
+
+
 void UiItem_Image::Draw(const float& dt)
 {
 
@@ -45,7 +71,7 @@ void UiItem_Image::Draw(const float& dt)
 		else
 		{
 			// TODO: check that this works, loot tex wrong
-			//App->render->BlitGui(, hitBox.x, hitBox.y, &this->section, 0.0F);
+			App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0F);
 
 
 		}

@@ -1,5 +1,6 @@
 #include "UiItem_Description.h"
 #include "j1Gui.h"
+#include "j1Fonts.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent) : UiItem(position, parent)
 {
@@ -17,13 +18,30 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
 
-
-	iconImage = App->gui->AddImage(iPoint(300,300), iconRect, this);   // the icon must use the loot texture atlas
-	iconImage->printFromLoot = true;
-
-	panelWithButton = App->gui->AddImage(position, panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(300, 300), panelRect, this);
 
 
+	if (itemName != "")
+	{
+		name = App->gui->AddLabel(itemName, { 144, 122, 200, 255 }, App->font->openSansBold18, iPoint(300, 300), this);
+
+	}
+
+	
+
+	std::string resString("Resistance: "); 
+	resString.append(std::to_string((int)resistance));
+
+	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(350, 400), this);
+	
+	std::string dmgString("Damage: ");
+	dmgString.append(std::to_string((int)Attack));
+
+	damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(350, 430), this);
+
+
+
+	// the icon image is created after creating description in loot spawning
 	
 }
 
@@ -39,7 +57,7 @@ void UiItem_Description::HideAllElements(bool hide)
 		if (this->descrType == descriptionType::WEAPON)
 		{
 			this->damageLabel->hide = hide; 
-			this->reistanceLabel->hide = hide;
+			this->resistanceLabel->hide = hide;
 
 		}
 		else if(this->descrType == descriptionType::EQUIPMENT)
@@ -61,7 +79,7 @@ void UiItem_Description::DeleteEverything()
 	if (this->descrType == descriptionType::WEAPON)
 	{
 		this->damageLabel->to_delete = true;
-		this->reistanceLabel->to_delete = true;
+		this->resistanceLabel->to_delete = true;
 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
