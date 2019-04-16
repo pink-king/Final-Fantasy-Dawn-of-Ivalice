@@ -714,9 +714,9 @@ j1Entity* Crosshair::GetClampedEntity() const
 {
 	j1Entity* ret = nullptr;
 
-	std::vector<j1Entity*>::reverse_iterator entitiesItem = App->entityFactory->entities.rbegin();
+	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
 
-	while (entitiesItem != App->entityFactory->entities.rend())
+	while (entitiesItem != App->entityFactory->entities.end())
 	{
 	     
 		if (!(*entitiesItem)->to_delete)
@@ -725,10 +725,11 @@ j1Entity* Crosshair::GetClampedEntity() const
 			{
 
 				ret = (*entitiesItem); 
+
 			}
-				++entitiesItem;
+				
 		}
-		
+		++entitiesItem;
 	}
 
 	return ret; 

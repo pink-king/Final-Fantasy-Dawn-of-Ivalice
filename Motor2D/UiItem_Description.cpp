@@ -23,6 +23,12 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 /*	if (itemName != "")
 	{*/
+	if (itemName.empty())
+	{
+		itemName = "Item has no name"; 
+	}
+
+
 		name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(330, 340), this);
 
 	//}

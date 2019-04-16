@@ -826,24 +826,22 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			
 		}
 
+			SDL_Rect destRect = App->scene->lootPanelRect;
 
-		iPoint otherPos(App->render->WorldToScreen(lootItem->GetPosition().x, lootItem->GetPosition().y));
-
-		SDL_Rect destRect = App->scene->lootPanelRect; 
-
-		lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, App->scene->inGamePanel);
 
 
-		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
-        lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(320, 380), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
-		lootItem->MyDescription->iconImage->printFromLoot = true; 
+			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(320, 380), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+			lootItem->MyDescription->iconImage->printFromLoot = true;
 
-	    
-		// hide all elements until the item is focused by the Corsshair 
 
-		lootItem->MyDescription->HideAllElements(true); 
+			// hide all elements until the item is focused by the Corsshair 
 
+			lootItem->MyDescription->HideAllElements(true);
+
+	
 		break;
 
 	}
