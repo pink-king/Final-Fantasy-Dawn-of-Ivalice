@@ -44,8 +44,10 @@ void UiItem_Image::Draw(const float& dt)
 		}
 		else
 		{
-			// TODO: check that this works
-			App->render->BlitGui(, hitBox.x, hitBox.y, &this->section, 0.0F);
+			// TODO: check that this works, loot tex wrong
+			//App->render->BlitGui(, hitBox.x, hitBox.y, &this->section, 0.0F);
+
+
 		}
 		
 	}
