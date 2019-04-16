@@ -50,12 +50,7 @@ bool PlayerEntity::InputMovement(float dt)
 {
 	bool isMoving = false;
 
-	fPoint previousPosF = position;//GetPivotPos();
-	/*iPoint previousPosInt;
-	previousPosInt.x = GetPivotPos().x;
-	previousPosInt.y = GetPivotPos().y;*/
-	/*previousPosInt.x = position.x;
-	previousPosInt.y = position.y;*/
+	previousPos = position;
 
 	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
 	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
@@ -112,45 +107,15 @@ bool PlayerEntity::InputMovement(float dt)
 
 	App->render->DrawIsoQuad({ 32,16, 128,96 });
 
-	// Check collisions
-	if (Collision2D(collider))
+	// Check collisions and do behaviour ------------------------------------------
+	std::vector<SDL_Rect> resultant_intersections = Collision2D(collider);
+	if (!resultant_intersections.empty())
 	{
-		LOG("COLLISION");
-		//position = previousPosF;
-	}
+		LOG("COLLISIONS: %i", resultant_intersections.size());
 
-	/*if (isMoving)
-	{*/
-		//iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
-		//if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
-	//if(Collision2D(collider))
-	//{
-	//	LOG("COLLISION");
-	//	// check x
-	//	/*fPoint tempPos = previousPosF;
-	//	tempPos.x = position.x;
-	//	iPoint checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);*/
-	//	/*if (!App->pathfinding->IsWalkable(checker))
-	//	{*/
-	//	collider.x = previousPosF.x;
-	//	if(Collision2D(collider))
-	//	{
-	//		position.x = previousPosF.x;
-	//	}
-	//	//previousPosF = position;
-	//	/*tempPos = previousPosF;
-	//	tempPos.y = position.y;
-	//	checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
-	//	if (!App->pathfinding->IsWalkable(checker))*/
-	//	collider.x = previousPosF.x;
-	//	collider.y = pivot_pos.y;
-	//	if(Collision2D(collider))
-	//	{
-	//		position.y = previousPosF.y;
-	//	}
-	//}
-	//}
-	
+		position = GetCollisionsBehaviourNewPos(resultant_intersections, xAxis, yAxis);
+	}
+	// -----------------------------------------------------------------------------
 
 	if (isMoving)// if we get any input, any direction
 	{
@@ -316,9 +281,10 @@ float PlayerEntity::GetLastHeadingAngle() const
 	return lastAxisMovAngle;
 }
 
-bool PlayerEntity::Collision2D(SDL_Rect& collider)
+std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 {
-	bool ret = false;
+	bool debug = true;
+	std::vector<SDL_Rect> ret; // stores all the no walkable intersection as resultant rects
 
 	int tile_size = 32;
 
@@ -351,53 +317,196 @@ bool PlayerEntity::Collision2D(SDL_Rect& collider)
 	uint w, h;
 	App->win->GetWindowSize(w, h);
 	offset.x -= round((int)w / scale) - tile_size * 3;
-
-	std::vector<SDL_Rect> intersectionRectVec;
+	
+	// colors for debug visuals
+	SDL_Color color_pink = { 255,162,240,255 };
+	SDL_Color color_red = { 255,0,0,255 };
 
 	for (int i = 0; i < 8; ++i)
 	{
+		bool walkableTile = true;
+		SDL_Color color = color_pink;
+		// check first if this tile is walkable or not
+		if (!App->pathfinding->IsWalkable({ tileNeighbours[i].x - 1, tileNeighbours[i].y }))
+		{
+			color = color_red;
+			walkableTile = false;
+		}
+
 		//Isometric
 		tileNeighbours[i] = App->map->MapToWorld(tileNeighbours[i].x, tileNeighbours[i].y);
-		App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, tile_size,tile_size });
+		if(debug) // TODO: temporal DRAWs, must be moved to postupdate
+			App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, tile_size,tile_size }, color);
 
 		//Orthogonal
 		tileNeighbours[i] = App->map->IsoTo2D(tileNeighbours[i].x, tileNeighbours[i].y);
 		SDL_Rect tileWorldRect = { tileNeighbours[i].x , tileNeighbours[i].y, tile_size,tile_size }; // size of tile data
-		App->render->DrawQuad(
+		if(debug) // DRAW
+			App->render->DrawQuad(
 			{ tileWorldRect.x - offset.x, tileWorldRect.y - offset.y, tileWorldRect.w, tileWorldRect.h },
-			255, 0, 0, 255);
+			color.r, color.g, color.b, color.a);
 
 		if (SDL_HasIntersection(&collider, &tileWorldRect))
 		{
-			LOG("COLLISION");
-			
-			SDL_Rect intersectionRect;
-			SDL_IntersectRect(&collider, &tileWorldRect, &intersectionRect);
+			if (!walkableTile)
+			{
+				//LOG("COLLISION");
+				SDL_Rect intersectionRect;
+				SDL_IntersectRect(&collider, &tileWorldRect, &intersectionRect);
 
-			intersectionRectVec.push_back(intersectionRect);
+				ret.push_back(intersectionRect);
 
-			ret = true;
+			}
 		}
 	}
 
+	// DEBUG draw -----------
 	//Draw yellow quad
 	App->render->DrawQuad(
 		{collider.x - offset.x, collider.y - offset.y, collider.w, collider.h},
 		255, 255, 0, 255);
 
-	if (!intersectionRectVec.empty())
+	if (!ret.empty())
 	{
-		std::vector<SDL_Rect>::iterator iter = intersectionRectVec.begin();
+		std::vector<SDL_Rect>::iterator iter = ret.begin();
 		uint i = 3; // color multiplier
-		for (; iter != intersectionRectVec.end(); ++iter)
+		for (; iter != ret.end(); ++iter)
 		{
 			App->render->DrawQuad(
 				{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
-				0, 30 * i, 150, 255);
+				255, 30 * i, 16, 255);
 			
 			++i;
 		}
 	}
+	// ----------------------
+
+	return ret;
+}
+
+fPoint PlayerEntity::GetCollisionsBehaviourNewPos(std::vector<SDL_Rect>& resultant_intersections, Sint16 xAxis, Sint16 yAxis)
+{
+	fPoint ret(0,0);
+
+	//ret.create(position.x, position.y);
+	float angle = atan2f(yAxis, xAxis) * 180 / PI;
+
+	if (resultant_intersections.size() < 3) // 3 intersections means a corner between 3 cells
+	{
+		// get the sum between the all rects (max two)
+		std::vector<SDL_Rect>::iterator iterResults = resultant_intersections.begin();
+		SDL_Rect collision = { (*iterResults).x, (*iterResults).y,0,0 };
+		for (; iterResults != resultant_intersections.end(); ++iterResults)
+		{
+			// preserve the x,y pos for the top-left resultant
+			if(collision.x > (*iterResults).x)
+				collision.x = (*iterResults).x;
+			if (collision.y > (*iterResults).y)
+				collision.y = (*iterResults).y;
+			// sum the sizes
+			collision.w += (*iterResults).w;
+			collision.h += (*iterResults).h;
+		}
+
+		// we have two possibilites of resultant collision rect
+		fPoint slidingSpeed = { 1.0f,0.5f };
+		ret = previousPos;
+
+		if (collision.w > collision.h)
+		{
+			//LOG("Up or down tile collision");
+			// operate dependent of the axis direction
+			if (angle <= -45.f) // if the player are going right or up
+			{
+				LOG("UP");
+				ret -= slidingSpeed;
+			}
+			else if (angle >= -25.f && angle < 45.f)
+			{
+				LOG("RIGHT");
+				ret += slidingSpeed;
+			}
+			else if (angle > 125.f && angle <= 180.f)
+			{
+				LOG("LEFT");
+				ret -= slidingSpeed;
+			}
+			else if (angle > 45.f && angle < 125.f)
+			{
+				LOG("DOWN");
+				ret += slidingSpeed;
+			}
+			else
+				ret = previousPos;
+				
+		}
+		else if (collision.w < collision.h) // left- right tile collision
+		{
+			//LOG("Left or right tile collision");
+			if (angle >= -150.f && angle <= -26.f) // if the player are going left or up
+			{
+				LOG("UP");
+				ret.x += slidingSpeed.x;
+				ret.y -= slidingSpeed.y;
+			}
+			else if (angle <= 180.f && angle > 45.f)
+			{
+				LOG("LEFT");
+				ret.x -= slidingSpeed.x;
+				ret.y += slidingSpeed.y;
+			}
+			else if (angle >= 0.f && angle < 26.f)
+			{
+				LOG("RIGHT");
+				ret.x += slidingSpeed.x;
+				ret.y -= slidingSpeed.y;
+			}
+			//else if (angle > 45.f && angle < 125.f)
+			//{
+			//	LOG("DOWN");
+			//	ret = previousPos;
+			//	ret += slidingSpeed;
+			//}
+			//else
+			//	ret = previousPos;
+			else
+				ret = previousPos;
+		}
+		else if (collision.w == collision.h)
+		{
+			LOG("leaving corner response");
+			ret = position;
+			// and adds little push to movement direction
+			float piAngle = angle * PI / 180.f;
+			
+			fPoint newPushVector;
+			newPushVector.x = cosf(piAngle);
+			newPushVector.y = sinf(piAngle);
+
+			newPushVector.Normalize();
+
+			ret += newPushVector * 4.f;
+			LOG("");
+
+			// but we have 4 cases
+			// up, down, right, left perfect corners in one axis (in direction of corner)
+
+			
+		}
+
+		LOG("xAxis: %i", xAxis);
+		LOG("yAxis: %i", yAxis);
+		LOG("angle: %f", angle);
+
+		// check player vector direction
+
+
+
+		//ret = previousPos;
+
+	}
+	else
+		ret = previousPos; // if we have a corner intersection, return previous position before this move
 
 	return ret;
 }

@@ -81,7 +81,8 @@ public:
 	}
 private:
 
-	bool Collision2D(SDL_Rect& collider);
+	std::vector<SDL_Rect> Collision2D(SDL_Rect& collider);
+	fPoint GetCollisionsBehaviourNewPos(std::vector<SDL_Rect>& rects, Sint16 xAxis, Sint16 yAxis);
 	
 public:
 
