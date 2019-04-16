@@ -206,6 +206,8 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 			LoadLootData((LootEntity*)ret, App->config);
 
 			entities.push_back(ret);
+
+			GenerateDescriptionForLootItem((LootEntity*)ret);
 		}
 		LOG("From factory Loot Entity");
 		break;
@@ -787,4 +789,43 @@ iPoint j1EntityFactory::GetEnemySubtile(j1Entity * enemy)
 iPoint j1EntityFactory::SetLootPos(int x, int y)
 {
 	return App->map->SubTileMapToWorld(x, y);
+}
+
+
+void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
+{
+
+
+
+	switch (lootItem->GetObjectType())
+	{
+
+
+	case OBJECT_TYPE::WEAPON_OBJECT:
+
+		float attack, resistance; 
+		attack = resistance = 0.0f;
+
+		iPoint pos(/*App->render->WorldToScreen(*/lootItem->GetPosition().x, lootItem->GetPosition().y)/*)*/;
+
+		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+		for (; iter != lootItem->stats.end(); ++iter)
+		{
+			if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+			{
+				attack = (*iter)->GetValue(); 
+			}
+			else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+			{
+				resistance = (*iter)->GetValue();
+            }
+			
+		}
+
+		lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, App->scene->lootPanelRect, &lootItem->loot_rect, attack, resistance, App->scene->inGamePanel);
+
+		break;
+
+	}
+
 }

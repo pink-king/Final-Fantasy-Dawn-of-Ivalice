@@ -151,6 +151,11 @@ void UiItem_CooldownClock::DoLogic()
 			{
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
 
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
+
+				heightDiff = LastHeight - this->section.h;
+
+				this->hitBox.y += heightDiff;
 			}
 			else
 			{
@@ -175,8 +180,6 @@ void UiItem_CooldownClock::DoLogic()
 void UiItem_CooldownClock::Restart()
 {
 	hide = true;
-
-	// TODO: Reset clock
 
 
 }

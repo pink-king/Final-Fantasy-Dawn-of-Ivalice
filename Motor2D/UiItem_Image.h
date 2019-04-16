@@ -4,6 +4,7 @@
 #include "UiItem.h"
 #include "p2Point.h"
 #include "j1Textures.h"
+#include "j1Entity.h"
 #include "p2Log.h"
 
 class UiItem_Image : public UiItem

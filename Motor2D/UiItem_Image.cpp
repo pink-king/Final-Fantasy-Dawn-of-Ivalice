@@ -45,7 +45,7 @@ void UiItem_Image::Draw(const float& dt)
 		else
 		{
 			// TODO: check that this works
-			App->render->BlitGui(App->gui->lootTexture, hitBox.x, hitBox.y, &this->section, 0.0F);
+			App->render->BlitGui(, hitBox.x, hitBox.y, &this->section, 0.0F);
 		}
 		
 	}

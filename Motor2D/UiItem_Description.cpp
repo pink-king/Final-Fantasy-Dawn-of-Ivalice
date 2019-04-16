@@ -18,7 +18,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->parent = parent;
 
 
-	iconImage = App->gui->AddImage(position, iconRect, this);   // the icon must use the loot texture atlas
+	iconImage = App->gui->AddImage(iPoint(300,300), iconRect, this);   // the icon must use the loot texture atlas
 	iconImage->printFromLoot = true;
 
 	panelWithButton = App->gui->AddImage(position, panelRect, this);
