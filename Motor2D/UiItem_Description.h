@@ -36,7 +36,7 @@ public:
 //	void Draw(const float& dt);   // do we need this?? I bet we don't 
 
 	void HideAllElements(bool hide = true); 
-	void DeleteEverything(); 
+	// void DeleteEverything(); 
 
 public:
 	// - - - - common - - - - // 

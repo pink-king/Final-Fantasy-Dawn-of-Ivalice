@@ -113,19 +113,15 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 {
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	defender->life -= lifeToSubstract;
-	// add always a hitpoint
-	// but if we have a previous one, unlink
-	/*if (defender->hitPoint != nullptr)
-	{
-		defender->hitPoint->attachedEntity = nullptr;
 
-	}
-	else
-	{*/
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT); // must be overall improved /types of damage? calculate
-//	}
-		
-	
+
+	bool playerAttacks = false; 
+	if (attacker->type == ENTITY_TYPE::PLAYER)
+		playerAttacks = true; 
+
+
+	App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT, playerAttacks); // must be overall improved /types of damage? calculate
+
 	
 																													  
 	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)

@@ -21,17 +21,12 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	panelWithButton = App->gui->AddImage(iPoint(300, 300), panelRect, this);
 
 
-/*	if (itemName != "")
-	{*/
 	if (itemName.empty())
 	{
 		itemName = "Item has no name"; 
 	}
 
-
-		name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(330, 340), this);
-
-	//}
+    name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(330, 340), this);
 
 	
 
@@ -51,7 +46,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	
 
 
-	// hide all until the scope focuses the loot item
+	
 
 	
 
@@ -81,6 +76,7 @@ void UiItem_Description::HideAllElements(bool hide)
 }
 
 
+/*
 void UiItem_Description::DeleteEverything()
 {
 
@@ -101,4 +97,4 @@ void UiItem_Description::DeleteEverything()
 
 	this->to_delete = true;
 
-}
+}*/

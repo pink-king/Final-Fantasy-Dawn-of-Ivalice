@@ -39,10 +39,10 @@ bool Equipable::Update(float dt)
 		LOG("actual time %f", timeTest);
 	}
 
-	if (!spawnedDescription)
-	{
+	/*if (!spawnedDescription)
+	{*/
 		CheckClampedCrossHairToSpawnDescription();
-	}
+	//}
 
 
 	return true;

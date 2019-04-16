@@ -256,7 +256,7 @@ void LootEntity::ExplosionMaker(float dt)
 
 void LootEntity::CheckClampedCrossHairToSpawnDescription()
 {
-
+	// if the crosshair focuses the item and description is hiden 
 
 	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
 	{
@@ -265,6 +265,17 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 
 		spawnedDescription = true; 
 	}
+
+	// if description is showing, but crosshair stops focusing item 
+
+	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	{
+
+		this->MyDescription->HideAllElements(true);
+
+		spawnedDescription = false;
+	}
+
 
 
 }
