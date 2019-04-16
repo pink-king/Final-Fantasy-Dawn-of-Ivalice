@@ -132,6 +132,9 @@
     <ClCompile Include="j1Textures.cpp">
       <Filter>Development======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="UiItem_Inventory.cpp">
+      <Filter>Development======\Modules\GUI\special items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -285,6 +288,9 @@
     </ClInclude>
     <ClInclude Include="j1Render.h">
       <Filter>Development======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Inventory.h">
+      <Filter>Development======\Modules\GUI\special items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
