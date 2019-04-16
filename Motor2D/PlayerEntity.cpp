@@ -78,19 +78,16 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		// condition
 		isMoving = true;
-		// max axis values
-		Sint16 max = 32767;
-		Sint16 min = -32768;
 		// x "axis" input
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-			xAxis = min;
+			xAxis = SHRT_MIN;
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-			xAxis = max;
+			xAxis = SHRT_MAX;
 		// y "axis" input
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-			yAxis = min;
+			yAxis = SHRT_MIN;
 		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-			yAxis = max;
+			yAxis = SHRT_MAX;
 
 		if (xAxis == yAxis || yAxis > 0 && xAxis < 0 || yAxis < 0 && xAxis > 0) // diagonal cases || slow down
 		{
@@ -113,37 +110,46 @@ bool PlayerEntity::InputMovement(float dt)
 	// Red isometric quad
 	App->render->DrawIsoQuad(collider);
 
+	App->render->DrawIsoQuad({ 32,16, 128,96 });
+
 	// Check collisions
 	if (Collision2D(collider))
 	{
 		LOG("COLLISION");
+		//position = previousPosF;
 	}
 
-	if (isMoving)
-	{
-
-
-		iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
-		if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
-		{
-			// check x
-			fPoint tempPos = previousPosF;
-			tempPos.x = position.x;
-			iPoint checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
-			if (!App->pathfinding->IsWalkable(checker))
-			{
-				position.x = previousPosF.x;
-			}
-			//previousPosF = position;
-			tempPos = previousPosF;
-			tempPos.y = position.y;
-			checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
-			if (!App->pathfinding->IsWalkable(checker))
-			{
-				position.y = previousPosF.y;
-			}
-		}
-	}
+	/*if (isMoving)
+	{*/
+		//iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
+		//if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
+	//if(Collision2D(collider))
+	//{
+	//	LOG("COLLISION");
+	//	// check x
+	//	/*fPoint tempPos = previousPosF;
+	//	tempPos.x = position.x;
+	//	iPoint checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);*/
+	//	/*if (!App->pathfinding->IsWalkable(checker))
+	//	{*/
+	//	collider.x = previousPosF.x;
+	//	if(Collision2D(collider))
+	//	{
+	//		position.x = previousPosF.x;
+	//	}
+	//	//previousPosF = position;
+	//	/*tempPos = previousPosF;
+	//	tempPos.y = position.y;
+	//	checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
+	//	if (!App->pathfinding->IsWalkable(checker))*/
+	//	collider.x = previousPosF.x;
+	//	collider.y = pivot_pos.y;
+	//	if(Collision2D(collider))
+	//	{
+	//		position.y = previousPosF.y;
+	//	}
+	//}
+	//}
 	
 
 	if (isMoving)// if we get any input, any direction
@@ -346,6 +352,8 @@ bool PlayerEntity::Collision2D(SDL_Rect& collider)
 	App->win->GetWindowSize(w, h);
 	offset.x -= round((int)w / scale) - tile_size * 3;
 
+	std::vector<SDL_Rect> intersectionRectVec;
+
 	for (int i = 0; i < 8; ++i)
 	{
 		//Isometric
@@ -362,6 +370,13 @@ bool PlayerEntity::Collision2D(SDL_Rect& collider)
 		if (SDL_HasIntersection(&collider, &tileWorldRect))
 		{
 			LOG("COLLISION");
+			
+			SDL_Rect intersectionRect;
+			SDL_IntersectRect(&collider, &tileWorldRect, &intersectionRect);
+
+			intersectionRectVec.push_back(intersectionRect);
+
+			ret = true;
 		}
 	}
 
@@ -369,6 +384,20 @@ bool PlayerEntity::Collision2D(SDL_Rect& collider)
 	App->render->DrawQuad(
 		{collider.x - offset.x, collider.y - offset.y, collider.w, collider.h},
 		255, 255, 0, 255);
+
+	if (!intersectionRectVec.empty())
+	{
+		std::vector<SDL_Rect>::iterator iter = intersectionRectVec.begin();
+		uint i = 3; // color multiplier
+		for (; iter != intersectionRectVec.end(); ++iter)
+		{
+			App->render->DrawQuad(
+				{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
+				0, 30 * i, 150, 255);
+			
+			++i;
+		}
+	}
 
 	return ret;
 }
