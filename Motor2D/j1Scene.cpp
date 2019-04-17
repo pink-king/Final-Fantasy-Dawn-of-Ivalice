@@ -319,14 +319,14 @@ bool j1Scene::Update(float dt)
 	{
 		j1Entity* ent; 
 		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 70, 11, 1, 10, 1.0f); 
-		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		//ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		j1Entity* ent;
 		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
-		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+	//	ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	

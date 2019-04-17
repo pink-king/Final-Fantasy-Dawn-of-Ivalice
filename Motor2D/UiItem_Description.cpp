@@ -34,7 +34,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	std::string lvlString("LVL ");
 	lvlString.append(std::to_string((int)level));
-	this->level = App->gui->AddLabel(lvlString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->level = App->gui->AddLabel(lvlString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 
 	this->level->useCamera = false;
 

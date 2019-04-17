@@ -4,6 +4,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
+#include "j1Scene.h"
 
 #include <random>
 
@@ -12,6 +13,10 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 {
 	currentAnimation = &idle[(int)facingDirectionEnemy::S];
 	this->attackSpeed = 1.f / attackSpeed;
+
+	// already create my life bar here
+
+	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel); 
 }
 
 Enemy::~Enemy()
