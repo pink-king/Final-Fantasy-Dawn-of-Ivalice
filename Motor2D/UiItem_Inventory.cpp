@@ -23,7 +23,7 @@ bool UiItem_Inventory::LoadElements()
 			if (!(*iter)->MyDescription->spawnedInventoryImage)
 			{
 				
-				iPoint position = { (startingPos.x + 56)*i, (startingPos.y + 300) };
+				iPoint position = { (startingPos.x + 56), (startingPos.y + 300) };
 				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex);
 				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 				(*iter)->MyDescription->spawnedInventoryImage = true;
