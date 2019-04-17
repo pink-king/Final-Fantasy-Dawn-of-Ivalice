@@ -350,6 +350,16 @@ bool j1Map::Load(const char* file_name)
 			data.layers.push_back(lay);
 	}
 
+	pugi::xml_node objectlayer;
+	for (objectlayer = map_file.child("map").child("objectgroup"); objectlayer && ret; objectlayer = objectlayer.next_sibling("objectgroup"))
+	{
+		std::string tmp(objectlayer.attribute("name").as_string());
+		if (tmp == "Spawns")
+		{
+			//LoadSpawns(objectlayer);
+		}
+	}
+
 	// Load objects/scene colliders -----------------------------------------
 	pugi::xml_node objectGroup;
 	for (objectGroup = map_file.child("map").child("group"); objectGroup && ret; objectGroup = objectGroup.next_sibling("group"))
@@ -464,6 +474,59 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 			}
 		}
 		
+	}
+
+	return ret;
+}
+
+bool j1Map::LoadSpawns(pugi::xml_node & node)
+{
+	bool ret = true;
+	std::vector<EnemyType> typesVec;
+	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
+	{
+		std::string objectName(object.attribute("name").as_string());
+
+		if (objectName == "spawnZone")
+		{
+			int minEnemies = 0;
+			int maxEnemies = 0;
+			//SDL_Rect spawnRect = { 0,0,0,0 };
+			spawnRect.x = object.attribute("x").as_int();
+			spawnRect.y = object.attribute("y").as_int();
+			spawnRect.w = object.attribute("width").as_int();
+			spawnRect.h = object.attribute("height").as_int();
+
+			for (pugi::xml_node properties = object.child("properties").child("property"); properties; properties = properties.next_sibling("property"))
+			{
+				if (properties.attribute("value").as_bool() == false)
+					continue;
+
+				std::string attributeName = properties.attribute("name").as_string();
+				if (attributeName == "bomb")
+				{
+					typesVec.push_back(EnemyType::BOMB);
+				}
+				else if (attributeName == "test")
+				{
+					typesVec.push_back(EnemyType::TEST);
+				}
+				else if (attributeName == "minEnemies")
+				{
+					minEnemies = properties.attribute("value").as_int();
+				}
+				else if (attributeName == "maxEnemies")
+				{
+					maxEnemies = properties.attribute("value").as_int();
+				}
+			}
+			iPoint aux = IsoToWorld(spawnRect.x, spawnRect.y);
+			spawnRect.x = aux.x * 2;
+			spawnRect.y = aux.y;
+			App->entityFactory->CreateEnemiesGroup(typesVec, spawnRect, minEnemies, maxEnemies);
+			typesVec.clear();
+		}
+
 	}
 
 	return ret;

@@ -320,8 +320,15 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
-		App->entityFactory->CreateEnemiesGroup(EnemyType::BOMB, EnemyType::TEST, SDL_Rect{ 2,2,4,4 }, 2, 10, 10, 50);
+		std::vector<EnemyType> typeVec; 
+		typeVec.reserve(2);
+		typeVec.push_back(EnemyType::BOMB);
+		typeVec.push_back(EnemyType::TEST);
+		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);
 	}
+	if(App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
+		App->render->DrawQuad(App->map->spawnRect, 255, 255, 0, 255, false);
+
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");

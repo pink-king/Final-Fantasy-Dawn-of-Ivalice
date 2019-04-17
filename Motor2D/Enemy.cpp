@@ -10,7 +10,7 @@
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
  	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, "ENEMY_TEST")
 {
-	currentAnimation = &idle[(int)facingDirectionEnemy::S];
+	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
 	this->attackSpeed = 1.f / attackSpeed;
 }
 
@@ -287,6 +287,12 @@ void Enemy::DebugPath() const
 	iPoint subTilePos = GetSubtilePos();
 	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
+
+	// Real subtile? 
+	//App->render->Blit(debugSubtile, subTilePos.x - 16, subTilePos.y - 8, NULL);
+
+	/*App->render->DrawQuad({ subTilePos.x, subTilePos.y, 5,5 }, 255, 255, 0, 255, true);
+	App->render->DrawIsoQuad({ subTilePos.x, subTilePos.y, 16, 16});*/
 }
 
 

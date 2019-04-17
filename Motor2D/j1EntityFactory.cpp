@@ -8,6 +8,9 @@
 #include "j1Scene.h"
 #include "LootEntity.h"
 #include <algorithm>
+
+
+
 j1EntityFactory::j1EntityFactory()
 {
 	name.assign("entities");
@@ -51,6 +54,12 @@ bool j1EntityFactory::Start()
 	
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+
+	/*constexpr char inits[] = __TIME__;
+	const int default_seed = (inits[0] - '0') * 100000 + (inits[1] - '0') * 10000 +
+		(inits[3] - '0') * 1000 + (inits[4] - '0') * 100 + (inits[6] - '0') * 10 + inits[7] - '0';*/
+
+	//gen.seed(default_seed);
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -250,15 +259,57 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uin
 	return ret;
 }
 
-void j1EntityFactory::CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg)
+void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum)
 {
-	Enemy* ret = nullptr; 
-	uint numEnemies = CreateRandomBetween(minNum, maxNum); 
-	for (uint i = 0; i < numEnemies; ++i)
-	{
-		//ret = CreateEnemy(etype1, { zone.x, zone.y }, 75, 1, 1, 10, 1.F); 
+	j1Entity* ret = nullptr;
+	uint numEnemies = CreateRandomBetween(minNum, maxNum);
 
+	uint numBombs = 0;
+	uint numTests = 0;
+	uint cont = 0;
+
+	uint bombProbs = 1;
+	uint testProbs = 8;
+
+	while (cont < numEnemies)
+	{
+		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
+		{
+			switch (*typeIter)
+			{
+			case EnemyType::BOMB:
+				if (CreateRandomBetween(1, 10) == bombProbs)
+				{
+					iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h)};
+
+					ret = CreateEnemy(EnemyType::BOMB, spawnPos, 70, 5, 1, 10, 1.5F);
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 30));
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 10));
+					numBombs++;
+					cont++;
+				}
+
+				break;
+
+			case EnemyType::TEST:
+				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
+				{
+					iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
+					ret = CreateEnemy(EnemyType::TEST, spawnPos, 70, 5, 1, 10, 1.5F);
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 20));
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 50));
+					numTests++;
+					cont++;
+				}
+				break;
+
+			}
+		}
 	}
+	LOG("Created %i Enemies", numEnemies);
+	LOG("Ceated %i TESTS", numTests);
+	LOG("Ceated %i BOMBS", numBombs);
+
 
 }
 
@@ -300,7 +351,6 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 
 uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
 {
-	// Doesnt admit unsigned ints, but can cast it later
 	std::uniform_real_distribution<float> dis(min, max);
 
 	return (uint)dis(gen);

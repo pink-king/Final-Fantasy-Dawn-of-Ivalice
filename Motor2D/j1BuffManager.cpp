@@ -111,7 +111,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
-	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
+	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
