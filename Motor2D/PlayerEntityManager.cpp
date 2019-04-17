@@ -28,7 +28,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 
-	debug = true;
+	debug = false;
 	
 }
 

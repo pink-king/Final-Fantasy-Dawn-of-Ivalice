@@ -158,7 +158,7 @@ public:
 	iPoint WorldToIso(int x, int y) const;
 
 	iPoint IsoTo2D(int x, int y) const;
-	iPoint TwoDToIso(int x, int y) const;
+	fPoint TwoDToIso(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 
 private:
