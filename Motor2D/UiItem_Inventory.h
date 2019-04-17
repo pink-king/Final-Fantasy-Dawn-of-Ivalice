@@ -13,14 +13,28 @@
 #define boxSize 48                   
 #define boxSeparation iPoint(16,13)
 
+struct elementsStartingPositions
+{
+	iPoint weaponsAndEquipment = iPoint(100, 100); 
+	iPoint currentItems = iPoint(100, 100);
+	iPoint potions = iPoint(100, 100);
+};
+
 class UiItem_Inventory : public UiItem
 {
 
 public:
-	UiItem_Inventory();
+	UiItem_Inventory(UiItem * const parent);
 
 
 	void Draw(const float& dt) override;
+
+
+	bool drawTest = false; 
+
+
+
+	elementsStartingPositions initialPositions; 
 
 };
 

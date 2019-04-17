@@ -52,6 +52,7 @@ public:
 	UiItem_Label* resistanceLabel = nullptr;
 
 	bool hide = false; 
+	bool spawnedInventoryImage = false; 
 
 	uint offsetFromLoot = 1000; 
 
