@@ -7,6 +7,16 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+struct GroupInfo {
+	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies)
+		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies) {}
+
+	std::vector<EnemyType> types;
+	SDL_Rect zone = { 0, 0, 0, 0 };
+	uint minEnemies;
+	uint maxEnemies;
+};
+
 enum class EnvironmentAssetsTypes
 {
 	NO_TYPE,
@@ -47,6 +57,8 @@ public:
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
+	void LoadSpawnGroups();
+	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed);
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 	uint CreateRandomBetween(uint min, uint max); 
@@ -97,6 +109,7 @@ public:
 	SDL_Texture*			enemyBombTex = nullptr; 
 	SDL_Texture*			debugsubtileTex = nullptr; 
 
+	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
 private:

@@ -303,10 +303,10 @@ bool j1Scene::Update(float dt)
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
 	static int cont = 0;
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 70, 11, 1, 10, 1.0f); 
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 75, 11, 1, 10, 1.0f); 
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
@@ -326,8 +326,10 @@ bool j1Scene::Update(float dt)
 		typeVec.push_back(EnemyType::TEST);
 		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);
 	}
-	if(App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
-		App->render->DrawQuad(App->map->spawnRect, 255, 255, 0, 255, false);
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), fPoint{ (float)coords.x, (float)coords.y }, 50);
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{

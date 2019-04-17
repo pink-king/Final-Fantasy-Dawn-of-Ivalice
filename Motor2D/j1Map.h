@@ -175,7 +175,6 @@ private:
 	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
-	SDL_Rect spawnRect;
 	MapData data;
 	PlayerData			playerData;
 	bool				map_loaded;

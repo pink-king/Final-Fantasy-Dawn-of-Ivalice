@@ -356,7 +356,7 @@ bool j1Map::Load(const char* file_name)
 		std::string tmp(objectlayer.attribute("name").as_string());
 		if (tmp == "Spawns")
 		{
-			//LoadSpawns(objectlayer);
+			LoadSpawns(objectlayer);
 		}
 	}
 
@@ -485,8 +485,8 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 	std::vector<EnemyType> typesVec;
 	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
 	{
+		SDL_Rect spawnRect = { 0, 0, 0, 0 };
 		std::string objectName(object.attribute("name").as_string());
-
 		if (objectName == "spawnZone")
 		{
 			int minEnemies = 0;
@@ -499,7 +499,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 
 			for (pugi::xml_node properties = object.child("properties").child("property"); properties; properties = properties.next_sibling("property"))
 			{
-				if (properties.attribute("value").as_bool() == false)
+				if (properties.attribute("type").as_string() == "bool" && properties.attribute("value").as_bool() == false)
 					continue;
 
 				std::string attributeName = properties.attribute("name").as_string();
@@ -520,10 +520,9 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 					maxEnemies = properties.attribute("value").as_int();
 				}
 			}
-			iPoint aux = IsoToWorld(spawnRect.x, spawnRect.y);
-			spawnRect.x = aux.x * 2;
-			spawnRect.y = aux.y;
-			App->entityFactory->CreateEnemiesGroup(typesVec, spawnRect, minEnemies, maxEnemies);
+
+			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
+			App->entityFactory->spawngroups.push_back(ret);
 			typesVec.clear();
 		}
 
