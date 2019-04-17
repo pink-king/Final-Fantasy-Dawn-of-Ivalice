@@ -26,7 +26,7 @@ bool UiItem_Inventory::LoadElements()
 				iPoint position(0, 0); 
 				if (i != 0)
 				{
-					 position = { (startingPos.x + 56 + boxSeparation.x + i * boxSize), (startingPos.y + 300) };
+					 position = { (startingPos.x + 56 + i * boxSeparation.x + i * boxSize), (startingPos.y + 300) };
 				}
 				else
 				{
