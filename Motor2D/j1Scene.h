@@ -7,6 +7,7 @@ struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
+class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
 
@@ -57,6 +58,7 @@ public:
 	UiItem * inventory = nullptr;
 	UiItem_Label * coins_label = nullptr;
 	SDL_Rect lootPanelRect; 
+	UiItem_Inventory* inventoryItem = nullptr;
 	
 	bool debug = false;
 	bool exitGame = false;

@@ -483,6 +483,14 @@ UiItem_Image * j1Gui::AddSpecialImage(iPoint position, const SDL_Rect* section, 
 	return (UiItem_Image*)newUIItem;
 }
 
+UiItem_Inventory * j1Gui::AddInventory(UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = new UiItem_Inventory(parent);
+	ListItemUI.push_back(newUIItem);
+	return (UiItem_Inventory*)newUIItem;
+}
+
 
 
 UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent)

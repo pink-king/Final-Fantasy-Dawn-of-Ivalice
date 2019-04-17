@@ -26,7 +26,7 @@ class UiItem_Inventory : public UiItem
 public:
 	UiItem_Inventory(UiItem * const parent);
 
-
+	bool LoadElements();
 	void Draw(const float& dt) override;
 
 
@@ -35,6 +35,7 @@ public:
 
 
 	elementsStartingPositions initialPositions; 
+	iPoint startingPos = { 274, 101 };
 
 };
 

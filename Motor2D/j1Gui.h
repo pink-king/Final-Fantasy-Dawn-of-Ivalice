@@ -17,6 +17,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "UiItem_Description.h"
+#include "UiItem_Inventory.h"
 
 struct labelInfo
 {
@@ -113,7 +114,7 @@ public:
 	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, UiItem*const parent = nullptr);
 	
 	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex = nullptr);
-
+	UiItem_Inventory* AddInventory(UiItem* const parent);
 
 	SDL_Texture* GetAtlas();
 	void FadeToScene();

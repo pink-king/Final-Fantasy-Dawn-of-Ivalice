@@ -273,6 +273,7 @@ bool j1Scene::Update(float dt)
 			if (App->pause)
 			{
 				inventory->enable = true;
+				inventoryItem->LoadElements();
 			}
 			else
 			{
@@ -624,5 +625,6 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
+	inventoryItem = App->gui->AddInventory(inventory);
 	return true;
 }
