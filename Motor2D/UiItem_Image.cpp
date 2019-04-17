@@ -75,8 +75,8 @@ void UiItem_Image::Draw(const float& dt)
 		}
 		else
 		{
-			// TODO: check that this works, loot tex wrong
-			App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F, SDL_FLIP_NONE, 3.0F, INT_MAX, INT_MAX, true);
+			// TODO: why don't I use the BlitGui here?? The placing is wrong 
+			App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F, SDL_FLIP_NONE, 3.0F, INT_MAX, INT_MAX, false);
 
 
 		}

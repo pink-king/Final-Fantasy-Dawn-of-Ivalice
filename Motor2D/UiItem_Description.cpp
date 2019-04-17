@@ -3,7 +3,7 @@
 #include "j1Fonts.h"
 #include "j1Window.h"
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent) : UiItem(position, parent)
 {
 	this->descrType = descriptionType::EQUIPMENT; 
 	this->parent = parent; 
@@ -13,12 +13,13 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, UiItem*const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, UiItem*const parent) : UiItem(position, parent)
 {
 
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
 
+	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
 	panelWithButton->useCamera = false; 
 
@@ -31,6 +32,13 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	name->useCamera = false;
 	
 
+	std::string lvlString("LVL ");
+	lvlString.append(std::to_string((int)level));
+	this->level = App->gui->AddLabel(lvlString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+
+	this->level->useCamera = false;
+
+	// - - - - - - - - - - - - - - - - - - 
 	std::string resString("Resistance: "); 
 	resString.append(std::to_string((int)resistance));
 	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
@@ -57,11 +65,15 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 void UiItem_Description::HideAllElements(bool hide)
 {
-		this->iconImage->hide = hide;
+		// common 
+	
+	    this->iconImage->hide = hide;
 		this->panelWithButton->hide = hide;
 		this->name->hide = hide;
+		this->level->hide = hide; 
 		this->hide = hide;
 
+		// - - - - - - - - - - - - - 
 	   
 		if (this->descrType == descriptionType::WEAPON)
 		{
@@ -88,6 +100,10 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 	this->name->hitBox.x = referencePanelPosition.x + 20; 
 	this->name->hitBox.y = referencePanelPosition.y + 40;
+
+	this->level->hitBox.x = referencePanelPosition.x + 150;
+	this->level->hitBox.y = referencePanelPosition.y + 200;
+
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
@@ -118,6 +134,7 @@ void UiItem_Description::DeleteEverything()
 	this->iconImage->to_delete = true;
 	this->panelWithButton->to_delete = true;
 	this->name->to_delete = true;
+	this->level->to_delete = true;
 
 	if (this->descrType == descriptionType::WEAPON)
 	{

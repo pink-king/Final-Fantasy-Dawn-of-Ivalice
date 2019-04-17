@@ -828,7 +828,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 			SDL_Rect destRect = App->scene->lootPanelRect;
 
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, App->scene->inGamePanel);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
