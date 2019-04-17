@@ -55,7 +55,7 @@ bool j1EntityFactory::Start()
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 
-	enemyGoblinTex = App->tex->Load("textures/enemies/enemygoblin.png");
+	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 
@@ -181,7 +181,7 @@ bool j1EntityFactory::CleanUp()
 	//unload texture
 	App->tex->UnLoad(texture);
 	App->tex->UnLoad(assetsAtlasTex);
-	App->tex->UnLoad(enemyGoblinTex);
+	App->tex->UnLoad(enemyZombieTex);
 	App->tex->UnLoad(enemyBombTex);
 	App->tex->UnLoad(debugsubtileTex);
 
