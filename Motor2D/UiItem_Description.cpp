@@ -95,10 +95,10 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.x = referencePanelPosition.x;
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
-	this->iconImage->hitBox.x = referencePanelPosition.x;
-	this->iconImage->hitBox.y = referencePanelPosition.y;
+	this->iconImage->hitBox.x = referencePanelPosition.x + 20;
+	this->iconImage->hitBox.y = referencePanelPosition.y + 80;
 
-	this->name->hitBox.x = referencePanelPosition.x + 20; 
+	this->name->hitBox.x = referencePanelPosition.x + 30; 
 	this->name->hitBox.y = referencePanelPosition.y + 40;
 
 	this->level->hitBox.x = referencePanelPosition.x + 150;
