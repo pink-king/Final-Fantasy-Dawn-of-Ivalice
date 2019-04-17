@@ -76,7 +76,7 @@ void UiItem_Image::Draw(const float& dt)
 		else
 		{
 			// TODO: check that this works, loot tex wrong
-			App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F, SDL_FLIP_NONE, 3.0F);
+			App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F, SDL_FLIP_NONE, 3.0F, INT_MAX, INT_MAX, true);
 
 
 		}

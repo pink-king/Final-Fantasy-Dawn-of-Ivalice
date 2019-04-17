@@ -595,6 +595,7 @@ bool Crosshair::ManageInput(float dt)
 								item = App->entityFactory->entities.erase(item);
 								break;
 							}
+			
 						}
 
 					}

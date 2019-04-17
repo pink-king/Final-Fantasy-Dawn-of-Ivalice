@@ -19,7 +19,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
 
-	panelWithButton = App->gui->AddImage(iPoint(300, 300), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
 	panelWithButton->useCamera = false; 
 
 	if (itemName.empty())
@@ -27,19 +27,19 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name"; 
 	}
 
-    name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(330, 340), this);
+    name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	name->useCamera = false;
 	
 
 	std::string resString("Resistance: "); 
 	resString.append(std::to_string((int)resistance));
-	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 410), this);
+	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	
 	resistanceLabel->useCamera = false;
 
 	std::string dmgString("Damage: ");
 	dmgString.append(std::to_string((int)Attack));
-    damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(390, 380), this);
+    damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	
 	damageLabel->useCamera = false;
 
@@ -83,10 +83,27 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.x = referencePanelPosition.x;
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
+	this->iconImage->hitBox.x = referencePanelPosition.x;
+	this->iconImage->hitBox.y = referencePanelPosition.y;
+
+	this->name->hitBox.x = referencePanelPosition.x + 20; 
+	this->name->hitBox.y = referencePanelPosition.y + 40;
+
+	if (this->descrType == descriptionType::WEAPON)
+	{
+		this->damageLabel->hitBox.x = referencePanelPosition.x + 90;
+		this->damageLabel->hitBox.y = referencePanelPosition.y + 70;
+
+		this->resistanceLabel->hitBox.x = referencePanelPosition.x + 90;
+		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 100;
+
+	}
+	else if (this->descrType == descriptionType::EQUIPMENT)
+	{
+
+	}
 
 
-	this->iconImage->hitBox.x = panelWithButton->hitBox.x /*+ 20*/; 
-	this->iconImage->hitBox.y = panelWithButton->hitBox.y /*+ 35*/;
 
 
 	// switch description type and reposition everything
