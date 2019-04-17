@@ -17,29 +17,36 @@ bool UiItem_Inventory::LoadElements()
 	if (!App->entityFactory->player->bagObjects.empty())
 	{
 		int i = 0;
-		int j = 1; 
+		int j = 0;
+		
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
 		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 		{
 			if (!(*iter)->MyDescription->spawnedInventoryImage)
 			{
-				iPoint position(0, 0); 
-				if (i != 0)
+				iPoint position(0, 0);
+
+				if (i == 5)
 				{
-					 position = { (startingPos.x + 56 + i * boxSeparation.x + i * boxSize), (startingPos.y + 300) };
-				}
-				else
-				{
-					 position = { (startingPos.x + 56), (startingPos.y + 300) };
+					i = 0;
+					j++;
 				}
 
-				if (i == 5*j)
+				if (i == 0)  // first
 				{
 
-					j++; 
+					position = { (startingPos.x + 56), (startingPos.y + 302 + j * boxSeparation.y) };
+
+
+				}
+				else   // the rest of elements in the row
+				{
+					position = { (startingPos.x + 56 + i * boxSeparation.x + i * boxSize), (startingPos.y + 302) + j * boxSeparation.y };
 				}
 
-				
+
+
+
 				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex);
 				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 				(*iter)->MyDescription->spawnedInventoryImage = true;
@@ -47,9 +54,15 @@ bool UiItem_Inventory::LoadElements()
 
 				i++;
 			}
-			
+
+
 		}
+
 	}
+
+
+
+
 	return true;
 }
 

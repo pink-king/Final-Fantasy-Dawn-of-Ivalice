@@ -11,7 +11,7 @@
 #define MAX_Equipped 3
 
 #define boxSize 48                   
-#define boxSeparation iPoint(16,13)
+#define boxSeparation iPoint(30,70)
 
 struct elementsStartingPositions
 {

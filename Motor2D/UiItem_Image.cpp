@@ -84,7 +84,7 @@ void UiItem_Image::Draw(const float& dt)
 			}
 			else
 			{
-				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0f, 3.2f);
+				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0f, 2.5f);
 			}
 		}
 		
