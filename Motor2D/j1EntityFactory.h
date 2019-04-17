@@ -92,6 +92,11 @@ public:
 	PlayerEntityManager*	player = nullptr;
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
+	// TO DO Atlas of enemies
+	SDL_Texture*			enemyGoblinTex = nullptr; 
+	SDL_Texture*			enemyBombTex = nullptr; 
+	SDL_Texture*			debugsubtileTex = nullptr; 
+
 	std::vector<j1Entity*>	entities;
 	bool justGold;
 private:

@@ -55,6 +55,10 @@ bool j1EntityFactory::Start()
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 
+	enemyGoblinTex = App->tex->Load("textures/enemies/enemygoblin.png");
+	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+
 	/*constexpr char inits[] = __TIME__;
 	const int default_seed = (inits[0] - '0') * 100000 + (inits[1] - '0') * 10000 +
 		(inits[3] - '0') * 1000 + (inits[4] - '0') * 100 + (inits[6] - '0') * 10 + inits[7] - '0';*/
@@ -177,6 +181,9 @@ bool j1EntityFactory::CleanUp()
 	//unload texture
 	App->tex->UnLoad(texture);
 	App->tex->UnLoad(assetsAtlasTex);
+	App->tex->UnLoad(enemyGoblinTex);
+	App->tex->UnLoad(enemyBombTex);
+	App->tex->UnLoad(debugsubtileTex);
 
 	return ret;
 }

@@ -19,8 +19,7 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 	name.assign("Test");
 
 	// TODO: import from xml
-	entityTex = App->tex->Load("textures/enemies/enemygoblin.png"); // TODO: note, repetead entities/enemies, load texture once time
-	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
+	entityTex = App->entityFactory->enemyGoblinTex;
 
 	idle[(int)facingDirectionEnemy::SE].PushBack({ 29, 14, 16, 28 });
 	idle[(int)facingDirectionEnemy::S].PushBack({ 29, 47, 16, 27 });
@@ -395,12 +394,6 @@ bool EnemyTest::CleanUp()
 
 	path_to_follow.clear();
 
-	if (debugSubtile != nullptr)
-	{
-		App->tex->UnLoad(debugSubtile);
-		debugSubtile = nullptr;
-	}
-
 	std::list<entityStat*>::iterator item = stat.begin();
 	for (; item != stat.end(); ++item)
 	{
@@ -408,13 +401,20 @@ bool EnemyTest::CleanUp()
 	}
 	stat.clear();
 
-	if (entityTex != nullptr)
+
+	// Textures Loaded and Unloaded in Entity Factory
+
+	/*if (entityTex != nullptr)
 	{
 		App->tex->UnLoad(entityTex);
 		entityTex = nullptr;
-	}
+	}*/
 
-
+	/*if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}*/
 
 	return true;
 }
