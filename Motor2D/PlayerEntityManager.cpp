@@ -580,15 +580,28 @@ bool Crosshair::ManageInput(float dt)
 			{
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
-					
-					/*if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity)))
+					for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
 					{
-						App->entityFactory->DeleteEntityFromSubtile(clampedEntity);
-						clampedEntity = App->entityFactory->entities.erase(clampedEntity);
-					}*/
+						if ((*item) == clampedEntity)
+						{
+
+							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity)))
+							{
+								// first detach clamped entity
+								clampedEntity = nullptr;
+
+								// then delete loot from subtile and factory 
+								App->entityFactory->DeleteEntityFromSubtile(*item);
+								item = App->entityFactory->entities.erase(item);
+								break;
+							}
+						}
+
+					}
 			
 				}
 			}
+
 
 		}
 		else
