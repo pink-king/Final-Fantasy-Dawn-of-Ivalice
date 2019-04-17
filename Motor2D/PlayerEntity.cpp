@@ -111,10 +111,15 @@ bool PlayerEntity::InputMovement(float dt)
 	std::vector<SDL_Rect> resultant_intersections = Collision2D(collider);
 	if (!resultant_intersections.empty())
 	{
-		LOG("COLLISIONS: %i", resultant_intersections.size());
-
-		position = GetCollisionsBehaviourNewPos(resultant_intersections, xAxis, yAxis);
+		//LOG("COLLISIONS: %i", resultant_intersections.size());
+		position = GetCollisionsBehaviourNewPos(collider,resultant_intersections, xAxis, yAxis);
 	}
+
+	//App->render->DrawQuad(collider, 255, 255, 255, 255);
+	/*else
+	{
+		isPreviousUpdateCollisioning = false;
+	}*/
 	// -----------------------------------------------------------------------------
 
 	if (isMoving)// if we get any input, any direction
@@ -289,8 +294,9 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 	int tile_size = 32;
 
 	iPoint tempcolpos = App->map->IsoTo2D(collider.x, collider.y);
-	collider.x = tempcolpos.x;
-	collider.y = tempcolpos.y;
+	SDL_Rect colliderCheck = { tempcolpos.x, tempcolpos.y, collider.w, collider.h };
+	/*collider.x = tempcolpos.x;
+	collider.y = tempcolpos.y;*/
 
 	// check only the neighbours adjacents to player current TILE
 	iPoint currentTile = App->entityFactory->player->GetTilePos();
@@ -310,13 +316,13 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 
 	int scale =  (int)App->win->GetScale();
 
-	iPoint offset = App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
-	offset = App->map->IsoTo2D(offset.x, offset.y);
-	offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
-	//Place it on the right corner of the screen
-	uint w, h;
-	App->win->GetWindowSize(w, h);
-	offset.x -= round((int)w / scale) - tile_size * 3;
+	iPoint offset = { 0,0 };// { 100, 100 };//App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
+	//offset = App->map->IsoTo2D(offset.x, offset.y);
+	//offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
+	////Place it on the right corner of the screen
+	//uint w, h;
+	//App->win->GetWindowSize(w, h);
+	//offset.x -= round((int)w / scale) - tile_size * 3;
 	
 	// colors for debug visuals
 	SDL_Color color_pink = { 255,162,240,255 };
@@ -346,13 +352,13 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 			{ tileWorldRect.x - offset.x, tileWorldRect.y - offset.y, tileWorldRect.w, tileWorldRect.h },
 			color.r, color.g, color.b, color.a);
 
-		if (SDL_HasIntersection(&collider, &tileWorldRect))
+		if (SDL_HasIntersection(&colliderCheck, &tileWorldRect))
 		{
 			if (!walkableTile)
 			{
 				//LOG("COLLISION");
 				SDL_Rect intersectionRect;
-				SDL_IntersectRect(&collider, &tileWorldRect, &intersectionRect);
+				SDL_IntersectRect(&colliderCheck, &tileWorldRect, &intersectionRect);
 
 				ret.push_back(intersectionRect);
 
@@ -363,150 +369,154 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 	// DEBUG draw -----------
 	//Draw yellow quad
 	App->render->DrawQuad(
-		{collider.x - offset.x, collider.y - offset.y, collider.w, collider.h},
+		{colliderCheck.x - offset.x, colliderCheck.y - offset.y, colliderCheck.w, colliderCheck.h},
 		255, 255, 0, 255);
 
-	if (!ret.empty())
-	{
-		std::vector<SDL_Rect>::iterator iter = ret.begin();
-		uint i = 3; // color multiplier
-		for (; iter != ret.end(); ++iter)
-		{
-			App->render->DrawQuad(
-				{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
-				255, 30 * i, 16, 255);
-			
-			++i;
-		}
-	}
+	//if (!ret.empty())
+	//{
+	//	std::vector<SDL_Rect>::iterator iter = ret.begin();
+	//	uint i = 3; // color multiplier
+	//	for (; iter != ret.end(); ++iter)
+	//	{
+	//		App->render->DrawQuad(
+	//			{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
+	//			255, 30 * i, 16, 255);
+	//		
+	//		++i;
+	//	}
+	//}
 	// ----------------------
 
 	return ret;
 }
 
-fPoint PlayerEntity::GetCollisionsBehaviourNewPos(std::vector<SDL_Rect>& resultant_intersections, Sint16 xAxis, Sint16 yAxis)
+fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections, Sint16 xAxis, Sint16 yAxis)
 {
+	// all resultants are isoTo2D
+	// playerCol needs conversion
+
 	fPoint ret(0,0);
 
 	//ret.create(position.x, position.y);
 	float angle = atan2f(yAxis, xAxis) * 180 / PI;
 
-	if (resultant_intersections.size() < 3) // 3 intersections means a corner between 3 cells
+	if (resultant_intersections.size() < 3 /*&& (xAxis > 0 || xAxis < 0 || yAxis > 0 || yAxis < 0)*/) // 3 intersections means a corner between 3 cells
 	{
+		//App->render->DrawQuad(playerCol, 255, 0, 0, 255);
+
 		// get the sum between the all rects (max two)
 		std::vector<SDL_Rect>::iterator iterResults = resultant_intersections.begin();
 		SDL_Rect collision = { (*iterResults).x, (*iterResults).y,0,0 };
+		
+		iPoint temporalSize = { (*iterResults).w, (*iterResults).h };
 		for (; iterResults != resultant_intersections.end(); ++iterResults)
 		{
 			// preserve the x,y pos for the top-left resultant
-			if(collision.x > (*iterResults).x)
+			if (collision.x >= (*iterResults).x)
 				collision.x = (*iterResults).x;
-			if (collision.y > (*iterResults).y)
+			if (collision.y >= (*iterResults).y)
 				collision.y = (*iterResults).y;
-			// sum the sizes
+
 			collision.w += (*iterResults).w;
 			collision.h += (*iterResults).h;
 		}
-
-		// we have two possibilites of resultant collision rect
-		fPoint slidingSpeed = { 1.0f,0.5f };
-		ret = previousPos;
-
+		// correct the sizes after sum (always that we have two intersections)
+		if(resultant_intersections.size() > 1)
 		if (collision.w > collision.h)
 		{
-			//LOG("Up or down tile collision");
-			// operate dependent of the axis direction
-			if (angle <= -45.f) // if the player are going right or up
-			{
-				LOG("UP");
-				ret -= slidingSpeed;
-			}
-			else if (angle >= -25.f && angle < 45.f)
-			{
-				LOG("RIGHT");
-				ret += slidingSpeed;
-			}
-			else if (angle > 125.f && angle <= 180.f)
-			{
-				LOG("LEFT");
-				ret -= slidingSpeed;
-			}
-			else if (angle > 45.f && angle < 125.f)
-			{
-				LOG("DOWN");
-				ret += slidingSpeed;
-			}
-			else
-				ret = previousPos;
-				
+			collision.h *= 0.5f;
 		}
-		else if (collision.w < collision.h) // left- right tile collision
+		else if (collision.h > collision.w)
 		{
-			//LOG("Left or right tile collision");
-			if (angle >= -150.f && angle <= -26.f) // if the player are going left or up
-			{
-				LOG("UP");
-				ret.x += slidingSpeed.x;
-				ret.y -= slidingSpeed.y;
-			}
-			else if (angle <= 180.f && angle > 45.f)
-			{
-				LOG("LEFT");
-				ret.x -= slidingSpeed.x;
-				ret.y += slidingSpeed.y;
-			}
-			else if (angle >= 0.f && angle < 26.f)
-			{
-				LOG("RIGHT");
-				ret.x += slidingSpeed.x;
-				ret.y -= slidingSpeed.y;
-			}
-			//else if (angle > 45.f && angle < 125.f)
-			//{
-			//	LOG("DOWN");
-			//	ret = previousPos;
-			//	ret += slidingSpeed;
-			//}
-			//else
-			//	ret = previousPos;
-			else
-				ret = previousPos;
+			collision.w *= 0.5f;
 		}
-		else if (collision.w == collision.h)
+
+		iPoint pt = App->map->IsoTo2D(playerCol.x, playerCol.y);
+
+		
+		// solve overlap for player rect and resultant final intersection
+
+		SDL_Rect pcol = { pt.x, pt.y, playerCol.w, playerCol.h };
+
+		// solving direction
+
+		enum class OVERLAP_DIR : int
 		{
-			LOG("leaving corner response");
-			ret = position;
-			// and adds little push to movement direction
-			float piAngle = angle * PI / 180.f;
-			
-			fPoint newPushVector;
-			newPushVector.x = cosf(piAngle);
-			newPushVector.y = sinf(piAngle);
+			NONE = -1,
+			LEFT,
+			RIGHT,
+			UP,
+			DOWN,
+			MAX
+		};
 
-			newPushVector.Normalize();
+		float distances[(int)OVERLAP_DIR::MAX];
+		distances[(int)OVERLAP_DIR::LEFT] = pcol.x + pcol.w - collision.x;
+		distances[(int)OVERLAP_DIR::RIGHT] = collision.x + collision.w - pcol.x;
+		distances[(int)OVERLAP_DIR::UP] = pcol.y + pcol.h - collision.y;
+		distances[(int)OVERLAP_DIR::DOWN] = collision.y + collision.h - pcol.y;
 
-			ret += newPushVector * 4.f;
-			LOG("");
+		int overlap_dir = -1;
 
-			// but we have 4 cases
-			// up, down, right, left perfect corners in one axis (in direction of corner)
-
-			
+		for (int i = 0; i < (int)OVERLAP_DIR::MAX; ++i)
+		{
+			if (overlap_dir == -1)
+			{
+				overlap_dir = i;
+			}
+			else if (distances[i] == distances[(int)overlap_dir])
+			{
+				/*if ((OVERLAP_DIR)i == dynamic_col->last_overlap)
+				{
+					overlap_dir = i;
+				}*/
+			}
+			else if (distances[i] < distances[(int)overlap_dir])
+			{
+				overlap_dir = i;
+			}
 		}
 
-		LOG("xAxis: %i", xAxis);
-		LOG("yAxis: %i", yAxis);
-		LOG("angle: %f", angle);
+		switch ((OVERLAP_DIR)overlap_dir)
+		{
+		case OVERLAP_DIR::LEFT:
+			pcol.x = collision.x - pcol.w;
+			break;
+		case OVERLAP_DIR::RIGHT:
+			pcol.x = collision.x + collision.w;
+			break;
+		case OVERLAP_DIR::UP:
+			pcol.y = collision.y - pcol.h;
+			break;
+		case OVERLAP_DIR::DOWN:
+			pcol.y = collision.y + collision.h;
+			break;
+		}
 
-		// check player vector direction
+		//App->render->DrawQuad({ pt.x, pt.y, playerCol.w, playerCol.h }, 255, 0, 0, 100);
+		App->render->DrawQuad(pcol, 255, 0, 0, 150);
+		App->render->DrawQuad(collision, 0, 255, 255, 255);
+		
+		fPoint test = { (float)playerCol.x, (float)playerCol.y + 8};
+		test = test - pivot;
+		SDL_Rect testrect = { (int)test.x, (int)test.y, playerCol.w, playerCol.h };
+		//App->render->DrawQuad(playerCol, 255, 255, 255, 255);
+		App->render->DrawQuad(testrect, 255, 255, 255, 255);
+		LOG("testcol: %f,%f", test.x, test.y);
+		LOG("playerPos:%f,%f", position.x, position.y);
 
+		fPoint posToTransfer = App->map->TwoDToIso(pcol.x, pcol.y);
+		posToTransfer.y += 8;
+		posToTransfer = posToTransfer - pivot;
+		SDL_Rect newPosrect = {posToTransfer.x, posToTransfer.y, playerCol.w, playerCol.h };
+		App->render->DrawQuad(newPosrect, 0, 255, 255, 255);
 
-
-		//ret = previousPos;
+		ret.x = posToTransfer.x;
+		ret.y = posToTransfer.y;
 
 	}
 	else
-		ret = previousPos; // if we have a corner intersection, return previous position before this move
+		ret = previousPos;
 
 	return ret;
 }

@@ -189,9 +189,9 @@ iPoint j1Map::IsoTo2D(int x, int y) const
 
 	return ret;
 }
-iPoint j1Map::TwoDToIso(int x, int y) const
+fPoint j1Map::TwoDToIso(int x, int y) const
 {
-	iPoint ret(0, 0);
+	fPoint ret(0, 0);
 
 	ret.x = x - y;
 	ret.y = (x + y) * 0.5f;
@@ -459,7 +459,7 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							positionOnWorld.x -= walls.attribute("width").as_int(0);
 							positionOnWorld.y -= walls.attribute("height").as_int(0);
 
-							App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
+							//App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
 
 						}
 						// else if(wallTypeName == "wall2") {} etc
