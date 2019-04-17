@@ -133,7 +133,7 @@
       <Filter>Development======\Modules</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_Inventory.cpp">
-      <Filter>Development======\Modules\GUI\special items</Filter>
+      <Filter>Development======\Modules\GUI\managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,7 +290,7 @@
       <Filter>Development======\Modules</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_Inventory.h">
-      <Filter>Development======\Modules\GUI\special items</Filter>
+      <Filter>Development======\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

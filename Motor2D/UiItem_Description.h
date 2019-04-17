@@ -35,7 +35,7 @@ public:
 
 //	void Draw(const float& dt);   // do we need this?? I bet we don't 
 
-	void HideAllElements(bool hide = true); 
+	void HideAllElements(bool hide = true, bool closeInventory = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
 
 	// void DeleteEverything(); 
@@ -46,6 +46,8 @@ public:
 	UiItem_Image* panelWithButton = nullptr; 
 	UiItem_Label* name = nullptr;
 	UiItem_Label* level = nullptr;
+
+	UiItem_Image* iconImageInventory = nullptr; 
 	
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 

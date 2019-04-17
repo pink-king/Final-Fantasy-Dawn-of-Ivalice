@@ -63,7 +63,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
-void UiItem_Description::HideAllElements(bool hide)
+void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 {
 		// common 
 	
@@ -73,6 +73,11 @@ void UiItem_Description::HideAllElements(bool hide)
 		this->level->hide = hide; 
 		this->hide = hide;
 
+		
+		if (closeInventory)                 // only when the inventory is closed, the duplicated icon image should be hiden 
+		{
+			iconImageInventory->hide = true; 
+		}
 		// - - - - - - - - - - - - - 
 	   
 		if (this->descrType == descriptionType::WEAPON)
@@ -135,6 +140,10 @@ void UiItem_Description::DeleteEverything()
 	this->panelWithButton->to_delete = true;
 	this->name->to_delete = true;
 	this->level->to_delete = true;
+
+	// TODO: delete the icon image in the inventory only if it exists
+	//this->iconImageInventory->to_delete = true;
+
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
