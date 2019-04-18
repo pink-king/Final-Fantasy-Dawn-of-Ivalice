@@ -108,7 +108,7 @@ void UiItem_Description::Draw(const float& dt)
 		if (App->gui->selected_object == iconImageInventory)
 		{
 			HideAllElements(false); 
-			RepositionAllElements(iPoint(staringPosition.x, staringPosition.y));
+			RepositionAllElements(iPoint(staringPosition.x +410, staringPosition.y+30));
 		}
 		else
 		{
@@ -203,7 +203,7 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->name->hitBox.y = referencePanelPosition.y + 40;
 
 	this->level->hitBox.x = referencePanelPosition.x + 150;
-	this->level->hitBox.y = referencePanelPosition.y + 200;
+	this->level->hitBox.y = referencePanelPosition.y + 180;
 
 
 	if (this->descrType == descriptionType::WEAPON)
