@@ -3,6 +3,7 @@
 #include "j1Fonts.h"
 #include "j1Window.h"
 #include "UiItem_Inventory.h"
+#include "j1Scene.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent) : UiItem(position, parent)
 {
@@ -107,8 +108,15 @@ void UiItem_Description::Draw(const float& dt)
 
 		if (App->gui->selected_object == iconImageInventory)
 		{
-			HideAllElements(false); 
-			RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			if (App->scene->inventory->enable)             // shpw description
+			{
+				HideAllElements(false);
+				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			}
+			else                                        // hide description ingame
+			{
+				HideAllElements(true);
+			}
 		}
 		else
 		{
