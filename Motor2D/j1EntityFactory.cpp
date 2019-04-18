@@ -288,15 +288,16 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
 		{
 			j1Entity* ret = nullptr;
+			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
+			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
+			spawnPos.x = spawnPos.x * 2;
+			LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
 			switch (*typeIter)
 			{
 			case EnemyType::BOMB:
 				if (CreateRandomBetween(1, 10) <= bombProbs)
 				{
-					iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h)};
-					LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
-					spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
-					spawnPos.x = spawnPos.x * 2; 
+					
 					ret = CreateEnemy(EnemyType::BOMB, spawnPos, 0, 5, 1, 10, 1.5F);
 					if (ret != nullptr)
 					{
@@ -312,10 +313,6 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			case EnemyType::TEST:
 				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
 				{
-					iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
-					LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
-					spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
-					spawnPos.x = spawnPos.x * 2;
 					ret = CreateEnemy(EnemyType::TEST, spawnPos, 0, 5, 1, 10, 1.5F);
 					if (ret != nullptr)
 					{
@@ -327,6 +324,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				}
 				break;
 
+			default:
+				break;
 			}
 		}
 	}

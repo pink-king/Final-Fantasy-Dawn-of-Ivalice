@@ -95,7 +95,7 @@ protected:
 	uint attackRange = 0; 
 	bool isSubpathRange = false;
 
-	uint pointingDir = 1; 
+	uint pointingDir = 0; 
 	SDL_Texture* debugSubtile = nullptr;
 	uint baseDamage;
 
