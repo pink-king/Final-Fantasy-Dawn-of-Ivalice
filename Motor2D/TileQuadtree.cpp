@@ -35,6 +35,8 @@ TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint le
 
 	tiles_contained = 0;
 
+	pixelTileOffset.create(0, -16);//-64 * 0.5f, -32 * 0.5f);
+
 	assert(level <= max_levels,"MAX LEVELS > LEVELS");
 }
 
@@ -143,7 +145,7 @@ void TileQuadtree::DrawMap()
 					{
 						SDL_Rect rect = tileset->GetTileRect(tile.id);
 
-						App->render->Blit(tileset->texture, tile.position.x, tile.position.y, &rect);
+						App->render->Blit(tileset->texture, tile.position.x + pixelTileOffset.x, tile.position.y + pixelTileOffset.y, &rect);
 
 					}
 				}

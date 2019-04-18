@@ -43,6 +43,8 @@ protected:
 
 	uint	size;				//Amount of tiles this node can store
 	uint	tiles_contained;	//Amount of tiles this node currently stores
+
+	iPoint pixelTileOffset; // mesures the height between the end of y sprite texture to start of the paint(draw) itself (displacement)
 	
 
 };
