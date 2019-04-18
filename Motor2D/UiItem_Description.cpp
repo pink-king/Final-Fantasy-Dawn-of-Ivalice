@@ -100,10 +100,15 @@ void UiItem_Description::Draw(const float& dt)
 
 	if (spawnedInventoryImage)
 	{
+		if (!switchedCameraUsage)
+		{
+			SwitchCameraUsage();           // when ingame, descr blit speed is 1.0f, but in invetory it should be 0.0f
+		}
+
 		if (App->gui->selected_object == iconImageInventory)
 		{
 			HideAllElements(false); 
-			RepositionAllElements(iPoint(staringPosition.x + 264, staringPosition.y + 62));
+			RepositionAllElements(iPoint(staringPosition.x, staringPosition.y));
 		}
 		else
 		{
@@ -114,6 +119,41 @@ void UiItem_Description::Draw(const float& dt)
 
 }
 
+
+void UiItem_Description::SwitchCameraUsage()
+{
+
+	// common 
+
+	this->iconImage->useCamera = true;
+	this->panelWithButton->useCamera = true;
+	this->name->useCamera = true;
+	this->level->useCamera = true;
+	this->useCamera = true;
+
+
+	if (spawnedInventoryImage)                 // only when the inventory is closed, the duplicated icon image should be hiden 
+	{
+		iconImageInventory->useCamera = true;
+	}
+	// - - - - - - - - - - - - - 
+
+	if (this->descrType == descriptionType::WEAPON)
+	{
+		this->damageLabel->useCamera = true;
+		this->resistanceLabel->useCamera = true;
+
+	}
+	else if (this->descrType == descriptionType::EQUIPMENT)
+	{
+
+	}
+	else if (this->descrType == descriptionType::POTION)
+	{
+		this->effectLabel->useCamera = true;
+	}
+
+}
 
 void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 {

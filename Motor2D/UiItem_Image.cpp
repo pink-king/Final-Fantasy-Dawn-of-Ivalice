@@ -89,7 +89,12 @@ void UiItem_Image::Draw(const float& dt)
 
 			if (this->parent->guiType == GUI_TYPES::DESCRIPTION)  // DESCRIPTION image
 			{
-				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 1.0f, 4.0f);
+				float speed = 0.0f;
+
+				if (!useCamera)
+					speed = 1.0f;
+
+				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, speed, 4.0f);
 			}
 			else if(this->parent->guiType == GUI_TYPES::INVENTORY)  // INVENTORY image
 			{

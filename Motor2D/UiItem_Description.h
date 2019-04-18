@@ -39,7 +39,7 @@ public:
 
 	void HideAllElements(bool hide = true, bool closeInventory = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
-
+	void SwitchCameraUsage(); 
 
 	// void DeleteEverything(); 
 
@@ -61,7 +61,7 @@ public:
 
 	bool hide = false; 
 	bool spawnedInventoryImage = false; 
-
+	bool switchedCameraUsage = false; 
 	uint offsetFromLoot = 1000; 
 
 	iPoint referencePanelPosition; 
