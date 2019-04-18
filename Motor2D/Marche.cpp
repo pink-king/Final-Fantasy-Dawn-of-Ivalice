@@ -191,8 +191,9 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
-
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
+			App->camera2D->AddTrauma(20.f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special1)

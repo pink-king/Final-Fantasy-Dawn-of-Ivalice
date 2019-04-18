@@ -6,6 +6,7 @@
 #include "j1Render.h"
 #include "j1PathFinding.h"
 #include "p2Defs.h"
+#include "j1ParticlesClassic.h"
 
 EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, "Arrow")
 {
@@ -48,6 +49,11 @@ bool EntityArrow::PreUpdate()
 {
 	CheckMyPos(); 
 	if (CollisionWithWall()) {
+		App->camera2D->AddTrauma(35.f / 100.f);
+		App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20, { 0,0 }, 0u);
+		// Just to show off
+		App->particles->AddParticle(App->particles->explosion01, position.x + 10, position.y - 10, { 0,0 }, 100u);
+		App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 30, { 0,0 }, 50u);
 		to_delete = true; 
 	}
 	
@@ -86,6 +92,12 @@ bool EntityArrow::CheckMyPos()
 bool EntityArrow::Contact()
 {
 	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 5, 7, 50);
+	App->camera2D->AddTrauma(35.f / 100.f);
+	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20, { 0,0 }, 0u);
+	// Just to show off
+	App->particles->AddParticle(App->particles->explosion01, position.x + 10, position.y - 10, { 0,0 }, 100u);
+	App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 30, { 0,0 }, 50u);
+
 	to_delete = true; 
 
 	return true;
