@@ -9,6 +9,11 @@
 #include "Shara.h"
 #include "j1Input.h"
 #include"LootEntity.h"
+#include "j1Audio.h"
+#include "SDL_mixer/include/SDL_mixer.h"
+
+
+struct Mix_Chunk;
 class Crosshair
 {
 public:
@@ -23,10 +28,10 @@ public:
 
 public:
 	iPoint GetSubtilePoint();
+	iPoint GetPivotPos();
 
 private:
 	bool ManageInput(float dt);
-	iPoint GetPivotPos();
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
 	fPoint GetHeadingVector(float angle);
 	/*float Clamp(float value, float min, float max);*/
@@ -72,6 +77,7 @@ public:
 	void SetNextCharacter();
 	void SetCurrentAnimation();
 	iPoint GetCrossHairSubtile();
+	iPoint GetCrossHairPivotPos(); 
 	void Draw();
 
 public:
@@ -118,8 +124,8 @@ private:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	
-	
-
+	unsigned int pickLoot;
+	unsigned int pickGold;
 };
 
 #endif

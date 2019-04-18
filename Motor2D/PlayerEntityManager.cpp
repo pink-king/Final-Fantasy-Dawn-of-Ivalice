@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "UiItem.h"
 #include "UiItem_Label.h"
+
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
@@ -28,7 +29,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 
-	debug = true;
+	debug = false;
 	
 }
 
@@ -58,6 +59,8 @@ bool PlayerEntityManager::Start()
 	pivot = selectedCharacterEntity->pivot;
 
 
+	pickLoot = App->audio->LoadFx("audio/fx/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/pickGold.wav");
 
 	return true;
 }
@@ -91,6 +94,7 @@ bool PlayerEntityManager::Update(float dt)
 		{
 			if (CollectLoot((LootEntity*)(*item)))
 			{
+				App->audio->PlayFx(pickLoot, 0);
 				App->entityFactory->DeleteEntityFromSubtile(*item);
 				item = App->entityFactory->entities.erase(item);
 				break;
@@ -161,6 +165,13 @@ bool PlayerEntityManager::CleanUp()
 	}
 	equipedObjects.clear();
 
+	std::vector<LootEntity*>::iterator iter3 = consumables.begin();
+	for (; iter3 != consumables.end(); ++iter3)
+	{
+		delete *iter3;
+		*iter3 = nullptr;
+	}
+	consumables.clear();
 	return true;
 }
 
@@ -220,6 +231,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot();
+			App->audio->PlayFx(App->entityFactory->swapChar, 0);
 			break;
 		}
 	}
@@ -259,7 +271,8 @@ void PlayerEntityManager::SetNextCharacter()
 			// sets current animation
 			SetCurrentAnimation();
 			// updates pivot
-			UpdatePivot();
+			UpdatePivot(); 
+			App->audio->PlayFx(App->entityFactory->swapChar, 0);
 			break;
 		}
 	}
@@ -313,6 +326,16 @@ iPoint PlayerEntityManager::GetCrossHairSubtile()
 	return ret;
 }
 
+iPoint PlayerEntityManager::GetCrossHairPivotPos()
+{
+	iPoint ret = { 0,0 };
+	if (crossHair != nullptr)
+	{
+		ret = crossHair->GetPivotPos();
+	}
+	return ret;
+}
+
 const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 {
 	return lastCharHeadingAngle;
@@ -356,6 +379,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 
 		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 		{
+			App->audio->PlayFx(pickGold, 0);
 			gold += entityLoot->price;
 			entityLoot->to_delete = true;
 			str_coin = "x  " + std::to_string(gold);

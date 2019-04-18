@@ -70,7 +70,7 @@ iPoint LootEntity::GetFinalPos()
 }
 iPoint LootEntity::GetPosition()
 {
-	return App->map->SubTileMapToWorld(App->entityFactory->GetEnemySubtile(this).x, App->entityFactory->GetEnemySubtile(this).y);
+	return (iPoint(position));
 }
 
 std::string LootEntity::GetName()
@@ -246,7 +246,7 @@ void LootEntity::ExplosionMaker(float dt)
 	}
 	else
 	{
-		position.y - 0.070*timeTest*timeTest;
+		position.y  - 0.070*timeTest*timeTest;
 		position.y += decrementY;
 	}
 	

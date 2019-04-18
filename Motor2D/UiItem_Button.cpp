@@ -49,6 +49,15 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToGame();
 	if (functionName == "GoBackToStartMenu")
 		App->gui->GoBackToStartMenu();
+
+	App->audio->PlayFx(App->gui->acceptUI, 0);
+
+	if (App->scene->paused && !App->pause)
+	{
+		App->scene->paused = false;
+		Mix_ResumeMusic();
+	}
+
 }
 
 void UiItem_Button::Draw(const float &dt)
