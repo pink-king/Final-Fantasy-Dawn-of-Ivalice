@@ -55,7 +55,9 @@ bool j1EntityFactory::Start()
 	}
 	
 	//load texture
-	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+	//assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+
+	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 
 	lootGroundSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
 	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");

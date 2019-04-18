@@ -448,21 +448,46 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 					{
 						std::string wallTypeName = walls.attribute("name").as_string();
 						
+						// load walls as entities
+						iPoint positionOnWorld; // x and y are on iso coords, needs conversion
+						positionOnWorld.x = walls.attribute("x").as_int(0);
+						positionOnWorld.y = walls.attribute("y").as_int(0);
+						positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
+						positionOnWorld.x = positionOnWorld.x * 2;
+						positionOnWorld.x -= walls.attribute("width").as_int(0);
+						positionOnWorld.y -= walls.attribute("height").as_int(0);
+						
+						SDL_Rect destRect = { 0 }; 
+
 						// check different types of walls
-						if (wallTypeName == "wall1")
+					/*	if (wallTypeName == "wall1")
 						{
-							// load walls as entities
-							iPoint positionOnWorld; // x and y are on iso coords, needs conversion
-							positionOnWorld.x = walls.attribute("x").as_int(0);
-							positionOnWorld.y = walls.attribute("y").as_int(0);
-							positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
-							positionOnWorld.x = positionOnWorld.x * 2;
-							positionOnWorld.x -= walls.attribute("width").as_int(0);
-							positionOnWorld.y -= walls.attribute("height").as_int(0);
+							
 
 							App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
+						}*/
 
+						if (wallTypeName == "Outside1")
+						{
+							destRect = { 64,384,64,64 };
 						}
+						else if (wallTypeName == "Outside2")
+						{
+							destRect = { 0,320,64,64 };
+						}
+						else if (wallTypeName == "Inside 1")
+						{
+							destRect = { 64,256,64,64 };
+						}
+						else if (wallTypeName == "Inside 2")
+						{
+							destRect = { 0,256,64,64 };
+						}
+
+						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
+
+
+
 						// else if(wallTypeName == "wall2") {} etc
 					}
 
