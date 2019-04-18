@@ -82,7 +82,7 @@ public:
 private:
 
 	std::vector<SDL_Rect> Collision2D(SDL_Rect& collider);
-	fPoint GetCollisionsBehaviourNewPos(SDL_Rect playerCol ,std::vector<SDL_Rect>& rects, Sint16 xAxis, Sint16 yAxis);
+	fPoint GetCollisionsBehaviourNewPos(SDL_Rect playerCol ,std::vector<SDL_Rect>& rects);
 	
 public:
 
@@ -115,7 +115,8 @@ private:
 	j1Timer pulsationTimeRecorder;
 	bool isPreviousUpdateCollisioning = false;
 
-
+	bool debug = true;
+	iPoint offset = { 0,0 }; // debug draw offset TODO: change name
 };
 
 #endif
