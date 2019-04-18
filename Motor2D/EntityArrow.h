@@ -4,6 +4,7 @@
 #include "j1Entity.h"
 #include "p2Point.h"
 
+#define DESTRUCTIONRANGE 550
 
 class EntityArrow : public  j1Entity
 {
@@ -25,6 +26,7 @@ public:
 
 private:
 	
+	Animation flying;
 	const j1Entity* owner = nullptr; 
 	SDL_Texture* debugSubtile = nullptr;
 	fPoint destination = { 0, 0 };

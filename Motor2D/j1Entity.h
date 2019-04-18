@@ -93,6 +93,7 @@ public:
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
 	fPoint GetPivotPos() const;	
+	fPoint GetThrowingPos() const; 
 	bool ChangedTile() const; 
 
 	virtual void LoadEntitydata(pugi::xml_node&);

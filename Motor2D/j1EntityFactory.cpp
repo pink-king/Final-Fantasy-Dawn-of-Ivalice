@@ -138,7 +138,7 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::NO_TYPE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
 					createLoot = true;
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };

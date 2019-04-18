@@ -359,7 +359,7 @@ bool j1Scene::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
 	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity());
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity());
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy

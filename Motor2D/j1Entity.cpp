@@ -92,6 +92,15 @@ fPoint j1Entity::GetPivotPos() const
 	return position + pivot;
 }
 
+fPoint j1Entity::GetThrowingPos() const
+{
+	// Still open to adjustments
+	fPoint center(0, 0);
+	center.x = position.x; 
+	center.y = position.y + size.y * 0.5F;
+	return center;
+}
+
 bool j1Entity::Move(float dt)
 {
 	return true;

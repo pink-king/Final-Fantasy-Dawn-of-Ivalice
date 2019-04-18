@@ -7,17 +7,34 @@
 #include "j1PathFinding.h"
 #include "p2Defs.h"
 
-EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::ENEMY02, pos.x, pos.y, "Arrow")
+EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, "Arrow")
 {
 	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 	debugSubtile = App->entityFactory->debugsubtileTex;
 
 	SetPivot(14, 4);
-	size.create(26, 8);
+	size.create(45, 8);
 
 	direction = destination - GetPivotPos();
-	direction.Normalize(); 
+	direction.Normalize();
 	angle = SetMyAngleRotation(direction);
+
+	SetPivot(22, 4);
+	size.create(45, 8);
+
+	flying.PushBack({ 0, 28, 45, 8 });
+	flying.PushBack({ 45, 28, 45,8 });
+	flying.PushBack({ 90, 28, 45,8 });
+	flying.PushBack({ 135, 28, 45, 8 });
+	flying.PushBack({ 180, 28, 45, 8 });
+	flying.PushBack({ 225, 28, 45, 8 });
+	flying.PushBack({ 270, 28, 45, 8 });
+	flying.PushBack({ 315, 28, 45, 8 });
+	flying.PushBack({ 360, 28, 45, 8 });
+	flying.PushBack({ 405, 28, 45, 8 });
+	flying.speed = (float)speed;
+
+	currentAnimation = &flying;
 
 	drawAtlasRect = { 9, 28, 26,8 };
 }
@@ -82,7 +99,7 @@ float EntityArrow::SetMyAngleRotation(const fPoint & direction)
 bool EntityArrow::TooFarAway() const
 {
 	// It checks its distance with the player, so if he moves towards it, the projectile won't delete
-	return (App->entityFactory->player->GetPivotPos().DistanceManhattan(GetPivotPos()) > 720);
+	return (App->entityFactory->player->GetPivotPos().DistanceManhattan(GetPivotPos()) > DESTRUCTIONRANGE);
 }
 
 bool EntityArrow::CollisionWithWall() const
@@ -110,7 +127,7 @@ void EntityArrow::Draw()
 	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
 		else
 			App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
 	}	
