@@ -132,6 +132,9 @@
     <ClCompile Include="j1Textures.cpp">
       <Filter>Development======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="EntityArrow.cpp">
+      <Filter>Development======\Modules\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -285,6 +288,9 @@
     </ClInclude>
     <ClInclude Include="j1Render.h">
       <Filter>Development======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityArrow.h">
+      <Filter>Development======\Modules\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

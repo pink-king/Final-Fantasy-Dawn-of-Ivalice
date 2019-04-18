@@ -7,7 +7,12 @@
 #include "j1BuffManager.h"
 #include "j1Scene.h"
 #include "LootEntity.h"
+#include "EntityArrow.h"
+#include <ctime>
 #include <algorithm>
+
+
+
 j1EntityFactory::j1EntityFactory()
 {
 	name.assign("entities");
@@ -67,6 +72,20 @@ bool j1EntityFactory::Start()
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
 	
+	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
+	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+
+	LoadSpawnGroups();
+
+	std::srand(time(0));
+
+	/*constexpr char inits[] = __TIME__;
+	const int default_seed = (inits[0] - '0') * 100000 + (inits[1] - '0') * 10000 +
+		(inits[3] - '0') * 1000 + (inits[4] - '0') * 100 + (inits[6] - '0') * 10 + inits[7] - '0';*/
+
+	//gen.seed(default_seed);
+
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
 	return true;
@@ -75,7 +94,10 @@ bool j1EntityFactory::Start()
 bool j1EntityFactory::PreUpdate()
 {
 	bool ret = true;
-
+	if (spawngroups.size() > 0)
+	{
+		LoadSpawnGroups();
+	}
 	// logic / collisions
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
@@ -183,6 +205,9 @@ bool j1EntityFactory::CleanUp()
 	//unload texture
 	App->tex->UnLoad(texture);
 	App->tex->UnLoad(assetsAtlasTex);
+	App->tex->UnLoad(enemyZombieTex);
+	App->tex->UnLoad(enemyBombTex);
+	App->tex->UnLoad(debugsubtileTex);
 
 	return ret;
 }
@@ -265,16 +290,85 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uin
 	return ret;
 }
 
-void j1EntityFactory::CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg)
+void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum)
 {
-	Enemy* ret = nullptr; 
-	uint numEnemies = CreateRandomBetween(minNum, maxNum); 
-	for (uint i = 0; i < numEnemies; ++i)
+	uint numEnemies = CreateRandomBetween(minNum, maxNum);
+
+	uint numBombs = 0;
+	uint numTests = 0;
+	uint cont = 0;
+
+	uint bombProbs = 3;
+	uint testProbs = 8;
+
+	while (cont < numEnemies)
 	{
-		//ret = CreateEnemy(etype1, { zone.x, zone.y }, 75, 1, 1, 10, 1.F); 
+		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
+		{
+			j1Entity* ret = nullptr;
+			switch (*typeIter)
+			{
+			case EnemyType::BOMB:
+				if (CreateRandomBetween(1, 10) <= bombProbs)
+				{
+					iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h)};
+					LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
+					spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
+					spawnPos.x = spawnPos.x * 2; 
+					ret = CreateEnemy(EnemyType::BOMB, spawnPos, 0, 5, 1, 10, 1.5F);
+					if (ret != nullptr)
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 30));
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 10));
+						numBombs++;
+						cont++;
+					}
+				}
 
+				break;
+
+			case EnemyType::TEST:
+				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
+				{
+					iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
+					LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
+					spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
+					spawnPos.x = spawnPos.x * 2;
+					ret = CreateEnemy(EnemyType::TEST, spawnPos, 0, 5, 1, 10, 1.5F);
+					if (ret != nullptr)
+					{
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 20));
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 50));
+					numTests++;
+					cont++;
+					}
+				}
+				break;
+
+			}
+		}
 	}
+	LOG("Created %i Enemies", numEnemies);
+	LOG("Ceated %i TESTS", numTests);
+	LOG("Ceated %i BOMBS", numBombs);
 
+
+}
+
+void j1EntityFactory::LoadSpawnGroups()
+{
+	GroupInfo info = spawngroups.back(); 
+	CreateEnemiesGroup(info.types, info.zone, info.minEnemies, info.maxEnemies); 
+	spawngroups.pop_back();
+}
+
+j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed)
+{
+	j1Entity* ret = nullptr;
+	ret = new EntityArrow(pos, destination, speed);
+	entities.push_back(ret);
+
+	return ret;
 }
 
 LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
@@ -315,10 +409,12 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 
 uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
 {
-	// Doesnt admit unsigned ints, but can cast it later
-	std::uniform_real_distribution<float> dis(min, max);
+	/*std::uniform_real_distribution<float> dis(min, max);
 
-	return (uint)dis(gen);
+	return (uint)dis(gen);*/
+
+	uint x = min + (std::rand() % (max - min));
+	return x; 
 }
 
 void j1EntityFactory::Debug(j1Entity* ent)
@@ -643,17 +739,17 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						if (lootEntity->level == 1)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(20, 25), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(0, 7)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(26, 30), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(8, 14)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 74)* 0.01, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(31, 35), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(15, 21)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(25, 49)* 0.01, lootEntity);
 						}
 
 
@@ -684,19 +780,19 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(1, 5), lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(10, 15)* 0.01, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(0, 7)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(6, 10), lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(16, 20)* 0.01, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(8, 14)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 74)* 0.01, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(11, 15), lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(21, 25)* 0.01, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(15, 21)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(25, 49)* 0.01, lootEntity);
 						}
 					}
 				}
@@ -716,17 +812,17 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						if (lootEntity->level == 1)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(5, 14)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(16, 20), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(15, 24)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 74)* 0.01, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(21, 25), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(25, 34)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 49)* 0.01, lootEntity);
 						}
 
 
@@ -756,19 +852,19 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						if (lootEntity->level == 1)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(3, 12)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01, lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(0, 6)*0.01, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(16, 20), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(13, 22)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 74)* 0.01, lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(7, 12)*0.01, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(21, 25), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(23, 30)* 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(25, 49)* 0.01, lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(13, 18)*0.01, lootEntity);
 						}
 					}
@@ -806,17 +902,17 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						if (lootEntity->level == 1)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(5, 10), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(10, 15) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(7, 17), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(12, 20) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 74) * 0.01, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(16, 26), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(15, 30) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(25, 49) * 0.01, lootEntity);
 						}
 
 					}
@@ -825,17 +921,17 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						if (lootEntity->level == 1)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(10, 15) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(65, 85) * 0.01, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(21, 30), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(10, 15) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(65, 85) * 0.01, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(31, 40), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(10, 15) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(65, 85) * 0.01, lootEntity);
 						}
 					}
 				}

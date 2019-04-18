@@ -51,13 +51,8 @@ bool PlayerEntity::CleanUp()
 bool PlayerEntity::InputMovement(float dt)
 {
 	bool isMoving = false;
-	
-	fPoint previousPosF = position;//GetPivotPos();
-	/*iPoint previousPosInt;
-	previousPosInt.x = GetPivotPos().x;
-	previousPosInt.y = GetPivotPos().y;*/
-	/*previousPosInt.x = position.x;
-	previousPosInt.y = position.y;*/
+
+	previousPos = position;
 
 	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
 	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
@@ -117,44 +112,15 @@ bool PlayerEntity::InputMovement(float dt)
 
 	App->render->DrawIsoQuad({ 32,16, 128,96 });
 
-	// Check collisions
-	if (Collision2D(collider))
+	// Check collisions and do behaviour ------------------------------------------
+	std::vector<SDL_Rect> resultant_intersections = Collision2D(collider);
+	if (!resultant_intersections.empty())
 	{
-		LOG("COLLISION");
-		//position = previousPosF;
+		//LOG("COLLISIONS: %i", resultant_intersections.size());
+		position = GetCollisionsBehaviourNewPos(collider,resultant_intersections, xAxis, yAxis);
 	}
 
-	/*if (isMoving)
-	{*/
-		//iPoint walkaCheck = App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y);
-		//if (!App->pathfinding->IsWalkable(walkaCheck)) // if we detect any walkability collision
-	//if(Collision2D(collider))
-	//{
-	//	LOG("COLLISION");
-	//	// check x
-	//	/*fPoint tempPos = previousPosF;
-	//	tempPos.x = position.x;
-	//	iPoint checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);*/
-	//	/*if (!App->pathfinding->IsWalkable(checker))
-	//	{*/
-	//	collider.x = previousPosF.x;
-	//	if(Collision2D(collider))
-	//	{
-	//		position.x = previousPosF.x;
-	//	}
-	//	//previousPosF = position;
-	//	/*tempPos = previousPosF;
-	//	tempPos.y = position.y;
-	//	checker = App->map->WorldToMap(tempPos.x + pivot.x, tempPos.y + pivot.y);
-	//	if (!App->pathfinding->IsWalkable(checker))*/
-	//	collider.x = previousPosF.x;
-	//	collider.y = pivot_pos.y;
-	//	if(Collision2D(collider))
-	//	{
-	//		position.y = previousPosF.y;
-	//	}
-	//}
-	//}
+	
 	
 	
 	if (isMoving && !App->pause)// if we get any input, any direction
@@ -333,15 +299,17 @@ float PlayerEntity::GetLastHeadingAngle() const
 	return lastAxisMovAngle;
 }
 
-bool PlayerEntity::Collision2D(SDL_Rect& collider)
+std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 {
-	bool ret = false;
+	bool debug = true;
+	std::vector<SDL_Rect> ret; // stores all the no walkable intersection as resultant rects
 
 	int tile_size = 32;
 
 	iPoint tempcolpos = App->map->IsoTo2D(collider.x, collider.y);
-	collider.x = tempcolpos.x;
-	collider.y = tempcolpos.y;
+	SDL_Rect colliderCheck = { tempcolpos.x, tempcolpos.y, collider.w, collider.h };
+	/*collider.x = tempcolpos.x;
+	collider.y = tempcolpos.y;*/
 
 	// check only the neighbours adjacents to player current TILE
 	iPoint currentTile = App->entityFactory->player->GetTilePos();
@@ -361,60 +329,207 @@ bool PlayerEntity::Collision2D(SDL_Rect& collider)
 
 	int scale =  (int)App->win->GetScale();
 
-	iPoint offset = App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
-	offset = App->map->IsoTo2D(offset.x, offset.y);
-	offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
-	//Place it on the right corner of the screen
-	uint w, h;
-	App->win->GetWindowSize(w, h);
-	offset.x -= round((int)w / scale) - tile_size * 3;
-
-	std::vector<SDL_Rect> intersectionRectVec;
+	iPoint offset = { 0,0 };// { 100, 100 };//App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
+	//offset = App->map->IsoTo2D(offset.x, offset.y);
+	//offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
+	////Place it on the right corner of the screen
+	//uint w, h;
+	//App->win->GetWindowSize(w, h);
+	//offset.x -= round((int)w / scale) - tile_size * 3;
+	
+	// colors for debug visuals
+	SDL_Color color_pink = { 255,162,240,255 };
+	SDL_Color color_red = { 255,0,0,255 };
 
 	for (int i = 0; i < 8; ++i)
 	{
+		bool walkableTile = true;
+		SDL_Color color = color_pink;
+		// check first if this tile is walkable or not
+		if (!App->pathfinding->IsWalkable({ tileNeighbours[i].x - 1, tileNeighbours[i].y }))
+		{
+			color = color_red;
+			walkableTile = false;
+		}
+
 		//Isometric
 		tileNeighbours[i] = App->map->MapToWorld(tileNeighbours[i].x, tileNeighbours[i].y);
-		App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, tile_size,tile_size });
+		if(debug) // TODO: temporal DRAWs, must be moved to postupdate
+			App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, tile_size,tile_size }, color);
 
 		//Orthogonal
 		tileNeighbours[i] = App->map->IsoTo2D(tileNeighbours[i].x, tileNeighbours[i].y);
 		SDL_Rect tileWorldRect = { tileNeighbours[i].x , tileNeighbours[i].y, tile_size,tile_size }; // size of tile data
-		App->render->DrawQuad(
+		if(debug) // DRAW
+			App->render->DrawQuad(
 			{ tileWorldRect.x - offset.x, tileWorldRect.y - offset.y, tileWorldRect.w, tileWorldRect.h },
-			255, 0, 0, 255);
+			color.r, color.g, color.b, color.a);
 
-		if (SDL_HasIntersection(&collider, &tileWorldRect))
+		if (SDL_HasIntersection(&colliderCheck, &tileWorldRect))
 		{
-			LOG("COLLISION");
-			
-			SDL_Rect intersectionRect;
-			SDL_IntersectRect(&collider, &tileWorldRect, &intersectionRect);
+			if (!walkableTile)
+			{
+				//LOG("COLLISION");
+				SDL_Rect intersectionRect;
+				SDL_IntersectRect(&colliderCheck, &tileWorldRect, &intersectionRect);
 
-			intersectionRectVec.push_back(intersectionRect);
+				ret.push_back(intersectionRect);
 
-			ret = true;
+			}
 		}
 	}
 
+	// DEBUG draw -----------
 	//Draw yellow quad
 	App->render->DrawQuad(
-		{collider.x - offset.x, collider.y - offset.y, collider.w, collider.h},
+		{colliderCheck.x - offset.x, colliderCheck.y - offset.y, colliderCheck.w, colliderCheck.h},
 		255, 255, 0, 255);
 
-	if (!intersectionRectVec.empty())
+	//if (!ret.empty())
+	//{
+	//	std::vector<SDL_Rect>::iterator iter = ret.begin();
+	//	uint i = 3; // color multiplier
+	//	for (; iter != ret.end(); ++iter)
+	//	{
+	//		App->render->DrawQuad(
+	//			{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
+	//			255, 30 * i, 16, 255);
+	//		
+	//		++i;
+	//	}
+	//}
+	// ----------------------
+
+	return ret;
+}
+
+fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections, Sint16 xAxis, Sint16 yAxis)
+{
+	// all resultants are isoTo2D
+	// playerCol needs conversion
+
+	fPoint ret(0,0);
+
+	//ret.create(position.x, position.y);
+	float angle = atan2f(yAxis, xAxis) * 180 / PI;
+
+	if (resultant_intersections.size() < 3 /*&& (xAxis > 0 || xAxis < 0 || yAxis > 0 || yAxis < 0)*/) // 3 intersections means a corner between 3 cells
 	{
-		std::vector<SDL_Rect>::iterator iter = intersectionRectVec.begin();
-		uint i = 3; // color multiplier
-		for (; iter != intersectionRectVec.end(); ++iter)
+		//App->render->DrawQuad(playerCol, 255, 0, 0, 255);
+
+		// get the sum between the all rects (max two)
+		std::vector<SDL_Rect>::iterator iterResults = resultant_intersections.begin();
+		SDL_Rect collision = { (*iterResults).x, (*iterResults).y,0,0 };
+		
+		iPoint temporalSize = { (*iterResults).w, (*iterResults).h };
+		for (; iterResults != resultant_intersections.end(); ++iterResults)
 		{
-			App->render->DrawQuad(
-				{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
-				0, 30 * i, 150, 255);
-			
-			++i;
+			// preserve the x,y pos for the top-left resultant
+			if (collision.x >= (*iterResults).x)
+				collision.x = (*iterResults).x;
+			if (collision.y >= (*iterResults).y)
+				collision.y = (*iterResults).y;
+
+			collision.w += (*iterResults).w;
+			collision.h += (*iterResults).h;
 		}
+		// correct the sizes after sum (always that we have two intersections)
+		if(resultant_intersections.size() > 1)
+		if (collision.w > collision.h)
+		{
+			collision.h *= 0.5f;
+		}
+		else if (collision.h > collision.w)
+		{
+			collision.w *= 0.5f;
+		}
+
+		iPoint pt = App->map->IsoTo2D(playerCol.x, playerCol.y);
+
+		
+		// solve overlap for player rect and resultant final intersection
+
+		SDL_Rect pcol = { pt.x, pt.y, playerCol.w, playerCol.h };
+
+		// solving direction
+
+		enum class OVERLAP_DIR : int
+		{
+			NONE = -1,
+			LEFT,
+			RIGHT,
+			UP,
+			DOWN,
+			MAX
+		};
+
+		float distances[(int)OVERLAP_DIR::MAX];
+		distances[(int)OVERLAP_DIR::LEFT] = pcol.x + pcol.w - collision.x;
+		distances[(int)OVERLAP_DIR::RIGHT] = collision.x + collision.w - pcol.x;
+		distances[(int)OVERLAP_DIR::UP] = pcol.y + pcol.h - collision.y;
+		distances[(int)OVERLAP_DIR::DOWN] = collision.y + collision.h - pcol.y;
+
+		int overlap_dir = -1;
+
+		for (int i = 0; i < (int)OVERLAP_DIR::MAX; ++i)
+		{
+			if (overlap_dir == -1)
+			{
+				overlap_dir = i;
+			}
+			else if (distances[i] == distances[(int)overlap_dir])
+			{
+				/*if ((OVERLAP_DIR)i == dynamic_col->last_overlap)
+				{
+					overlap_dir = i;
+				}*/
+			}
+			else if (distances[i] < distances[(int)overlap_dir])
+			{
+				overlap_dir = i;
+			}
+		}
+
+		switch ((OVERLAP_DIR)overlap_dir)
+		{
+		case OVERLAP_DIR::LEFT:
+			pcol.x = collision.x - pcol.w;
+			break;
+		case OVERLAP_DIR::RIGHT:
+			pcol.x = collision.x + collision.w;
+			break;
+		case OVERLAP_DIR::UP:
+			pcol.y = collision.y - pcol.h;
+			break;
+		case OVERLAP_DIR::DOWN:
+			pcol.y = collision.y + collision.h;
+			break;
+		}
+
+		//App->render->DrawQuad({ pt.x, pt.y, playerCol.w, playerCol.h }, 255, 0, 0, 100);
+		App->render->DrawQuad(pcol, 255, 0, 0, 150);
+		App->render->DrawQuad(collision, 0, 255, 255, 255);
+		
+		fPoint test = { (float)playerCol.x, (float)playerCol.y + 8};
+		test = test - pivot;
+		SDL_Rect testrect = { (int)test.x, (int)test.y, playerCol.w, playerCol.h };
+		//App->render->DrawQuad(playerCol, 255, 255, 255, 255);
+		App->render->DrawQuad(testrect, 255, 255, 255, 255);
+		LOG("testcol: %f,%f", test.x, test.y);
+		LOG("playerPos:%f,%f", position.x, position.y);
+
+		fPoint posToTransfer = App->map->TwoDToIso(pcol.x, pcol.y);
+		posToTransfer.y += 8;
+		posToTransfer = posToTransfer - pivot;
+		SDL_Rect newPosrect = {posToTransfer.x, posToTransfer.y, playerCol.w, playerCol.h };
+		App->render->DrawQuad(newPosrect, 0, 255, 255, 255);
+
+		ret.x = posToTransfer.x;
+		ret.y = posToTransfer.y;
+
 	}
+	else
+		ret = previousPos;
 
 	return ret;
 }

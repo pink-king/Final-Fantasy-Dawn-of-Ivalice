@@ -158,7 +158,7 @@ public:
 	iPoint WorldToIso(int x, int y) const;
 
 	iPoint IsoTo2D(int x, int y) const;
-	iPoint TwoDToIso(int x, int y) const;
+	fPoint TwoDToIso(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 
 private:
@@ -170,12 +170,11 @@ private:
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool LoadMapColliders(pugi::xml_node& node);
 	bool LoadMapAssets(pugi::xml_node& node);
-
+	bool LoadSpawns(pugi::xml_node& node); 
 
 	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
-
 	MapData data;
 	PlayerData			playerData;
 	bool				map_loaded;
