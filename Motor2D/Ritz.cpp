@@ -127,11 +127,6 @@ bool Ritz::Update(float dt)
 	{
 		App->buff->CreateBurned(this, this,1, 15,"inteligence");
 	}
-
-	if (App->input->GetKey(SDL_SCANCODE_R) == 1)
-	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, this, "\0", 20);
-	}
 	return true;
 }
 

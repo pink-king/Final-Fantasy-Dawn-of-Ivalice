@@ -88,35 +88,16 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 {
 
 	float totalMult = 0.f;
-	if (ent == App->entityFactory->player)
-	{
-		ent = App->entityFactory->player->selectedCharacterEntity;
-	}
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
-		if (rol == ROL::DEFENCE_ROL)
+		if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
+			(ent == (*iter)->GetCharacter()))
 		{
-			if ((elementType == (*iter)->GetElementType() || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
-				(ent == (*iter)->GetCharacter()))
-			{
-				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
-					initialDamage += (*iter)->GetValue();
+					if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
+						initialDamage += (*iter)->GetValue();
 
-				else if ((*iter)->GetType() == BUFF_TYPE::MULTIPLICATIVE)
-					totalMult += (*iter)->GetValue();
-			}
-		}
-		else if (rol == ROL::ATTACK_ROL)
-		{
-			if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
-				(ent == (*iter)->GetCharacter()))
-			{
-				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
-					initialDamage += (*iter)->GetValue();
-
-				else if ((*iter)->GetType() == BUFF_TYPE::MULTIPLICATIVE)
-					totalMult += (*iter)->GetValue();
-			}
+					else if ((*iter)->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+						totalMult += (*iter)->GetValue();	
 		}
 	}
 	if (initialDamage != 0)
@@ -139,29 +120,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		playerAttacks = true; 
 
 
-	App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT, playerAttacks); // must be overall improved /types of damage? calculate
-		
+	App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NORMAL_ELEMENT, playerAttacks); // must be overall improved /types of damage? calculate
+
 	
-		if (defender->type == ENTITY_TYPE::PLAYER)
-		{
-			if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
-			{
-				App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
-			}
-
-			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
-			{
-				App->audio->PlayFx(App->entityFactory->RitzDamaged, 0);
-			}
-
-			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
-			{
-				App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
-			}
-		}
-
-		if (defender->type == ENTITY_TYPE::ENEMY_TEST)
-			App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 																													  
 	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
 	{
@@ -182,8 +143,6 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
-		RemoveBuff(defender);
-		entitiesTimeDamage.remove(defender);
 		defender->to_delete = true;
 	} 
 
@@ -282,35 +241,6 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 			}
 			break;
 
-		case ROL::HEALTH:
-			if (entity->type == ENTITY_TYPE::PLAYER)
-			{
-				if (type == BUFF_TYPE::MULTIPLICATIVE)
-				{
-					App->entityFactory->player->maxLife *= value;
-					App->entityFactory->player->life *= value;
-				}
-				else if (type == BUFF_TYPE::ADDITIVE)
-				{
-					App->entityFactory->player->maxLife += value;
-					App->entityFactory->player->life += value;
-				}
-			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-			{
-				if (type == BUFF_TYPE::MULTIPLICATIVE)
-				{
-					enemy->maxLife *= value;
-					enemy->life *= value;
-				}
-
-				else if (type == BUFF_TYPE::ADDITIVE)
-				{
-					enemy->maxLife += value;
-					enemy->life += value;
-				}
-			}
-			break;
 		default:
 			break;
 		}
@@ -376,35 +306,6 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
 			{
 				enemy->speed -= buff->GetValue();
-			}
-		}
-
-	case ROL::HEALTH:
-		if (buff->GetCharacter()->type == ENTITY_TYPE::PLAYER)
-		{
-			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
-			{
-				App->entityFactory->player->maxLife /= buff->GetValue();
-				App->entityFactory->player->life /= buff->GetValue();
-			}
-			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
-			{
-				App->entityFactory->player->maxLife -= buff->GetValue();
-				App->entityFactory->player->life -= buff->GetValue();
-			}
-		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
-		{
-			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
-			{
-				enemy->maxLife /= buff->GetValue();
-				enemy->life /= buff->GetValue();
-			}
-
-			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
-			{
-				enemy->maxLife -= buff->GetValue();
-				enemy->life -= buff->GetValue();
 			}
 		}
 		break;
@@ -475,8 +376,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					--(*item)->totalTime;
 					// remove previous hitpoint link
 					
-					if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-						App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+					
 					//TODO: call create hitpoint label
 				}
 			}

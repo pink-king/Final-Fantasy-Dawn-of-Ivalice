@@ -1,6 +1,5 @@
 #include "EquipableLoot.h"
 #include "j1Entity.h"
-#include "j1EntityFactory.h"
 #include "j1Render.h"
 
 
@@ -10,7 +9,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	SetEquipable();
 	originPos.x = position.x;
 	start = true;
-	checkgrounded = true;
+	
 }
 
 
@@ -39,32 +38,19 @@ bool Equipable::Update(float dt)
 		LOG("displaced %f", position.x - originPos.x);
 		LOG("actual time %f", timeTest);
 	}
-
 	else if(!repositionDescription)
 	{
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
 		repositionDescription = true; 
-		//grounded = true;
-	}
-	else
-	{
-		grounded = true;
 	}
 
 
-	if (!spawnedDescription)
-	{
+	/*if (!spawnedDescription)
+	{*/
 		CheckClampedCrossHairToSpawnDescription();
-	}
+	//}
 
 
-	
-
-	if (checkgrounded && grounded)
-	{
-		checkgrounded = false;
-		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
-	}
 	return true;
 }
 
@@ -140,4 +126,3 @@ void Equipable::SetEquipable()
 		break;
 	}
 }
-

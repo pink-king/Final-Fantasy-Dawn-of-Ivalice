@@ -41,10 +41,7 @@ bool LootEntity::Start()
 }
 bool LootEntity::Update(float dt)
 {
-	
-	start = true;
-	endReached = false;
-	
+
 	return true;
 }
 float LootEntity::LerpX(float origin, float destination, float t )
@@ -73,7 +70,7 @@ iPoint LootEntity::GetFinalPos()
 }
 iPoint LootEntity::GetPosition()
 {
-	return (iPoint(position));
+	return App->map->SubTileMapToWorld(App->entityFactory->GetEnemySubtile(this).x, App->entityFactory->GetEnemySubtile(this).y);
 }
 
 std::string LootEntity::GetName()
@@ -249,123 +246,13 @@ void LootEntity::ExplosionMaker(float dt)
 	}
 	else
 	{
-		position.y  - 0.070*timeTest*timeTest;
-		position.y += decrementY;
-	}
-	
-	
-}
-
-
-
-/*void LootEntity::GetAttributesForDescription()
-{
-	EXPLOSION_DIRECTION  randVale;
-	int randVal = GetRandomValue(0, 6);
-
-	switch (randVal)
-	{
-
-	case 0:
-		randVale = EXPLOSION_DIRECTION::EAST;
-
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 170.0f;
-		incrementY = 2.8;
-		decrementY = 3.8;
-		break;
-
-	case 1:
-		randVale = EXPLOSION_DIRECTION::WEST;
-
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 170.0f;
-		incrementY = 2.8;
-		decrementY = 3.8;
-
-		break;
-	case 2:
-		randVale = EXPLOSION_DIRECTION::NORTHEAST;
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 200.0f;
-		incrementY = 2.8;
-		decrementY = 3.0;
-		break;
-
-	case 3:
-		randVale = EXPLOSION_DIRECTION::NORTHWEST;
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 200.0f;
-		incrementY = 2.8;
-		decrementY = 3.0;
-		break;
-	case 4:
-		randVale = EXPLOSION_DIRECTION::SOUTHEAST;
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 160.0f;
-		incrementY = 2.5;
-		decrementY = 3.8;
-		break;
-
-	case 5:
-		randVale = EXPLOSION_DIRECTION::SOUTHWEST;
-
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 160.0f;
-		incrementY = 2.5;
-		decrementY = 3.8;
-		break;
-
-	case 6:
-		timeXmid = 160.0f;
-		incrementX = -0.1f;
-		decrementX = -0.1f;
-		timeYmid = 80.0f;
-		incrementY = 2.0f;
-		decrementY = 3.0f;
-		break;
-	}
-	
-}
-
-void LootEntity::ExplosionMaker(float dt)
-{
-	timeTest = displacementTime.ReadMs()*0.001;
-	position.x = LerpX(position.x, goalPos.x, 0.0000009f);
-	if (displacementTime.ReadMs() <= timeXmid)
-	{
-		position.x += incrementX * dt;
-	}
-	else position.x += decrementX * dt;
-
-	position.y = LerpX(position.y, goalPos.y, 0.0000009f);
-
-	if (displacementTime.ReadMs() <= timeYmid)
-	{
-		position.y = position.y + 0.707*timeTest*timeTest;
-		position.y -= incrementY;
-	}
-	else
-	{
 		position.y - 0.070*timeTest*timeTest;
 		position.y += decrementY;
 	}
 	
 	
 }
-*/
+
 
 void LootEntity::CheckClampedCrossHairToSpawnDescription()
 {

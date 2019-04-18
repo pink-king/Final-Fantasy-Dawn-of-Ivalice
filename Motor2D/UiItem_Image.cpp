@@ -84,14 +84,11 @@ void UiItem_Image::Draw(const float& dt)
 		}
 		else
 		{
-			// TODO: why don't I use the BlitGui here?? The placing is wrong 
-			//App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F, SDL_FLIP_NONE, 3.0F, INT_MAX, INT_MAX, false);
-
 			if (this->parent->guiType == GUI_TYPES::DESCRIPTION)  // DESCRIPTION image
 			{
 				float speed = 0.0f;
 
-				if (!App->scene->inventory->enable)
+				if (!App->scene->inventory->enable)   // when in game, icon image speed is 1.0f
 					speed = 1.0f;
 
 				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, speed, 4.0f);

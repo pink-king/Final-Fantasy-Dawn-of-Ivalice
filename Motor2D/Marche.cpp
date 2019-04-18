@@ -167,13 +167,10 @@ bool Marche::Update(float dt)
 	switch (combat_state)
 	{
 	case combatState::IDLE:
-		
 		break;
 	case combatState::BASIC:
-		
 		if (coolDownData.basic.timer.Read() > coolDownData.basic.cooldownTime)
 		{
-			App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
@@ -190,8 +187,6 @@ bool Marche::Update(float dt)
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
 
 			// add gui clock
 
@@ -216,8 +211,6 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 
-			App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
-
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special2)
@@ -240,7 +233,6 @@ bool Marche::Update(float dt)
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
-			App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
 			coolDownData.ultimate.timer.Start();
 
@@ -329,7 +321,7 @@ bool Marche::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
 	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
+		App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::NORMAL_ELEMENT, ROL::VELOCITY, this, "\0", 10);
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{

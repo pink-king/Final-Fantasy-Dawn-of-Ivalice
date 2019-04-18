@@ -5,8 +5,8 @@
 
 EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage) : Enemy(position, speed, detectionRange, attackRange, baseDamage, 0, ENTITY_TYPE::ENEMY_BOMB, "Enemy Bomb")
 {
-	// TODO: Load From XML
-	entityTex = App->entityFactory->enemyBombTex; 
+	entityTex = App->tex->Load("textures/enemies/enemyBomb.png"); // TODO: note, repetead entities/enemies, load texture once time
+	debugSubtile = App->tex->Load("maps/tile_32x32_2.png");
 	
 	idle[(int)facingDirectionEnemy::SE].PushBack({ 20, 2, 15, 22 });
 	idle[(int)facingDirectionEnemy::S].PushBack({ 19, 27, 16, 22 });
@@ -128,7 +128,7 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 
 	SetPivot(8, 18);
 	size.create(16, 20);
-	this->position -= pivot;
+
 }
 EnemyBomb::~EnemyBomb()
 {
@@ -158,7 +158,17 @@ bool EnemyBomb::CleanUp()
 {
 	path_to_follow.clear();
 
-	
+	if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}
+
+	if (entityTex != nullptr)
+	{
+		App->tex->UnLoad(entityTex);
+		entityTex = nullptr;
+	}
 
 	std::list<entityStat*>::iterator item = stat.begin();
 	for (; item != stat.end(); ++item)
@@ -166,20 +176,6 @@ bool EnemyBomb::CleanUp()
 		stat.remove(*item);
 	}
 	stat.clear();
-
-
-	// Textures Loaded and Unloaded in Entity Factory
-	/*if (debugSubtile != nullptr)
-	{
-		App->tex->UnLoad(debugSubtile);
-		debugSubtile = nullptr;
-	}*/
-
-	/*if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}*/
 
 	return true;
 }

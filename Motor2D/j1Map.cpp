@@ -42,16 +42,15 @@ void j1Map::Draw()
 
 	if (map_loaded == false)
 		return;
+
 	std::list<MapLayer*>::iterator layer = data.layers.begin();
 	for (; layer != data.layers.end(); ++layer)
 	{
 		if ((*layer)->name == "navigationLayer" && showNavLayer == false) {
 			continue;
 		}
-		(*layer)->tileQuadTree->DrawMap();
-		if(debugDraw)
-			(*layer)->tileQuadTree->DrawQuadtree();
-	/*	for (int i = 0; i < data.height; ++i)
+		
+		for (int i = 0; i < data.height; ++i)
 		{
 			for (int j = 0; j < data.width; ++j)
 			{
@@ -72,7 +71,7 @@ void j1Map::Draw()
 					}
 				}
 			}
-		}*/
+		}
 	}
 
 	if (debugDraw)
@@ -190,9 +189,9 @@ iPoint j1Map::IsoTo2D(int x, int y) const
 
 	return ret;
 }
-fPoint j1Map::TwoDToIso(int x, int y) const
+iPoint j1Map::TwoDToIso(int x, int y) const
 {
-	fPoint ret(0, 0);
+	iPoint ret(0, 0);
 
 	ret.x = x - y;
 	ret.y = (x + y) * 0.5f;
@@ -351,16 +350,6 @@ bool j1Map::Load(const char* file_name)
 			data.layers.push_back(lay);
 	}
 
-	pugi::xml_node objectlayer;
-	for (objectlayer = map_file.child("map").child("objectgroup"); objectlayer && ret; objectlayer = objectlayer.next_sibling("objectgroup"))
-	{
-		std::string tmp(objectlayer.attribute("name").as_string());
-		if (tmp == "Spawns")
-		{
-			LoadSpawns(objectlayer);
-		}
-	}
-
 	// Load objects/scene colliders -----------------------------------------
 	pugi::xml_node objectGroup;
 	for (objectGroup = map_file.child("map").child("group"); objectGroup && ret; objectGroup = objectGroup.next_sibling("group"))
@@ -475,58 +464,6 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 			}
 		}
 		
-	}
-
-	return ret;
-}
-
-bool j1Map::LoadSpawns(pugi::xml_node & node)
-{
-	bool ret = true;
-	std::vector<EnemyType> typesVec;
-	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
-	{
-		SDL_Rect spawnRect = { 0, 0, 0, 0 };
-		std::string objectName(object.attribute("name").as_string());
-		if (objectName == "spawnZone")
-		{
-			int minEnemies = 0;
-			int maxEnemies = 0;
-			//SDL_Rect spawnRect = { 0,0,0,0 };
-			spawnRect.x = object.attribute("x").as_int();
-			spawnRect.y = object.attribute("y").as_int();
-			spawnRect.w = object.attribute("width").as_int();
-			spawnRect.h = object.attribute("height").as_int();
-
-			for (pugi::xml_node properties = object.child("properties").child("property"); properties; properties = properties.next_sibling("property"))
-			{
-				if (properties.attribute("type").as_string() == "bool" && properties.attribute("value").as_bool() == false)
-					continue;
-
-				std::string attributeName = properties.attribute("name").as_string();
-				if (attributeName == "bomb")
-				{
-					typesVec.push_back(EnemyType::BOMB);
-				}
-				else if (attributeName == "test")
-				{
-					typesVec.push_back(EnemyType::TEST);
-				}
-				else if (attributeName == "minEnemies")
-				{
-					minEnemies = properties.attribute("value").as_int();
-				}
-				else if (attributeName == "maxEnemies")
-				{
-					maxEnemies = properties.attribute("value").as_int();
-				}
-			}
-
-			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
-			App->entityFactory->spawngroups.push_back(ret);
-			typesVec.clear();
-		}
-
 	}
 
 	return ret;
@@ -681,35 +618,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
-	//if(layer_data == NULL)
-	//{
-	//	LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
-	//	ret = false;
-	//	RELEASE(layer);
-	//}
-	//else
-	//{
-	//	layer->data = new uint[layer->width*layer->height];
-	//	memset(layer->data, 0, layer->width*layer->height);
-
-	//	int i = 0;
-	//	for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
-	//	{
-	//		layer->data[i++] = tile.attribute("gid").as_int(0);
-	//	}
-	//}
-
-	iPoint layer_size;
-	iPoint quadT_position(0, 0);
-
-	layer_size.x = (layer->width + layer->height)*(App->map->data.tile_width *0.5f);
-	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
-	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
-
-	layer->tileQuadTree = new TileQuadtree(5, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
-	//TEST
-
-	if (layer_data == NULL)
+	if(layer_data == NULL)
 	{
 		LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
 		ret = false;
@@ -721,18 +630,9 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		memset(layer->data, 0, layer->width*layer->height);
 
 		int i = 0;
-		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
+		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			//TEST
-			if (layer->name.compare("Collisions") != 0)
-			{
-				iPoint tile_map_coordinates(App->map->MapToWorld((i - int(i / layer->width)*layer->width), int(i / layer->width)));
-				TileData tiledd(tile.attribute("gid").as_int(0), tile_map_coordinates);
-				layer->tileQuadTree->InsertTile(tiledd);
-			}
-			//TEST
 			layer->data[i++] = tile.attribute("gid").as_int(0);
-			
 		}
 	}
 
