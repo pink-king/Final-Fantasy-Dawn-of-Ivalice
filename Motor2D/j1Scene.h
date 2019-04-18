@@ -58,6 +58,7 @@ public:
 	UiItem * inventory = nullptr;
 	UiItem_Label * coins_label = nullptr;
 	SDL_Rect lootPanelRect; 
+	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;
 	
 	bool debug = false;

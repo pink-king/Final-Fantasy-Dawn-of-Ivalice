@@ -47,7 +47,7 @@ bool UiItem_Inventory::LoadElements()
 				}
 
 
-
+				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;   // change to panel with no button 
 
 				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
