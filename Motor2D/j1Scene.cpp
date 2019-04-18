@@ -396,6 +396,10 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 			lootPanelRect = section; 
 		}
+		else if (lootFlag == "lootNoButton")
+		{
+			lootPanelRectNoButton = section;
+		}
 	else
 		{                                  // this is useless now
 			if (isPanel != 1)

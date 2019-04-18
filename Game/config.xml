@@ -34,6 +34,10 @@
           <section x="640" y="222" w="244" h="257"/>
 		  <flag  value="loot" />
         </image>
+		 <image name="loot_item_panel_no_button">
+          <section x="922" y="222" w="238" h="243"/>
+		  <flag  value="lootNoButton" />
+        </image>
 		
 		<image name="ability1_button">
           <section x="714" y="91" w="22" h="31"/>
