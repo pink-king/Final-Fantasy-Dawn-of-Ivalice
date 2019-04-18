@@ -94,10 +94,7 @@ bool j1EntityFactory::Start()
 bool j1EntityFactory::PreUpdate()
 {
 	bool ret = true;
-	if (spawngroups.size() > 0)
-	{
-		LoadSpawnGroups();
-	}
+	
 	// logic / collisions
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
@@ -357,9 +354,10 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 void j1EntityFactory::LoadSpawnGroups()
 {
-	GroupInfo info = spawngroups.back(); 
-	CreateEnemiesGroup(info.types, info.zone, info.minEnemies, info.maxEnemies); 
-	spawngroups.pop_back();
+	for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++){
+		CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+	}
+	spawngroups.clear();
 }
 
 j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed)
