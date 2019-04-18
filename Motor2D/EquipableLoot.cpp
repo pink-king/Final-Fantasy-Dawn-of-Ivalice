@@ -58,27 +58,35 @@ bool Equipable::Update(float dt)
 
 EQUIPABLE_TYPE Equipable::ChooseEquipable()
 {
-	equipableChance = GetRandomValue(1, 3);
-	LOG("equipable rand %i", equipableChance);
-	if (equipableChance == 1)
+
+	switch (GetRandomValue(1, 6))
 	{
+	case 1:
 		equipableType = EQUIPABLE_TYPE::SWORD;
 		return EQUIPABLE_TYPE::SWORD;
-	}
-	else if (equipableChance == 2)
-	{
-		
+
+	case 2:
 		equipableType = EQUIPABLE_TYPE::ROD;
-		
 		return EQUIPABLE_TYPE::ROD;
-	}
-	else if(equipableChance == 3)
-	{
+
+	case 3:
 		equipableType = EQUIPABLE_TYPE::BOW;
 		return EQUIPABLE_TYPE::BOW;
 
-	}
+	case 4:
+		equipableType = EQUIPABLE_TYPE::ARMOR;
+		return EQUIPABLE_TYPE::ARMOR;
 
+	case 5:
+		equipableType = EQUIPABLE_TYPE::VEST;
+		return EQUIPABLE_TYPE::VEST;
+
+	case 6:
+		equipableType = EQUIPABLE_TYPE::MANTLE;
+		return EQUIPABLE_TYPE::MANTLE;
+
+	}
+	return EQUIPABLE_TYPE::NO_EQUIPABLE;
 
 }
 
@@ -92,7 +100,6 @@ void Equipable::SetEquipable()
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 59,67,16,16 };
 		SetPivot(8, 12);
-
 		size.create(16, 16);
 		break;
 
@@ -100,26 +107,36 @@ void Equipable::SetEquipable()
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 93,32,13,13 };
 		SetPivot(7, 9);
-
 		size.create(13, 13);
 		break;
+
 	case EQUIPABLE_TYPE::ROD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 12,67,11,16 };
 		SetPivot(6, 8);
-
 		size.create(11, 16);
 		break;
+
 	case EQUIPABLE_TYPE::ARMOR:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 93,69,15,15 };
+		SetPivot(7, 10);
+		size.create(15, 15);
 		break;
+
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
-
+		loot_rect = { 123,32,14,14 };
+		SetPivot(7, 9);
+		size.create(14, 14);
 		break;
+
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
-
+		loot_rect = { 122,70,14,14 };
+		SetPivot(7, 9);
+		size.create(14, 14);
 		break;
+
 	}
 }

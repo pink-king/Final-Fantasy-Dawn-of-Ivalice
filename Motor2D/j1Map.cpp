@@ -38,7 +38,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 void j1Map::Draw()
 {
-	BROFILER_CATEGORY("MAP DRAW", Profiler::Color::DeepPink);
+	BROFILER_CATEGORY("MAP_DRAW", Profiler::Color::DeepPink);
 
 	if (map_loaded == false)
 		return;
@@ -51,6 +51,13 @@ void j1Map::Draw()
 		(*layer)->tileQuadTree->DrawMap();
 		if(debugDraw)
 			(*layer)->tileQuadTree->DrawQuadtree();
+	}
+
+	if (debugDraw)
+	{
+		DebugDraw();
+	}
+
 	/*	for (int i = 0; i < data.height; ++i)
 		{
 			for (int j = 0; j < data.width; ++j)
@@ -73,13 +80,6 @@ void j1Map::Draw()
 				}
 			}
 		}*/
-	}
-
-	if (debugDraw)
-	{
-		DebugDraw();
-	}
-
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -731,7 +731,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
 	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
 
-	layer->tileQuadTree = new TileQuadtree(8, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+	layer->tileQuadTree = new TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
 	//TEST
 
 	if (layer_data == NULL)
