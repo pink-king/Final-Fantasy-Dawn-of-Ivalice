@@ -409,12 +409,12 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 
 uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
 {
-	/*std::uniform_real_distribution<float> dis(min, max);
+	std::uniform_real_distribution<float> dis(min, max);
 
-	return (uint)dis(gen);*/
+	return (uint)dis(gen);
 
-	uint x = min + (std::rand() % (max - min));
-	return x; 
+	/*uint x = min + (std::rand() % (max - min));*/
+	//return x; 
 }
 
 void j1EntityFactory::Debug(j1Entity* ent)
