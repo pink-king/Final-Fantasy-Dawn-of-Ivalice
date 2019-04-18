@@ -13,6 +13,7 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 	debugSubtile = App->entityFactory->debugsubtileTex;
 	currentAnimation = &idle[(int)facingDirectionEnemy::SE];
 	this->attackSpeed = 1.f / attackSpeed;
+	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
 }
 
 Enemy::~Enemy()
@@ -176,6 +177,7 @@ int Enemy::GetRandomValue(const int& min, const int& max) const
 
 bool Enemy::isInDetectionRange() const
 {
+	
 	iPoint playerPos = App->entityFactory->player->GetTilePos(); 
 	return (GetTilePos().DistanceManhattan(playerPos) < detectionRange);
 }

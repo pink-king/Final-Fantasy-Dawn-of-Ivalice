@@ -113,6 +113,8 @@ public:
 private:
 	j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;
+	bool startMove;
+	j1PerfTimer stepSFXTimer;
 	bool isPreviousUpdateCollisioning = false;
 
 	bool debug = true;

@@ -2,12 +2,14 @@
 #include "j1Entity.h"
 #include "easing.h"
 #include "j1EntityFactory.h"
+
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	
 	SetConsumable();
 	originPos.x = position.x;
 	start = true;
+	checkgrounded = true;
 }
 
 
@@ -28,7 +30,7 @@ bool Consumable::Update(float dt)
 		{
 			goalPos = SetDestinationPos(goalPos.x, goalPos.y);
 			start = false;
-			position.y + 5;
+			
 			
 			DecideExplosion();
 		}
@@ -38,8 +40,19 @@ bool Consumable::Update(float dt)
 		if (displacementTime.ReadMs() <= 280)
 		{
 			ExplosionMaker(dt);
-			LOG("displaced %f",position.x - originPos.x);
+			LOG("displaced %i",position.x - originPos.x);
 			LOG("actual time %f", timeTest);
+		}
+		else
+		{
+			grounded = true;
+			
+		}
+
+		if (checkgrounded && grounded)
+		{
+			checkgrounded = false;
+			App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 		}
     
 	return true;

@@ -20,6 +20,7 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
+	
 	return true;
 }
 
@@ -60,12 +61,14 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		position.x = position.x + (xAxis * 0.003 * characterBaseSpeed.x) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
+		
 		//LOG("xAxis %i", xAxis); //32767 -32768
 	}
 	if (yAxis > 0 || yAxis < 0)
 	{
 		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
+		
 	}
 
 	// keyboard input, only for debug or test purposes at the moment, main gameplay are based on GamePad
@@ -74,6 +77,7 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		// condition
 		isMoving = true;
+		
 		// x "axis" input
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 			xAxis = SHRT_MIN;
@@ -112,10 +116,22 @@ bool PlayerEntity::InputMovement(float dt)
 		//LOG("COLLISIONS: %i", resultant_intersections.size());
 		position = GetCollisionsBehaviourNewPos(collider,resultant_intersections);
 	}
+
 	// -----------------------------------------------------------------------------
 
-	if (isMoving)// if we get any input, any direction
+	if (isMoving && !App->pause)// if we get any input, any direction
 	{
+		if (startMove)
+		{
+			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			startMove = false;
+			stepSFXTimer.Start();
+		}
+		if(stepSFXTimer.ReadMs() >= 300.0f)
+		{
+			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			stepSFXTimer.Start();
+		}
 		// store actual
 		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
 		lastAxisMovAngle = atan2f(yAxis, xAxis);
@@ -125,6 +141,7 @@ bool PlayerEntity::InputMovement(float dt)
 	else
 	{
 		currentAnimation = &idle[pointingDir];
+		startMove = true;
 	}
 
 	// checks render flip

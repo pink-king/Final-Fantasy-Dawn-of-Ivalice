@@ -9,6 +9,11 @@
 #include "Shara.h"
 #include "j1Input.h"
 #include"LootEntity.h"
+#include "j1Audio.h"
+#include "SDL_mixer/include/SDL_mixer.h"
+
+
+struct Mix_Chunk;
 class Crosshair
 {
 public:
@@ -118,7 +123,7 @@ private:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	
-	
+	unsigned int pickLoot;
 
 };
 

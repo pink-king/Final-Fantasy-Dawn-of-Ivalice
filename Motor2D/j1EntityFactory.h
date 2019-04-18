@@ -112,6 +112,23 @@ public:
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
+
+	//----SFX-----//
+	unsigned int lootGroundSFX;
+	unsigned int swapChar;
+	unsigned int stepSFX;
+	unsigned int enemySpawn;
+	unsigned int goblinDetection;
+	unsigned int marcheDamaged;
+	unsigned int marcheBasic;
+	unsigned int RitzDamaged;
+	unsigned int SharaDamaged;
+	unsigned int goblinDamaged;
+	unsigned int goblinDeath;
+	unsigned int goblinLaugh;
+	unsigned int marcheUltimateScream;
+	unsigned int marcheAbility2; //tornado
+
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile

@@ -153,6 +153,7 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 
 EnemyTest::~EnemyTest()
 {
+	App->audio->PlayFx(App->entityFactory->goblinDeath, 0);
 	LOG("Bye Enemy Test ");
 } 
 
@@ -179,7 +180,8 @@ bool EnemyTest::Update(float dt)
 
 	SetState(dt);
 
-
+	if (GetRandomValue(1, 10000) == 900)
+		App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);
 	// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
 	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
@@ -227,6 +229,7 @@ void EnemyTest::SetState(float dt)
 		currentAnimation = &idle[pointingDir]; 
 		if (isInDetectionRange() && speed > 0)
 		{
+			/*App->audio->PlayFx(App->entityFactory->goblinDetection, 0);*/
 			SetLookingTo(App->entityFactory->player->GetPivotPos());
 			state = EnemyState::SEARCHPATH;
 		}

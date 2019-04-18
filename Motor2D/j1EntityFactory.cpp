@@ -57,6 +57,21 @@ bool j1EntityFactory::Start()
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 
+	lootGroundSFX = App->audio->LoadFx("audio/fx/Mouth_Special_00.wav");
+	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/footstep-on-stone.wav");
+	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
+	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
+	marcheDamaged = App->audio->LoadFx("audio/fx/Marche_damaged.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/marche_basic.wav");
+	marcheAbility2 = App->audio->LoadFx("audio/fx/marche_tornado.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/marcheUltimate_Scream.wav");
+	RitzDamaged = App->audio->LoadFx("audio/fx/Ritz_damaged.wav");
+	SharaDamaged = App->audio->LoadFx("audio/fx/Shara_damaged.wav");
+	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
+	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
+	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
+	
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
@@ -79,10 +94,7 @@ bool j1EntityFactory::Start()
 bool j1EntityFactory::PreUpdate()
 {
 	bool ret = true;
-	if (spawngroups.size() > 0)
-	{
-		LoadSpawnGroups();
-	}
+	
 	// logic / collisions
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
@@ -129,7 +141,7 @@ bool j1EntityFactory::Update(float dt)
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
 				}
 				(*item)->CleanUp();
-				delete(*item);
+				delete(*item); 
 				(*item) = nullptr;
 				item = entities.erase(item);
 			}
@@ -342,9 +354,10 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 void j1EntityFactory::LoadSpawnGroups()
 {
-	GroupInfo info = spawngroups.back(); 
-	CreateEnemiesGroup(info.types, info.zone, info.minEnemies, info.maxEnemies); 
-	spawngroups.pop_back();
+	for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++){
+		CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+	}
+	spawngroups.clear();
 }
 
 j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed)
