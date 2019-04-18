@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+
 class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
@@ -62,7 +63,7 @@ public:
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	
-
+	bool paused;
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
@@ -80,8 +81,13 @@ private:
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
-
+	void LoadMusicFromScene();
 	PlayerEntityManager* player_selected = nullptr;
+
+	bool begin;
+	bool beginGameMus;
+
+	unsigned int open_closeInventory;
 };
 
 #endif // __j1SCENE_H__

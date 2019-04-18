@@ -83,6 +83,7 @@ void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 	tick->hide = !tick->hide;
 	if (functionName == "FpsCap")
 		App->gui->FpsCap();
+	App->audio->PlayFx(App->gui->acceptUI, 0);
 }
 
 

@@ -11,6 +11,7 @@
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
 	//SetPivot(16, 40);
+	debug = true;
 }
 
 PlayerEntity::~PlayerEntity()
@@ -19,6 +20,7 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
+	
 	return true;
 }
 
@@ -59,12 +61,14 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		position.x = position.x + (xAxis * 0.003 * characterBaseSpeed.x) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
+		
 		//LOG("xAxis %i", xAxis); //32767 -32768
 	}
 	if (yAxis > 0 || yAxis < 0)
 	{
 		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 		isMoving = true;
+		
 	}
 
 	// keyboard input, only for debug or test purposes at the moment, main gameplay are based on GamePad
@@ -73,6 +77,7 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		// condition
 		isMoving = true;
+		
 		// x "axis" input
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 			xAxis = SHRT_MIN;
@@ -93,37 +98,40 @@ bool PlayerEntity::InputMovement(float dt)
 		position.y = position.y + (yAxis * 0.003 * characterBaseSpeed.y) * dt; // TODO: GET speed from buff manager
 	}
 
-	// check individually collisions for each axis movement
-
+	// COLLISION BEHAVIOUR --------------------------------------------------------
 	// draw iso col
 	int colSize = 16;
-
 	iPoint pivot_pos = (iPoint)GetPivotPos() - iPoint(0, colSize * 0.5f);
-
 	SDL_Rect collider = { pivot_pos.x, pivot_pos.y, colSize, colSize};
 
-	// Red isometric quad
+	// Red isometric quad | collider foot
 	App->render->DrawIsoQuad(collider);
-
+	// test isoquad draw
 	App->render->DrawIsoQuad({ 32,16, 128,96 });
 
-	// Check collisions and do behaviour ------------------------------------------
+	// Check collisions and do behaviour ------------
 	std::vector<SDL_Rect> resultant_intersections = Collision2D(collider);
 	if (!resultant_intersections.empty())
 	{
 		//LOG("COLLISIONS: %i", resultant_intersections.size());
-		position = GetCollisionsBehaviourNewPos(collider,resultant_intersections, xAxis, yAxis);
+		position = GetCollisionsBehaviourNewPos(collider,resultant_intersections);
 	}
 
-	//App->render->DrawQuad(collider, 255, 255, 255, 255);
-	/*else
-	{
-		isPreviousUpdateCollisioning = false;
-	}*/
 	// -----------------------------------------------------------------------------
 
-	if (isMoving)// if we get any input, any direction
+	if (isMoving && !App->pause)// if we get any input, any direction
 	{
+		if (startMove)
+		{
+			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			startMove = false;
+			stepSFXTimer.Start();
+		}
+		if(stepSFXTimer.ReadMs() >= 300.0f)
+		{
+			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			stepSFXTimer.Start();
+		}
 		// store actual
 		float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
 		lastAxisMovAngle = atan2f(yAxis, xAxis);
@@ -133,6 +141,7 @@ bool PlayerEntity::InputMovement(float dt)
 	else
 	{
 		currentAnimation = &idle[pointingDir];
+		startMove = true;
 	}
 
 	// checks render flip
@@ -288,7 +297,7 @@ float PlayerEntity::GetLastHeadingAngle() const
 
 std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 {
-	bool debug = true;
+
 	std::vector<SDL_Rect> ret; // stores all the no walkable intersection as resultant rects
 
 	int tile_size = 32;
@@ -314,20 +323,21 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 		{ currentTile.x - 1, currentTile.y - 1	}  // NW
 	};
 
+	// DEBUG VISUAL POSITION ONLY ---------------------------------
 	int scale =  (int)App->win->GetScale();
 
-	iPoint offset = { 0,0 };// { 100, 100 };//App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
-	//offset = App->map->IsoTo2D(offset.x, offset.y);
-	//offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
-	////Place it on the right corner of the screen
-	//uint w, h;
-	//App->win->GetWindowSize(w, h);
-	//offset.x -= round((int)w / scale) - tile_size * 3;
+	offset = App->map->MapToWorld(tileNeighbours[7].x, tileNeighbours[7].y);
+	offset = App->map->IsoTo2D(offset.x, offset.y);
+	offset += (App->camera2D->GetCamPos() / scale).RoundPoint();
+	//Place it on the right corner of the screen
+	uint w, h;
+	App->win->GetWindowSize(w, h);
+	offset.x -= round((int)w / scale) - tile_size * 3;
 	
 	// colors for debug visuals
 	SDL_Color color_pink = { 255,162,240,255 };
 	SDL_Color color_red = { 255,0,0,255 };
-
+	// ------------------------------------------------------------
 	for (int i = 0; i < 8; ++i)
 	{
 		bool walkableTile = true;
@@ -366,49 +376,46 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 		}
 	}
 
-	// DEBUG draw -----------
-	//Draw yellow quad
-	App->render->DrawQuad(
-		{colliderCheck.x - offset.x, colliderCheck.y - offset.y, colliderCheck.w, colliderCheck.h},
-		255, 255, 0, 255);
+	if (debug)
+	{
+		// DEBUG draw -----------
+		//Draw yellow quad
+		App->render->DrawQuad(
+			{ colliderCheck.x - offset.x, colliderCheck.y - offset.y, colliderCheck.w, colliderCheck.h },
+			255, 255, 0, 255);
 
-	//if (!ret.empty())
-	//{
-	//	std::vector<SDL_Rect>::iterator iter = ret.begin();
-	//	uint i = 3; // color multiplier
-	//	for (; iter != ret.end(); ++iter)
-	//	{
-	//		App->render->DrawQuad(
-	//			{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
-	//			255, 30 * i, 16, 255);
-	//		
-	//		++i;
-	//	}
-	//}
-	// ----------------------
+		if (!ret.empty())
+		{
+			std::vector<SDL_Rect>::iterator iter = ret.begin();
+			uint i = 3; // color multiplier
+			for (; iter != ret.end(); ++iter)
+			{
+				App->render->DrawQuad(
+					{ (*iter).x - offset.x, (*iter).y - offset.y, (*iter).w, (*iter).h },
+					255, 30 * i, 16, 255);
+				
+				++i;
+			}
+		}
+		// ----------------------
+	}
 
 	return ret;
 }
 
-fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections, Sint16 xAxis, Sint16 yAxis)
+fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections)
 {
 	// all resultants are isoTo2D
-	// playerCol needs conversion
+	// playerCol needs conversion (2DtoIso)
 
 	fPoint ret(0,0);
 
-	//ret.create(position.x, position.y);
-	float angle = atan2f(yAxis, xAxis) * 180 / PI;
-
-	if (resultant_intersections.size() < 3 /*&& (xAxis > 0 || xAxis < 0 || yAxis > 0 || yAxis < 0)*/) // 3 intersections means a corner between 3 cells
+	if (resultant_intersections.size() < 3) // 3 intersections means a corner between 3 cells
 	{
-		//App->render->DrawQuad(playerCol, 255, 0, 0, 255);
-
 		// get the sum between the all rects (max two)
 		std::vector<SDL_Rect>::iterator iterResults = resultant_intersections.begin();
 		SDL_Rect collision = { (*iterResults).x, (*iterResults).y,0,0 };
 		
-		iPoint temporalSize = { (*iterResults).w, (*iterResults).h };
 		for (; iterResults != resultant_intersections.end(); ++iterResults)
 		{
 			// preserve the x,y pos for the top-left resultant
@@ -421,14 +428,16 @@ fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vecto
 			collision.h += (*iterResults).h;
 		}
 		// correct the sizes after sum (always that we have two intersections)
-		if(resultant_intersections.size() > 1)
-		if (collision.w > collision.h)
+		if (resultant_intersections.size() > 1) // TODO: rework how calculate the size
 		{
-			collision.h *= 0.5f;
-		}
-		else if (collision.h > collision.w)
-		{
-			collision.w *= 0.5f;
+			if (collision.w > collision.h)
+			{
+				collision.h *= 0.5f;
+			}
+			else if (collision.h > collision.w)
+			{
+				collision.w *= 0.5f;
+			}
 		}
 
 		iPoint pt = App->map->IsoTo2D(playerCol.x, playerCol.y);
@@ -493,29 +502,44 @@ fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vecto
 			break;
 		}
 
-		//App->render->DrawQuad({ pt.x, pt.y, playerCol.w, playerCol.h }, 255, 0, 0, 100);
-		App->render->DrawQuad(pcol, 255, 0, 0, 150);
-		App->render->DrawQuad(collision, 0, 255, 255, 255);
-		
-		fPoint test = { (float)playerCol.x, (float)playerCol.y + 8};
-		test = test - pivot;
-		SDL_Rect testrect = { (int)test.x, (int)test.y, playerCol.w, playerCol.h };
-		//App->render->DrawQuad(playerCol, 255, 255, 255, 255);
-		App->render->DrawQuad(testrect, 255, 255, 255, 255);
-		LOG("testcol: %f,%f", test.x, test.y);
-		LOG("playerPos:%f,%f", position.x, position.y);
+		if (debug)
+		{
+			// DEBUG DRAW ------------------
+			App->render->DrawQuad({ pcol.x - offset.x, pcol.y - offset.y, pcol.w, pcol.h }, 255, 0, 0, 150);
+			App->render->DrawQuad({ collision.x - offset.x , collision.y - offset.y, collision.w, collision.h }, 0, 255, 255, 255);
+			// -----------------------------
 
+			// ON PLAYER POS DRAW ------------------------
+			// original pos means the top left coord
+			fPoint playerOriginPos = { (float)playerCol.x, (float)playerCol.y + 8 };
+			playerOriginPos = playerOriginPos - pivot;
+			SDL_Rect playerOriginRect = { (int)playerOriginPos.x, (int)playerOriginPos.y, playerCol.w, playerCol.h };
+
+			App->render->DrawQuad(playerOriginRect, 255, 255, 255, 255);
+			//LOG("Player origin conversion: %f,%f", playerOriginPos.x, playerOriginPos.y);
+			//LOG("playerPos untouched pos: %f,%f", position.x, position.y);
+			// -------------------------------------------
+		}
+
+		// convert the moved collider pos to "world iso pos"
 		fPoint posToTransfer = App->map->TwoDToIso(pcol.x, pcol.y);
-		posToTransfer.y += 8;
+		posToTransfer.y += pcol.h * 0.5f; // half collider size
 		posToTransfer = posToTransfer - pivot;
-		SDL_Rect newPosrect = {posToTransfer.x, posToTransfer.y, playerCol.w, playerCol.h };
-		App->render->DrawQuad(newPosrect, 0, 255, 255, 255);
 
+		if (debug)
+		{
+			// DEBUG DRAW on player world pos ---------------------
+			SDL_Rect newPosrect = { posToTransfer.x, posToTransfer.y, playerCol.w, playerCol.h };
+			App->render->DrawQuad(newPosrect, 0, 255, 255, 255);
+			// -------------------------------- -------------------
+		}
+
+		// Final position transfer
 		ret.x = posToTransfer.x;
 		ret.y = posToTransfer.y;
 
 	}
-	else
+	else // if we have a 3 corner
 		ret = previousPos;
 
 	return ret;

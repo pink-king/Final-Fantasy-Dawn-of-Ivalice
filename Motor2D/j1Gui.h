@@ -17,7 +17,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "UiItem_Description.h"
-
+#include "j1PerfTimer.h"
 struct labelInfo
 {
 	std::string labelText;
@@ -131,12 +131,19 @@ private:
 	bool debug_ = false;
 	UiItem* selected_object = nullptr;
 
+	
+	
+	
+	
 public:
+	unsigned int selectUI;
+	unsigned int acceptUI;
 	bool resetHoverSwapping = false;
 	theClocks allclocksData; 
 	clockOwners spawnedClocks;
 
 	enemyHealthBarInfo enemyLifeBarInfo; 
+
 };
 
 

@@ -4,7 +4,7 @@
 #include "p2Animation.h"
 #include "p2Point.h"
 #include "j1Timer.h"
-
+#include "j1PerfTimer.h"
 #include "j1Module.h"
 #include "j1Textures.h"
 
