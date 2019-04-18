@@ -122,6 +122,7 @@ public:
 	unsigned int marcheDamaged;
 	unsigned int marcheBasic;
 	unsigned int RitzDamaged;
+	unsigned int RitzBasic;
 	unsigned int SharaDamaged;
 	unsigned int goblinDamaged;
 	unsigned int goblinDeath;

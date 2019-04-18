@@ -124,7 +124,7 @@ private:
 	std::vector<j1Entity*> draw_entities;*/
 	
 	unsigned int pickLoot;
-
+	unsigned int pickGold;
 };
 
 #endif

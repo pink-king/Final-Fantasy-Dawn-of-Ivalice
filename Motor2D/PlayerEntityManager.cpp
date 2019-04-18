@@ -60,6 +60,8 @@ bool PlayerEntityManager::Start()
 
 
 	pickLoot = App->audio->LoadFx("audio/fx/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/pickGold.wav");
+
 	return true;
 }
 
@@ -367,7 +369,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 
 		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 		{
-			App->audio->PlayFx(pickLoot, 0);
+			App->audio->PlayFx(pickGold, 0);
 			gold += entityLoot->price;
 			entityLoot->to_delete = true;
 			str_coin = "x  " + std::to_string(gold);

@@ -57,7 +57,7 @@ bool j1EntityFactory::Start()
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 
-	lootGroundSFX = App->audio->LoadFx("audio/fx/Mouth_Special_00.wav");
+	lootGroundSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
 	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
@@ -67,6 +67,7 @@ bool j1EntityFactory::Start()
 	marcheAbility2 = App->audio->LoadFx("audio/fx/marche_tornado.wav");
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/marcheUltimate_Scream.wav");
 	RitzDamaged = App->audio->LoadFx("audio/fx/Ritz_damaged.wav");
+	RitzBasic = App->audio->LoadFx("audio/fx/ritz_basic.wav");
 	SharaDamaged = App->audio->LoadFx("audio/fx/Shara_damaged.wav");
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");

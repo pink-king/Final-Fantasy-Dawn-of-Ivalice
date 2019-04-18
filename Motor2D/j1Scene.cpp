@@ -116,6 +116,8 @@ bool j1Scene::Start()
 	begin = true;
 	
 	open_closeInventory = App->audio->LoadFx("audio/fx/open_close_inventory.wav");
+	open_PauseMenu = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+
 	return true;
 }
 
@@ -278,6 +280,8 @@ bool j1Scene::Update(float dt)
 			if (App->pause)
 			{
 				Mix_PauseMusic();
+				if (!pausePanel->enable)
+					App->audio->PlayFx(open_PauseMenu, 0);
 				pausePanel->enable = true;
 				paused = true;
 			}

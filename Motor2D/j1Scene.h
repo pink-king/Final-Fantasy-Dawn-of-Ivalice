@@ -88,6 +88,8 @@ private:
 	bool beginGameMus;
 
 	unsigned int open_closeInventory;
+	unsigned int open_PauseMenu;
+
 };
 
 #endif // __j1SCENE_H__
