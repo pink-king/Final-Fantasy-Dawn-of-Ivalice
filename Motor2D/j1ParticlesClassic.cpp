@@ -111,7 +111,7 @@ bool j1ParticlesClassic::Update(float dt)
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
 
-		AddParticle(explosion01, p.x, p.y, { 0,0 }, 0u);
+		AddParticle(explosion01, p.x, p.y, { 0,0 },0u);
 	}
 
 	return ret;
@@ -144,6 +144,8 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 			}
 			++p;
 		}
+		else
+			++p;
 	}
 
 	return true;
