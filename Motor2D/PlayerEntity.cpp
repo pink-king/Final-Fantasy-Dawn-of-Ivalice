@@ -189,7 +189,7 @@ bool PlayerEntity::InputCombat()
 	}
 
 
-	// - - - - - - - -  - - - - - - faked ability 1, 2 & ulti buttons
+	// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
 		// check ability 1 trigger
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
@@ -204,13 +204,6 @@ bool PlayerEntity::InputCombat()
 		//LOG("ULTIMATE");
 	}
 
-
-	// check ulti trigger
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
-	{
-		combat_state = combatState::ULTIMATE;
-		//LOG("ULTIMATE");
-	}
 
 
 
@@ -413,7 +406,7 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections)
 {
 	// all resultants are isoTo2D
-	// playerCol needs conversion (2DtoIso)
+	// playerCol needs conversion (isoTo2D)
 
 	fPoint ret(0,0);
 

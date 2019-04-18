@@ -98,8 +98,6 @@ public:
 	iPoint GetEnemySubtile(j1Entity* enemy);
 	iPoint SetLootPos(int x, int y);
 
-	void GenerateDescriptionForLootItem(LootEntity* lootItem);
-
 public:
 
 	//j1Entity*				Player = nullptr;

@@ -55,7 +55,9 @@ bool j1EntityFactory::Start()
 	}
 	
 	//load texture
-	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+	//assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
+
+	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 
 	lootGroundSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
 	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
@@ -380,7 +382,6 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 		ret = new Equipable(posX, posY);
 			LoadLootData(ret, App->config);
 			entities.push_back(ret);
-			GenerateDescriptionForLootItem(ret);
 			break;
 
 	case LOOT_TYPE::CONSUMABLE:
@@ -388,11 +389,8 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 		//ret->objectType = OBJECT_TYPE::GOLD;
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
-		GenerateDescriptionForLootItem(ret);
 		break;
 	}
-
-	
 	return ret;
 	
 }
@@ -654,7 +652,6 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 		for (auto node : config.child("loot").child("potions").children("health_potion"))
 		{
 			lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, App->entityFactory->player, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::DEFENCE_ROL, node.attribute("value").as_int(), lootEntity);
-			lootEntity->lootname = node.attribute("name").as_string();
 			LOG("looking for potions");
 		}
 		break;
@@ -733,10 +730,10 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 			{
 				//weapon type
 				id = node.attribute("id").as_int();
+
 				if (id == randID)
 				{
-					lootEntity->lootname = node.attribute("name").as_string(); 
-	
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -805,13 +802,11 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 			lootEntity->character = App->entityFactory->player->GetShara();
 			for (auto node : config.child("loot").child("equipable").child("bow").children("equipment"))
 			{
-				 
 				//weapon type
 				id = node.attribute("id").as_int();
 
 				if (id == randID)
 				{
-					lootEntity->lootname = node.attribute("name").as_string();
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -1146,60 +1141,4 @@ iPoint j1EntityFactory::GetEnemySubtile(j1Entity * enemy)
 iPoint j1EntityFactory::SetLootPos(int x, int y)
 {
 	return App->map->SubTileMapToWorld(x, y);
-}
-
-
-void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
-{
-
-
-
-	switch (lootItem->objectType)  // convert to if so that there can be local variables 
-	{
-
-
-	case OBJECT_TYPE::WEAPON_OBJECT:
-
-		float attack, resistance; 
-		attack = resistance = 0.0f;
-
-		iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
-
-		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
-		for (; iter != lootItem->stats.end(); ++iter)
-		{
-			if ((*iter)->GetRol() == ROL::ATTACK_ROL)
-			{
-				attack = (*iter)->GetValue(); 
-			}
-			else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-			{
-				resistance = (*iter)->GetValue();
-            }
-			
-		}
-
-			SDL_Rect destRect = App->scene->lootPanelRect;
-
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, App->scene->inGamePanel);
-
-
-			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
-
-			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(320, 300), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
-			lootItem->MyDescription->iconImage->printFromLoot = true;
-
-
-			// hide all elements until the item is focused by the Corsshair 
-
-			lootItem->MyDescription->HideAllElements(true);
-
-	
-		break;
-
-/*	case OBJECT_TYPE::POTIONS:
-
-		break; */
-	}
-
 }

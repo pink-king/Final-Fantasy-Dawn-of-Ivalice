@@ -130,16 +130,24 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
-	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(attacker, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
-	defender->life -= lifeToSubstract;
+	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
+	if (lifeToSubstract <= 0)
+	{
+		lifeToSubstract  = 1;
+	}
+	else
+		defender->life -= lifeToSubstract;
+	// add always a hitpoint
+	// but if we have a previous one, unlink
+	/*if (defender->hitPoint != nullptr)
+	{
+		defender->hitPoint->attachedEntity = nullptr;
 
-
-	bool playerAttacks = false; 
-	if (attacker->type == ENTITY_TYPE::PLAYER)
-		playerAttacks = true; 
-
-
-	App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT, playerAttacks); // must be overall improved /types of damage? calculate
+	}
+	else
+	{*/
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT); // must be overall improved /types of damage? calculate
+//	}
 		
 	
 		if (defender->type == ENTITY_TYPE::PLAYER)

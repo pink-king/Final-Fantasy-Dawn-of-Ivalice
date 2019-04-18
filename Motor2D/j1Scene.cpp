@@ -47,7 +47,7 @@ bool j1Scene::Start()
 	debug = true;
 
 	// App->audio->Load("audio/music/menu_1.0.ogg");
-	if (App->map->Load("maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	if (App->map->Load("maps/Level1_Final.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -294,32 +294,16 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			App->pause = !App->pause;
-			if (App->pause)
+			if (inventory->enable)
 			{
-				if(!inventory->enable)
-					App->audio->PlayFx(open_closeInventory,0);
-
-				inventory->enable = true;
-				App->gui->resetHoverSwapping = false;
-				inventoryItem->LoadElements();
-
+				App->audio->PlayFx(open_closeInventory, 0);
+				inventory->enable = false;
 			}
 			else
 			{
-				if(inventory->enable)
-					App->audio->PlayFx(open_closeInventory,0);
-
-				inventory->enable = false;
-				
+				App->audio->PlayFx(open_closeInventory, 0);
+				inventory->enable = true;
 			}
-				
-			
-		}
-		if (inventory->enable)
-		{
-			SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
-			SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -350,18 +334,18 @@ bool j1Scene::Update(float dt)
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
 	static int cont = 0;
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)      // commented lifebars due to crash, cleaning order when exiting app
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
 		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 75, 11, 1, 10, 1.0f); 
-		//ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		j1Entity* ent;
 		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
-		//ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	
@@ -378,9 +362,6 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity());
 	}
 
-	//}
-	
-	
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
@@ -441,13 +422,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		if ( lootFlag == "loot")
 		{
 
-			lootPanelRect = section; 
+			lootPanelRect = &section; 
 		}
-		else if (lootFlag == "lootNoButton")
-		{
-			lootPanelRectNoButton = section;
-		}
-	else
+		else
 		{                                  // this is useless now
 			if (isPanel != 1)
 			{
@@ -677,7 +654,6 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
-	inventoryItem = App->gui->AddInventory(inventory);
 	return true;
 }
 

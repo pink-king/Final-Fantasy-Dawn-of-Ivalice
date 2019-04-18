@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "UiItem.h"
 #include "UiItem_Label.h"
+
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
@@ -344,12 +345,6 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 {
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
-		// when a loot item is collected, the description should be hiden
-		entityLoot->MyDescription->HideAllElements(true); 
-
-
-
-
 		if (equipedObjects.size() == 0)
 		{
 			equipedObjects.push_back(entityLoot);
@@ -595,38 +590,6 @@ bool Crosshair::ManageInput(float dt)
 			position.x -= pivotOffset.x;
 			position.y -= pivotOffset.y;
 
-
-			// if clamped type is loot, it can be picked 
-
-		
-			if (clampedEntity->type == ENTITY_TYPE::LOOT)
-			{
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-				{
-					for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
-					{
-						if ((*item) == clampedEntity)
-						{
-
-							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity)))
-							{
-								// first detach clamped entity
-								clampedEntity = nullptr;
-
-								// then delete loot from subtile and factory 
-								App->entityFactory->DeleteEntityFromSubtile(*item);
-								item = App->entityFactory->entities.erase(item);
-								break;
-							}
-			
-						}
-
-					}
-			
-				}
-			}
-
-
 		}
 		else
 		{
@@ -769,29 +732,3 @@ bool Crosshair::CleanUp()
 //{
 //	return MAX(lower, MIN(n, upper));
 //}
-
-
-j1Entity* Crosshair::GetClampedEntity() const
-{
-	j1Entity* ret = nullptr;
-
-	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-
-	while (entitiesItem != App->entityFactory->entities.end())
-	{
-	     
-		if (!(*entitiesItem)->to_delete)
-		{
-			if ((*entitiesItem) == clampedEntity)
-			{
-
-				ret = (*entitiesItem); 
-
-			}
-				
-		}
-		++entitiesItem;
-	}
-
-	return ret; 
-}

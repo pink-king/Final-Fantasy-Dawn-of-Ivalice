@@ -152,22 +152,13 @@ bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale,double angle, int pivot_x, int pivot_y, bool useWindowScale) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale,double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
 	SDL_Rect rect;
-	if (useWindowScale)
-	{
-		rect.x = (int)(camera->x * speed) + x * scale;
-		rect.y = (int)(camera->y * speed) + y * scale;
-	}
-	else
-	{
-		rect.x = (int)(camera->x * speed) + x;
-		rect.y = (int)(camera->y * speed) + y;
-	}
-
+	rect.x = (int)(camera->x * speed) + x * scale;
+	rect.y = (int)(camera->y * speed) + y * scale;
 
 	if(section != NULL)
 	{

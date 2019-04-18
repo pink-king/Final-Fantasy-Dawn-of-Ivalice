@@ -31,12 +31,8 @@
       <images>
 
 		 <image name="loot_item_panel">
-          <section x="640" y="222" w="244" h="257"/>
+          <section x="640" y="238" w="244" h="257"/>
 		  <flag  value="loot" />
-        </image>
-		 <image name="loot_item_panel_no_button">
-          <section x="922" y="222" w="238" h="243"/>
-		  <flag  value="lootNoButton" />
         </image>
 		
 		<image name="ability1_button">
@@ -350,8 +346,8 @@
       
       
       <labels>
-        <label name="PauseMenu">
-          <position x="529" y="70"/>
+        <label name="test">
+          <position x="530" y="70"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="PAUSE MENU"/>
         </label>
@@ -377,8 +373,8 @@
     <Inventory>
       <images>
         <image name="inventoryPanel">
-          <section x="0" y="2252" w="740" h="519"/>
-          <position x="274" y="101"/>
+          <section x="1" y="1" w="369" h="406"/>
+          <position x="750" y="190"/>
         </image>
       </images>
     </Inventory>
@@ -400,7 +396,7 @@
    
     
     <potions>
-      <health_potion id="1" value ="2" name="potion_1"/>  
+      <health_potion id="1" value ="2"/>  
     </potions>
 
     <equipable>

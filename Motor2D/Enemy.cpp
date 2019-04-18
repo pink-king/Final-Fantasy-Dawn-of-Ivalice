@@ -5,8 +5,6 @@
 #include "j1PathFinding.h"
 #include "j1Map.h"
 #include <ctime>
-#include "j1Scene.h"
-
 #include <random>
 
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
@@ -21,7 +19,6 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 	this->attackSpeed = 1.f / attackSpeed;
 	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel); 
 }
 
 Enemy::~Enemy()
