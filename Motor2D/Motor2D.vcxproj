@@ -124,6 +124,7 @@
     <ClCompile Include="UiItem_HitPoint.cpp" />
     <ClCompile Include="UiItem_HitPointManager.cpp" />
     <ClCompile Include="UiItem_Image.cpp" />
+    <ClCompile Include="UiItem_Inventory.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
   </ItemGroup>
@@ -181,6 +182,7 @@
     <ClInclude Include="UiItem_HitPoint.h" />
     <ClInclude Include="UiItem_HitPointManager.h" />
     <ClInclude Include="UiItem_Image.h" />
+    <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
   </ItemGroup>

@@ -132,6 +132,9 @@
     <ClCompile Include="j1Textures.cpp">
       <Filter>Development======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="UiItem_Inventory.cpp">
+      <Filter>Development======\Modules\GUI\managers</Filter>
+    </ClCompile>
     <ClCompile Include="EntityArrow.cpp">
       <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClCompile>
@@ -303,6 +306,9 @@
     </ClInclude>
     <ClInclude Include="TileQuadtree.h">
       <Filter>Development======\Modules\Tools\QuadTree</Filter>
+      </ClInclude>
+    <ClInclude Include="UiItem_Inventory.h">
+      <Filter>Development======\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

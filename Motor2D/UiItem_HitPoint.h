@@ -61,7 +61,7 @@ public: // public or protected?
 	friend class UiItem_HitPointManager; 
 
 	bool to_delete = false;
-
+	bool fromEnemy = false; 
 
 };
 

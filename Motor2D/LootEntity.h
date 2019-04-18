@@ -7,6 +7,7 @@
 #include "PlayerEntity.h"
 #include "j1PerfTimer.h"
 #include <random>
+#include "PlayerEntityManager.h"
 
 //#include "pcg_random.hpp"
 #include "j1Scene.h"
@@ -69,7 +70,6 @@ public:
 	void Draw();
 	iPoint GetPosition();
 	int GetRandomValue(int min, int max);
-	//void GetAttributesForDescription(); 
 
 	float EaseOutBack(float t);
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
@@ -80,6 +80,9 @@ public:
 
 	void DecideExplosion();
 	void ExplosionMaker(float dt);
+
+	void CheckClampedCrossHairToSpawnDescription(); 
+
 public:
 
 	uint level;
@@ -108,6 +111,7 @@ public:
 
 	// - - - - - - - The attached description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
+	bool spawnedDescription = false; 
 
 protected:
 
@@ -131,6 +135,7 @@ protected:
 	float decrementY;
 	float decrementX;
 	j1PerfTimer displacementTime;
+	
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
 	std::random_device rd;
