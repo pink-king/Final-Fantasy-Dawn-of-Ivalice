@@ -19,7 +19,7 @@
 #include "j1Fonts.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-#include "j1ParticlesClassic.h"
+
 #include "j1ModuleCamera2D.h"
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
@@ -42,7 +42,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	font = new j1Fonts();
 	buff = new j1BuffManager();
 	attackManager = new j1AttackManager();
-	particles = new j1ParticlesClassic();
 	camera2D = new j1ModuleCamera2D();
 	HPManager = new UiItem_HitPointManager();
 
@@ -57,7 +56,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityFactory);
 	AddModule(attackManager);
 	AddModule(buff);
-	AddModule(particles);
+	
 	AddModule(pathfinding);
 	AddModule(gui);
 	AddModule(font);
@@ -322,6 +321,8 @@ bool j1App::PostUpdate()
 bool j1App::CleanUp()
 {
 	PERF_START(ptimer);
+
+	cleaningUp = true; 
 
 	bool ret = true;
 	std::list<j1Module*>::reverse_iterator item;

@@ -474,6 +474,30 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
+
+
+UiItem_Image * j1Gui::AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex, UiItem_Description* myDescr)
+{
+	UiItem* newUIItem = nullptr;
+
+	
+    newUIItem = new UiItem_Image(position, section, parent, newTex, myDescr);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Image*)newUIItem;
+}
+
+UiItem_Inventory * j1Gui::AddInventory(UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = new UiItem_Inventory(parent);
+	ListItemUI.push_back(newUIItem);
+	return (UiItem_Inventory*)newUIItem;
+}
+
+
+
 UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
@@ -606,12 +630,12 @@ UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::
 
 
 
-UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent)
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent)
 {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, parent);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -620,17 +644,29 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, UiItem*const parent) {
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, UiItem*const parent) {
 	
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, parent);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, parent);
 
 	ListItemUI.push_back(newUIItem);
 
 
 	return (UiItem_Description*)newUIItem;
 
+}
+
+UiItem_Description * j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
 }
 
 

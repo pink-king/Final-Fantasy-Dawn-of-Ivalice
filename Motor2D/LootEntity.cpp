@@ -42,6 +42,9 @@ bool LootEntity::Start()
 bool LootEntity::Update(float dt)
 {
 	
+	start = true;
+	endReached = false;
+	
 	return true;
 }
 float LootEntity::LerpX(float origin, float destination, float t )
@@ -257,33 +260,135 @@ void LootEntity::ExplosionMaker(float dt)
 
 /*void LootEntity::GetAttributesForDescription()
 {
+	EXPLOSION_DIRECTION  randVale;
+	int randVal = GetRandomValue(0, 6);
 
-	std::vector<Buff*>::iterator stat = stats.begin();
-
-	float attack = 0.0f;
-	float resistance = 0.0f;
-
-	for (; stat != stats.end(); ++stat)
+	switch (randVal)
 	{
 
-		if ((*stat)->GetRol() == OBJECT_ROL::ATTACK_ROL)
-		{
-			attack = (*stat)->GetValue();
-		}
-		else if ((*stat)->GetRol() == OBJECT_ROL::DEFENCE_ROL)
-		{
-			resistance = (*stat)->GetValue();
-		}
+	case 0:
+		randVale = EXPLOSION_DIRECTION::EAST;
 
+		timeXmid = 200.0f;
+		incrementX = 0.4;
+		decrementX = 0.2;
+		timeYmid = 170.0f;
+		incrementY = 2.8;
+		decrementY = 3.8;
+		break;
+
+	case 1:
+		randVale = EXPLOSION_DIRECTION::WEST;
+
+		timeXmid = 200.0f;
+		incrementX = -0.4;
+		decrementX = -0.2;
+		timeYmid = 170.0f;
+		incrementY = 2.8;
+		decrementY = 3.8;
+
+		break;
+	case 2:
+		randVale = EXPLOSION_DIRECTION::NORTHEAST;
+		timeXmid = 200.0f;
+		incrementX = 0.4;
+		decrementX = 0.2;
+		timeYmid = 200.0f;
+		incrementY = 2.8;
+		decrementY = 3.0;
+		break;
+
+	case 3:
+		randVale = EXPLOSION_DIRECTION::NORTHWEST;
+		timeXmid = 200.0f;
+		incrementX = -0.4;
+		decrementX = -0.2;
+		timeYmid = 200.0f;
+		incrementY = 2.8;
+		decrementY = 3.0;
+		break;
+	case 4:
+		randVale = EXPLOSION_DIRECTION::SOUTHEAST;
+		timeXmid = 200.0f;
+		incrementX = 0.4;
+		decrementX = 0.2;
+		timeYmid = 160.0f;
+		incrementY = 2.5;
+		decrementY = 3.8;
+		break;
+
+	case 5:
+		randVale = EXPLOSION_DIRECTION::SOUTHWEST;
+
+		timeXmid = 200.0f;
+		incrementX = -0.4;
+		decrementX = -0.2;
+		timeYmid = 160.0f;
+		incrementY = 2.5;
+		decrementY = 3.8;
+		break;
+
+	case 6:
+		timeXmid = 160.0f;
+		incrementX = -0.1f;
+		decrementX = -0.1f;
+		timeYmid = 80.0f;
+		incrementY = 2.0f;
+		decrementY = 3.0f;
+		break;
 	}
+	
+}
 
-	if (this->objectType == OBJECT_TYPE::WEAPON_OBJECT)
+void LootEntity::ExplosionMaker(float dt)
+{
+	timeTest = displacementTime.ReadMs()*0.001;
+	position.x = LerpX(position.x, goalPos.x, 0.0000009f);
+	if (displacementTime.ReadMs() <= timeXmid)
 	{
-		this->MyDescription = App->gui->AddDescriptionToWeapon(App->render->WorldToScreen(loot_pos.x, loot_pos.y), this->lootname, App->scene->lootPanelRect, &this->loot_rect, attack, resistance, App->scene->inGamePanel);
+		position.x += incrementX * dt;
+	}
+	else position.x += decrementX * dt;
+
+	position.y = LerpX(position.y, goalPos.y, 0.0000009f);
+
+	if (displacementTime.ReadMs() <= timeYmid)
+	{
+		position.y = position.y + 0.707*timeTest*timeTest;
+		position.y -= incrementY;
 	}
 	else
 	{
-		// TODO for vests, etc 
+		position.y - 0.070*timeTest*timeTest;
+		position.y += decrementY;
+	}
+	
+	
+}
+*/
+
+void LootEntity::CheckClampedCrossHairToSpawnDescription()
+{
+	// if the crosshair focuses the item and description is hiden 
+
+	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
+	{
+
+		this->MyDescription->HideAllElements(false); 
+
+		spawnedDescription = true; 
 	}
 
-}*/
+	// if description is showing, but crosshair stops focusing item 
+
+	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	{
+
+		this->MyDescription->HideAllElements(true);
+
+		spawnedDescription = false;
+	}
+
+
+
+}

@@ -132,6 +132,9 @@
     <ClCompile Include="j1Textures.cpp">
       <Filter>Development======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="UiItem_Inventory.cpp">
+      <Filter>Development======\Modules\GUI\managers</Filter>
+    </ClCompile>
     <ClCompile Include="EntityArrow.cpp">
       <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClCompile>
@@ -140,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="TileQuadtree.cpp">
       <Filter>Development======\Modules\Tools\QuadTree</Filter>
-    </ClCompile>
-    <ClCompile Include="j1ParticlesClassic.cpp">
-      <Filter>Development======\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,9 +306,9 @@
     </ClInclude>
     <ClInclude Include="TileQuadtree.h">
       <Filter>Development======\Modules\Tools\QuadTree</Filter>
-    </ClInclude>
-    <ClInclude Include="j1ParticlesClassic.h">
-      <Filter>Development======\Modules</Filter>
+      </ClInclude>
+    <ClInclude Include="UiItem_Inventory.h">
+      <Filter>Development======\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
