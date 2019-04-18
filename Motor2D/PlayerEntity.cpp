@@ -406,7 +406,7 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections)
 {
 	// all resultants are isoTo2D
-	// playerCol needs conversion (2DtoIso)
+	// playerCol needs conversion (isoTo2D)
 
 	fPoint ret(0,0);
 

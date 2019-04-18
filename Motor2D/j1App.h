@@ -26,7 +26,7 @@ class j1BuffManager;
 class j1AttackManager;
 class j1ModuleCamera2D;
 class UiItem_HitPointManager;
-
+class j1ParticlesClassic;
 
 
 class j1App
@@ -109,6 +109,7 @@ public:
 	j1Map*				map = nullptr;
 	j1Gui*              gui = nullptr;
 	j1EntityFactory*	entityFactory = nullptr;
+	j1ParticlesClassic* particles = nullptr;
 	j1PathFinding*		pathfinding = nullptr; 
 	j1Fonts*			font = nullptr;
 	j1BuffManager*		buff = nullptr;

@@ -141,6 +141,9 @@
     <ClCompile Include="TileQuadtree.cpp">
       <Filter>Development======\Modules\Tools\QuadTree</Filter>
     </ClCompile>
+    <ClCompile Include="j1ParticlesClassic.cpp">
+      <Filter>Development======\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -303,6 +306,9 @@
     </ClInclude>
     <ClInclude Include="TileQuadtree.h">
       <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="j1ParticlesClassic.h">
+      <Filter>Development======\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

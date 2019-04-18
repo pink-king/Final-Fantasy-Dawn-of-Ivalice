@@ -22,6 +22,7 @@ class UiItem_Image;
 enum ENTITY_TYPE  // todo, pass to class
 	{
 		NO_TYPE,
+		PARTICLE,
 		ENTITY_STATIC,
 		ENTITY_DYNAMIC,
 		//---------------
