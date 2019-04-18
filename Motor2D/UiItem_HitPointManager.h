@@ -30,7 +30,7 @@ public:
 
 
 public: 
-	UiItem_HitPoint* callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NORMAL_ELEMENT, bool playerIsAttacker = false);
+	UiItem_HitPoint* callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NO_ELEMENT, bool playerIsAttacker = false);
 	void calculatePlayerCombo(); 
 
 

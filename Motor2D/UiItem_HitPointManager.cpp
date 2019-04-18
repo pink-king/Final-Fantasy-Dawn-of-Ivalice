@@ -128,7 +128,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		c = { 153, 175, 255, 255 };
 		break;
 
-	case ELEMENTAL_TYPE::NORMAL_ELEMENT:
+	case ELEMENTAL_TYPE::NO_ELEMENT:
 		c = { 30, 30, 30, 255 };
 		break;
 

@@ -31,6 +31,8 @@ bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.data());
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
+	selectUI = App->audio->LoadFx("audio/fx/selectUI.wav");
+	acceptUI = App->audio->LoadFx("audio/fx/AcceptUI.wav");
 	return true;
 }
 
@@ -87,6 +89,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		case GUI_TYPES::CHECKBOX:
 			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
+				
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
 			}
@@ -95,10 +98,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		case GUI_TYPES::BUTTON:
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
 			{
+				
 				selected_object->state = CLICK;
 			}
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
+				
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
 				selected_object->state = IDLE;
@@ -196,7 +201,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-
+						App->audio->PlayFx(selectUI, 0);
 						candidates.push_back(*item);       // add objects on the right to a list
 
 					}
@@ -244,7 +249,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-
+						App->audio->PlayFx(selectUI, 0);
 						candidates.push_back(*item);       // add objects on the left to a list
 
 					}
@@ -295,7 +300,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-
+						App->audio->PlayFx(selectUI, 0);
 						candidates.push_back(*item);       // add objects on the right to a list
 
 					}
@@ -344,7 +349,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-
+						App->audio->PlayFx(selectUI, 0);
 						candidates.push_back(*item);       // add objects on the right to a list
 
 					}
@@ -708,6 +713,7 @@ void j1Gui::FpsCap()
 
 void j1Gui::GoBackToGame()
 {
+	
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
 }
@@ -720,3 +726,4 @@ void j1Gui::GoBackToStartMenu()
 	App->scene->startMenu->enable = true;
 	App->scene->state = SceneState::STARTMENU;
 }
+

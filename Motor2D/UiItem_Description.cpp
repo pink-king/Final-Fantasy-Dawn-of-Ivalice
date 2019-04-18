@@ -108,7 +108,7 @@ void UiItem_Description::Draw(const float& dt)
 		if (App->gui->selected_object == iconImageInventory)
 		{
 			HideAllElements(false); 
-			RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			RepositionAllElements(iPoint(staringPosition.x +410, staringPosition.y+30));
 		}
 		else
 		{

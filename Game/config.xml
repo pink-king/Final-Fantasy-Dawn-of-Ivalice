@@ -411,59 +411,32 @@
       </sword>
       
       <armor>
-        <equipment id="1" character="marche" name="armor_1" level ="1" cooldown ="1.1" />
-        <equipment id="2" character="marche" name="armor_1" level ="2" cooldown ="1.2" />
-        <equipment id="3" character="marche" name="armor_1" level ="3" cooldown ="1.4" />
-        <equipment id="4" character="marche" name="armor_2" level ="1" dmg_back ="0.05" />
-        <equipment id="5" character="marche" name="armor_2" level ="2" dmg_back ="0.15" />
-        <equipment id="6" character="marche" name="armor_2" level ="3" dmg_back ="0.3" />
-        <equipment id="7" character="marche" name="legendary_armor" level ="1" cooldown ="1.1" dmg_back ="0.05" />
-        <equipment id="8" character="marche" name="legendary_armor" level ="2" cooldown ="1.2" dmg_back ="0.15" />
-        <equipment id="9" character="marche" name="legendary_armor" level ="3" cooldown ="1.3" dmg_back ="0.3" />
+        <equipment id="1" character="marche" name="armor_1"/>
+        <equipment id="2" character="marche" name="armor_2"/>
+        <equipment id="3" character="marche" name="legendary_armor"/>
       </armor>
+      
       <bow>
-        <equipment id="1" character="shara" name="bow_1" level ="1" attck_spd ="1.15" />
-        <equipment id="2" character="shara" name="bow_1" level ="2" attck_spd ="1.3" />
-        <equipment id="3" character="shara" name="bow_1" level ="3" attck_spd ="1.5" />
-        <equipment id="4" character="shara" name="bow_2" level ="1" slow ="1.3" />
-        <equipment id="5" character="shara" name="bow_2" level ="2" slow ="1.5" />
-        <equipment id="6" character="shara" name="bow_2" level ="3" slow ="1.8" />
-        <equipment id="7" character="shara" name="legendary_bow" level ="1" attck_spd ="1.15" slow ="1.3" />
-        <equipment id="8" character="shara" name="legendary_bow" level ="2" attck_spd ="1.3" slow ="1.5" />
-        <equipment id="9" character="shara" name="legendary_bow" level ="3" attck_spd ="1.5" slow ="1.8" />
+        <equipment id="1" character="shara" name="bow_1"/>
+        <equipment id="2" character="shara" name="bow_2"/>
+        <equipment id="3" character="shara" name="legendary_bow"/>
       </bow>
+      
       <vest>
-        <equipment id="1" character="shara" name="vest_1" level ="1" cooldown ="1.1" />
-        <equipment id="2" character="shara" name="vest_1" level ="2" cooldown ="1.2" />
-        <equipment id="3" character="shara" name="vest_1" level ="3" cooldown ="1.4" />
-        <equipment id="4" character="shara" name="vest_2" level ="1" poison_back ="0.5" />
-        <equipment id="5" character="shara" name="vest_2" level ="2" poison_back ="0.7" />
-        <equipment id="6" character="shara" name="vest_2" level ="3" poison_back ="1" />
-        <equipment id="7" character="shara" name="legendary_vest" level ="1" cooldown ="1.1" poison_back ="0.5" />
-        <equipment id="8" character="shara" name="legendary_vest" level ="2" cooldown ="1.2" poison_back ="0.7" />
-        <equipment id="9" character="shara" name="legendary_vest" level ="3" cooldown ="1.4" poison_back ="1" />
+        <equipment id="1" character="shara" name="vest_1"/>
+        <equipment id="2" character="shara" name="vest_2"/>
+        <equipment id="3" character="shara" name="legendary_vest"/>
       </vest>
+      
       <rod>
-        <equipment id="1" character="ritz" name="stick_1" level ="1"  chance ="5" heal ="1.15"  />
-        <equipment id="2" character="ritz" name="stick_1" level ="2"  chance ="10" heal ="1.25"  />
-        <equipment id="3" character="ritz" name="stick_1" level ="3"  chance ="15" heal ="1.35"  />
-        <equipment id="4" character="ritz" name="stick_2" level ="1"  paralyze="0.4"  />
-        <equipment id="5" character="ritz" name="stick_2" level ="2"  paralyze="0.6"  />
-        <equipment id="6" character="ritz" name="stick_2" level ="3"  paralyze="0.9"  />
-        <equipment id="7" character="ritz" name="legendary_stick" level ="1"  chance ="5" heal ="1.15" paralyze="0.4" />
-        <equipment id="8" character="ritz" name="legendary_stick" level ="2"  chance ="10" heal ="1.25" paralyze="0.6" />
-        <equipment id="9" character="ritz" name="legendary_stick" level ="3"  chance ="15" heal ="1.35" paralyze="0.9" />
+        <equipment id="1" character="ritz" name="stick_1"/>
+        <equipment id="2" character="ritz" name="stick_2"/>
+        <equipment id="3" character="ritz" name="legendary_stick"/>
       </rod>
       <mantle>
-        <equipment id="1" character="ritz" name="mantle_1" level ="1"  cooldown ="1.1"  />
-        <equipment id="2" character="ritz" name="mantle_1" level ="2"  cooldown ="1.2"  />
-        <equipment id="3" character="ritz" name="mantle_1" level ="3"  cooldown ="1.4"  />
-        <equipment id="4" character="ritz" name="mantle_2" level ="1"  insta_death="0.05"  />
-        <equipment id="5" character="ritz" name="mantle_2" level ="2"  insta_death="0.1"  />
-        <equipment id="6" character="ritz" name="mantle_2" level ="3"  insta_death="0.15"  />
-        <equipment id="7" character="ritz" name="legendary_mantle" level ="1"  cooldown ="1.1" insta_death="0.05" />
-        <equipment id="8" character="ritz" name="legendary_mantle" level ="2"  cooldown ="1.2" insta_death="0.1" />
-        <equipment id="9" character="ritz" name="legendary_mantle" level ="3"  cooldown ="1.4" insta_death="0.15" />>
+        <equipment id="1" character="ritz" name="mantle_1"/>
+        <equipment id="2" character="ritz" name="mantle_2"/>
+        <equipment id="3" character="ritz" name="legendary_mantle"/>
       </mantle>
     </equipable>
     </loot>

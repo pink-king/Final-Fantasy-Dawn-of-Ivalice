@@ -17,6 +17,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "UiItem_Description.h"
+#include "j1PerfTimer.h"
 #include "UiItem_Inventory.h"
 
 struct labelInfo
@@ -137,12 +138,19 @@ private:
 public: 
 	UiItem* selected_object = nullptr;
 
+	
+	
+	
+	
 public:
+	unsigned int selectUI;
+	unsigned int acceptUI;
 	bool resetHoverSwapping = false;
 	theClocks allclocksData; 
 	clockOwners spawnedClocks;
 
 	enemyHealthBarInfo enemyLifeBarInfo; 
+
 };
 
 

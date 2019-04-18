@@ -103,6 +103,7 @@ public:
 	ELEMENTAL_TYPE elemetalType;
 
 	j1Entity* character = nullptr;
+	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
 
 	// - - - - - - - LootEntity stats in XML - - - - - - - // 
 	std::string name; 
@@ -122,6 +123,8 @@ protected:
 	float initialPosY;
 	fPoint goalPos;
 	bool start;
+	bool grounded;
+	bool checkgrounded;
 protected:
 	iPoint originPos;
 	float timeTest;
@@ -132,7 +135,7 @@ protected:
 	float decrementY;
 	float decrementX;
 	j1PerfTimer displacementTime;
-	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
+	
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
 	std::random_device rd;
