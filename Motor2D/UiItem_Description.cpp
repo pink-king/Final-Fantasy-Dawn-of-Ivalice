@@ -94,6 +94,21 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
+void UiItem_Description::Draw(const float& dt)
+{
+
+	if (spawnedInventoryImage)
+	{
+		if (App->gui->selected_object == iconImageInventory)
+		{
+			HideAllElements(false); 
+		}
+	}
+
+
+}
+
+
 void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 {
 		// common 

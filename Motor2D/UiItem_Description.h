@@ -35,10 +35,11 @@ public:
 	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level,  UiItem*const parent);   // for weapons, right now we will print TWO variables
 	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, UiItem*const parent);   // for weapons, right now we will print TWO variables
 
-//	void Draw(const float& dt);   // do we need this?? I bet we don't 
+    void Draw(const float& dt);   // do we need this?? I bet we don't 
 
 	void HideAllElements(bool hide = true, bool closeInventory = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
+
 
 	// void DeleteEverything(); 
 
