@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Final_Fantasy-Dawn_of_Ivalice</ProjectName>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -111,8 +111,10 @@
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="PlayerEntityManager.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
     <ClCompile Include="Shara.cpp" />
+    <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
@@ -166,8 +168,10 @@
     <ClInclude Include="PlayerEntityManager.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
+    <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
     <ClInclude Include="Shara.h" />
+    <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />

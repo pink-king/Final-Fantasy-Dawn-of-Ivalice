@@ -191,6 +191,8 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
+
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special1)
@@ -311,7 +313,7 @@ bool Marche::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
 	{
-		App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, this, "\0", 10);
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{

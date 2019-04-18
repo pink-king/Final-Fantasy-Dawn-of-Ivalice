@@ -133,7 +133,13 @@
       <Filter>Development======\Modules</Filter>
     </ClCompile>
     <ClCompile Include="EntityArrow.cpp">
-      <Filter>Development======\Modules\Entities</Filter>
+      <Filter>Development======\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="TileQuadtree.cpp">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,7 +296,13 @@
       <Filter>Development======\Modules</Filter>
     </ClInclude>
     <ClInclude Include="EntityArrow.h">
-      <Filter>Development======\Modules\Entities</Filter>
+      <Filter>Development======\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="TileQuadtree.h">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -360,6 +372,12 @@
     </Filter>
     <Filter Include="Development======\Modules\GUI\special items">
       <UniqueIdentifier>{640dc0b7-7864-437e-b10b-8f5eb6c08a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development======\Modules\Entities\Projectiles">
+      <UniqueIdentifier>{7319bcc8-cccb-4fc9-a58f-9e935d4a5a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development======\Modules\Tools\QuadTree">
+      <UniqueIdentifier>{83d96acf-bf67-4b1b-a290-2b4b9a376642}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

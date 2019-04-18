@@ -128,7 +128,7 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 
 	SetPivot(8, 18);
 	size.create(16, 20);
-
+	this->position -= pivot;
 }
 EnemyBomb::~EnemyBomb()
 {

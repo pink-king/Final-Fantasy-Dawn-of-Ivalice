@@ -191,6 +191,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
+		entitiesTimeDamage.remove(defender);
 		defender->to_delete = true;
 	} 
 
@@ -289,6 +290,35 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 			}
 			break;
 
+		case ROL::HEALTH:
+			if (entity->type == ENTITY_TYPE::PLAYER)
+			{
+				if (type == BUFF_TYPE::MULTIPLICATIVE)
+				{
+					App->entityFactory->player->maxLife *= value;
+					App->entityFactory->player->life *= value;
+				}
+				else if (type == BUFF_TYPE::ADDITIVE)
+				{
+					App->entityFactory->player->maxLife += value;
+					App->entityFactory->player->life += value;
+				}
+			}
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			{
+				if (type == BUFF_TYPE::MULTIPLICATIVE)
+				{
+					enemy->maxLife *= value;
+					enemy->life *= value;
+				}
+
+				else if (type == BUFF_TYPE::ADDITIVE)
+				{
+					enemy->maxLife += value;
+					enemy->life += value;
+				}
+			}
+			break;
 		default:
 			break;
 		}
@@ -354,6 +384,35 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
 			{
 				enemy->speed -= buff->GetValue();
+			}
+		}
+
+	case ROL::HEALTH:
+		if (buff->GetCharacter()->type == ENTITY_TYPE::PLAYER)
+		{
+			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+			{
+				App->entityFactory->player->maxLife /= buff->GetValue();
+				App->entityFactory->player->life /= buff->GetValue();
+			}
+			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
+			{
+				App->entityFactory->player->maxLife -= buff->GetValue();
+				App->entityFactory->player->life -= buff->GetValue();
+			}
+		}
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		{
+			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
+			{
+				enemy->maxLife /= buff->GetValue();
+				enemy->life /= buff->GetValue();
+			}
+
+			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
+			{
+				enemy->maxLife -= buff->GetValue();
+				enemy->life -= buff->GetValue();
 			}
 		}
 		break;

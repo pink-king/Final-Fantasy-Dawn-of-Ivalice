@@ -147,6 +147,7 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 
 	SetPivot(8, 26);
 	size.create(18, 29);
+	this->position -= pivot;
 
 	life = 100;
 }

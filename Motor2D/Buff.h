@@ -36,6 +36,7 @@ enum class ROL
 	DEFENCE_ROL,
 	COOLDOWN,
 	VELOCITY,
+	HEALTH,
 	NO_ROL
 };
 class Buff

@@ -326,6 +326,16 @@ iPoint PlayerEntityManager::GetCrossHairSubtile()
 	return ret;
 }
 
+iPoint PlayerEntityManager::GetCrossHairPivotPos()
+{
+	iPoint ret = { 0,0 };
+	if (crossHair != nullptr)
+	{
+		ret = crossHair->GetPivotPos();
+	}
+	return ret;
+}
+
 const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 {
 	return lastCharHeadingAngle;

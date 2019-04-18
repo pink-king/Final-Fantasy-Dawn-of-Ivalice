@@ -5,7 +5,7 @@
 #include <list>
 #include "p2Point.h"
 #include "j1Module.h"
-
+#include "TileQuadtree.h"
 
 #define MARGIN_TILE 1
 #define SUBTILE_RESOLUTION 0.5f
@@ -67,6 +67,7 @@ struct MapLayer
 	int			height;
 	uint*		data;
 	Properties	properties;
+	TileQuadtree* tileQuadTree = nullptr;
 
 	MapLayer() : data(NULL)
 	{}
@@ -161,6 +162,7 @@ public:
 	fPoint TwoDToIso(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 
+	TileSet* GetTilesetFromTileId(int id) const;
 private:
 
 	bool LoadMap();
@@ -172,7 +174,6 @@ private:
 	bool LoadMapAssets(pugi::xml_node& node);
 	bool LoadSpawns(pugi::xml_node& node); 
 
-	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
 	MapData data;
@@ -180,7 +181,6 @@ public:
 	bool				map_loaded;
 	bool				showNavLayer = false;
 	iPoint pixelTileOffset; // mesures the height between the end of y sprite texture to start of the paint(draw) itself (displacement)
-
 private:
 
 	pugi::xml_document	map_file;
