@@ -31,7 +31,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 	// configures the pixel offset (center top up isometric corner to real 0,0 world coord
 	// if not, all the rest are 1 tile displaced
 	// for this, the worldToMap function on x needs to be workarounded by substracting -1
-	pixelTileOffset.create(0,-16);//-64 * 0.5f, -32 * 0.5f);
+	//pixelTileOffset.create(0,-16);//-64 * 0.5f, -32 * 0.5f);
 
 	return ret;
 }
@@ -548,7 +548,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 			}
 
 			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
-			App->entityFactory->spawngroups.push_back(ret);
+			//App->entityFactory->spawngroups.push_back(ret);
 			typesVec.clear();
 		}
 
