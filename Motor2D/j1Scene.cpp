@@ -21,6 +21,7 @@
 #include "j1BuffManager.h"
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -45,6 +46,7 @@ bool j1Scene::Start()
 {
 	debug = true;
 
+	// App->audio->Load("audio/music/menu_1.0.ogg");
 	if (App->map->Load("maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
@@ -68,7 +70,7 @@ bool j1Scene::Start()
 	App->entityFactory->CreatePlayer({ 300,300 });*/
 
 
-
+	
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
@@ -88,6 +90,8 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::STARTMENU)
 	{
+		
+		
 		if (!LoadedUi)
 		{
 			LoadInGameUi(sceneNode);
@@ -109,7 +113,9 @@ bool j1Scene::Start()
 		inventory->enable = false;
 	}
 
-
+	begin = true;
+	
+	open_closeInventory = App->audio->LoadFx("audio/fx/open_close_inventory.wav");
 	return true;
 }
 
@@ -167,6 +173,7 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	int mx, my;
+	
 	App->input->GetMousePosition(mx, my);
 	iPoint mousePos = App->render->ScreenToWorld(mx, my);
 	//LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
@@ -202,17 +209,25 @@ bool j1Scene::Update(float dt)
 	{
 		if (state == SceneState::GAME)
 		{
+
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
 			startMenu->enable = true;
 		}
 		else
+		{
+			
 			state = SceneState::GAME;
+			
+		}
 
 	}
 
+	
 	if (state == SceneState::STARTMENU)
 	{
+		
+
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -224,9 +239,12 @@ bool j1Scene::Update(float dt)
 		uiShara->enable = false;
 		//settingPanel->enable = false;
 	}
-
+	
 	if (state == SceneState::GAME)
 	{
+		//Mix_CloseAudio();
+		//if()
+		
 		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
@@ -259,10 +277,13 @@ bool j1Scene::Update(float dt)
 			App->pause = !App->pause;
 			if (App->pause)
 			{
+				Mix_PauseMusic();
 				pausePanel->enable = true;
+				paused = true;
 			}
-			else
+			else 
 			{
+				Mix_ResumeMusic();
 				pausePanel->enable = false;
 			}
 		}
@@ -270,9 +291,15 @@ bool j1Scene::Update(float dt)
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
 			if (inventory->enable)
+			{
+				App->audio->PlayFx(open_closeInventory, 0);
 				inventory->enable = false;
+			}
 			else
+			{
+				App->audio->PlayFx(open_closeInventory, 0);
 				inventory->enable = true;
+			}
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -336,7 +363,7 @@ bool j1Scene::Update(float dt)
 
 	//App->win->SetTitle(App->title.data());
 
-
+	LoadMusicFromScene();
 	return true;
 }
 
@@ -358,7 +385,9 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	App->tex->UnLoad(debug_tex); 
-
+	
+	
+	
 	LOG("Freeing scene");
 	return true;
 }
@@ -613,4 +642,24 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
 	return true;
+}
+
+void j1Scene::LoadMusicFromScene()
+{
+	if (state == SceneState::GAME && beginGameMus)
+	{
+		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
+		begin = true;
+		beginGameMus = false;
+
+	}
+
+	if (state == SceneState::STARTMENU && begin)
+	{
+
+		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
+		begin = false;
+		beginGameMus = true;
+
+	}
 }

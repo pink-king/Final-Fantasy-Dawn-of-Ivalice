@@ -1,7 +1,6 @@
 #include "EquipableLoot.h"
 #include "j1Entity.h"
-
-
+#include "j1EntityFactory.h"
 
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
@@ -9,7 +8,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	SetEquipable();
 	originPos.x = position.x;
 	start = true;
-	
+	checkgrounded = true;
 }
 
 
@@ -40,7 +39,14 @@ bool Equipable::Update(float dt)
 	}
 	else
 	{
-		bool endreached = true;
+		grounded = true;
+
+	}
+
+	if (checkgrounded && grounded)
+	{
+		checkgrounded = false;
+		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 	}
 	return true;
 }

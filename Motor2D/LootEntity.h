@@ -119,6 +119,8 @@ protected:
 	float initialPosY;
 	fPoint goalPos;
 	bool start;
+	bool grounded;
+	bool checkgrounded;
 protected:
 	iPoint originPos;
 	float timeTest;

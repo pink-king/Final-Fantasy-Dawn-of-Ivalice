@@ -52,6 +52,21 @@ bool j1EntityFactory::Start()
 	//load texture
 	assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 
+	lootGroundSFX = App->audio->LoadFx("audio/fx/Mouth_Special_00.wav");
+	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/footstep-on-stone.wav");
+	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
+	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
+	marcheDamaged = App->audio->LoadFx("audio/fx/Marche_damaged.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/marche_basic.wav");
+	marcheAbility2 = App->audio->LoadFx("audio/fx/marche_tornado.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/marcheUltimate_Scream.wav");
+	RitzDamaged = App->audio->LoadFx("audio/fx/Ritz_damaged.wav");
+	SharaDamaged = App->audio->LoadFx("audio/fx/Shara_damaged.wav");
+	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
+	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
+	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
+	
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
 	return true;
@@ -107,7 +122,7 @@ bool j1EntityFactory::Update(float dt)
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
 				}
 				(*item)->CleanUp();
-				delete(*item);
+				delete(*item); 
 				(*item) = nullptr;
 				item = entities.erase(item);
 			}

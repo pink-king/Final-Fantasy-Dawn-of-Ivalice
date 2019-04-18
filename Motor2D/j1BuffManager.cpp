@@ -126,7 +126,26 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 //	}
 		
 	
-	
+		if (defender->type == ENTITY_TYPE::PLAYER)
+		{
+			if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+			{
+				App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
+			}
+
+			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
+			{
+				App->audio->PlayFx(App->entityFactory->RitzDamaged, 0);
+			}
+
+			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
+			{
+				App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
+			}
+		}
+
+		if (defender->type == ENTITY_TYPE::ENEMY_TEST)
+			App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 																													  
 	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
 	{
@@ -147,6 +166,8 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
+
+		
 		defender->to_delete = true;
 	} 
 
@@ -380,7 +401,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					--(*item)->totalTime;
 					// remove previous hitpoint link
 					
-					
+					if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+						App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 					//TODO: call create hitpoint label
 				}
 			}
