@@ -31,7 +31,7 @@ public:
 	bool LoadElements();
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
-
+	void DoLogicHovered();
 
 	bool drawTest = false; 
 

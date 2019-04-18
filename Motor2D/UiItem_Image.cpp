@@ -56,6 +56,7 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 	if (this->parent != App->scene->inGamePanel)
 	{
 		this->myDescr = myDescr; 
+		this->tabbable = true;
 	}
 
 }

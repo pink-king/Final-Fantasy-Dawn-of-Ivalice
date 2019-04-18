@@ -273,6 +273,7 @@ bool j1Scene::Update(float dt)
 			if (App->pause)
 			{
 				inventory->enable = true;
+				App->gui->resetHoverSwapping = false;
 				inventoryItem->LoadElements();
 			}
 			else

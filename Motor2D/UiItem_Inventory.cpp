@@ -1,13 +1,17 @@
 #include "UiItem_Inventory.h"
 #include "j1Gui.h"
+#include "UiItem.h"
 #include "PlayerEntityManager.h"
 #include "j1EntityFactory.h"
+#include "j1Fonts.h"
 #include "j1Render.h"
+
 
 
 UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
 {
 	this->parent = parent; 
+	this->guiType = GUI_TYPES::INVENTORY;
 }
 
 
@@ -106,6 +110,11 @@ void UiItem_Inventory::Draw(const float & dt)
 
 	//App->gui->ApplyTabBetweenSimilar(true); 
 
+}
+
+void UiItem_Inventory::DoLogicHovered()
+{
+	App->gui->AddLabel("hdjfsdbfsjdjfg", { 255,255,255,255 }, App->font->openSansBold36, { 300,300 }, this);
 }
 
 
