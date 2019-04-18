@@ -805,7 +805,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 
 
-	switch (lootItem->GetObjectType())
+	switch (lootItem->GetObjectType())  // convert to if so that there can be local variables 
 	{
 
 
@@ -848,9 +848,9 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 	
 		break;
 
-	case OBJECT_TYPE::POTIONS:
+/*	case OBJECT_TYPE::POTIONS:
 
-		break; 
+		break; */
 	}
 
 }

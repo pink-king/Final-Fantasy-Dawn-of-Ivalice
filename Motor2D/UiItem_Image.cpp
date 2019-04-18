@@ -53,10 +53,13 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 	// new texture for loot image
 	this->newTex = newTex; 
 
-	if (this->parent != App->scene->inGamePanel)
+
+	
+
+	if (this->parent->guiType == GUI_TYPES::INVENTORY)   // image in inventory
 	{
-		this->myDescr = myDescr; 
-		this->tabbable = true;
+    	this->myDescr = myDescr;
+		this->tabbable = true; 
 	}
 
 }
@@ -84,11 +87,11 @@ void UiItem_Image::Draw(const float& dt)
 			// TODO: why don't I use the BlitGui here?? The placing is wrong 
 			//App->render->Blit(newTex, hitBox.x, hitBox.y, &this->section, 1.0F, SDL_FLIP_NONE, 3.0F, INT_MAX, INT_MAX, false);
 
-			if (this->parent == App->scene->inGamePanel)  // ingamepanel
+			if (this->parent->guiType == GUI_TYPES::DESCRIPTION)  // DESCRIPTION image
 			{
 				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 1.0f, 4.0f);
 			}
-			else
+			else if(this->parent->guiType == GUI_TYPES::INVENTORY)  // INVENTORY image
 			{
 				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0f, 2.5f);
 			}

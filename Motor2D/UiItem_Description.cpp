@@ -7,7 +7,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 {
 	this->descrType = descriptionType::EQUIPMENT; 
 	this->parent = parent; 
-
+	this->guiType = GUI_TYPES::DESCRIPTION; 
 	// TODO
 
 
@@ -20,6 +20,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
+	this->guiType = GUI_TYPES::DESCRIPTION;
 
 	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
@@ -70,6 +71,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	this->descrType = descriptionType::POTION;
 	this->parent = parent;
+	this->guiType = GUI_TYPES::DESCRIPTION;
 
 	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
