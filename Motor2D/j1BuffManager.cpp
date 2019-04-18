@@ -191,6 +191,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
+		entitiesTimeDamage.remove(defender);
 		defender->to_delete = true;
 	} 
 

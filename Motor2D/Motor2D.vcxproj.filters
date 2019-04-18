@@ -135,6 +135,12 @@
     <ClCompile Include="EntityArrow.cpp">
       <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="TileQuadtree.cpp">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -292,6 +298,12 @@
     <ClInclude Include="EntityArrow.h">
       <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="TileQuadtree.h">
+      <Filter>Development======\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
@@ -363,6 +375,9 @@
     </Filter>
     <Filter Include="Development======\Modules\Entities\Projectiles">
       <UniqueIdentifier>{7319bcc8-cccb-4fc9-a58f-9e935d4a5a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development======\Modules\Tools\QuadTree">
+      <UniqueIdentifier>{83d96acf-bf67-4b1b-a290-2b4b9a376642}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
