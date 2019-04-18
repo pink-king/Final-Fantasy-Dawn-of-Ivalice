@@ -2,6 +2,7 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "j1Window.h"
+#include "UiItem_Inventory.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent) : UiItem(position, parent)
 {
@@ -102,6 +103,11 @@ void UiItem_Description::Draw(const float& dt)
 		if (App->gui->selected_object == iconImageInventory)
 		{
 			HideAllElements(false); 
+			RepositionAllElements(iPoint(staringPosition.x + 264, staringPosition.y + 62));
+		}
+		else
+		{
+			HideAllElements(true);
 		}
 	}
 

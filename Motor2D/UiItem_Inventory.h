@@ -13,6 +13,8 @@
 #define boxSize 48                   
 #define boxSeparation iPoint(30,70)
 
+#define staringPosition iPoint(274, 101)
+
 struct elementsStartingPositions
 {
 	iPoint weaponsAndEquipment = iPoint(100, 100); 
