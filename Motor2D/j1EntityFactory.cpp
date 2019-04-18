@@ -504,6 +504,10 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 	case OBJECT_TYPE::POTIONS:
 		for (auto node : config.child("loot").child("potions").children("health_potion"))
 		{
+			// the fucking name
+
+			lootEntity->lootname = node.attribute("name").as_string();
+
 			lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, App->entityFactory->player, "\0", ELEMENTAL_TYPE::NORMAL_ELEMENT, ROL::DEFENCE_ROL, node.attribute("value").as_int(), lootEntity);
 			LOG("looking for potions");
 		}
@@ -844,6 +848,9 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 	
 		break;
 
+	case OBJECT_TYPE::POTIONS:
+
+		break; 
 	}
 
 }

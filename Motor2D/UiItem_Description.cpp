@@ -10,6 +10,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	// TODO
 
+
+	// the icon image is created after creating description in loot spawning
 }
 
 
@@ -63,6 +65,33 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, UiItem*const parent) : UiItem(position, parent)
+{
+
+	this->descrType = descriptionType::POTION;
+	this->parent = parent;
+
+	// common 
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton->useCamera = false;
+
+	if (itemName.empty())
+	{
+		itemName = "Item has no name";
+	}
+
+	name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name->useCamera = false;
+
+	// TODO: effect: 
+
+
+	// the icon image is created after creating description in loot spawning
+
+
+}
+
+
 void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 {
 		// common 
@@ -88,7 +117,11 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 		}
 		else if(this->descrType == descriptionType::EQUIPMENT)
 		{
-
+			
+		}
+		else if (this->descrType == descriptionType::POTION)
+		{
+			this->effectLabel->hide = hide;
 		}
 
 
@@ -123,6 +156,11 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	{
 
 	}
+	else if (this->descrType == descriptionType::POTION)
+	{
+		// TODO
+	//	this->effectLabel->
+	}
 
 
 
@@ -155,6 +193,10 @@ void UiItem_Description::DeleteEverything()
 	{
 
 	}
+	else if (this->descrType == descriptionType::POTION)
+		{
+			this->effectLabel->to_delete = true;
+		}
 
 	this->to_delete = true;
 

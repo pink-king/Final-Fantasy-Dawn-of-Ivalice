@@ -652,6 +652,18 @@ UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string i
 
 }
 
+UiItem_Description * j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
+}
+
 
 
 

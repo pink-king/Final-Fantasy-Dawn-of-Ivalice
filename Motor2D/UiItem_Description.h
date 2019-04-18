@@ -22,7 +22,8 @@ enum EquipmentStatType
 enum descriptionType
 {
 	WEAPON,
-	EQUIPMENT
+	EQUIPMENT,
+	POTION
 };
 
 
@@ -32,6 +33,7 @@ class UiItem_Description: public UiItem
 public:
 	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent);   // for equipment
 	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level,  UiItem*const parent);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, UiItem*const parent);   // for weapons, right now we will print TWO variables
 
 //	void Draw(const float& dt);   // do we need this?? I bet we don't 
 
@@ -52,6 +54,9 @@ public:
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 
 	UiItem_Label* resistanceLabel = nullptr;
+
+	// for potions 
+	UiItem_Label* effectLabel = nullptr; 
 
 	bool hide = false; 
 	bool spawnedInventoryImage = false; 

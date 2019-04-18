@@ -400,7 +400,7 @@
    
     
     <potions>
-      <health_potion id="1" value ="2"/>  
+      <health_potion id="1" value ="2" name="potion_1"/>  
     </potions>
 
     <equipable>
