@@ -111,6 +111,7 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="PlayerEntityManager.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="p2SString.h" />
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="PlayerEntityManager.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="Quadtree.h" />

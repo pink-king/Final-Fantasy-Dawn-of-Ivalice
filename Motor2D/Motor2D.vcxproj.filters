@@ -144,6 +144,9 @@
     <ClCompile Include="j1ParticlesClassic.cpp">
       <Filter>Development======\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Development======\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -309,6 +312,9 @@
     </ClInclude>
     <ClInclude Include="j1ParticlesClassic.h">
       <Filter>Development======\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

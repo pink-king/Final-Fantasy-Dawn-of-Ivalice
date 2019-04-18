@@ -8,7 +8,7 @@
 #include <random>
 
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
- 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, "ENEMY_TEST")
+ 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, name)
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
 

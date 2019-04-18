@@ -8,36 +8,30 @@
 #include "p2Defs.h"
 #include "j1ParticlesClassic.h"
 
-EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, "Arrow")
+EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) 
+	: Projectile(pos, destination, speed, owner, "Arrow")
 {
 	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
-	debugSubtile = App->entityFactory->debugsubtileTex;
 
 	SetPivot(14, 4);
 	size.create(45, 8);
 
-	direction = destination - GetPivotPos();
-	direction.Normalize();
-	angle = SetMyAngleRotation(direction);
-
 	SetPivot(22, 4);
 	size.create(45, 8);
 
-	flying.PushBack({ 0, 28, 45, 8 });
-	flying.PushBack({ 45, 28, 45,8 });
-	flying.PushBack({ 90, 28, 45,8 });
-	flying.PushBack({ 135, 28, 45, 8 });
-	flying.PushBack({ 180, 28, 45, 8 });
-	flying.PushBack({ 225, 28, 45, 8 });
-	flying.PushBack({ 270, 28, 45, 8 });
-	flying.PushBack({ 315, 28, 45, 8 });
-	flying.PushBack({ 360, 28, 45, 8 });
-	flying.PushBack({ 405, 28, 45, 8 });
-	flying.speed = (float)speed;
+	anim.PushBack({ 0, 28, 45, 8 });
+	anim.PushBack({ 45, 28, 45,8 });
+	anim.PushBack({ 90, 28, 45,8 });
+	anim.PushBack({ 135, 28, 45, 8 });
+	anim.PushBack({ 180, 28, 45, 8 });
+	anim.PushBack({ 225, 28, 45, 8 });
+	anim.PushBack({ 270, 28, 45, 8 });
+	anim.PushBack({ 315, 28, 45, 8 });
+	anim.PushBack({ 360, 28, 45, 8 });
+	anim.PushBack({ 405, 28, 45, 8 });
+	anim.speed = (float)speed;
 
-	currentAnimation = &flying;
-
-	drawAtlasRect = { 9, 28, 26,8 };
+	currentAnimation = &anim;
 }
 
 EntityArrow::~EntityArrow()
@@ -47,14 +41,8 @@ EntityArrow::~EntityArrow()
 
 bool EntityArrow::PreUpdate()
 {
-	CheckMyPos(); 
-	if (CollisionWithWall()) {
-		App->camera2D->AddTrauma(35.f / 100.f);
-		App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20, { 0,0 }, 0u);
-		// Just to show off
-		App->particles->AddParticle(App->particles->explosion01, position.x + 10, position.y - 10, { 0,0 }, 100u);
-		App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 30, { 0,0 }, 50u);
-		to_delete = true; 
+	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
+		to_explode = true;
 	}
 	
 	return true;
@@ -65,7 +53,7 @@ bool EntityArrow::Update(float dt)
 	if (!to_explode) {
 		Move(dt);
 	}
-	else Contact(); 
+	else Explode(); 
 
 	return true;
 }
@@ -76,23 +64,13 @@ bool EntityArrow::Move(float dt)
 	return true;
 }
 
-bool EntityArrow::CheckMyPos()
-{
-	if (!App->entityFactory->isThisSubtileEnemyFree(GetSubtilePos())){
-		to_explode = true; 
-	}
 
-	if (TooFarAway())	{
-		to_delete = true; 
-	}
-
-	return true;
-}
-
-bool EntityArrow::Contact()
+bool EntityArrow::Explode()
 {
 	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 5, 7, 50);
+
 	App->camera2D->AddTrauma(35.f / 100.f);
+	App->input->DoGamePadRumble(0.35f, 100);
 	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20, { 0,0 }, 0u);
 	// Just to show off
 	App->particles->AddParticle(App->particles->explosion01, position.x + 10, position.y - 10, { 0,0 }, 100u);
@@ -101,22 +79,6 @@ bool EntityArrow::Contact()
 	to_delete = true; 
 
 	return true;
-}
-
-float EntityArrow::SetMyAngleRotation(const fPoint & direction)
-{
-	return RADTODEG * atan2f(direction.y, direction.x); 
-}
-
-bool EntityArrow::TooFarAway() const
-{
-	// It checks its distance with the player, so if he moves towards it, the projectile won't delete
-	return (App->entityFactory->player->GetPivotPos().DistanceManhattan(GetPivotPos()) > DESTRUCTIONRANGE);
-}
-
-bool EntityArrow::CollisionWithWall() const
-{
-	return (!App->pathfinding->IsWalkable(GetTilePos()));
 }
 
 bool EntityArrow::CleanUp()
