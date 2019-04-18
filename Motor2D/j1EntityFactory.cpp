@@ -359,10 +359,10 @@ void j1EntityFactory::LoadSpawnGroups()
 	spawngroups.clear();
 }
 
-j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed)
+j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner)
 {
 	j1Entity* ret = nullptr;
-	ret = new EntityArrow(pos, destination, speed);
+	ret = new EntityArrow(pos, destination, speed, owner);
 	entities.push_back(ret);
 
 	return ret;

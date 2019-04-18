@@ -28,10 +28,10 @@ public:
 
 public:
 	iPoint GetSubtilePoint();
+	iPoint GetPivotPos();
 
 private:
 	bool ManageInput(float dt);
-	iPoint GetPivotPos();
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
 	fPoint GetHeadingVector(float angle);
 	/*float Clamp(float value, float min, float max);*/
@@ -77,6 +77,7 @@ public:
 	void SetNextCharacter();
 	void SetCurrentAnimation();
 	iPoint GetCrossHairSubtile();
+	iPoint GetCrossHairPivotPos(); 
 	void Draw();
 
 public:

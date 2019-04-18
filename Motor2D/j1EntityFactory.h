@@ -58,7 +58,7 @@ public:
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
 	void LoadSpawnGroups();
-	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed);
+	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner);
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 	uint CreateRandomBetween(uint min, uint max); 
