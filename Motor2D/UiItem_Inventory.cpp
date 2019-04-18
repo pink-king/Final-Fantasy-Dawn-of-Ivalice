@@ -18,8 +18,10 @@ bool UiItem_Inventory::LoadElements()
 	{
 		int i = 0;
 		int j = 0;
-		
+	//	int k = 0;  // just for the first time; 
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+
+
 		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 		{
 			if (!(*iter)->MyDescription->spawnedInventoryImage)
@@ -47,10 +49,15 @@ bool UiItem_Inventory::LoadElements()
 
 
 
-				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex);
+				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 				(*iter)->MyDescription->spawnedInventoryImage = true;
 
+			/*	if (k == 0)
+				{
+					DoLogicSelected((*iter), true);
+				}
+				k++; */
 
 				i++;
 			}
@@ -66,6 +73,21 @@ bool UiItem_Inventory::LoadElements()
 	return true;
 }
 
+/*
+void UiItem_Inventory::DoLogicSelected(LootEntity * ent, bool doIt)
+{
+
+	App->gui->selected_object = ent->MyDescription->iconImageInventory;
+	ent->MyDescription->iconImageInventory->tabbed = true; 
+	ent->MyDescription->iconImageInventory->state = HOVER; 
+
+	if(doIt)
+	ent->MyDescription->HideAllElements(false); 
+	else
+		ent->MyDescription->HideAllElements(true);
+
+}*/
+
 void UiItem_Inventory::Draw(const float & dt)
 {
 	/*SDL_Rect draw = { 0 }; 
@@ -80,6 +102,9 @@ void UiItem_Inventory::Draw(const float & dt)
 			App->render->DrawQuad(); 
 		}
 	}*/
+
+
+	//App->gui->ApplyTabBetweenSimilar(true); 
 
 }
 

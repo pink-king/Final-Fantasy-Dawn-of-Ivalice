@@ -32,7 +32,7 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, SDL_Texture* newTex) : UiItem(position, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, SDL_Texture* newTex, UiItem_Description* myDescr) : UiItem(position, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
@@ -52,6 +52,11 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 	// new texture for loot image
 	this->newTex = newTex; 
+
+	if (this->parent != App->scene->inGamePanel)
+	{
+		this->myDescr = myDescr; 
+	}
 
 }
 

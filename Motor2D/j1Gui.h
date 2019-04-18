@@ -113,7 +113,7 @@ public:
 	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent = nullptr);
 	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, UiItem*const parent = nullptr);
 	
-	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex = nullptr);
+	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	UiItem_Inventory* AddInventory(UiItem* const parent);
 
 	SDL_Texture* GetAtlas();
@@ -132,6 +132,7 @@ private:
 
 	std::string atlas_file_name;
 	bool debug_ = false;
+public: 
 	UiItem* selected_object = nullptr;
 
 public:

@@ -471,12 +471,12 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 
 
 
-UiItem_Image * j1Gui::AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex)
+UiItem_Image * j1Gui::AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex, UiItem_Description* myDescr)
 {
 	UiItem* newUIItem = nullptr;
 
 	
-    newUIItem = new UiItem_Image(position, section, parent, newTex);
+    newUIItem = new UiItem_Image(position, section, parent, newTex, myDescr);
 
 	ListItemUI.push_back(newUIItem);
 
