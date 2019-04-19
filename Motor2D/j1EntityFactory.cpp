@@ -655,8 +655,10 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 			}
 			break;
 
-			/*	 case EQUIPABLE_TYPE::BOW:
-
+				 case EQUIPABLE_TYPE::BOW:
+					 lootEntity->character = App->entityFactory->player->GetShara();
+					 break; 
+					 /*
 			for (auto node : config.child("loot").child("equipable").child("bow").children("equipment"))
 			{
 			id = node.attribute("id").as_int();
@@ -679,11 +681,13 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 			break;
 			}
 			}
-			break;
+			break;*/
 
 			case EQUIPABLE_TYPE::ROD:
+				App->entityFactory->player->GetRitz();
+				break; 
 
-			for (auto node : config.child("loot").child("equipable").child("rod").children("equipment"))
+			/*for (auto node : config.child("loot").child("equipable").child("rod").children("equipment"))
 			{
 			id = node.attribute("id").as_int();
 			if (id == randID) {

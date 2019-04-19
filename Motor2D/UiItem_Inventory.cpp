@@ -41,14 +41,20 @@ if (!App->entityFactory->player->equipedObjects.empty())
 					case OBJECT_TYPE::WEAPON_OBJECT:
 						destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
 						destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+
+						(*iter)->MyDescription->myLootItemIsEquipped.weapon = true; 
 						break;
 					case OBJECT_TYPE::ARMOR_OBJECT:
 						destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
 						destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+
+						(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
 						break;
 					case OBJECT_TYPE::HEAD_OBJECT:
 						destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
 						destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+
+						(*iter)->MyDescription->myLootItemIsEquipped.head = true;
 						break;
 
 
@@ -122,7 +128,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 	}
 
 
-	// TODO: Consumables: careful --> can be tabbed, and description can appear, BUT cannot be re-positioned in the current item slots
+	// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
 
 
 	return true;
@@ -171,81 +177,92 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 	iPoint destPos = {}; 
 
 
-	// 1) First de-equip if there is a current equipped item of the same type 
+	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
 
-	std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
-
-	for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
 	{
-		/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-		{*/
-			if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
+
+		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+		{
+			if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 			{
-				if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+				if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
 				{
-					//App->entityFactory->player->DesequipItem((*iter));
-					(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
-					(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+					if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+					{
+						//App->entityFactory->player->DesequipItem((*iter));
+						(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
+						(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-					// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-					(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-					(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-				}
-				else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
-				{
-					//App->entityFactory->player->DesequipItem((*iter));
-					(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
-					(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+						// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+						(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+						(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+					}
+					else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
+					{
+						//App->entityFactory->player->DesequipItem((*iter));
+						(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
+						(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-					// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-					(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-					(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-				}
-				else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
-				{
-					//App->entityFactory->player->DesequipItem((*iter));
-					(*iter)->MyDescription->myLootItemIsEquipped.head = false;
-					(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+						// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+						(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+						(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+					}
+					else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
+					{
+						//App->entityFactory->player->DesequipItem((*iter));
+						(*iter)->MyDescription->myLootItemIsEquipped.head = false;
+						(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-					// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-					(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-					(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+						// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+						(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+						(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+					}
 				}
+
 			}
-		
-		//}
+		}
+
 	}
+	
 
 
-	// 3) then equip them and 4) put them in the current item slots according to the type
+	// 3) check that the new item belongs to the player, if so, equip it: 
 
-	App->entityFactory->player->EquipItem(callback);
-
-	switch (callback->GetObjectType())
+	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
 	{
-	case OBJECT_TYPE::WEAPON_OBJECT:
-		callback->MyDescription->myLootItemIsEquipped.weapon = true;                               
-		callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x; 
-		callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+		App->entityFactory->player->EquipItem(callback);
 
-		break; 
-	case OBJECT_TYPE::ARMOR_OBJECT:
-		callback->MyDescription->myLootItemIsEquipped.armor = true;
-		callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
-		callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+		switch (callback->GetObjectType())
+		{
+		case OBJECT_TYPE::WEAPON_OBJECT:
+			callback->MyDescription->myLootItemIsEquipped.weapon = true;
+			callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+			callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 
-		break;
+			break;
+		case OBJECT_TYPE::ARMOR_OBJECT:
+			callback->MyDescription->myLootItemIsEquipped.armor = true;
+			callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+			callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
 
-	case OBJECT_TYPE::HEAD_OBJECT:
-		callback->MyDescription->myLootItemIsEquipped.head = true;
-		callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
-		callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+			break;
 
-		break;
+		case OBJECT_TYPE::HEAD_OBJECT:
+			callback->MyDescription->myLootItemIsEquipped.head = true;
+			callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+			callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+
+			break;
+
+		}
+
+		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
 	}
 
-	callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
+
 
 
 }
