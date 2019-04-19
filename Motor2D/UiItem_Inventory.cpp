@@ -19,6 +19,57 @@ UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
 
 bool UiItem_Inventory::LoadElements()
 {
+	
+	// equipped objects 
+	
+	
+	/*if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
+
+		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+		{
+			if (!(*iter)->MyDescription->spawnedInventoryImage)
+			{
+				iPoint destPos = {};
+
+				/*if ((*iter)->player == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+				{	
+					// current weapon, armor and head have a target position each
+					switch ((*iter)->GetObjectType())
+					{
+					case OBJECT_TYPE::WEAPON_OBJECT:
+						destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+						destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+						break;
+					case OBJECT_TYPE::ARMOR_OBJECT:
+						destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+						destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+						break;
+					case OBJECT_TYPE::HEAD_OBJECT:
+						destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+						destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+						break;
+
+
+				    }
+
+					// create the icon image directly in that desired slot (aka position) 
+
+					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+					(*iter)->MyDescription->spawnedInventoryImage = true;
+
+			 //  }
+
+				
+			}
+		}
+	}
+	*/
+	
+	// bag objects
 	if (!App->entityFactory->player->bagObjects.empty())
 	{
 		int i = 0;
@@ -52,8 +103,7 @@ bool UiItem_Inventory::LoadElements()
 				}
 
 
-				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;   // change to panel with no button 
-
+				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;   
 				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 				(*iter)->MyDescription->spawnedInventoryImage = true;
@@ -127,37 +177,39 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 	for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 	{
-		if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT &&  (*iter)->MyDescription->myLootItemIsEquipped.weapon)
-		{
-			//App->entityFactory->player->DesequipItem((*iter));
-			(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
-			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE; 
+	/*	if ((*iter)->player == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+		{*/
+			if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+			{
+				//App->entityFactory->player->DesequipItem((*iter));
+				(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
+				(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-			// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-			(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-		}
-		else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
-		{
-			//App->entityFactory->player->DesequipItem((*iter));
-			(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
-			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+				// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+				(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+				(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+			}
+			else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
+			{
+				//App->entityFactory->player->DesequipItem((*iter));
+				(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
+				(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-			// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-			(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-		}
-		else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
-		{
-			//App->entityFactory->player->DesequipItem((*iter));
-			(*iter)->MyDescription->myLootItemIsEquipped.head = false;
-			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+				// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+				(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+				(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+			}
+			else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
+			{
+				//App->entityFactory->player->DesequipItem((*iter));
+				(*iter)->MyDescription->myLootItemIsEquipped.head = false;
+				(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-			// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-			(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-		}
-
+				// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+				(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+				(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+			}
+		//}
 	}
 
 
