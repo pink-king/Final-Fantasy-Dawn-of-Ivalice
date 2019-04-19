@@ -147,6 +147,9 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="ContagiousFireArrow.cpp">
+      <Filter>Development======\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -314,6 +317,9 @@
       <Filter>Development======\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
+      <Filter>Development======\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ContagiousFireArrow.h">
       <Filter>Development======\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
