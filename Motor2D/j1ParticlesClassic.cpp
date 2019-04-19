@@ -51,7 +51,7 @@ bool j1ParticlesClassic::Start()
 	// TODO: LOAD FROM XML ----------------------
 
 	particleAtlas = App->tex->Load("textures/particles/particle_spritesheet.png");
-
+	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
 	explosion01.anim.PushBack({0,0,32,32});
 	explosion01.anim.PushBack({ 0,32,32,32 });
 	explosion01.anim.PushBack({ 0,64,32,32 });
@@ -65,6 +65,65 @@ bool j1ParticlesClassic::Start()
 	//explosion01.life = 2000; // if we want a particle that loops, must be specified a life for destroy it
 
 
+	fire01.anim.PushBack({ 0, 192, 16, 48});
+	fire01.anim.PushBack({ 16, 192, 16, 48 });
+	fire01.anim.PushBack({ 32, 192, 16, 48 });
+	fire01.anim.PushBack({ 48, 192, 16, 48 });
+	fire01.anim.PushBack({ 64, 192, 16, 48 });
+	fire01.anim.PushBack({ 80, 192, 16, 48 });
+	fire01.anim.PushBack({ 96, 192, 16, 48 });
+	fire01.anim.PushBack({ 112, 192, 16, 48 });
+	fire01.anim.loop = false;
+	fire01.anim.speed = 15.f;
+	fire01.texture = particleAtlas2; 
+
+	healing.anim.PushBack({ 0, 0, 16, 48 });
+	healing.anim.PushBack({ 16, 0, 16, 48 });
+	healing.anim.PushBack({ 32, 0, 16, 48 });
+	healing.anim.PushBack({ 48, 0, 16, 48 });
+	healing.anim.PushBack({ 64, 0, 16, 48 });
+	healing.anim.PushBack({ 80, 0, 16, 48 });
+	healing.anim.PushBack({ 96, 0, 16, 48 });
+	healing.anim.PushBack({ 112, 0, 16, 48 });
+	healing.anim.loop = true;
+	healing.anim.speed = 10.F; 
+	healing.texture = particleAtlas2; 
+
+	ice01.anim.PushBack({ 0, 48, 16, 48 });
+	ice01.anim.PushBack({ 16, 48, 16, 48 });
+	ice01.anim.PushBack({ 32, 48, 16, 48 });
+	ice01.anim.PushBack({ 48, 48, 16, 48 });
+	ice01.anim.PushBack({ 64, 48, 16, 48 });
+	ice01.anim.PushBack({ 80, 48, 16, 48 });
+	ice01.anim.PushBack({ 96, 48, 16, 48 });
+	ice01.anim.PushBack({ 112, 48, 16, 48 });
+	ice01.anim.loop = false;
+	ice01.anim.speed = 10.F;
+	ice01.texture = particleAtlas2;
+
+	ice02.anim.PushBack({ 0, 96, 16, 48 });
+	ice02.anim.PushBack({ 16, 96, 16, 48 });
+	ice02.anim.PushBack({ 32, 96, 16, 48 });
+	ice02.anim.PushBack({ 48, 96, 16, 48 });
+	ice02.anim.PushBack({ 64, 96, 16, 48 });
+	ice02.anim.PushBack({ 80, 96, 16, 48 });
+	ice02.anim.PushBack({ 96, 96, 16, 48 });
+	ice02.anim.PushBack({ 112, 96, 16, 48 });
+	ice02.anim.loop = false;
+	ice02.anim.speed = 10.F;
+	ice02.texture = particleAtlas2;
+
+	ice03.anim.PushBack({ 0, 144, 16, 48 });
+	ice03.anim.PushBack({ 16, 144, 16, 48 });
+	ice03.anim.PushBack({ 32, 144, 16, 48 });
+	ice03.anim.PushBack({ 48, 144, 16, 48 });
+	ice03.anim.PushBack({ 64, 144, 16, 48 });
+	ice03.anim.PushBack({ 80, 144, 16, 48 });
+	ice03.anim.PushBack({ 96, 144, 16, 48 });
+	ice03.anim.PushBack({ 112, 144, 16, 48 });
+	ice03.anim.loop = false;
+	ice03.anim.speed = 10.F;
+	ice03.texture = particleAtlas2;
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
@@ -111,7 +170,12 @@ bool j1ParticlesClassic::Update(float dt)
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
 
-		AddParticle(explosion01, p.x, p.y, { 0,0 },0u);
+		AddParticle(fire01, p.x, p.y, { 0,0 },0u);
+		AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
+		AddParticle(ice01, p.x, p.y, { 0,0 }, 2000u);
+		AddParticle(ice02, p.x, p.y, { 0,0 }, 4000u);
+		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);
+
 	}
 
 	return ret;

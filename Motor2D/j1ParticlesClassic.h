@@ -61,12 +61,19 @@ public:
 
 private:
 
+	SDL_Texture* particleAtlas2 = nullptr; 
 	SDL_Texture* particleAtlas = nullptr;
 	std::list<Particle*> active;
 	pugi::xml_node particleNode;
 
 public:
+	
+	Particle healing;
 	Particle explosion01;
+	Particle fire01;
+	Particle ice01;
+	Particle ice02;
+	Particle ice03; 
 
 
 };
