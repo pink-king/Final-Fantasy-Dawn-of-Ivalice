@@ -40,7 +40,11 @@ enum class STAT_TYPE
 	NORMAL,
 	BURNED_STAT,
 	PARALIZE_STAT,
+	POISON_STAT,
+	ICE_STAT,
+
 	POTION_STAT,
+
 	ATTACK_BUFF,
 	DEFENCE_BUFF,
 	SPEED_BUFF,
@@ -125,6 +129,7 @@ public:
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
+	bool					isPosioned = false;
 	bool					isPotionActive = false;
 	
 	bool					changedTile = false; 

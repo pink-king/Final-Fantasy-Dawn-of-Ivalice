@@ -52,31 +52,33 @@ bool EnemyTest::Update(float dt)
 	{
 		LOG("");
 	}*/
-
-	SetState(dt);
-
-	if (GetRandomValue(1, 10000) == 900)
-		App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);
-	// --------------------------------------------------------------------------- This is faked: recieve attack from player
-
-	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	if (!isParalize)
 	{
-		life -= 20; 
-		App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
-		
-	}*/
+		SetState(dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-	{
-		life -= 20;
-		//App->HPManager->callHPLabelSpawn(iPoint(this->position.x, this->position.y), 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
+		if (GetRandomValue(1, 10000) == 900)
+			App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);
+		// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
-	}
+		/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+		{
+			life -= 20;
+			App->HPManager->callHPLabelSpawn(this, 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
-	{
-		App->buff->DirectAttack(App->entityFactory->player->selectedCharacterEntity, this, 30, ELEMENTAL_TYPE::ICE_ELEMENT, "meh");
-		App->HPManager->callHPLabelSpawn(iPoint(this->position.x, this->position.y), 30, ELEMENTAL_TYPE::POISON_ELEMENT);
+		}*/
+
+		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+		{
+			life -= 20;
+			//App->HPManager->callHPLabelSpawn(iPoint(this->position.x, this->position.y), 20, ELEMENTAL_TYPE::FIRE_ELEMENT);
+
+		}
+
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+		{
+			App->buff->DirectAttack(App->entityFactory->player->selectedCharacterEntity, this, 30, ELEMENTAL_TYPE::ICE_ELEMENT, "meh");
+			App->HPManager->callHPLabelSpawn(iPoint(this->position.x, this->position.y), 30, ELEMENTAL_TYPE::POISON_ELEMENT);
+		}
 	}
 
 	/*if (life <= 0)
