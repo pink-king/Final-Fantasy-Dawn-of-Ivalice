@@ -263,18 +263,18 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 	return ret;
 }
 
-Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed)
+Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 {
 	Enemy* ret = nullptr; 
 
 	switch (etype)
 	{
 	case EnemyType::BOMB:
-		ret = new EnemyBomb(pos, speed, tilesDetectionRange, attackRange, baseDamage);
+		ret = new EnemyBomb(pos, dummy);
 		entities.push_back(ret);
 		break;
 	case EnemyType::TEST:
-		ret = new EnemyTest(pos, speed, tilesDetectionRange, attackRange, baseDamage, attackSpeed); 
+		ret = new EnemyTest(pos, dummy); 
 		entities.push_back(ret);
 		break; 
 
@@ -320,8 +320,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			case EnemyType::BOMB:
 				if (CreateRandomBetween(1, 10) <= bombProbs)
 				{
-					
-					ret = CreateEnemy(EnemyType::BOMB, spawnPos, 0, 5, 1, 10, 1.5F);
+					// Last paramater is dummy
+					ret = CreateEnemy(EnemyType::BOMB, spawnPos, true);
 					if (ret != nullptr)
 					{
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 30));
@@ -336,7 +336,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			case EnemyType::TEST:
 				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
 				{
-					ret = CreateEnemy(EnemyType::TEST, spawnPos, 0, 5, 1, 10, 1.5F);
+					// Last paramater is dummy
+					ret = CreateEnemy(EnemyType::TEST, spawnPos, true);
 					if (ret != nullptr)
 					{
 					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 20));
