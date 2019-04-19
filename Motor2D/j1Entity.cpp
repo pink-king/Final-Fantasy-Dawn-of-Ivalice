@@ -96,7 +96,7 @@ fPoint j1Entity::GetThrowingPos() const
 {
 	// Still open to adjustments
 	fPoint center(0, 0);
-	center.x = position.x; 
+	center.x = position.x + size.x * 0.5F; 
 	center.y = position.y + size.y * 0.5F;
 	return center;
 }

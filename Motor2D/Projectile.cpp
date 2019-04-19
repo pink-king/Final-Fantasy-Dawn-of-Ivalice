@@ -8,15 +8,19 @@ Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entit
 	: destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, name) 
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
-
-	direction = destination - GetPivotPos();
-	direction.Normalize();
-	angle = SetMyAngleRotation(direction);
-
 }
 
 Projectile::~Projectile()
 {
+}
+
+
+void Projectile::SetInitially()
+{
+	// Need to reposition it once we know the pivot so it takes direction properly
+	position -= pivot;
+	SetNewDirection(destination);
+	angle = SetMyAngleRotation(direction);
 }
 
 bool Projectile::PostUpdate()
@@ -31,6 +35,7 @@ bool Projectile::PostUpdate()
 void Projectile::SetNewDirection(const fPoint & newdir)
 {
 	direction = newdir - GetPivotPos(); 
+	direction.Normalize(); 
 }
 
 bool Projectile::OnCollisionWithEnemy()
