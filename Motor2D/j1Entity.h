@@ -8,7 +8,6 @@
 #include "j1Module.h"
 #include "j1Textures.h"
 
-
 #include "SDL_image/include/SDL_image.h"
 
 #include "UiItem_HealthBar.h"
@@ -41,21 +40,25 @@ enum class STAT_TYPE
 	NORMAL,
 	BURNED_STAT,
 	PARALIZE_STAT,
-	COOLDOWN,
 	POTION_STAT,
-	ATTACKSPEED
+	ATTACK_BUFF,
+	DEFENCE_BUFF,
+	SPEED_BUFF,
+	HEALTH_BUFF
 };
+class Buff; 
 
 class entityStat
 {
 public:
-	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f):type(stat), secDamage(secDamage), totalTime(totalTime){}
+	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f, Buff* temporalBuff = nullptr):type(stat), secDamage(secDamage), totalTime(totalTime), temporalBuff(temporalBuff){}
 	entityStat() {};
 public:
 	STAT_TYPE		type = STAT_TYPE::NORMAL;
 	float			secDamage = 0.f;
 	j1Timer			count;
 	uint			totalTime = 0;
+	Buff*			temporalBuff = nullptr;
 };
 
 struct EntityInfo

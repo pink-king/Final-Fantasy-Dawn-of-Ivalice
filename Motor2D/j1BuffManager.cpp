@@ -67,26 +67,33 @@ bool j1BuffManager::CleanUp()
 }
 
 
-void j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character, std::string stat, float value)
+Buff* j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character, std::string stat, float value)
 {
 	bool exist = false;
 	std::list<Buff*>::iterator item = buffs.begin();
-	buffs.push_back(new Buff(type, character,stat, elementType, rol, value));
+	Buff* newbuff = new Buff(type, character, stat, elementType, rol, value);
+	buffs.push_back(newbuff);
 	if (rol != ROL::ATTACK_ROL && rol != ROL::DEFENCE_ROL)
 		ChangeEntityVariables(character, type, rol, value);
+	return newbuff;
 }
 
 void j1BuffManager::RemoveBuff(j1Entity* character)
 {
 	std::list<Buff*>::iterator item = buffs.begin();
 	for (; item != buffs.end(); ++item)
-		if(character == (*item)->GetCharacter())
+	{
+		if ((*item)->GetRol() != ROL::ATTACK_ROL && (*item)->GetRol() != ROL::DEFENCE_ROL)
+			ResetEntityVariables(*item);
+		if (character == (*item)->GetCharacter())
+		{
 			buffs.remove(*item);
+		}
+	}
 }
 
 float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEMENTAL_TYPE elementType, ROL rol, std::string stat)
 {
-
 	float totalMult = 0.f;
 	if (ent == App->entityFactory->player)
 	{
@@ -229,6 +236,43 @@ void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 	entity->stat.push_back(newStat);
 	entity->isPotionActive = true;
 	entitiesTimeDamage.push_back(entity);
+}
+
+void j1BuffManager::TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TYPE element, ROL rol, float value, uint time)
+{
+	entityStat* newStat;
+	switch (rol)
+	{
+	case ROL::ATTACK_ROL:
+		newStat = new entityStat(STAT_TYPE::ATTACK_BUFF, time, value);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		entitiesTimeDamage.push_back(entity);
+		break;
+	case ROL::DEFENCE_ROL:
+		newStat = new entityStat(STAT_TYPE::DEFENCE_BUFF, time, value);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		entitiesTimeDamage.push_back(entity);
+		break;
+	case ROL::VELOCITY:
+		newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		entitiesTimeDamage.push_back(entity);
+		break;
+	case ROL::HEALTH:
+		newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		entitiesTimeDamage.push_back(entity);
+		break;
+	case ROL::NO_ROL:
+		break;
+	default:
+		break;
+	}
+	
 }
 
 void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL rol, float value)
@@ -391,7 +435,7 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				enemy->speed -= buff->GetValue();
 			}
 		}
-
+		break;
 	case ROL::HEALTH:
 		if (buff->GetCharacter()->type == ENTITY_TYPE::PLAYER)
 		{
@@ -532,6 +576,67 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 				entity->isPotionActive = false;
 				entity->stat.remove(*item);
 			}
+			break;
+		case STAT_TYPE::ATTACK_BUFF:
+			if ((*item)->totalTime > 0)
+			{
+				if ((*item)->count.ReadSec() > 1)
+				{
+					(*item)->count.Start();
+					--(*item)->totalTime;
+				}
+			}
+			else
+			{
+				DeleteBuff((*item)->temporalBuff);
+				entity->stat.remove(*item);
+			}
+			break;
+		case STAT_TYPE::DEFENCE_BUFF:
+			if ((*item)->totalTime > 0)
+			{
+				if ((*item)->count.ReadSec() > 1)
+				{
+					(*item)->count.Start();
+					--(*item)->totalTime;
+				}
+			}
+			else
+			{
+				DeleteBuff((*item)->temporalBuff);
+				entity->stat.remove(*item);
+			}
+			break;
+		case STAT_TYPE::SPEED_BUFF:
+			if ((*item)->totalTime > 0)
+			{
+				if ((*item)->count.ReadSec() > 1)
+				{
+					(*item)->count.Start();
+					--(*item)->totalTime;
+				}
+			}
+			else
+			{
+				DeleteBuff((*item)->temporalBuff);
+				entity->stat.remove(*item);
+			}
+			break;
+		case STAT_TYPE::HEALTH_BUFF:
+			if ((*item)->totalTime > 0)
+			{
+				if ((*item)->count.ReadSec() > 1)
+				{
+					(*item)->count.Start();
+					--(*item)->totalTime;
+				}
+			}
+			else
+			{
+				DeleteBuff((*item)->temporalBuff);
+				entity->stat.remove(*item);
+			}
+			break;
 		case STAT_TYPE::NORMAL:
 			break;
 		default:
