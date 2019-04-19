@@ -207,12 +207,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = (*item)->hitBox.x - (selected_object->hitBox.x + selected_object->hitBox.w);
+					currentDistance = (*item)->hitBox.x - (first_selected->hitBox.x + first_selected->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -255,12 +255,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = selected_object->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
+					currentDistance = first_selected->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -306,12 +306,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = selected_object->hitBox.y - (*item)->hitBox.y;
+					currentDistance = first_selected->hitBox.y - (*item)->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -355,12 +355,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = (*item)->hitBox.y - selected_object->hitBox.y;
+					currentDistance = (*item)->hitBox.y - first_selected->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
