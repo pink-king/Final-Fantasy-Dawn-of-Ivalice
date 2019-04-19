@@ -20,10 +20,10 @@ UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
 bool UiItem_Inventory::LoadElements()
 {
 	
-	// equipped objects 
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
 	
 	
-	/*if (!App->entityFactory->player->equipedObjects.empty())
+if (!App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
@@ -61,20 +61,25 @@ bool UiItem_Inventory::LoadElements()
 					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 					(*iter)->MyDescription->spawnedInventoryImage = true;
 
-			 //  }
+
+					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
+
+			  }
 
 				
 			}
 		}
-	}*/
+	}
 	
 	
-	// bag objects
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - -  bag objects 
+
+
 	if (!App->entityFactory->player->bagObjects.empty())
 	{
 		int i = 0;
 		int j = 0;
-	//	int k = 0;  // just for the first time; 
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
 
 
@@ -108,12 +113,6 @@ bool UiItem_Inventory::LoadElements()
 				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 				(*iter)->MyDescription->spawnedInventoryImage = true;
 
-			/*	if (k == 0)
-				{
-					DoLogicSelected((*iter), true);
-				}
-				k++; */
-
 				i++;
 			}
 
@@ -123,6 +122,7 @@ bool UiItem_Inventory::LoadElements()
 	}
 
 
+	// TODO: Consumables: careful --> can be tabbed, and description can appear, BUT cannot be re-positioned in the current item slots
 
 
 	return true;
@@ -177,38 +177,42 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 	for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 	{
-	/*	if ((*iter)->character  == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+		/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 		{*/
-			if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+			if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
 			{
-				//App->entityFactory->player->DesequipItem((*iter));
-				(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
-				(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+				if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+				{
+					//App->entityFactory->player->DesequipItem((*iter));
+					(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
+					(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-				// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-				(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-				(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-			}
-			else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
-			{
-				//App->entityFactory->player->DesequipItem((*iter));
-				(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
-				(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+					// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+					(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+					(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+				}
+				else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
+				{
+					//App->entityFactory->player->DesequipItem((*iter));
+					(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
+					(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-				// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-				(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-				(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-			}
-			else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
-			{
-				//App->entityFactory->player->DesequipItem((*iter));
-				(*iter)->MyDescription->myLootItemIsEquipped.head = false;
-				(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+					// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+					(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+					(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+				}
+				else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
+				{
+					//App->entityFactory->player->DesequipItem((*iter));
+					(*iter)->MyDescription->myLootItemIsEquipped.head = false;
+					(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-				// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-				(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-				(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+					// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+					(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+					(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+				}
 			}
+		
 		//}
 	}
 
