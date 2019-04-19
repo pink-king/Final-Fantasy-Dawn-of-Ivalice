@@ -2,6 +2,7 @@
 #define __SHARA_H__
 
 #include "PlayerEntity.h"
+#include "GUI_Definitions.h"
 
 class Shara : public PlayerEntity
 {
@@ -24,6 +25,7 @@ public:
 
 
 private:
+	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 
 };
 
