@@ -48,7 +48,7 @@ bool UiItem_Inventory::LoadElements()
 				}
 				else   // the rest of elements in the row
 				{
-					position = { (startingPos.x + 56 + i * boxSeparation.x + i * boxSize), (startingPos.y + 302) + j * boxSeparation.y };
+					position = { (startingPos.x + 56 + i * boxSeparation.x), (startingPos.y + 302) + j * boxSeparation.y };
 				}
 
 
