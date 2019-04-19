@@ -224,14 +224,8 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 			}
 		}
 
-	}
-	
+		// 3) THEN equip the new item 
 
-
-	// 3) check that the new item belongs to the player, if so, equip it: 
-
-	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-	{
 		App->entityFactory->player->EquipItem(callback);
 
 		switch (callback->GetObjectType())
@@ -260,10 +254,8 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
+
 	}
-
-
-
 
 }
 
