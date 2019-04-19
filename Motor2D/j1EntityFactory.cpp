@@ -322,6 +322,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				{
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::BOMB, spawnPos, true);
+
 					if (ret != nullptr)
 					{
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 30));
@@ -335,9 +336,10 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 			case EnemyType::TEST:
 				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
-				{
+				{	
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::TEST, spawnPos, true);
+
 					if (ret != nullptr)
 					{
 					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 20));

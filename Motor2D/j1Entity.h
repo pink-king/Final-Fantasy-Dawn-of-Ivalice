@@ -97,6 +97,8 @@ public:
 	bool ChangedTile() const; 
 
 	virtual void LoadEntitydata(pugi::xml_node&);
+
+	friend class PlayerEntity;
 	
 
 public:

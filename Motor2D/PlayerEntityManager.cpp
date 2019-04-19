@@ -35,9 +35,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 
 PlayerEntityManager::~PlayerEntityManager()
 {
-	delete marche;
-	delete ritz;
-	delete shara;
+	
 	delete crossHair;
 
 	// TODO: free characters vector
@@ -146,9 +144,16 @@ bool PlayerEntityManager::PostUpdate()
 
 bool PlayerEntityManager::CleanUp()
 {
-	/*delete marche;
-	delete ritz;
-	delete shara;*/
+	std::vector<PlayerEntity*>::iterator charIter = characters.begin();
+	for (; charIter != characters.end(); ++charIter)
+	{
+		(*charIter)->CleanUp();
+		delete (*charIter);
+		(*charIter) = nullptr;
+
+	}
+	characters.clear();
+
 	std::vector<LootEntity*>::iterator iter = bagObjects.begin();
 	for (; iter != bagObjects.end(); ++iter)
 	{
@@ -181,15 +186,17 @@ bool PlayerEntityManager::SwapInputChecker()
 	bool ret = true;
 
 	// checks gamepad and swaps character
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+	if (selectedCharacterEntity->inputReady)
 	{
-		SetPreviousCharacter();
-	}
+		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+		{
+			SetPreviousCharacter();
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
-	{
-		SetNextCharacter();
+		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+		{
+			SetNextCharacter();
+		}
 	}
 
 	return ret;

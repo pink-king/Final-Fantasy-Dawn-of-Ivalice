@@ -19,7 +19,7 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	//bool PostUpdate();
-	virtual bool CleanUp();
+	//virtual bool CleanUp();
 
 	// functionality ------
 
@@ -30,6 +30,8 @@ public:
 	myClocks myUIClocks;
 
 private:
+
+	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 
 };
 

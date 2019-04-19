@@ -44,6 +44,9 @@ public:
 
 	void AddItemStats(LootEntity* item);
 	void RemoveItemStat(const LootEntity* item);
+
+	void AdjustEntityAnimationSpeed(j1Entity* entity);
+
 	iPoint enemydeadsubtile;
 private:
 	uint							lastSourceID = 0u;
