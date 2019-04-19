@@ -118,8 +118,10 @@ void UiItem_Inventory::Draw(const float & dt)
 
 void UiItem_Inventory::De_______Equip(LootEntity * callback)
 {
+	iPoint destPos = {}; 
 
-/*	// 1) first de-equip if there is a current equipped item of the same type 
+
+	// 1) First de-equip if there is a current equipped item of the same type 
 
 	std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
 
@@ -129,50 +131,70 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 		{
 			App->entityFactory->player->DesequipItem((*iter));
 			(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
+			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE; 
+
+			// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+			(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 		}
 		else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
 		{
 			App->entityFactory->player->DesequipItem((*iter));
 			(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
+			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+
+			// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+			(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 		}
 		else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
 		{
 			App->entityFactory->player->DesequipItem((*iter));
 			(*iter)->MyDescription->myLootItemIsEquipped.head = false;
+			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+
+			// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+			(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 		}
+
+
+		
+
+
 
 	}
 
-	// 2) then equip and put the type flag in the descr 
+	// 3) then equip them and 4) put them in the current item slots according to the type
 
 	App->entityFactory->player->EquipItem(callback);
 
 	switch (callback->GetObjectType())
 	{
 	case OBJECT_TYPE::WEAPON_OBJECT:
-		callback->MyDescription->myLootItemIsEquipped.weapon = true;
+		callback->MyDescription->myLootItemIsEquipped.weapon = true;                               
+		callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x; 
+		callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+
 		break; 
 	case OBJECT_TYPE::ARMOR_OBJECT:
 		callback->MyDescription->myLootItemIsEquipped.armor = true;
+		callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+		callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+
 		break;
 
 	case OBJECT_TYPE::HEAD_OBJECT:
 		callback->MyDescription->myLootItemIsEquipped.head = true;
+		callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+		callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+
 		break;
 
 	}
-	
 
-	// now, in the current item slots (head, armor, weapon), swap the last object image with the new one at the grid
+	callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
-
-
-
-
-
-	// if there no current item, then put the new one directly 
-
-*/
 
 }
 

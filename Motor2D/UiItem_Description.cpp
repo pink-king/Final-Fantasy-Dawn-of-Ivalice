@@ -134,7 +134,11 @@ void UiItem_Description::Draw(const float& dt)
 				
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
-					App->scene->inventoryItem->De_______Equip(this->callback); 
+					if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
+					{
+						App->scene->inventoryItem->De_______Equip(this->callback);  
+					}
+					
 				}
 			}
 			else                                        // hide description ingame

@@ -16,10 +16,12 @@
 #define staringPosition iPoint(274, 101)
 #define tabOffset iPoint(15,17)
 
-struct elementsStartingPositions
-{
-	iPoint weaponsAndEquipment = iPoint(100, 100); 
-	iPoint currentItems = iPoint(100, 100);
+struct elementsStartingPositionsOffsets
+{ 
+	iPoint currentWeapon = iPoint(56, 47);
+	iPoint currentHead = iPoint(56, 118);
+	iPoint currentArmor = iPoint(56, 194);
+
 	iPoint potions = iPoint(100, 100);
 };
 
@@ -44,7 +46,7 @@ public:
 
 
 
-	elementsStartingPositions initialPositions; 
+	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 274, 101 };
 
 private:

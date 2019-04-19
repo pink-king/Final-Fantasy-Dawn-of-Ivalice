@@ -26,12 +26,21 @@ enum descriptionType
 	POTION
 };
 
+enum InventoryIconSate
+{
+	ACTIVE,
+	INACTIVE
+};
+
 struct currenEquipped
 {
 	bool head = false; 
 	bool armor = false; 
 	bool weapon = false; 
+	InventoryIconSate state = INACTIVE; 
 };
+
+
 
 class LootEntity; 
 
