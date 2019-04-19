@@ -376,6 +376,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 				bagObjects.push_back(entityLoot);
 			}
 		}
+		
 	}
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
@@ -776,13 +777,13 @@ j1Entity* Crosshair::GetClampedEntity() const
 	j1Entity* ret = nullptr;
 
 	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-
+	//std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->lootEntities.begin();
 	while (entitiesItem != App->entityFactory->entities.end())
 	{
 	     
 		if (!(*entitiesItem)->to_delete)
 		{
-			if ((*entitiesItem) == clampedEntity)
+			if ((*entitiesItem) == clampedEntity) //Never goes in  //clampedEntity is OK
 			{
 
 				ret = (*entitiesItem); 

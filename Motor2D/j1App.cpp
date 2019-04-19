@@ -87,6 +87,7 @@ j1App::~j1App()
 
 void j1App::AddModule(j1Module* module)
 {
+	
 	module->Init();
 	modules.push_back(module);
 }
@@ -175,6 +176,7 @@ bool j1App::Update()
 		ret = PostUpdate();
 
 	FinishUpdate();
+	BROFILER_FRAME("App frame");
 	return ret;
 }
 

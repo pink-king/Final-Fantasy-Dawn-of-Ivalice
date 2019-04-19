@@ -82,7 +82,7 @@ public:
 	void ExplosionMaker(float dt);
 
 	void CheckClampedCrossHairToSpawnDescription(); 
-
+	virtual bool CleanUp();
 public:
 
 	uint level;

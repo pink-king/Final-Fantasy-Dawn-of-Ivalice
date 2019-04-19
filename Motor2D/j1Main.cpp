@@ -13,7 +13,7 @@
 
 #include "Brofiler/Brofiler.h"
 #pragma comment(lib, "Brofiler/ProfilerCore32.lib")
-
+#pragma comment(lib, "EasyHook/EasyHook32.lib")
 enum MainState
 {
 	CREATE = 1,

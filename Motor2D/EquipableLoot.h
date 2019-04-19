@@ -25,7 +25,8 @@ public:
 
 	EQUIPABLE_TYPE ChooseEquipable();
 	void SetEquipable();
-	
+	bool CleanUp();
+
 public:
 
 	

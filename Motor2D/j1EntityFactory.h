@@ -113,6 +113,8 @@ public:
 
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
+	std::vector<j1Entity*>	lootEntities;
+
 	bool justGold;
 
 	//----SFX-----//

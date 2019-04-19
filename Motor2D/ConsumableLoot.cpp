@@ -112,3 +112,18 @@ void Consumable::SetConsumable()
 
 }
 
+bool Consumable::CleanUp()
+{
+	App->tex->UnLoad(entityTex);
+
+	if (entityTex != nullptr)
+		entityTex = nullptr;
+
+	/*if (MyDescription != nullptr)
+		MyDescription = nullptr;
+
+	if (character != nullptr)
+		character = nullptr;*/
+	return true;
+}
+

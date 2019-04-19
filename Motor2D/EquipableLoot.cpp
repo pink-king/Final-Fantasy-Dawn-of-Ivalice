@@ -11,6 +11,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
+	this->type == ENTITY_TYPE::EQUIP;
 }
 
 
@@ -141,3 +142,17 @@ void Equipable::SetEquipable()
 	}
 }
 
+bool Equipable::CleanUp()
+{
+	App->tex->UnLoad(entityTex);
+
+	if (entityTex != nullptr)
+		entityTex = nullptr;
+
+	/*if (MyDescription != nullptr)
+		MyDescription = nullptr;
+
+	if (character != nullptr)
+		character = nullptr;*/
+	return true;
+}

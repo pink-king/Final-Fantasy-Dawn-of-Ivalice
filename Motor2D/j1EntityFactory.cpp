@@ -10,7 +10,7 @@
 #include "EntityArrow.h"
 #include <ctime>
 #include <algorithm>
-
+#include "Brofiler/Brofiler.h"
 
 
 j1EntityFactory::j1EntityFactory()
@@ -112,6 +112,8 @@ bool j1EntityFactory::PreUpdate()
 bool j1EntityFactory::Update(float dt)
 {
 	bool ret = true;
+	
+	BROFILER_CATEGORY("factory Update", Profiler::Color::Black);
 
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
@@ -148,6 +150,7 @@ bool j1EntityFactory::Update(float dt)
 			}
 			if (createLoot)
 			{
+				
 				CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				justGold = true;
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
@@ -163,7 +166,8 @@ bool j1EntityFactory::Update(float dt)
 
 bool j1EntityFactory::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("factory PostUpdate", Profiler::Color::Black);
+
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
@@ -380,6 +384,7 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 		ret = new Equipable(posX, posY);
 			LoadLootData(ret, App->config);
 			entities.push_back(ret);
+			lootEntities.push_back(ret);
 			GenerateDescriptionForLootItem(ret);
 			break;
 
@@ -388,6 +393,7 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 		//ret->objectType = OBJECT_TYPE::GOLD;
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
+		lootEntities.push_back(ret);
 		GenerateDescriptionForLootItem(ret);
 		break;
 	}
@@ -405,6 +411,7 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 		ret = new Consumable(posX, posY);
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
+		lootEntities.push_back(ret);
 	}
 	return nullptr;
 }

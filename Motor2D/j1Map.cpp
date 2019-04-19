@@ -14,6 +14,7 @@
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.assign("map");
+	BROFILER_THREAD("App frame");
 }
 
 // Destructor
@@ -25,7 +26,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
 	bool ret = true;
-
+	
 	folder.assign(config.child("folder").child_value());
 
 	// configures the pixel offset (center top up isometric corner to real 0,0 world coord

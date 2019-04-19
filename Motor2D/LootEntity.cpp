@@ -5,6 +5,8 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1EntityFactory.h"
+#include "Brofiler/Brofiler.h"
+
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	entityTex = App->tex->Load("textures/loot/loot_items.png");
@@ -15,7 +17,7 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	
 	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 
-	
+	//BROFILER_THREAD("LootItem");
 }
 
 LootEntity::~LootEntity()
@@ -25,7 +27,20 @@ LootEntity::~LootEntity()
 
 }
 
+bool LootEntity::CleanUp()
+{
+	App->tex->UnLoad(entityTex);
 
+	if (entityTex != nullptr)
+		entityTex = nullptr;
+
+	/*if (MyDescription != nullptr)
+		MyDescription = nullptr;
+
+	if (character != nullptr)
+		character = nullptr;*/
+	return true;
+}
 //bool LootEntity::PreUpdate()
 //{
 //	return true;
@@ -39,12 +54,14 @@ bool LootEntity::Start()
 	
 	return true;
 }
+
 bool LootEntity::Update(float dt)
 {
+	//BROFILER_FRAME("lootframe");
+	BROFILER_CATEGORY("lootupdate", Profiler::Color::Gold);
 	
 	start = true;
 	endReached = false;
-	
 	return true;
 }
 float LootEntity::LerpX(float origin, float destination, float t )
@@ -370,7 +387,7 @@ void LootEntity::ExplosionMaker(float dt)
 void LootEntity::CheckClampedCrossHairToSpawnDescription()
 {
 	// if the crosshair focuses the item and description is hiden 
-
+	
 	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
 	{
 
@@ -379,9 +396,10 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 		spawnedDescription = true; 
 	}
 
+
 	// if description is showing, but crosshair stops focusing item 
 
-	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	 if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
 	{
 
 		this->MyDescription->HideAllElements(true);
