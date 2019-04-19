@@ -80,12 +80,14 @@
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
+    <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EntityArrow.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
+    <ClCompile Include="FireArrow.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1Entity.cpp" />
@@ -132,12 +134,14 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="ConsumableLoot.h" />
+    <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBomb.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EntityArrow.h" />
     <ClInclude Include="EquipableLoot.h" />
+    <ClInclude Include="FireArrow.h" />
     <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />

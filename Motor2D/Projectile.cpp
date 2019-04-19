@@ -4,8 +4,10 @@
 #include "j1Render.h"
 
 
-Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entity * owner, const char* name) 
-	: destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, name) 
+
+
+Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entity * owner, const char* name, PROJECTILE_TYPE type)
+	: destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, name), type(type)
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
 }

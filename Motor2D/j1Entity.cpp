@@ -132,6 +132,7 @@ iPoint j1Entity::GetPreviousSubtilePos() const
 void j1Entity::UpdateTilePositions()
 {
 	changedTile = false; 
+	changedSubtile = false; 
 	fPoint pivotPos = GetPivotPos();
 
 	// extra protection TODO: rework the player/entities invalid walkability return positions
@@ -143,6 +144,7 @@ void j1Entity::UpdateTilePositions()
 
 		if (previousSubtilePos != imOnSubtile)
 		{
+			changedSubtile = true; 
 			//LOG("subtile pos changed");
 			// assign this entity to a tile vector
 			App->entityFactory->AssignEntityToSubtile(this);

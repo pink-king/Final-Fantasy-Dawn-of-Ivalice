@@ -12,6 +12,7 @@
 #include "j1Gui.h"
 #include "j1App.h"
 #include "j1Scene.h"
+#include "Projectile.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -208,7 +209,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 0; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
 	coolDownData.ultimate.cooldownTime = 10000;
@@ -283,7 +284,7 @@ bool Marche::Update(float dt)
 			currentAnimation->speed = 0.f;
 		}
 		
-		LOG("transpivot: %f,%f:", transference_pivot.x, transference_pivot.y);
+		//LOG("transpivot: %f,%f:", transference_pivot.x, transference_pivot.y);
 	/*}
 	else
 	{
@@ -318,9 +319,7 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
-			App->camera2D->AddTrauma(20.f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(),PROJECTILE_TYPE::BASIC_ARROW);
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special1)
@@ -345,6 +344,8 @@ bool Marche::Update(float dt)
 			coolDownData.special2.timer.Start();
 
 			App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
+
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			// add gui clock
 

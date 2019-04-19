@@ -40,7 +40,10 @@ enum class STAT_TYPE
 	NORMAL,
 	BURNED_STAT,
 	PARALIZE_STAT,
+	POISON_STAT,
+
 	POTION_STAT,
+
 	ATTACK_BUFF,
 	DEFENCE_BUFF,
 	SPEED_BUFF,
@@ -125,9 +128,11 @@ public:
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
+	bool					isPosioned = false;
 	bool					isPotionActive = false;
 	
 	bool					changedTile = false; 
+	bool					changedSubtile = false; 
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;

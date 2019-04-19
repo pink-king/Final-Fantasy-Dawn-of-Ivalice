@@ -1,4 +1,4 @@
-#include "EntityArrow.h"
+#include "ContagiousFireArrow.h"
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1EntityFactory.h"
@@ -8,12 +8,9 @@
 #include "p2Defs.h"
 #include "j1ParticlesClassic.h"
 
-EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) 
-	: Projectile(pos, destination, speed, owner, "Arrow", PROJECTILE_TYPE::BASIC_ARROW)
+ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
+	: Projectile(pos, destination, speed, owner, "ContagiousArrow", PROJECTILE_TYPE::CONTAGIOUS_ARROW)
 {
-	App->camera2D->AddTrauma(10.F / 100.f);
-	App->input->DoGamePadRumble(0.3f, 80);
-
 	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 
 	anim.PushBack({ 0, 28, 45, 8 });
@@ -37,54 +34,48 @@ EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Ent
 	SetInitially();
 }
 
-EntityArrow::~EntityArrow()
+ContagiousFireArrow::~ContagiousFireArrow()
 {
-	LOG("Bye arrow!");
+	LOG("Bye Contagiousarrow!");
 }
 
-bool EntityArrow::PreUpdate()
+bool ContagiousFireArrow::PreUpdate()
 {
 	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
 		to_explode = true;
 	}
-	
+
 	return true;
 }
 
-bool EntityArrow::Update(float dt)
+bool ContagiousFireArrow::Update(float dt)
 {
 	if (!to_explode) {
 		Move(dt);
 	}
-	else Explode(); 
+	else Explode();
 
 	return true;
 }
 
-bool EntityArrow::Move(float dt)
+bool ContagiousFireArrow::Move(float dt)
 {
-	position += direction * speed * dt; 
+	position += direction * speed * dt;
 	return true;
 }
 
-
-bool EntityArrow::Explode()
+bool ContagiousFireArrow::Explode()
 {
-	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 5, 7, 50);
-
+	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 10, 1, 50);
+	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 10, 5, 100);
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
-	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20, { 0,0 }, 0u);
-	// Just to show off
-	App->particles->AddParticle(App->particles->explosion01, position.x + 10, position.y - 10, { 0,0 }, 100u);
-	App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 30, { 0,0 }, 50u);
 
-	to_delete = true; 
-
+	to_delete = true;
 	return true;
 }
 
-bool EntityArrow::CleanUp()
+bool ContagiousFireArrow::CleanUp()
 {
 	if (entityTex != nullptr)
 	{
@@ -95,7 +86,7 @@ bool EntityArrow::CleanUp()
 	return true;
 }
 
-void EntityArrow::Draw()
+void ContagiousFireArrow::Draw()
 {
 	iPoint subTilePos = GetSubtilePos();
 	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
@@ -107,7 +98,6 @@ void EntityArrow::Draw()
 			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
 		else
 			App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
-	}	
+	}
 }
-
 

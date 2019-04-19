@@ -7,6 +7,11 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+#include "j1Map.h"
+#include "ConsumableLoot.h"
+#include "EquipableLoot.h"
+
+#include "Projectile.h"
 struct GroupInfo {
 	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies)
 		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies) {}
@@ -26,9 +31,6 @@ enum class EnvironmentAssetsTypes
 	MAX
 };
 
-#include "j1Map.h"
-#include "ConsumableLoot.h"
-#include "EquipableLoot.h"
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
@@ -58,7 +60,9 @@ public:
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
 	void LoadSpawnGroups();
-	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner);
+	
+	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type);
+
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 	uint CreateRandomBetween(uint min, uint max); 

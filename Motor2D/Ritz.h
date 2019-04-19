@@ -2,6 +2,7 @@
 #define __RITZ_H__
 
 #include "PlayerEntity.h"
+#include "GUI_Definitions.h"
 
 class Ritz : public PlayerEntity
 {
@@ -21,9 +22,10 @@ public:
 
 
 public:
-
+	myClocks myUIClocks;
 
 private:
+	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 
 };
 

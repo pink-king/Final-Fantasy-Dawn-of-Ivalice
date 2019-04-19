@@ -32,7 +32,8 @@ bool EnemyBomb::PreUpdate()
 }
 bool EnemyBomb::Update(float dt)
 {
-	SetState(dt); 
+	if(!isParalize)
+		SetState(dt); 
 	return true;
 }
 
