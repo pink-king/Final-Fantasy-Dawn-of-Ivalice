@@ -478,7 +478,11 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						}
 						else if (wallTypeName == "Outside2")
 						{
-							destRect = { 0,320,64,64 };
+							destRect = { 0,384,64,64 };
+						}
+						else if (wallTypeName == "Outside3")   // the temporal outside wall that joins the two types
+						{
+							destRect = { 0,448,64,64 };
 						}
 						else if (wallTypeName == "Inside 1")
 						{

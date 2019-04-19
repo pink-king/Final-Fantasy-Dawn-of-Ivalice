@@ -47,7 +47,7 @@ bool j1Scene::Start()
 	debug = true;
 
 	// App->audio->Load("audio/music/menu_1.0.ogg");
-	if (App->map->Load("maps/Level1_Final.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
