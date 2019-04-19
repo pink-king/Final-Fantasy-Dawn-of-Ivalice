@@ -244,11 +244,14 @@ void EnemyTest::SetState(float dt)
 	case EnemyState::ATTACK:
 	{
 		currentAnimation = &basicAttack[pointingDir];
-		if (checkTime.ReadSec() > attackSpeed && currentAnimation->Finished())
+		if (/*checkTime.ReadSec() > attackPerS &&*/ currentAnimation->GetCurrentFloatFrame() >= 2)
 		{
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
-			basicAttack[pointingDir].Reset();
-			state = EnemyState::CHECK;
+			if (currentAnimation->Finished())
+			{
+				basicAttack[pointingDir].Reset();
+				state = EnemyState::CHECK;
+			}
 		}
 	}
 	break;
@@ -390,7 +393,7 @@ void EnemyTest::LoadAnims()
 	run[(int)facingDirectionEnemy::W].PushBack({ 250, 49, 16, 30 });
 	run[(int)facingDirectionEnemy::W].speed = animSpeed;
 
-	float attackSpeedAnim = attackSpeed * 4;
+	float attackSpeedAnim = attackSpeed * 4.F;
 
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 14, 89, 15, 29 });
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 36, 87, 18, 31 });
