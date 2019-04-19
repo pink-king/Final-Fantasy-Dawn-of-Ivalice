@@ -82,7 +82,7 @@ public:
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
 	//loot funtions
-	bool CollectLoot(LootEntity* entityLoot);
+	bool CollectLoot(LootEntity* entityLoot, bool fromCrosshair = false);
 
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);

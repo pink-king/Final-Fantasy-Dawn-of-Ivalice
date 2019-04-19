@@ -90,6 +90,16 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	// TODO: effect: 
 
 
+	std::string hpString("Cures ");
+	hpString.append(std::to_string((int)HPandTime.x));
+	hpString.append(" HP in ");
+	hpString.append(std::to_string((int)HPandTime.y));
+	hpString.append(" sec");
+
+	effectLabel = App->gui->AddLabel(hpString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	effectLabel->useCamera = false; 
+
+
 	// the icon image is created after creating description in loot spawning
 
 
@@ -139,7 +149,6 @@ void UiItem_Description::SwitchCameraUsage()
 	this->iconImage->useCamera = true;
 	this->panelWithButton->useCamera = true;
 	this->name->useCamera = true;
-	this->level->useCamera = true;
 	this->useCamera = true;
 
 
@@ -151,13 +160,14 @@ void UiItem_Description::SwitchCameraUsage()
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
+		this->level->useCamera = true;
 		this->damageLabel->useCamera = true;
 		this->resistanceLabel->useCamera = true;
 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-
+		// this->level->useCamera = true;
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -173,7 +183,6 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 	    this->iconImage->hide = hide;
 		this->panelWithButton->hide = hide;
 		this->name->hide = hide;
-		this->level->hide = hide; 
 		this->hide = hide;
 
 		
@@ -185,13 +194,14 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 	   
 		if (this->descrType == descriptionType::WEAPON)
 		{
+			this->level->hide = hide;
 			this->damageLabel->hide = hide; 
 			this->resistanceLabel->hide = hide;
 
 		}
 		else if(this->descrType == descriptionType::EQUIPMENT)
 		{
-			
+			//this->level->hide = hide;
 		}
 		else if (this->descrType == descriptionType::POTION)
 		{
@@ -207,18 +217,27 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.x = referencePanelPosition.x;
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
-	this->iconImage->hitBox.x = referencePanelPosition.x + 20;
-	this->iconImage->hitBox.y = referencePanelPosition.y + 80;
+	if (this->descrType != descriptionType::POTION)
+	{
+		this->iconImage->hitBox.x = referencePanelPosition.x + 20;   // The icon image in potions should be repositioned
+		this->iconImage->hitBox.y = referencePanelPosition.y + 80;
+	}
 
-	this->name->hitBox.x = referencePanelPosition.x + 30; 
+
+
+	int destNamePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->name->textureDimensions.x / 2; 
+	int offset = 10; 
+
+	this->name->hitBox.x = destNamePosX - offset;
 	this->name->hitBox.y = referencePanelPosition.y + 40;
 
-	this->level->hitBox.x = referencePanelPosition.x + 150;
-	this->level->hitBox.y = referencePanelPosition.y + 180;
 
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
+		this->level->hitBox.x = referencePanelPosition.x + 150;
+		this->level->hitBox.y = referencePanelPosition.y + 180;
+
 		this->damageLabel->hitBox.x = referencePanelPosition.x + 90;
 		this->damageLabel->hitBox.y = referencePanelPosition.y + 70;
 
@@ -228,12 +247,21 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-
+		/*this->level->hitBox.x = referencePanelPosition.x + 150;
+		this->level->hitBox.y = referencePanelPosition.y + 180;*/
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
-		// TODO
-	//	this->effectLabel->
+		// TODO: tweak this 
+
+	    this->effectLabel->hitBox.x = referencePanelPosition.x + 30;
+		this->effectLabel->hitBox.y = referencePanelPosition.y + 180;
+
+
+		int offset = 10; 
+		int destIconPosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->iconImage->section.w * this->iconImage->scaleFactor / 2;
+		this->iconImage->hitBox.x = destIconPosX - offset;
+		this->iconImage->hitBox.y = referencePanelPosition.y + 100;
 	}
 
 
@@ -251,7 +279,7 @@ void UiItem_Description::DeleteEverything()
 	this->iconImage->to_delete = true;
 	this->panelWithButton->to_delete = true;
 	this->name->to_delete = true;
-	this->level->to_delete = true;
+
 
 	// TODO: delete the icon image in the inventory only if it exists
 	//this->iconImageInventory->to_delete = true;
@@ -259,13 +287,14 @@ void UiItem_Description::DeleteEverything()
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
+		this->level->to_delete = true;
 		this->damageLabel->to_delete = true;
 		this->resistanceLabel->to_delete = true;
 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-
+		//this->level->to_delete = true;
 	}
 	else if (this->descrType == descriptionType::POTION)
 		{

@@ -91,7 +91,7 @@ void UiItem_Image::Draw(const float& dt)
 				if (!App->scene->inventory->enable)   // when in game, icon image speed is 1.0f
 					speed = 1.0f;
 
-				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, speed, 4.0f);
+				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, speed, scaleFactor);   // 4.0f
 			}
 			else if(this->parent->guiType == GUI_TYPES::INVENTORY)  // INVENTORY image
 			{
