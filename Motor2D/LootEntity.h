@@ -90,7 +90,7 @@ public:
 	iPoint lootSubtile;
 	iPoint loot_pos;
 	std::string lootname;
-	PlayerEntity* player;
+
 	SDL_Rect loot_rect;
 	//SDL_Texture* goldTex;
 

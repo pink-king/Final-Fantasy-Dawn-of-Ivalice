@@ -55,6 +55,7 @@ private:
 	pugi::xml_node					buffNode;
 
 	std::list<j1Entity*>			entitiesTimeDamage;
+
 	
 public:
 	float powerAttack = 5;
