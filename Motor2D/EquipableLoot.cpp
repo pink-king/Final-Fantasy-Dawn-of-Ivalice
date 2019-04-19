@@ -15,6 +15,11 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 
 Equipable::~Equipable()
 {
+
+
+	//this->MyDescription = nullptr; 
+
+
 	LOG("LootEquipment destoyed");
 }
 

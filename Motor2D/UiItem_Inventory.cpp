@@ -123,13 +123,13 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 	// 1) First de-equip if there is a current equipped item of the same type 
 
-	std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+	std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
-	for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+	for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 	{
 		if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT &&  (*iter)->MyDescription->myLootItemIsEquipped.weapon)
 		{
-			App->entityFactory->player->DesequipItem((*iter));
+			//App->entityFactory->player->DesequipItem((*iter));
 			(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
 			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE; 
 
@@ -139,7 +139,7 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 		}
 		else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
 		{
-			App->entityFactory->player->DesequipItem((*iter));
+			//App->entityFactory->player->DesequipItem((*iter));
 			(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
 			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
@@ -149,7 +149,7 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 		}
 		else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
 		{
-			App->entityFactory->player->DesequipItem((*iter));
+			//App->entityFactory->player->DesequipItem((*iter));
 			(*iter)->MyDescription->myLootItemIsEquipped.head = false;
 			(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
@@ -158,12 +158,8 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 			(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 		}
 
-
-		
-
-
-
 	}
+
 
 	// 3) then equip them and 4) put them in the current item slots according to the type
 

@@ -156,6 +156,7 @@ bool PlayerEntityManager::CleanUp()
 	std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
 	for (; iter2 != equipedObjects.end(); ++iter2)
 	{
+		
 		delete *iter2;
 		*iter2 = nullptr;
 	}
