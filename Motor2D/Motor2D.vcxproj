@@ -86,6 +86,7 @@
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EntityArrow.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
+    <ClCompile Include="FireArrow.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1Entity.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EntityArrow.h" />
     <ClInclude Include="EquipableLoot.h" />
+    <ClInclude Include="FireArrow.h" />
     <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />

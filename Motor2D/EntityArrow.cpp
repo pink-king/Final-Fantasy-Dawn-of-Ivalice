@@ -11,6 +11,9 @@
 EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) 
 	: Projectile(pos, destination, speed, owner, "Arrow")
 {
+	App->camera2D->AddTrauma(10.F / 100.f);
+	App->input->DoGamePadRumble(0.3f, 80);
+
 	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 
 	anim.PushBack({ 0, 28, 45, 8 });

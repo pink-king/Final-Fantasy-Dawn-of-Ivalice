@@ -133,6 +133,7 @@ public:
 	bool					isPotionActive = false;
 	
 	bool					changedTile = false; 
+	bool					changedSubtile = false; 
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
