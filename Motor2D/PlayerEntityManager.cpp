@@ -318,8 +318,10 @@ const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 	return lastCharHeadingAngle;
 }
 
-bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
+bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshair)
 {
+	bool ret = true; 
+
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
 		// when a loot item is collected, the description should be hiden
@@ -357,20 +359,28 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 	}
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
-		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
-			consumables.push_back(entityLoot);
-
-		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
+		if (!fromCrosshair)                                             // consumables focused by crosshair cannot be picked
 		{
-			gold += entityLoot->price;
-			entityLoot->to_delete = true;
-			str_coin = "x  " + std::to_string(gold);
-			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
-			return false;
+			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
+				consumables.push_back(entityLoot);
+
+			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
+			{
+				gold += entityLoot->price;
+				entityLoot->to_delete = true;
+				str_coin = "x  " + std::to_string(gold);
+				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+				return false;
+			}
 		}
+		else
+		{
+			ret = false; 
+		}
+		
 
 	}
-	return true;
+	return ret;
 }
 
 void PlayerEntityManager::EquipItem(LootEntity * entityLoot)
@@ -585,7 +595,7 @@ bool Crosshair::ManageInput(float dt)
 						if ((*item) == clampedEntity)
 						{
 
-							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity)))
+							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
 							{
 								// first detach clamped entity
 								clampedEntity = nullptr;

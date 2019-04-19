@@ -48,11 +48,6 @@ bool Consumable::Update(float dt)
 			repositionDescription = true;
 		}
 
-
-		/*if (!spawnedDescription)
-		{*/
-		CheckClampedCrossHairToSpawnDescription();    // this is just for testing, potions cannot be focused by crosshair
-		//}
     
 	return true;
 }
