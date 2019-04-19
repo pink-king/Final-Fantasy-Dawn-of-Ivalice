@@ -247,11 +247,8 @@ void EnemyTest::SetState(float dt)
 		if (/*checkTime.ReadSec() > attackPerS &&*/ currentAnimation->GetCurrentFloatFrame() >= 2)
 		{
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
-			if (currentAnimation->Finished())
-			{
-				basicAttack[pointingDir].Reset();
-				state = EnemyState::CHECK;
-			}
+			basicAttack[pointingDir].Reset();
+			state = EnemyState::CHECK;
 		}
 	}
 	break;
