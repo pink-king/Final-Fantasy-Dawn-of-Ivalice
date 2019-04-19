@@ -214,7 +214,17 @@ void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float d
 	newStat->secDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, stat) + CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, stat);
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
-	entitiesTimeDamage.push_back(defender);
+	bool isInList = false;
+	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	{
+		if ((*item) == defender)
+			isInList = true;
+	}
+
+	if (!isInList)
+	{
+		entitiesTimeDamage.push_back(defender);
+	}
 	newStat->count.Start();
 }
 
@@ -224,7 +234,17 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uin
 	newStat->count.Start();
 	defender->stat.push_back(newStat);
 	defender->isParalize = true;
-	entitiesTimeDamage.push_back(defender);
+	bool isInList = false;
+	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	{
+		if ((*item) == defender)
+			isInList = true;
+	}
+
+	if (!isInList)
+	{
+		entitiesTimeDamage.push_back(defender);
+	}
 	// check for entity animations speed
 	AdjustEntityAnimationSpeed(defender);
 }
@@ -235,43 +255,63 @@ void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 	newStat->count.Start();
 	entity->stat.push_back(newStat);
 	entity->isPotionActive = true;
-	entitiesTimeDamage.push_back(entity);
+	bool isInList = false;
+	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	{
+		if ((*item) == entity)
+			isInList = true;
+	}
+
+	if (!isInList)
+	{
+		entitiesTimeDamage.push_back(entity);
+	}
 }
 
 void j1BuffManager::TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TYPE element, ROL rol, float value, uint time)
 {
-	entityStat* newStat;
-	switch (rol)
-	{
-	case ROL::ATTACK_ROL:
-		newStat = new entityStat(STAT_TYPE::ATTACK_BUFF, time, value);
-		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
-		entity->stat.push_back(newStat);
-		entitiesTimeDamage.push_back(entity);
-		break;
-	case ROL::DEFENCE_ROL:
-		newStat = new entityStat(STAT_TYPE::DEFENCE_BUFF, time, value);
-		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
-		entity->stat.push_back(newStat);
-		entitiesTimeDamage.push_back(entity);
-		break;
-	case ROL::VELOCITY:
-		newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value);
-		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
-		entity->stat.push_back(newStat);
-		entitiesTimeDamage.push_back(entity);
-		break;
-	case ROL::HEALTH:
-		newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value);
-		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
-		entity->stat.push_back(newStat);
-		entitiesTimeDamage.push_back(entity);
-		break;
-	case ROL::NO_ROL:
-		break;
-	default:
-		break;
-	}
+	
+		entityStat* newStat = nullptr;
+		switch (rol)
+		{
+		case ROL::ATTACK_ROL:
+			newStat = new entityStat(STAT_TYPE::ATTACK_BUFF, time, value);
+			newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+			entity->stat.push_back(newStat);
+			break;
+		case ROL::DEFENCE_ROL:
+			newStat = new entityStat(STAT_TYPE::DEFENCE_BUFF, time, value);
+			newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+			entity->stat.push_back(newStat);
+			break;
+		case ROL::VELOCITY:
+			newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value);
+			newStat->temporalBuff = new Buff(type, entity, "\0", element, rol, value);
+			ChangeEntityVariables(entity, type, rol, value);
+			entity->stat.push_back(newStat);
+			break;
+		case ROL::HEALTH:
+			newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value);
+			newStat->temporalBuff = new Buff(type, entity, "\0", element, rol, value);
+			ChangeEntityVariables(entity, type, rol, value);
+			entity->stat.push_back(newStat);
+			break;
+		case ROL::NO_ROL:
+			break;
+		default:
+			break;
+		}
+		bool isInList = false;
+		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+		{
+			if ((*item) == entity)
+				isInList = true;
+		}
+
+		if (!isInList)
+		{
+			entitiesTimeDamage.push_back(entity);
+		}
 	
 }
 
@@ -589,6 +629,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			else
 			{
 				DeleteBuff((*item)->temporalBuff);
+				(*item)->temporalBuff = nullptr;
 				entity->stat.remove(*item);
 			}
 			break;
@@ -604,6 +645,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			else
 			{
 				DeleteBuff((*item)->temporalBuff);
+				(*item)->temporalBuff = nullptr;
 				entity->stat.remove(*item);
 			}
 			break;
@@ -618,7 +660,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			}
 			else
 			{
-				DeleteBuff((*item)->temporalBuff);
+				ResetEntityVariables((*item)->temporalBuff);
+				(*item)->temporalBuff = nullptr;
 				entity->stat.remove(*item);
 			}
 			break;
@@ -633,7 +676,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 			}
 			else
 			{
-				DeleteBuff((*item)->temporalBuff);
+				ResetEntityVariables((*item)->temporalBuff);
+				(*item)->temporalBuff = nullptr;
 				entity->stat.remove(*item);
 			}
 			break;
