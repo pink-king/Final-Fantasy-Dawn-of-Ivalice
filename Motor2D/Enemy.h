@@ -34,6 +34,7 @@ enum class EnemyState
 	GO_NEXT_TILE,
 	CHECK,
 	ATTACK,
+	DYING,
 	MAX
 };
 
@@ -89,7 +90,7 @@ protected:
 	Animation idle[(int)facingDirectionEnemy::MAX];
 	Animation run[(int)facingDirectionEnemy::MAX];
 	Animation basicAttack[(int)facingDirectionEnemy::MAX];
-	Animation receiveDamage[(int)facingDirectionEnemy::MAX];
+	Animation dyingAnim;
 	
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
@@ -99,6 +100,7 @@ protected:
 	SDL_Texture* debugSubtile = nullptr;
 	uint baseDamage;
 
+	//bool to_die = false;
 	bool dummy = false; 
 };
 

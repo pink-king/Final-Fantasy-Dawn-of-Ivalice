@@ -91,6 +91,8 @@ bool EnemyTest::Update(float dt)
 
 bool EnemyTest::PostUpdate()
 {
+	if (to_die)
+		state = EnemyState::DYING;
 
 	return true;
 }
@@ -102,7 +104,7 @@ void EnemyTest::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
-		currentAnimation = &idle[pointingDir]; 
+		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
 			/*App->audio->PlayFx(App->entityFactory->goblinDetection, 0);*/
@@ -116,13 +118,13 @@ void EnemyTest::SetState(float dt)
 	case EnemyState::SEARCHPATH:
 	{
 		//freePass = false; 
-	
+
 		if (!isSubpathRange)
 		{
 			SearchNewPath();
 			//LOG("Pathing");
 		}
-		else if(!App->entityFactory->areAllSubtilesReserved())
+		else if (!App->entityFactory->areAllSubtilesReserved())
 		{
 			SearchNewSubPath();
 			//LOG("Subpathing");
@@ -160,7 +162,7 @@ void EnemyTest::SetState(float dt)
 
 		/*currentAnimation = &idle[(int)GetPointingDir(atan2f(velocity.y, velocity.x))];
 		CheckRenderFlip();*/
-		SetLookingTo(currentDestiny.Return_fPoint()); 
+		SetLookingTo(currentDestiny.Return_fPoint());
 		currentAnimation = &run[pointingDir];
 
 		//float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
@@ -168,12 +170,12 @@ void EnemyTest::SetState(float dt)
 
 		// Collision between them currently not working properly
 		if (!isNextPosFree(tempPos.ReturniPoint()) && !freePass)
-		{	
-				state = EnemyState::WAITING;
-				checkTime.Start();
-				break;
+		{
+			state = EnemyState::WAITING;
+			checkTime.Start();
+			break;
 		}
-		else position = tempPos - pivot; 
+		else position = tempPos - pivot;
 
 		state = EnemyState::CHECK;
 	}
@@ -206,7 +208,7 @@ void EnemyTest::SetState(float dt)
 		}
 		else state = EnemyState::GO_NEXT_TILE;
 
-		if (path_to_follow.size() <= 0 )
+		if (path_to_follow.size() <= 0)
 		{
 			if (isInAttackRange())
 			{
@@ -218,11 +220,11 @@ void EnemyTest::SetState(float dt)
 			}
 			else state = EnemyState::IDLE;
 		}
-		
+
 
 		// Changes range conditions
 
-	if (GetTilePos().DistanceManhattan(App->entityFactory->player->GetTilePos()) < 3)
+		if (GetTilePos().DistanceManhattan(App->entityFactory->player->GetTilePos()) < 3)
 		{
 			if (!isSubpathRange)
 				state = EnemyState::SEARCHPATH;
@@ -234,7 +236,9 @@ void EnemyTest::SetState(float dt)
 				state = EnemyState::SEARCHPATH;
 			isSubpathRange = false;
 		}
+
 		break;
+
 	}
 
 	case EnemyState::ATTACK:
@@ -245,14 +249,14 @@ void EnemyTest::SetState(float dt)
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
 			basicAttack[pointingDir].Reset();
 			state = EnemyState::CHECK;
-		}	
+		}
 	}
-		break;
+	break;
 
 	case EnemyState::WAITING:	// Needs a re-planning
-	{	
+	{
 		currentAnimation = &idle[pointingDir];
-		static int cont = 0; 
+		static int cont = 0;
 		if (checkTime.Read() > 2)
 		{
 			state = EnemyState::GO_NEXT_TILE;
@@ -261,11 +265,17 @@ void EnemyTest::SetState(float dt)
 		if (cont > 30)
 		{
 			freePass = true;
-			cont = 0; 
+			cont = 0;
 			LOG("Gave a free pass!");
 		}
 		break;
 	}
+	case EnemyState::DYING:
+		currentAnimation = &dyingAnim;
+		if (currentAnimation->Finished()) {
+			to_delete = true;
+		}
+		break; 
 	default:
 		break;
 	}
@@ -438,6 +448,13 @@ void EnemyTest::LoadAnims()
 	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 395, 54, 19, 28 });
 	basicAttack[(int)facingDirectionEnemy::W].speed = attackSpeedAnim;
 	basicAttack[(int)facingDirectionEnemy::W].loop = false;
+
+	dyingAnim.PushBack({ 12, 129, 18, 29});
+	dyingAnim.PushBack({ 40, 129, 18, 29 });
+	dyingAnim.PushBack({ 68, 130, 18, 29 });
+	dyingAnim.PushBack({ 94, 130, 19, 29 });
+	dyingAnim.loop = false; 
+	dyingAnim.speed = 5.F; 
 
 	//currentAnimation = &run[(int)facingDirectionEnemy::SE];
 	/*SetPivot(8, 32);

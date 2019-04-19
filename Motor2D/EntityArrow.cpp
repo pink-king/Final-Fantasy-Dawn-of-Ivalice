@@ -30,6 +30,7 @@ EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Ent
 	SetPivot(22, 4);
 	size.create(45, 8);
 
+	// Important for aiming offset
 	SetInitially();
 }
 

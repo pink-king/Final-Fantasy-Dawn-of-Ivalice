@@ -37,6 +37,9 @@ bool EnemyBomb::Update(float dt)
 
 bool EnemyBomb::PostUpdate()
 {
+	if (to_die)
+		state = EnemyState::DYING;
+
 	return true;
 }
 
@@ -210,6 +213,13 @@ void EnemyBomb::SetState(float dt)
 	}
 	break;
 
+	case EnemyState::DYING:
+		currentAnimation = &dyingAnim;
+		if (currentAnimation->Finished()) {
+			to_delete = true;
+		}
+		break;
+
 	default:
 		break;
 	}
@@ -340,6 +350,17 @@ void EnemyBomb::LoadAnims()
 	basicAttack[(int)facingDirectionEnemy::W].loop = false;
 	basicAttack[(int)facingDirectionEnemy::W].speed = animSpeed;
 
+
+	// I think these two are "damaged" but fit well
+	dyingAnim.PushBack({ 150, 3, 15, 22});
+	dyingAnim.PushBack({ 166, 2, 15, 22 });
+
+	dyingAnim.PushBack({ 187, 2, 15, 19 });
+	dyingAnim.PushBack({ 204, 2, 15, 19 });
+	dyingAnim.PushBack({ 221, 2, 15, 19 });
+	dyingAnim.PushBack({ 243, 9, 15, 16 });
+	dyingAnim.loop = false;
+	dyingAnim.speed = 10.F;
 
 	SetPivot(8, 18);
 	size.create(16, 20);
