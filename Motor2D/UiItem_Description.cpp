@@ -5,6 +5,9 @@
 #include "UiItem_Inventory.h"
 #include "j1Scene.h"
 #include "j1Input.h"
+#include "PlayerEntityManager.h"
+#include "j1EntityFactory.h"
+#include "LootEntity.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem*const parent) : UiItem(position, parent)
 {
@@ -66,9 +69,24 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	
 
 
-	
+	// attached character name
+	std::string destString; 
 
 	
+	if (callback->equipableType == EQUIPABLE_TYPE::SWORD)
+	{
+		destString = "Marche"; 
+	}
+	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
+	{
+		destString = "Ritz";
+	}
+	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
+	{
+		destString = "Shara";
+	}
+	this->attachedCharacter = App->gui->AddLabel(destString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	attachedCharacter->useCamera = false;
 
 }
 
@@ -178,11 +196,13 @@ void UiItem_Description::SwitchCameraUsage()
 		this->level->useCamera = true;
 		this->damageLabel->useCamera = true;
 		this->resistanceLabel->useCamera = true;
+		this->attachedCharacter->useCamera = true; 
 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
 		// this->level->useCamera = true;
+		//this->attachedCharacter->useCamera = true;
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -212,11 +232,12 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 			this->level->hide = hide;
 			this->damageLabel->hide = hide; 
 			this->resistanceLabel->hide = hide;
-
+			this->attachedCharacter->hide = hide;
 		}
 		else if(this->descrType == descriptionType::EQUIPMENT)
 		{
 			//this->level->hide = hide;
+			// this->attachedCharacter->hide = hide;
 		}
 		else if (this->descrType == descriptionType::POTION)
 		{
@@ -246,12 +267,17 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->name->hitBox.x = destNamePosX - offset;
 	this->name->hitBox.y = referencePanelPosition.y + 40;
 
-
-
-	if (this->descrType == descriptionType::WEAPON)
+	if (this->descrType == descriptionType::WEAPON || this->descrType == descriptionType::EQUIPMENT)
 	{
 		this->level->hitBox.x = referencePanelPosition.x + 150;
 		this->level->hitBox.y = referencePanelPosition.y + 180;
+
+		this->attachedCharacter->hitBox.x = referencePanelPosition.x + 30;
+		this->attachedCharacter->hitBox.y = referencePanelPosition.y + 180;
+	}
+
+	if (this->descrType == descriptionType::WEAPON)
+	{	
 
 		this->damageLabel->hitBox.x = referencePanelPosition.x + 90;
 		this->damageLabel->hitBox.y = referencePanelPosition.y + 70;
@@ -307,11 +333,12 @@ void UiItem_Description::DeleteEverything()
 		this->level->to_delete = true;
 		this->damageLabel->to_delete = true;
 		this->resistanceLabel->to_delete = true;
-
+		this->attachedCharacter->to_delete = true; 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-		//this->level->to_delete = true;
+		this->level->to_delete = true;
+		this->attachedCharacter->to_delete = true;
 	}
 	else if (this->descrType == descriptionType::POTION)
 		{

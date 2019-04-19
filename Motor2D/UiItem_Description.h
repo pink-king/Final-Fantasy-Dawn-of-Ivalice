@@ -42,8 +42,17 @@ struct currenEquipped
 
 
 
-class LootEntity; 
 
+
+struct comparisonLabel
+{
+	UiItem_Label* text = nullptr; 
+	std::string type;               // sword, etc  
+	std::string character; 
+	uint value; 
+};
+
+class LootEntity;
 class UiItem_Description: public UiItem
 {
 
@@ -56,6 +65,7 @@ public:
 
 	void HideAllElements(bool hide = true, bool closeInventory = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
+	void ChangeComparisonLabels(); 
 	void SwitchCameraUsage(); 
 
 	// void DeleteEverything(); 
@@ -68,11 +78,17 @@ public:
 	UiItem_Label* level = nullptr;
 
 	UiItem_Image* iconImageInventory = nullptr; 
+
+	// for weapons and armors, but not potions
+
+	UiItem_Label* attachedCharacter = nullptr;
 	
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 
 	UiItem_Label* resistanceLabel = nullptr;
 
+	comparisonLabel damageComparisonLabel; 
+	comparisonLabel resistanceComparisonLabel;  // this one will be used in armors too for defense
 	// for potions 
 	UiItem_Label* effectLabel = nullptr; 
 
