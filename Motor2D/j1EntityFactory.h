@@ -129,7 +129,10 @@ public:
 	unsigned int goblinLaugh;
 	unsigned int marcheUltimateScream;
 	unsigned int marcheAbility2; //tornado
-
+	unsigned int sharaBasic;
+	unsigned int dash;
+	unsigned int sharaAbility2;
+	
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile

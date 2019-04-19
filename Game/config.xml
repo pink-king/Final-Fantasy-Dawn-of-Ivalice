@@ -401,9 +401,9 @@
 
     <equipable>
       <sword>
-        <equipment id="1" character="marche" name="sword_1" dmg ="10" />
-        <equipment id="2" character="marche" name="sword_2" dmg ="16"/>
-        <equipment id="3" character="marche" name="legendary_sword" dmg ="20"/>
+        <equipment id="1" character="marche" name="sword_1" min ="5" max ="20" />
+        <equipment id="2" character="marche" name="sword_2" min ="10" max ="25"/>
+        <equipment id="3" character="marche" name="legendary_sword" min ="20" max ="30"/>
       </sword>
       
       <armor>

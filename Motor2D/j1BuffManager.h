@@ -49,6 +49,10 @@ public:
 	void AdjustEntityAnimationSpeed(j1Entity* entity);
 
 	iPoint enemydeadsubtile;
+
+	unsigned int burnedSFX;
+	unsigned int freezedSFX;
+	unsigned int paralyzedSFX;
 private:
 	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;

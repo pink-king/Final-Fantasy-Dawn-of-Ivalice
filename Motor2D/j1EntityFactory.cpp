@@ -60,11 +60,12 @@ bool j1EntityFactory::Start()
 
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 
-	lootGroundSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
 	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
+
 	marcheDamaged = App->audio->LoadFx("audio/fx/Marche_damaged.wav");
 	marcheBasic = App->audio->LoadFx("audio/fx/marche_basic.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/marche_tornado.wav");
@@ -72,6 +73,10 @@ bool j1EntityFactory::Start()
 	RitzDamaged = App->audio->LoadFx("audio/fx/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/ritz_basic.wav");
 	SharaDamaged = App->audio->LoadFx("audio/fx/Shara_damaged.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/sharaBasic.wav");
+	sharaAbility2 = App->audio->LoadFx("audio/fx/fireArrow");
+	dash = App->audio->LoadFx("audio/fx/dash.wav");
+
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
@@ -79,7 +84,6 @@ bool j1EntityFactory::Start()
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
-
 	LoadSpawnGroups();
 
 	std::srand(time(0));

@@ -59,7 +59,7 @@ bool PlayerEntityManager::Start()
 
 	pickLoot = App->audio->LoadFx("audio/fx/pickLoot.wav");
 	pickGold = App->audio->LoadFx("audio/fx/pickGold.wav");
-
+	consumHealPotion = App->audio->LoadFx("audio/fx/consumHealingPotion.wav");
 	return true;
 }
 
@@ -451,6 +451,8 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 	{
 		if (consumable == *item)
 		{
+			if (consumable->objectType == OBJECT_TYPE::POTIONS)
+				App->audio->PlayFx(consumHealPotion, 0);
 			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 			{
 				App->buff->CreateHealth((*iter)->GetCharacter(), (*iter)->GetValue(), 8);

@@ -25,6 +25,10 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 
 bool j1BuffManager::Start()
 {
+	burnedSFX = App->audio->LoadFx("audio/fx/burned.wav");
+	freezedSFX = App->audio->LoadFx("audio/fx/freezed.wav");
+	paralyzedSFX = App->audio->LoadFx("audio/fx/paralyzed.wav");
+
 	return true;
 }
 
@@ -215,6 +219,7 @@ void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float d
 	defender->stat.push_back(newStat);
 	defender->isBurned = true;
 	bool isInList = false;
+	App->audio->PlayFx(burnedSFX, 0);
 	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
 	{
 		if ((*item) == defender)
@@ -235,6 +240,7 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uin
 	defender->stat.push_back(newStat);
 	defender->isParalize = true;
 	bool isInList = false;
+	App->audio->PlayFx(paralyzedSFX, 0);
 	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
 	{
 		if ((*item) == defender)
