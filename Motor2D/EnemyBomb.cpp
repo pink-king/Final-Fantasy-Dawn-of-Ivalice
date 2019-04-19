@@ -2,6 +2,7 @@
 #include "j1Textures.h"
 #include "j1EntityFactory.h"
 #include "j1Map.h"
+#include "j1ParticlesClassic.h"
 
 EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage) : Enemy(position, speed, detectionRange, attackRange, baseDamage, 0, false, ENTITY_TYPE::ENEMY_BOMB, "Enemy Bomb")
 {
@@ -206,9 +207,9 @@ void EnemyBomb::SetState(float dt)
 
 		if (checkTime.ReadSec() > explosionDelay && currentAnimation->Finished())
 		{
+			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
 			to_delete = true;
-
 		}
 	}
 	break;
@@ -216,6 +217,7 @@ void EnemyBomb::SetState(float dt)
 	case EnemyState::DYING:
 		currentAnimation = &dyingAnim;
 		if (currentAnimation->Finished()) {
+			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
 			to_delete = true;
 		}
 		break;
