@@ -576,7 +576,7 @@ bool Crosshair::ManageInput(float dt)
 			// if clamped type is loot, it can be picked 
 
 		
-			if (clampedEntity->type == ENTITY_TYPE::LOOT)
+			if (clampedEntity->type == ENTITY_TYPE::LOOT)  // TODO:  add condition so that potions do not enter this 
 			{
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{

@@ -20,6 +20,7 @@ protected:
 	TTF_Font* font = nullptr;
 	SDL_Texture* texture = nullptr;
 
+	
 
 public:  
 	bool hide = false;

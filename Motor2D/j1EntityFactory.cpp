@@ -803,54 +803,71 @@ iPoint j1EntityFactory::SetLootPos(int x, int y)
 void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 {
 
+	SDL_Rect destRect = App->scene->lootPanelRect;
+	iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
 
-
-	switch (lootItem->GetObjectType())  // convert to if so that there can be local variables 
+	if (lootItem->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
+		float attack, resistance;
+	attack = resistance = 0.0f;
 
 
-	case OBJECT_TYPE::WEAPON_OBJECT:
 
-		float attack, resistance; 
-		attack = resistance = 0.0f;
+	std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+	for (; iter != lootItem->stats.end(); ++iter)
+	{
+		if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+		{
+			attack = (*iter)->GetValue();
+		}
+		else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+		{
+			resistance = (*iter)->GetValue();
+		}
 
-		iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
+	}
+
+	lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, App->scene->inGamePanel);
+
+
+	// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+	lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+	lootItem->MyDescription->iconImage->printFromLoot = true;
+	lootItem->MyDescription->iconImage->scaleFactor = 4.0f; 
+
+	
+         }
+
+	else if(lootItem->GetType() == LOOT_TYPE::CONSUMABLE)
+	{                                                       // TODO: Also capture the potion duration when available
+
+		uint HP = 0; 
 
 		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
 		for (; iter != lootItem->stats.end(); ++iter)
 		{
-			if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+			if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 			{
-				attack = (*iter)->GetValue(); 
+				HP = (*iter)->GetValue();
 			}
-			else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-			{
-				resistance = (*iter)->GetValue();
-            }
-			
+
 		}
 
-			SDL_Rect destRect = App->scene->lootPanelRect;
+		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), App->scene->inGamePanel);
+		
+		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, App->scene->inGamePanel);
-
-
-			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
-
-			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(320, 300), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
-			lootItem->MyDescription->iconImage->printFromLoot = true;
-
-
-			// hide all elements until the item is focused by the Corsshair 
-
-			lootItem->MyDescription->HideAllElements(true);
-
-	
-		break;
-
-/*	case OBJECT_TYPE::POTIONS:
-
-		break; */
+		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+		lootItem->MyDescription->iconImage->printFromLoot = true;
+		lootItem->MyDescription->iconImage->scaleFactor = 6.0f;
 	}
+
+
+
+	// hide all elements until the item is focused by the Corsshair 
+
+	lootItem->MyDescription->HideAllElements(true);
+
 
 }
