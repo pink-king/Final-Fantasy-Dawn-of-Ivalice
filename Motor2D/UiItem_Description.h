@@ -26,14 +26,22 @@ enum descriptionType
 	POTION
 };
 
+struct currenEquipped
+{
+	bool head = false; 
+	bool armor = false; 
+	bool weapon = false; 
+};
+
+class LootEntity; 
 
 class UiItem_Description: public UiItem
 {
 
 public:
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent);   // for equipment
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level,  UiItem*const parent);   // for weapons, right now we will print TWO variables
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, UiItem*const parent);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback,  UiItem*const parent);   // for equipment
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback,  UiItem*const parent);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem*const parent);   // for weapons, right now we will print TWO variables
 
     void Draw(const float& dt);   // do we need this?? I bet we don't 
 
@@ -62,12 +70,18 @@ public:
 	bool hide = false; 
 	bool spawnedInventoryImage = false; 
 	bool switchedCameraUsage = false; 
+
 	uint offsetFromLoot = 1000; 
 
 	iPoint referencePanelPosition; 
 
 	// TODO: variable to_delete: description (and all items contained) are only deleted when the loot item is sold in the store
 
+
+	currenEquipped myLootItemIsEquipped; 
+
+
+	LootEntity* callback = nullptr; 
 private:
 
 	EquipmentStatType equipmentLootInfo; 

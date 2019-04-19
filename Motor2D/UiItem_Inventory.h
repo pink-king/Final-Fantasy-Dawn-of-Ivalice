@@ -23,7 +23,9 @@ struct elementsStartingPositions
 	iPoint potions = iPoint(100, 100);
 };
 
+
 class LootEntity; 
+class UiItem_Description; 
 
 class UiItem_Inventory : public UiItem
 {
@@ -34,6 +36,8 @@ public:
 	bool LoadElements();
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
+
+	void De_______Equip(LootEntity*);
 
 
 	bool drawTest = false; 

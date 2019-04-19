@@ -111,6 +111,69 @@ void UiItem_Inventory::Draw(const float & dt)
 
 	//App->gui->ApplyTabBetweenSimilar(true); 
 
+
+
+}
+
+
+void UiItem_Inventory::De_______Equip(LootEntity * callback)
+{
+
+/*	// 1) first de-equip if there is a current equipped item of the same type 
+
+	std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+
+	for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+	{
+		if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT &&  (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+		{
+			App->entityFactory->player->DesequipItem((*iter));
+			(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
+		}
+		else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
+		{
+			App->entityFactory->player->DesequipItem((*iter));
+			(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
+		}
+		else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
+		{
+			App->entityFactory->player->DesequipItem((*iter));
+			(*iter)->MyDescription->myLootItemIsEquipped.head = false;
+		}
+
+	}
+
+	// 2) then equip and put the type flag in the descr 
+
+	App->entityFactory->player->EquipItem(callback);
+
+	switch (callback->GetObjectType())
+	{
+	case OBJECT_TYPE::WEAPON_OBJECT:
+		callback->MyDescription->myLootItemIsEquipped.weapon = true;
+		break; 
+	case OBJECT_TYPE::ARMOR_OBJECT:
+		callback->MyDescription->myLootItemIsEquipped.armor = true;
+		break;
+
+	case OBJECT_TYPE::HEAD_OBJECT:
+		callback->MyDescription->myLootItemIsEquipped.head = true;
+		break;
+
+	}
+	
+
+	// now, in the current item slots (head, armor, weapon), swap the last object image with the new one at the grid
+
+
+
+
+
+
+	// if there no current item, then put the new one directly 
+
+*/
+
 }
 
 

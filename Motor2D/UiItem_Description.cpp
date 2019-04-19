@@ -4,9 +4,12 @@
 #include "j1Window.h"
 #include "UiItem_Inventory.h"
 #include "j1Scene.h"
+#include "j1Input.h"
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, UiItem*const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem*const parent) : UiItem(position, parent)
 {
+	this->callback = callback; 
+
 	this->descrType = descriptionType::EQUIPMENT; 
 	this->parent = parent; 
 	this->guiType = GUI_TYPES::DESCRIPTION; 
@@ -17,8 +20,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, UiItem*const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem*const parent) : UiItem(position, parent)
 {
+	this->callback = callback;
+
 
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
@@ -68,8 +73,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, UiItem*const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem*const parent) : UiItem(position, parent)
 {
+	this->callback = callback;
+
 
 	this->descrType = descriptionType::POTION;
 	this->parent = parent;
@@ -125,6 +132,10 @@ void UiItem_Description::Draw(const float& dt)
 				HideAllElements(false);
 				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
 				
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+				{
+					App->scene->inventoryItem->De_______Equip(this->callback); 
+				}
 			}
 			else                                        // hide description ingame
 			{
@@ -275,6 +286,8 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 /*
 void UiItem_Description::DeleteEverything()
 {
+
+// TODO: put the lootentity pointer to nullptr ??? careful; 
 
 	this->iconImage->to_delete = true;
 	this->panelWithButton->to_delete = true;
