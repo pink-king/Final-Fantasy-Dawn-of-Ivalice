@@ -2,7 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1Window.h"
 #include "j1Render.h"
-
+#include "Brofiler/Brofiler.h"
 
 j1ModuleCamera2D::j1ModuleCamera2D()
 {
@@ -33,6 +33,8 @@ bool j1ModuleCamera2D::PreUpdate()
 
 bool j1ModuleCamera2D::PostUpdate()
 {
+	BROFILER_CATEGORY("Camera Update", Profiler::Color::Gainsboro);
+
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		AddTrauma(0.13f);

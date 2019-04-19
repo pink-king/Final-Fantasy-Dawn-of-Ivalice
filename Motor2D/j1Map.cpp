@@ -49,12 +49,17 @@ void j1Map::Draw()
 			continue;
 		}
 		(*layer)->tileQuadTree->DrawMap();
-		if(debugDraw)
+		if (debugDraw) {
+			BROFILER_CATEGORY("Map Quadtree Debug", Profiler::Color::DarkSlateGray);
+
 			(*layer)->tileQuadTree->DrawQuadtree();
+
+		}
 	}
 
 	if (debugDraw)
 	{
+		BROFILER_CATEGORY("Map Tiles Debug", Profiler::Color::DarkSlateGray);
 		DebugDraw();
 	}
 
@@ -548,7 +553,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 			}
 
 			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
-			//App->entityFactory->spawngroups.push_back(ret);
+			App->entityFactory->spawngroups.push_back(ret);
 			typesVec.clear();
 		}
 

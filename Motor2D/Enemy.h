@@ -51,7 +51,7 @@ enum class EnemyType
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name);
+	Enemy(iPoint position, uint movementSpeed,  uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name);
 	~Enemy();
 
 	//core loops ------
@@ -99,6 +99,7 @@ protected:
 	SDL_Texture* debugSubtile = nullptr;
 	uint baseDamage;
 
+	bool dummy = false; 
 };
 
 #endif

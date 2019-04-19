@@ -15,6 +15,7 @@ class EnemyBomb : public Enemy
 public: 
 
 	EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage);
+	EnemyBomb(iPoint position, bool dummy);
 	~EnemyBomb();
 
 	bool Start() override;
@@ -23,6 +24,7 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
+	void LoadAnims();
 	// functionality ------
 
 	void SetState(float dt);
@@ -31,7 +33,7 @@ private:
 	j1Timer checkTime;
 
 	uint explosionRange = 0; 
-	uint explosionDelay = 1;
+	uint explosionDelay = 0;
 	bool freePass = false;		// Needs a re-planing
 
 };

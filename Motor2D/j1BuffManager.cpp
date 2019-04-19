@@ -215,6 +215,8 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, uin
 	defender->stat.push_back(newStat);
 	defender->isParalize = true;
 	entitiesTimeDamage.push_back(defender);
+	// check for entity animations speed
+	AdjustEntityAnimationSpeed(defender);
 }
 
 void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
@@ -543,4 +545,22 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 
 
 	return ret;
+}
+
+void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
+{
+	switch (entity->type)
+	{
+	case ENTITY_TYPE::PLAYER:
+	{
+		if (entity->isParalize)
+			dynamic_cast<PlayerEntity*>(entity)->lastAnimationSpeed = dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed;
+		else
+			dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed = dynamic_cast<PlayerEntity*>(entity)->lastAnimationSpeed;
+		break;
+	}
+		
+	default:
+		break;
+	}
 }

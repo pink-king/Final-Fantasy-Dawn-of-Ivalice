@@ -12,6 +12,7 @@ public:
 	Projectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, const char* name);
 	~Projectile(); 
 
+	void SetInitially();
 	bool PostUpdate() override;		// Checks if its too far from the player and deletes it
 	void SetNewDirection(const fPoint& newdir);		
 	bool OnCollisionWithEnemy();	

@@ -13,12 +13,6 @@ EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Ent
 {
 	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 
-	SetPivot(14, 4);
-	size.create(45, 8);
-
-	SetPivot(22, 4);
-	size.create(45, 8);
-
 	anim.PushBack({ 0, 28, 45, 8 });
 	anim.PushBack({ 45, 28, 45,8 });
 	anim.PushBack({ 90, 28, 45,8 });
@@ -32,6 +26,11 @@ EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Ent
 	anim.speed = (float)speed;
 
 	currentAnimation = &anim;
+
+	SetPivot(22, 4);
+	size.create(45, 8);
+
+	SetInitially();
 }
 
 EntityArrow::~EntityArrow()

@@ -43,6 +43,8 @@ bool PlayerEntity::PostUpdate()
 
 bool PlayerEntity::CleanUp()
 {
+	App->tex->UnLoad(spritesheet); // TODO: check if this is unloaded
+	App->tex->UnLoad(dash_spritesheet);
 	return true;
 }
 
@@ -182,6 +184,7 @@ bool PlayerEntity::InputCombat()
 		{
 			combat_state = combatState::DODGE;
 			LOG("DODGE");
+			DoDash();
 		}
 		// etc
 		// code under construction ...
@@ -230,12 +233,12 @@ void PlayerEntity::CheckRenderFlip()
 
 void PlayerEntity::Draw()
 {
-	if (spritesheet != nullptr)
+	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
-			App->render->Blit(spritesheet, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
-			App->render->Blit(spritesheet, position.x, position.y);
+			App->render->Blit(entityTex, position.x, position.y);
 	}
 }
 
@@ -543,4 +546,22 @@ fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vecto
 		ret = previousPos;
 
 	return ret;
+}
+
+void PlayerEntity::DoDash()
+{
+	if (dash_spritesheet != nullptr)
+	{
+		inputReady = false;
+
+		currentAnimation = &dash[pointingDir];
+		entityTex = dash_spritesheet;
+		//untouchedPos = position; // stores original pos before dash
+
+		// search for target position
+
+		LOG("");
+	}
+	else
+		LOG("WARNING: no dash spritesheet defined, dash is not executed");
 }

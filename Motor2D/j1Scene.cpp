@@ -337,14 +337,14 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 75, 11, 1, 10, 1.0f); 
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }); 
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		j1Entity* ent;
-		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
+		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
@@ -365,17 +365,8 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }), 21, 10, "burn");
 	}
-
-	/*static char title[90];
-	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
-	App->win->AddStringToTitle(title);*/
-
-	
-	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
-
-	//App->win->SetTitle(App->title.data());
 
 	LoadMusicFromScene();
 	return true;

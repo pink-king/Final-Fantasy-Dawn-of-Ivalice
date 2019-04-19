@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
+#include "Brofiler/Brofiler.h"
 
 // TODO: to improve ---
 // - unlink the speed of the steps from time, do with float increments multiplicative with dt
@@ -53,6 +54,8 @@ bool j1AttackManager::PreUpdate()
 
 bool j1AttackManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Attacks Propagations", Profiler::Color::Chocolate);
+
 	bool ret = true;
 
 	// check if we have any attack queued to instantiate
