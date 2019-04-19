@@ -9,7 +9,7 @@
 #include "j1ParticlesClassic.h"
 
 EntityArrow::EntityArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) 
-	: Projectile(pos, destination, speed, owner, "Arrow")
+	: Projectile(pos, destination, speed, owner, "Arrow", PROJECTILE_TYPE::BASIC_ARROW)
 {
 	App->camera2D->AddTrauma(10.F / 100.f);
 	App->input->DoGamePadRumble(0.3f, 80);

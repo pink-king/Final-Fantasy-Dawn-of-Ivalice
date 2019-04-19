@@ -4,7 +4,7 @@
 #include "j1Input.h"
 #include "j1ParticlesClassic.h"
 
-FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner) : Projectile(pos, destination, speed, owner, "Firearrow") 
+FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner) : Projectile(pos, destination, speed, owner, "Firearrow", PROJECTILE_TYPE::FIRE_ARROW)
 {
 	App->camera2D->AddTrauma(20.F / 100.f);
 	App->input->DoGamePadRumble(0.3f, 100);

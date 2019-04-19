@@ -372,28 +372,29 @@ void j1EntityFactory::LoadSpawnGroups()
 	spawngroups.clear();
 }
 
-j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner)
+j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type)
 {
 	j1Entity* ret = nullptr;
-	ret = new EntityArrow(pos, destination, speed, owner);
-	entities.push_back(ret);
-
-	return ret;
-}
-
-j1Entity * j1EntityFactory::CreateFireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
-{
-	j1Entity* ret = nullptr;
-	ret = new FireArrow(pos, destination, speed, owner);
-	entities.push_back(ret);
-	return ret;
-}
-
-j1Entity * j1EntityFactory::CreateContagiousArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
-{
-	j1Entity* ret = nullptr;
-	ret = new ContagiousFireArrow(pos, destination, speed, owner);
-	entities.push_back(ret);
+	switch (type)
+	{
+	case PROJECTILE_TYPE::BASIC_ARROW:
+		ret = new EntityArrow(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
+	case PROJECTILE_TYPE::CONTAGIOUS_ARROW:
+		ret = new ContagiousFireArrow(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
+	case PROJECTILE_TYPE::FIRE_ARROW:
+		ret = new FireArrow(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
+	case PROJECTILE_TYPE::NO_ARROW:
+		break;
+	default:
+		break;
+	}
+	
 
 	return ret;
 }

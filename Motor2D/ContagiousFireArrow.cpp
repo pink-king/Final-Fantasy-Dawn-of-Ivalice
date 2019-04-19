@@ -9,7 +9,7 @@
 #include "j1ParticlesClassic.h"
 
 ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
-	: Projectile(pos, destination, speed, owner, "ContagiousArrow")
+	: Projectile(pos, destination, speed, owner, "ContagiousArrow", PROJECTILE_TYPE::CONTAGIOUS_ARROW)
 {
 	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 

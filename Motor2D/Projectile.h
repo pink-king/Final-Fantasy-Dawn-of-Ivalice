@@ -6,10 +6,19 @@
 
 #define DESTRUCTIONRANGE 550
 
+
+enum class PROJECTILE_TYPE
+{
+	BASIC_ARROW,
+	CONTAGIOUS_ARROW,
+	FIRE_ARROW,
+	NO_ARROW
+};
+
 class Projectile : public j1Entity
 {
 public:
-	Projectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, const char* name);
+	Projectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, const char* name, PROJECTILE_TYPE type);
 	~Projectile(); 
 
 	void SetInitially();
@@ -32,6 +41,7 @@ protected:
 	uint speed = 0;
 	float angle = 0.F;
 	bool to_explode = false;
+	PROJECTILE_TYPE type;
 };
 
 #endif

@@ -12,6 +12,7 @@
 #include "j1Gui.h"
 #include "j1App.h"
 #include "j1Scene.h"
+#include "Projectile.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -318,7 +319,7 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(),PROJECTILE_TYPE::BASIC_ARROW);
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special1)
@@ -344,6 +345,7 @@ bool Marche::Update(float dt)
 
 			App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
 
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			// add gui clock
 
