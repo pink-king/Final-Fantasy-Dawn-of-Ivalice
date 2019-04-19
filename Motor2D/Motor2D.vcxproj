@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
+    <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="ConsumableLoot.h" />
+    <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBomb.h" />

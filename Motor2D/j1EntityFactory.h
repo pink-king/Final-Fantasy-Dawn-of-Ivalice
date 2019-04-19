@@ -61,6 +61,7 @@ public:
 	
 	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner);
 	j1Entity* CreateFireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner);
+	j1Entity* CreateContagiousArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner);
 
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);

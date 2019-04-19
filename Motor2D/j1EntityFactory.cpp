@@ -9,6 +9,7 @@
 #include "LootEntity.h"
 #include "EntityArrow.h"
 #include "FireArrow.h"
+#include "ContagiousFireArrow.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -384,6 +385,14 @@ j1Entity * j1EntityFactory::CreateFireArrow(fPoint pos, fPoint destination, uint
 {
 	j1Entity* ret = nullptr;
 	ret = new FireArrow(pos, destination, speed, owner);
+	entities.push_back(ret);
+	return ret;
+}
+
+j1Entity * j1EntityFactory::CreateContagiousArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
+{
+	j1Entity* ret = nullptr;
+	ret = new ContagiousFireArrow(pos, destination, speed, owner);
 	entities.push_back(ret);
 
 	return ret;

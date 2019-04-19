@@ -799,6 +799,15 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = dynamic_cast<Enemy*>(entity)->lastAnimationSpeed;
 		break;
 	}
+
+	case ENTITY_TYPE::ENEMY_BOMB:
+	{
+		if (entity->isParalize)
+			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
+		else
+			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = dynamic_cast<Enemy*>(entity)->lastAnimationSpeed;
+		break;
+	}
 	default:
 		break;
 	}

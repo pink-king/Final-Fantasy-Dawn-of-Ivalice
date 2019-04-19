@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include <math.h>
 
+
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
 	//SetPivot(16, 40);
@@ -209,11 +210,14 @@ bool PlayerEntity::InputCombat()
 
 
 
-
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP)
+	if (aiming = true)
 	{
-		aiming = false;
-		return false;
+		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP ||
+			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_IDLE)
+		{
+			aiming = false;
+			return false;
+		}
 	}
 
 	return true;
