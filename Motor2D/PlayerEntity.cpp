@@ -552,15 +552,22 @@ void PlayerEntity::DoDash()
 {
 	if (dash_spritesheet != nullptr)
 	{
-		inputReady = false;
+		inputReady = false; // deactivate user input
 
 		currentAnimation = &dash[pointingDir];
 		entityTex = dash_spritesheet;
-		//untouchedPos = position; // stores original pos before dash
 
 		// search for target position
+		fPoint directionVector = { cos(lastAxisMovAngle), sin(lastAxisMovAngle) };
+		directionVector.Normalize();
 
-		LOG("");
+		// TODO: filter with search for this vector positions if not walkable and return last valid pos (tile center)
+		dashDestinationPos = position + directionVector * dashMaxDistance;
+
+		// adds trauma and force feedback
+		App->camera2D->AddTrauma(0.09f);
+		App->input->DoGamePadRumble(0.05f, 300);
+
 	}
 	else
 		LOG("WARNING: no dash spritesheet defined, dash is not executed");

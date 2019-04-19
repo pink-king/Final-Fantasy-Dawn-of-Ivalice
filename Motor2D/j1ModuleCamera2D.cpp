@@ -22,7 +22,7 @@ bool j1ModuleCamera2D::Start()
 {
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	
-	lerpTimer.Start();
+	//lerpTimer.Start();
 	return true;
 }
 

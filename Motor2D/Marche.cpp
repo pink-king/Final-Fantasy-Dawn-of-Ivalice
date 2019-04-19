@@ -109,56 +109,56 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dash[(int)facingDirection::E].PushBack({ 190,0, 95,110 });
 	dash[(int)facingDirection::E].PushBack({ 285,0, 95,110 });
 	dash[(int)facingDirection::E].loop = false;
-	dash[(int)facingDirection::E].speed = 13.f;
+	dash[(int)facingDirection::E].speed = 16.f;
 
 	dash[(int)facingDirection::W].PushBack({ 0,0,95,110 });
 	dash[(int)facingDirection::W].PushBack({ 95,0,95,110 });
 	dash[(int)facingDirection::W].PushBack({ 190,0, 95,110 });
 	dash[(int)facingDirection::W].PushBack({ 285,0, 95,110 });
 	dash[(int)facingDirection::W].loop = false;
-	dash[(int)facingDirection::W].speed = 10.0f;
+	dash[(int)facingDirection::W].speed = 16.0f;
 
 	dash[(int)facingDirection::S].PushBack({ 0,110,95,110 });
 	dash[(int)facingDirection::S].PushBack({ 95,110,95,110 });
 	dash[(int)facingDirection::S].PushBack({ 190,110, 95,110 });
 	dash[(int)facingDirection::S].PushBack({ 285,110, 95,110 });
 	dash[(int)facingDirection::S].loop = false;
-	dash[(int)facingDirection::S].speed = 10.0f;
+	dash[(int)facingDirection::S].speed = 16.0f;
 
 	dash[(int)facingDirection::N].PushBack({ 0,220,95,110 });
 	dash[(int)facingDirection::N].PushBack({ 95,220,95,110 });
 	dash[(int)facingDirection::N].PushBack({ 190,220, 95,110 });
 	dash[(int)facingDirection::N].PushBack({ 285,220, 95,110 });
 	dash[(int)facingDirection::N].loop = false;
-	dash[(int)facingDirection::N].speed = 10.0f;
+	dash[(int)facingDirection::N].speed = 16.0f;
 
 	dash[(int)facingDirection::SE].PushBack({ 0,330,95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 95,330,95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 190,330, 95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 285,330, 95,110 });
 	dash[(int)facingDirection::SE].loop = false;
-	dash[(int)facingDirection::SE].speed = 10.0f;
+	dash[(int)facingDirection::SE].speed = 16.0f;
 
 	dash[(int)facingDirection::SW].PushBack({ 0,330,95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 95,330,95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 190,330, 95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 285,330, 95,110 });
 	dash[(int)facingDirection::SW].loop = false;
-	dash[(int)facingDirection::SW].speed = 10.0f;
+	dash[(int)facingDirection::SW].speed = 16.0f;
 
 	dash[(int)facingDirection::NE].PushBack({ 0,440,95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 95,440,95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 190,440, 95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 285,440, 95,110 });
 	dash[(int)facingDirection::NE].loop = false;
-	dash[(int)facingDirection::NE].speed = 10.0f;
+	dash[(int)facingDirection::NE].speed = 16.0f;
 
 	dash[(int)facingDirection::NW].PushBack({ 0,440,95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 95,440,95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 190,440, 95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 285,440, 95,110 });
 	dash[(int)facingDirection::NW].loop = false;
-	dash[(int)facingDirection::NW].speed = 10.0f;
+	dash[(int)facingDirection::NW].speed = 16.0f;
 
 	// TODO: polish this offset positions
 	// this offsets relates to its position inside the 95,110 rect pivot position (character foot line)
@@ -202,7 +202,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dashPivotOffset[(int)facingDirection::SW][2] = { 28.f,92.f };
 	dashPivotOffset[(int)facingDirection::SW][3] = { 23.f,93.f };
 
-
+	dashMaxDistance = 64.f;
 
 	currentAnimation = &run[(int)facingDirection::W];
 
@@ -261,13 +261,9 @@ bool Marche::Update(float dt)
 			if (!inputReady) // dash, or animations that needs control of its finish state
 			{	// TODO: do switch combat state if this get more complexity
 
-				/*if (previousFrame != (int)currentAnimation->GetCurrentFloatFrame())
-				{*/
-				
 				//reposition pos
 				transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
 				transference_pivot -= pivot;
-				//}
 
 				if (currentAnimation->Finished())
 				{
@@ -278,8 +274,9 @@ bool Marche::Update(float dt)
 					transference_pivot = { 0,0 };
 				}
 
+				position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
+
 			}
-			//LOG("player pipos: %f,%f", GetPivotPos().x, GetPivotPos().y);
 		}
 		else
 		{

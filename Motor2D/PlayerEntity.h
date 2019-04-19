@@ -96,11 +96,11 @@ public:
 protected:
 	void DoDash();
 
-	fPoint dashMaxDistance;
+	float dashMaxDistance;
 	int previousFrame; // to swap position with displaced sprites
 	fPoint untouchedPos; // stores original position before the dodge animation
 	fPoint transference_pivot = { 0,0 }; // to fake draw position when needed
-	
+	fPoint dashDestinationPos;
 
 public:
 	
