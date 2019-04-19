@@ -368,15 +368,6 @@ bool j1Scene::Update(float dt)
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
 	}
 
-	/*static char title[90];
-	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
-	App->win->AddStringToTitle(title);*/
-
-	
-	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
-
-	//App->win->SetTitle(App->title.data());
-
 	LoadMusicFromScene();
 	return true;
 }

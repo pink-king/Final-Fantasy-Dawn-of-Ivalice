@@ -8,6 +8,7 @@
 #include "j1Scene.h"
 #include "LootEntity.h"
 #include "EntityArrow.h"
+#include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
 
@@ -114,7 +115,8 @@ bool j1EntityFactory::PreUpdate()
 bool j1EntityFactory::Update(float dt)
 {
 	bool ret = true;
-
+	BROFILER_CATEGORY("Entities Update", Profiler::Color::Fuchsia);
+	
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
 	{
@@ -165,13 +167,16 @@ bool j1EntityFactory::Update(float dt)
 
 bool j1EntityFactory::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("Entities PostUpdate", Profiler::Color::BurlyWood);
+
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		(*item)->PostUpdate();
 	}
 	std::sort(draw_entities.begin(), draw_entities.end(), j1EntityFactory::SortByYPos);
+
+	BROFILER_CATEGORY("Entities Drawing", Profiler::Color::BurlyWood);
 
 	std::vector<j1Entity*>::iterator drawItem = draw_entities.begin();
 	for (; drawItem != draw_entities.end(); ++drawItem)

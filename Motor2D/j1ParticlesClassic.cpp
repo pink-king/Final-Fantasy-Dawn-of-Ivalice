@@ -5,7 +5,7 @@
 #include "j1ParticlesClassic.h"
 #include "j1Audio.h"
 #include "j1EntityFactory.h"
-
+#include "Brofiler/Brofiler.h"
 //#include "SDL/include/SDL_timer.h"
 
 #define MARGIN 20
@@ -120,6 +120,8 @@ bool j1ParticlesClassic::Update(float dt)
 // Update: draw background
 bool j1ParticlesClassic::PostUpdate()//float dt)
 {
+	BROFILER_CATEGORY("Particles Update", Profiler::Color::BlanchedAlmond);
+
 	for (std::list<Particle*>::iterator p = active.begin(); p != active.end();)
 	{
 
