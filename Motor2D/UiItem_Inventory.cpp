@@ -12,6 +12,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
 {
 	this->parent = parent; 
 	this->guiType = GUI_TYPES::INVENTORY;
+	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 41, startingPos.y + 285 }, &tab_image, parent);
 }
 
 
@@ -112,9 +113,6 @@ void UiItem_Inventory::Draw(const float & dt)
 
 }
 
-void UiItem_Inventory::DoLogicHovered()
-{
-	App->gui->AddLabel("hdjfsdbfsjdjfg", { 255,255,255,255 }, App->font->openSansBold36, { 300,300 }, this);
-}
+
 
 

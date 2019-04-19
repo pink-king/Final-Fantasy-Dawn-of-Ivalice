@@ -57,6 +57,7 @@ public:
 	UiItem * pausePanel = nullptr;
 	UiItem * inventory = nullptr;
 	UiItem_Label * coins_label = nullptr;
+	UiItem_Image * tab_inventory = nullptr;
 	SDL_Rect lootPanelRect; 
 	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;

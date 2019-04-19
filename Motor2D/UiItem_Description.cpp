@@ -110,8 +110,11 @@ void UiItem_Description::Draw(const float& dt)
 		{
 			if (App->scene->inventory->enable)             // shpw description
 			{
+				App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffset.x;
+				App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
 				HideAllElements(false);
 				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+				
 			}
 			else                                        // hide description ingame
 			{

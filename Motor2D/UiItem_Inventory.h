@@ -14,6 +14,7 @@
 #define boxSeparation iPoint(30,70)
 
 #define staringPosition iPoint(274, 101)
+#define tabOffset iPoint(15,17)
 
 struct elementsStartingPositions
 {
@@ -33,7 +34,7 @@ public:
 	bool LoadElements();
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
-	void DoLogicHovered();
+
 
 	bool drawTest = false; 
 
@@ -42,6 +43,8 @@ public:
 	elementsStartingPositions initialPositions; 
 	iPoint startingPos = { 274, 101 };
 
+private:
+	SDL_Rect tab_image = { 726,1,69,70 };
 };
 
 
