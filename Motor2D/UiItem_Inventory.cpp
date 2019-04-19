@@ -33,7 +33,7 @@ bool UiItem_Inventory::LoadElements()
 			{
 				iPoint destPos = {};
 
-				/*if ((*iter)->player == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+			if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 				{	
 					// current weapon, armor and head have a target position each
 					switch ((*iter)->GetObjectType())
@@ -66,8 +66,8 @@ bool UiItem_Inventory::LoadElements()
 				
 			}
 		}
-	}
-	*/
+	}*/
+	
 	
 	// bag objects
 	if (!App->entityFactory->player->bagObjects.empty())
@@ -177,7 +177,7 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 	for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 	{
-	/*	if ((*iter)->player == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+	/*	if ((*iter)->character  == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 		{*/
 			if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
 			{
