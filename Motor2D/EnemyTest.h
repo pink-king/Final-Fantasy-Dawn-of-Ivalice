@@ -46,6 +46,7 @@ public:
 private:
 	j1Timer checkTime; 
 
+	bool attacked = false; 
 	bool freePass = false;		// Needs a re-planing
 };
 

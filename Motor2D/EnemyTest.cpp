@@ -21,7 +21,7 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 
 // Standard stats
 
-EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 75, 10, 1, 10, 0.8F, dummy, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
+EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 75, 10, 1, 10, 1.3F, dummy, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
 {
 	LoadAnims();
 }
@@ -215,6 +215,7 @@ void EnemyTest::SetState(float dt)
 				SetLookingTo(App->entityFactory->player->GetPivotPos());
 				//currentAnimation = &idle[pointingDir];
 				state = EnemyState::ATTACK;
+				currentAnimation = &basicAttack[pointingDir];
 				LOG("Attacking!");
 				checkTime.Start();
 			}
@@ -243,11 +244,16 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::ATTACK:
 	{
-		currentAnimation = &basicAttack[pointingDir];
-		if (/*checkTime.ReadSec() > attackPerS &&*/ currentAnimation->GetCurrentFloatFrame() >= 2)
+		
+		if (/*checkTime.ReadSec() > attackPerS &&*/ (int)currentAnimation->GetCurrentFloatFrame() == 2 && !attacked )
 		{
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
+			attacked = true; 
+		}
+		if (currentAnimation->Finished())
+		{
 			basicAttack[pointingDir].Reset();
+			attacked = false;
 			state = EnemyState::CHECK;
 		}
 	}
