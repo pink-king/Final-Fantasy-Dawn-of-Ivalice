@@ -11,7 +11,7 @@
 #define MAX_Equipped 3
 
 #define boxSize 48                   
-#define boxSeparation iPoint(30,70)
+#define boxSeparation iPoint(30,74)
 
 #define staringPosition iPoint(274, 101)
 #define tabOffset iPoint(15,17)
