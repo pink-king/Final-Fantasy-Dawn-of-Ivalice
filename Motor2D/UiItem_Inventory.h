@@ -11,18 +11,23 @@
 #define MAX_Equipped 3
 
 #define boxSize 48                   
-#define boxSeparation iPoint(30,70)
+#define boxSeparation iPoint(77,74)
 
 #define staringPosition iPoint(274, 101)
+#define tabOffset iPoint(15,17)
 
-struct elementsStartingPositions
-{
-	iPoint weaponsAndEquipment = iPoint(100, 100); 
-	iPoint currentItems = iPoint(100, 100);
+struct elementsStartingPositionsOffsets
+{ 
+	iPoint currentWeapon = iPoint(56, 47);
+	iPoint currentHead = iPoint(56, 118);
+	iPoint currentArmor = iPoint(56, 194);
+
 	iPoint potions = iPoint(100, 100);
 };
 
+
 class LootEntity; 
+class UiItem_Description; 
 
 class UiItem_Inventory : public UiItem
 {
@@ -33,15 +38,19 @@ public:
 	bool LoadElements();
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
-	void DoLogicHovered();
+
+	void De_______Equip(LootEntity*);
+
 
 	bool drawTest = false; 
 
 
 
-	elementsStartingPositions initialPositions; 
+	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 274, 101 };
 
+private:
+	SDL_Rect tab_image = { 726,1,69,70 };
 };
 
 

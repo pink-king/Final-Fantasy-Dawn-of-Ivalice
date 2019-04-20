@@ -304,16 +304,31 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			if (inventory->enable)
+			App->pause = !App->pause;
+			if (App->pause)
 			{
-				App->audio->PlayFx(open_closeInventory, 0);
-				inventory->enable = false;
+				inventory->enable = true;
+				if (inventory->enable)
+					App->audio->PlayFx(open_closeInventory, 0);
+				
+				App->gui->resetHoverSwapping = false;
+				inventoryItem->LoadElements();
 			}
 			else
 			{
-				App->audio->PlayFx(open_closeInventory, 0);
-				inventory->enable = true;
+				inventory->enable = false;
+				if (!inventory->enable)
+					App->audio->PlayFx(open_closeInventory, 0);
 			}
+			
+			 
+
+			
+		}
+		if (inventory->enable)
+		{
+			SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
+			SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -436,7 +451,11 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		if ( lootFlag == "loot")
 		{
 
-			lootPanelRect = &section; 
+			lootPanelRect = section; 
+		}
+		else if (lootFlag == "lootNoButton")
+		{
+			lootPanelRectNoButton = section;
 		}
 		else
 		{                                  // this is useless now

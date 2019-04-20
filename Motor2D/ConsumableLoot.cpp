@@ -2,6 +2,7 @@
 #include "j1Entity.h"
 #include "easing.h"
 #include "j1EntityFactory.h"
+#include "j1Render.h"
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
@@ -43,6 +44,11 @@ bool Consumable::Update(float dt)
 			LOG("displaced %i",position.x - originPos.x);
 			LOG("actual time %f", timeTest);
 		}
+			else if (!repositionDescription)
+		{
+			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
+			repositionDescription = true;
+		}
 		else
 		{
 			grounded = true;
@@ -54,6 +60,8 @@ bool Consumable::Update(float dt)
 			checkgrounded = false;
 			App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 		}
+	
+
     
 	return true;
 }

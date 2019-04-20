@@ -212,12 +212,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = (*item)->hitBox.x - (selected_object->hitBox.x + selected_object->hitBox.w);
+					currentDistance = (*item)->hitBox.x - (first_selected->hitBox.x + first_selected->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -260,12 +260,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = selected_object->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
+					currentDistance = first_selected->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -311,12 +311,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = selected_object->hitBox.y - (*item)->hitBox.y;
+					currentDistance = first_selected->hitBox.y - (*item)->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -360,12 +360,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-
+				UiItem * first_selected = selected_object;
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = (*item)->hitBox.y - selected_object->hitBox.y;
+					currentDistance = (*item)->hitBox.y - first_selected->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -473,7 +473,24 @@ UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem 
 
 	return (UiItem_Image*)newUIItem;
 }
+UiItem_Image* j1Gui::AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex, UiItem_Description* myDescr)
+{
+	UiItem* newUIItem = nullptr;
 
+
+	newUIItem = new UiItem_Image(position, section, parent, newTex, myDescr);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_Image*)newUIItem;
+}
+UiItem_Inventory* j1Gui::AddInventory(UiItem* const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = new UiItem_Inventory(parent);
+	ListItemUI.push_back(newUIItem);
+	return (UiItem_Inventory*)newUIItem;
+}
 UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
@@ -606,12 +623,12 @@ UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::
 
 
 
-UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent)
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem*const parent)
 {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, parent);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -620,17 +637,29 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, UiItem*const parent) {
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback,  UiItem*const parent) {
 	
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, parent);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
 
 
 	return (UiItem_Description*)newUIItem;
 
+}
+
+UiItem_Description * j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+
+	return (UiItem_Description*)newUIItem;
 }
 
 

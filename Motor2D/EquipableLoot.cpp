@@ -14,6 +14,11 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 
 Equipable::~Equipable()
 {
+
+
+	//this->MyDescription = nullptr; 
+
+
 	LOG("LootEquipment destoyed");
 }
 
@@ -37,6 +42,12 @@ bool Equipable::Update(float dt)
 		LOG("displaced %f", position.x - originPos.x);
 		LOG("actual time %f", timeTest);
 	}
+	else if (!repositionDescription)
+	{
+		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
+		repositionDescription = true;
+	}
+
 	else
 	{
 		grounded = true;
@@ -48,6 +59,12 @@ bool Equipable::Update(float dt)
 		checkgrounded = false;
 		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 	}
+
+	/*if (!spawnedDescription)
+	{*/
+	CheckClampedCrossHairToSpawnDescription();
+	//}
+
 	return true;
 }
 

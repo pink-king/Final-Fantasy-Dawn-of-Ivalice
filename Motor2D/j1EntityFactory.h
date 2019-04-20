@@ -101,6 +101,7 @@ public:
 	LOOT_TYPE WillDrop();
 	iPoint GetEnemySubtile(j1Entity* enemy);
 	iPoint SetLootPos(int x, int y);
+	void GenerateDescriptionForLootItem(LootEntity* lootItem);
 
 public:
 
