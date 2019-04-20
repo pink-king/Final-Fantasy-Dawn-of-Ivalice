@@ -124,6 +124,22 @@ bool j1ParticlesClassic::Start()
 	ice03.anim.loop = false;
 	ice03.anim.speed = 10.F;
 	ice03.texture = particleAtlas2;
+
+	poison01.anim.PushBack({ 0, 253, 16, 16 });
+	poison01.anim.PushBack({ 16, 253, 16, 16 });
+	poison01.anim.PushBack({ 32, 253, 16, 16 });
+	poison01.anim.PushBack({ 48, 253, 16, 16 });
+	poison01.anim.loop = false;
+	poison01.anim.speed = 15.F;
+	poison01.texture = particleAtlas2;
+
+	poison02.anim.PushBack({ 0, 269, 16, 16 });
+	poison02.anim.PushBack({ 16, 269, 16, 16 });
+	poison02.anim.PushBack({ 32, 269, 16, 16 });
+	poison02.anim.PushBack({ 48, 269, 16, 16 });
+	poison02.anim.loop = false;
+	poison02.anim.speed = 15.F;
+	poison02.texture = particleAtlas2;
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
@@ -170,11 +186,13 @@ bool j1ParticlesClassic::Update(float dt)
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
 
-		AddParticle(fire01, p.x, p.y, { 0,0 },0u);
+		/*AddParticle(fire01, p.x, p.y, { 0,0 },0u);
 		AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
 		AddParticle(ice01, p.x, p.y, { 0,0 }, 2000u);
 		AddParticle(ice02, p.x, p.y, { 0,0 }, 4000u);
-		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);
+		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
+		AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
+		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
 
 	}
 
