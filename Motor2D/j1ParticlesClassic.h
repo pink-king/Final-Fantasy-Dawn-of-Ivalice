@@ -74,8 +74,8 @@ public:
 	Particle ice01;
 	Particle ice02;
 	Particle ice03; 
-
-
+	Particle poison01;
+	Particle poison02;
 };
 
 #endif // __j1PARTICLES_H__

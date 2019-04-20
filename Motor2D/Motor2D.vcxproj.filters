@@ -22,9 +22,6 @@
     <ClCompile Include="EnemyTest.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="EntityArrow.cpp">
-      <Filter>Development\Modules\Entities\Projectiles</Filter>
-    </ClCompile>
     <ClCompile Include="EquipableLoot.cpp">
       <Filter>Development\Modules\Entities\Loot</Filter>
     </ClCompile>
@@ -155,6 +152,12 @@
     <ClCompile Include="UiItem_HitPoint.cpp">
       <Filter>Development\Modules\GUI\special items</Filter>
     </ClCompile>
+    <ClCompile Include="MagicBolt.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicArrow.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -178,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="EnemyTest.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityArrow.h">
-      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="EquipableLoot.h">
       <Filter>Development\Modules\Entities\Loot</Filter>
@@ -331,6 +331,12 @@
     </ClInclude>
     <ClInclude Include="UiItem_HitPoint.h">
       <Filter>Development\Modules\GUI\special items</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicBolt.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicArrow.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

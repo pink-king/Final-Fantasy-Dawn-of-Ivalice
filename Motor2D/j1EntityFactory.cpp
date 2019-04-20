@@ -7,8 +7,9 @@
 #include "j1BuffManager.h"
 #include "j1Scene.h"
 #include "LootEntity.h"
-#include "EntityArrow.h"
+#include "BasicArrow.h"
 #include "FireArrow.h"
+#include "MagicBolt.h"
 #include "ContagiousFireArrow.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
@@ -382,7 +383,7 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 	switch (type)
 	{
 	case PROJECTILE_TYPE::BASIC_ARROW:
-		ret = new EntityArrow(pos, destination, speed, owner);
+		ret = new BasicArrow(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
 	case PROJECTILE_TYPE::CONTAGIOUS_ARROW:
@@ -393,8 +394,14 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = new FireArrow(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::MAGIC_BOLT:
+		ret = new MagicBolt(pos, destination, speed, owner); 
+		entities.push_back(ret); 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
+
 	default:
 		break;
 	}

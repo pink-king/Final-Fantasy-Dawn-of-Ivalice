@@ -280,6 +280,8 @@ bool Shara::Update(float dt)
 			//App->audio->PlayFx(App->entityFactory->ritzBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::BASIC_ARROW);
+
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
@@ -294,10 +296,11 @@ bool Shara::Update(float dt)
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
 
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
-			App->camera2D->AddTrauma(20.f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			//App->camera2D->AddTrauma(20.f / 100.f);
+			//App->input->DoGamePadRumble(0.3f, 100);
 			// add gui clock
 
 			/*if (!App->gui->spawnedClocks.Ritz.special1)
@@ -320,6 +323,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 
