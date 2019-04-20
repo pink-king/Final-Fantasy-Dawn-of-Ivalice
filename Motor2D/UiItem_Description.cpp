@@ -219,7 +219,6 @@ void UiItem_Description::Draw(const float& dt)
 				{
 					App->gui->resetHoverSwapping = false;
 					App->scene->inventoryItem->LoadElements();
-					App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
 				}
 
 				if(hasToCompare)
