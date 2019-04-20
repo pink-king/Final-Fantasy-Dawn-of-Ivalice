@@ -374,6 +374,14 @@ bool Ritz::Update(float dt)
 	{
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, this, "\0", 20);
 	}*/
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			to_die = true;
+		}
+	}
+
 	return true;
 }
 

@@ -262,6 +262,13 @@ bool Shara::Update(float dt)
 		}
 	}
 
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			to_die = true;
+		}
+	}
 
 	// CHECK COMBAT STATE
 	switch (combat_state)

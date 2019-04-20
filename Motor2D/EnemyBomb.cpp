@@ -3,6 +3,7 @@
 #include "j1EntityFactory.h"
 #include "j1Map.h"
 #include "j1ParticlesClassic.h"
+#include "j1BuffManager.h"
 
 EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage) : Enemy(position, speed, detectionRange, attackRange, baseDamage, 0, false, ENTITY_TYPE::ENEMY_BOMB, "Enemy Bomb")
 {
@@ -37,6 +38,13 @@ bool EnemyBomb::Update(float dt)
 	if(!isParalize)
 		SetState(dt);
 	
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			to_die = true;
+		}
+	}
 	return true;
 }
 

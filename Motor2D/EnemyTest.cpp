@@ -81,6 +81,13 @@ bool EnemyTest::Update(float dt)
 		}*/
 	}
 
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			to_die = true;
+		}
+	}
 	/*if (life <= 0)
 	{
 		CleanUp(); 

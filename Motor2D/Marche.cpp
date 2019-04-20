@@ -454,6 +454,10 @@ bool Marche::Update(float dt)
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
+	{
+		App->buff->CreateParalize(this, this, 5, 5, "a");
+	}
 
 	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{
@@ -468,6 +472,13 @@ bool Marche::Update(float dt)
 	//	
 	//}
 
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			to_die = true;
+		}
+	}
 	return true;
 }
 

@@ -169,6 +169,8 @@ bool j1EntityFactory::Update(float dt)
 			}
 			
 		}
+
+
 	}
 
 	return ret;

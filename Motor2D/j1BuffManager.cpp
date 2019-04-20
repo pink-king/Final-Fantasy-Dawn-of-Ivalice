@@ -37,7 +37,7 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (entitiesTimeDamage.size() != 0)
+	/*if (entitiesTimeDamage.size() != 0)
 	{
 		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
 		for (; item != entitiesTimeDamage.end() && ret; ++item)
@@ -47,7 +47,7 @@ bool j1BuffManager::Update(float dt)
 				entitiesTimeDamage.remove(*item);
 			}
 		}
-	}
+	}*/
 	return ret;
 }
 
