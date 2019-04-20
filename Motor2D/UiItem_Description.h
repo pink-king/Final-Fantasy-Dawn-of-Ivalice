@@ -66,7 +66,7 @@ public:
 
 	void HideAllElements(bool hide = true, bool closeInventory = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
-	void ChangeComparisonLabels(); 
+	bool ChangeComparisonLabels(); 
 	void SwitchCameraUsage(); 
 
 	// void DeleteEverything(); 
@@ -108,6 +108,13 @@ public:
 
 
 	LootEntity* callback = nullptr; 
+
+	// to capture
+	float attack; 
+	float resistance; 
+
+	// flag
+	bool hasToCompare = true; 
 private:
 
 	EquipmentStatType equipmentLootInfo; 

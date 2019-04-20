@@ -13,6 +13,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 {
 	this->callback = callback; 
 
+	this->resistance = Value; 
+
 	this->descrType = descriptionType::EQUIPMENT; 
 	this->parent = parent; 
 	this->guiType = GUI_TYPES::DESCRIPTION; 
@@ -30,6 +32,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 {
 	this->callback = callback;
 
+	this->attack = Attack; 
+	this->resistance = resistance;   // needed for comparison labels
 
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
@@ -55,13 +59,13 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->level->useCamera = false;
 
 	// - - - - - - - - - - - - - - - - - - 
-	std::string resString("Resistance: "); 
+	std::string resString("RES: "); 
 	resString.append(std::to_string((int)resistance));
 	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	
 	resistanceLabel->useCamera = false;
 
-	std::string dmgString("Damage: ");
+	std::string dmgString("DMG: ");
 	dmgString.append(std::to_string((int)Attack));
     damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	
@@ -187,36 +191,163 @@ void UiItem_Description::Draw(const float& dt)
 					}
 					
 				}
+
+				if(hasToCompare)
+				ChangeComparisonLabels();    // "+3 dmg", "+4def ect
+
+			
 			}
 			else                                        // hide description ingame
 			{
+				
+
 				HideAllElements(true);
 			}
+
+		
 		}
 		else
 		{
 			HideAllElements(true);
+
+			hasToCompare = true;  // reset comparison label
 		}
 	}
 
 
-	
-
-	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == callback || 
-		App->gui->selected_object == this->iconImageInventory)
-	{
-		ChangeComparisonLabels(); 
-	}
 
 }
 
 
-void UiItem_Description::ChangeComparisonLabels()
+bool UiItem_Description::ChangeComparisonLabels()
 {
 
+	LOG(" --------------------------------------------    Compared items"); 
+
+	bool ret = false;
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+
+		if (this->descrType == descriptionType::WEAPON)
+		{
+			std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
+
+			for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
+			{
+				if ((*lootItem) != this->callback)
+				{
+
+
+
+					float attack = 0.0f;
+					float resistance = 0.0f;
+
+					if ((*lootItem)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
+					{
+
+						if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()
+							&& this->damageComparisonLabel.character == "Marche")
+						{
+
+							std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
+
+							for (; iter != (*lootItem)->stats.end(); ++iter)
+							{
+								if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+								{
+									attack = (*iter)->GetValue();
+								}
+								else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+								{
+									resistance = (*iter)->GetValue();
+								}
+
+							}
+
+							this->resistanceComparisonLabel.value = (int)(this->resistance - resistance);    // diff between new item and current
+							this->damageComparisonLabel.value = (int)(this->attack - attack);
+
+							std::string dmgString = "+ ";
+							dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
+
+							SDL_Color destColor = { 0, 0, 0, 255 };
+							if (this->damageComparisonLabel.value > 0)
+							{
+								destColor = { 0, 255, 0, 255 };
+							}
+							else if (this->damageComparisonLabel.value <= 0)
+							{
+								destColor = { 255, 0, 0, 255 };
+							}
+						/*	else
+							{
+								destColor = { 0, 0, 0, 0 };
+							}*/
+
+							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
+
+							std::string resString = "+ ";
+							resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
+
+							destColor = { 0, 0, 0, 255 };
+							if (this->resistanceComparisonLabel.value > 0)
+							{
+								destColor = { 0, 255, 0, 255 };
+							}
+							else if (this->resistanceComparisonLabel.value <= 0)
+							{
+								destColor = { 255, 0, 0, 255 };
+							}
+							/*else
+							{
+								destColor = { 0, 0, 0, 0 };
+							}*/
+
+
+							this->resistanceComparisonLabel.label->ChangeTextureIdle(resString, &destColor, App->font->openSansBold18);
+
+
+							ret = true;
+						}
+						/*else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
+							&& this->damageComparisonLabel.character == "Ritz")
+						{
+
+
+						}
+						else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
+							&& this->damageComparisonLabel.character == "Shara")
+						{
+
+
+						}*/
+					}
+
+
+
+
+				}
+				
+			
+			}
+		}
+		/*else if (this->descrType == descriptionType::EQUIPMENT)
+	    {
+   
+	    }*/
+	}
+		
+
+	hasToCompare = false;
+
+
+	return ret; 
+
+}
 
 	
-}
+
 
 
 void UiItem_Description::SwitchCameraUsage()
@@ -338,10 +469,10 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 100;
 
 
-		/*this->damageComparisonLabel.label->hitBox.x = ; 
-		this->damageComparisonLabel.label->hitBox.y = ;
-		this->resistanceComparisonLabel.label->hitBox.x = ;
-		this->resistanceComparisonLabel.label->hitBox.y = ;*/
+		this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
+		this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
+    	this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
+		this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
