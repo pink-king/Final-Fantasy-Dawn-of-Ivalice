@@ -261,6 +261,11 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
 	{
 
+
+		
+		// create a new one
+		App->entityFactory->GenerateDescriptionForLootItem(this); 
+		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));
 		this->MyDescription->HideAllElements(false); 
 
 		spawnedDescription = true; 
@@ -268,10 +273,15 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
 	{
 
-		this->MyDescription->HideAllElements(true);
+		// delete last descr
+		this->MyDescription->DeleteEverything();
+		this->MyDescription = nullptr;
+
+
+		//this->MyDescription->HideAllElements(true);
 
 		spawnedDescription = false;
 	}

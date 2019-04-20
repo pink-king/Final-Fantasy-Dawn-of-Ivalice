@@ -70,7 +70,7 @@ public:
 	bool ChangeComparisonLabels(); 
 	void SwitchCameraUsage(); 
 
-	// void DeleteEverything(); 
+	void DeleteEverything(); 
 
 public:
 	// - - - - common - - - - // 

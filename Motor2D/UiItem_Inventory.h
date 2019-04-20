@@ -41,6 +41,7 @@ public:
 
 	void De_______Equip(LootEntity*);
 
+	void De_______GenerateDescription(LootEntity*, bool firstTime);
 
 	bool drawTest = false; 
 

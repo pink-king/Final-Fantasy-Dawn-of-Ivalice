@@ -43,11 +43,11 @@ bool Equipable::Update(float dt)
 		LOG("displaced %f", position.x - originPos.x);
 		LOG("actual time %f", timeTest);
 	}
-	else if(!repositionDescription)
+	/*else if(!repositionDescription)
 	{
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
 		repositionDescription = true; 
-	}
+	}*/
 
 
 	/*if (!spawnedDescription)

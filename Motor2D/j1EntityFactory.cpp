@@ -207,7 +207,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 
 			entities.push_back(ret);
 
-			GenerateDescriptionForLootItem((LootEntity*)ret);
+			//GenerateDescriptionForLootItem((LootEntity*)ret);
 		}
 		LOG("From factory Loot Entity");
 		break;

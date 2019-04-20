@@ -28,6 +28,10 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 		{
+
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true); 
 			
 				iPoint destPos = {};
 
@@ -107,6 +111,11 @@ if (!App->entityFactory->player->equipedObjects.empty())
 		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 		{
 			
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true);
+
+
 				iPoint position(0, 0);
 
 				if (i == 5)
@@ -153,6 +162,12 @@ if (!App->entityFactory->player->equipedObjects.empty())
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
 		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
 		{
+
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true);
+
+
 			iPoint position_1 = { (startingPos.x + 665), (startingPos.y + 302 ) };
 
 			(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
@@ -172,6 +187,57 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 	return true;
 }
+
+
+void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
+{
+	if (firstTime)
+	{
+		if (!ent->spawnedDescription)
+		{
+			// create a new description
+			App->entityFactory->GenerateDescriptionForLootItem(ent);
+			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			ent->MyDescription->HideAllElements(false);
+
+			ent->spawnedDescription = true;
+		}
+
+	}
+	else
+	{
+		 // if the selected object is the description icon, create a new description
+
+		if (App->gui->selected_object == ent->MyDescription->iconImageInventory && !ent->spawnedDescription)  // first condition repeated from description cpp
+		{
+
+			// create a new description
+				App->entityFactory->GenerateDescriptionForLootItem(ent);
+				ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+				ent->MyDescription->HideAllElements(false);
+
+				ent->spawnedDescription = true;
+		}
+
+		// if tabbed object stops to be the description's icon image
+
+		if (ent->spawnedDescription && App->gui->selected_object != ent->MyDescription->iconImageInventory && !ent->MyDescription->hide)
+		{
+
+			// delete last descr
+			ent->MyDescription->DeleteEverything();
+			ent->MyDescription = nullptr;
+
+
+			ent->spawnedDescription = false;
+		}
+
+
+	}
+
+
+}
+
 
 /*
 void UiItem_Inventory::DoLogicSelected(LootEntity * ent, bool doIt)
