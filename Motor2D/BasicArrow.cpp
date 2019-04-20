@@ -15,24 +15,12 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 	App->input->DoGamePadRumble(0.3f, 80);
 	// TODO SFX arrow throwing
 
-	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
-
-	anim.PushBack({ 0, 28, 45, 8 });
-	anim.PushBack({ 45, 28, 45,8 });
-	anim.PushBack({ 90, 28, 45,8 });
-	anim.PushBack({ 135, 28, 45, 8 });
-	anim.PushBack({ 180, 28, 45, 8 });
-	anim.PushBack({ 225, 28, 45, 8 });
-	anim.PushBack({ 270, 28, 45, 8 });
-	anim.PushBack({ 315, 28, 45, 8 });
-	anim.PushBack({ 360, 28, 45, 8 });
-	anim.PushBack({ 405, 28, 45, 8 });
-	anim.speed = (float)speed;
-
+	entityTex = App->entityFactory->arrowsTexture;
+	anim.PushBack({ 15, 20, 26, 7});
 	currentAnimation = &anim;
 
-	SetPivot(22, 4);
-	size.create(45, 8);
+	SetPivot(13, 4);
+	size.create(32, 8);
 
 	// Important for aiming offset
 	SetInitially();
@@ -62,6 +50,10 @@ bool BasicArrow::Update(float dt)
 	}
 	else Contact();
 
+	if (OnCollisionWithWall())
+	{
+		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
+	}
 	return true;
 }
 
@@ -87,13 +79,3 @@ bool BasicArrow::Contact()
 	return true;
 }
 
-bool BasicArrow::CleanUp()
-{
-	if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
-	return true;
-}

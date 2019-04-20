@@ -12,6 +12,8 @@
 #include "MagicBolt.h"
 #include "ContagiousFireArrow.h"
 #include "DeathCircle.h"
+#include "Emmiter.h"
+#include "EmmiterArrows.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -58,12 +60,17 @@ bool j1EntityFactory::Start()
 	{
 		(*item)->Start();
 	}
-	
-	//load texture
+
+	// Load Textures 
+
 	//assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
-
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
+	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
+	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 
+	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
 	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
@@ -90,19 +97,9 @@ bool j1EntityFactory::Start()
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
-	goblinAttack = App->audio->LoadFx("audio/fx/Enemies/Goblin_attack.wav");
-	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
-	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
-	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+
+
 	LoadSpawnGroups();
-
-	std::srand(time(0));
-
-	/*constexpr char inits[] = __TIME__;
-	const int default_seed = (inits[0] - '0') * 100000 + (inits[1] - '0') * 10000 +
-		(inits[3] - '0') * 1000 + (inits[4] - '0') * 100 + (inits[6] - '0') * 10 + inits[7] - '0';*/
-
-	//gen.seed(default_seed);
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -387,7 +384,7 @@ void j1EntityFactory::LoadSpawnGroups()
 	spawngroups.clear();
 }
 
-j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type)
+j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime)
 {
 	j1Entity* ret = nullptr;
 	switch (type)
@@ -414,6 +411,16 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = new DeathCircle(pos, owner);
 		entities.push_back(ret); 
 		break; 
+
+	case PROJECTILE_TYPE::EMMITER_ARROWS:
+		ret = new EmmiterArrows(pos, destination, speed, owner, lifeTime);
+		entities.push_back(ret);
+		break;
+
+	case PROJECTILE_TYPE::EMMITER:
+		ret = new Emmiter(pos, owner);
+		entities.push_back(ret);
+		break;
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;

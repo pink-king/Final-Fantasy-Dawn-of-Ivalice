@@ -161,6 +161,12 @@
     <ClCompile Include="DeathCircle.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="EmmiterArrows.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Emmiter.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -342,6 +348,12 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="DeathCircle.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EmmiterArrows.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Emmiter.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>

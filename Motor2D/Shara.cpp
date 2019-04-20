@@ -298,7 +298,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
 		{
 			coolDownData.dodge.timer.Start();
-			App->audio->PlayFx(App->entityFactory->dash, 0);
+			//App->audio->PlayFx(App->entityFactory->dash, 0);
 		}
 		break;
 	case combatState::SPECIAL1:
@@ -367,7 +367,7 @@ bool Shara::Update(float dt)
 			App->camera2D->AddTrauma(70.0f / 100.f);
 			App->input->DoGamePadRumble(0.7f, 400);*/
 
-
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::EMMITER);
 
 			coolDownData.ultimate.timer.Start();
 

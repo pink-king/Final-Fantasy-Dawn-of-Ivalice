@@ -17,7 +17,6 @@ public:
 	bool Move(float dt) override;
 	bool Explode();
 
-	bool CleanUp() override;
 	void Draw() override;
 };
 

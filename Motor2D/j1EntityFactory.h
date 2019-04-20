@@ -61,7 +61,7 @@ public:
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
 	void LoadSpawnGroups();
 	
-	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type);
+	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime = 0);
 
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
@@ -112,6 +112,7 @@ public:
 	SDL_Texture*			enemyZombieTex = nullptr; 
 	SDL_Texture*			enemyBombTex = nullptr; 
 	SDL_Texture*			debugsubtileTex = nullptr; 
+	SDL_Texture*			arrowsTexture = nullptr; 
 
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;

@@ -11,24 +11,25 @@
 ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
 	: Projectile(pos, destination, speed, owner, "ContagiousArrow", PROJECTILE_TYPE::CONTAGIOUS_ARROW)
 {
-	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 
-	anim.PushBack({ 0, 28, 45, 8 });
-	anim.PushBack({ 45, 28, 45,8 });
-	anim.PushBack({ 90, 28, 45,8 });
-	anim.PushBack({ 135, 28, 45, 8 });
-	anim.PushBack({ 180, 28, 45, 8 });
-	anim.PushBack({ 225, 28, 45, 8 });
-	anim.PushBack({ 270, 28, 45, 8 });
-	anim.PushBack({ 315, 28, 45, 8 });
-	anim.PushBack({ 360, 28, 45, 8 });
-	anim.PushBack({ 405, 28, 45, 8 });
-	anim.speed = (float)speed;
+	entityTex = App->entityFactory->arrowsTexture;
+
+	anim.PushBack({ 0,48,64,16 });
+	anim.PushBack({ 64,48,64,16 });
+	anim.PushBack({ 128,48,64,16 });
+	anim.PushBack({ 192,48,64,16 });
+	anim.PushBack({ 256,48,64,16 });
+	anim.PushBack({ 320,48,64,16 });
+	anim.PushBack({ 384,48,64,16 });
+	anim.PushBack({ 448,48,64,16 });
+	anim.PushBack({ 0,64,64,16 });
+	anim.PushBack({ 64,64,64,16 });
+	anim.speed = 10.F;
 
 	currentAnimation = &anim;
 
-	SetPivot(22, 4);
-	size.create(45, 8);
+	SetPivot(32, 8);
+	size.create(64, 16);
 
 	// Important for aiming offset
 	SetInitially();
@@ -82,17 +83,6 @@ bool ContagiousFireArrow::Explode()
 	App->input->DoGamePadRumble(0.35f, 100);
 
 	to_delete = true;
-	return true;
-}
-
-bool ContagiousFireArrow::CleanUp()
-{
-	if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
 	return true;
 }
 
