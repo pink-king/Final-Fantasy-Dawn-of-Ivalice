@@ -23,6 +23,7 @@ private:
 	uint propagationSpeed;
 	j1Timer lifeTimer; 
 	j1Timer propagateTimer; 
+	j1Timer deathTimer;
 };
 
 
