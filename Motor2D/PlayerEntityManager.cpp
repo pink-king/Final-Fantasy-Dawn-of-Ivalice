@@ -379,7 +379,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			{
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
-				str_coin = "x  " + std::to_string(gold);
+				str_coin = "x " + std::to_string(gold);
 				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 				return false;
 			}

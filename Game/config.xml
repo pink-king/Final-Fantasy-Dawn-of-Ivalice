@@ -61,11 +61,11 @@
         </image>
         <image name="bag">
           <section x="245" y="482" w="37" h="42"/>
-          <position x="1210" y="660"/>
+          <position x="1220" y="22"/>
         </image>
-        <image name="squareButton">
+        <image name="backButton">
           <section x="275" y="546" w="30" h="30"/>
-          <position x="1170" y="669"/>
+          <position x="1180" y="31"/>
         </image>
         <image name="LButton">
           <section x="244" y="525" w="30" h="19"/>
@@ -79,6 +79,14 @@
           <section x="1033" y="1" w="94" h="109"/>
           <position x="40" y="21"/>
         </image>
+        <image name="dPad">
+          <section x="796" y="1" w="52" h="52"/>
+          <position x="1170" y="617"/>
+        </image>
+        <image name="potion">
+          <section x="849" y="1" w="26" h="32"/>
+          <position x="1232" y="625"/>
+        </image>
         <!--
         <image name="level_box">
           <section x="1 " y="519" w="57" h="24"/>
@@ -87,7 +95,7 @@
         -->
         <image name="coin">
           <section x="59" y="519" w="25" h="25"/>
-          <position x="1055" y="31"/>
+          <position x="1050" y="31"/>
         </image>
 
       </images>
