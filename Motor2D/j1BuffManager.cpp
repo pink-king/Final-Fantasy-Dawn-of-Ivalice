@@ -29,6 +29,10 @@ bool j1BuffManager::Start()
 	burnedSFX = App->audio->LoadFx("audio/fx/States/burned.wav");
 	freezedSFX = App->audio->LoadFx("audio/fx/States/freezed.wav");
 	paralyzedSFX = App->audio->LoadFx("audio/fx/States/paralyzed.wav");
+	poisonedSFX = App->audio->LoadFx("audio/fx/States/poisoned.wav");
+	healingSFX = App->audio->LoadFx("audio/fx/States/Healing.wav");
+	enemyHitbyMarche = App->audio->LoadFx("audio/fx/States/enemyHitbyMarche.wav");
+	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 
 	return true;
 }
@@ -154,6 +158,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
+	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
+		App->audio->PlayFx(App->entityFactory->goblinAttack, 0);
+
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
@@ -170,8 +177,18 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		{
 			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
 		}
+
+		if (defender->life <= 0)
+			App->audio->PlayFx(playerDeath, 0);
+
+	}
+	else if (attacker->type == ENTITY_TYPE::PLAYER)
+	{
+		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+			App->audio->PlayFx(enemyHitbyMarche, 0);
 	}
 
+	
 	//if(attacker->type == ENTITY_TYPE::PLAYER && defen) //aqui
 	/*if (defender->hitPoint != nullptr)
 	{
@@ -240,7 +257,6 @@ void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float d
 		defender->stat.push_back(newStat);
 		defender->isBurned = true;
 		bool isInList = false;
-		App->audio->PlayFx(burnedSFX, 0);
 		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
 		{
 			if ((*item) == defender)
@@ -295,7 +311,7 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, flo
 
 		defender->isParalize = true;
 		bool isInList = false;
-		App->audio->PlayFx(freezedSFX, 0);
+		
 		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
 		{
 			if ((*item) == defender)
@@ -656,9 +672,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						iPoint fire01Pivot = { 8, 48 };
 						drawRectified -= fire01Pivot;
 						App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
-
-						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+						App->audio->PlayFx(burnedSFX);
+						//if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+						//	App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						//TODO: call create hitpoint label
 					}
 				}
@@ -686,7 +702,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 
 						drawRectified -= ice01Pivot;
 						App->particles->AddParticle(App->particles->ice02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
-
+						App->audio->PlayFx(freezedSFX);
 						entity->life -= (*item)->secDamage;
 						// remove previous hitpoint link
 
@@ -710,7 +726,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						iPoint Poison01Pivot = { 8, 48 };
 						drawRectified -= Poison01Pivot;
 						App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
-
+						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						//TODO: call create hitpoint label
@@ -736,6 +752,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add particles
 						iPoint healthPivot = { 8, 30 };
 						drawRectified -= healthPivot;
+						App->audio->PlayFx(healingSFX, 0);
 						App->particles->AddParticle(App->particles->healing, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						App->particles->AddParticle(App->particles->healing, drawRectified.x + 5*healthPivot.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 

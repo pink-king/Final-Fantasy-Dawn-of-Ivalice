@@ -646,6 +646,7 @@ SDL_Texture * j1Gui::GetAtlas()
 
 void j1Gui::FadeToScene()
 {
+	
 	resetHoverSwapping = false;
 	App->scene->state = SceneState::GAME;
 }

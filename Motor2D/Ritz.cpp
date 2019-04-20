@@ -475,7 +475,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-
+			App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
 			App->camera2D->AddTrauma(20.f / 100.f);
 			App->input->DoGamePadRumble(0.3f, 100);
@@ -501,7 +501,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
-
+			App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 
 			// add gui clock
@@ -527,6 +527,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
 			coolDownData.ultimate.timer.Start();
+			App->audio->PlayFx(App->entityFactory->RitzUltimate, 0);
 
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
 			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);

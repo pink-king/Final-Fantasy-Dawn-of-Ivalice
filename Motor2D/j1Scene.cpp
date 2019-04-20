@@ -118,7 +118,7 @@ bool j1Scene::Start()
 	
 	open_closeInventory = App->audio->LoadFx("audio/fx/open_close_inventory.wav");
 	open_PauseMenu = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-
+	enterGame = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
 	return true;
 }
 
@@ -682,6 +682,7 @@ void j1Scene::LoadMusicFromScene()
 {
 	if (state == SceneState::GAME && beginGameMus)
 	{
+		App->audio->PlayFx(enterGame, 0);
 		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
 		begin = true;
 		beginGameMus = false;

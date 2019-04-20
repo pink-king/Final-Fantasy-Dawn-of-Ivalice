@@ -79,17 +79,20 @@ bool j1EntityFactory::Start()
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
 
 	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
-	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
 
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
+	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz_Ability2.wav");
+	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/ritz_teleport.wav");
+	RitzUltimate = App->audio->LoadFx("audio/fx/Player/ritz_ultimate.wav");
 
 	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara_damaged.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
 	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
-
+	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility2_impactswall.wav");
 	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
 
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");

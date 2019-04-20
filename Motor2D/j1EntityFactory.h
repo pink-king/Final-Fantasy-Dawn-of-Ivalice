@@ -129,15 +129,20 @@ public:
 	unsigned int marcheBasic;
 	unsigned int RitzDamaged;
 	unsigned int RitzBasic;
+	unsigned int RitzAbility2;
+	unsigned int RitzAbility1;
+	unsigned int RitzUltimate;
 	unsigned int SharaDamaged;
 	unsigned int goblinDamaged;
 	unsigned int goblinDeath;
+	unsigned int goblinAttack;
 	unsigned int goblinLaugh;
 	unsigned int marcheUltimateScream;
 	unsigned int marcheAbility2; //tornado
 	unsigned int sharaBasic;
 	unsigned int dash;
 	unsigned int sharaAbility1;
+	unsigned int sharaAbility2_ImpactsWall;
 	
 private:
 	std::vector<j1Entity*>	draw_entities;

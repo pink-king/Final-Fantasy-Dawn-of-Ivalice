@@ -53,6 +53,10 @@ bool BasicArrow::Update(float dt)
 	}
 	else Contact();
 
+	if (OnCollisionWithWall())
+	{
+		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
+	}
 	return true;
 }
 
