@@ -163,6 +163,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  consumables
 	if (!App->entityFactory->player->consumables.empty())
 	{
+		first_potion = false;
 		potion_counter = 0;
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
 		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
@@ -181,35 +182,38 @@ if (!App->entityFactory->player->equipedObjects.empty())
 			}
 			
 
-
-			if (!first_potion && potion_counter>0)
+			
+			if (!(*iter)->MyDescription->spawnedInventoryImage)
 			{
-				if (!(*iter)->MyDescription->spawnedInventoryImage)
-				{
-					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-					(*iter)->MyDescription->spawnedInventoryImage = true;
-					potionLabel = App->gui->AddLabel("x 1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
-				}
-				first_potion = true;
+				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				(*iter)->MyDescription->spawnedInventoryImage = true;
+
+			}
+				
+				
+			
+
+			if (!first_label_potion)
+			{
+				potionLabel = App->gui->AddLabel("x 1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
+				first_label_potion = true;
 			}
 			else
 			{
-				
 				str_potion = "x " + std::to_string(potion_counter);
 				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
-				
 			}
 
 		}
 	}
 	else
 	{
-		if (first_potion)
+		if (first_label_potion)
 		{
-			str_potion = "x 0";
-			potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+			potionLabel->to_delete = true;
+			first_label_potion = false;
 		}
 	}
 	

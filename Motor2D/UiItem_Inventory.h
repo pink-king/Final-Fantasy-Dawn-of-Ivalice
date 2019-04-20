@@ -61,6 +61,7 @@ public:
 private:
 	SDL_Rect tab_image = { 726,1,69,70 };
 	bool first_potion = false;
+	bool first_label_potion = false;
 	int potion_counter = 1;
 	UiItem_Label * potionLabel = nullptr;
 	potionLabelPositions potion_positions;
