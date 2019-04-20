@@ -123,11 +123,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem*const parent) : UiItem(position, parent)
 {
 	this->callback = callback;
-
-
 	this->descrType = descriptionType::POTION;
 	this->parent = parent;
 	this->guiType = GUI_TYPES::DESCRIPTION;
+	this->name_object = itemName;
 
 	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
@@ -162,7 +161,6 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 void UiItem_Description::Draw(const float& dt)
 {
-
 	if (spawnedInventoryImage)
 	{
 		if (!switchedCameraUsage)
@@ -174,8 +172,17 @@ void UiItem_Description::Draw(const float& dt)
 		{
 			if (App->scene->inventory->enable)             // shpw description
 			{
-				App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffset.x;
-				App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
+				if (this->name_object == "potion_1")
+				{
+					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffset.x;
+					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
+				}
+				else
+				{
+					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffset.x;
+					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
+				}
+				
 				HideAllElements(false);
 				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
 				

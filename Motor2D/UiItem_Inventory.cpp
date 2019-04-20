@@ -146,6 +146,28 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 
 	// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -  consumables
+	if (!App->entityFactory->player->consumables.empty())
+	{
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
+		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
+		{
+			iPoint position_1 = { (startingPos.x + 665), (startingPos.y + 302 ) };
+
+			(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+			if (!(*iter)->MyDescription->spawnedInventoryImage)
+			{
+				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				(*iter)->MyDescription->spawnedInventoryImage = true;
+			}
+			
+
+
+
+		}
+	}
 
 
 	return true;

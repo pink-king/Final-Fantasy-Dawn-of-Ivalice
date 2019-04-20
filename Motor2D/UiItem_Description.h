@@ -5,6 +5,7 @@
 #include "p2Point.h"
 #include "j1Textures.h"
 #include <cstdint>
+#include <string.h>
 // #include "j1Entity.h"
 
 
@@ -112,6 +113,7 @@ private:
 
 	EquipmentStatType equipmentLootInfo; 
 	descriptionType descrType; 
+	std::string name_object;
 };
 
 #endif
