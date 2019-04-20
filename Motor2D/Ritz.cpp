@@ -274,6 +274,7 @@ bool Ritz::Update(float dt)
 			//App->audio->PlayFx(App->entityFactory->ritzBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
+			App->audio->PlayFx(App->entityFactory->RitzBasic, 0);
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(),
 				75, App->entityFactory->player->GetMarche(), PROJECTILE_TYPE::MAGIC_BOLT);
 			
@@ -286,6 +287,11 @@ bool Ritz::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
+		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
+		{
+			coolDownData.dodge.timer.Start();
+			App->audio->PlayFx(App->entityFactory->dash, 0);
+		}
 		break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)

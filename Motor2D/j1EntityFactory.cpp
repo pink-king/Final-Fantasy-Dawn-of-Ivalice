@@ -65,21 +65,24 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 
 	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
-	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
-	stepSFX = App->audio->LoadFx("audio/fx/footstep-on-stone.wav");
+	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
 
-	marcheDamaged = App->audio->LoadFx("audio/fx/Marche_damaged.wav");
-	marcheBasic = App->audio->LoadFx("audio/fx/marche_basic.wav");
-	marcheAbility2 = App->audio->LoadFx("audio/fx/marche_tornado.wav");
-	marcheUltimateScream = App->audio->LoadFx("audio/fx/marcheUltimate_Scream.wav");
-	RitzDamaged = App->audio->LoadFx("audio/fx/Ritz_damaged.wav");
-	RitzBasic = App->audio->LoadFx("audio/fx/ritz_basic.wav");
-	SharaDamaged = App->audio->LoadFx("audio/fx/Shara_damaged.wav");
-	sharaBasic = App->audio->LoadFx("audio/fx/sharaBasic.wav");
-	sharaAbility2 = App->audio->LoadFx("audio/fx/fireArrow");
-	dash = App->audio->LoadFx("audio/fx/dash.wav");
+	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic.wav");
+	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
+
+	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
+	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
+
+	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara_damaged.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
+	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
+
+	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
 
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
