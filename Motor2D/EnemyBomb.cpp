@@ -38,11 +38,11 @@ bool EnemyBomb::Update(float dt)
 	if(!isParalize)
 		SetState(dt);
 	
-	if (stat.size() != 0)
+	if (stat.size() != 0 )
 	{
 		if (App->buff->DamageInTime(this))
 		{
-			to_die = true;
+			App->buff->entitiesTimeDamage.remove(this);
 		}
 	}
 	return true;

@@ -476,7 +476,7 @@ bool Marche::Update(float dt)
 	{
 		if (App->buff->DamageInTime(this))
 		{
-			to_die = true;
+			App->buff->entitiesTimeDamage.remove(this);
 		}
 	}
 	return true;
