@@ -17,6 +17,7 @@ enum COLLIDER_TYPE;
 struct Particle // only dumb visual class
 {
 	//Collider* collider = nullptr;
+	SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
 	Animation anim;
 	SDL_Texture* texture = nullptr;
 	uint fx = 0u;
@@ -55,7 +56,7 @@ public:
 	//void OnCollisionSubtile(Collider* c1, Collider* c2);
 
 	//void AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay = 0, iPoint speed = { 0,0 }, Uint32 life = 0, char* fx = nullptr);
-	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0);
+	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE);
 
 	//bool LoadAnimation(pugi::xml_node &node, Animation &anim, bool sequential = false);
 

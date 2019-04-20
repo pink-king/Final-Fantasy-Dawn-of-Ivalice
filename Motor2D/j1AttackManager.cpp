@@ -277,9 +277,7 @@ bool attackData::InstantiateParticles()
 			lastStepSubtiles.pop();
 
 			InstantiateParticleType(App->map->SubTileMapToWorld(drawPosition.x, drawPosition.y));
-	
 		}
-
 	}
 	else
 		ret = false;
@@ -293,6 +291,19 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 
 	// center particle to subtile
 	iPoint subtileSize = { 32,16 };
+	iPoint drawRectified;
+	// center at subtile ------
+	drawRectified.x = drawPos.x + subtileSize.x * 0.5f;
+	drawRectified.y = drawPos.y + (subtileSize.y * 0.5f) * 2;
+
+	// flip particles pseudo randomly
+	SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+	if (rand() % 2 == 0)
+	{
+		renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+	}
+	// ----------------------------------
 
 	switch (elemType)
 	{
@@ -301,20 +312,39 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 	case ELEMENTAL_TYPE::FIRE_ELEMENT:
 	{
 		iPoint firePivot = { 8,46 };
-		iPoint drawRectified;
-		// center at subtile ------
-		drawRectified.x = drawPos.x + subtileSize.x * 0.5f;
-		drawRectified.y = drawPos.y + (subtileSize.y * 0.5f) * 2;
 		// ------------------------
 		// substract pivot
 		drawRectified -= firePivot;
-		App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y , { 0,0 }, 0u);
+		App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y , { 0,0 }, 0u, renderFlip);
 		break;
 	}
 	case ELEMENTAL_TYPE::ICE_ELEMENT:
+	{
+		iPoint ice03Pivot = { 8, 48 };
+		// ------------------------
+		// substract pivot
+		drawRectified -= ice03Pivot;
+		App->particles->AddParticle(App->particles->ice03, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 		break;
+	}
 	case ELEMENTAL_TYPE::POISON_ELEMENT:
+	{
+		iPoint poison01Pivot = { 8, 8 };
+		// ------------------------
+		// substract pivot
+		drawRectified -= poison01Pivot;
+		if(rand() % 2 == 0)
+		{
+			App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+			App->particles->AddParticle(App->particles->poison02, drawRectified.x, drawRectified.y, { 0,0 }, 100u, renderFlip);
+		}
+		else
+		{
+			App->particles->AddParticle(App->particles->poison02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+			App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 100u, renderFlip);
+		}
 		break;
+	}
 	case ELEMENTAL_TYPE::ALL_ELEMENTS:
 		break;
 	case ELEMENTAL_TYPE::MAX:
@@ -423,7 +453,7 @@ bool attackData::DoDirectAttack()
 		entitiesQueue.pop();
 		if (fromEntity == nullptr)
 			LOG("");
-		App->buff->DirectAttack((j1Entity*)fromEntity, defender, baseDamage, ELEMENTAL_TYPE::ALL_ELEMENTS,"inteligence");
+		App->buff->DirectAttack((j1Entity*)fromEntity, defender, baseDamage, elemType,"obsolete?");
 
 		// updates combo counter
 		++combo;
@@ -444,15 +474,21 @@ bool attackData::DoInTimeAttack()
 		switch (elemType)
 		{
 		case ELEMENTAL_TYPE::NO_ELEMENT:
+			LOG("wtf, if no element, no party");
 			break;
 		case ELEMENTAL_TYPE::FIRE_ELEMENT:
 			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
 			break;
-		case ELEMENTAL_TYPE::ICE_ELEMENT:
+		case ELEMENTAL_TYPE::ICE_ELEMENT: // WARNING: VERY OP
+			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::POISON_ELEMENT:
+			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::ALL_ELEMENTS:
+			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::MAX:
 			break;

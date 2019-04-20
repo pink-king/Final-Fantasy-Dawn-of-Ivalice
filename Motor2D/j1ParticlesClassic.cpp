@@ -191,8 +191,8 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(ice01, p.x, p.y, { 0,0 }, 2000u);
 		AddParticle(ice02, p.x, p.y, { 0,0 }, 4000u);
 		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
-		AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
-		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
+		/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
+		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
 	}
 
 	return ret;
@@ -218,7 +218,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 		}
 		else if (SDL_GetTicks() >= (*p)->born)
 		{
-			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &((*p)->anim.GetCurrentFrame()));
+			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip);
 			if ((*p)->fx_played == false && (*p)->fx != 0)
 			{
 				(*p)->fx_played = true;
@@ -235,7 +235,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 }
 
 //void ModuleParticles::AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay, iPoint speed, Uint32 life, char* name)
-void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay)
+void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip)
 {
 	Particle* p = new Particle(particle);
 	p->born = SDL_GetTicks() + delay;
@@ -245,6 +245,7 @@ void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPo
 	{
 		p->speed = speed;
 	}
+	p->renderFlip = rFlip;
 
 	active.push_back(p);	
 }
@@ -297,7 +298,7 @@ Particle::Particle()
 }
 
 Particle::Particle(const Particle& p) :
-	anim(p.anim), position(p.position), speed(p.speed), fx(p.fx), born(p.born), life(p.life), texture(p.texture)/*,
+	anim(p.anim), position(p.position), speed(p.speed), fx(p.fx), born(p.born), life(p.life), texture(p.texture), renderFlip(p.renderFlip)/*,
 	damage(p.damage), onCollisionGeneralParticle(p.onCollisionGeneralParticle), onCollisionWallParticle(p.onCollisionWallParticle),
 	impactPosition(p.impactPosition), deathParticle(p.deathParticle)*/
 {}
