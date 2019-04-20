@@ -249,8 +249,9 @@ void EnemyTest::SetState(float dt)
 		
 		if (/*checkTime.ReadSec() > attackPerS &&*/ (int)currentAnimation->GetCurrentFloatFrame() == 2 && !attacked )
 		{
-			//App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 4, 50);
-			attacked = true; 
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
+				damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, baseDamage, 4, 50, false);			
+			attacked = true;
 		}
 		if (currentAnimation->Finished())
 		{

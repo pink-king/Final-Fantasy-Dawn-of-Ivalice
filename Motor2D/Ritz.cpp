@@ -263,7 +263,8 @@ bool Ritz::Update(float dt)
 		currentAnimation->speed = 0.f;
 	}
 
-
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, this, "\0", 1000);
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{
@@ -345,6 +346,9 @@ bool Ritz::Update(float dt)
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
+			coolDownData.ultimate.timer.Start();
+
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
 			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
 
@@ -354,7 +358,6 @@ bool Ritz::Update(float dt)
 			
 
 
-			coolDownData.ultimate.timer.Start();
 
 		}
 		break;

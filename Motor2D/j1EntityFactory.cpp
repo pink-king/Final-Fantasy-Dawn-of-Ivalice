@@ -11,6 +11,7 @@
 #include "FireArrow.h"
 #include "MagicBolt.h"
 #include "ContagiousFireArrow.h"
+#include "DeathCircle.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -398,6 +399,12 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 	case PROJECTILE_TYPE::MAGIC_BOLT:
 		ret = new MagicBolt(pos, destination, speed, owner); 
 		entities.push_back(ret); 
+		break; 
+
+	case PROJECTILE_TYPE::DEATH_CIRCLE:
+		ret = new DeathCircle(pos, owner);
+		entities.push_back(ret); 
+		break; 
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
