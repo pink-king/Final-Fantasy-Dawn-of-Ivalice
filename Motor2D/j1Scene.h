@@ -64,6 +64,9 @@ public:
 	SceneState state = SceneState::STARTMENU;
 	
 	bool paused;
+	unsigned int open_closeInventory;
+	unsigned int open_PauseMenu;
+	unsigned int enterGame;
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
@@ -87,9 +90,7 @@ private:
 	bool begin;
 	bool beginGameMus;
 
-	unsigned int open_closeInventory;
-	unsigned int open_PauseMenu;
-
+	
 };
 
 #endif // __j1SCENE_H__

@@ -44,10 +44,14 @@ bool ContagiousFireArrow::PreUpdate()
 	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
 		
 		to_explode = true;
-		App->audio->PlayFx(App->entityFactory->sharaAbility1);
+		App->audio->PlayFx(App->entityFactory->sharaAbility1,0);
 		LOG("fire arrow audio played");
 	}
 
+	if (OnCollisionWithWall())
+	{
+		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall,0);
+	}
 	return true;
 }
 

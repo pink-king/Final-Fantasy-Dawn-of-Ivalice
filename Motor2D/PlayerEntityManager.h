@@ -127,6 +127,7 @@ private:
 	unsigned int pickLoot;
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
+	unsigned int pickPotion;
 	
 };
 

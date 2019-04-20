@@ -59,7 +59,8 @@ bool PlayerEntityManager::Start()
 
 	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
-	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumHealingPotion.wav");
+	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
+	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
 	return true;
 }
 
@@ -92,7 +93,7 @@ bool PlayerEntityManager::Update(float dt)
 		{
 			if (CollectLoot((LootEntity*)(*item)))
 			{
-				App->audio->PlayFx(pickLoot, 0);
+				
 				App->entityFactory->DeleteEntityFromSubtile(*item);
 				item = App->entityFactory->entities.erase(item);
 				break;
@@ -352,6 +353,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 {
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
+		App->audio->PlayFx(pickLoot, 0);
 		if (equipedObjects.size() == 0)
 		{
 			equipedObjects.push_back(entityLoot);
@@ -382,7 +384,10 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
 		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
+		{
+			App->audio->PlayFx(pickPotion, 0);
 			consumables.push_back(entityLoot);
+		}
 
 		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 		{
