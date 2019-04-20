@@ -24,6 +24,10 @@ private:
 	j1Timer lifeTimer; 
 	j1Timer propagateTimer; 
 	j1Timer deathTimer;
+
+	Animation totalAnim; 
+	Animation finishAnim; 
+	Animation loopAnim;
 };
 
 

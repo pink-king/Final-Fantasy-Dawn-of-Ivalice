@@ -111,7 +111,7 @@ void FireArrow::Explode()
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 45, 1, 50, true);
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-			damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 20, 7, 40, true);
+			damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 20, 7, 80, true);
 
 	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20);
 	App->camera2D->AddTrauma(0.5F);
