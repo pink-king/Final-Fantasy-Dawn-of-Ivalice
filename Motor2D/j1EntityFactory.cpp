@@ -839,7 +839,6 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 	lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 	lootItem->MyDescription->iconImage->printFromLoot = true;
 	lootItem->MyDescription->iconImage->scaleFactor = 4.0f; 
-
 	
          }
 
@@ -871,7 +870,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 	// hide all elements until the item is focused by the Corsshair 
 
-	lootItem->MyDescription->HideAllElements(true);
+	//lootItem->MyDescription->HideAllElements(true);
 
 
 }

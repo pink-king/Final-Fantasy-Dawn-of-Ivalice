@@ -173,13 +173,17 @@ void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
 
+	if(App->scene->inventory->enable)
     App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
 
-	if (spawnedInventoryImage)
+	if (spawnedInventoryImage )
 	{
-		if (!switchedCameraUsage)
+
+		if (!switchedCameraUsage && App->scene->inventory->enable)
 		{
 			SwitchCameraUsage();           // when ingame, descr blit speed is 1.0f, but in invetory it should be 0.0f
+
+			switchedCameraUsage = true; 
 		}
 
 		if (App->gui->selected_object == iconImageInventory )
@@ -227,7 +231,7 @@ void UiItem_Description::Draw(const float& dt)
 		}
 		else
 		{
-			//HideAllElements(true);
+			HideAllElements(true);
 
 			hasToCompare = true;  // reset comparison label
 		}
