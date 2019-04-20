@@ -44,9 +44,9 @@ bool Consumable::Update(float dt)
 			LOG("displaced %i",position.x - originPos.x);
 			LOG("actual time %f", timeTest);
 		}
-			else if (!repositionDescription)
+		else if (!repositionDescription)
 		{
-			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
+			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->position.x, this->position.y));   // what here?? :/
 			repositionDescription = true;
 		}
 		else
