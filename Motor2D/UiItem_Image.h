@@ -48,7 +48,7 @@ private:
 	UiItem_Description* myDescr = nullptr; 
 
 public: 
-	bool hide = false;
+	//bool hide = false;
 	bool printFromLoot = false;   // TODO: use to print the loot description icon from the loot texture
 
 

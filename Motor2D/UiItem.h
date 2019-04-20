@@ -56,6 +56,7 @@ public:
 	bool tabbed = false;
 	bool tabbable = false;
 	bool enable = true;
+	bool hide = false;
 	UiItem* iFriend = nullptr;
 	bool to_delete = false; 
 	bool useCamera = true; 
