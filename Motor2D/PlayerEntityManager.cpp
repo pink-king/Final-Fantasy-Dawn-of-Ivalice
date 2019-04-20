@@ -330,11 +330,15 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 		
 		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
 
-		entityLoot->MyDescription->DeleteEverything();
-		entityLoot->MyDescription = nullptr;
+		if (entityLoot->spawnedDescription)                 // only destroy description if it has been spawned( when collecting with the crosshair)
+		{
+			entityLoot->MyDescription->DeleteEverything();
+			entityLoot->MyDescription = nullptr;
 
-		entityLoot->spawnedDescription = false;
+			entityLoot->spawnedDescription = false;
 
+		}
+		
 		// - - - - - - - - - - - - - - - - - - - - - - 
 
 		if (equipedObjects.size() == 0)
