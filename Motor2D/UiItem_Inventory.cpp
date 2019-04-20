@@ -163,7 +163,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 			
 
 
-			if (!first_potion)
+			if (!first_potion && potion_counter>0)
 			{
 				if (!(*iter)->MyDescription->spawnedInventoryImage)
 				{
@@ -171,7 +171,6 @@ if (!App->entityFactory->player->equipedObjects.empty())
 					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 					(*iter)->MyDescription->spawnedInventoryImage = true;
-					(*iter)->MyDescription->iconImageInventory->tabbable = false;
 					potionLabel = App->gui->AddLabel("x 1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
 				}
 				first_potion = true;
@@ -179,16 +178,22 @@ if (!App->entityFactory->player->equipedObjects.empty())
 			else
 			{
 				
-				/*potion_counter = App->entityFactory->player->consumables.size();*/
 				str_potion = "x " + std::to_string(potion_counter);
 				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
 				
 			}
 
-
-
 		}
 	}
+	else
+	{
+		if (first_potion)
+		{
+			str_potion = "x 0";
+			potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+		}
+	}
+	
 
 
 	return true;
