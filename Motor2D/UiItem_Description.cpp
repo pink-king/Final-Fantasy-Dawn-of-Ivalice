@@ -95,12 +95,18 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	{
 		characterString = "Ritz";
 
+		damageComparisonLabel.character = "Ritz";
+		damageComparisonLabel.type = "rod";
+
 		resistanceComparisonLabel.character = "Ritz";
 		resistanceComparisonLabel.type = "rod";
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
 	{
 		characterString = "Shara";
+
+		damageComparisonLabel.character = "Shara";
+		damageComparisonLabel.type = "bow";
 
 		resistanceComparisonLabel.character = "Shara";
 		resistanceComparisonLabel.type = "bow";
@@ -238,16 +244,20 @@ bool UiItem_Description::ChangeComparisonLabels()
 				if ((*lootItem) != this->callback)
 				{
 
-
-
 					float attack = 0.0f;
 					float resistance = 0.0f;
 
 					if ((*lootItem)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
 					{
 
-						if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()
+						if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()
 							&& this->damageComparisonLabel.character == "Marche")
+
+							|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
+								&& this->damageComparisonLabel.character == "Ritz")
+
+							|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
+								&& this->damageComparisonLabel.character == "Shara"))
 						{
 
 							std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
@@ -310,26 +320,11 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							ret = true;
 						}
-						/*else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
-							&& this->damageComparisonLabel.character == "Ritz")
-						{
-
-
-						}
-						else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
-							&& this->damageComparisonLabel.character == "Shara")
-						{
-
-
-						}*/
+			
 					}
-
-
-
 
 				}
 				
-			
 			}
 		}
 		/*else if (this->descrType == descriptionType::EQUIPMENT)
