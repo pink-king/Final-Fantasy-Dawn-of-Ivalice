@@ -174,7 +174,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 			De_______GenerateDescription((*iter), true);
 
 
-			iPoint position_1 = { (startingPos.x + 665), (startingPos.y + 302 ) };
+			iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302 ) };
 
 			if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
 			{
@@ -197,12 +197,12 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 			if (!first_label_potion)
 			{
-				potionLabel = App->gui->AddLabel("x 1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
+				potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
 				first_label_potion = true;
 			}
 			else
 			{
-				str_potion = "x " + std::to_string(potion_counter);
+				str_potion = "" + std::to_string(potion_counter);
 				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
 			}
 

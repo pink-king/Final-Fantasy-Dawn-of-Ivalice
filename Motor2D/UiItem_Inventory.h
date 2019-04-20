@@ -28,7 +28,7 @@ struct elementsStartingPositionsOffsets
 };
 struct potionLabelPositions
 {
-	iPoint potion1 = iPoint(955, 419);
+	iPoint potion1 = iPoint(970, 419);
 
 };
 
