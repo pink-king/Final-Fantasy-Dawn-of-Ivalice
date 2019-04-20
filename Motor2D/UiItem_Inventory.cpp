@@ -236,20 +236,6 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 }
 
 
-/*
-void UiItem_Inventory::DoLogicSelected(LootEntity * ent, bool doIt)
-{
-
-	App->gui->selected_object = ent->MyDescription->iconImageInventory;
-	ent->MyDescription->iconImageInventory->tabbed = true; 
-	ent->MyDescription->iconImageInventory->state = HOVER; 
-
-	if(doIt)
-	ent->MyDescription->HideAllElements(false); 
-	else
-		ent->MyDescription->HideAllElements(true);
-
-}*/
 
 void UiItem_Inventory::Draw(const float & dt)
 {
