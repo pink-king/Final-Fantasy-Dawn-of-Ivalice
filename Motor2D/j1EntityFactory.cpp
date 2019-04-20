@@ -69,7 +69,8 @@ bool j1EntityFactory::Start()
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
-
+	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
+	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
 	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");

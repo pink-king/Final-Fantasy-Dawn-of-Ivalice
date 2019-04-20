@@ -3,14 +3,15 @@
 #include "j1Textures.h"
 #include "j1Input.h"
 #include "j1ModuleCamera2D.h"
+#include "j1EntityFactory.h"
 #include "j1Map.h"
 
 
 DeathCircle::DeathCircle(fPoint pos, const j1Entity* owner)
 	: Projectile(pos, { 0.F,0.F }, 0u, owner, "DeathCircle", PROJECTILE_TYPE::BASIC_ARROW)
 {
-	// Please change this ASAP 
-	entityTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
+	entityTex = App->entityFactory->ritzUltimateTex; 
+
 	anim.PushBack({ 0, 0, 250, 290});
 	anim.PushBack({ 250, 0, 250, 290 });
 	anim.PushBack({ 500, 0, 250, 290 });

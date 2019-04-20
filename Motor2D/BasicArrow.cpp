@@ -39,6 +39,9 @@ bool BasicArrow::PreUpdate()
 
 	if (OnCollisionWithWall())	{
 		to_delete = true; 
+		App->camera2D->AddTrauma(35.f / 100.f);
+		App->input->DoGamePadRumble(0.35f, 100);
+		App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
 	}
 	return true;
 }
@@ -68,8 +71,8 @@ bool BasicArrow::Contact()
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
 
-	// TODO Add particles and sfx, blood, slice etc
-
+	// TODO Add sfx, blood, slice etc
+	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
 	to_delete = true;
 
 	return true;

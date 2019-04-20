@@ -443,7 +443,7 @@ bool Ritz::Update(float dt)
 			{
 				// Launch attack
 				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(),
-					75, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
+					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
 
 				// change combat state to idle
 				combat_state = combatState::IDLE;
