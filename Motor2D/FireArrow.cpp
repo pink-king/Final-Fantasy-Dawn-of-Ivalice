@@ -4,30 +4,30 @@
 #include "j1Input.h"
 #include "j1ParticlesClassic.h"
 #include "j1EntityFactory.h"
+
 FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner) : Projectile(pos, destination, speed, owner, "Firearrow", PROJECTILE_TYPE::FIRE_ARROW)
 {
 	App->camera2D->AddTrauma(20.F / 100.f);
 	App->input->DoGamePadRumble(0.3f, 100);
 
 	//TODO Change sprite
-	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
+	entityTex = App->entityFactory->arrowsTexture;
 
-	anim.PushBack({ 0, 28, 45, 8 });
-	anim.PushBack({ 45, 28, 45,8 });
-	anim.PushBack({ 90, 28, 45,8 });
-	anim.PushBack({ 135, 28, 45, 8 });
-	anim.PushBack({ 180, 28, 45, 8 });
-	anim.PushBack({ 225, 28, 45, 8 });
-	anim.PushBack({ 270, 28, 45, 8 });
-	anim.PushBack({ 315, 28, 45, 8 });
-	anim.PushBack({ 360, 28, 45, 8 });
-	anim.PushBack({ 405, 28, 45, 8 });
-	anim.speed = (float)speed;
-
+	anim.PushBack({ 0,112,64,16 });
+	anim.PushBack({ 64,112,64,16 });
+	anim.PushBack({ 128,112,64,16 });
+	anim.PushBack({ 192,112,64,16 });
+	anim.PushBack({ 256,112,64,16 });
+	anim.PushBack({ 320,112,64,16 });
+	anim.PushBack({ 384,112,64,16 });
+	anim.PushBack({ 448,112,64,16 });
+	anim.PushBack({ 0,128,64,16 });
+	anim.PushBack({ 64,128,64,16 });
+	anim.speed = 10.F;
 	currentAnimation = &anim;
 
-	SetPivot(22, 4);
-	size.create(45, 8);
+	SetPivot(32, 8);
+	size.create(64, 16);
 
 	// Important for aiming offset
 	SetInitially();
@@ -37,17 +37,6 @@ FireArrow::~FireArrow()
 {
 }
 
-
-bool FireArrow::CleanUp()
-{
-	if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
-	return true;
-}
 
 bool FireArrow::PreUpdate()
 {

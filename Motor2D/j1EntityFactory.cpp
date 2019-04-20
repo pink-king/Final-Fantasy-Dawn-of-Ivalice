@@ -60,12 +60,17 @@ bool j1EntityFactory::Start()
 	{
 		(*item)->Start();
 	}
-	
-	//load texture
+
+	// Load Textures 
+
 	//assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
-
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
+	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
+	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 
+	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
 	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
@@ -89,19 +94,9 @@ bool j1EntityFactory::Start()
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
-	
-	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
-	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
-	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+
+
 	LoadSpawnGroups();
-
-	std::srand(time(0));
-
-	/*constexpr char inits[] = __TIME__;
-	const int default_seed = (inits[0] - '0') * 100000 + (inits[1] - '0') * 10000 +
-		(inits[3] - '0') * 1000 + (inits[4] - '0') * 100 + (inits[6] - '0') * 10 + inits[7] - '0';*/
-
-	//gen.seed(default_seed);
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;

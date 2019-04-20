@@ -442,7 +442,7 @@ bool Ritz::Update(float dt)
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 8)
 			{
 				// Launch attack
-				App->entityFactory->CreateArrow(App->entityFactory->player->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(),
+				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(),
 					75, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
 
 				// change combat state to idle

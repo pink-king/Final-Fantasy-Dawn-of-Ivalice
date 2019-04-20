@@ -361,15 +361,17 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
-		std::vector<EnemyType> typeVec; 
+		/*std::vector<EnemyType> typeVec; 
 		typeVec.reserve(2);
 		typeVec.push_back(EnemyType::BOMB);
 		typeVec.push_back(EnemyType::TEST);
-		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);
+		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
 	}
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
 	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::MAGIC_BOLT);
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
@@ -378,7 +380,7 @@ bool j1Scene::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
 	}
 
 

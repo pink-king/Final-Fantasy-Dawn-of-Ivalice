@@ -112,6 +112,7 @@ public:
 	SDL_Texture*			enemyZombieTex = nullptr; 
 	SDL_Texture*			enemyBombTex = nullptr; 
 	SDL_Texture*			debugsubtileTex = nullptr; 
+	SDL_Texture*			arrowsTexture = nullptr; 
 
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
