@@ -74,7 +74,7 @@ bool BasicArrow::Move(float dt)
 
 bool BasicArrow::Contact()
 {
-	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 30, 1, 20);
+	//App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 30, 1, 20);
 
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
