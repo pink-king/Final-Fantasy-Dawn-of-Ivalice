@@ -465,6 +465,8 @@ bool attackData::DoInTimeAttack()
 {
 	bool ret = true;
 
+	float totalTimeMultiplier = 0.04f;
+
 	while (!entitiesQueue.empty()) // if we have any valid entity on last propagation step
 	{
 		// pass the type etc of the attack, for now pass a direct attack
@@ -477,18 +479,18 @@ bool attackData::DoInTimeAttack()
 			LOG("wtf, if no element, no party");
 			break;
 		case ELEMENTAL_TYPE::FIRE_ELEMENT:
-			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::ICE_ELEMENT: // WARNING: VERY OP
-			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::POISON_ELEMENT:
-			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::ALL_ELEMENTS:
-			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
-			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
-			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
+			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
+			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
 			break;
 		case ELEMENTAL_TYPE::MAX:
 			break;

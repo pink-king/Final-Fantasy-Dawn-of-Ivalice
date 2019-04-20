@@ -130,7 +130,7 @@ bool j1ParticlesClassic::Start()
 	poison01.anim.PushBack({ 32, 253, 16, 16 });
 	poison01.anim.PushBack({ 48, 253, 16, 16 });
 	poison01.anim.loop = false;
-	poison01.anim.speed = 15.F;
+	poison01.anim.speed = 35.F;
 	poison01.texture = particleAtlas2;
 
 	poison02.anim.PushBack({ 0, 269, 16, 16 });
@@ -138,7 +138,7 @@ bool j1ParticlesClassic::Start()
 	poison02.anim.PushBack({ 32, 269, 16, 16 });
 	poison02.anim.PushBack({ 48, 269, 16, 16 });
 	poison02.anim.loop = false;
-	poison02.anim.speed = 15.F;
+	poison02.anim.speed = 35.F;
 	poison02.texture = particleAtlas2;
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
