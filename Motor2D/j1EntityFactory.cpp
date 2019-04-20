@@ -12,6 +12,8 @@
 #include "MagicBolt.h"
 #include "ContagiousFireArrow.h"
 #include "DeathCircle.h"
+#include "Emmiter.h"
+#include "EmmiterArrows.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -384,7 +386,7 @@ void j1EntityFactory::LoadSpawnGroups()
 	spawngroups.clear();
 }
 
-j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type)
+j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime)
 {
 	j1Entity* ret = nullptr;
 	switch (type)
@@ -411,6 +413,16 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = new DeathCircle(pos, owner);
 		entities.push_back(ret); 
 		break; 
+
+	case PROJECTILE_TYPE::EMMITER_ARROWS:
+		ret = new EmmiterArrows(pos, destination, speed, owner, lifeTime);
+		entities.push_back(ret);
+		break;
+
+	case PROJECTILE_TYPE::EMMITER:
+		ret = new Emmiter(pos, owner);
+		entities.push_back(ret);
+		break;
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
