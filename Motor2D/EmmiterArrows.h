@@ -22,6 +22,8 @@ private:
 	uint	timeLife;
 
 	bool damage = true;
+
+	Animation fall;
 };
 
 #endif

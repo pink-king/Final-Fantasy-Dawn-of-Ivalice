@@ -20,8 +20,8 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	dieTimer.Start();
 	currentAnimation = &anim;
 
-	rang.x = 500;
-	rang.y = 300;
+	rang.x = 100;
+	rang.y = 40;
 
 	lifeTime = 4u;
 	createArrowsSpeed = 100u;
@@ -73,19 +73,20 @@ bool Emmiter::PostUpdate()
 
 void Emmiter::CreateArrow() 
 {
-	float posX = RandomValue(-rang.x * 10, rang.x * 10);
-	posX += position.x + size.x / 2;
-
-	float posY = RandomValue(-rang.y * 10, rang.y * 10);
+	float posY = RandomValue(-rang.y, rang.y);
 	posY += position.y + size.y / 2;
 
-	App->entityFactory->CreateArrow({position.x + size.x/2 , position.y + size.y / 2 - 350}, { posX, posY }, 100, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,4);
+	float posX = RandomValue(-rang.x, rang.x);
+	posX += position.x + size.x / 2;
+
+
+	App->entityFactory->CreateArrow({posX, posY - 350}, { posX, posY + 20}, 290, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,3);
 
 }
 
 float Emmiter::RandomValue(int min, int max)
 {
-	std::uniform_int_distribution<int> range(-rang.x, rang.x);
-	return range(rd)*0.1;
+	std::uniform_int_distribution<int> range(min, max);
+	return range(rd);
 
 }
