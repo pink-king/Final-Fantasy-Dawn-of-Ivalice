@@ -19,7 +19,6 @@ UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
 
 bool UiItem_Inventory::LoadElements()
 {
-	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
 	
 	
@@ -29,51 +28,67 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 		{
-			if (!(*iter)->MyDescription->spawnedInventoryImage)
-			{
+			
 				iPoint destPos = {};
 
-			if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
-				{	
-					// current weapon, armor and head have a target position each
-					switch ((*iter)->GetObjectType())
-					{
-					case OBJECT_TYPE::WEAPON_OBJECT:
-						destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
-						destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+			if((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+			{
+				// current weapon, armor and head have a target position each
+				switch ((*iter)->GetObjectType())
+				{
+				case OBJECT_TYPE::WEAPON_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 
-						(*iter)->MyDescription->myLootItemIsEquipped.weapon = true; 
-						break;
-					case OBJECT_TYPE::ARMOR_OBJECT:
-						destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
-						destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+					(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
+					break;
+				case OBJECT_TYPE::ARMOR_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
 
-						(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
-						break;
-					case OBJECT_TYPE::HEAD_OBJECT:
-						destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
-						destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+					(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
+					break;
+				case OBJECT_TYPE::HEAD_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
 
-						(*iter)->MyDescription->myLootItemIsEquipped.head = true;
-						break;
+					(*iter)->MyDescription->myLootItemIsEquipped.head = true;
+					break;
 
 
-				    }
+				}
 
-					// create the icon image directly in that desired slot (aka position) 
+				// create the icon image directly in that desired slot (aka position) 
 
+
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
 					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
 					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 					(*iter)->MyDescription->spawnedInventoryImage = true;
-
-
 					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
+				}
+				else
+				{
+					(*iter)->MyDescription->HideAllElements(false);
+					(*iter)->MyDescription->iconImageInventory->hide = false;
+				}
 
-			  }
+
+
+			}
+			else
+			{
+				if ((*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->HideAllElements(true);
+					(*iter)->MyDescription->iconImageInventory->hide = true;
+				}
+			}
 
 				
-			}
+			
 		}
 	}
 	
@@ -91,8 +106,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 		{
-			if (!(*iter)->MyDescription->spawnedInventoryImage)
-			{
+			
 				iPoint position(0, 0);
 
 				if (i == 5)
@@ -115,12 +129,15 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 
 				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;   
-				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				}
 				(*iter)->MyDescription->spawnedInventoryImage = true;
 
 				i++;
-			}
+			
 
 
 		}

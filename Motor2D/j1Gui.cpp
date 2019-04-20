@@ -124,7 +124,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		bool first = false;
 		for (; item != ListItemUI.end(); ++item)
 		{
-			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON || (*item)->tabbable)  && (*item)->parent->enable)
+			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON || (*item)->tabbable)  && (*item)->parent->enable && !(*item)->hide)
 			{
 				if (!first)
 				{
@@ -189,7 +189,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			std::list<UiItem*> candidates;
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w && (*item)->hitBox.y == selected_object->hitBox.y)
 					{
@@ -236,7 +236,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x && (*item)->hitBox.y == selected_object->hitBox.y)
 
@@ -288,7 +288,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
@@ -336,7 +336,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable)
+				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
 					if ((*item)->hitBox.y > selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)

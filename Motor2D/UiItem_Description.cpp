@@ -141,7 +141,7 @@ void UiItem_Description::Draw(const float& dt)
 			SwitchCameraUsage();           // when ingame, descr blit speed is 1.0f, but in invetory it should be 0.0f
 		}
 
-		if (App->gui->selected_object == iconImageInventory)
+		if (App->gui->selected_object == iconImageInventory )
 		{
 			if (App->scene->inventory->enable)             // shpw description
 			{
