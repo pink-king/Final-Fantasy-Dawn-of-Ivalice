@@ -78,7 +78,6 @@ public:
 	UiItem_Image* panelWithButton = nullptr; 
 	UiItem_Label* name = nullptr;
 	UiItem_Label* level = nullptr;
-
 	UiItem_Image* iconImageInventory = nullptr; 
 
 	// for weapons and armors, but not potions

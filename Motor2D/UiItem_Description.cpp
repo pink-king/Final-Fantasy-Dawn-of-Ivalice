@@ -184,8 +184,8 @@ void UiItem_Description::Draw(const float& dt)
 			{
 				if (this->name_object == "potion_1")
 				{
-					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - 25;
-					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - 23;
+					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
+					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffsetPotion.y;
 				}
 				else
 				{
@@ -203,6 +203,11 @@ void UiItem_Description::Draw(const float& dt)
 						App->scene->inventoryItem->De_______Equip(this->callback);  
 					}
 					
+				}
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+				{
+					App->gui->resetHoverSwapping = false;
+					App->scene->inventoryItem->LoadElements();
 				}
 
 				if(hasToCompare)
