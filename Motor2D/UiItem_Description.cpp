@@ -186,12 +186,13 @@ void UiItem_Description::Draw(const float& dt)
 			switchedCameraUsage = true; 
 		}
 
+		if (App->scene->inventory->enable)             // shpw description
+		{
+
 		if (App->gui->selected_object == iconImageInventory )
 		{
 
 
-			if (App->scene->inventory->enable)             // shpw description
-			{
 				if (this->name_object == "potion_1")
 				{
 					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffset.x;
@@ -219,14 +220,7 @@ void UiItem_Description::Draw(const float& dt)
 				ChangeComparisonLabels();    // "+3 dmg", "+4def ect
 
 			
-			}
-			else                                        // hide description ingame
-			{
-				
-
-			//	HideAllElements(true);
-			}
-
+		
 		
 		}
 		else
@@ -235,6 +229,8 @@ void UiItem_Description::Draw(const float& dt)
 
 			hasToCompare = true;  // reset comparison label
 		}
+	}
+
 	}
 
 

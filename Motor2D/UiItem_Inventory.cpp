@@ -29,14 +29,18 @@ if (!App->entityFactory->player->equipedObjects.empty())
 		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 		{
 
-			// first generate description if it does not have it or if it was deleted ingame
-
-			De_______GenerateDescription((*iter), true); 
 			
 				iPoint destPos = {};
 
 			if((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 			{
+
+
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
+
+
 				// current weapon, armor and head have a target position each
 				switch ((*iter)->GetObjectType())
 				{
@@ -73,23 +77,23 @@ if (!App->entityFactory->player->equipedObjects.empty())
 					(*iter)->MyDescription->spawnedInventoryImage = true;
 					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
 				}
-				else
+				/*else
 				{
 					(*iter)->MyDescription->HideAllElements(false);
 					(*iter)->MyDescription->iconImageInventory->hide = false;
-				}
+				}*/
 
 
 
 			}
-			else
+			/*else
 			{
 				if ((*iter)->MyDescription->spawnedInventoryImage)
 				{
 					(*iter)->MyDescription->HideAllElements(true);
 					(*iter)->MyDescription->iconImageInventory->hide = true;
 				}
-			}
+			}*/
 
 				
 			
@@ -208,7 +212,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		}
 		else
 		{
-			ent->MyDescription->HideAllElements(false);
+		//	ent->MyDescription->HideAllElements(false);
 		}
 		
 	}
