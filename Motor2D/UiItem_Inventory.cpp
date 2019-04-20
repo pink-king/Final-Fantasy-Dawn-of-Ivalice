@@ -150,13 +150,16 @@ if (!App->entityFactory->player->equipedObjects.empty())
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  consumables
 	if (!App->entityFactory->player->consumables.empty())
 	{
-		
+		potion_counter = 0;
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
 		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
 		{
 			iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302 ) };
 
-
+			if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+			{
+				potion_counter++;
+			}
 			
 
 
@@ -175,7 +178,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 			else
 			{
 				
-				potion_counter = App->entityFactory->player->consumables.size();
+				/*potion_counter = App->entityFactory->player->consumables.size();*/
 				str_potion = "x " + std::to_string(potion_counter);
 				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
 				
