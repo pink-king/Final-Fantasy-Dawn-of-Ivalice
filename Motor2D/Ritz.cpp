@@ -258,10 +258,6 @@ bool Ritz::Update(float dt)
 
 		}
 	}
-	else
-	{
-		currentAnimation->speed = 0.f;
-	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, this, "\0", 1000);

@@ -261,10 +261,6 @@ bool Shara::Update(float dt)
 
 		}
 	}
-	else
-	{
-		currentAnimation->speed = 0.f;
-	}
 
 
 	// CHECK COMBAT STATE

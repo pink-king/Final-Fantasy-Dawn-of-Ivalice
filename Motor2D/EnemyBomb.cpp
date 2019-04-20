@@ -20,6 +20,7 @@ EnemyBomb::~EnemyBomb()
 {
 	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
+
 }
 
 bool EnemyBomb::Start()
@@ -34,7 +35,8 @@ bool EnemyBomb::PreUpdate()
 bool EnemyBomb::Update(float dt)
 {
 	if(!isParalize)
-		SetState(dt); 
+		SetState(dt);
+	
 	return true;
 }
 

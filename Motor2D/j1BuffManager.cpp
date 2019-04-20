@@ -6,6 +6,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "UiItem_Image.h"
+#include "j1ParticlesClassic.h"
 
 j1BuffManager::j1BuffManager()
 {
@@ -40,9 +41,12 @@ bool j1BuffManager::Update(float dt)
 	{
 		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
 		for (; item != entitiesTimeDamage.end() && ret; ++item)
-			
+		{
 			if (DamageInTime(*item))
+			{
 				entitiesTimeDamage.remove(*item);
+			}
+		}
 	}
 	return ret;
 }
@@ -150,6 +154,23 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
+	if (defender->type == ENTITY_TYPE::PLAYER)
+	{
+		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+		{
+			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
+		}
+
+		else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
+		{
+			App->audio->PlayFx(App->entityFactory->RitzDamaged, 0);
+		}
+
+		else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
+		{
+			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
+		}
+	}
 	/*if (defender->hitPoint != nullptr)
 	{
 		defender->hitPoint->attachedEntity = nullptr;
@@ -157,55 +178,12 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 	else
 	{*/
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT); // must be overall improved /types of damage? calculate
+	
+
+	App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT); // must be overall improved /types of damage? calculate
 //	}
 		
-	
-		if (defender->type == ENTITY_TYPE::PLAYER)
-		{
-			if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
-			{
-				App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
-			}
-
-			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
-			{
-				App->audio->PlayFx(App->entityFactory->RitzDamaged, 0);
-			}
-
-			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
-			{
-				App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
-			}
-		}
-
-		if (defender->type == ENTITY_TYPE::ENEMY_TEST)
-			App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
-																													  
-	if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT)
-	{
-		if (App->entityFactory->GetRandomValue(1, 10) == 1)
-		{
-			CreateBurned(attacker, defender, initialDamage*0.1, 10, "\0");
-		}
-	}
-
-	if (elementType == ELEMENTAL_TYPE::ICE_ELEMENT)
-	{
-		if (App->entityFactory->GetRandomValue(1, 10) == 1)
-		{
-			CreateParalize(attacker, defender, initialDamage*0.1, 8, "\0");
-		}
-	}
-	if (elementType == ELEMENTAL_TYPE::POISON_ELEMENT)
-	{
-		if (App->entityFactory->GetRandomValue(1, 10) == 1)
-		{
-			CreatePoision(attacker, defender, initialDamage*0.1, 10, "\0");
-		}
-	}
-																													  // but, enemy can die now
-	
+																													  // but, enemy can die no
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
@@ -213,109 +191,144 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		//defender->to_delete = true;   
 		// When we kill the player we will have a diying animation aswell (or tell him to delete), as for now, only come here ENEMIES or PLAYERS, so should be fine
 		//If causes any trouble put it back without any problem
+		defender->isParalize = false;
 		defender->to_die = true;
 	} 
+	else
+	{
+		if (defender->type == ENTITY_TYPE::ENEMY_TEST)
+			App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+
+		if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT && !defender->isBurned)
+		{
+			if (App->entityFactory->GetRandomValue(1, 10) == 1)
+			{
+				CreateBurned(attacker, defender, initialDamage*0.1, 10, "\0");
+			}
+		}
+
+		if (elementType == ELEMENTAL_TYPE::ICE_ELEMENT && !defender->isParalize)
+		{
+			if (App->entityFactory->GetRandomValue(1, 10) == 1)
+			{
+				CreateParalize(attacker, defender, initialDamage*0.1, 8, "\0");
+			}
+		}
+		if (elementType == ELEMENTAL_TYPE::POISON_ELEMENT && !defender->isPosioned)
+		{
+			if (App->entityFactory->GetRandomValue(1, 10) == 1)
+			{
+				CreatePoision(attacker, defender, initialDamage*0.1, 10, "\0");
+			}
+		}
+	}
 
 	
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT,totalTime, damageSecond);
-	float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, stat);
-	if (totalDamage > 0)
-		totalDamage = 1;
-	newStat->secDamage = totalDamage;
-	defender->stat.push_back(newStat);
-	defender->isBurned = true;
-	bool isInList = false;
-	App->audio->PlayFx(burnedSFX, 0);
-	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	if (!defender->isBurned)
 	{
-		if ((*item) == defender)
-			isInList = true;
-	}
+		entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, totalTime, damageSecond);
+		float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, stat);
+		if (totalDamage > 0)
+			totalDamage = 1;
+		newStat->secDamage = totalDamage;
+		defender->stat.push_back(newStat);
+		defender->isBurned = true;
+		bool isInList = false;
+		App->audio->PlayFx(burnedSFX, 0);
+		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+		{
+			if ((*item) == defender)
+				isInList = true;
+		}
 
-	if (!isInList)
-	{
-		entitiesTimeDamage.push_back(defender);
+		if (!isInList)
+		{
+			entitiesTimeDamage.push_back(defender);
+		}
+		newStat->count.Start();
 	}
-	newStat->count.Start();
 }
 
 void j1BuffManager::CreatePoision(j1Entity * attacker, j1Entity * defender, float damageSecond, uint totalTime, std::string stat)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::POISON_STAT, totalTime, damageSecond);
-	float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, stat);
-	if (totalDamage < 0)
-		totalDamage = 1;
-	newStat->secDamage = totalDamage;
-	defender->stat.push_back(newStat);
-	defender->isPosioned = true;
-	bool isInList = false;
-	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	if (!defender->isPosioned)
 	{
-		if ((*item) == defender)
-			isInList = true;
-	}
+		entityStat* newStat = new entityStat(STAT_TYPE::POISON_STAT, totalTime, damageSecond);
+		float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, stat);
+		if (totalDamage < 0)
+			totalDamage = 1;
+		newStat->secDamage = totalDamage;
+		defender->stat.push_back(newStat);
+		defender->isPosioned = true;
+		bool isInList = false;
+		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+		{
+			if ((*item) == defender)
+				isInList = true;
+		}
 
-	if (!isInList)
-	{
-		entitiesTimeDamage.push_back(defender);
+		if (!isInList)
+		{
+			entitiesTimeDamage.push_back(defender);
+		}
+		newStat->count.Start();
 	}
-	newStat->count.Start();
 }
 
 void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, float damageSecond, uint totalTime, std::string stat)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, totalTime);
-	float totalDamage = CalculateStat(attacker, damageSecond, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::DEFENCE_ROL, stat);
-	if (totalDamage < 0)
-		totalDamage = 1;
-	newStat->secDamage = totalDamage;
-	newStat->count.Start();
-	defender->stat.push_back(newStat);
-
-	/*entityStat* newStat2 = new entityStat(STAT_TYPE::ICE_STAT, totalTime, damageSecond);
-	float totalDamage = CalculateStat(attacker, damageSecond, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::DEFENCE_ROL, stat);
-	if (totalDamage < 0)
-		totalDamage = 1;
-	newStat2->secDamage = totalDamage;
-	defender->stat.push_back(newStat2);*/
-
-	defender->isParalize = true;
-	bool isInList = false;
-	App->audio->PlayFx(paralyzedSFX, 0);
-	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	if (!defender->isParalize || !defender->to_die)
 	{
-		if ((*item) == defender)
-			isInList = true;
-	}
+		entityStat* newStat = new entityStat(STAT_TYPE::PARALIZE_STAT, totalTime);
+		float totalDamage = CalculateStat(attacker, damageSecond, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::DEFENCE_ROL, stat);
+		if (totalDamage < 0)
+			totalDamage = 1;
+		newStat->secDamage = totalDamage;
+		newStat->count.Start();
+		defender->stat.push_back(newStat);
 
-	if (!isInList)
-	{
-		entitiesTimeDamage.push_back(defender);
+		defender->isParalize = true;
+		bool isInList = false;
+		App->audio->PlayFx(paralyzedSFX, 0);
+		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+		{
+			if ((*item) == defender)
+				isInList = true;
+		}
+
+		if (!isInList)
+		{
+			entitiesTimeDamage.push_back(defender);
+		}
+		// check for entity animations speed
+		AdjustEntityAnimationSpeed(defender);
 	}
-	// check for entity animations speed
-	AdjustEntityAnimationSpeed(defender);
 }
 
 void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 {
-	entityStat* newStat = new entityStat(STAT_TYPE::POTION_STAT, time,lifeSecond);
-	newStat->count.Start();
-	entity->stat.push_back(newStat);
-	entity->isPotionActive = true;
-	bool isInList = false;
-	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	if (!entity->isPotionActive)
 	{
-		if ((*item) == entity)
-			isInList = true;
-	}
+		entityStat* newStat = new entityStat(STAT_TYPE::POTION_STAT, time, lifeSecond);
+		newStat->count.Start();
+		entity->stat.push_back(newStat);
+		entity->isPotionActive = true;
+		bool isInList = false;
+		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+		{
+			if ((*item) == entity)
+				isInList = true;
+		}
 
-	if (!isInList)
-	{
-		entitiesTimeDamage.push_back(entity);
+		if (!isInList)
+		{
+			entitiesTimeDamage.push_back(entity);
+		}
+
 	}
 }
 
@@ -607,165 +620,202 @@ void j1BuffManager::RemoveItemStat(const LootEntity * item)
 bool j1BuffManager::DamageInTime(j1Entity* entity)
 { 
 	bool ret = false;
+
+	iPoint drawRectified;
+	drawRectified.x = entity->position.x + entity->size.x * 0.5f;
+	drawRectified.y = entity->position.y + (entity->size.y * 0.5f) * 2;
+
+	// flip particles pseudo randomly
+	SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+	if (rand() % 2 == 0)
+	{
+		renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+	}
+
 	std::list<entityStat*>::iterator item = entity->stat.begin();
 	for (; item != entity->stat.end(); ++item)
 	{
-		switch ((*item)->type)
+		if (*item != nullptr)
 		{
-		case STAT_TYPE::BURNED_STAT:
+			switch ((*item)->type)
+			{
+			case STAT_TYPE::BURNED_STAT:
 
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
+				if ((*item)->totalTime > 0)
 				{
-					entity->life -= (*item)->secDamage;
-					(*item)->count.Start();
-					--(*item)->totalTime;
-					// remove previous hitpoint link
-					
-					if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-						App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
-					//TODO: call create hitpoint label
-				}
-			}
-			else
-			{
-				entity->isBurned = false;
-				entity->stat.remove(*item);
-			}
-			break;
-		case STAT_TYPE::PARALIZE_STAT:
-			if ((*item)->totalTime == 0)
-			{
-				entity->stat.remove(*item);
-				entity->isParalize = false;
-			}
-			else
-			{
-				if ((*item)->count.ReadSec() > 1)
-				{
-					--(*item)->totalTime;
-					(*item)->count.Start();
+					if ((*item)->count.ReadSec() > 1)
+					{
+						entity->life -= (*item)->secDamage;
+						(*item)->count.Start();
+						--(*item)->totalTime;
 
-					entity->life -= (*item)->secDamage;
-					// remove previous hitpoint link
+						//add particles
+						iPoint fire01Pivot = { 8, 48 };
+						drawRectified -= fire01Pivot;
+						App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 
-					if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-						App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
-					//TODO: call create hitpoint label
+						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+						//TODO: call create hitpoint label
+					}
 				}
-			}
-			break;
+				else
+				{
+					entity->isBurned = false;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::PARALIZE_STAT:
+				if ((*item)->totalTime == 0)
+				{
+					entity->stat.remove(*item);
+					entity->isParalize = false;
+					AdjustEntityAnimationSpeed(entity);
+				}
+				else
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						--(*item)->totalTime;
+						(*item)->count.Start();
+						//add particles
+						iPoint ice01Pivot = { 8, 48 };
 
-		case STAT_TYPE::POISON_STAT:
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
-				{
-					entity->life -= (*item)->secDamage;
-					(*item)->count.Start();
-					--(*item)->totalTime;
-					// remove previous hitpoint link
+						drawRectified -= ice01Pivot;
+						App->particles->AddParticle(App->particles->ice02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 
-					if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-						App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
-					//TODO: call create hitpoint label
-				}
-			}
-			else
-			{
-				entity->isBurned = false;
-				entity->stat.remove(*item);
-			}
-			break;
+						entity->life -= (*item)->secDamage;
+						// remove previous hitpoint link
 
-		case STAT_TYPE::POTION_STAT:
+						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+						//TODO: call create hitpoint label
+					}
+				}
+				break;
 
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
+			case STAT_TYPE::POISON_STAT:
+				if ((*item)->totalTime > 0)
 				{
-					entity->life += (*item)->secDamage;
-					(*item)->count.Start();
-					--(*item)->totalTime;
-					if (entity->life > entity->maxLife)
-						entity->life = entity->maxLife;
+					if ((*item)->count.ReadSec() > 1)
+					{
+						entity->life -= (*item)->secDamage;
+						(*item)->count.Start();
+						--(*item)->totalTime;
+
+						//add particles
+						iPoint Poison01Pivot = { 8, 48 };
+						drawRectified -= Poison01Pivot;
+						App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+
+						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+						//TODO: call create hitpoint label
+					}
 				}
-			}
-			else
-			{
-				entity->isPotionActive = false;
-				entity->stat.remove(*item);
-			}
-			break;
-		case STAT_TYPE::ATTACK_BUFF:
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
+				else
 				{
-					(*item)->count.Start();
-					--(*item)->totalTime;
+					entity->isBurned = false;
+					entity->stat.remove(*item);
 				}
-			}
-			else
-			{
-				DeleteBuff((*item)->temporalBuff);
-				(*item)->temporalBuff = nullptr;
-				entity->stat.remove(*item);
-			}
-			break;
-		case STAT_TYPE::DEFENCE_BUFF:
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
+				break;
+
+			case STAT_TYPE::POTION_STAT:
+
+				if ((*item)->totalTime > 0)
 				{
-					(*item)->count.Start();
-					--(*item)->totalTime;
+					if ((*item)->count.ReadSec() > 1)
+					{
+						entity->life += (*item)->secDamage;
+						(*item)->count.Start();
+						--(*item)->totalTime;
+
+						//add particles
+						iPoint healthPivot = { 8, 30 };
+						drawRectified -= healthPivot;
+						App->particles->AddParticle(App->particles->healing, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->healing, drawRectified.x + 5*healthPivot.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+
+						if (entity->life > entity->maxLife)
+							entity->life = entity->maxLife;
+					}
 				}
-			}
-			else
-			{
-				DeleteBuff((*item)->temporalBuff);
-				(*item)->temporalBuff = nullptr;
-				entity->stat.remove(*item);
-			}
-			break;
-		case STAT_TYPE::SPEED_BUFF:
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
+				else
 				{
-					(*item)->count.Start();
-					--(*item)->totalTime;
+					entity->isPotionActive = false;
+					entity->stat.remove(*item);
 				}
-			}
-			else
-			{
-				ResetEntityVariables((*item)->temporalBuff);
-				(*item)->temporalBuff = nullptr;
-				entity->stat.remove(*item);
-			}
-			break;
-		case STAT_TYPE::HEALTH_BUFF:
-			if ((*item)->totalTime > 0)
-			{
-				if ((*item)->count.ReadSec() > 1)
+				break;
+			case STAT_TYPE::ATTACK_BUFF:
+				if ((*item)->totalTime > 0)
 				{
-					(*item)->count.Start();
-					--(*item)->totalTime;
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
 				}
+				else
+				{
+					DeleteBuff((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::DEFENCE_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					DeleteBuff((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::SPEED_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					ResetEntityVariables((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::HEALTH_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					ResetEntityVariables((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::NORMAL:
+				break;
+			default:
+				break;
 			}
-			else
-			{
-				ResetEntityVariables((*item)->temporalBuff);
-				(*item)->temporalBuff = nullptr;
-				entity->stat.remove(*item);
-			}
-			break;
-		case STAT_TYPE::NORMAL:
-			break;
-		default:
-			break;
 		}
 	}
 	if (entity->life <= 0 && entity->type != ENTITY_TYPE::PLAYER)
@@ -773,7 +823,6 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		//entity->to_delete = true;
 		// When we kill the player we will have a diying animation aswell (or tell him to delete), as for now, only come here ENEMIES or PLAYERS, so should be fine
 		//If causes any trouble put it back without any problem
-		entity->isParalize = false;
 		entity->to_die = true;
 		return true;
 	}
@@ -791,7 +840,10 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	case ENTITY_TYPE::PLAYER:
 	{
 		if (entity->isParalize)
+		{
 			dynamic_cast<PlayerEntity*>(entity)->lastAnimationSpeed = dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed;
+			dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed = 0.f;
+		}
 		else
 			dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed = dynamic_cast<PlayerEntity*>(entity)->lastAnimationSpeed;
 		break;
@@ -800,7 +852,10 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	case ENTITY_TYPE::ENEMY_TEST:
 	{
 		if (entity->isParalize)
+		{
 			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
+			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = 0.f;
+		}
 		else
 			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = dynamic_cast<Enemy*>(entity)->lastAnimationSpeed;
 		break;
@@ -809,7 +864,10 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	case ENTITY_TYPE::ENEMY_BOMB:
 	{
 		if (entity->isParalize)
+		{
 			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
+			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = 0.f;
+		}
 		else
 			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = dynamic_cast<Enemy*>(entity)->lastAnimationSpeed;
 		break;

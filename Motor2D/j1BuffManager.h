@@ -59,11 +59,13 @@ private:
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
 
-	std::list<j1Entity*>			entitiesTimeDamage;
+	
 
 	
 public:
 	float powerAttack = 5;
+
+	std::list<j1Entity*>			entitiesTimeDamage;
 };
 
 #endif

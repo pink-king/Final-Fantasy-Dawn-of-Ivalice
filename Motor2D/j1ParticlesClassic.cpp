@@ -85,7 +85,7 @@ bool j1ParticlesClassic::Start()
 	healing.anim.PushBack({ 80, 0, 16, 48 });
 	healing.anim.PushBack({ 96, 0, 16, 48 });
 	healing.anim.PushBack({ 112, 0, 16, 48 });
-	healing.anim.loop = true;
+	healing.anim.loop = false;
 	healing.anim.speed = 10.F; 
 	healing.texture = particleAtlas2; 
 
