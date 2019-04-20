@@ -304,7 +304,7 @@ bool Marche::Update(float dt)
 			App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
+			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
 			App->camera2D->AddTrauma(10.0f / 100.f);

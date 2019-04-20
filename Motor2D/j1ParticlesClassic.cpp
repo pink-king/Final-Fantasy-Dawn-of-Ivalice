@@ -74,7 +74,7 @@ bool j1ParticlesClassic::Start()
 	fire01.anim.PushBack({ 96, 192, 16, 48 });
 	fire01.anim.PushBack({ 112, 192, 16, 48 });
 	fire01.anim.loop = false;
-	fire01.anim.speed = 15.f;
+	fire01.anim.speed = 13.f;
 	fire01.texture = particleAtlas2; 
 
 	healing.anim.PushBack({ 0, 0, 16, 48 });
@@ -170,11 +170,11 @@ bool j1ParticlesClassic::Update(float dt)
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
 
-		AddParticle(fire01, p.x, p.y, { 0,0 },0u);
+		/*AddParticle(fire01, p.x, p.y, { 0,0 },0u);
 		AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
 		AddParticle(ice01, p.x, p.y, { 0,0 }, 2000u);
 		AddParticle(ice02, p.x, p.y, { 0,0 }, 4000u);
-		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);
+		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
 
 	}
 

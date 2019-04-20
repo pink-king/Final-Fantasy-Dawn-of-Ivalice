@@ -66,8 +66,8 @@ bool ContagiousFireArrow::Move(float dt)
 
 bool ContagiousFireArrow::Explode()
 {
-	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 10, 1, 50);
-	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 10, 5, 100);
+	/*App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 10, 1, 50);
+	App->attackManager->AddPropagationAttack(owner, imOnSubtile, propagationType::BFS, 10, 5, 100);*/
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
 

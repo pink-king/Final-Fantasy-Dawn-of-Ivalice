@@ -165,7 +165,16 @@ bool j1Scene::PreUpdate()
 			LOG("subtile NOT empty");
 
 		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 100, 20, 40);
+		App->attackManager->AddPropagationAttack(
+			App->entityFactory->player->GetSelectedCharacterEntity(), // from entity
+			{ entitySubTilePoint.x,entitySubTilePoint.y }, // impact position, (on subtilemap units)
+			propagationType::BFS, // propagation expansion type
+			damageType::INTIME,	// damage type: direct/in time
+			ELEMENTAL_TYPE::FIRE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
+			100, // base attack damage
+			13, // radius (on subtile units)
+			40, // propagation speed, in ms (time between steps)
+			true); // if this attack instantate particles of the elemental type while propagating
 		App->camera2D->AddTrauma(0.7f);
 	}
 

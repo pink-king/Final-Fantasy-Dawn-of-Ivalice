@@ -18,7 +18,7 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 
 EnemyBomb::~EnemyBomb()
 {
-	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
+	//App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
 }
 
 bool EnemyBomb::Start()
@@ -209,7 +209,7 @@ void EnemyBomb::SetState(float dt)
 		if (checkTime.ReadSec() > explosionDelay && currentAnimation->Finished())
 		{
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
-			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
+			//App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, baseDamage, 6, 60);
 			to_delete = true;
 		}
 	}

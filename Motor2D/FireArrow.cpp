@@ -95,7 +95,7 @@ void FireArrow::Pierce()
 {
 	// Add FX
 	// TODO Add particles of blood and fire dmg
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, 10, 1, 50);
+	//App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, 10, 1, 50);
 	App->camera2D->AddTrauma(0.2F);
 	App->input->DoGamePadRumble(0.3F, 30);
 	piercedEnemies++;
@@ -105,8 +105,8 @@ void FireArrow::Explode()
 {
 	// Add FX
 	// TODO Add fire dmg
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, 20, 1, 50);
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, 20, 7, 50);
+	//App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, 20, 1, 50);
+	//App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, 20, 7, 50);
 
 	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20);
 	App->camera2D->AddTrauma(0.5F);

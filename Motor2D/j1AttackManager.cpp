@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
+#include "j1ParticlesClassic.h"
 #include "Brofiler/Brofiler.h"
 
 // TODO: to improve ---
@@ -26,6 +27,7 @@ j1AttackManager::j1AttackManager()
 	matrix[ENEMY_TEST][PLAYER] = true;
 	matrix[ENEMY_TEST][ENEMY_BOMB] = false;
 	matrix[ENEMY_TEST][ENEMY_TEST] = false;
+
 
 }
 
@@ -113,9 +115,9 @@ bool j1AttackManager::CleanUp()
 	return true;
 }
 
-void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint,propagationType propagationType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed)
+void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint,propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles)
 {
-	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, baseDamage, subTileStepRadius, propagationStepSpeed));
+	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, dmgType, elemType, baseDamage, subTileStepRadius, propagationStepSpeed, instantiateParticles));
 }
 
 //void j1AttackManager::AddPropagationAttack(attackData* data)
@@ -135,11 +137,11 @@ attackData::attackData()
 	//Start();
 }
 
-attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed) :
-	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), baseDamage(baseDamage), 
-	 subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed)
+attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles) :
+	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), dmgType(dmgType), elemType(elemType),
+	baseDamage(baseDamage),subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed), instantiateParticles(instantiateParticles)
 {
-	fromType = fromEntity->type;
+	//fromType = fromEntity->type;
 	Start();
 }
 
@@ -150,6 +152,7 @@ attackData::~attackData()
 
 bool attackData::Start()
 {
+	//debug = false;
 	// check detection resolution
 	//propagationResolution = PROPAGATION_RESOLUTION;
 	// -----
@@ -160,9 +163,39 @@ bool attackData::Start()
 	// " and do the first propagation step "
 	subtileQueue.push(startSubtilePoint);
 	CheckEntitiesFromSubtileStep();
-	DoDirectAttack();
+	DoAttackType();
+
+	if (instantiateParticles)
+	{
+		lastStepSubtiles.push(startSubtilePoint);
+		InstantiateParticles();
+	}
+	
 
 	return true;
+}
+
+bool  attackData::DoAttackType()
+{
+	bool ret = true;
+
+	switch (dmgType)
+	{
+	case damageType::NO:
+		break;
+	case damageType::DIRECT:
+		DoDirectAttack();
+		break;
+	case damageType::INTIME:
+		DoInTimeAttack();
+		break;
+	case damageType::MAX:
+		break;
+	default:
+		break;
+	}
+
+	return ret;
 }
 
 bool attackData::Update(float dt)
@@ -181,7 +214,7 @@ bool attackData::Update(float dt)
 			DoNextPropagationStep();
 			// check queued subtiles to find target entities
 			CheckEntitiesFromSubtileStep(); // checks an adds filtered entities to final queue to communicate with buff manager
-			DoDirectAttack(); // attack all entities involved on last frame update on the affected step subtiles
+			DoAttackType(); // attack all entities involved on last frame update on the affected step subtiles
 		}
 		
 		//InstatiateReplica();
@@ -223,6 +256,73 @@ bool attackData::Update(float dt)
 
 bool attackData::PostUpdate()
 {
+	// Draw particles if we want
+
+	if (instantiateParticles)
+		InstantiateParticles();
+	
+
+	return true;
+}
+
+bool attackData::InstantiateParticles()
+{
+	bool ret = true;
+
+	if (instantiateParticles)
+	{
+		while (!lastStepSubtiles.empty())
+		{
+			iPoint drawPosition = lastStepSubtiles.front();
+			lastStepSubtiles.pop();
+
+			InstantiateParticleType(App->map->SubTileMapToWorld(drawPosition.x, drawPosition.y));
+	
+		}
+
+	}
+	else
+		ret = false;
+
+		return ret;
+}
+
+bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass directly the particle to attack manager instead of the type
+{
+	bool ret = true;
+
+	// center particle to subtile
+	iPoint subtileSize = { 32,16 };
+
+	switch (elemType)
+	{
+	case ELEMENTAL_TYPE::NO_ELEMENT:
+		break;
+	case ELEMENTAL_TYPE::FIRE_ELEMENT:
+	{
+		iPoint firePivot = { 8,46 };
+		iPoint drawRectified;
+		// center at subtile ------
+		drawRectified.x = drawPos.x + subtileSize.x * 0.5f;
+		drawRectified.y = drawPos.y + (subtileSize.y * 0.5f) * 2;
+		// ------------------------
+		// substract pivot
+		drawRectified -= firePivot;
+		App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y , { 0,0 }, 0u);
+		break;
+	}
+	case ELEMENTAL_TYPE::ICE_ELEMENT:
+		break;
+	case ELEMENTAL_TYPE::POISON_ELEMENT:
+		break;
+	case ELEMENTAL_TYPE::ALL_ELEMENTS:
+		break;
+	case ELEMENTAL_TYPE::MAX:
+		break;
+	default:
+		break;
+	}
+
 	return true;
 }
 
@@ -331,6 +431,42 @@ bool attackData::DoDirectAttack()
 	return true;
 }
 
+bool attackData::DoInTimeAttack()
+{
+	bool ret = true;
+
+	while (!entitiesQueue.empty()) // if we have any valid entity on last propagation step
+	{
+		// pass the type etc of the attack, for now pass a direct attack
+		j1Entity* defender = entitiesQueue.front();
+		entitiesQueue.pop();
+		
+		switch (elemType)
+		{
+		case ELEMENTAL_TYPE::NO_ELEMENT:
+			break;
+		case ELEMENTAL_TYPE::FIRE_ELEMENT:
+			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * 10, "fuckYouState");
+			break;
+		case ELEMENTAL_TYPE::ICE_ELEMENT:
+			break;
+		case ELEMENTAL_TYPE::POISON_ELEMENT:
+			break;
+		case ELEMENTAL_TYPE::ALL_ELEMENTS:
+			break;
+		case ELEMENTAL_TYPE::MAX:
+			break;
+		default:
+			break;
+		}
+
+		// updates combo counter
+		++combo;
+	}
+
+	return ret;
+}
+
 bool attackData::DoNextStepBFS()
 {
 
@@ -344,7 +480,7 @@ bool attackData::DoNextStepBFS()
 			for (int i = 0; i < steps; ++i)
 			{
 				//LOG("DOING: %i", i);
-				iPoint currentSubtile = frontier.front();//front();
+				iPoint currentSubtile = frontier.front();
 				frontier.pop(); // pops last queue value
 
 				// each relative subtile neighbour
@@ -370,6 +506,9 @@ bool attackData::DoNextStepBFS()
 							visited.push_back(neighbours[i]);
 							// adds to subtile queue too
 							subtileQueue.push(neighbours[i]);
+							// adds all subtile affected if we want particle instantiation on that positions
+							if (instantiateParticles)
+								lastStepSubtiles.push(neighbours[i]);
 						}
 					}
 				}
