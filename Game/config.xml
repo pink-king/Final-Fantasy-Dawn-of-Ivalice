@@ -149,19 +149,19 @@
     <InGameUiM>
       <images>                                         
         <image name="basic_marche">
-          <section x="650" y="126" w="51" h="51"/>   
+          <section x="371" y="1" w="51" h="51"/>   
           <position x="40" y="630 "/>
         </image>
-        <image name="ability1_marche">
-          <section x="704" y="126" w="51" h="51"/>   
+        <image name="dash_marche">
+          <section x="371" y="105" w="51" h="51"/>   
           <position x="100" y="630"/>
         </image>
-        <image name="ability2_marche">
-          <section x="755" y="126" w="51" h="51"/>   
+        <image name="tornado_marche">
+          <section x="475" y="1" w="51" h="51"/>   
           <position x="160" y="630"/>
         </image>
-		 <image name="ulti_marche">
-          <section x="807" y="126" w="51" h="51"/>   
+		 <image name="rage_marche">
+          <section x="423" y="1" w="51" h="51"/>   
           <position x="220" y="630"/>
         </image>
         <image name="marche">
@@ -183,20 +183,24 @@
     <InGameUiS>
       <images>
         <image name="basic_shara">
-          <section x="650" y="126" w="51" h="51"/> 
+          <section x="423" y="53" w="51" h="51"/> 
           <position x="40" y="630 "/>
         </image>
-        <image name="ability1_shara">
-          <section x="704" y="126" w="51" h="51"/>  
+        <image name="dash_shara">
+          <section x="423" y="105" w="51" h="51"/>  
           <position x="100" y="630"/>
         </image>
-        <image name="ability2_shara">
-          <section x="755" y="126" w="51" h="51"/>   
+        <image name="fireArrow_shara">
+          <section x="475" y="53" w="51" h="51"/>   
           <position x="160" y="630"/>
         </image>
-        <image name="ulti_shara">
-         <section x="807" y="126" w="51" h="51"/>   
+        <image name="contagious_shara">
+         <section x="527" y="53" w="51" h="51"/>   
          <position x="220" y="630"/>
+        </image>
+        <image name="skyShot_shara">
+         <section x="579" y="53" w="51" h="51"/>   
+         <position x="280" y="630"/>
         </image>
         <image name="shara">
           <section x="1129" y="1" w="96" h="100"/>
@@ -218,19 +222,19 @@
     <InGameUiR>
       <images>
         <image name="basic_ritz">
-          <section x="650" y="126" w="51" h="51"/> 
+          <section x="527" y="1" w="51" h="51"/> 
           <position x="40" y="630 "/>
         </image>
-        <image name="ability1_ritz">
-          <section x="704" y="126" w="51" h="51"/>    
+        <image name="dash_ritz">
+          <section x="475" y="105" w="51" h="51"/>    
           <position x="100" y="630"/>
         </image>
-        <image name="ability2_ritz">
-          <section x="755" y="126" w="51" h="51"/>      
+        <image name="teleport_ritz">
+          <section x="371" y="53" w="51" h="51"/>      
           <position x="160" y="630"/>
         </image>
-        <image name="ulti_ritz">
-          <section x="807" y="126" w="51" h="51"/> 
+        <image name="deathCircle_ritz">
+          <section x="579" y="1" w="51" h="51"/> 
           <position x="220" y="630"/>
         </image>
         <image name="ritz">
