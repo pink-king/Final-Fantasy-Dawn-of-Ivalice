@@ -298,7 +298,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
 		{
 			coolDownData.dodge.timer.Start();
-			App->audio->PlayFx(App->entityFactory->dash, 0);
+			//App->audio->PlayFx(App->entityFactory->dash, 0);
 		}
 		break;
 	case combatState::SPECIAL1:
