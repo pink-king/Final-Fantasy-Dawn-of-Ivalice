@@ -171,6 +171,7 @@ if (!App->entityFactory->player->equipedObjects.empty())
 					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 					(*iter)->MyDescription->spawnedInventoryImage = true;
+					(*iter)->MyDescription->iconImageInventory->tabbable = false;
 					potionLabel = App->gui->AddLabel("x 1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
 				}
 				first_potion = true;
