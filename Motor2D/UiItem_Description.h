@@ -116,6 +116,7 @@ public:
 
 	// flag
 	bool hasToCompare = true; 
+
 private:
 
 	EquipmentStatType equipmentLootInfo; 

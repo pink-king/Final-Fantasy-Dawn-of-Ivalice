@@ -191,6 +191,8 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
 {
+	
+
 	if (firstTime)
 	{
 		if (!ent->spawnedDescription)
@@ -201,37 +203,36 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 			ent->MyDescription->HideAllElements(false);
 
 			ent->spawnedDescription = true;
-		}
 
+		}
+		else
+		{
+			ent->MyDescription->HideAllElements(false);;
+		}
+		
 	}
 	else
 	{
-		 // if the selected object is the description icon, create a new description
 
-		if (App->gui->selected_object == ent->MyDescription->iconImageInventory && !ent->spawnedDescription)  // first condition repeated from description cpp
+		if (!App->scene->inventory->enable)
 		{
 
-			// create a new description
-				App->entityFactory->GenerateDescriptionForLootItem(ent);
-				ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
-				ent->MyDescription->HideAllElements(false);
+			// if tabbed object stops to be the description's icon image
 
-				ent->spawnedDescription = true;
+			if (ent->spawnedDescription && App->gui->selected_object != ent->MyDescription->iconImageInventory && !ent->MyDescription->hide)
+			{
+
+				// delete last descr
+				ent->MyDescription->DeleteEverything();
+				ent->MyDescription = nullptr;
+
+
+				ent->spawnedDescription = false;
+			}
+
+
 		}
-
-		// if tabbed object stops to be the description's icon image
-
-		if (ent->spawnedDescription && App->gui->selected_object != ent->MyDescription->iconImageInventory && !ent->MyDescription->hide)
-		{
-
-			// delete last descr
-			ent->MyDescription->DeleteEverything();
-			ent->MyDescription = nullptr;
-
-
-			ent->spawnedDescription = false;
-		}
-
+		
 
 	}
 
@@ -273,6 +274,14 @@ void UiItem_Inventory::Draw(const float & dt)
 	//App->gui->ApplyTabBetweenSimilar(true); 
 
 
+	
+
+/*	if (!App->scene->inventory->enable)
+	{
+
+
+
+	}*/
 
 }
 

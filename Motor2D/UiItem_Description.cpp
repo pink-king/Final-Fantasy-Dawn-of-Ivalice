@@ -173,7 +173,7 @@ void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
 
-	App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
+    App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
 
 	if (spawnedInventoryImage)
 	{
@@ -220,14 +220,14 @@ void UiItem_Description::Draw(const float& dt)
 			{
 				
 
-				HideAllElements(true);
+			//	HideAllElements(true);
 			}
 
 		
 		}
 		else
 		{
-			HideAllElements(true);
+			//HideAllElements(true);
 
 			hasToCompare = true;  // reset comparison label
 		}
