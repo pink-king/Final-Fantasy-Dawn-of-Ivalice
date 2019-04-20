@@ -330,10 +330,10 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 		
 		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
 
-		/*entityLoot->MyDescription->DeleteEverything();
+		entityLoot->MyDescription->DeleteEverything();
 		entityLoot->MyDescription = nullptr;
 
-		entityLoot->spawnedDescription = false;*/
+		entityLoot->spawnedDescription = false;
 
 		// - - - - - - - - - - - - - - - - - - - - - - 
 

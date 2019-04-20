@@ -208,7 +208,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		}
 		else
 		{
-			ent->MyDescription->HideAllElements(false);;
+			ent->MyDescription->HideAllElements(false);
 		}
 		
 	}
