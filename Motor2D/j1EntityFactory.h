@@ -85,6 +85,7 @@ public:
 	iPoint SetLootPos(int x, int y);
 
 	void GenerateDescriptionForLootItem(LootEntity* lootItem);
+	void DoDescriptionComparison(LootEntity* lootItem);
 
 public:
 

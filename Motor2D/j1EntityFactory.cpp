@@ -874,3 +874,18 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 
 }
+
+void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
+{
+
+	if (lootItem->spawnedDescription)
+	{
+			if (lootItem->MyDescription->hasToCompare)
+			{
+				lootItem->MyDescription->ChangeComparisonLabels();   // this compares and puts the "compare" boolean to false
+			}
+
+	}
+	
+
+}
