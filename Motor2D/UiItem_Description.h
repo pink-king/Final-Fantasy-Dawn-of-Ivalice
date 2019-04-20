@@ -46,9 +46,10 @@ struct currenEquipped
 
 struct comparisonLabel
 {
-	UiItem_Label* text = nullptr; 
+	UiItem_Label* label = nullptr; 
 	std::string type;               // sword, etc  
 	std::string character; 
+	std::string text;
 	uint value; 
 };
 

@@ -20,6 +20,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 	// the icon image is created after creating description in loot spawning
+
+
+	// add only resistance comparison label
 }
 
 
@@ -70,23 +73,49 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 	// attached character name
-	std::string destString; 
+	std::string characterString; 
 
 	
 	if (callback->equipableType == EQUIPABLE_TYPE::SWORD)
 	{
-		destString = "Marche"; 
+		characterString = "Marche";
+
+		damageComparisonLabel.character = "Marche"; 
+		damageComparisonLabel.type = "sword"; 
+		
+		resistanceComparisonLabel.character = "Marche";
+		resistanceComparisonLabel.type = "sword";
+
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
 	{
-		destString = "Ritz";
+		characterString = "Ritz";
+
+		resistanceComparisonLabel.character = "Ritz";
+		resistanceComparisonLabel.type = "rod";
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
 	{
-		destString = "Shara";
+		characterString = "Shara";
+
+		resistanceComparisonLabel.character = "Shara";
+		resistanceComparisonLabel.type = "bow";
 	}
-	this->attachedCharacter = App->gui->AddLabel(destString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+
+	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	attachedCharacter->useCamera = false;
+
+
+	// the label with the "+6" etc
+
+	damageComparisonLabel.text = " ";
+	damageComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	damageComparisonLabel.label->useCamera = false;
+
+
+	resistanceComparisonLabel.text = " ";
+	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceComparisonLabel.label->useCamera = false;
 
 }
 
@@ -171,6 +200,22 @@ void UiItem_Description::Draw(const float& dt)
 	}
 
 
+	
+
+	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == callback || 
+		App->gui->selected_object == this->iconImageInventory)
+	{
+		ChangeComparisonLabels(); 
+	}
+
+}
+
+
+void UiItem_Description::ChangeComparisonLabels()
+{
+
+
+	
 }
 
 
@@ -198,11 +243,14 @@ void UiItem_Description::SwitchCameraUsage()
 		this->resistanceLabel->useCamera = true;
 		this->attachedCharacter->useCamera = true; 
 
+		this->damageComparisonLabel.label->useCamera = true; 
+		this->resistanceComparisonLabel.label->useCamera = true;
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
 		// this->level->useCamera = true;
 		//this->attachedCharacter->useCamera = true;
+		// this->resistanceComparisonLabel.label->useCamera = true;
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -233,11 +281,15 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 			this->damageLabel->hide = hide; 
 			this->resistanceLabel->hide = hide;
 			this->attachedCharacter->hide = hide;
+
+			this->damageComparisonLabel.label->hide = hide;
+			this->resistanceComparisonLabel.label->hide = hide;
 		}
 		else if(this->descrType == descriptionType::EQUIPMENT)
 		{
 			//this->level->hide = hide;
 			// this->attachedCharacter->hide = hide;
+			// this->resistanceComparisonLabel.label->hide = hide;
 		}
 		else if (this->descrType == descriptionType::POTION)
 		{
@@ -285,11 +337,20 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		this->resistanceLabel->hitBox.x = referencePanelPosition.x + 90;
 		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 100;
 
+
+		/*this->damageComparisonLabel.label->hitBox.x = ; 
+		this->damageComparisonLabel.label->hitBox.y = ;
+		this->resistanceComparisonLabel.label->hitBox.x = ;
+		this->resistanceComparisonLabel.label->hitBox.y = ;*/
+
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
 		/*this->level->hitBox.x = referencePanelPosition.x + 150;
 		this->level->hitBox.y = referencePanelPosition.y + 180;*/
+
+		/*this->resistanceComparisonLabel.label->hitBox.x = ;
+		this->resistanceComparisonLabel.label->hitBox.y = ;*/
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -334,11 +395,17 @@ void UiItem_Description::DeleteEverything()
 		this->damageLabel->to_delete = true;
 		this->resistanceLabel->to_delete = true;
 		this->attachedCharacter->to_delete = true; 
+
+
+		this->damageComparisonLabel.label->to_delete = true; 
+		this->resistanceComparisonLabel.label->to_delete = true;
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
 		this->level->to_delete = true;
 		this->attachedCharacter->to_delete = true;
+
+		this->resistanceComparisonLabel.label->to_delete = true;
 	}
 	else if (this->descrType == descriptionType::POTION)
 		{
