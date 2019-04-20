@@ -135,7 +135,7 @@ public:
 	unsigned int marcheAbility2; //tornado
 	unsigned int sharaBasic;
 	unsigned int dash;
-	unsigned int sharaAbility2;
+	unsigned int sharaAbility1;
 	
 private:
 	std::vector<j1Entity*>	draw_entities;

@@ -283,6 +283,7 @@ bool Shara::Update(float dt)
 			//App->audio->PlayFx(App->entityFactory->ritzBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
+			App->audio->PlayFx(App->entityFactory->sharaBasic);
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::BASIC_ARROW);
 
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
@@ -294,11 +295,17 @@ bool Shara::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
+		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
+		{
+			coolDownData.dodge.timer.Start();
+			App->audio->PlayFx(App->entityFactory->dash, 0);
+		}
 		break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
+			App->audio->PlayFx(App->entityFactory->sharaBasic);
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
 
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
@@ -326,6 +333,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
+			App->audio->PlayFx(App->entityFactory->sharaAbility1);
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);

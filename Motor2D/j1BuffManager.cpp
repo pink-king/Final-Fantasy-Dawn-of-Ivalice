@@ -26,9 +26,9 @@ bool j1BuffManager::Awake(pugi::xml_node &node)
 
 bool j1BuffManager::Start()
 {
-	burnedSFX = App->audio->LoadFx("audio/fx/burned.wav");
-	freezedSFX = App->audio->LoadFx("audio/fx/freezed.wav");
-	paralyzedSFX = App->audio->LoadFx("audio/fx/paralyzed.wav");
+	burnedSFX = App->audio->LoadFx("audio/fx/States/burned.wav");
+	freezedSFX = App->audio->LoadFx("audio/fx/States/freezed.wav");
+	paralyzedSFX = App->audio->LoadFx("audio/fx/States/paralyzed.wav");
 
 	return true;
 }
@@ -171,6 +171,8 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
 		}
 	}
+
+	//if(attacker->type == ENTITY_TYPE::PLAYER && defen) //aqui
 	/*if (defender->hitPoint != nullptr)
 	{
 		defender->hitPoint->attachedEntity = nullptr;
@@ -293,7 +295,7 @@ void j1BuffManager::CreateParalize(j1Entity * attacker, j1Entity * defender, flo
 
 		defender->isParalize = true;
 		bool isInList = false;
-		App->audio->PlayFx(paralyzedSFX, 0);
+		App->audio->PlayFx(freezedSFX, 0);
 		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
 		{
 			if ((*item) == defender)

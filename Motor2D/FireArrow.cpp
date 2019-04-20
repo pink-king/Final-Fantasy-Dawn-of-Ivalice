@@ -3,7 +3,7 @@
 #include "j1ModuleCamera2D.h"
 #include "j1Input.h"
 #include "j1ParticlesClassic.h"
-
+#include "j1EntityFactory.h"
 FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner) : Projectile(pos, destination, speed, owner, "Firearrow", PROJECTILE_TYPE::FIRE_ARROW)
 {
 	App->camera2D->AddTrauma(20.F / 100.f);
@@ -58,11 +58,13 @@ bool FireArrow::PreUpdate()
 		attacked = true;
 		if (piercedEnemies >= maxPiercedEnemies) {
 			to_explode = true;
+			App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
 		}
 	}
 
 	if (OnCollisionWithWall()) {
 		to_explode = true;
+		App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
 	}
 
 	if (changedSubtile)

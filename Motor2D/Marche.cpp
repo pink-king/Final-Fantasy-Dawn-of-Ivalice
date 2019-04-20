@@ -309,7 +309,13 @@ bool Marche::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
-		break;
+
+		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
+		{
+			coolDownData.dodge.timer.Start();
+			App->audio->PlayFx(App->entityFactory->dash, 0);
+		}
+			break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{

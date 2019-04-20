@@ -32,7 +32,7 @@ bool j1Gui::Start()
 	atlas = App->tex->Load(atlas_file_name.data());
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	selectUI = App->audio->LoadFx("audio/fx/selectUI.wav");
-	acceptUI = App->audio->LoadFx("audio/fx/AcceptUI.wav");
+	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
 	return true;
 }
 

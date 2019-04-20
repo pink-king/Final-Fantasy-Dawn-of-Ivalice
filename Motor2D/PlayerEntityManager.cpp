@@ -57,9 +57,9 @@ bool PlayerEntityManager::Start()
 	pivot = selectedCharacterEntity->pivot;
 
 
-	pickLoot = App->audio->LoadFx("audio/fx/pickLoot.wav");
-	pickGold = App->audio->LoadFx("audio/fx/pickGold.wav");
-	consumHealPotion = App->audio->LoadFx("audio/fx/consumHealingPotion.wav");
+	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
+	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumHealingPotion.wav");
 	return true;
 }
 
