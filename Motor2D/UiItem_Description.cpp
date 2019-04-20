@@ -178,8 +178,8 @@ void UiItem_Description::Draw(const float& dt)
 			{
 				if (this->name_object == "potion_1")
 				{
-					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffset.x;
-					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
+					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - 20;
+					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - 23;
 				}
 				else
 				{
