@@ -173,7 +173,7 @@ void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
 
-	if(App->scene->inventory->enable)
+	if(!App->scene->inventory->enable && spawnedInventoryImage)                       // if inventory is no longer enabled, delete description
     App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
 
 	if (spawnedInventoryImage )

@@ -204,6 +204,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 			ent->spawnedDescription = true;
 
+			LOG("_______________________________________________   spawned description");
 		}
 		else
 		{
@@ -211,27 +212,18 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		}
 		
 	}
-	else
+	else   // only when closing inventory, delete the description
 	{
-
-		if (!App->scene->inventory->enable)
-		{
-
-			// if tabbed object stops to be the description's icon image
-
-			if (ent->spawnedDescription && App->gui->selected_object != ent->MyDescription->iconImageInventory && !ent->MyDescription->hide)
-			{
-
 				// delete last descr
 				ent->MyDescription->DeleteEverything();
 				ent->MyDescription = nullptr;
 
 
 				ent->spawnedDescription = false;
-			}
 
 
-		}
+
+				LOG("_______________________________________________   Deleted description"); 
 		
 
 	}
