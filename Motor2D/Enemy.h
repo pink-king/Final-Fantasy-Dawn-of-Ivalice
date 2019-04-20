@@ -34,6 +34,7 @@ enum class EnemyState
 	GO_NEXT_TILE,
 	CHECK,
 	ATTACK,
+	DYING,
 	MAX
 };
 
@@ -51,7 +52,7 @@ enum class EnemyType
 class Enemy : public j1Entity
 {
 public:
-	Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name);
+	Enemy(iPoint position, uint movementSpeed,  uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name);
 	~Enemy();
 
 	//core loops ------
@@ -75,6 +76,8 @@ public:
 
 public:
 	float attackSpeed = 0;
+	float attackPerS = 0; 
+	float lastAnimationSpeed;
 	uint speed = 0;
 protected:
 	std::vector<iPoint> path_to_follow;
@@ -89,7 +92,7 @@ protected:
 	Animation idle[(int)facingDirectionEnemy::MAX];
 	Animation run[(int)facingDirectionEnemy::MAX];
 	Animation basicAttack[(int)facingDirectionEnemy::MAX];
-	Animation receiveDamage[(int)facingDirectionEnemy::MAX];
+	Animation dyingAnim;
 	
 	uint detectionRange = 0; 
 	uint attackRange = 0; 
@@ -99,6 +102,8 @@ protected:
 	SDL_Texture* debugSubtile = nullptr;
 	uint baseDamage;
 
+	//bool to_die = false;
+	bool dummy = false; 
 };
 
 #endif

@@ -180,7 +180,7 @@ public:
 	PlayerData			playerData;
 	bool				map_loaded;
 	bool				showNavLayer = false;
-	iPoint pixelTileOffset; // mesures the height between the end of y sprite texture to start of the paint(draw) itself (displacement)
+	//iPoint pixelTileOffset; // mesures the height between the end of y sprite texture to start of the paint(draw) itself (displacement)
 private:
 
 	pugi::xml_document	map_file;

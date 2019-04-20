@@ -4,6 +4,7 @@
 #include "p2Point.h"
 #include "p2Animation.h"
 #include "j1Entity.h"
+#include "j1Render.h"
 #include "Buff.h"
 #include "j1ModuleCamera2D.h"
 
@@ -91,6 +92,16 @@ public:
 public:
 	combatState combat_state;
 	coolDown coolDownData;
+	float lastAnimationSpeed;
+	bool inputReady = true;
+protected:
+	void DoDash();
+
+	float dashMaxDistance;
+	int previousFrame; // to swap position with displaced sprites
+	fPoint untouchedPos; // stores original position before the dodge animation
+	fPoint transference_pivot = { 0,0 }; // to fake draw position when needed
+	fPoint dashDestinationPos;
 
 public:
 	
@@ -102,10 +113,11 @@ public:
 	fPoint characterBaseSpeed = { 2.0f,1.5f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
 	fPoint characterBaseSpeedKey = { 2.0f, 1.0f };
 	SDL_Texture* spritesheet = nullptr;
+	SDL_Texture* dash_spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];
 	Animation run[(int)facingDirection::MAX];
 	Animation basicAttack[(int)facingDirection::MAX];
-	Animation dodge[(int)facingDirection::MAX];
+	Animation dash[(int)facingDirection::MAX];
 	Animation receiveDamage[(int)facingDirection::MAX];
 	
 	/*std::vector<j1Entity*>	entities;

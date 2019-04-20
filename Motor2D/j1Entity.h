@@ -8,7 +8,6 @@
 #include "j1Module.h"
 #include "j1Textures.h"
 
-
 #include "SDL_image/include/SDL_image.h"
 
 #include "UiItem_HealthBar.h"
@@ -22,6 +21,7 @@ class UiItem_Image;
 enum ENTITY_TYPE  // todo, pass to class
 	{
 		NO_TYPE,
+		PARTICLE,
 		ENTITY_STATIC,
 		ENTITY_DYNAMIC,
 		//---------------
@@ -30,7 +30,6 @@ enum ENTITY_TYPE  // todo, pass to class
 		ENEMY02,
 		//etc
 		LOOT,
-		EQUIP,
 		ENEMY_TEST,
 		// LAST
 		MAX_TYPE
@@ -41,21 +40,28 @@ enum class STAT_TYPE
 	NORMAL,
 	BURNED_STAT,
 	PARALIZE_STAT,
-	COOLDOWN,
+	POISON_STAT,
+
 	POTION_STAT,
-	ATTACKSPEED
+
+	ATTACK_BUFF,
+	DEFENCE_BUFF,
+	SPEED_BUFF,
+	HEALTH_BUFF
 };
+class Buff; 
 
 class entityStat
 {
 public:
-	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f):type(stat), secDamage(secDamage), totalTime(totalTime){}
+	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f, Buff* temporalBuff = nullptr):type(stat), secDamage(secDamage), totalTime(totalTime), temporalBuff(temporalBuff){}
 	entityStat() {};
 public:
 	STAT_TYPE		type = STAT_TYPE::NORMAL;
 	float			secDamage = 0.f;
 	j1Timer			count;
 	uint			totalTime = 0;
+	Buff*			temporalBuff = nullptr;
 };
 
 struct EntityInfo
@@ -93,14 +99,18 @@ public:
 	fPoint GetPosition();
 	void SetPivot(const float & x, const float & y);
 	fPoint GetPivotPos() const;	
+	fPoint GetThrowingPos() const; 
 	bool ChangedTile() const; 
 
 	virtual void LoadEntitydata(pugi::xml_node&);
+
+	friend class PlayerEntity;
 	
 
 public:
 	SDL_Rect drawAtlasRect; // for static draw from spritesheet
 	bool					to_delete = false;
+	bool					to_die = false; 
 	std::string				name;
 	fPoint					position;
 	iPoint					size;
@@ -118,9 +128,11 @@ public:
 	bool					isInRange = false;
 	bool					isParalize = false;
 	bool					isBurned = false;
+	bool					isPosioned = false;
 	bool					isPotionActive = false;
 	
 	bool					changedTile = false; 
+	bool					changedSubtile = false; 
 	//Animation			idle;
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;

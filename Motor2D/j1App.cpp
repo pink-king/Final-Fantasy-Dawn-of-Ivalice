@@ -19,7 +19,7 @@
 #include "j1Fonts.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-
+#include "j1ParticlesClassic.h"
 #include "j1ModuleCamera2D.h"
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
@@ -42,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	font = new j1Fonts();
 	buff = new j1BuffManager();
 	attackManager = new j1AttackManager();
+	particles = new j1ParticlesClassic();
 	camera2D = new j1ModuleCamera2D();
 	HPManager = new UiItem_HitPointManager();
 
@@ -56,7 +57,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityFactory);
 	AddModule(attackManager);
 	AddModule(buff);
-	
+	AddModule(particles);
 	AddModule(pathfinding);
 	AddModule(gui);
 	AddModule(font);
@@ -87,7 +88,6 @@ j1App::~j1App()
 
 void j1App::AddModule(j1Module* module)
 {
-	
 	module->Init();
 	modules.push_back(module);
 }
@@ -176,7 +176,6 @@ bool j1App::Update()
 		ret = PostUpdate();
 
 	FinishUpdate();
-	BROFILER_FRAME("App frame");
 	return ret;
 }
 
@@ -229,12 +228,18 @@ void j1App::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
+	static char title[256];
+	sprintf_s(title, 256, "FPS: %i, Av.FPS: %.2f Last Frame Ms: %02u / Time since startup: %.3f Frame Count: %lu / Frame Cap: ",
+		frames_on_last_update, avg_fps, last_frame_ms, seconds_since_startup, frame_count/*, framerate_cap*/);
+	App->win->AddStringToTitle(title);
+
+
 	/*static char title[256];
-	std::string capFramesString;*/
+	std::string capFramesString;
 
-	/*sprintf_s(title, 256, "%s" , App->GetTitle());*/
+	sprintf_s(title, 256, "%s" , App->GetTitle());
 
-	/*char title[256];
+	char title[256];
 	sprintf_s(title, 256, "Realtime fps: %i", frames_on_last_update);
 	App->win->AddStringToTitle(title);*/
 
@@ -323,8 +328,6 @@ bool j1App::PostUpdate()
 bool j1App::CleanUp()
 {
 	PERF_START(ptimer);
-
-	cleaningUp = true; 
 
 	bool ret = true;
 	std::list<j1Module*>::reverse_iterator item;

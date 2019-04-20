@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "UiItem.h"
 #include "UiItem_Label.h"
+
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
@@ -34,9 +35,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 
 PlayerEntityManager::~PlayerEntityManager()
 {
-	delete marche;
-	delete ritz;
-	delete shara;
+	
 	delete crossHair;
 
 	// TODO: free characters vector
@@ -60,7 +59,7 @@ bool PlayerEntityManager::Start()
 
 	pickLoot = App->audio->LoadFx("audio/fx/pickLoot.wav");
 	pickGold = App->audio->LoadFx("audio/fx/pickGold.wav");
-
+	consumHealPotion = App->audio->LoadFx("audio/fx/consumHealingPotion.wav");
 	return true;
 }
 
@@ -145,9 +144,16 @@ bool PlayerEntityManager::PostUpdate()
 
 bool PlayerEntityManager::CleanUp()
 {
-	/*delete marche;
-	delete ritz;
-	delete shara;*/
+	std::vector<PlayerEntity*>::iterator charIter = characters.begin();
+	for (; charIter != characters.end(); ++charIter)
+	{
+		(*charIter)->CleanUp();
+		delete (*charIter);
+		(*charIter) = nullptr;
+
+	}
+	characters.clear();
+
 	std::vector<LootEntity*>::iterator iter = bagObjects.begin();
 	for (; iter != bagObjects.end(); ++iter)
 	{
@@ -180,15 +186,17 @@ bool PlayerEntityManager::SwapInputChecker()
 	bool ret = true;
 
 	// checks gamepad and swaps character
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+	if (selectedCharacterEntity->inputReady)
 	{
-		SetPreviousCharacter();
-	}
+		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+		{
+			SetPreviousCharacter();
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
-	{
-		SetNextCharacter();
+		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+		{
+			SetNextCharacter();
+		}
 	}
 
 	return ret;
@@ -344,12 +352,6 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 {
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
-		// when a loot item is collected, the description should be hiden
-		entityLoot->MyDescription->HideAllElements(true); 
-
-
-
-
 		if (equipedObjects.size() == 0)
 		{
 			equipedObjects.push_back(entityLoot);
@@ -376,7 +378,6 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 				bagObjects.push_back(entityLoot);
 			}
 		}
-		
 	}
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
@@ -450,6 +451,8 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 	{
 		if (consumable == *item)
 		{
+			if (consumable->objectType == OBJECT_TYPE::POTIONS)
+				App->audio->PlayFx(consumHealPotion, 0);
 			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 			{
 				App->buff->CreateHealth((*iter)->GetCharacter(), (*iter)->GetValue(), 8);
@@ -589,44 +592,12 @@ bool Crosshair::ManageInput(float dt)
 			//LOG("DONT SEARCH");
 	}
 	else
-	{
+	{	//TODO: UNCLAMP when player pull the crosshair out a target
 		if (clampedEntity != nullptr && !clampedEntity->to_delete) // for if the entity is killed protection
 		{
 			position = clampedEntity->GetPivotPos();
 			position.x -= pivotOffset.x;
 			position.y -= pivotOffset.y;
-
-
-			// if clamped type is loot, it can be picked 
-
-		
-			if (clampedEntity->type == ENTITY_TYPE::LOOT)
-			{
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-				{
-					for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
-					{
-						if ((*item) == clampedEntity)
-						{
-
-							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity)))
-							{
-								// first detach clamped entity
-								clampedEntity = nullptr;
-
-								// then delete loot from subtile and factory 
-								App->entityFactory->DeleteEntityFromSubtile(*item);
-								item = App->entityFactory->entities.erase(item);
-								break;
-							}
-			
-						}
-
-					}
-			
-				}
-			}
-
 
 		}
 		else
@@ -770,29 +741,3 @@ bool Crosshair::CleanUp()
 //{
 //	return MAX(lower, MIN(n, upper));
 //}
-
-
-j1Entity* Crosshair::GetClampedEntity() const
-{
-	j1Entity* ret = nullptr;
-
-	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-	//std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->lootEntities.begin();
-	while (entitiesItem != App->entityFactory->entities.end())
-	{
-	     
-		if (!(*entitiesItem)->to_delete)
-		{
-			if ((*entitiesItem) == clampedEntity) //Never goes in  //clampedEntity is OK
-			{
-
-				ret = (*entitiesItem); 
-
-			}
-				
-		}
-		++entitiesItem;
-	}
-
-	return ret; 
-}

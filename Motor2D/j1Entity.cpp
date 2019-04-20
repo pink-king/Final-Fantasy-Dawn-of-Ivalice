@@ -22,23 +22,16 @@ j1Entity::j1Entity(iPoint worldPos, SDL_Rect spriteAtlasRect) : type(NO_TYPE), d
 
 j1Entity::~j1Entity()
 {
-	App->entityFactory->DeleteEntityFromSubtile(this); 
+	App->entityFactory->DeleteEntityFromSubtile(this);
 
-
-
-	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+	// put the lifeBar to delete here, to ensure that every time an entity is killed, the lifebar does so
+	
+	if (lifeBar != nullptr)
 	{
-
-		if (lifeBar != nullptr)
-		{
-			lifeBar->deliever = nullptr;
-			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-			lifeBar->to_delete = true;
-		}
-
-
+		lifeBar->deliever = nullptr; 
+		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+		lifeBar->to_delete = true;
 	}
-
 
 
 }
@@ -99,6 +92,15 @@ fPoint j1Entity::GetPivotPos() const
 	return position + pivot;
 }
 
+fPoint j1Entity::GetThrowingPos() const
+{
+	// Still open to adjustments
+	fPoint center(0, 0);
+	center.x = position.x + size.x * 0.5F; 
+	center.y = position.y + size.y * 0.5F;
+	return center;
+}
+
 bool j1Entity::Move(float dt)
 {
 	return true;
@@ -130,6 +132,7 @@ iPoint j1Entity::GetPreviousSubtilePos() const
 void j1Entity::UpdateTilePositions()
 {
 	changedTile = false; 
+	changedSubtile = false; 
 	fPoint pivotPos = GetPivotPos();
 
 	// extra protection TODO: rework the player/entities invalid walkability return positions
@@ -141,6 +144,7 @@ void j1Entity::UpdateTilePositions()
 
 		if (previousSubtilePos != imOnSubtile)
 		{
+			changedSubtile = true; 
 			//LOG("subtile pos changed");
 			// assign this entity to a tile vector
 			App->entityFactory->AssignEntityToSubtile(this);

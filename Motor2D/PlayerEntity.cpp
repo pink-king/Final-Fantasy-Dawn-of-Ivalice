@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include <math.h>
 
+
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
 	//SetPivot(16, 40);
@@ -43,6 +44,8 @@ bool PlayerEntity::PostUpdate()
 
 bool PlayerEntity::CleanUp()
 {
+	App->tex->UnLoad(spritesheet); // TODO: check if this is unloaded
+	App->tex->UnLoad(dash_spritesheet);
 	return true;
 }
 
@@ -182,6 +185,7 @@ bool PlayerEntity::InputCombat()
 		{
 			combat_state = combatState::DODGE;
 			LOG("DODGE");
+			DoDash();
 		}
 		// etc
 		// code under construction ...
@@ -189,7 +193,7 @@ bool PlayerEntity::InputCombat()
 	}
 
 
-	// - - - - - - - -  - - - - - - faked ability 1, 2 & ulti buttons
+	// - - - - - - - -  - - - - - - faked ability 1 & 2 buttons
 		// check ability 1 trigger
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
@@ -205,19 +209,15 @@ bool PlayerEntity::InputCombat()
 	}
 
 
-	// check ulti trigger
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+
+	if (aiming = true)
 	{
-		combat_state = combatState::ULTIMATE;
-		//LOG("ULTIMATE");
-	}
-
-
-
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP)
-	{
-		aiming = false;
-		return false;
+		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP ||
+			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_IDLE)
+		{
+			aiming = false;
+			return false;
+		}
 	}
 
 	return true;
@@ -237,12 +237,12 @@ void PlayerEntity::CheckRenderFlip()
 
 void PlayerEntity::Draw()
 {
-	if (spritesheet != nullptr)
+	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
-			App->render->Blit(spritesheet, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
-			App->render->Blit(spritesheet, position.x, position.y);
+			App->render->Blit(entityTex, position.x, position.y);
 	}
 }
 
@@ -413,7 +413,7 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vector<SDL_Rect>& resultant_intersections)
 {
 	// all resultants are isoTo2D
-	// playerCol needs conversion (2DtoIso)
+	// playerCol needs conversion (isoTo2D)
 
 	fPoint ret(0,0);
 
@@ -550,4 +550,29 @@ fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vecto
 		ret = previousPos;
 
 	return ret;
+}
+
+void PlayerEntity::DoDash()
+{
+	if (dash_spritesheet != nullptr)
+	{
+		inputReady = false; // deactivate user input
+
+		currentAnimation = &dash[pointingDir];
+		entityTex = dash_spritesheet;
+
+		// search for target position
+		fPoint directionVector = { cos(lastAxisMovAngle), sin(lastAxisMovAngle) };
+		directionVector.Normalize();
+
+		// TODO: filter with search for this vector positions if not walkable and return last valid pos (tile center)
+		dashDestinationPos = position + directionVector * dashMaxDistance;
+
+		// adds trauma and force feedback
+		App->camera2D->AddTrauma(0.09f);
+		App->input->DoGamePadRumble(0.05f, 300);
+
+	}
+	else
+		LOG("WARNING: no dash spritesheet defined, dash is not executed");
 }

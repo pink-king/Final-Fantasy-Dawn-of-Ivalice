@@ -21,6 +21,7 @@
 #include "j1BuffManager.h"
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
+#include "Projectile.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -47,7 +48,7 @@ bool j1Scene::Start()
 	debug = true;
 
 	// App->audio->Load("audio/music/menu_1.0.ogg");
-	if (App->map->Load("maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -164,7 +165,16 @@ bool j1Scene::PreUpdate()
 			LOG("subtile NOT empty");
 
 		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 100, 20, 40);
+		App->attackManager->AddPropagationAttack(
+			App->entityFactory->player->GetSelectedCharacterEntity(), // from entity
+			{ entitySubTilePoint.x,entitySubTilePoint.y }, // impact position, (on subtilemap units)
+			propagationType::BFS, // propagation expansion type
+			damageType::INTIME,	// damage type: direct/in time
+			ELEMENTAL_TYPE::ICE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
+			5, // base attack damage
+			13, // radius (on subtile units)
+			60, // propagation speed, in ms (time between steps)
+			true); // if this attack instantate particles of the elemental type while propagating
 		App->camera2D->AddTrauma(0.7f);
 	}
 
@@ -292,34 +302,18 @@ bool j1Scene::Update(float dt)
 			}
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN ||App->input->GetKey(SDL_SCANCODE_Y)==KEY_DOWN)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			App->pause = !App->pause;
-			if (App->pause)
+			if (inventory->enable)
 			{
-				if(!inventory->enable)
-					App->audio->PlayFx(open_closeInventory,0);
-
-				inventory->enable = true;
-				App->gui->resetHoverSwapping = false;
-				inventoryItem->LoadElements();
-
+				App->audio->PlayFx(open_closeInventory, 0);
+				inventory->enable = false;
 			}
 			else
 			{
-				if(inventory->enable)
-					App->audio->PlayFx(open_closeInventory,0);
-
-				inventory->enable = false;
-				
+				App->audio->PlayFx(open_closeInventory, 0);
+				inventory->enable = true;
 			}
-				
-			
-		}
-		if (inventory->enable)
-		{
-			SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
-			SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -350,18 +344,18 @@ bool j1Scene::Update(float dt)
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
 	static int cont = 0;
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)      // commented lifebars due to crash, cleaning order when exiting app
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 75, 11, 1, 10, 1.0f); 
-		//ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }); 
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		j1Entity* ent;
-		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
-		//ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	
@@ -375,25 +369,26 @@ bool j1Scene::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
 	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetPivotPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity());
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
 	}
 
-	//}
-	
-	
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
+	}
+
+
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
+		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+		App->buff->CreateParalize(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
 	}
-
-	/*static char title[90];
-	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
-	App->win->AddStringToTitle(title);*/
-
-	
-	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
-
-	//App->win->SetTitle(App->title.data());
 
 	LoadMusicFromScene();
 	return true;
@@ -441,13 +436,9 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		if ( lootFlag == "loot")
 		{
 
-			lootPanelRect = section; 
+			lootPanelRect = &section; 
 		}
-		else if (lootFlag == "lootNoButton")
-		{
-			lootPanelRectNoButton = section;
-		}
-	else
+		else
 		{                                  // this is useless now
 			if (isPanel != 1)
 			{
@@ -677,7 +668,6 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
-	inventoryItem = App->gui->AddInventory(inventory);
 	return true;
 }
 

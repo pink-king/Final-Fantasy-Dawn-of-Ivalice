@@ -25,8 +25,7 @@ public:
 
 	EQUIPABLE_TYPE ChooseEquipable();
 	void SetEquipable();
-	bool CleanUp();
-
+	
 public:
 
 	
@@ -36,7 +35,6 @@ public:
 
 	int equipableChance;
 
-	bool repositionDescription = false; 
 };
 
 #endif // !_EQUIPABLELOOT_H__

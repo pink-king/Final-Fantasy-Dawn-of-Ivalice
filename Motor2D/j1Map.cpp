@@ -14,7 +14,6 @@
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.assign("map");
-	BROFILER_THREAD("App frame");
 }
 
 // Destructor
@@ -26,20 +25,20 @@ bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
 	bool ret = true;
-	
+
 	folder.assign(config.child("folder").child_value());
 
 	// configures the pixel offset (center top up isometric corner to real 0,0 world coord
 	// if not, all the rest are 1 tile displaced
 	// for this, the worldToMap function on x needs to be workarounded by substracting -1
-	pixelTileOffset.create(0,-16);//-64 * 0.5f, -32 * 0.5f);
+	//pixelTileOffset.create(0,-16);//-64 * 0.5f, -32 * 0.5f);
 
 	return ret;
 }
 
 void j1Map::Draw()
 {
-	BROFILER_CATEGORY("MAP DRAW", Profiler::Color::DeepPink);
+	BROFILER_CATEGORY("MAP_DRAW", Profiler::Color::DeepPink);
 
 	if (map_loaded == false)
 		return;
@@ -50,8 +49,20 @@ void j1Map::Draw()
 			continue;
 		}
 		(*layer)->tileQuadTree->DrawMap();
-		if(debugDraw)
+		if (debugDraw) {
+			BROFILER_CATEGORY("Map Quadtree Debug", Profiler::Color::DarkSlateGray);
+
 			(*layer)->tileQuadTree->DrawQuadtree();
+
+		}
+	}
+
+	if (debugDraw)
+	{
+		BROFILER_CATEGORY("Map Tiles Debug", Profiler::Color::DarkSlateGray);
+		DebugDraw();
+	}
+
 	/*	for (int i = 0; i < data.height; ++i)
 		{
 			for (int j = 0; j < data.width; ++j)
@@ -74,13 +85,6 @@ void j1Map::Draw()
 				}
 			}
 		}*/
-	}
-
-	if (debugDraw)
-	{
-		DebugDraw();
-	}
-
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -449,21 +453,50 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 					{
 						std::string wallTypeName = walls.attribute("name").as_string();
 						
+						// load walls as entities
+						iPoint positionOnWorld; // x and y are on iso coords, needs conversion
+						positionOnWorld.x = walls.attribute("x").as_int(0);
+						positionOnWorld.y = walls.attribute("y").as_int(0);
+						positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
+						positionOnWorld.x = positionOnWorld.x * 2;
+						positionOnWorld.x -= walls.attribute("width").as_int(0);
+						positionOnWorld.y -= walls.attribute("height").as_int(0);
+						
+						SDL_Rect destRect = { 0 }; 
+
 						// check different types of walls
-						if (wallTypeName == "wall1")
+					/*	if (wallTypeName == "wall1")
 						{
-							// load walls as entities
-							iPoint positionOnWorld; // x and y are on iso coords, needs conversion
-							positionOnWorld.x = walls.attribute("x").as_int(0);
-							positionOnWorld.y = walls.attribute("y").as_int(0);
-							positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
-							positionOnWorld.x = positionOnWorld.x * 2;
-							positionOnWorld.x -= walls.attribute("width").as_int(0);
-							positionOnWorld.y -= walls.attribute("height").as_int(0);
+							
 
 							App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
+						}*/
 
+						if (wallTypeName == "Outside1")
+						{
+							destRect = { 64,384,64,64 };
 						}
+						else if (wallTypeName == "Outside2")
+						{
+							destRect = { 0,384,64,64 };
+						}
+						else if (wallTypeName == "Outside3")   // the temporal outside wall that joins the two types
+						{
+							destRect = { 0,448,64,64 };
+						}
+						else if (wallTypeName == "Inside 1")
+						{
+							destRect = { 64,256,64,64 };
+						}
+						else if (wallTypeName == "Inside 2")
+						{
+							destRect = { 0,256,64,64 };
+						}
+
+						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
+
+
+
 						// else if(wallTypeName == "wall2") {} etc
 					}
 
@@ -707,7 +740,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
 	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
 
-	layer->tileQuadTree = new TileQuadtree(5, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+	layer->tileQuadTree = new TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
 	//TEST
 
 	if (layer_data == NULL)

@@ -19,7 +19,7 @@ public:
 	
 	void ChooseConsumable();
 	void SetConsumable();
-	bool CleanUp();
+	
 
 	//void ConstructConsumable();
 public:

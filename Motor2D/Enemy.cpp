@@ -5,12 +5,10 @@
 #include "j1PathFinding.h"
 #include "j1Map.h"
 #include <ctime>
-#include "j1Scene.h"
-
 #include <random>
 
-Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
- 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, "ENEMY_TEST")
+Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name) 
+ 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
 
@@ -19,9 +17,8 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 	currentAnimation = &idle[pointingDir]; 
 	CheckRenderFlip();
 
-	this->attackSpeed = 1.f / attackSpeed;
+	this->attackPerS = 1.F / attackSpeed;
 	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel); 
 }
 
 Enemy::~Enemy()

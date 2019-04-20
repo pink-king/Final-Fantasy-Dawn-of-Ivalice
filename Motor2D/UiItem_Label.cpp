@@ -36,16 +36,8 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 
 void UiItem_Label::Draw(const float & dt)
 {
-	if (!hide)
-	{
-		float speed = 0.0f;
-
-		if (!useCamera)
-			speed = 1.0f;
-
-		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
-	}
-	
+	if(!hide)
+	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
 
 
 
