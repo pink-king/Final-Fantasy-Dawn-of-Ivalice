@@ -46,8 +46,11 @@ bool Consumable::Update(float dt)
 		}
 		else if (!repositionDescription)
 		{
-			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->position.x, this->position.y));   // what here?? :/
-			repositionDescription = true;
+			if (objectType != OBJECT_TYPE::GOLD)
+			{
+				this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->position.x, this->position.y));   // what here?? :/
+				repositionDescription = true;
+			}
 		}
 		else
 		{

@@ -250,7 +250,7 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 {
 
-	this->panelWithButton->hitBox.x = referencePanelPosition.x;
+	this->panelWithButton->hitBox.x = referencePanelPosition.x; //!!This is nullptr
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
 	if (this->descrType != descriptionType::POTION)

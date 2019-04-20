@@ -391,6 +391,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 			{
+				App->audio->PlayFx(pickGold, 0);
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
 				str_coin = "x  " + std::to_string(gold);
