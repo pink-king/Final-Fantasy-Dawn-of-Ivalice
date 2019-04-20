@@ -446,6 +446,22 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
+void j1Gui::destroyElement(UiItem * elem)
+{
+
+	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
+	{
+		if ( elem != nullptr && (*item) == elem)
+		{
+			delete (*item); 
+
+			item = ListItemUI.erase(item); 
+
+		}
+
+	}
+}
+
 UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;

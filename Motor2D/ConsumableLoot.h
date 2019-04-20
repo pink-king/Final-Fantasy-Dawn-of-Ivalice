@@ -32,6 +32,6 @@ public:
 	bool isUsed = false;
 
 
-	bool repositionDescription = false;
+	//bool repositionDescription = false;
 };
 #endif // ! _CONSUMABLE_LOOT_H__

@@ -171,17 +171,28 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 void UiItem_Description::Draw(const float& dt)
 {
-	if (spawnedInventoryImage)
+	// generate description if the wasn't one 
+
+	if(!App->scene->inventory->enable && spawnedInventoryImage)                       // if inventory is no longer enabled, delete description
+    App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
+
+	if (spawnedInventoryImage )
 	{
-		if (!switchedCameraUsage)
+
+		if (!switchedCameraUsage && App->scene->inventory->enable)
 		{
 			SwitchCameraUsage();           // when ingame, descr blit speed is 1.0f, but in invetory it should be 0.0f
+
+			switchedCameraUsage = true; 
 		}
+
+		if (App->scene->inventory->enable)             // shpw description
+		{
 
 		if (App->gui->selected_object == iconImageInventory )
 		{
-			if (App->scene->inventory->enable)             // shpw description
-			{
+
+
 				if (this->name_object == "potion_1")
 				{
 					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
@@ -214,14 +225,7 @@ void UiItem_Description::Draw(const float& dt)
 				ChangeComparisonLabels();    // "+3 dmg", "+4def ect
 
 			
-			}
-			else                                        // hide description ingame
-			{
-				
-
-				HideAllElements(true);
-			}
-
+		
 		
 		}
 		else
@@ -230,6 +234,8 @@ void UiItem_Description::Draw(const float& dt)
 
 			hasToCompare = true;  // reset comparison label
 		}
+	}
+
 	}
 
 
@@ -512,44 +518,47 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 }
 
 
-/*
+
 void UiItem_Description::DeleteEverything()
 {
 
 // TODO: put the lootentity pointer to nullptr ??? careful; 
 
-	this->iconImage->to_delete = true;
-	this->panelWithButton->to_delete = true;
-	this->name->to_delete = true;
-
+	App->gui->destroyElement(this->iconImage);
+	App->gui->destroyElement(this->panelWithButton);
+	App->gui->destroyElement(this->name);
 
 	// TODO: delete the icon image in the inventory only if it exists
 	//this->iconImageInventory->to_delete = true;
 
+	if (spawnedInventoryImage)
+	{
+		App->gui->destroyElement(this->iconImageInventory); 
+	}
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
-		this->level->to_delete = true;
-		this->damageLabel->to_delete = true;
-		this->resistanceLabel->to_delete = true;
-		this->attachedCharacter->to_delete = true; 
 
+		App->gui->destroyElement(this->level);
+		App->gui->destroyElement(this->damageLabel);
+		App->gui->destroyElement(this->resistanceLabel);
+		App->gui->destroyElement(this->attachedCharacter);
 
-		this->damageComparisonLabel.label->to_delete = true; 
-		this->resistanceComparisonLabel.label->to_delete = true;
+		App->gui->destroyElement(this->damageComparisonLabel.label);
+		App->gui->destroyElement(this->resistanceComparisonLabel.label);
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-		this->level->to_delete = true;
-		this->attachedCharacter->to_delete = true;
+		App->gui->destroyElement(this->level);
+		App->gui->destroyElement(this->attachedCharacter);
 
-		this->resistanceComparisonLabel.label->to_delete = true;
+		App->gui->destroyElement(this->resistanceComparisonLabel.label);
 	}
 	else if (this->descrType == descriptionType::POTION)
 		{
-			this->effectLabel->to_delete = true;
+		App->gui->destroyElement(this->effectLabel);
 		}
 
-	this->to_delete = true;
+	App->gui->destroyElement(this);
 
-}*/
+}

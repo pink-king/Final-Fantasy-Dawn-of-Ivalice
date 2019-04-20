@@ -207,7 +207,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 
 			entities.push_back(ret);
 
-			GenerateDescriptionForLootItem((LootEntity*)ret);
+			//GenerateDescriptionForLootItem((LootEntity*)ret);
 		}
 		LOG("From factory Loot Entity");
 		break;
@@ -684,7 +684,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 			break;*/
 
 			case EQUIPABLE_TYPE::ROD:
-				App->entityFactory->player->GetRitz();
+				lootEntity->character = App->entityFactory->player->GetRitz();
 				break; 
 
 			/*for (auto node : config.child("loot").child("equipable").child("rod").children("equipment"))
@@ -839,7 +839,6 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 	lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 	lootItem->MyDescription->iconImage->printFromLoot = true;
 	lootItem->MyDescription->iconImage->scaleFactor = 4.0f; 
-
 	
          }
 
@@ -871,7 +870,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 	// hide all elements until the item is focused by the Corsshair 
 
-	lootItem->MyDescription->HideAllElements(true);
+	//lootItem->MyDescription->HideAllElements(true);
 
 
 }

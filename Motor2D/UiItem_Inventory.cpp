@@ -28,11 +28,19 @@ if (!App->entityFactory->player->equipedObjects.empty())
 
 		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 		{
+
 			
 				iPoint destPos = {};
 
 			if((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 			{
+
+
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
+
+
 				// current weapon, armor and head have a target position each
 				switch ((*iter)->GetObjectType())
 				{
@@ -69,23 +77,23 @@ if (!App->entityFactory->player->equipedObjects.empty())
 					(*iter)->MyDescription->spawnedInventoryImage = true;
 					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
 				}
-				else
+				/*else
 				{
 					(*iter)->MyDescription->HideAllElements(false);
 					(*iter)->MyDescription->iconImageInventory->hide = false;
-				}
+				}*/
 
 
 
 			}
-			else
+			/*else
 			{
 				if ((*iter)->MyDescription->spawnedInventoryImage)
 				{
 					(*iter)->MyDescription->HideAllElements(true);
 					(*iter)->MyDescription->iconImageInventory->hide = true;
 				}
-			}
+			}*/
 
 				
 			
@@ -107,6 +115,11 @@ if (!App->entityFactory->player->equipedObjects.empty())
 		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 		{
 			
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true);
+
+
 				iPoint position(0, 0);
 
 				if (i == 5)
@@ -154,7 +167,13 @@ if (!App->entityFactory->player->equipedObjects.empty())
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
 		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
 		{
-			iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302 ) };
+
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true);
+
+
+			iPoint position_1 = { (startingPos.x + 665), (startingPos.y + 302 ) };
 
 			if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
 			{
@@ -199,20 +218,50 @@ if (!App->entityFactory->player->equipedObjects.empty())
 	return true;
 }
 
-/*
-void UiItem_Inventory::DoLogicSelected(LootEntity * ent, bool doIt)
+
+void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
 {
+	
 
-	App->gui->selected_object = ent->MyDescription->iconImageInventory;
-	ent->MyDescription->iconImageInventory->tabbed = true; 
-	ent->MyDescription->iconImageInventory->state = HOVER; 
+	if (firstTime)
+	{
+		if (!ent->spawnedDescription)
+		{
+			// create a new description
+			App->entityFactory->GenerateDescriptionForLootItem(ent);
+			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			ent->MyDescription->HideAllElements(false);
 
-	if(doIt)
-	ent->MyDescription->HideAllElements(false); 
-	else
-		ent->MyDescription->HideAllElements(true);
+			ent->spawnedDescription = true;
 
-}*/
+			LOG("_______________________________________________   spawned description");
+		}
+		else
+		{
+		//	ent->MyDescription->HideAllElements(false);
+		}
+		
+	}
+	else   // only when closing inventory, delete the description
+	{
+				// delete last descr
+				ent->MyDescription->DeleteEverything();
+				ent->MyDescription = nullptr;
+
+
+				ent->spawnedDescription = false;
+
+
+
+				LOG("_______________________________________________   Deleted description"); 
+		
+
+	}
+
+
+}
+
+
 
 void UiItem_Inventory::Draw(const float & dt)
 {
@@ -233,6 +282,14 @@ void UiItem_Inventory::Draw(const float & dt)
 	//App->gui->ApplyTabBetweenSimilar(true); 
 
 
+	
+
+/*	if (!App->scene->inventory->enable)
+	{
+
+
+
+	}*/
 
 }
 

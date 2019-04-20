@@ -88,6 +88,7 @@ public:
 
 	bool PostUpdate();
 	bool CleanUp();
+	void destroyElement(UiItem*); 
 	// TODO: add destroy element, IMPORTANT!! ---> hitpoint labels are destroyed in hitpoint label manager
 
 	std::list<UiItem*>	ListItemUI;

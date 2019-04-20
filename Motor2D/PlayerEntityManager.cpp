@@ -326,10 +326,20 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
 		// when a loot item is collected, the description should be hiden
-		entityLoot->MyDescription->HideAllElements(true); 
+		
+		
+		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
 
+		if (entityLoot->spawnedDescription)                 // only destroy description if it has been spawned( when collecting with the crosshair)
+		{
+			entityLoot->MyDescription->DeleteEverything();
+			entityLoot->MyDescription = nullptr;
 
+			entityLoot->spawnedDescription = false;
 
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - 
 
 		if (equipedObjects.size() == 0)
 		{
