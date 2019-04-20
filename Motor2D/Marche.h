@@ -18,6 +18,8 @@ public:
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
+	void UlitMarche();
+	void MarcheUltimate();
 	//bool PostUpdate();
 	//virtual bool CleanUp();
 

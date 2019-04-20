@@ -84,6 +84,8 @@
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
     <ClCompile Include="easing.cpp" />
+    <ClCompile Include="Emmiter.cpp" />
+    <ClCompile Include="EmmiterArrows.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
@@ -140,6 +142,8 @@
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
     <ClInclude Include="easing.h" />
+    <ClInclude Include="Emmiter.h" />
+    <ClInclude Include="EmmiterArrows.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBomb.h" />
     <ClInclude Include="EnemyTest.h" />
