@@ -66,7 +66,6 @@ public:
 private:
 
 	SDL_Texture* particleAtlas2 = nullptr; 
-	SDL_Texture* particleAtlas = nullptr;
 	SDL_Texture* particleAtlasV03 = nullptr; 
 	SDL_Texture* particleArrowsTex = nullptr;
 	SDL_Texture* SharaUltimate = nullptr;
