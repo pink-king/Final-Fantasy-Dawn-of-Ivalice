@@ -860,7 +860,7 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	{
 	case ENTITY_TYPE::PLAYER:
 	{
-		if (entity->isParalize)
+		if (entity->isParalize && entity->currentAnimation->speed != 0.f)
 		{
 			dynamic_cast<PlayerEntity*>(entity)->lastAnimationSpeed = dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed;
 			dynamic_cast<PlayerEntity*>(entity)->currentAnimation->speed = 0.f;
@@ -872,7 +872,7 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	
 	case ENTITY_TYPE::ENEMY_TEST:
 	{
-		if (entity->isParalize)
+		if (entity->isParalize&& entity->currentAnimation->speed != 0.f)
 		{
 			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
 			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = 0.f;
@@ -884,7 +884,7 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 
 	case ENTITY_TYPE::ENEMY_BOMB:
 	{
-		if (entity->isParalize)
+		if (entity->isParalize && entity->currentAnimation->speed != 0.f)
 		{
 			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
 			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = 0.f;
