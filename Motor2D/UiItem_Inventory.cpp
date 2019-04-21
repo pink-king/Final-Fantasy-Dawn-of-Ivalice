@@ -357,7 +357,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 			{
 				if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
 				{
-					if ((*iter)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+					if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
 					{
 						//App->entityFactory->player->DesequipItem((*iter));
 						(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
@@ -367,7 +367,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 						(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
 						(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 					}
-					else if ((*iter)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.armor)
+					else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.armor)
 					{
 						//App->entityFactory->player->DesequipItem((*iter));
 						(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
@@ -377,7 +377,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 						(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
 						(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 					}
-					else if ((*iter)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && (*iter)->MyDescription->myLootItemIsEquipped.head)
+					else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.head)
 					{
 						//App->entityFactory->player->DesequipItem((*iter));
 						(*iter)->MyDescription->myLootItemIsEquipped.head = false;
