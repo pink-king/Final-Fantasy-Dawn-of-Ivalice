@@ -680,7 +680,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particles 
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x - 10, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
 					}
 				}
 				else
@@ -713,7 +713,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particles
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x , bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
@@ -743,7 +743,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particle
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x + 10, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
 					}
 				}
 				else
