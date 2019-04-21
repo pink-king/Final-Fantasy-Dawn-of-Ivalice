@@ -185,11 +185,7 @@ bool PlayerEntity::InputCombat()
 			LOG("DODGE");
 			//DoDash();
 		}
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL1;
-			LOG("SPECIAL 1");
-		}
+		
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 		{
 			combat_state = combatState::SPECIAL1;
