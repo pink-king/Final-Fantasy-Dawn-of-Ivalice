@@ -55,19 +55,65 @@ bool j1ParticlesClassic::Start()
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
+	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
 
-	explosion01.anim.PushBack({0,0,32,32});
-	explosion01.anim.PushBack({ 0,32,32,32 });
-	explosion01.anim.PushBack({ 0,64,32,32 });
-	explosion01.anim.PushBack({ 32,0,32,32 });
-	explosion01.anim.PushBack({ 32,32,32,32 });
-	explosion01.anim.PushBack({ 32,64,32,32 });
-	explosion01.anim.PushBack({ 32,96,32,32 });
+	explosion01.anim.PushBack({0,354,32,32});
+	explosion01.anim.PushBack({ 0,386,32,32 });
+	explosion01.anim.PushBack({ 0,418,32,32 });
+	explosion01.anim.PushBack({ 32,354,32,32 });
+	explosion01.anim.PushBack({ 32,386,32,32 });
+	explosion01.anim.PushBack({ 32,418,32,32 });
+	explosion01.anim.PushBack({ 32,450,32,32 });
 	explosion01.anim.speed = 10.f;
 	explosion01.anim.loop = false;
-	explosion01.texture = particleAtlas;
+	explosion01.texture = explosionsTex;
 	//explosion01.life = 2000; // if we want a particle that loops, must be specified a life for destroy it
 
+
+	explosion02.anim.PushBack({ 0, 105, 62, 62 });
+	explosion02.anim.PushBack({ 62, 105, 62, 62 });
+	explosion02.anim.PushBack({ 124, 105, 62, 62 });
+	explosion02.anim.PushBack({ 186, 105, 62, 62 });
+	explosion02.anim.PushBack({ 0, 167, 62, 62 });
+	explosion02.anim.PushBack({ 62, 167, 62, 62 });
+	explosion02.anim.PushBack({ 124, 167, 62, 62 });
+	explosion02.anim.PushBack({ 186, 167, 62, 62 });
+	explosion02.anim.PushBack({ 0, 229, 62, 62 });
+	explosion02.anim.PushBack({ 62, 229, 62, 62 });
+	explosion02.anim.PushBack({ 124, 229, 62, 62 });
+	explosion02.anim.PushBack({ 186, 229, 62, 62 });
+	explosion02.anim.PushBack({ 0, 291, 62, 62 });
+	explosion02.anim.PushBack({ 62, 291, 62, 62 });
+	explosion02.anim.PushBack({ 124, 291, 62, 62 });
+	explosion02.anim.PushBack({ 186, 291, 62, 62 });
+	explosion02.anim.speed = 20.f;
+	explosion02.anim.loop = false;
+	explosion02.texture = explosionsTex;
+
+	explosion03.anim.PushBack({ 114, 29, 41, 38});
+	explosion03.anim.PushBack({ 155, 29, 41, 38 });
+	explosion03.anim.PushBack({ 196, 29, 41, 38 });
+	explosion03.anim.PushBack({ 0, 67, 41, 38 });
+	explosion03.anim.PushBack({ 41, 67, 41, 38 });
+	explosion03.anim.PushBack({ 82, 67, 41, 38 });
+	explosion03.anim.PushBack({ 123, 67, 41, 38 });
+	explosion03.anim.PushBack({ 164, 67, 41, 38 });
+	explosion03.anim.speed = 10.f;
+	explosion03.anim.loop = false;
+	explosion03.texture = explosionsTex;
+
+	smoke01.anim.PushBack({ 0, 0, 38, 29 });
+	smoke01.anim.PushBack({ 38, 0, 38, 29 });
+	smoke01.anim.PushBack({ 76, 0, 38, 29 });
+	smoke01.anim.PushBack({ 114, 0, 38, 29 });
+	smoke01.anim.PushBack({ 152, 0, 38, 29 });
+	smoke01.anim.PushBack({ 190, 0, 38, 29 });
+	smoke01.anim.PushBack({ 0, 29, 38, 29 });
+	smoke01.anim.PushBack({ 38, 29, 38, 29 });
+	smoke01.anim.PushBack({ 76, 29, 38, 29 });
+	smoke01.anim.speed = 10.f;
+	smoke01.anim.loop = false;
+	smoke01.texture = explosionsTex;
 
 	fire01.anim.PushBack({ 0, 192, 16, 48});
 	fire01.anim.PushBack({ 16, 192, 16, 48 });

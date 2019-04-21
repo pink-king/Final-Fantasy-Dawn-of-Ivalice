@@ -110,7 +110,13 @@ void FireArrow::Explode()
 	if (!hitwall) {
 		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
 	}
-	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20);
+	App->particles->AddParticle(App->particles->explosion01, GetPivotPos().x - 15, GetPivotPos().y - 20);
+	App->particles->AddParticle(App->particles->explosion03, GetPivotPos().x - 17, GetPivotPos().y - 20);
+	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
+	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 45, GetPivotPos().y - 40, { 0, 0 }, 200);
+	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 25, GetPivotPos().y - 15, { 0,0 }, 100);
+	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 25, GetPivotPos().y - 30, { 0,0 }, 250);
+
 	App->camera2D->AddTrauma(0.5F);
 	App->input->DoGamePadRumble(0.5F, 200);
 	to_delete = true; 

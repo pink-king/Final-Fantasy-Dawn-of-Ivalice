@@ -20,8 +20,7 @@ public:
 
 private: 
 	j1Timer timer; 
-	bool hitwall = false; 
-	bool wallImpact;
+	bool wallImpact = false;
 
 };
 
