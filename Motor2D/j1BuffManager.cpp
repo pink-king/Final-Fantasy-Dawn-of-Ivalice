@@ -207,6 +207,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		//defender->to_delete = true;   
 		// When we kill the player we will have a diying animation aswell (or tell him to delete), as for now, only come here ENEMIES or PLAYERS, so should be fine
 		//If causes any trouble put it back without any problem
+		App->entityFactory->DeleteEntityFromSubtile(defender);
 		defender->isParalize = false;
 		defender->to_die = true;
 
@@ -853,6 +854,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	}
 	if (entity->life <= 0 && entity->type != ENTITY_TYPE::PLAYER)
 	{
+		App->entityFactory->DeleteEntityFromSubtile(entity);
 		entity->to_die = true;
 		return true;
 	}
