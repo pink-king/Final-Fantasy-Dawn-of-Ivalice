@@ -51,7 +51,7 @@ struct comparisonLabel
 	std::string type;               // sword, etc  
 	std::string character; 
 	std::string text;
-	uint value; 
+	int value; 
 };
 
 class UiItem_Description: public UiItem

@@ -354,7 +354,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 			for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
 			{
-				if ((*lootItem) != this->callback)
+				if ((*lootItem) != this->callback)  // do not compare with itself
 				{
 
 					float attack = 0.0f;
@@ -404,17 +404,25 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 								this->damageComparisonLabel.value = (int)(this->attack - attack);
 
-								std::string dmgString = "+ ";
-								dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
+								std::string dmgString = "";
+								
 
 								if (this->damageComparisonLabel.value > 0)
 								{
+									dmgString.append("+"); 
 									destColor = { 0, 255, 0, 255 };
 								}
 								else if (this->damageComparisonLabel.value <= 0)
 								{
+									if (this->damageComparisonLabel.value == 0)
+									{
+										dmgString.append("+");
+									}
 									destColor = { 255, 0, 0, 255 };
 								}
+
+								dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
+
 								this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
 
 							}
@@ -442,23 +450,25 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							this->resistanceComparisonLabel.value = (int)(this->resistance - resistance);    // diff between new item and current
 
-							std::string resString = "+ ";
-							resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
+							std::string resString = "";
+							
 
 							destColor = { 0, 0, 0, 255 };
 							if (this->resistanceComparisonLabel.value > 0)
 							{
+								resString.append("+"); 
 								destColor = { 0, 255, 0, 255 };
 							}
 							else if (this->resistanceComparisonLabel.value <= 0)
 							{
+								if (this->resistanceComparisonLabel.value == 0)
+								{
+									resString.append("+");
+								}
 								destColor = { 255, 0, 0, 255 };
 							}
-							/*else
-							{
-								destColor = { 0, 0, 0, 0 };
-							}*/
-
+						
+							resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
 
 							this->resistanceComparisonLabel.label->ChangeTextureIdle(resString, &destColor, App->font->openSansBold18);
 
