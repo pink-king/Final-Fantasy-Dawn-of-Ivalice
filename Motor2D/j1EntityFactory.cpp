@@ -180,9 +180,10 @@ bool j1EntityFactory::Update(float dt)
 			if (createLoot)
 			{
 				//CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
-				//justGold = true;
-				//CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
+				/*justGold = true;
+				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);*/
+				
 
 
 			}
@@ -814,6 +815,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -888,6 +890,8 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -962,6 +966,8 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -1089,6 +1095,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1165,6 +1172,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1241,6 +1249,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
