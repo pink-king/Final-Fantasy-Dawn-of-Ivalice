@@ -26,11 +26,17 @@ j1Entity::~j1Entity()
 
 	// put the lifeBar to delete here, to ensure that every time an entity is killed, the lifebar does so
 	
-	if (lifeBar != nullptr)
+	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-		lifeBar->deliever = nullptr; 
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->to_delete = true;
+
+		if (lifeBar != nullptr)
+		{
+			lifeBar->deliever = nullptr;
+			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->to_delete = true;
+		}
+
+
 	}
 
 
