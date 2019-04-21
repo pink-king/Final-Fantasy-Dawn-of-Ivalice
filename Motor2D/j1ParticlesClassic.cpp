@@ -53,6 +53,7 @@ bool j1ParticlesClassic::Start()
 	particleAtlas = App->tex->Load("textures/particles/particle_spritesheet.png");
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
+	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
 
 	explosion01.anim.PushBack({0,0,32,32});
 	explosion01.anim.PushBack({ 0,32,32,32 });
@@ -209,6 +210,20 @@ bool j1ParticlesClassic::Start()
 	poison02.anim.loop = false;
 	poison02.anim.speed = 35.F;
 	poison02.texture = particleAtlas2;
+
+	arrowTrail.anim.PushBack({ 0, 0, 71, 30 });
+	arrowTrail.anim.PushBack({ 71, 0, 71, 30 });
+	arrowTrail.anim.PushBack({ 142, 0, 71, 30 });
+	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
+	arrowTrail.anim.PushBack({ 71, 30, 71, 30 });
+	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
+	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
+	arrowTrail.anim.PushBack({ 71, 60, 71, 30 });
+	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
+	arrowTrail.anim.loop = false;
+	arrowTrail.anim.speed = 20.F;
+	arrowTrail.texture = particleArrowsTex;
+	arrowTrail.pivot = { 30, 15 };
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
@@ -225,6 +240,16 @@ bool j1ParticlesClassic::CleanUp()
 	//unloading graphics
 	if (App->tex->UnLoad(particleAtlas))
 		particleAtlas = nullptr;
+
+	if (App->tex->UnLoad(particleAtlas2))
+		particleAtlas2 = nullptr;
+
+	if (App->tex->UnLoad(particleAtlasV03))
+		particleAtlasV03 = nullptr;
+
+	if (App->tex->UnLoad(particleArrowsTex))
+		particleArrowsTex = nullptr;
+
 
 	//removing active particles
 	if (!active.empty())
@@ -287,7 +312,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 		}
 		else if (SDL_GetTicks() >= (*p)->born)
 		{
-			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip);
+			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * 2, (*p)->pivot.y * 2);
 			if ((*p)->fx_played == false && (*p)->fx != 0)
 			{
 				(*p)->fx_played = true;
@@ -304,7 +329,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 }
 
 //void ModuleParticles::AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay, iPoint speed, Uint32 life, char* name)
-void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip)
+void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip, double angle, int pivotx, int pivoty, float scale)
 {
 	Particle* p = new Particle(particle);
 	p->born = SDL_GetTicks() + delay;
@@ -315,7 +340,15 @@ void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPo
 		p->speed = speed;
 	}
 	p->renderFlip = rFlip;
+	p->angle = angle;
+	if (pivotx != INT_MAX && pivoty != INT_MAX)
+	{
+		p->pivot.x = pivotx;
+		p->pivot.y = pivoty;
+		p->position -= p->pivot;
+	}
 
+	p->scale = scale; 
 	active.push_back(p);	
 }
 
