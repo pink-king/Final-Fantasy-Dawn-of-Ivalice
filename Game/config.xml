@@ -133,23 +133,23 @@
       <images>
         <image name="basic_marche">
           <section x="371" y="1" w="51" h="51"/>
-          <position x="40" y="630 "/>
+          <position x="40" y="635 "/>
         </image>
         <image name="dash_marche">
           <section x="371" y="105" w="51" h="51"/>
-          <position x="100" y="630"/>
+          <position x="100" y="635"/>
         </image>
         <image name="tornado_marche">
           <section x="475" y="1" w="51" h="51"/>
-          <position x="220" y="630"/>
+          <position x="220" y="635"/>
         </image>
         <image name="scarWind_shara">
           <section x="423" y="157" w="51" h="51"/>
-          <position x="160" y="630"/>
+          <position x="160" y="635"/>
         </image>
         <image name="rage_marche">
           <section x="423" y="1" w="51" h="51"/>
-          <position x="280" y="630"/>
+          <position x="280" y="635"/>
         </image>
         <image name="marche">
           <section x="641" y="1" w="84" h="92"/>
@@ -165,21 +165,21 @@
         </image>
         <image name="basic_button">
           <section x="346" y="6" w="24" h="24"/>
-          <position x="53" y="604"/>
+          <position x="53" y="609"/>
         </image>
 
         <image name="dash_button">
           <section x="287" y="6" w="24" h="24"/>
-          <position x="113" y="604"/>
+          <position x="113" y="609"/>
         </image>
 
         <image name="tornado_button">
           <section x="228" y="2" w="24" h="30"/>
-          <position x="233" y="598"/>
+          <position x="233" y="603"/>
         </image>
         <image name="rage_button">
           <section x="287" y="32" w="21" h="30"/>
-          <position x="295" y="598"/>
+          <position x="295" y="603"/>
         </image>
 
 
@@ -191,23 +191,23 @@
       <images>
         <image name="basic_shara">
           <section x="423" y="53" w="51" h="51"/>
-          <position x="40" y="630 "/>
+          <position x="40" y="635 "/>
         </image>
         <image name="dash_shara">
           <section x="423" y="105" w="51" h="51"/>
-          <position x="100" y="630"/>
+          <position x="100" y="635"/>
         </image>
         <image name="fireArrow_shara">
           <section x="475" y="53" w="51" h="51"/>
-          <position x="160" y="630"/>
+          <position x="160" y="635"/>
         </image>
         <image name="contagious_shara">
           <section x="527" y="53" w="51" h="51"/>
-          <position x="220" y="630"/>
+          <position x="220" y="635"/>
         </image>
         <image name="skyShot_shara">
           <section x="579" y="53" w="51" h="51"/>
-          <position x="280" y="630"/>
+          <position x="280" y="635"/>
         </image>
         <image name="shara">
           <section x="1129" y="1" w="96" h="100"/>
@@ -223,25 +223,25 @@
         </image>
         <image name="basic_button">
           <section x="312" y="1" w="58" h="30"/>
-          <position x="36" y="598"/>
+          <position x="36" y="603"/>
         </image>
 
         <image name="dash_button">
           <section x="253" y="1" w="58" h="30"/>
-          <position x="96" y="598"/>
+          <position x="96" y="603"/>
         </image>
 
         <image name="fireArrow_button">
           <section x="194" y="33" w="58" h="30"/>
-          <position x="156" y="598"/>
+          <position x="156" y="603"/>
         </image>
         <image name="contagious_button">
           <section x="194" y="2" w="58" h="30"/>
-          <position x="218" y="598"/>
+          <position x="218" y="603"/>
         </image>
         <image name="skiShot_button">
           <section x="253" y="32" w="55" h="30"/>
-          <position x="278" y="598"/>
+          <position x="278" y="603"/>
         </image>
       </images>
     </InGameUiS>
@@ -252,23 +252,23 @@
       <images>
         <image name="basic_ritz">
           <section x="527" y="1" w="51" h="51"/>
-          <position x="40" y="630 "/>
+          <position x="40" y="635 "/>
         </image>
         <image name="dash_ritz">
           <section x="475" y="105" w="51" h="51"/>
-          <position x="100" y="630"/>
+          <position x="100" y="635"/>
         </image>
         <image name="teleport_ritz">
           <section x="371" y="53" w="51" h="51"/>
-          <position x="160" y="630"/>
+          <position x="160" y="635"/>
         </image>
         <image name="medusa_shara">
           <section x="371" y="157" w="51" h="51"/>
-          <position x="220" y="630"/>
+          <position x="220" y="635"/>
         </image>
         <image name="deathCircle_ritz">
           <section x="579" y="1" w="51" h="51"/>
-          <position x="280" y="630"/>
+          <position x="280" y="635"/>
         </image>
         <image name="ritz">
           <section x="940" y="1" w="92" h="96"/>
@@ -284,21 +284,21 @@
         </image>
         <image name="basic_button">
           <section x="312" y="1" w="58" h="30"/>
-          <position x="36" y="598"/>
+          <position x="36" y="603"/>
         </image>
 
         <image name="dash_button">
           <section x="253" y="1" w="58" h="30"/>
-          <position x="96" y="598"/>
+          <position x="96" y="603"/>
         </image>
 
         <image name="teleport_button">
           <section x="194" y="33" w="58" h="30"/>
-          <position x="156" y="598"/>
+          <position x="156" y="603"/>
         </image>
         <image name="deathCircle_button">
           <section x="253" y="32" w="55" h="30"/>
-          <position x="278" y="598"/>
+          <position x="278" y="603"/>
         </image>
       </images>
     </InGameUiR>
