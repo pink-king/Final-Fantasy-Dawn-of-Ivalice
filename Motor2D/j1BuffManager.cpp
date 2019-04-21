@@ -107,12 +107,12 @@ void j1BuffManager::RemoveBuff(j1Entity* character)
 float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEMENTAL_TYPE elementType, ROL rol, std::string stat)
 {
 	float totalMult = 0.f;
-	if (ent == App->entityFactory->player)
-	{
-		ent = App->entityFactory->player->selectedCharacterEntity;
-	}
 	for (std::list<Buff*>::iterator iter = buffs.begin(); iter != buffs.end(); ++iter)
 	{
+		if (ent == App->entityFactory->player)
+		{
+			ent = App->entityFactory->player->selectedCharacterEntity;
+		}
 		if (rol == ROL::DEFENCE_ROL)
 		{
 			if ((elementType == (*iter)->GetElementType() || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&

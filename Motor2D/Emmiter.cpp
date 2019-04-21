@@ -81,7 +81,7 @@ void Emmiter::CreateArrow()
 	posX += position.x + size.x / 2;
 
 
-	App->entityFactory->CreateArrow({posX, posY - 350}, { posX, posY + 20}, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,2);
+	App->entityFactory->CreateArrow({posX, posY - 350}, { posX, posY + 100}, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,2);
 
 }
 

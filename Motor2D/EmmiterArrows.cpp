@@ -29,7 +29,7 @@ EmmiterArrows::EmmiterArrows(fPoint pos, fPoint destination, uint speed, const j
 
 	currentAnimation = &anim;
 
-	SetPivot(32, 8);
+	SetPivot(132, 12);
 	size.create(64, 16);
 
 	damage = true;
@@ -68,21 +68,6 @@ bool EmmiterArrows::Move(float dt)
 	{
 		position += direction * speed * dt;
 		willExplode = true;
-		iPoint drawRectified;
-		drawRectified.x = position.x + size.x * 0.5f;
-		drawRectified.y = position.y + (size.y * 0.5f) * 2;
-
-		// flip particles pseudo randomly
-		SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
-
-		if (rand() % 2 == 0)
-		{
-			renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-		}
-
-		iPoint fire01Pivot = { 8, 48 };
-		drawRectified -= fire01Pivot;
-		//App->particles->AddParticle(App->particles->fire02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 	}
 	else
 	{
@@ -93,16 +78,17 @@ bool EmmiterArrows::Move(float dt)
 		}
 		if (damage)
 		{
-			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), GetSubtilePos(), propagationType::BFS,
+			iPoint newCords = App->map->SubTileMapToWorld(GetSubtilePos().x, GetSubtilePos().y);
+			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 2, 120, false);
-			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), GetSubtilePos(), propagationType::BFS,
+			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
 				damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 4, 200, true);
 			timeLifeTimer.Start();
 			damage = false;
 
 			iPoint drawRectified;
-			drawRectified.x = position.x + size.x * 0.5f;
-			drawRectified.y = position.y + (size.y * 0.5f) * 2;
+			drawRectified.x = newCords.x;
+			drawRectified.y = newCords.y - 90;
 
 			// flip particles pseudo randomly
 			SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
