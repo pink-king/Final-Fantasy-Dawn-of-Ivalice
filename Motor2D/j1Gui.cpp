@@ -134,19 +134,27 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					item_pos.y = (*item)->hitBox.y;
 					first = true;
 					selected_object = (*item);
+
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
 				}
 				else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
 				{
 					item_pos.x = (*item)->hitBox.x;
 					item_pos.y = (*item)->hitBox.y;
 					selected_object = (*item);
+
+
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
 				}
 			}
 		}
 
-		selected_object->state = HOVER;
-		selected_object->tabbed = true;
-		setClicked = true;
+
+		
 		/*for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
 		if ((*item)->parent->enable)

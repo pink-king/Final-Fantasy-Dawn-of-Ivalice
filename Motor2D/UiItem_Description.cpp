@@ -301,7 +301,7 @@ void UiItem_Description::Draw(const float& dt)
 				}
 
 				HideAllElements(false);
-				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 20));
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
