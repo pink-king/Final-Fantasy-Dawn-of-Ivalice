@@ -48,11 +48,6 @@ bool Consumable::Update(float dt)
 			grounded = true;
 			
 		}
-		/*else if (!repositionDescription)
-		{
-			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
-			repositionDescription = true;
-		}*/
 
 		if (checkgrounded && grounded)
 		{

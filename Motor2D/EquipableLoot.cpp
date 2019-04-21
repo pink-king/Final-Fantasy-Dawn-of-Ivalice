@@ -37,28 +37,17 @@ bool Equipable::Update(float dt)
 		LOG("displaced %f", position.x - originPos.x);
 		LOG("actual time %f", timeTest);
 	}
-	else grounded = true;
-	/*else if(!repositionDescription)
+	else
 	{
-		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
-		repositionDescription = true; 
-	}*/
+		grounded = true;
 
+	}
 
-	/*if (!spawnedDescription)
-	{*/
-		
-	//}
-
-	
 	if (checkgrounded && grounded)
 	{
 		checkgrounded = false;
 		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 	}
-
-	CheckClampedCrossHairToSpawnDescription();
-
 	return true;
 }
 

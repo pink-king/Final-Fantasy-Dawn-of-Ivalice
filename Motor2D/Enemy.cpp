@@ -23,20 +23,9 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 Enemy::~Enemy()
 {
-// TODO: Loot spawn in all enemies? 
-App->attackManager->DestroyAllMyCurrentAttacks(this);
-
-if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
-{
-
-	if (lifeBar != nullptr)
-	{
-		lifeBar->deliever = nullptr;
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->to_delete = true;
-	}
-}
-LOG("parent enemy bye");
+	// TODO: Loot spawn in all enemies? 
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
+	LOG("parent enemy bye");
 }
 
 bool Enemy::SearchNewPath()

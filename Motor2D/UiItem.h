@@ -4,7 +4,7 @@
 #include <list>
 #include "p2Point.h"
 #include <string>
-
+#include "j1Audio.h"
 
 enum UI_STATES
 {
@@ -24,8 +24,6 @@ enum GUI_TYPES
 	HITPOINT,
 	HEALTHBAR,
 	CLOCK,
-	DESCRIPTION,
-	INVENTORY,
 	UNKNOWN
 };
 
@@ -34,7 +32,7 @@ class UiItem
 protected:
 	// UiItem* parent = NULL;
 public:
-	UiItem* parent = NULL;
+	UiItem * parent = NULL;
 
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;
@@ -42,9 +40,9 @@ public:
 	std::string function;
 	// p2Point<int> pivot = { 0,0 };
 	uint mouseButtonDown = 0;
-	UiItem(const iPoint& pos, UiItem* const parent);
-	UiItem(const iPoint& pos, std::string& function, UiItem* const parent);
-	UiItem(UiItem* const parent);
+	UiItem(const iPoint& pos, UiItem *const parent);
+	UiItem(const iPoint& pos, std::string &function, UiItem *const parent);
+	UiItem(UiItem *const parent);
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
@@ -56,16 +54,12 @@ public:
 	bool tabbed = false;
 	bool tabbable = false;
 	bool enable = true;
-	bool hide = false;
 	UiItem* iFriend = nullptr;
-	bool to_delete = false;
-	bool useCamera = true;
-	bool selected = false;
-	int scaleFactor;
-	iPoint textureDimensions;
+	bool to_delete = false; 
+
 
 	virtual void DoLogicClicked() {};
-	virtual void DoLogicClicked(std::string& functionName) {};
+	virtual void DoLogicClicked(std::string &functionName) {};
 	virtual void DoLogicHovered() {};
 	virtual void DoLogicAbandoned() {};
 };

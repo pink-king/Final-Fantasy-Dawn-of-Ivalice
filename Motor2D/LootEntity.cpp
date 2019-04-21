@@ -255,39 +255,35 @@ void LootEntity::ExplosionMaker(float dt)
 
 
 
-void LootEntity::CheckClampedCrossHairToSpawnDescription()
+/*void LootEntity::GetAttributesForDescription()
 {
-	// if the crosshair focuses the item and description is hiden 
 
-	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
+	std::vector<Buff*>::iterator stat = stats.begin();
+
+	float attack = 0.0f;
+	float resistance = 0.0f;
+
+	for (; stat != stats.end(); ++stat)
 	{
 
+		if ((*stat)->GetRol() == OBJECT_ROL::ATTACK_ROL)
+		{
+			attack = (*stat)->GetValue();
+		}
+		else if ((*stat)->GetRol() == OBJECT_ROL::DEFENCE_ROL)
+		{
+			resistance = (*stat)->GetValue();
+		}
 
-		
-		// create a new one
-		App->entityFactory->GenerateDescriptionForLootItem(this);
-		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));
-		this->MyDescription->HideAllElements(false);
-
-		spawnedDescription = true;
 	}
 
-	// if description is showing, but crosshair stops focusing item 
-
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	if (this->objectType == OBJECT_TYPE::WEAPON_OBJECT)
 	{
-
-		// delete last descr
-		this->MyDescription->DeleteEverything();
-		this->MyDescription = nullptr;
-
-
-		//this->MyDescription->HideAllElements(true);
-
-		spawnedDescription = false;
+		this->MyDescription = App->gui->AddDescriptionToWeapon(App->render->WorldToScreen(loot_pos.x, loot_pos.y), this->lootname, App->scene->lootPanelRect, &this->loot_rect, attack, resistance, App->scene->inGamePanel);
+	}
+	else
+	{
+		// TODO for vests, etc 
 	}
 
-
-
-}
-
+}*/

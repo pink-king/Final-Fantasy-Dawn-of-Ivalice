@@ -167,9 +167,6 @@
     <ClCompile Include="Emmiter.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="UiItem_Inventory.cpp">
-      <Filter>Development\Modules\GUI\managers</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -358,9 +355,6 @@
     </ClInclude>
     <ClInclude Include="Emmiter.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Inventory.h">
-      <Filter>Development\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
