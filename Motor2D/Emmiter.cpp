@@ -28,6 +28,7 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	dieTime = 6u;
 
 	constantHeigth = App->render->camera->h;
+	App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);
 }
 
 Emmiter::~Emmiter()

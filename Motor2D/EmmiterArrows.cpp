@@ -31,7 +31,7 @@ EmmiterArrows::EmmiterArrows(fPoint pos, fPoint destination, uint speed, const j
 
 	SetPivot(22, 4);
 	size.create(45, 8);
-
+	App->audio->PlayFx(App->entityFactory->SharaUltimateWoosh, 0);
 	// Important for aiming offset
 	SetInitially();
 }
@@ -87,6 +87,11 @@ bool EmmiterArrows::Move(float dt)
 		if (timeLife < timeLifeTimer.ReadSec())
 		{
 			to_explode = true;
+			if (to_explode && willExplode)
+			{
+				willExplode = false;
+				App->audio->PlayFx(App->entityFactory->emitter_explodeFire, 0);
+			}
 		}
 	}
 	return true;

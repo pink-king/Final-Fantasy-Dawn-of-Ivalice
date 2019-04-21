@@ -3,7 +3,7 @@
 #include "j1Input.h"
 #include "j1ParticlesClassic.h"
 #include "j1AttackManager.h"
-
+#include "j1EntityFactory.h"
 MagicBolt::MagicBolt(fPoint pos, fPoint destination, uint speed, const j1Entity* owner)
 	: Projectile(pos, destination, speed, owner, "MagicBolt", PROJECTILE_TYPE::MAGIC_BOLT)
 {
@@ -39,6 +39,7 @@ MagicBolt::~MagicBolt()
 
 bool MagicBolt::CleanUp()
 {
+	App->audio->PlayFx(App->entityFactory->RitzBasicHit, 0);
 	if (entityTex != nullptr)
 	{
 		App->tex->UnLoad(entityTex);
@@ -52,6 +53,7 @@ bool MagicBolt::PreUpdate()
 {
 	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
 		to_explode = true;
+		
 	}
 
 	return true;

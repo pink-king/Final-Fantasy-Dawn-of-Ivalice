@@ -56,8 +56,8 @@ bool EnemyTest::Update(float dt)
 	{
 		SetState(dt);
 
-		if (GetRandomValue(1, 10000) == 900)
-			App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);
+		/*if (GetRandomValue(1, 10000) == 900)
+			App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);*/
 		// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
 		/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)

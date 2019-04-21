@@ -128,9 +128,16 @@ public:
 	unsigned int marcheBasic;
 	unsigned int RitzDamaged;
 	unsigned int RitzBasic;
+	unsigned int RitzBasicHit;
 	unsigned int RitzAbility2;
 	unsigned int RitzAbility1;
 	unsigned int RitzUltimate;
+	unsigned int sharaBasic;
+	unsigned int basicBodyImp;
+	unsigned int basicWallImp;
+	unsigned int strech_Shoot;
+	unsigned int emitter_explodeFire;
+	unsigned int SharaUltimateWoosh;
 	unsigned int SharaDamaged;
 	unsigned int goblinDamaged;
 	unsigned int goblinDeath;
@@ -138,7 +145,6 @@ public:
 	unsigned int goblinLaugh;
 	unsigned int marcheUltimateScream;
 	unsigned int marcheAbility2; //tornado
-	unsigned int sharaBasic;
 	unsigned int dash;
 	unsigned int sharaAbility1;
 	unsigned int sharaAbility2_ImpactsWall;
