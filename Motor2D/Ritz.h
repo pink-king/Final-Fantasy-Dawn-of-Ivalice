@@ -19,6 +19,9 @@ public:
 	//virtual bool CleanUp();
 
 	// functionality ------
+private:
+	bool SetStopperState();
+	fPoint GetTeleportPos();
 
 
 public:
@@ -30,6 +33,8 @@ private:
 	Animation tpAnim[(int)facingDirection::MAX];
 	SDL_Texture* attack1Tex = nullptr;
 	SDL_Texture* teleportTex = nullptr;
+
+	float tpMaxDistance;
 
 };
 
