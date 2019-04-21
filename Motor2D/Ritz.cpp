@@ -607,7 +607,7 @@ bool Ritz::Update(float dt)
 
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special1)
+			if (!App->gui->spawnedClocks.Ritz.special1)
 			{
 
 				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Ritz", App->scene->inGamePanel);
@@ -617,7 +617,7 @@ bool Ritz::Update(float dt)
 			else
 			{
 				myUIClocks.special1->Restart();
-			}*/
+			}
 
 
 		}
@@ -643,7 +643,7 @@ bool Ritz::Update(float dt)
 
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special2)
+			if (!App->gui->spawnedClocks.Ritz.special2)
 			{
 
 				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Ritz", App->scene->inGamePanel);
@@ -653,7 +653,7 @@ bool Ritz::Update(float dt)
 			else
 			{
 				myUIClocks.special2->Restart();
-			}*/
+			}
 
 
 		}
