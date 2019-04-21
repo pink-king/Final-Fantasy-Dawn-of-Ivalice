@@ -251,7 +251,7 @@ void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float d
 	{
 		entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, totalTime, damageSecond);
 		float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, stat);
-		if (totalDamage > 0)
+		if (totalDamage < 0)
 			totalDamage = 1;
 		newStat->secDamage = totalDamage;
 		defender->stat.push_back(newStat);
@@ -665,7 +665,14 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 				{
 					if ((*item)->count.ReadSec() > 1)
 					{
-						entity->life -= (*item)->secDamage;
+						if (entity->type == ENTITY_TYPE::PLAYER)
+						{
+							App->entityFactory->player->life -= (*item)->secDamage;
+						}
+						else
+						{
+							entity->life -= (*item)->secDamage;
+						}
 						(*item)->count.Start();
 						--(*item)->totalTime;
 
@@ -681,7 +688,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particles 
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
 					}
 				}
 				else
@@ -708,13 +715,21 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						drawRectified -= ice01Pivot;
 						App->particles->AddParticle(App->particles->ice02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						App->audio->PlayFx(freezedSFX);
-						entity->life -= (*item)->secDamage;
+
+						if (entity->type == ENTITY_TYPE::PLAYER)
+						{
+							App->entityFactory->player->life -= (*item)->secDamage;
+						}
+						else
+						{
+							entity->life -= (*item)->secDamage;
+						}
 						// remove previous hitpoint link
 
 						//add blood particles
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
@@ -728,14 +743,22 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 				{
 					if ((*item)->count.ReadSec() > 1)
 					{
-						entity->life -= (*item)->secDamage;
+						if (entity->type == ENTITY_TYPE::PLAYER)
+						{
+							App->entityFactory->player->life-= (*item)->secDamage;
+						}
+						else
+						{
+							entity->life -= (*item)->secDamage;
+						}
 						(*item)->count.Start();
 						--(*item)->totalTime;
 
 						//add particles poison
 						iPoint Poison01Pivot = { 8, 16 };
 						drawRectified -= Poison01Pivot;
-						App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->poison01, drawRectified.x - 15, drawRectified.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->poison01, drawRectified.x + 15, drawRectified.y - entity->pivot.y, { 0,0 }, 0u);
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
@@ -744,7 +767,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particle
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y/2, { 0,0 }, 0u, renderFlip);
 					}
 				}
 				else
