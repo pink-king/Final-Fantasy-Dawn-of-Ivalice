@@ -768,8 +768,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						iPoint healthPivot = { 8, 40 };
 						drawRectified -= healthPivot;
 						App->audio->PlayFx(healingSFX, 0);
-						App->particles->AddParticle(App->particles->healing, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
-						App->particles->AddParticle(App->particles->healing, drawRectified.x + 5*healthPivot.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->healing, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
+						
 
 						if (entity->life > entity->maxLife)
 							entity->life = entity->maxLife;

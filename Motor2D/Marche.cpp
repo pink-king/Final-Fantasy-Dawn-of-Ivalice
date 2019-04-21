@@ -481,6 +481,13 @@ bool Marche::Update(float dt)
 		if (App->buff->DamageInTime(this))
 		{
 			App->buff->entitiesTimeDamage.remove(this);
+		}	
+	}
+	if (App->entityFactory->player->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(App->entityFactory->player))
+		{
+			App->buff->entitiesTimeDamage.remove(App->entityFactory->player);
 		}
 	}
 	return true;

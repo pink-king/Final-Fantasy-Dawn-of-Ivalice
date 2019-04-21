@@ -460,7 +460,7 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 				App->audio->PlayFx(consumHealPotion, 0);
 			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 			{
-				App->buff->CreateHealth((*iter)->GetCharacter(), (*iter)->GetValue(), 8);
+				App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);
 			}
 			item = consumables.erase(item);
 			break;
