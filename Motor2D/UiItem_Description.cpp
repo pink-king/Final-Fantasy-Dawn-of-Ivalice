@@ -136,7 +136,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->descrType = descriptionType::POTION;
 	this->parent = parent;
 	this->guiType = GUI_TYPES::DESCRIPTION;
-	this->name_object = itemName;
+	this->name_object = "potion_1";
 
 	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);

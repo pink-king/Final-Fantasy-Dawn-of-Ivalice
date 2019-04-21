@@ -22,7 +22,7 @@ public:
 	bool dodgedtest = false;
 
 public:
-
+	myClocks myUIClocks;
 
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];

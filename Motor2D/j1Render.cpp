@@ -150,7 +150,7 @@ bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int
 
 	return SDL_HasIntersection(&r, &cam);
 }
-
+/*
 // Blit to screen
 bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale,double angle, int pivot_x, int pivot_y) const
 {
@@ -190,8 +190,56 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	}
 
 	return ret;
-}
+}*/
 
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale, double angle, int pivot_x, int pivot_y, bool useWindowScale) const
+{
+	bool ret = true;
+	uint scale = App->win->GetScale();
+	SDL_Rect rect;
+	if (useWindowScale)
+	{
+		rect.x = (int)(camera->x * speed) + x * scale;
+		rect.y = (int)(camera->y * speed) + y * scale;
+	}
+	else
+	{
+		rect.x = (int)(camera->x * speed) + x;
+		rect.y = (int)(camera->y * speed) + y;
+	}
+
+
+	if (section != NULL)
+	{
+		rect.w = section->w * spriteScale;
+		rect.h = section->h * spriteScale;
+	}
+	else
+	{
+		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+	}
+
+	rect.w *= scale;
+	rect.h *= scale;
+
+	SDL_Point* p = NULL;
+	SDL_Point pivot;
+
+	if (pivot_x != INT_MAX && pivot_y != INT_MAX)
+	{
+		pivot.x = pivot_x;
+		pivot.y = pivot_y;
+		p = &pivot;
+	}
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flip) != 0)
+	{
+		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
 bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle, SDL_Rect wantedRect) const
 {
 	bool ret = true;

@@ -359,16 +359,22 @@ bool Shara::Update(float dt)
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
-			LOG("Launch ULTIMATE");
+			coolDownData.ultimate.timer.Start();
 
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
-			App->camera2D->AddTrauma(70.0f / 100.f);
-			App->input->DoGamePadRumble(0.7f, 400);*/
 
+			if (!App->gui->spawnedClocks.Shara.ulti)
+			{
+
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Shara", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Shara.ulti = true;
+			}
+			else
+			{
+				myUIClocks.ulti->Restart();
+			}
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::EMMITER);
 
-			coolDownData.ultimate.timer.Start();
 
 		}
 		break;

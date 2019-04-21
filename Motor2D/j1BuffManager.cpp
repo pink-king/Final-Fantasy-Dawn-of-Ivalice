@@ -163,6 +163,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{
+		App->gui->healthBar->damageInform.doDamage = true;
+		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
+
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
