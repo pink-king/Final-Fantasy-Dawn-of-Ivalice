@@ -43,7 +43,7 @@
           <position x="32" y="133"/>
         </image>
         <image name="bag">
-          <section x="245" y="482" w="37" h="42"/>
+          <section x="309" y="32" w="47" h="45"/>
           <position x="1220" y="22"/>
         </image>
         <image name="backButton">
