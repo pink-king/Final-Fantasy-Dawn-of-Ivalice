@@ -20,9 +20,9 @@
 
 struct elementsStartingPositionsOffsets
 { 
-	iPoint currentWeapon = iPoint(131, 24);
-	iPoint currentHead = iPoint(131, 96);
-	iPoint currentArmor = iPoint(131, 172);
+	iPoint currentWeapon = iPoint(140, 30);
+	iPoint currentHead = iPoint(140, 102);
+	iPoint currentArmor = iPoint(140, 178);
 
 	iPoint potions = iPoint(100, 100);
 };

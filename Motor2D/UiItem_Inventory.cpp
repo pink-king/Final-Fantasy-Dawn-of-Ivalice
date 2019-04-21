@@ -13,7 +13,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
 	this->guiType = GUI_TYPES::INVENTORY;
-	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 137, startingPos.y + 276 }, &tab_image, parent);
+	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 135, startingPos.y + 275 }, &tab_image, parent);
 }
 
 
@@ -134,13 +134,13 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 				if (i == 0)  // first
 				{
 
-					position = { (startingPos.x + 137), (startingPos.y + 276 + j * boxSeparation.y) };
+					position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
 
 
 				}
 				else   // the rest of elements in the row
 				{
-					position = { (startingPos.x + 137 + i * boxSeparation.x), (startingPos.y + 276) + j * boxSeparation.y };
+					position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
 				}
 
 
@@ -177,7 +177,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 				De_______GenerateDescription((*iter), true);
 
 
-				iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302) };
+				iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 284) };
 
 				if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
 				{
