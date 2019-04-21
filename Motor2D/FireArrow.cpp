@@ -35,6 +35,10 @@ FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity 
 
 FireArrow::~FireArrow()
 {
+	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+	if(hitwall)
+		App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+
 }
 
 
@@ -47,13 +51,13 @@ bool FireArrow::PreUpdate()
 		attacked = true;
 		if (piercedEnemies >= maxPiercedEnemies) {
 			to_explode = true;
-			App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+			
 		}
 	}
 
 	if (OnCollisionWithWall()) {
 		to_explode = true;
-		App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+		hitwall = true;
 	}
 
 	if (changedSubtile)

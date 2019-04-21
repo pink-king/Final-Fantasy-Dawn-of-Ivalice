@@ -11,6 +11,7 @@ public:
 
 	bool PreUpdate() override;
 	bool Update(float dt) override;
+	bool CleanUp();
 	bool Move(float dt) override;
 	void Explode();
 

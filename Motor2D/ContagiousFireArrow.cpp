@@ -48,13 +48,15 @@ bool ContagiousFireArrow::PreUpdate()
 	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
 		
 		to_explode = true;
-		App->audio->PlayFx(App->entityFactory->sharaAbility1,0);
+		
 		LOG("fire arrow audio played");
 	}
 
 	if (OnCollisionWithWall())
 	{
 		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall,0);
+		to_explode = true;
+		
 	}
 	return true;
 }
@@ -85,6 +87,8 @@ bool ContagiousFireArrow::Explode()
 
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
+
+	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
 
 	to_delete = true;
 	return true;

@@ -21,6 +21,7 @@ private:
 	uint piercedEnemies = 0;
 	uint maxPiercedEnemies = 3;
 	bool attacked = false; 
+	bool hitwall = false;
 };
 
 

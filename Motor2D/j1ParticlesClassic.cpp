@@ -54,6 +54,7 @@ bool j1ParticlesClassic::Start()
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
+	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
 
 	explosion01.anim.PushBack({0,0,32,32});
 	explosion01.anim.PushBack({ 0,32,32,32 });
@@ -224,6 +225,18 @@ bool j1ParticlesClassic::Start()
 	arrowTrail.anim.speed = 20.F;
 	arrowTrail.texture = particleArrowsTex;
 	arrowTrail.pivot = { 30, 15 };
+
+	fireBlast.anim.PushBack({ 0, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 170, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 340, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 510, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 680, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 850, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 0, 429, 170, 398 });
+	fireBlast.anim.PushBack({ 170, 429, 170, 398 });
+	fireBlast.anim.speed = 10.5f;
+	fireBlast.anim.loop = false;
+	fireBlast.texture = SharaUltimate;
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
@@ -250,6 +263,8 @@ bool j1ParticlesClassic::CleanUp()
 	if (App->tex->UnLoad(particleArrowsTex))
 		particleArrowsTex = nullptr;
 
+	if (App->tex->UnLoad(SharaUltimate))
+		SharaUltimate = nullptr;
 
 	//removing active particles
 	if (!active.empty())

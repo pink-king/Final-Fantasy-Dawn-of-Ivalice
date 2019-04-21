@@ -116,9 +116,10 @@ bool j1Scene::Start()
 
 	begin = true;
 	
-	open_closeInventory = App->audio->LoadFx("audio/fx/open_close_inventory.wav");
-	open_PauseMenu = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-	enterGame = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
+	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
+	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
+	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
 	return true;
 }
 
@@ -291,7 +292,7 @@ bool j1Scene::Update(float dt)
 			{
 				Mix_PauseMusic();
 				if (!pausePanel->enable)
-					App->audio->PlayFx(open_PauseMenu, 0);
+					App->audio->PlayFx(open_PauseMenuSFX, 0);
 				pausePanel->enable = true;
 				paused = true;
 			}
@@ -306,12 +307,12 @@ bool j1Scene::Update(float dt)
 		{
 			if (inventory->enable)
 			{
-				App->audio->PlayFx(open_closeInventory, 0);
+				App->audio->PlayFx(openInventorySFX, 0);
 				inventory->enable = false;
 			}
 			else
 			{
-				App->audio->PlayFx(open_closeInventory, 0);
+				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = true;
 			}
 		}
@@ -682,7 +683,7 @@ void j1Scene::LoadMusicFromScene()
 {
 	if (state == SceneState::GAME && beginGameMus)
 	{
-		App->audio->PlayFx(enterGame, 0);
+		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
 		begin = true;
 		beginGameMus = false;

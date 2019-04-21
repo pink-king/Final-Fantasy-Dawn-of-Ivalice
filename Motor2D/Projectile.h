@@ -45,6 +45,7 @@ protected:
 	uint speed = 0;
 	float angle = 0.F;
 	bool to_explode = false;
+	bool willExplode = true;
 	PROJECTILE_TYPE type;
 };
 

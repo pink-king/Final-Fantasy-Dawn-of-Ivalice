@@ -85,14 +85,23 @@ bool j1EntityFactory::Start()
 
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
+	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/ritz_basic_hit.wav");
 	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz_Ability2.wav");
 	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/ritz_teleport.wav");
-	RitzUltimate = App->audio->LoadFx("audio/fx/Player/ritz_ultimate.wav");
+	RitzUltimate = App->audio->LoadFx("audio/fx/Player/ritz_ultimateTest2.wav");
+	
 
 	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara_damaged.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
+	basicBodyImp = App->audio->LoadFx("audio/fx/Player/arrow_impactBody.wav");
+	basicWallImp = App->audio->LoadFx("audio/fx/Player/basic_wall_impact.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
+	strech_Shoot = App->audio->LoadFx("audio/fx/Player/strech&shoot.wav");
+	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara_ultimate_woosh.wav");
+	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/emitter_explodeFire.wav");
 	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
 	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility2_impactswall.wav");
+
 	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
 
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
