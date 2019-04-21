@@ -112,10 +112,11 @@ bool ContagiousFireArrow::Explode()
 
 void ContagiousFireArrow::SpawnParticles()
 {
-	if (timer.Read() > 400)
+	if (lastPos.DistanceManhattan(GetPivotPos()) > 30 && timer.Read()>100)
 	{
 		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
-		timer.Start();
+		//timer.Start();
+		lastPos = GetPivotPos(); 
 	}
 }
 

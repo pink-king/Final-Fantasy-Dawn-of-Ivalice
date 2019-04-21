@@ -20,6 +20,7 @@ public:
 
 private: 
 	j1Timer timer; 
+	fPoint lastPos; 
 	bool wallImpact = false;
 
 };

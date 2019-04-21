@@ -50,7 +50,6 @@ bool j1ParticlesClassic::Start()
 
 	// TODO: LOAD FROM XML ----------------------
 
-	particleAtlas = App->tex->Load("textures/particles/particle_spritesheet.png");
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
@@ -297,20 +296,35 @@ bool j1ParticlesClassic::CleanUp()
 	LOG("Unloading particles");
 
 	//unloading graphics
-	if (App->tex->UnLoad(particleAtlas))
-		particleAtlas = nullptr;
-
-	if (App->tex->UnLoad(particleAtlas2))
+	if (particleAtlas2 != nullptr)
+	{
+		App->tex->UnLoad(particleAtlas2);
 		particleAtlas2 = nullptr;
+	}
 
-	if (App->tex->UnLoad(particleAtlasV03))
+	if (particleAtlasV03 != nullptr)
+	{
+		App->tex->UnLoad(particleAtlasV03);
 		particleAtlasV03 = nullptr;
+	}
 
-	if (App->tex->UnLoad(particleArrowsTex))
+	if (particleArrowsTex != nullptr)
+	{
+		App->tex->UnLoad(particleArrowsTex);
 		particleArrowsTex = nullptr;
+	}
 
-	if (App->tex->UnLoad(SharaUltimate))
+	if (SharaUltimate != nullptr)
+	{
+		App->tex->UnLoad(SharaUltimate);
 		SharaUltimate = nullptr;
+	}
+
+	if (explosionsTex != nullptr)
+	{
+		App->tex->UnLoad(explosionsTex);
+		explosionsTex = nullptr;
+	}
 
 	//removing active particles
 	if (!active.empty())
