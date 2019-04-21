@@ -20,6 +20,8 @@ public:
 
 private: 
 	j1Timer timer; 
+	bool hitwall = false; 
+
 };
 
 #endif

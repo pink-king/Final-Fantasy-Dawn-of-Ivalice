@@ -45,18 +45,15 @@ ContagiousFireArrow::~ContagiousFireArrow()
 bool ContagiousFireArrow::PreUpdate()
 {
 
-	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
+	if (OnCollisionWithEnemy()) {
 		
 		to_explode = true;
 		
 		LOG("fire arrow audio played");
 	}
 
-	if (OnCollisionWithWall())
-	{
-		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall,0);
+	if (OnCollisionWithWall())	{
 		to_explode = true;
-		
 	}
 	return true;
 }
@@ -89,7 +86,10 @@ bool ContagiousFireArrow::Explode()
 	App->input->DoGamePadRumble(0.35f, 100);
 
 	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
-	App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
+	if (!hitwall) {
+		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
+	}
+	else 	App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
 
 	to_delete = true;
 	return true;
