@@ -1,48 +1,87 @@
 #include "ConsumableLoot.h"
 #include "j1Entity.h"
-#include "j1LootManager.h"
-
+#include "easing.h"
+#include "j1EntityFactory.h"
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
-
+	
 	SetConsumable();
+	originPos.x = position.x;
+	start = true;
+	checkgrounded = true;
 }
 
 
 Consumable::~Consumable()
 {
-
+	
 }
 
-
+bool Consumable::Start()
+{
+	
+	return true;
+}
 bool Consumable::Update(float dt)
 {
+	
+		if (start)
+		{
+			goalPos = SetDestinationPos(goalPos.x, goalPos.y);
+			start = false;
+			
+			
+			DecideExplosion();
+		}
+
+		dt = EaseOutBack(displacementTime.ReadMs())*0.000001;
+
+		if (displacementTime.ReadMs() <= 280)
+		{
+			ExplosionMaker(dt);
+			LOG("displaced %i",position.x - originPos.x);
+			LOG("actual time %f", timeTest);
+		}
+		else
+		{
+			grounded = true;
+			
+		}
+		/*else if (!repositionDescription)
+		{
+			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
+			repositionDescription = true;
+		}*/
+
+		if (checkgrounded && grounded)
+		{
+			checkgrounded = false;
+			if (objectType == OBJECT_TYPE::POTIONS)
+				App->audio->PlayFx(App->entityFactory->potionGroundSFX, 0);
+
+			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->entityFactory->coinGroundedSFX, 0);
+		}
+    
 	return true;
 }
 
 
 
+
 void Consumable::ChooseConsumable()
 {
-	chance = GetRandomValue(1, 10);
-	LOG("chooseing consumable");
-	if (chance <= 7)
+	if (App->entityFactory->justGold)
 	{
-		LOG("consumable rand");
 		objectType = OBJECT_TYPE::GOLD;
+		App->entityFactory->justGold = false;
 	}
-
-	else if (7 <  chance <= 10)
+	else
 	{
 		objectType = OBJECT_TYPE::POTIONS;
-		if (chance <= 10)
-		{
-			consumableType = CONSUMABLE_TYPE::POTION;
-			//other Potions
-		}
-	}
+		consumableType = CONSUMABLE_TYPE::POTION;
 
+	}
 }
 
 void Consumable::SetConsumable()

@@ -1,358 +1,441 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="j1Main.cpp">
-      <Filter>Desenvolupament ======</Filter>
-    </ClCompile>
-    <ClCompile Include="j1App.cpp">
-      <Filter>Desenvolupament ======</Filter>
-    </ClCompile>
-    <ClCompile Include="p2Log.cpp">
-      <Filter>p2Help</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Scene.cpp">
-      <Filter>Desenvolupament ======\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="j1PerfTimer.cpp">
-      <Filter>Desenvolupament ======\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Timer.cpp">
-      <Filter>Desenvolupament ======\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="PugiXml\src\pugixml.cpp">
-      <Filter>Desenvolupament ======\Tools\PuguiXML</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyTest.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
+    <ClCompile Include="Buff.cpp">
+      <Filter>Development\Modules</Filter>
     </ClCompile>
     <ClCompile Include="ConsumableLoot.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
+      <Filter>Development\Modules\Entities\Loot</Filter>
+    </ClCompile>
+    <ClCompile Include="ContagiousFireArrow.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="easing.cpp">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBomb.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTest.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="EquipableLoot.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
+      <Filter>Development\Modules\Entities\Loot</Filter>
     </ClCompile>
-    <ClCompile Include="LootEntity.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
+    <ClCompile Include="FireArrow.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="Marche.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerEntity.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerEntityManager.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Ritz.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Shara.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Bar.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Button.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Checkbox.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Image.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_Label.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HitPoint.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_HealthBar.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
-    <ClCompile Include="UiItem_CooldownClock.cpp">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Window.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Textures.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Render.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1PathFinding.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1ModuleCamera2D.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Map.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="J1LootManager.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Input.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Fonts.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1EntityFactory.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1BuffManager.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
+    <ClCompile Include="j1App.cpp" />
+    <ClCompile Include="j1AttackManager.cpp">
+      <Filter>Development\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Audio.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
+      <Filter>Development\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1AttackManager.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
+    <ClCompile Include="j1BuffManager.cpp">
+      <Filter>Development\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="UiItem_HitPointManager.cpp">
-      <Filter>Desenvolupament ======\Modules\GUI\managers</Filter>
+    <ClCompile Include="j1EntityFactory.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Input.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Main.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Map.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1ModuleCamera2D.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1ParticlesClassic.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1PathFinding.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1PerfTimer.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Fonts.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Render.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Textures.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Window.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="p2Log.cpp">
+      <Filter>P2Help</Filter>
     </ClCompile>
     <ClCompile Include="j1Entity.cpp">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
+      <Filter>Development\Modules\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Buff.cpp">
-      <Filter>Desenvolupament ======\Modules</Filter>
+    <ClCompile Include="TileQuadtree.cpp">
+      <Filter>Development\Modules\Tools\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Shara.cpp">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Ritz.cpp">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEntityManager.cpp">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEntity.cpp">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Marche.cpp">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Development\Modules\Tools\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="PugiXml\src\pugixml.cpp">
+      <Filter>Development\Modules\Tools\PugiXML</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="LootEntity.cpp">
+      <Filter>Development\Modules\Entities\Loot</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Scene.cpp">
+      <Filter>Development\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Timer.cpp">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Bar.cpp">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Button.cpp">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Checkbox.cpp">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Image.cpp">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Label.cpp">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Development\Modules\GUI\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem.cpp">
+      <Filter>Development\Modules\GUI\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_HitPointManager.cpp">
+      <Filter>Development\Modules\GUI\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_CooldownClock.cpp">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Description.cpp">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_HealthBar.cpp">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_HitPoint.cpp">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicBolt.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicArrow.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathCircle.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="EmmiterArrows.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Emmiter.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Inventory.cpp">
+      <Filter>Development\Modules\GUI\managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="j1Module.h">
-      <Filter>Desenvolupament ======</Filter>
-    </ClInclude>
-    <ClInclude Include="j1App.h">
-      <Filter>Desenvolupament ======</Filter>
-    </ClInclude>
-    <ClInclude Include="p2DynArray.h">
-      <Filter>p2Help</Filter>
-    </ClInclude>
-    <ClInclude Include="p2Defs.h">
-      <Filter>p2Help</Filter>
-    </ClInclude>
-    <ClInclude Include="p2List.h">
-      <Filter>p2Help</Filter>
-    </ClInclude>
-    <ClInclude Include="p2Point.h">
-      <Filter>p2Help</Filter>
-    </ClInclude>
-    <ClInclude Include="p2Log.h">
-      <Filter>p2Help</Filter>
-    </ClInclude>
-    <ClInclude Include="p2SString.h">
-      <Filter>p2Help</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Scene.h">
-      <Filter>Desenvolupament ======\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="j1PerfTimer.h">
-      <Filter>Desenvolupament ======\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Timer.h">
-      <Filter>Desenvolupament ======\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="PugiXml\src\pugixml.hpp">
-      <Filter>Desenvolupament ======\Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="PugiXml\src\pugiconfig.hpp">
-      <Filter>Desenvolupament ======\Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyTest.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Enemies</Filter>
+    <ClInclude Include="j1App.h" />
+    <ClInclude Include="Buff.h">
+      <Filter>Development\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ConsumableLoot.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
+      <Filter>Development\Modules\Entities\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="ContagiousFireArrow.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="easing.h">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBomb.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTest.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="EquipableLoot.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClInclude>
-    <ClInclude Include="LootEntity.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Loot</Filter>
-    </ClInclude>
-    <ClInclude Include="Marche.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerEntity.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerEntityManager.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Ritz.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Shara.h">
-      <Filter>Desenvolupament ======\Modules\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Bar.h">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Button.h">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Checkbox.h">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Image.h">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_Label.h">
-      <Filter>Desenvolupament ======\Modules\GUI\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HitPoint.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_HealthBar.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="UiItem_CooldownClock.h">
-      <Filter>Desenvolupament ======\Modules\special items</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Window.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Textures.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Render.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1PathFinding.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1ModuleCamera2D.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Map.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1LootManager.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1ItemsManager.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Input.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Fonts.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1EntityFactory.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1BuffManager.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Audio.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
+      <Filter>Development\Modules\Entities\Loot</Filter>
     </ClInclude>
     <ClInclude Include="j1AttackManager.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
+      <Filter>Development\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="UiItem.h">
-      <Filter>Desenvolupament ======\Modules\GUI\core</Filter>
+    <ClInclude Include="j1Audio.h">
+      <Filter>Development\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_Definitions.h">
-      <Filter>Desenvolupament ======\Modules\GUI\help</Filter>
+    <ClInclude Include="j1BuffManager.h">
+      <Filter>Development\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="UiItem_HitPointManager.h">
-      <Filter>Desenvolupament ======\Modules\GUI\managers</Filter>
+    <ClInclude Include="j1EntityFactory.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Input.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Map.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Module.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1ModuleCamera2D.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1ParticlesClassic.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1PathFinding.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1PerfTimer.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Fonts.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Render.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Textures.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Window.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Defs.h">
+      <Filter>P2Help</Filter>
+    </ClInclude>
+    <ClInclude Include="p2DynArray.h">
+      <Filter>P2Help</Filter>
+    </ClInclude>
+    <ClInclude Include="p2List.h">
+      <Filter>P2Help</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Log.h">
+      <Filter>P2Help</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Point.h">
+      <Filter>P2Help</Filter>
+    </ClInclude>
+    <ClInclude Include="p2SString.h">
+      <Filter>P2Help</Filter>
+    </ClInclude>
+    <ClInclude Include="FireArrow.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="j1Entity.h">
-      <Filter>Desenvolupament ======\Modules\Entities</Filter>
+      <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Buff.h">
-      <Filter>Desenvolupament ======\Modules</Filter>
+    <ClInclude Include="j1Scene.h">
+      <Filter>Development\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TileQuadtree.h">
+      <Filter>Development\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Shara.h">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Ritz.h">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEntityManager.h">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEntity.h">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Marche.h">
+      <Filter>Development\Modules\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugixml.hpp">
+      <Filter>Development\Modules\Tools\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="LootEntity.h">
+      <Filter>Development\Modules\Entities\Loot</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Timer.h">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugiconfig.hpp">
+      <Filter>Development\Modules\Tools\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Bar.h">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Button.h">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Checkbox.h">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Image.h">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Label.h">
+      <Filter>Development\Modules\GUI\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Definitions.h">
+      <Filter>Development\Modules\GUI\help</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Development\Modules\GUI\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem.h">
+      <Filter>Development\Modules\GUI\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_HitPointManager.h">
+      <Filter>Development\Modules\GUI\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_CooldownClock.h">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Description.h">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_HealthBar.h">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_HitPoint.h">
+      <Filter>Development\Modules\GUI\special items</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicBolt.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicArrow.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathCircle.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EmmiterArrows.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Emmiter.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Inventory.h">
+      <Filter>Development\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\Game\save_game.xml">
-      <Filter>Desenvolupament ======\XML</Filter>
-    </Xml>
     <Xml Include="..\Game\config.xml">
-      <Filter>Desenvolupament ======\XML</Filter>
+      <Filter>Development\XML</Filter>
     </Xml>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Desenvolupament ======">
-      <UniqueIdentifier>{34e05b63-3dfc-46bc-abc5-d4969a6f2e64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules">
-      <UniqueIdentifier>{52b9e171-bd0a-494d-8c54-7bdd0bb27237}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Scenes">
-      <UniqueIdentifier>{2149654e-7386-43a9-bb01-d9b53d3df634}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Tools">
-      <UniqueIdentifier>{0d600ddf-12eb-457c-941c-f2b17d08f625}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="p2Help">
-      <UniqueIdentifier>{6b218f57-f07e-4e5f-afbe-e78ab64455b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Tools\PuguiXML">
-      <UniqueIdentifier>{b633a016-d036-43a1-ac9c-0f646c9f9d83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\Entities">
-      <UniqueIdentifier>{9200e895-932a-4108-a404-6d8aba81435a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\GUI">
-      <UniqueIdentifier>{268d2e8e-53ee-44ab-ad1e-6ed97b74c78d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\Entities\Player">
-      <UniqueIdentifier>{1a10f779-9006-4843-92bc-5dee13019469}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\Entities\Loot">
-      <UniqueIdentifier>{be08cd0a-2d04-454b-97c6-5e8be24520bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\Entities\Enemies">
-      <UniqueIdentifier>{feaa2edb-e534-4a04-b768-f567d93e7faf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\GUI\core">
-      <UniqueIdentifier>{d793c6e5-239b-47e9-8edf-826cb183ef72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\GUI\basic">
-      <UniqueIdentifier>{3194119e-7ffb-434a-9fc6-3a8e3bbbf30d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\special items">
-      <UniqueIdentifier>{b80e7e2c-237d-4733-b894-f326f4f605fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\XML">
-      <UniqueIdentifier>{3ac7798b-ea0c-4d5d-bbc3-3fead91e4556}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\GUI\help">
-      <UniqueIdentifier>{287d2e4b-faed-4f84-bb54-1f6e528519e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament ======\Modules\GUI\managers">
-      <UniqueIdentifier>{bae3aad3-5463-4932-aa2f-32fa20943063}</UniqueIdentifier>
-    </Filter>
+    <Xml Include="..\Game\save_game.xml">
+      <Filter>Development\XML</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\maps\iso_walk.tmx">
-      <Filter>Desenvolupament ======</Filter>
+      <Filter>Development\XML</Filter>
     </None>
     <None Include="..\Game\maps\level1_Block_rev.tmx">
-      <Filter>Desenvolupament ======\XML</Filter>
+      <Filter>Development\XML</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Development">
+      <UniqueIdentifier>{59f67feb-2f2c-4afe-8e64-cf0fdc9fd233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules">
+      <UniqueIdentifier>{c972e9d1-e5c5-45d0-8d00-1b83f97dc370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Scene">
+      <UniqueIdentifier>{deae5bfb-9aac-4676-bd24-273de3ed4949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\XML">
+      <UniqueIdentifier>{efa68fc2-5445-4ebe-b86b-1f636c324b18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities">
+      <UniqueIdentifier>{6eeefbf3-976e-4d0a-a2b9-d541aa4c0f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI">
+      <UniqueIdentifier>{47234af8-febe-4ee9-b503-a865de50a0b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Tools">
+      <UniqueIdentifier>{edca1692-914d-4e34-ac19-12009602fd23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Enemies">
+      <UniqueIdentifier>{fa57ae92-5fcb-467c-8b21-cbe27ce0c283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Loot">
+      <UniqueIdentifier>{77f02563-eb8d-4f99-8b86-f5ffbb8defe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Player">
+      <UniqueIdentifier>{256d1d8e-5345-4274-865e-1d4e05e2127e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Projectiles">
+      <UniqueIdentifier>{823480df-95e3-4e4d-bfb4-b11b6492c5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\core">
+      <UniqueIdentifier>{efc3a0d5-c62f-4b16-bb16-09f5039041b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\basic">
+      <UniqueIdentifier>{40f12a01-103f-4357-9fa5-4ee8de132031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\help">
+      <UniqueIdentifier>{255d0b44-1a0c-4411-bddc-faa78dfb7121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\managers">
+      <UniqueIdentifier>{c7f538e3-e352-46f7-aa85-1cf7aa79d1e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\special items">
+      <UniqueIdentifier>{5f4a607f-0d55-416d-80e8-56da770f9ea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Tools\PugiXML">
+      <UniqueIdentifier>{55c2922f-0ad1-4313-90a3-175536c0cfb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Tools\QuadTree">
+      <UniqueIdentifier>{f81b1e25-4ceb-42a4-861e-6dda70106302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="P2Help">
+      <UniqueIdentifier>{01e0c893-61c8-4dbf-9df4-041713f684a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

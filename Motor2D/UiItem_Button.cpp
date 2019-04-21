@@ -7,7 +7,7 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include <assert.h>
-
+#include "j1Audio.h"
 
 UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, function, parent)
 {
@@ -47,6 +47,17 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToMenu();
 	if (functionName == "GoBackToGame")
 		App->gui->GoBackToGame();
+	if (functionName == "GoBackToStartMenu")
+		App->gui->GoBackToStartMenu();
+
+	App->audio->PlayFx(App->gui->acceptUI, 0);
+
+	if (App->scene->paused && !App->pause)
+	{
+		App->scene->paused = false;
+		Mix_ResumeMusic();
+	}
+
 }
 
 void UiItem_Button::Draw(const float &dt)

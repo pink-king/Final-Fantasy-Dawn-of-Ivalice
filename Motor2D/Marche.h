@@ -18,18 +18,22 @@ public:
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
+	void UlitMarche();
+	void MarcheUltimate();
 	//bool PostUpdate();
-	virtual bool CleanUp();
+	//virtual bool CleanUp();
 
 	// functionality ------
 
 
 public:
-
+	bool dodgedTest;
     
 	myClocks myUIClocks;
 
 private:
+
+	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 
 };
 

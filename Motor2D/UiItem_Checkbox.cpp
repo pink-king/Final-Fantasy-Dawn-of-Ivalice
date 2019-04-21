@@ -12,6 +12,7 @@
 #include "p2Point.h"
 #include "p2log.h"
 #include <assert.h> 
+#include "j1Audio.h"
 
 UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string &function, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem * const parent) :UiItem(position, function, parent)
 {
@@ -83,6 +84,7 @@ void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 	tick->hide = !tick->hide;
 	if (functionName == "FpsCap")
 		App->gui->FpsCap();
+	App->audio->PlayFx(App->gui->acceptUI, 0);
 }
 
 

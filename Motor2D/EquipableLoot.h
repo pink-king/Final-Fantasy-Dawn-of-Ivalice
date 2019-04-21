@@ -32,10 +32,10 @@ public:
 
 	int id;
 	std::string character;
-	std::string itemName;
 
 	int equipableChance;
 
+	//bool repositionDescription = false; 
 };
 
 #endif // !_EQUIPABLELOOT_H__

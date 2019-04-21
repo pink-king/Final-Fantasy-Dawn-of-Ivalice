@@ -115,7 +115,7 @@ void UiItem_CooldownClock::DoLogic()
 			}
 			else
 			{
-				// Restart();    dont't call it if it is already called from the player
+				Restart();   // dont't call it if it is already called from the player
 			}
 		}
 
@@ -138,7 +138,7 @@ void UiItem_CooldownClock::DoLogic()
 			}
 			else
 			{
-				// Restart();    dont't call it if it is already called from the player
+				Restart();    //dont't call it if it is already called from the player
 			}
 		}
 
@@ -154,7 +154,7 @@ void UiItem_CooldownClock::DoLogic()
 			}
 			else
 			{
-				// Restart();    dont't call it if it is already called from the player
+				Restart();    //dont't call it if it is already called from the player
 			}
 		}
 

@@ -7,11 +7,12 @@
 //test buff
 #include "j1Input.h"
 #include "j1EntityFactory.h"
-#include "j1ItemsManager.h"
+
 #include "j1AttackManager.h"
 #include "j1Gui.h"
 #include "j1App.h"
 #include "j1Scene.h"
+#include "Projectile.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -20,6 +21,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// TODO: import from xml
 	spritesheet = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
+	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
 	entityTex = spritesheet;
 
 	// IDLE
@@ -101,14 +103,116 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::NW].PushBack({ 225,300,45,60 });
 	run[(int)facingDirection::NW].speed = 10.0f;
 
-	currentAnimation = &run[(int)facingDirection::SE];
+	// DASH
+
+	dash[(int)facingDirection::E].PushBack({ 0,0,95,110 });
+	dash[(int)facingDirection::E].PushBack({ 95,0,95,110 });
+	dash[(int)facingDirection::E].PushBack({ 190,0, 95,110 });
+	dash[(int)facingDirection::E].PushBack({ 285,0, 95,110 });
+	dash[(int)facingDirection::E].loop = false;
+	dash[(int)facingDirection::E].speed = 16.f;
+
+	dash[(int)facingDirection::W].PushBack({ 0,0,95,110 });
+	dash[(int)facingDirection::W].PushBack({ 95,0,95,110 });
+	dash[(int)facingDirection::W].PushBack({ 190,0, 95,110 });
+	dash[(int)facingDirection::W].PushBack({ 285,0, 95,110 });
+	dash[(int)facingDirection::W].loop = false;
+	dash[(int)facingDirection::W].speed = 16.0f;
+
+	dash[(int)facingDirection::S].PushBack({ 0,110,95,110 });
+	dash[(int)facingDirection::S].PushBack({ 95,110,95,110 });
+	dash[(int)facingDirection::S].PushBack({ 190,110, 95,110 });
+	dash[(int)facingDirection::S].PushBack({ 285,110, 95,110 });
+	dash[(int)facingDirection::S].loop = false;
+	dash[(int)facingDirection::S].speed = 16.0f;
+
+	dash[(int)facingDirection::N].PushBack({ 0,220,95,110 });
+	dash[(int)facingDirection::N].PushBack({ 95,220,95,110 });
+	dash[(int)facingDirection::N].PushBack({ 190,220, 95,110 });
+	dash[(int)facingDirection::N].PushBack({ 285,220, 95,110 });
+	dash[(int)facingDirection::N].loop = false;
+	dash[(int)facingDirection::N].speed = 16.0f;
+
+	dash[(int)facingDirection::SE].PushBack({ 0,330,95,110 });
+	dash[(int)facingDirection::SE].PushBack({ 95,330,95,110 });
+	dash[(int)facingDirection::SE].PushBack({ 190,330, 95,110 });
+	dash[(int)facingDirection::SE].PushBack({ 285,330, 95,110 });
+	dash[(int)facingDirection::SE].loop = false;
+	dash[(int)facingDirection::SE].speed = 16.0f;
+
+	dash[(int)facingDirection::SW].PushBack({ 0,330,95,110 });
+	dash[(int)facingDirection::SW].PushBack({ 95,330,95,110 });
+	dash[(int)facingDirection::SW].PushBack({ 190,330, 95,110 });
+	dash[(int)facingDirection::SW].PushBack({ 285,330, 95,110 });
+	dash[(int)facingDirection::SW].loop = false;
+	dash[(int)facingDirection::SW].speed = 16.0f;
+
+	dash[(int)facingDirection::NE].PushBack({ 0,440,95,110 });
+	dash[(int)facingDirection::NE].PushBack({ 95,440,95,110 });
+	dash[(int)facingDirection::NE].PushBack({ 190,440, 95,110 });
+	dash[(int)facingDirection::NE].PushBack({ 285,440, 95,110 });
+	dash[(int)facingDirection::NE].loop = false;
+	dash[(int)facingDirection::NE].speed = 16.0f;
+
+	dash[(int)facingDirection::NW].PushBack({ 0,440,95,110 });
+	dash[(int)facingDirection::NW].PushBack({ 95,440,95,110 });
+	dash[(int)facingDirection::NW].PushBack({ 190,440, 95,110 });
+	dash[(int)facingDirection::NW].PushBack({ 285,440, 95,110 });
+	dash[(int)facingDirection::NW].loop = false;
+	dash[(int)facingDirection::NW].speed = 16.0f;
+
+	// TODO: polish this offset positions
+	// this offsets relates to its position inside the 95,110 rect pivot position (character foot line)
+	dashPivotOffset[(int)facingDirection::E][0] = { 52.f,68.f };
+	dashPivotOffset[(int)facingDirection::E][1] = { 60.f,68.f };
+	dashPivotOffset[(int)facingDirection::E][2] = { 75.f,68.f };
+	dashPivotOffset[(int)facingDirection::E][3] = { 85.f,72.f };
+	
+	dashPivotOffset[(int)facingDirection::W][0] = { 37.f,68.f };
+	dashPivotOffset[(int)facingDirection::W][1] = { 29.f,68.f };
+	dashPivotOffset[(int)facingDirection::W][2] = { 15.f,68.f };
+	dashPivotOffset[(int)facingDirection::W][3] = { 10.f,68.f };
+
+	dashPivotOffset[(int)facingDirection::S][0] = { 48.f,94.f };
+	dashPivotOffset[(int)facingDirection::S][1] = { 48.f,94.f };
+	dashPivotOffset[(int)facingDirection::S][2] = { 48.f,101.f };
+	dashPivotOffset[(int)facingDirection::S][3] = { 48.f,94.f };
+
+	dashPivotOffset[(int)facingDirection::N][0] = { 48.f,52.f };
+	dashPivotOffset[(int)facingDirection::N][1] = { 48.f,52.f };
+	dashPivotOffset[(int)facingDirection::N][2] = { 48.f,52.f };
+	dashPivotOffset[(int)facingDirection::N][3] = { 48.f,52.f };
+
+	dashPivotOffset[(int)facingDirection::SE][0] = { 48.f,84.f };
+	dashPivotOffset[(int)facingDirection::SE][1] = { 58.f,90.f };
+	dashPivotOffset[(int)facingDirection::SE][2] = { 67.f,92.f };
+	dashPivotOffset[(int)facingDirection::SE][3] = { 73.f,93.f };
+
+	dashPivotOffset[(int)facingDirection::NE][0] = { 48.f,58.f };
+	dashPivotOffset[(int)facingDirection::NE][1] = { 64.f,58.f };
+	dashPivotOffset[(int)facingDirection::NE][2] = { 70.f,56.f };
+	dashPivotOffset[(int)facingDirection::NE][3] = { 73.f,62.f };
+
+	dashPivotOffset[(int)facingDirection::NW][0] = { 48.f,58.f };
+	dashPivotOffset[(int)facingDirection::NW][1] = { 32.f,58.f };
+	dashPivotOffset[(int)facingDirection::NW][2] = { 26.f,56.f };
+	dashPivotOffset[(int)facingDirection::NW][3] = { 24.f,62.f };
+
+	dashPivotOffset[(int)facingDirection::SW][0] = { 48.f,84.f };
+	dashPivotOffset[(int)facingDirection::SW][1] = { 40.f,90.f };
+	dashPivotOffset[(int)facingDirection::SW][2] = { 28.f,92.f };
+	dashPivotOffset[(int)facingDirection::SW][3] = { 23.f,93.f };
+
+	dashMaxDistance = 64.f;
+
+	currentAnimation = &run[(int)facingDirection::W];
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
-	coolDownData.ultimate.cooldownTime = 3000;
+	coolDownData.ultimate.cooldownTime = 10000;
 
 	previousPos = position;
 
@@ -116,6 +220,9 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	// better speed 
 	characterBaseSpeed.x /= 1.3f; 
 	characterBaseSpeed.y /= 1.3f;
+
+	//
+	//previousFrame = 1; // fake previousFrame to enter on first anim state
 
 }
 
@@ -147,16 +254,33 @@ bool Marche::Update(float dt)
 		
 		if (!isParalize)
 		{
-			currentAnimation->speed = 10.f;
-			InputMovement(dt);
-			InputCombat();
+			if (inputReady)
+			{
+				InputMovement(dt);
+				InputCombat();
+			}
+			if (!inputReady) // dash, or animations that needs control of its finish state
+			{	// TODO: do switch combat state if this get more complexity
 
-			//LOG("player pipos: %f,%f", GetPivotPos().x, GetPivotPos().y);
+				//reposition pos
+				transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
+				transference_pivot -= pivot;
+
+				if (currentAnimation->Finished())
+				{
+					currentAnimation->Reset();
+					entityTex = spritesheet;
+					currentAnimation = &idle[pointingDir];
+					inputReady = true;
+					transference_pivot = { 0,0 };
+				}
+
+				position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
+
+			}
 		}
-		else
-		{
-			currentAnimation->speed = 0.f;
-		}
+		
+		//LOG("transpivot: %f,%f:", transference_pivot.x, transference_pivot.y);
 	/*}
 	else
 	{
@@ -167,13 +291,16 @@ bool Marche::Update(float dt)
 	switch (combat_state)
 	{
 	case combatState::IDLE:
+		
 		break;
 	case combatState::BASIC:
+		
 		if (coolDownData.basic.timer.Read() > coolDownData.basic.cooldownTime)
 		{
+			App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
+			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
 			App->camera2D->AddTrauma(10.0f / 100.f);
@@ -182,12 +309,26 @@ bool Marche::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
-		break;
+
+		if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
+		{
+			//App->audio->PlayFx(App->entityFactory->dash, 0);
+			coolDownData.dodge.timer.Start();
+			dodgedTest = true;
+				
+		}
+		else 
+		{
+			
+			dodged = false;
+		}
+			break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-
+			App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(),PROJECTILE_TYPE::BASIC_ARROW);
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special1)
@@ -211,6 +352,10 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 
+			App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
+
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special2)
@@ -233,11 +378,16 @@ bool Marche::Update(float dt)
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
+			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
-			coolDownData.ultimate.timer.Start();
+			
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
 			App->camera2D->AddTrauma(70.0f / 100.f);
-			App->input->DoGamePadRumble(0.7f, 400);
+			App->input->DoGamePadRumble(0.7f, 400);*/
+			UlitMarche();
+
+			coolDownData.ultimate.timer.Start();
+		
 		}
 		break;
 	}
@@ -282,13 +432,38 @@ bool Marche::Update(float dt)
 	{
 		std::vector<items*>::iterator item = equipedObjects.begin();
 		App->itemsManager->DesequipItem(this, *item);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_5) == 1)
+	}*/
+	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
 	{
-		std::vector<items*>::iterator item = bagObjects.begin();
-		App->itemsManager->EquipItem(this, *item);
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->bagObjects.begin();
+		if(item != App->entityFactory->player->bagObjects.end())
+			App->entityFactory->player->EquipItem(*item);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_6) == 1)
+	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->equipedObjects.begin();
+		if (item != App->entityFactory->player->equipedObjects.end())
+			App->entityFactory->player->DesequipItem(*item);
+	}
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->entityFactory->player->ConsumConsumable(*item,this);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
+	{
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
+	{
+		App->buff->CreateParalize(this, this, 5, 5, "a");
+	}
+
+	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{
 		App->itemsManager->CreateItem("sword2", OBJECT_TYPE::WEAPON_OBJECT, this);
 	}*/
@@ -301,13 +476,34 @@ bool Marche::Update(float dt)
 	//	
 	//}
 
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
 	return true;
 }
 
-bool Marche::CleanUp()
+void Marche::UlitMarche()
 {
-	return true;
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, 5);
 }
+
+//bool Marche::CleanUp()
+//{
+//	return true;
+//}
 
 //bool Marche::PostUpdate()
 //{

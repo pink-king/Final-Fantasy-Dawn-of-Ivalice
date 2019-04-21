@@ -25,7 +25,8 @@ struct SDL_Texture;
 class EnemyTest : public Enemy
 {
 public:
-	EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, float attackSpeed);
+	EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed);
+	EnemyTest(iPoint position, bool dummy); 
 	~EnemyTest();
 
 	//core loops ------
@@ -39,12 +40,13 @@ public:
 	// functionality ------
 
 	void SetState(float dt);
-	bool CheckDistance();
+	void LoadAnims();
 
 
 private:
 	j1Timer checkTime; 
 
+	bool attacked = false; 
 	bool freePass = false;		// Needs a re-planing
 };
 

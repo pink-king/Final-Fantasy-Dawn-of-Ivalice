@@ -29,13 +29,14 @@ public:
 	void SetCameraPos(int x, int y);
 	void SetCameraRect(SDL_Rect camRect);
 	const SDL_Rect* GetCameraRectPtr() const;
+	iPoint GetCamPos() const;
 	float AddTrauma(float value);
 	float GetShakeAmount() const;
-private:
+//private:
 	fPoint lerp(fPoint v0, fPoint v1, float t);
 	float GetFloatNegOneToOne();
 
-	j1Timer lerpTimer;
+	//j1Timer lerpTimer;
 
 public:
 	SDL_Rect camera;

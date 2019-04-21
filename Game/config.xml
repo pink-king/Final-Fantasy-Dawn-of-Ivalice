@@ -30,46 +30,55 @@
     <InGameUi>
       <images>
 
-        <image name="box_abilities_grey">
-          <section x="1" y="545" w="165" h="43"/>
-          <position x="557" y="675"/>
+        <image name="loot_item_panel">
+          <section x="640" y="222" w="244" h="257"/>
+          <flag  value="loot" />
+        </image>
+        <image name="loot_item_panel_no_button">
+          <section x="922" y="222" w="238" h="243"/>
+          <flag  value="lootNoButton" />
         </image>
         <image name="life_bar">
           <section x="110" y="482" w="134" h="26"/>
-          <position x="113" y="78"/>
+          <position x="32" y="133"/>
         </image>
         <image name="bag">
           <section x="245" y="482" w="37" h="42"/>
-          <position x="1210" y="675"/>
+          <position x="1220" y="22"/>
         </image>
-        <image name="squareButton">
-          <section x="283" y="482" w="35" h="15"/>
-          <position x="1170" y="700"/>
+        <image name="backButton">
+          <section x="275" y="546" w="30" h="30"/>
+          <position x="1180" y="31"/>
         </image>
         <image name="LButton">
-          <section x="319" y="482" w="35" h="15"/>
-          <position x="125" y="23 "/>
+          <section x="244" y="525" w="30" h="19"/>
+          <position x="173" y="19 "/>
         </image>
         <image name="RButton">
-          <section x="355" y="482" w="35" h="15"/>
-          <position x="198" y="23 "/>
+          <section x="244" y="545" w="30" h="19"/>
+          <position x="252" y="19 "/>
         </image>
         <image name="box_player">
-          <section x="391" y="482" w="63" h="80"/>
+          <section x="1033" y="1" w="94" h="109"/>
           <position x="40" y="21"/>
         </image>
+        <image name="dPad">
+          <section x="527" y="105" w="52" h="52"/>
+          <position x="1170" y="617"/>
+        </image>
+        <image name="potion">
+          <section x="580" y="105" w="26" h="32"/>
+          <position x="1232" y="625"/>
+        </image>
+        <!--
         <image name="level_box">
           <section x="1 " y="519" w="57" h="24"/>
-          <position x="41" y="118"/>
+          <position x="40" y="134"/>
         </image>
+        -->
         <image name="coin">
           <section x="59" y="519" w="25" h="25"/>
-          <position x="1000" y="41"/>
-        </image>
-        <image name="panelTest">
-          <section x="721" y="480" w="338" h="308"/>
-          <position x="150" y="190"/>
-          <flag isPanel = "1" panelName = "panelTest"/>
+          <position x="1050" y="31"/>
         </image>
 
       </images>
@@ -80,39 +89,39 @@
           <staticSection x="110" y="482" w="134" h="26"/>
           <dynamicSection x="111" y="515" w="132" h="24"/>
           <damageSection x="32" y="595" w="115" h="26"/>
-          <position x="113" y="78"/>
+          <position x="32" y="133"/>
           <type value="player"/>
         </healthbar>
 
-		    <healthbar name="life_bar_enemy">
+        <healthbar name="life_bar_enemy">
           <dynamicSection x="90" y="690" w="52" h="6"/>
           <position x="113" y="78"/>
           <type value="enemy"/>
         </healthbar>
-		
+
       </healthbars>
 
 
       <clocks>
-        <clock name=" clock 1">
-          <section x="651" y="0" w="123" h="123"/>
-          <position x="650" y="550"/>
+        <clock name="ability1_clock">
+          <section x="859" y="126" w="51" h="51"/>
+          <position x="100" y="630"/>
           <type value="ability1"/>
         </clock>
 
-		 <clock name=" clock 2">
-          <section x="780" y="214" w="123" h="123"/>
-          <position x="850" y="550"/>
+        <clock name="ability2_clock">
+          <section x="859" y="126" w="51" h="51"/>
+          <position x="160" y="630"/>
           <type value="ability2"/>
         </clock>
-		
-		 <clock name=" clock 3">
-          <section x="780" y="214" w="123" h="123"/>
-          <position x="1050" y="550"/>
+
+        <clock name="ulti_clock">
+          <section x="859" y="126" w="51" h="51"/>
+          <position x="220" y="630"/>
           <type value="ulti"/>
-		  
+
         </clock>
-		
+
       </clocks>
 
 
@@ -121,40 +130,55 @@
 
 
     <InGameUiM>
-      <images>                                         <!-- sword image changed to test   -->
-        <image name="sword">
-		<!--
-          <section x="167" y="545" w="36" h="36"/>
-          <position x="561" y="679 "/> -->
-		  
-		   <section x="784" y="0" w="120" h="120"/>
-          <position x="650" y="550 "/>
-		  
+      <images>
+        <image name="basic_marche">
+          <section x="371" y="1" w="51" h="51"/>
+          <position x="40" y="630 "/>
         </image>
-        <image name="sword_ability">
-          <section x="0" y="482" w="36" h="36"/>
-          <position x="601" y="679"/>
+        <image name="dash_marche">
+          <section x="371" y="105" w="51" h="51"/>
+          <position x="100" y="630"/>
         </image>
-        <image name="glove">
-          <section x="37" y="482" w="36" h="36"/>
-          <position x="641" y="679"/>
+        <image name="tornado_marche">
+          <section x="475" y="1" w="51" h="51"/>
+          <position x="160" y="630"/>
         </image>
-        <image name="orbe">
-          <section x="74" y="482" w="35" h="36"/>
-          <position x="681" y="679"/>
+        <image name="rage_marche">
+          <section x="423" y="1" w="51" h="51"/>
+          <position x="220" y="630"/>
         </image>
         <image name="marche">
-          <section x="455" y="482" w="58" h="77"/>
-          <position x="41" y="22"/>
+          <section x="641" y="1" w="84" h="92"/>
+          <position x="41" y="37"/>
         </image>
         <image name="player2">
-          <section x="514" y=" 482" w="55" h="28"/>
-          <position x="188" y="41"/>
+          <section x="342" y=" 481" w="64" h="64"/>
+          <position x="229" y="41"/>
         </image>
         <image name="player3">
-          <section x="570" y="482" w="55" h="28"/>
-          <position x="115" y="41"/>
+          <section x="283" y="481" w="58" h="64"/>
+          <position x="153" y="41"/>
         </image>
+        <image name="basic_button">
+          <section x="346" y="6" w="24" h="24"/>
+          <position x="53" y="604"/>
+        </image>
+
+        <image name="dash_button">
+          <section x="228" y="7" w="24" h="24"/>
+          <position x="113" y="604"/>
+        </image>
+
+        <image name="tornado_button">
+          <section x="287" y="6" w="24" h="24"/>
+          <position x="173" y="604"/>
+        </image>
+        <image name="rage_button">
+          <section x="287" y="32" w="21" h="30"/>
+          <position x="235" y="598"/>
+        </image>
+
+
       </images>
     </InGameUiM>
 
@@ -162,32 +186,58 @@
     <InGameUiS>
       <images>
         <image name="basic_shara">
-          <section x="167" y="545" w="36" h="36"/>
-          <position x="561" y="679 "/>
+          <section x="423" y="53" w="51" h="51"/>
+          <position x="40" y="630 "/>
         </image>
-        <image name="ability1_shara">
-          <section x="0" y="482" w="36" h="36"/>
-          <position x="601" y="679"/>
+        <image name="dash_shara">
+          <section x="423" y="105" w="51" h="51"/>
+          <position x="100" y="630"/>
         </image>
-        <image name="ability2_shara">
-          <section x="37" y="482" w="36" h="36"/>
-          <position x="641" y="679"/>
+        <image name="fireArrow_shara">
+          <section x="475" y="53" w="51" h="51"/>
+          <position x="160" y="630"/>
         </image>
-        <image name="ulti_shara">
-          <section x="74" y="482" w="35" h="36"/>
-          <position x="681" y="679"/>
+        <image name="contagious_shara">
+          <section x="527" y="53" w="51" h="51"/>
+          <position x="220" y="630"/>
+        </image>
+        <image name="skyShot_shara">
+          <section x="579" y="53" w="51" h="51"/>
+          <position x="280" y="630"/>
         </image>
         <image name="shara">
-          <section x="257" y="545" w="47" h="64"/>
-          <position x="55" y="35"/>
+          <section x="1129" y="1" w="96" h="100"/>
+          <position x="41" y="29"/>
         </image>
         <image name="player2">
-          <section x="514" y=" 511" w="55" h="28"/>
-          <position x="188" y="41"/>
+          <section x="407" y="481" w="62" h="62"/>
+          <position x="229" y="41"/>
         </image>
         <image name="player3">
-          <section x="514" y=" 482" w="55" h="28"/>
-          <position x="115" y="41"/>
+          <section x="342" y=" 481" w="64" h="64"/>
+          <position x="153" y="41"/>
+        </image>
+        <image name="basic_button">
+          <section x="312" y="1" w="58" h="30"/>
+          <position x="36" y="598"/>
+        </image>
+
+        <image name="dash_button">
+          <section x="194" y="2" w="58" h="30"/>
+          <position x="96" y="598"/>
+        </image>
+
+        <image name="fireArrow_button">
+          <section x="253" y="1" w="58" h="30"/>
+          <position x="156" y="598"/>
+        </image>
+        <image name="contagious_button">
+          <section x="194" y="33" w="58" h="30"/>
+          <position x="218" y="598"/>
+        </image>
+        <image name="skiShot_button">
+          <section x="253" y="32" w="55" h="30"/>
+          <position x="278" y="598"/>
         </image>
       </images>
     </InGameUiS>
@@ -197,32 +247,50 @@
     <InGameUiR>
       <images>
         <image name="basic_ritz">
-          <section x="167" y="545" w="36" h="36"/>
-          <position x="561" y="679 "/>
+          <section x="527" y="1" w="51" h="51"/>
+          <position x="40" y="630 "/>
         </image>
-        <image name="ability1_ritz">
-          <section x="0" y="482" w="36" h="36"/>
-          <position x="601" y="679"/>
+        <image name="dash_ritz">
+          <section x="475" y="105" w="51" h="51"/>
+          <position x="100" y="630"/>
         </image>
-        <image name="ability2_ritz">
-          <section x="37" y="482" w="36" h="36"/>
-          <position x="641" y="679"/>
+        <image name="teleport_ritz">
+          <section x="371" y="53" w="51" h="51"/>
+          <position x="160" y="630"/>
         </image>
-        <image name="ulti_ritz">
-          <section x="74" y="482" w="35" h="36"/>
-          <position x="681" y="679"/>
+        <image name="deathCircle_ritz">
+          <section x="579" y="1" w="51" h="51"/>
+          <position x="220" y="630"/>
         </image>
         <image name="ritz">
-          <section x="204" y="545" w="53" h="64"/>
-          <position x="41" y="35"/>
+          <section x="940" y="1" w="92" h="96"/>
+          <position x="41" y="33"/>
         </image>
         <image name="player2">
-          <section x="570" y="482" w="55" h="28"/>
-          <position x="188" y="41"/>
+          <section x="283" y=" 481" w="58" h="64"/>
+          <position x="229" y="41"/>
         </image>
         <image name="player3">
-          <section x="514" y="511" w="55" h="28"/>
-          <position x="115" y="41"/>
+          <section x="407" y="481" w="62" h="62"/>
+          <position x="153" y="41"/>
+        </image>
+        <image name="basic_button">
+          <section x="312" y="1" w="58" h="30"/>
+          <position x="36" y="598"/>
+        </image>
+
+        <image name="dash_button">
+          <section x="194" y="2" w="58" h="30"/>
+          <position x="96" y="598"/>
+        </image>
+
+        <image name="teleport_button">
+          <section x="253" y="1" w="58" h="30"/>
+          <position x="156" y="598"/>
+        </image>
+        <image name="deathCircle_button">
+          <section x="253" y="32" w="55" h="30"/>
+          <position x="218" y="598"/>
         </image>
       </images>
     </InGameUiR>
@@ -266,17 +334,14 @@
           <section x="0" y="1531" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
+        <image name="TitleSettings">
+          <section x="911" y="111" w="269" h="65"/>
+          <position x="504" y="109"/>
+        </image>
       </images>
-      
+
       <labels>
-        <label name="test">
-          <position x="0" y="0"/>
-          <color R="255" G="255" B="255" A="255"/>
-          <text value="Hello this is just a test to see
-                if this can handle different lines
-                I doubt it xD Lmao"/>
-          
-        </label>
+
       </labels>
 
       <panelBars>
@@ -285,21 +350,23 @@
           <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="267"/>
           <section_thumb x="1115" y="558" w="29" h="38"/>
-          <image_idle x="504" y="722" w="58" h="59"/>
-          <image_hover x="221" y="721" w="61" h="61"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
           <section_bar x="1102" y="618" w="165" h="43"/>
           <position x="588" y="364"/>
           <section_thumb x="1115" y="558" w="29" h="38"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
       </panelBars>
 
       <PanelCheckboxes>
-
+        <!--
         <PanelCheckbox name="test_checkbox" function = "FpsCap">
           <panelPosition x="588" y="473"/>
           <panelSection x="293" y="666" w="200" h="36"/>
@@ -316,7 +383,7 @@
 
           </checkboxLabels>
         </PanelCheckbox>
-
+-->
       </PanelCheckboxes>
 
       <buttons>
@@ -331,25 +398,45 @@
     </Settings>
 
     <SettingsInGame>
-      
+
+      <images>
+
+      </images>
+
+
       <labels>
-        <label name="test">
-          <position x="530" y="70"/>
+        <label name="PauseMenu">
+          <position x="529" y="70"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="PAUSE MENU"/>
         </label>
       </labels>
 
       <buttons>
+        <button name="button_backMenu" function = "GoBackToStartMenu">
+          <idleSec x="1061" y="772" w="195" h="37"/>
+          <hoverSec x="1061" y="732" w="196" h="39" />
+          <clickSec x="1061" y="692" w="196" h="39" />
+          <position x="530" y="500"/>
+        </button>
         <button name="button_backGame" function = "GoBackToGame">
           <idleSec x="585" y="678" w="93" h="40"/>
           <hoverSec x="585" y="719" w="94" h="42" />
           <clickSec x="585" y="762" w="95" h="42" />
-          <position x="588" y="561"/>
+          <position x="530" y="561"/>
         </button>
       </buttons>
-      
+
     </SettingsInGame>
+
+    <Inventory>
+      <images>
+        <image name="inventoryPanel">
+          <section x="0" y="2252" w="740" h="519"/>
+          <position x="274" y="101"/>
+        </image>
+      </images>
+    </Inventory>
 
   </scene>
 
@@ -357,83 +444,54 @@
 
   <map>
     <folder>maps/</folder>
-	  <levels>
+    <levels>
       <level name="iso.tmx"/>
-	  </levels>
+    </levels>
   </map>
 
   <loot>
-    <Money>
-    <gold id ="1" value ="30"/>
-    <gold id ="2" value ="40"/>
-    <gold id ="3" value ="50"/>
-    </Money>
+    
+    <gold min ="50" max ="300"/>
+   
     
     <potions>
-      <health_potion id="1" value ="25"/>  
+      <health_potion id="1" value ="2"/>  
     </potions>
 
     <equipable>
       <sword>
-        <equipment id="1" character="marche" name="sword_1" />
-        <equipment id="2" character="marche" name="sword_2" />
-        <equipment id="3" character="marche" name="legendary_sword"/>
+        <equipment id="1" character="marche" name="sword_1" min ="5" max ="20" />
+        <equipment id="2" character="marche" name="sword_2" min ="10" max ="25"/>
+        <equipment id="3" character="marche" name="legendary_sword" min ="20" max ="30"/>
       </sword>
       
       <armor>
-        <equipment id="1" character="marche" name="armor_1" level ="1" cooldown ="1.1" />
-        <equipment id="2" character="marche" name="armor_1" level ="2" cooldown ="1.2" />
-        <equipment id="3" character="marche" name="armor_1" level ="3" cooldown ="1.4" />
-        <equipment id="4" character="marche" name="armor_2" level ="1" dmg_back ="0.05" />
-        <equipment id="5" character="marche" name="armor_2" level ="2" dmg_back ="0.15" />
-        <equipment id="6" character="marche" name="armor_2" level ="3" dmg_back ="0.3" />
-        <equipment id="7" character="marche" name="legendary_armor" level ="1" cooldown ="1.1" dmg_back ="0.05" />
-        <equipment id="8" character="marche" name="legendary_armor" level ="2" cooldown ="1.2" dmg_back ="0.15" />
-        <equipment id="9" character="marche" name="legendary_armor" level ="3" cooldown ="1.3" dmg_back ="0.3" />
+        <equipment id="1" character="marche" name="armor_1"/>
+        <equipment id="2" character="marche" name="armor_2"/>
+        <equipment id="3" character="marche" name="legendary_armor"/>
       </armor>
+      
       <bow>
-        <equipment id="1" character="shara" name="bow_1" level ="1" attck_spd ="1.15" />
-        <equipment id="2" character="shara" name="bow_1" level ="2" attck_spd ="1.3" />
-        <equipment id="3" character="shara" name="bow_1" level ="3" attck_spd ="1.5" />
-        <equipment id="4" character="shara" name="bow_2" level ="1" slow ="1.3" />
-        <equipment id="5" character="shara" name="bow_2" level ="2" slow ="1.5" />
-        <equipment id="6" character="shara" name="bow_2" level ="3" slow ="1.8" />
-        <equipment id="7" character="shara" name="legendary_bow" level ="1" attck_spd ="1.15" slow ="1.3" />
-        <equipment id="8" character="shara" name="legendary_bow" level ="2" attck_spd ="1.3" slow ="1.5" />
-        <equipment id="9" character="shara" name="legendary_bow" level ="3" attck_spd ="1.5" slow ="1.8" />
+        <equipment id="1" character="shara" name="bow_1"/>
+        <equipment id="2" character="shara" name="bow_2"/>
+        <equipment id="3" character="shara" name="legendary_bow"/>
       </bow>
+      
       <vest>
-        <equipment id="1" character="shara" name="vest_1" level ="1" cooldown ="1.1" />
-        <equipment id="2" character="shara" name="vest_1" level ="2" cooldown ="1.2" />
-        <equipment id="3" character="shara" name="vest_1" level ="3" cooldown ="1.4" />
-        <equipment id="4" character="shara" name="vest_2" level ="1" poison_back ="0.5" />
-        <equipment id="5" character="shara" name="vest_2" level ="2" poison_back ="0.7" />
-        <equipment id="6" character="shara" name="vest_2" level ="3" poison_back ="1" />
-        <equipment id="7" character="shara" name="legendary_vest" level ="1" cooldown ="1.1" poison_back ="0.5" />
-        <equipment id="8" character="shara" name="legendary_vest" level ="2" cooldown ="1.2" poison_back ="0.7" />
-        <equipment id="9" character="shara" name="legendary_vest" level ="3" cooldown ="1.4" poison_back ="1" />
+        <equipment id="1" character="shara" name="vest_1"/>
+        <equipment id="2" character="shara" name="vest_2"/>
+        <equipment id="3" character="shara" name="legendary_vest"/>
       </vest>
+      
       <rod>
-        <equipment id="1" character="ritz" name="stick_1" level ="1"  chance ="5" heal ="1.15"  />
-        <equipment id="2" character="ritz" name="stick_1" level ="2"  chance ="10" heal ="1.25"  />
-        <equipment id="3" character="ritz" name="stick_1" level ="3"  chance ="15" heal ="1.35"  />
-        <equipment id="4" character="ritz" name="stick_2" level ="1"  paralyze="0.4"  />
-        <equipment id="5" character="ritz" name="stick_2" level ="2"  paralyze="0.6"  />
-        <equipment id="6" character="ritz" name="stick_2" level ="3"  paralyze="0.9"  />
-        <equipment id="7" character="ritz" name="legendary_stick" level ="1"  chance ="5" heal ="1.15" paralyze="0.4" />
-        <equipment id="8" character="ritz" name="legendary_stick" level ="2"  chance ="10" heal ="1.25" paralyze="0.6" />
-        <equipment id="9" character="ritz" name="legendary_stick" level ="3"  chance ="15" heal ="1.35" paralyze="0.9" />
+        <equipment id="1" character="ritz" name="stick_1"/>
+        <equipment id="2" character="ritz" name="stick_2"/>
+        <equipment id="3" character="ritz" name="legendary_stick"/>
       </rod>
       <mantle>
-        <equipment id="1" character="ritz" name="mantle_1" level ="1"  cooldown ="1.1"  />
-        <equipment id="2" character="ritz" name="mantle_1" level ="2"  cooldown ="1.2"  />
-        <equipment id="3" character="ritz" name="mantle_1" level ="3"  cooldown ="1.4"  />
-        <equipment id="4" character="ritz" name="mantle_2" level ="1"  insta_death="0.05"  />
-        <equipment id="5" character="ritz" name="mantle_2" level ="2"  insta_death="0.1"  />
-        <equipment id="6" character="ritz" name="mantle_2" level ="3"  insta_death="0.15"  />
-        <equipment id="7" character="ritz" name="legendary_mantle" level ="1"  cooldown ="1.1" insta_death="0.05" />
-        <equipment id="8" character="ritz" name="legendary_mantle" level ="2"  cooldown ="1.2" insta_death="0.1" />
-        <equipment id="9" character="ritz" name="legendary_mantle" level ="3"  cooldown ="1.4" insta_death="0.15" />>
+        <equipment id="1" character="ritz" name="mantle_1"/>
+        <equipment id="2" character="ritz" name="mantle_2"/>
+        <equipment id="3" character="ritz" name="legendary_mantle"/>
       </mantle>
     </equipable>
     </loot>

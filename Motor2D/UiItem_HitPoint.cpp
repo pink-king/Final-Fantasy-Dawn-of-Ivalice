@@ -6,7 +6,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 
-UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type, j1Entity* receiver) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start(); 
@@ -25,9 +25,6 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 
 	// the parent
 	this->parent = parent;
-
-	if (receiver)
-	attachedEntity = receiver; 
 
 }
 

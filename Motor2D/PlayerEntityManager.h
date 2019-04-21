@@ -9,6 +9,11 @@
 #include "Shara.h"
 #include "j1Input.h"
 #include"LootEntity.h"
+#include "j1Audio.h"
+#include "SDL_mixer/include/SDL_mixer.h"
+
+
+struct Mix_Chunk;
 class Crosshair
 {
 public:
@@ -23,10 +28,10 @@ public:
 
 public:
 	iPoint GetSubtilePoint();
-
+	iPoint GetPivotPos();
+	j1Entity* GetClampedEntity() const;
 private:
 	bool ManageInput(float dt);
-	iPoint GetPivotPos();
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
 	fPoint GetHeadingVector(float angle);
 	/*float Clamp(float value, float min, float max);*/
@@ -72,6 +77,7 @@ public:
 	void SetNextCharacter();
 	void SetCurrentAnimation();
 	iPoint GetCrossHairSubtile();
+	iPoint GetCrossHairPivotPos(); 
 	void Draw();
 
 public:
@@ -79,6 +85,13 @@ public:
 	const float GetLastPlayerHeadingAngle() const;
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
+	//loot funtions
+	bool CollectLoot(LootEntity* entityLoot, bool fromCrosshair = false);
+
+	void EquipItem(LootEntity* entityLoot);
+	void DesequipItem(LootEntity* entityLoot);
+
+	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 public:
 
 	j1Entity* GetMarche();
@@ -89,9 +102,15 @@ public:
 	//Loot vectors
 	std::vector<LootEntity*>		equipedObjects;
 	std::vector<LootEntity*>		bagObjects;
-	std::vector<LootEntity*>		consumibles;
+	std::vector<LootEntity*>		consumables;
 
 	uint							gold = 0;
+	std::string						str_coin;
+
+	Crosshair* GetCrosshair()
+	{
+		return crossHair;
+	}
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
@@ -110,7 +129,11 @@ private:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	
-
+	unsigned int pickLoot;
+	unsigned int pickGold;
+	unsigned int consumHealPotion;
+	unsigned int pickPotion;
+	
 };
 
 #endif

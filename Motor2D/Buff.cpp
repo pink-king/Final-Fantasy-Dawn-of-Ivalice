@@ -1,7 +1,7 @@
 #include "Buff.h"
 #include "LootEntity.h"
 
-Buff::Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* object) :
+Buff::Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* object) :
 	type(type), character(character), stat(stat), elementType(elementType), rol(rol), value(value), object(object)
 {
 }
@@ -40,7 +40,7 @@ ELEMENTAL_TYPE Buff::GetElementType()
 	return elementType;
 }
 
-OBJECT_ROL Buff::GetRol()
+ROL Buff::GetRol()
 {
 	return rol;
 }
@@ -50,7 +50,7 @@ float Buff::GetValue()
 	return value;
 }
 
-bool Buff::GetIfExist(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol)
+bool Buff::GetIfExist(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol)
 {
 	return (this->type == type && this->character == character && this->elementType == elementType && this->rol == rol && this->stat == stat);
 }

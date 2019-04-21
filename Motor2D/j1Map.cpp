@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Window.h"
+#include "j1EntityFactory.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -27,29 +28,42 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 	folder.assign(config.child("folder").child_value());
 
-	// configures the pixel offset (center top up isometric corner to real 0,0 world coord 
+	// configures the pixel offset (center top up isometric corner to real 0,0 world coord
 	// if not, all the rest are 1 tile displaced
 	// for this, the worldToMap function on x needs to be workarounded by substracting -1
-	pixelTileOffset.create(0, 0);//-32, -16);//-64 * 0.5f, -32 * 0.5f);
+	//pixelTileOffset.create(0,-16);//-64 * 0.5f, -32 * 0.5f);
 
 	return ret;
 }
 
 void j1Map::Draw()
 {
-	BROFILER_CATEGORY("MAP DRAW", Profiler::Color::DeepPink);
+	BROFILER_CATEGORY("MAP_DRAW", Profiler::Color::DeepPink);
 
 	if (map_loaded == false)
 		return;
-
 	std::list<MapLayer*>::iterator layer = data.layers.begin();
 	for (; layer != data.layers.end(); ++layer)
 	{
 		if ((*layer)->name == "navigationLayer" && showNavLayer == false) {
 			continue;
 		}
-		
-		for (int i = 0; i < data.height; ++i)
+		(*layer)->tileQuadTree->DrawMap();
+		if (debugDraw) {
+			BROFILER_CATEGORY("Map Quadtree Debug", Profiler::Color::DarkSlateGray);
+
+			(*layer)->tileQuadTree->DrawQuadtree();
+
+		}
+	}
+
+	if (debugDraw)
+	{
+		BROFILER_CATEGORY("Map Tiles Debug", Profiler::Color::DarkSlateGray);
+		DebugDraw();
+	}
+
+	/*	for (int i = 0; i < data.height; ++i)
 		{
 			for (int j = 0; j < data.width; ++j)
 			{
@@ -70,14 +84,7 @@ void j1Map::Draw()
 					}
 				}
 			}
-		}
-	}
-
-	if (debugDraw)
-	{
-		DebugDraw();
-	}
-
+		}*/
 }
 
 int Properties::Get(const char* value, int default_value) const
@@ -119,6 +126,8 @@ iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret;
 
+	x -= 1; // TODO displacement
+
 	if(data.type == MAPTYPE_ORTHOGONAL)
 	{
 		ret.x = x * data.tile_width;
@@ -152,7 +161,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int((x / half_width + (y / half_height)) * 0.5f) - 1; // this is caused because the sprite doesnt fit to 0,0 on real world
+		ret.x = int((x / half_width + (y / half_height)) * 0.5f); // - 1// this is caused because the sprite doesnt fit to 0,0 on real world
 		ret.y = int( (y / half_height - (x / half_width)) * 0.5f);	   // and needs this offset to match ( 1 tile displacement )
 	}
 	else
@@ -160,6 +169,48 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
+
+	return ret;
+}
+
+
+iPoint j1Map::IsoToWorld(int x, int y) const // TODO: check for importing from tiled assets, and rework the actual workaround for walls
+{
+	iPoint ret(0, 0);
+
+	ret.x = (x - y) * 0.5f;
+	ret.y = (x + y) * 0.5f;
+
+	return ret;
+}
+
+// -------------------------------------------------------
+// for util world point (but from map space) to cartesian
+iPoint j1Map::IsoTo2D(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = (2 * y + x) * 0.5f;
+	ret.y = (2 * y - x) * 0.5f;
+
+	return ret;
+}
+fPoint j1Map::TwoDToIso(int x, int y) const
+{
+	fPoint ret(0, 0);
+
+	ret.x = x - y;
+	ret.y = (x + y) * 0.5f;
+	return ret;
+}
+// -------------------------------------------------------
+
+iPoint j1Map::WorldToIso(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = int(x - y);// - 1// this is caused because the sprite doesnt fit to 0,0 on real world
+	ret.y = int((y + x ) * 0.5f);	   // and needs this offset to match ( 1 tile displacement )
 
 	return ret;
 }
@@ -305,6 +356,16 @@ bool j1Map::Load(const char* file_name)
 			data.layers.push_back(lay);
 	}
 
+	pugi::xml_node objectlayer;
+	for (objectlayer = map_file.child("map").child("objectgroup"); objectlayer && ret; objectlayer = objectlayer.next_sibling("objectgroup"))
+	{
+		std::string tmp(objectlayer.attribute("name").as_string());
+		if (tmp == "Spawns")
+		{
+			LoadSpawns(objectlayer);
+		}
+	}
+
 	// Load objects/scene colliders -----------------------------------------
 	pugi::xml_node objectGroup;
 	for (objectGroup = map_file.child("map").child("group"); objectGroup && ret; objectGroup = objectGroup.next_sibling("group"))
@@ -312,23 +373,29 @@ bool j1Map::Load(const char* file_name)
 		std::string tmp(objectGroup.attribute("name").as_string());
 		//MapObjects* obj = new MapObjects();
 
-		if (tmp == "Colliders")
-		{
-			//for(pugi::xml_node collidersGroup = objectGroup.child("objectgroup"))
-			ret = LoadMapColliders(objectGroup);//, obj);
-			LOG("loading Map colliders");
-		}
-		else if (tmp == "Player")
-		{
-			// TODO, check latest handout
-			pugi::xml_node player = objectGroup.child("objectgroup").child("object");
-			playerData.name = player.attribute("name").as_string();
-			playerData.x = player.attribute("x").as_int();
-			playerData.y = player.attribute("y").as_int();
+		//if (tmp == "Colliders")
+		//{
+		//	//for(pugi::xml_node collidersGroup = objectGroup.child("objectgroup"))
+		//	ret = LoadMapColliders(objectGroup);//, obj);
+		//	LOG("loading Map colliders");
+		//}
+		//else if (tmp == "Player")
+		//{
+		//	// TODO, check latest handout
+		//	pugi::xml_node player = objectGroup.child("objectgroup").child("object");
+		//	playerData.name = player.attribute("name").as_string();
+		//	playerData.x = player.attribute("x").as_int();
+		//	playerData.y = player.attribute("y").as_int();
 
-			// load custom properties
-			LoadProperties(objectGroup.child("objectgroup"), playerData.properties);
+		//	// load custom properties
+		//	LoadProperties(objectGroup.child("objectgroup"), playerData.properties);
+		//}
+		if (tmp == "Assets") // if we found a assets folder
+		{
+			//ret = 
+			LoadMapAssets(objectGroup);
 		}
+	 
 	}
 
 	if (ret == true)
@@ -360,6 +427,141 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	map_loaded = ret;
+
+	return ret;
+}
+
+bool j1Map::LoadMapAssets(pugi::xml_node& node)
+{
+	bool ret = true;
+
+	for (pugi::xml_node assetsGroup = node.child("group"); assetsGroup && ret; assetsGroup = assetsGroup.next_sibling("group"))
+	{
+		std::string assetGroupName = assetsGroup.attribute("name").as_string();
+		if (assetGroupName == "walls")
+		{
+			LOG("Walls group");
+			// iterate all possible object group layers for walls
+			for (pugi::xml_node wallsGroup = assetsGroup.child("objectgroup"); wallsGroup && ret; wallsGroup = wallsGroup.next_sibling("objectgroup"))
+			{
+				std::string wallObjectGroupTypeName = wallsGroup.attribute("name").as_string();
+
+				if (wallObjectGroupTypeName == "walls")
+				{
+					// load all objects on this object group walls
+					for (pugi::xml_node walls = wallsGroup.child("object"); walls && ret; walls = walls.next_sibling("object"))
+					{
+						std::string wallTypeName = walls.attribute("name").as_string();
+						
+						// load walls as entities
+						iPoint positionOnWorld; // x and y are on iso coords, needs conversion
+						positionOnWorld.x = walls.attribute("x").as_int(0);
+						positionOnWorld.y = walls.attribute("y").as_int(0);
+						positionOnWorld = IsoToWorld(positionOnWorld.x, (positionOnWorld.y));
+						positionOnWorld.x = positionOnWorld.x * 2;
+						positionOnWorld.x -= walls.attribute("width").as_int(0);
+						positionOnWorld.y -= walls.attribute("height").as_int(0);
+						
+						SDL_Rect destRect = { 0 }; 
+
+						// check different types of walls
+					/*	if (wallTypeName == "wall1")
+						{
+							
+
+							App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, { 0,0,64,64 });
+						}*/
+
+						if (wallTypeName == "Outside1")
+						{
+							destRect = { 64,384,64,64 };
+						}
+						else if (wallTypeName == "Outside2")
+						{
+							destRect = { 0,384,64,64 };
+						}
+						else if (wallTypeName == "Outside3")   // the temporal outside wall that joins the two types
+						{
+							destRect = { 0,448,64,64 };
+						}
+						else if (wallTypeName == "Inside 1")
+						{
+							destRect = { 64,256,64,64 };
+						}
+						else if (wallTypeName == "Inside 2")
+						{
+							destRect = { 0,256,64,64 };
+						}
+
+						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
+
+
+
+						// else if(wallTypeName == "wall2") {} etc
+					}
+
+				}
+				else if (wallObjectGroupTypeName == "walls2") // different groups for different layers, just in case but not necessary
+				{											  // we can load several types of wall in one layer just changing the object name on tiled
+					// load all objects on this object group walls
+				}
+				// etc
+			}
+		}
+		
+	}
+
+	return ret;
+}
+
+bool j1Map::LoadSpawns(pugi::xml_node & node)
+{
+	bool ret = true;
+	std::vector<EnemyType> typesVec;
+	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
+	{
+		SDL_Rect spawnRect = { 0, 0, 0, 0 };
+		std::string objectName(object.attribute("name").as_string());
+		if (objectName == "spawnZone")
+		{
+			int minEnemies = 0;
+			int maxEnemies = 0;
+			//SDL_Rect spawnRect = { 0,0,0,0 };
+			spawnRect.x = object.attribute("x").as_int();
+			spawnRect.y = object.attribute("y").as_int();
+			spawnRect.w = object.attribute("width").as_int();
+			spawnRect.h = object.attribute("height").as_int();
+
+			for (pugi::xml_node properties = object.child("properties").child("property"); properties; properties = properties.next_sibling("property"))
+			{
+				if (properties.attribute("type").as_string() == "bool" && properties.attribute("value").as_bool() == false)
+					continue;
+
+				std::string attributeName = properties.attribute("name").as_string();
+				if (attributeName == "bomb")
+				{
+					typesVec.push_back(EnemyType::BOMB);
+				}
+				else if (attributeName == "test")
+				{
+					typesVec.push_back(EnemyType::TEST);
+				}
+				else if (attributeName == "minEnemies")
+				{
+					minEnemies = properties.attribute("value").as_int();
+				}
+				else if (attributeName == "maxEnemies")
+				{
+					maxEnemies = properties.attribute("value").as_int();
+				}
+			}
+
+			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
+			App->entityFactory->spawngroups.push_back(ret);
+			typesVec.clear();
+		}
+
+	}
 
 	return ret;
 }
@@ -513,7 +715,35 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
-	if(layer_data == NULL)
+	//if(layer_data == NULL)
+	//{
+	//	LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
+	//	ret = false;
+	//	RELEASE(layer);
+	//}
+	//else
+	//{
+	//	layer->data = new uint[layer->width*layer->height];
+	//	memset(layer->data, 0, layer->width*layer->height);
+
+	//	int i = 0;
+	//	for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
+	//	{
+	//		layer->data[i++] = tile.attribute("gid").as_int(0);
+	//	}
+	//}
+
+	iPoint layer_size;
+	iPoint quadT_position(0, 0);
+
+	layer_size.x = (layer->width + layer->height)*(App->map->data.tile_width *0.5f);
+	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
+	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
+
+	layer->tileQuadTree = new TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+	//TEST
+
+	if (layer_data == NULL)
 	{
 		LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
 		ret = false;
@@ -525,9 +755,18 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		memset(layer->data, 0, layer->width*layer->height);
 
 		int i = 0;
-		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
+		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
+			//TEST
+			if (layer->name.compare("Collisions") != 0)
+			{
+				iPoint tile_map_coordinates(App->map->MapToWorld((i - int(i / layer->width)*layer->width), int(i / layer->width)));
+				TileData tiledd(tile.attribute("gid").as_int(0), tile_map_coordinates);
+				layer->tileQuadTree->InsertTile(tiledd);
+			}
+			//TEST
 			layer->data[i++] = tile.attribute("gid").as_int(0);
+			
 		}
 	}
 

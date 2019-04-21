@@ -4,7 +4,6 @@
 #include <vector>
 #include "j1Module.h"
 #include "UiItem_HitPoint.h"
-#include "j1Entity.h"
 #include "Buff.h"
 
 
@@ -31,7 +30,7 @@ public:
 
 
 public: 
-	UiItem_HitPoint* callHPLabelSpawn(j1Entity* reciever, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NORMAL_ELEMENT);
+	UiItem_HitPoint* callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NO_ELEMENT);
 	void calculatePlayerCombo(); 
 
 

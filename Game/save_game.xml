@@ -9,12 +9,13 @@
 	<entities />
 	<AttackManager />
 	<Buff />
-	<ItemsManager />
+	<ParticlesClassic />
 	<pathfinding />
 	<gui />
 	<fonts />
-	<loot />
+	<ModuleCamera2D />
+	<HPLabelManager />
 	<renderer>
-		<camera x="500" y="0" />
+		<camera />
 	</renderer>
 </game_state>

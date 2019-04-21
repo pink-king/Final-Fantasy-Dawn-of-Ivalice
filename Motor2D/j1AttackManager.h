@@ -1,12 +1,14 @@
 #ifndef __j1ATTACKMANAGER_H__
 #define __j1ATTACKMANAGER_H__
 
+#include <algorithm>
 #include <queue>
 #include <vector>
 #include "j1Module.h"
 #include "p2Point.h"
 #include "j1Timer.h"
 #include "j1Entity.h"
+#include "Buff.h"
 
 //#define PROPAGATION_RESOLUTION 2 // num of attack replicas propagation for better detection
 
@@ -16,6 +18,14 @@ enum class propagationType
 {
 	BFS,
 	HEURISTIC
+};
+
+enum class damageType
+{
+	NO,
+	DIRECT,
+	INTIME,
+	MAX
 };
 
 //enum class damageSource
@@ -30,17 +40,21 @@ class attackData // intelligent class that manage itsel from the attackmanager c
 {
 public:
 	attackData();
-	attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propaType, int baseDamage, int subtileRadius, uint32 propagationStepSpeed); // all time relative are on ms
+	attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propaType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileRadius, uint32 propagationStepSpeed, bool instantiateParticles); // all time relative are on ms
 	~attackData();
 
 	bool Start();
 	bool Update(float dt);
 	bool PostUpdate();
+	// ------------------------
+	const j1Entity* GetLinkedEntity() const;
+	const void UnlinkFromEntity();
 
 protected:
 	bool DoNextPropagationStep();
 	bool DoNextStepBFS();
 	//bool DoNextStepHeuristic();
+	
 	
 public:
 	bool to_erase = false;
@@ -50,6 +64,10 @@ private:
 	void CheckEntitiesFromSubtileStep(); // when a "step" is done, this function is called
 	bool AddEntityToQueueFiltered(j1Entity* entityToQueue); // filter only the desired type of entities
 	bool DoDirectAttack(); // final stage, communicates with buff manager passing it the substep resultant desired entities
+	bool DoInTimeAttack();
+	bool DoAttackType(); // decides between types of attack, direct or intime
+	bool InstantiateParticles();
+	bool InstantiateParticleType(iPoint drawPos);
 	//bool InstatiateReplica();
 
 private:
@@ -57,9 +75,12 @@ private:
 	bool debug = true;
 	// propagation data itself -----------
 	const j1Entity* fromEntity = nullptr;
-	ENTITY_TYPE fromType = ENTITY_TYPE::NO_TYPE;
+	//ENTITY_TYPE fromType = ENTITY_TYPE::NO_TYPE;
 	iPoint startSubtilePoint;
 	propagationType propaType;
+	ELEMENTAL_TYPE elemType;
+	damageType dmgType;
+	bool instantiateParticles;
 	int baseDamage;
 	int subTileStepRadius; // stores the max expansion "radius" on subtile units
 	int currentPropagationStep; // stores the current step
@@ -77,6 +98,8 @@ private:
 	std::queue<iPoint> subtileQueue; // only affects the entity/ies of the current step of expansion
 	// queue to push entities to buff manager, after filter it
 	std::queue<j1Entity*> entitiesQueue;
+	// queue to push subtiles affected on last step, for particle instantiation purposes, since frontier doesnt pop on every frame
+	std::queue<iPoint> lastStepSubtiles;
 
 };
 
@@ -97,9 +120,10 @@ public:
 	bool CleanUp();
 
 	// functionality
-	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed);
+	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles);
 	/*void AddPropagationAttack(attackData* );
 	void AddPropagationAttackToQueue(attackData*);*/
+	bool DestroyAllMyCurrentAttacks(const j1Entity* entity) const;
 
 public:
 	SDL_Texture* debugSubtileTex = nullptr;

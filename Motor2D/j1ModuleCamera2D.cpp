@@ -2,7 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1Window.h"
 #include "j1Render.h"
-
+#include "Brofiler/Brofiler.h"
 
 j1ModuleCamera2D::j1ModuleCamera2D()
 {
@@ -22,7 +22,7 @@ bool j1ModuleCamera2D::Start()
 {
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	
-	lerpTimer.Start();
+	//lerpTimer.Start();
 	return true;
 }
 
@@ -31,8 +31,10 @@ bool j1ModuleCamera2D::PreUpdate()
 	return true;
 }
 
-bool j1ModuleCamera2D::Update(float dt)
+bool j1ModuleCamera2D::PostUpdate()
 {
+	BROFILER_CATEGORY("Camera Update", Profiler::Color::Gainsboro);
+
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		AddTrauma(0.13f);
@@ -76,8 +78,8 @@ bool j1ModuleCamera2D::Update(float dt)
 		
 		if (debug)
 		{
-			LOG("Trauma:%f", trauma);
-			LOG("Shake amount: %f", GetShakeAmount());
+			/*LOG("Trauma:%f", trauma);
+			LOG("Shake amount: %f", GetShakeAmount());*/
 
 			uint w, h;
 			App->win->GetWindowSize(w, h);
@@ -91,7 +93,7 @@ bool j1ModuleCamera2D::Update(float dt)
 		}
 
 		// decay trauma
-		trauma -= dt * traumaDecay * (trauma + 0.3f);
+		trauma -= App->GetDt() * traumaDecay * (trauma + 0.3f);
 	}
 	else // update preshake pos
 	{
@@ -102,7 +104,7 @@ bool j1ModuleCamera2D::Update(float dt)
 	return true;
 }
 
-bool j1ModuleCamera2D::PostUpdate()
+bool j1ModuleCamera2D::Update(float dt)
 {
 	return true;
 }
@@ -139,6 +141,11 @@ const SDL_Rect* j1ModuleCamera2D::GetCameraRectPtr() const
 fPoint j1ModuleCamera2D::lerp(fPoint v0, fPoint v1, float t)
 {
 	return v0*(1 - t) + v1*t;
+}
+
+iPoint j1ModuleCamera2D::GetCamPos() const
+{
+	return { camera.x, camera.y };
 }
 
 float j1ModuleCamera2D::GetFloatNegOneToOne()

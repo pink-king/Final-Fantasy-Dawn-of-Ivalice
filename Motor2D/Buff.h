@@ -23,40 +23,45 @@ enum class BUFF_TYPE
 
 enum class ELEMENTAL_TYPE
 {
+	NO_ELEMENT,
 	FIRE_ELEMENT,
 	ICE_ELEMENT,
 	POISON_ELEMENT,
-	NORMAL_ELEMENT
+	ALL_ELEMENTS,
+	MAX
 };
 
-enum class OBJECT_ROL
+enum class ROL
 {
 	ATTACK_ROL,
 	DEFENCE_ROL,
+	COOLDOWN,
+	VELOCITY,
+	HEALTH,
 	NO_ROL
 };
 class Buff
 {
 public:
-	Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol, float value, LootEntity* object = nullptr);
+	Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* object = nullptr);
 	~Buff();
 	BUFF_TYPE GetType();
 	ELEMENTAL_TYPE GetElementType();
-	OBJECT_ROL GetRol();
+	ROL GetRol();
 	j1Entity* GetCharacter();
 	LootEntity* GetItemObject();
 	std::string GetStat();
 	float GetValue();
 
-	bool GetIfExist(BUFF_TYPE type, j1Entity* characer, std::string stat, ELEMENTAL_TYPE elementType, OBJECT_ROL rol);
+	bool GetIfExist(BUFF_TYPE type, j1Entity* characer, std::string stat, ELEMENTAL_TYPE elementType, ROL rol);
 
 private:
 	LootEntity*			object = nullptr;
 	j1Entity*			character = nullptr;
 	BUFF_TYPE			type = BUFF_TYPE::NO_BUFF;
 	std::string			stat = "\0";
-	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NORMAL_ELEMENT;
-	OBJECT_ROL			rol = OBJECT_ROL::NO_ROL;
+	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NO_ELEMENT;
+	ROL			rol = ROL::NO_ROL;
 	float				value = 0.F;
 
 };

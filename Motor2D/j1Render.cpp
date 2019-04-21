@@ -4,6 +4,7 @@
 #include "j1Window.h"
 #include "j1Render.h"
 #include "j1ModuleCamera2D.h"
+#include "j1Map.h"
 
 j1Render::j1Render() : j1Module()
 {
@@ -145,7 +146,7 @@ bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int
 	int scale = App->win->GetScale();
 
 	SDL_Rect r = { x*scale,y*scale,w*scale,h*scale };
-	SDL_Rect cam = { -camera->x,-camera->y,camera->w,camera->h };
+	SDL_Rect cam = { -camera->x,-camera->y,camera->w,camera->h};
 
 	return SDL_HasIntersection(&r, &cam);
 }
@@ -263,6 +264,36 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
 		ret = false;
 	}
+
+	return ret;
+}
+
+bool j1Render::DrawIsoQuad(SDL_Rect rect, SDL_Color color) const
+{
+	bool ret = true;
+
+	//Make the quad isometric
+	iPoint p1 = App->map->WorldToIso(0, 0);
+	iPoint p2 = App->map->WorldToIso(0 + rect.w, 0);
+	iPoint p3 = App->map->WorldToIso(0 + rect.w, 0 + rect.h);
+	iPoint p4 = App->map->WorldToIso(0, 0 + rect.h);
+
+	//Place the quad on the correct position
+	p1.x += rect.x;
+	p1.y += rect.y;
+	p2.x += rect.x;
+	p2.y += rect.y;
+	p3.x += rect.x;
+	p3.y += rect.y;
+	p4.x += rect.x;
+	p4.y += rect.y;
+	
+	//Draw the quad
+ 	App->render->DrawLine(p1.x, p1.y, p2.x, p2.y, color.r, color.g, color.b, color.a, true);
+	App->render->DrawLine(p2.x, p2.y, p3.x, p3.y, color.r, color.g, color.b, color.a, true);
+	App->render->DrawLine(p3.x, p3.y, p4.x, p4.y, color.r, color.g, color.b, color.a, true);
+ 	App->render->DrawLine(p4.x, p4.y, p1.x, p1.y, color.r, color.g, color.b, color.a, true);
+	
 
 	return ret;
 }
