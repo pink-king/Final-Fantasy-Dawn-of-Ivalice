@@ -16,14 +16,13 @@ public:
 
 	bool CleanUp() override;
 
+	void Draw();
 private:
 
 	j1Timer timeLifeTimer;
 	uint	timeLife;
 
 	bool damage = true;
-
-	Animation fall;
 };
 
 #endif

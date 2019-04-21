@@ -214,7 +214,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		defender->to_die = true;
 
 	} 
-	else
+	else if (defender->life > 0 && attacker->type != ENTITY_TYPE::PLAYER)
 	{
 		
 			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)

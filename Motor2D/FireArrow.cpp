@@ -94,6 +94,7 @@ void FireArrow::Pierce()
 		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 35, 1, 40, true);
 	App->camera2D->AddTrauma(0.2F);
 	App->input->DoGamePadRumble(0.3F, 30);
+	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
 	piercedEnemies++;
 }
 
@@ -106,6 +107,9 @@ void FireArrow::Explode()
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 20, 7, 80, true);
 
+	if (!hitwall) {
+		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
+	}
 	App->particles->AddParticle(App->particles->explosion01, position.x, position.y - 20);
 	App->camera2D->AddTrauma(0.5F);
 	App->input->DoGamePadRumble(0.5F, 200);

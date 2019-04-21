@@ -18,6 +18,9 @@ struct Particle // only dumb visual class
 {
 	//Collider* collider = nullptr;
 	SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+	double angle = 0; 
+	float scale = 1.F;
+	iPoint pivot = { (int)INT_MAX, (int)INT_MAX };
 	Animation anim;
 	SDL_Texture* texture = nullptr;
 	uint fx = 0u;
@@ -56,7 +59,7 @@ public:
 	//void OnCollisionSubtile(Collider* c1, Collider* c2);
 
 	//void AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay = 0, iPoint speed = { 0,0 }, Uint32 life = 0, char* fx = nullptr);
-	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE);
+	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE, double angle = 0, int pivotx = INT_MAX, int pivoty = INT_MAX, float scale = 1.0F);
 
 	//bool LoadAnimation(pugi::xml_node &node, Animation &anim, bool sequential = false);
 
@@ -65,6 +68,9 @@ private:
 	SDL_Texture* particleAtlas2 = nullptr; 
 	SDL_Texture* particleAtlas = nullptr;
 	SDL_Texture* particleAtlasV03 = nullptr; 
+	SDL_Texture* particleArrowsTex = nullptr;
+	SDL_Texture* SharaUltimate = nullptr;
+
 	std::list<Particle*> active;
 	pugi::xml_node particleNode;
 
@@ -76,6 +82,7 @@ public:
 	Particle fire01;
 	Particle fire02;
 	Particle fire03;
+	Particle fireBlast;
 	Particle strike; 
 	Particle ice01;
 	Particle ice02;
@@ -84,6 +91,8 @@ public:
 	Particle poison02;
 	Particle blood01;
 	Particle blood02;
+	Particle arrowTrail;
+
 };
 
 #endif // __j1PARTICLES_H__
