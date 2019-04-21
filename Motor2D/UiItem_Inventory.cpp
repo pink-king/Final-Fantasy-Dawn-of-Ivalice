@@ -13,7 +13,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
 	this->guiType = GUI_TYPES::INVENTORY;
-	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 41, startingPos.y + 285 }, &tab_image, parent);
+	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 137, startingPos.y + 276 }, &tab_image, parent);
 }
 
 
@@ -134,13 +134,13 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 				if (i == 0)  // first
 				{
 
-					position = { (startingPos.x + 56), (startingPos.y + 302 + j * boxSeparation.y) };
+					position = { (startingPos.x + 137), (startingPos.y + 276 + j * boxSeparation.y) };
 
 
 				}
 				else   // the rest of elements in the row
 				{
-					position = { (startingPos.x + 56 + i * boxSeparation.x), (startingPos.y + 302) + j * boxSeparation.y };
+					position = { (startingPos.x + 137 + i * boxSeparation.x), (startingPos.y + 276) + j * boxSeparation.y };
 				}
 
 

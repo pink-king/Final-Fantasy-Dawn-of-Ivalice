@@ -441,7 +441,7 @@
       <images>
         <image name="inventoryPanel">
           <section x="68" y="2252" w="787" h="520"/>
-          <position x="246" y="101"/>
+          <position x="278" y="101"/>
         </image>
       </images>
     </Inventory>

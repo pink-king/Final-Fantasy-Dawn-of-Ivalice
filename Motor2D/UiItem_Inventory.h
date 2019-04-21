@@ -14,15 +14,15 @@
 #define boxSize 48                   
 #define boxSeparation iPoint(77,74)
 
-#define staringPosition iPoint(274, 101)
+#define staringPosition iPoint(278, 101)
 #define tabOffset iPoint(15,17)
 #define tabOffsetPotion iPoint(25,23)
 
 struct elementsStartingPositionsOffsets
 { 
-	iPoint currentWeapon = iPoint(56, 47);
-	iPoint currentHead = iPoint(56, 118);
-	iPoint currentArmor = iPoint(56, 194);
+	iPoint currentWeapon = iPoint(131, 24);
+	iPoint currentHead = iPoint(131, 96);
+	iPoint currentArmor = iPoint(131, 172);
 
 	iPoint potions = iPoint(100, 100);
 };
@@ -58,7 +58,7 @@ public:
 
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
-	iPoint startingPos = { 274, 101 };
+	iPoint startingPos = { 278, 101 };
 
 private:
 	SDL_Rect tab_image = { 726,1,69,70 };
