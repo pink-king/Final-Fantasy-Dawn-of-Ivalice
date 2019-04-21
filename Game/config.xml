@@ -105,19 +105,19 @@
       <clocks>
         <clock name="ability1_clock">
           <section x="859" y="126" w="51" h="51"/>
-          <position x="160" y="630"/>
+          <position x="160" y="635"/>
           <type value="ability1"/>
         </clock>
 
         <clock name="ability2_clock">
           <section x="859" y="126" w="51" h="51"/>
-          <position x="220" y="630"/>
+          <position x="220" y="635"/>
           <type value="ability2"/>
         </clock>
 
         <clock name="ulti_clock">
           <section x="859" y="126" w="51" h="51"/>
-          <position x="280" y="630"/>                         
+          <position x="280" y="635"/>                         
           <type value="ulti"/>
 
         </clock>
