@@ -12,6 +12,8 @@
 #include "MagicBolt.h"
 #include "ContagiousFireArrow.h"
 #include "DeathCircle.h"
+#include "Emmiter.h"
+#include "EmmiterArrows.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -58,45 +60,61 @@ bool j1EntityFactory::Start()
 	{
 		(*item)->Start();
 	}
-	
-	//load texture
+
+	// Load Textures 
+
 	//assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
-
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
-
-	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
-	swapChar = App->audio->LoadFx("audio/fx/swapChar.wav");
-	stepSFX = App->audio->LoadFx("audio/fx/footstep-on-stone.wav");
+	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
+	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
+	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
+	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
+	// Load SFX
+	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
+	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
+	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
+	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
 
-	marcheDamaged = App->audio->LoadFx("audio/fx/Marche_damaged.wav");
-	marcheBasic = App->audio->LoadFx("audio/fx/marche_basic.wav");
-	marcheAbility2 = App->audio->LoadFx("audio/fx/marche_tornado.wav");
-	marcheUltimateScream = App->audio->LoadFx("audio/fx/marcheUltimate_Scream.wav");
-	RitzDamaged = App->audio->LoadFx("audio/fx/Ritz_damaged.wav");
-	RitzBasic = App->audio->LoadFx("audio/fx/ritz_basic.wav");
-	SharaDamaged = App->audio->LoadFx("audio/fx/Shara_damaged.wav");
-	sharaBasic = App->audio->LoadFx("audio/fx/sharaBasic.wav");
-	sharaAbility2 = App->audio->LoadFx("audio/fx/fireArrow");
-	dash = App->audio->LoadFx("audio/fx/dash.wav");
+	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
+	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
+	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
+	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
+	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
+	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/ritz_basic_hit.wav");
+	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz_Ability2.wav");
+	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/ritz_teleport.wav");
+	RitzUltimate = App->audio->LoadFx("audio/fx/Player/ritz_ultimateTest2.wav");
+	
+
+	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara_damaged.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
+	basicBodyImp = App->audio->LoadFx("audio/fx/Player/arrow_impactBody.wav");
+	basicWallImp = App->audio->LoadFx("audio/fx/Player/basic_wall_impact.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
+	strech_Shoot = App->audio->LoadFx("audio/fx/Player/strech&shoot.wav");
+	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara_ultimate_woosh.wav");
+	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/SharaUltimateGrounding.wav");
+	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
+	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility2_impactswall.wav");
+	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/SharaAbility2Shoot.wav");
+
+	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
 
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
-	
-	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
-	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
-	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
+
+	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
+
+
 	LoadSpawnGroups();
-
-	std::srand(time(0));
-
-	/*constexpr char inits[] = __TIME__;
-	const int default_seed = (inits[0] - '0') * 100000 + (inits[1] - '0') * 10000 +
-		(inits[3] - '0') * 1000 + (inits[4] - '0') * 100 + (inits[6] - '0') * 10 + inits[7] - '0';*/
-
-	//gen.seed(default_seed);
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -153,6 +171,7 @@ bool j1EntityFactory::Update(float dt)
 					createLoot = true;
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
 				}
+				App->buff->entitiesTimeDamage.remove(*item);
 				(*item)->CleanUp();
 				delete(*item); 
 				(*item) = nullptr;
@@ -168,6 +187,8 @@ bool j1EntityFactory::Update(float dt)
 			}
 			
 		}
+
+
 	}
 
 	return ret;
@@ -378,7 +399,7 @@ void j1EntityFactory::LoadSpawnGroups()
 	spawngroups.clear();
 }
 
-j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type)
+j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime)
 {
 	j1Entity* ret = nullptr;
 	switch (type)
@@ -406,6 +427,16 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		entities.push_back(ret); 
 		break; 
 
+	case PROJECTILE_TYPE::EMMITER_ARROWS:
+		ret = new EmmiterArrows(pos, destination, speed, owner, lifeTime);
+		entities.push_back(ret);
+		break;
+
+	case PROJECTILE_TYPE::EMMITER:
+		ret = new Emmiter(pos, owner);
+		entities.push_back(ret);
+		break;
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -428,7 +459,6 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 		ret = new Equipable(posX, posY);
 			LoadLootData(ret, App->config);
 			entities.push_back(ret);
-		GenerateDescriptionForLootItem(ret);
 			break;
 
 	case LOOT_TYPE::CONSUMABLE:
@@ -436,8 +466,6 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 		//ret->objectType = OBJECT_TYPE::GOLD;
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
-		GenerateDescriptionForLootItem(ret);
-
 		break;
 	}
 	return ret;
@@ -886,13 +914,13 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						}
 						else if (lootEntity->level == 2)
 						{
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(16, 30) * 0.1, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(9, 14)*0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(16, 30) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(4, 7)*0.1, lootEntity);
 						}
 						else
 						{
-							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(31, 45) * 0.1, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(15, 22), lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(31, 45) * 0.01, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(8, 12)*0.1, lootEntity);
 						}
 
 					}
@@ -902,19 +930,19 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15), lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(0, 6)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(0, 4)*0.1, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(16, 20), lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(50, 74)* 0.01, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(7, 12)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(4, 8)*0.1, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(21, 25), lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(25, 49)* 0.01, lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(13, 18)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(8, 12)*0.1, lootEntity);
 						}
 					}
 				}
@@ -1084,17 +1112,17 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						if (lootEntity->level == 1)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(2, 9)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(2, 6)*0.1, lootEntity);
 						}
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(18, 23), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(9, 14)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(7, 11)*0.1, lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(20, 26), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(15, 22)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(12, 15)*0.1, lootEntity);
 						}
 
 					}
@@ -1109,13 +1137,13 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 						else if (lootEntity->level == 2)
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(17, 27), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(9, 14)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(6, 10)*0.1, lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(15, 20), lootEntity);
 						}
 						else
 						{
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(25, 35), lootEntity);
-							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(15, 22)*0.1, lootEntity);
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::VELOCITY, GetRandomValue(11, 13)*0.1, lootEntity);
 							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(20, 25), lootEntity);
 						}
 					}
@@ -1342,77 +1370,4 @@ iPoint j1EntityFactory::GetEnemySubtile(j1Entity * enemy)
 iPoint j1EntityFactory::SetLootPos(int x, int y)
 {
 	return App->map->SubTileMapToWorld(x, y);
-}
-
-
-void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
-{
-
-	SDL_Rect destRect = App->scene->lootPanelRect;
-	iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
-
-	if (lootItem->GetType() == LOOT_TYPE::EQUIPABLE)
-	{
-		float attack, resistance;
-	attack = resistance = 0.0f;
-
-
-
-	std::vector<Buff*>::iterator iter = lootItem->stats.begin();
-	for (; iter != lootItem->stats.end(); ++iter)
-	{
-		if ((*iter)->GetRol() == ROL::ATTACK_ROL)
-		{
-			attack = (*iter)->GetValue();
-		}
-		else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-		{
-			resistance = (*iter)->GetValue();
-		}
-
-	}
-
-	lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
-
-
-	// add the icon image in the description, pass it the same texture as loot, and print it from that texture
-
-	lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
-	lootItem->MyDescription->iconImage->printFromLoot = true;
-	lootItem->MyDescription->iconImage->scaleFactor = 4.0f; 
-
-	
-         }
-
-	else if(lootItem->GetType() == LOOT_TYPE::CONSUMABLE)
-	{                                                       // TODO: Also capture the potion duration when available
-
-		uint HP = 0; 
-
-		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
-		for (; iter != lootItem->stats.end(); ++iter)
-		{
-			if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-			{
-				HP = (*iter)->GetValue();
-			}
-
-		}
-
-		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
-		
-		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
-
-		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
-		lootItem->MyDescription->iconImage->printFromLoot = true;
-		lootItem->MyDescription->iconImage->scaleFactor = 6.0f;
-	}
-
-
-
-	// hide all elements until the item is focused by the Corsshair 
-
-	lootItem->MyDescription->HideAllElements(true);
-
-
 }

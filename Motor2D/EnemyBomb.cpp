@@ -3,6 +3,7 @@
 #include "j1EntityFactory.h"
 #include "j1Map.h"
 #include "j1ParticlesClassic.h"
+#include "j1BuffManager.h"
 
 EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage) : Enemy(position, speed, detectionRange, attackRange, baseDamage, 0, false, ENTITY_TYPE::ENEMY_BOMB, "Enemy Bomb")
 {
@@ -18,8 +19,11 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 
 EnemyBomb::~EnemyBomb()
 {
+	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
 	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
+
+
 }
 
 bool EnemyBomb::Start()
@@ -34,7 +38,15 @@ bool EnemyBomb::PreUpdate()
 bool EnemyBomb::Update(float dt)
 {
 	if(!isParalize)
-		SetState(dt); 
+		SetState(dt);
+	
+	if (stat.size() != 0 )
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
 	return true;
 }
 

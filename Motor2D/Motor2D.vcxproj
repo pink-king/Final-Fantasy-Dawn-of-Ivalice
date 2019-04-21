@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Final_Fantasy-Dawn_of_Ivalice</ProjectName>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -84,6 +84,8 @@
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
     <ClCompile Include="easing.cpp" />
+    <ClCompile Include="Emmiter.cpp" />
+    <ClCompile Include="EmmiterArrows.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
@@ -130,7 +132,6 @@
     <ClCompile Include="UiItem_HitPoint.cpp" />
     <ClCompile Include="UiItem_HitPointManager.cpp" />
     <ClCompile Include="UiItem_Image.cpp" />
-    <ClCompile Include="UiItem_Inventory.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
   </ItemGroup>
@@ -141,6 +142,8 @@
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
     <ClInclude Include="easing.h" />
+    <ClInclude Include="Emmiter.h" />
+    <ClInclude Include="EmmiterArrows.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBomb.h" />
     <ClInclude Include="EnemyTest.h" />
@@ -194,7 +197,6 @@
     <ClInclude Include="UiItem_HitPoint.h" />
     <ClInclude Include="UiItem_HitPointManager.h" />
     <ClInclude Include="UiItem_Image.h" />
-    <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
   </ItemGroup>

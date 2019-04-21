@@ -57,9 +57,10 @@ bool PlayerEntityManager::Start()
 	pivot = selectedCharacterEntity->pivot;
 
 
-	pickLoot = App->audio->LoadFx("audio/fx/pickLoot.wav");
-	pickGold = App->audio->LoadFx("audio/fx/pickGold.wav");
-	consumHealPotion = App->audio->LoadFx("audio/fx/consumHealingPotion.wav");
+	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
+	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
+	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
 	return true;
 }
 
@@ -92,7 +93,7 @@ bool PlayerEntityManager::Update(float dt)
 		{
 			if (CollectLoot((LootEntity*)(*item)))
 			{
-				App->audio->PlayFx(pickLoot, 0);
+				
 				App->entityFactory->DeleteEntityFromSubtile(*item);
 				item = App->entityFactory->entities.erase(item);
 				break;
@@ -165,7 +166,6 @@ bool PlayerEntityManager::CleanUp()
 	std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
 	for (; iter2 != equipedObjects.end(); ++iter2)
 	{
-		
 		delete *iter2;
 		*iter2 = nullptr;
 	}
@@ -349,12 +349,11 @@ const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 	return lastCharHeadingAngle;
 }
 
-bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshair)
+bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 {
-	bool ret = true; 
-
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
+		App->audio->PlayFx(pickLoot, 0);
 		if (equipedObjects.size() == 0)
 		{
 			equipedObjects.push_back(entityLoot);
@@ -384,29 +383,24 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	}
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
-		if (!fromCrosshair)                                             // consumables focused by crosshair cannot be picked
+		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
 		{
-			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
-				consumables.push_back(entityLoot);
+			App->audio->PlayFx(pickPotion, 0);
+			consumables.push_back(entityLoot);
+		}
 
-			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
-			{
-				App->audio->PlayFx(pickGold, 0);
-				gold += entityLoot->price;
-				entityLoot->to_delete = true;
-				str_coin = "x  " + std::to_string(gold);
-				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
-				return false;
-			}
-		}
-		else
+		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 		{
-			ret = false; 
+			App->audio->PlayFx(pickGold, 0);
+			gold += entityLoot->price;
+			entityLoot->to_delete = true;
+			str_coin = "x  " + std::to_string(gold);
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+			return false;
 		}
-		
 
 	}
-	return ret;
+	return true;
 }
 
 void PlayerEntityManager::EquipItem(LootEntity * entityLoot)
@@ -610,38 +604,6 @@ bool Crosshair::ManageInput(float dt)
 			position.x -= pivotOffset.x;
 			position.y -= pivotOffset.y;
 
-
-			// if clamped type is loot, it can be picked 
-
-		
-			if (clampedEntity->type == ENTITY_TYPE::LOOT)  // TODO:  add condition so that potions do not enter this 
-			{
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-				{
-					for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
-					{
-						if ((*item) == clampedEntity)
-						{
-
-							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
-							{
-								// first detach clamped entity
-								clampedEntity = nullptr;
-
-								// then delete loot from subtile and factory 
-								App->entityFactory->DeleteEntityFromSubtile(*item);
-								item = App->entityFactory->entities.erase(item);
-								break;
-							}
-			
-						}
-
-					}
-			
-				}
-			}
-
-
 		}
 		else
 		{
@@ -784,28 +746,3 @@ bool Crosshair::CleanUp()
 //{
 //	return MAX(lower, MIN(n, upper));
 //}
-
-j1Entity* Crosshair::GetClampedEntity() const
-{
-	j1Entity* ret = nullptr;
-
-	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-
-	while (entitiesItem != App->entityFactory->entities.end())
-	{
-
-		if (!(*entitiesItem)->to_delete)
-		{
-			if ((*entitiesItem) == clampedEntity)
-			{
-
-				ret = (*entitiesItem);
-
-			}
-
-		}
-		++entitiesItem;
-	}
-
-	return ret;
-}

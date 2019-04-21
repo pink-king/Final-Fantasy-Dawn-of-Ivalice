@@ -16,9 +16,13 @@ public:
 	bool Update(float dt) override;
 	bool Move(float dt) override;
 	bool Explode();
+	void SpawnParticles(); 
 
-	bool CleanUp() override;
-	void Draw() override;
+private: 
+	j1Timer timer; 
+	bool hitwall = false; 
+	bool wallImpact;
+
 };
 
 #endif

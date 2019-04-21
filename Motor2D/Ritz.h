@@ -19,13 +19,22 @@ public:
 	//virtual bool CleanUp();
 
 	// functionality ------
+private:
+	bool SetStopperState();
+	fPoint GetTeleportPos();
 
-
+	bool dodgedtest=false;
 public:
 	myClocks myUIClocks;
 
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
+	Animation attack1[(int)facingDirection::MAX];
+	Animation tpAnim[(int)facingDirection::MAX];
+	SDL_Texture* attack1Tex = nullptr;
+	SDL_Texture* teleportTex = nullptr;
+
+	float tpMaxDistance;
 
 };
 

@@ -14,6 +14,8 @@ enum class PROJECTILE_TYPE
 	FIRE_ARROW,
 	MAGIC_BOLT,
 	DEATH_CIRCLE,
+	EMMITER_ARROWS,
+	EMMITER,
 	NO_ARROW
 };
 
@@ -43,6 +45,7 @@ protected:
 	uint speed = 0;
 	float angle = 0.F;
 	bool to_explode = false;
+	bool willExplode = true;
 	PROJECTILE_TYPE type;
 };
 

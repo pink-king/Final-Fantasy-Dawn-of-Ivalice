@@ -204,7 +204,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
 	coolDownData.ultimate.cooldownTime = 3000;
-
+	coolDownData.dodge.cooldownTime = 500;
 	previousPos = position;
 }
 
@@ -261,11 +261,14 @@ bool Shara::Update(float dt)
 
 		}
 	}
-	else
-	{
-		currentAnimation->speed = 0.f;
-	}
 
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
 
 	// CHECK COMBAT STATE
 	switch (combat_state)
@@ -291,11 +294,17 @@ bool Shara::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
+		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
+		{
+			coolDownData.dodge.timer.Start();
+			//App->audio->PlayFx(App->entityFactory->dash, 0);
+		}
 		break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
+			App->audio->PlayFx(App->entityFactory->sharaBasic);
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
 
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
@@ -323,6 +332,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
+			App->audio->PlayFx(App->entityFactory->sharaAbility1);
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
@@ -356,7 +366,7 @@ bool Shara::Update(float dt)
 			App->camera2D->AddTrauma(70.0f / 100.f);
 			App->input->DoGamePadRumble(0.7f, 400);*/
 
-
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::EMMITER);
 
 			coolDownData.ultimate.timer.Start();
 

@@ -17,7 +17,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "UiItem_Description.h"
-#include "UiItem_Inventory.h"
+#include "j1PerfTimer.h"
 struct labelInfo
 {
 	std::string labelText;
@@ -109,12 +109,9 @@ public:
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent = nullptr);
 
 
-	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem*const parent = nullptr);
-	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem*const parent = nullptr);
-	UiItem_Description* AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect,  std::string effect, iPoint HPandTime, LootEntity* callback, UiItem*const parent = nullptr);
-
-	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
-	UiItem_Inventory* AddInventory(UiItem* const parent);
+	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent = nullptr);
+	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float reistance, UiItem*const parent = nullptr);
+	
 
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
@@ -127,13 +124,12 @@ public:
 
 	UiItem_HealthBar* healthBar = nullptr;
 	SDL_Texture * lootTexture;
-
-	UiItem* selected_object = nullptr;
 private:
 	SDL_Texture * atlas;
 
 	std::string atlas_file_name;
 	bool debug_ = false;
+	UiItem* selected_object = nullptr;
 
 	
 	

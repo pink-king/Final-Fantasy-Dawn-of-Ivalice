@@ -116,9 +116,10 @@ bool j1Scene::Start()
 
 	begin = true;
 	
-	open_closeInventory = App->audio->LoadFx("audio/fx/open_close_inventory.wav");
-	open_PauseMenu = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-
+	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
+	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
+	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
 	return true;
 }
 
@@ -291,7 +292,7 @@ bool j1Scene::Update(float dt)
 			{
 				Mix_PauseMusic();
 				if (!pausePanel->enable)
-					App->audio->PlayFx(open_PauseMenu, 0);
+					App->audio->PlayFx(open_PauseMenuSFX, 0);
 				pausePanel->enable = true;
 				paused = true;
 			}
@@ -304,31 +305,16 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			App->pause = !App->pause;
-			if (App->pause)
+			if (inventory->enable)
 			{
-				inventory->enable = true;
-				if (inventory->enable)
-					App->audio->PlayFx(open_closeInventory, 0);
-				
-				App->gui->resetHoverSwapping = false;
-				inventoryItem->LoadElements();
+				App->audio->PlayFx(openInventorySFX, 0);
+				inventory->enable = false;
 			}
 			else
 			{
-				inventory->enable = false;
-				if (!inventory->enable)
-					App->audio->PlayFx(open_closeInventory, 0);
+				App->audio->PlayFx(closeinventorySFX, 0);
+				inventory->enable = true;
 			}
-			
-			 
-
-			
-		}
-		if (inventory->enable)
-		{
-			SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
-			SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -376,15 +362,22 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
-		std::vector<EnemyType> typeVec; 
+		/*std::vector<EnemyType> typeVec; 
 		typeVec.reserve(2);
 		typeVec.push_back(EnemyType::BOMB);
 		typeVec.push_back(EnemyType::TEST);
-		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);
+		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
 	}
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
 	{
 		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
@@ -393,7 +386,7 @@ bool j1Scene::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
 	}
 
 
@@ -402,7 +395,14 @@ bool j1Scene::Update(float dt)
 		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
 
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
-		App->buff->CreateParalize(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
+	{
+		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+		App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
 	}
 
 	LoadMusicFromScene();
@@ -451,11 +451,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		if ( lootFlag == "loot")
 		{
 
-			lootPanelRect = section; 
-		}
-		else if (lootFlag == "lootNoButton")
-		{
-			lootPanelRectNoButton = section;
+			lootPanelRect = &section; 
 		}
 		else
 		{                                  // this is useless now
@@ -694,7 +690,8 @@ void j1Scene::LoadMusicFromScene()
 {
 	if (state == SceneState::GAME && beginGameMus)
 	{
-		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
+		App->audio->PlayFx(enterGameSFX, 0);
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 		begin = true;
 		beginGameMus = false;
 

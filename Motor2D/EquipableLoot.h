@@ -34,7 +34,6 @@ public:
 	std::string character;
 
 	int equipableChance;
-	bool repositionDescription = false;
 
 };
 

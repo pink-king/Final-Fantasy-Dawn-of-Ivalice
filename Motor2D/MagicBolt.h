@@ -9,9 +9,9 @@ public:
 	MagicBolt(fPoint pos, fPoint destination, uint speed, const j1Entity* owner);
 	~MagicBolt();
 
-	bool CleanUp() override;
 	bool PreUpdate() override;
 	bool Update(float dt) override;
+	bool CleanUp();
 	bool Move(float dt) override;
 	void Explode();
 

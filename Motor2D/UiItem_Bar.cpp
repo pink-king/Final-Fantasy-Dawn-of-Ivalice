@@ -13,7 +13,6 @@
 
 
 
-
 UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem*const parent) : UiItem(position, parent)
 
 {
@@ -75,6 +74,7 @@ void UiItem_Bar::DoLogicHovered() {
 	{
 		nexPosX = thumb->hitBox.x + 2;
 	}
+	
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || xAxis < 0 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT)
 	{
 		nexPosX = thumb->hitBox.x - 2;
@@ -92,7 +92,7 @@ void UiItem_Bar::DoLogicAbandoned() {
 	{
 		thumbReposition = !thumbReposition;
 	}
-
+	App->audio->PlayFx(App->scene->openInventorySFX, 0);
 	bar->section = this->section;
 	image_bar->section = this->image_idle;
 }

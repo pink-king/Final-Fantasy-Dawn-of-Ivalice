@@ -24,8 +24,6 @@ enum GUI_TYPES
 	HITPOINT,
 	HEALTHBAR,
 	CLOCK,
-	DESCRIPTION,
-	INVENTORY,
 	UNKNOWN
 };
 
@@ -58,10 +56,7 @@ public:
 	bool enable = true;
 	UiItem* iFriend = nullptr;
 	bool to_delete = false; 
-	bool useCamera = true; 
-	bool selected = false; 
-	int scaleFactor; 
-	iPoint textureDimensions;
+
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string &functionName) {};

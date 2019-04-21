@@ -9,6 +9,7 @@
 	<entities />
 	<AttackManager />
 	<Buff />
+	<ParticlesClassic />
 	<pathfinding />
 	<gui />
 	<fonts />

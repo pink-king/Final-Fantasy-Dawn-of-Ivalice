@@ -81,8 +81,6 @@ public:
 
 	void DecideExplosion();
 	void ExplosionMaker(float dt);
-	void CheckClampedCrossHairToSpawnDescription();
-
 public:
 
 	uint level;
@@ -111,7 +109,6 @@ public:
 
 	// - - - - - - - The attached description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
-	bool spawnedDescription = false;
 
 protected:
 

@@ -29,8 +29,6 @@ public:
 public:
 	iPoint GetSubtilePoint();
 	iPoint GetPivotPos();
-	j1Entity* GetClampedEntity() const;
-
 
 private:
 	bool ManageInput(float dt);
@@ -88,7 +86,7 @@ public:
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
 	//loot funtions
-	bool CollectLoot(LootEntity* entityLoot, bool fromCrosshair = false);
+	bool CollectLoot(LootEntity* entityLoot);
 
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
@@ -108,11 +106,6 @@ public:
 
 	uint							gold = 0;
 	std::string						str_coin;
-
-	Crosshair* GetCrosshair()
-	{
-		return crossHair;
-	}
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
@@ -134,6 +127,7 @@ private:
 	unsigned int pickLoot;
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
+	unsigned int pickPotion;
 	
 };
 

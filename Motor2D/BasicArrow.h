@@ -15,7 +15,6 @@ public:
 	bool Move(float dt) override;
 	bool Contact();
 
-	bool CleanUp() override;
 };
 
 #endif

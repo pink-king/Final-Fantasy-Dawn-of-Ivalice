@@ -8,7 +8,6 @@ struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
-class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
 
@@ -58,16 +57,18 @@ public:
 	UiItem * pausePanel = nullptr;
 	UiItem * inventory = nullptr;
 	UiItem_Label * coins_label = nullptr;
-	UiItem_Image * tab_inventory = nullptr;
-	SDL_Rect lootPanelRect; 
-	SDL_Rect lootPanelRectNoButton;
-	UiItem_Inventory* inventoryItem = nullptr;
+	SDL_Rect * lootPanelRect = nullptr; 
 	
 	bool debug = false;
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	
 	bool paused;
+	unsigned int openInventorySFX;
+	unsigned int closeinventorySFX;
+	unsigned int open_PauseMenuSFX;
+	unsigned int enterGameSFX;
+
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;
@@ -76,7 +77,6 @@ private:
 	UiItem_Bar* fx_bar = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
-	SDL_Rect inventory_transparency = { 0,0,1280,720 };
 
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
@@ -92,9 +92,7 @@ private:
 	bool begin;
 	bool beginGameMus;
 
-	unsigned int open_closeInventory;
-	unsigned int open_PauseMenu;
-
+	
 };
 
 #endif // __j1SCENE_H__

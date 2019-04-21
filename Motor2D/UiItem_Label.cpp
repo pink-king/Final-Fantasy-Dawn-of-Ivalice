@@ -18,8 +18,6 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 	this->font = font;
 
 
-	if(texture)
-	SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y); 
 
 	// the parent
 	this->parent = parent;

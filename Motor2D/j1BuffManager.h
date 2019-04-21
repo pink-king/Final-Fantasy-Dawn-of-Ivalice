@@ -54,16 +54,22 @@ public:
 	unsigned int burnedSFX;
 	unsigned int freezedSFX;
 	unsigned int paralyzedSFX;
+	unsigned int poisonedSFX;
+	unsigned int healingSFX;
+	unsigned int enemyHitbyMarche;
+	unsigned int playerDeath;
 private:
 	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
 
-	std::list<j1Entity*>			entitiesTimeDamage;
+	
 
 	
 public:
 	float powerAttack = 5;
+
+	std::list<j1Entity*>			entitiesTimeDamage;
 };
 
 #endif

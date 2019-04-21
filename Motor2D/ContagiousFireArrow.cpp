@@ -11,24 +11,29 @@
 ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity * owner)
 	: Projectile(pos, destination, speed, owner, "ContagiousArrow", PROJECTILE_TYPE::CONTAGIOUS_ARROW)
 {
-	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
 
-	anim.PushBack({ 0, 28, 45, 8 });
-	anim.PushBack({ 45, 28, 45,8 });
-	anim.PushBack({ 90, 28, 45,8 });
-	anim.PushBack({ 135, 28, 45, 8 });
-	anim.PushBack({ 180, 28, 45, 8 });
-	anim.PushBack({ 225, 28, 45, 8 });
-	anim.PushBack({ 270, 28, 45, 8 });
-	anim.PushBack({ 315, 28, 45, 8 });
-	anim.PushBack({ 360, 28, 45, 8 });
-	anim.PushBack({ 405, 28, 45, 8 });
-	anim.speed = (float)speed;
+	entityTex = App->entityFactory->arrowsTexture;
+
+	anim.PushBack({ 0,48,64,16 });
+	anim.PushBack({ 64,48,64,16 });
+	anim.PushBack({ 128,48,64,16 });
+	anim.PushBack({ 192,48,64,16 });
+	anim.PushBack({ 256,48,64,16 });
+	anim.PushBack({ 320,48,64,16 });
+	anim.PushBack({ 384,48,64,16 });
+	anim.PushBack({ 448,48,64,16 });
+	anim.PushBack({ 0,64,64,16 });
+	anim.PushBack({ 64,64,64,16 });
+	anim.speed = 10.F;
 
 	currentAnimation = &anim;
 
-	SetPivot(22, 4);
-	size.create(45, 8);
+	SetPivot(32, 8);
+	size.create(64, 16);
+	wallImpact = false;
+	App->audio->PlayFx(App->entityFactory->sharaAbility2_shoot, 0);
+
+	timer.Start();
 
 	// Important for aiming offset
 	SetInitially();
@@ -36,15 +41,27 @@ ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint sp
 
 ContagiousFireArrow::~ContagiousFireArrow()
 {
+	if(wallImpact)
+		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
 	LOG("Bye Contagiousarrow!");
 }
 
 bool ContagiousFireArrow::PreUpdate()
 {
-	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
+
+	if (OnCollisionWithEnemy()) {
+		
 		to_explode = true;
+		
+		LOG("fire arrow audio played");
 	}
 
+	if (OnCollisionWithWall())
+	{
+		wallImpact = true;
+		to_explode = true;
+		LOG("contagious wall");
+	}
 	return true;
 }
 
@@ -52,6 +69,7 @@ bool ContagiousFireArrow::Update(float dt)
 {
 	if (!to_explode) {
 		Move(dt);
+		SpawnParticles();
 	}
 	else Explode();
 
@@ -74,33 +92,23 @@ bool ContagiousFireArrow::Explode()
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
 
+	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+	if (!hitwall) {
+		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
+	}
+	else 	App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
+
 	to_delete = true;
 	return true;
 }
 
-bool ContagiousFireArrow::CleanUp()
+void ContagiousFireArrow::SpawnParticles()
 {
-	if (entityTex != nullptr)
+	if (timer.Read() > 400)
 	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
-	return true;
-}
-
-void ContagiousFireArrow::Draw()
-{
-	iPoint subTilePos = GetSubtilePos();
-	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
-	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
-
-	if (entityTex != nullptr)
-	{
-		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
-		else
-			App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
+		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
+		timer.Start();
 	}
 }
+
 

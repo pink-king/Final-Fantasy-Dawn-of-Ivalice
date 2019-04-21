@@ -56,8 +56,8 @@ bool EnemyTest::Update(float dt)
 	{
 		SetState(dt);
 
-		if (GetRandomValue(1, 10000) == 900)
-			App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);
+		/*if (GetRandomValue(1, 10000) == 900)
+			App->audio->PlayFx(App->entityFactory->goblinLaugh, 0);*/
 		// --------------------------------------------------------------------------- This is faked: recieve attack from player
 
 		/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
@@ -74,13 +74,20 @@ bool EnemyTest::Update(float dt)
 
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+		/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 		{
 			App->buff->DirectAttack(App->entityFactory->player->selectedCharacterEntity, this, 30, ELEMENTAL_TYPE::ICE_ELEMENT, "meh");
 			App->HPManager->callHPLabelSpawn(iPoint(this->position.x, this->position.y), 30, ELEMENTAL_TYPE::POISON_ELEMENT);
-		}
+		}*/
 	}
 
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
 	/*if (life <= 0)
 	{
 		CleanUp(); 

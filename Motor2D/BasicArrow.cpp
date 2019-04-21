@@ -15,24 +15,13 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 	App->input->DoGamePadRumble(0.3f, 80);
 	// TODO SFX arrow throwing
 
-	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
-
-	anim.PushBack({ 0, 28, 45, 8 });
-	anim.PushBack({ 45, 28, 45,8 });
-	anim.PushBack({ 90, 28, 45,8 });
-	anim.PushBack({ 135, 28, 45, 8 });
-	anim.PushBack({ 180, 28, 45, 8 });
-	anim.PushBack({ 225, 28, 45, 8 });
-	anim.PushBack({ 270, 28, 45, 8 });
-	anim.PushBack({ 315, 28, 45, 8 });
-	anim.PushBack({ 360, 28, 45, 8 });
-	anim.PushBack({ 405, 28, 45, 8 });
-	anim.speed = (float)speed;
-
+	entityTex = App->entityFactory->arrowsTexture;
+	anim.PushBack({ 15, 20, 26, 7});
 	currentAnimation = &anim;
 
-	SetPivot(22, 4);
-	size.create(45, 8);
+	SetPivot(13, 4);
+	size.create(32, 8);
+	App->audio->PlayFx(App->entityFactory->sharaBasic);
 
 	// Important for aiming offset
 	SetInitially();
@@ -50,7 +39,11 @@ bool BasicArrow::PreUpdate()
 	}
 
 	if (OnCollisionWithWall())	{
+		App->audio->PlayFx(App->entityFactory->basicWallImp, 0);
 		to_delete = true; 
+		App->camera2D->AddTrauma(35.f / 100.f);
+		App->input->DoGamePadRumble(0.35f, 100);
+		App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
 	}
 	return true;
 }
@@ -61,7 +54,9 @@ bool BasicArrow::Update(float dt)
 		Move(dt);
 	}
 	else Contact();
+	
 
+	
 	return true;
 }
 
@@ -80,20 +75,14 @@ bool BasicArrow::Contact()
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
 
-	// TODO Add particles and sfx, blood, slice etc
+	
+
+	// TODO Add sfx, blood, slice etc
+	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
+	App->audio->PlayFx(App->entityFactory->basicBodyImp, 0);
 
 	to_delete = true;
 
 	return true;
 }
 
-bool BasicArrow::CleanUp()
-{
-	if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
-	return true;
-}
