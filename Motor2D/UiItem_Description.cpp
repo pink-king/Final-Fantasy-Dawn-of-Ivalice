@@ -57,36 +57,27 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	std::string characterString;
 
 
-	if (callback->equipableType == EQUIPABLE_TYPE::SWORD)
+	if (callback->equipableType == EQUIPABLE_TYPE::ARMOR)
 	{
 		characterString = "Marche";
 
-		damageComparisonLabel.character = "Marche";
-		damageComparisonLabel.type = "sword";
-
 		resistanceComparisonLabel.character = "Marche";
-		resistanceComparisonLabel.type = "sword";
+		resistanceComparisonLabel.type = "armor";
 
 	}
-	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
+	else if (callback->equipableType == EQUIPABLE_TYPE::MANTLE)
 	{
 		characterString = "Ritz";
 
-		damageComparisonLabel.character = "Ritz";
-		damageComparisonLabel.type = "rod";
-
 		resistanceComparisonLabel.character = "Ritz";
-		resistanceComparisonLabel.type = "rod";
+		resistanceComparisonLabel.type = "mantle";
 	}
-	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
+	else if (callback->equipableType == EQUIPABLE_TYPE::VEST)
 	{
 		characterString = "Shara";
 
-		damageComparisonLabel.character = "Shara";
-		damageComparisonLabel.type = "bow";
-
 		resistanceComparisonLabel.character = "Shara";
-		resistanceComparisonLabel.type = "bow";
+		resistanceComparisonLabel.type = "vest";
 	}
 
 	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
@@ -359,9 +350,6 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	if (!App->entityFactory->player->equipedObjects.empty())
 	{
-
-		if (this->descrType == descriptionType::WEAPON)
-		{
 			std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
 
 			for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
@@ -372,55 +360,87 @@ bool UiItem_Description::ChangeComparisonLabels()
 					float attack = 0.0f;
 					float resistance = 0.0f;
 
-					if ((*lootItem)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
+					float HP = 666.0f; 
+					float velocity = 666.0f; 
+
+
+					SDL_Color destColor = { 0, 0, 0, 255 };
+
+					if (((*lootItem)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && this->descrType == descriptionType::WEAPON)
+						|| 
+						((*lootItem)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && this->descrType == descriptionType::EQUIPMENT)
+						||
+						((*lootItem)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && this->descrType == descriptionType::EQUIPMENT)
+						)
 					{
 
-						if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()
-							&& this->damageComparisonLabel.character == "Marche")
+						if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
+							&& this->resistanceComparisonLabel.character == "Marche")
 
 							|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
-								&& this->damageComparisonLabel.character == "Ritz")
+								&& this->resistanceComparisonLabel.character == "Ritz")
 
 							|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
-								&& this->damageComparisonLabel.character == "Shara"))
+								&& this->resistanceComparisonLabel.character == "Shara"))
 						{
 
 							std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
 
-							for (; iter != (*lootItem)->stats.end(); ++iter)
+							if (this->descrType == descriptionType::WEAPON)
 							{
-								if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+								for (; iter != (*lootItem)->stats.end(); ++iter)    // capture att and def 
 								{
-									attack = (*iter)->GetValue();
-								}
-								else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-								{
-									resistance = (*iter)->GetValue();
+									if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+									{
+										attack = (*iter)->GetValue();
+									}
+									else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+									{
+										resistance = (*iter)->GetValue();
+									}
+
 								}
 
+
+								this->damageComparisonLabel.value = (int)(this->attack - attack);
+
+								std::string dmgString = "+ ";
+								dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
+
+								if (this->damageComparisonLabel.value > 0)
+								{
+									destColor = { 0, 255, 0, 255 };
+								}
+								else if (this->damageComparisonLabel.value <= 0)
+								{
+									destColor = { 255, 0, 0, 255 };
+								}
+								this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
+
 							}
+							else
+							{
+								for (; iter != (*lootItem)->stats.end(); ++iter)   // capture def and other 2 possible rols
+								{
+									if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+									{
+										resistance = (*iter)->GetValue();
+									}
+									else if ((*iter)->GetRol() == ROL::HEALTH)
+									{
+										HP = (*iter)->GetValue();
+									}
+									else if ((*iter)->GetRol() == ROL::VELOCITY)
+									{
+										velocity = (*iter)->GetValue();
+									}
+
+								}
+							}
+					
+							// they both have resistance 
 
 							this->resistanceComparisonLabel.value = (int)(this->resistance - resistance);    // diff between new item and current
-							this->damageComparisonLabel.value = (int)(this->attack - attack);
-
-							std::string dmgString = "+ ";
-							dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
-
-							SDL_Color destColor = { 0, 0, 0, 255 };
-							if (this->damageComparisonLabel.value > 0)
-							{
-								destColor = { 0, 255, 0, 255 };
-							}
-							else if (this->damageComparisonLabel.value <= 0)
-							{
-								destColor = { 255, 0, 0, 255 };
-							}
-							/*	else
-								{
-									destColor = { 0, 0, 0, 0 };
-								}*/
-
-							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
 
 							std::string resString = "+ ";
 							resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
@@ -451,11 +471,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 				}
 
 			}
-		}
-		/*else if (this->descrType == descriptionType::EQUIPMENT)
-		{
-
-		}*/
+	
 	}
 
 
