@@ -213,7 +213,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		defender->isParalize = false;
 		defender->to_die = true;
 	} 
-	else
+	else if (defender->life > 0 && attacker->type != ENTITY_TYPE::PLAYER)
 	{
 		if (defender->type == ENTITY_TYPE::ENEMY_TEST)
 			App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);

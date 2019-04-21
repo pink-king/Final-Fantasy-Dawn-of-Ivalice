@@ -53,6 +53,7 @@ bool j1ParticlesClassic::Start()
 	particleAtlas = App->tex->Load("textures/particles/particle_spritesheet.png");
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
+	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
 
 	explosion01.anim.PushBack({0,0,32,32});
 	explosion01.anim.PushBack({ 0,32,32,32 });
@@ -209,6 +210,18 @@ bool j1ParticlesClassic::Start()
 	poison02.anim.loop = false;
 	poison02.anim.speed = 35.F;
 	poison02.texture = particleAtlas2;
+
+	fireBlast.anim.PushBack({ 0, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 170, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 340, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 510, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 680, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 850, 0, 170, 398 });
+	fireBlast.anim.PushBack({ 0, 429, 170, 398 });
+	fireBlast.anim.PushBack({ 170, 429, 170, 398 });
+	fireBlast.anim.speed = 10.5f;
+	fireBlast.anim.loop = false;
+	fireBlast.texture = SharaUltimate;
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------

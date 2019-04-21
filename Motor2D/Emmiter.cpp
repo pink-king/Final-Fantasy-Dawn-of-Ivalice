@@ -24,7 +24,7 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	rang.y = 40;
 
 	lifeTime = 4u;
-	createArrowsSpeed = 100u;
+	createArrowsSpeed = 75u;
 	dieTime = 6u;
 
 	constantHeigth = App->render->camera->h;
@@ -80,7 +80,7 @@ void Emmiter::CreateArrow()
 	posX += position.x + size.x / 2;
 
 
-	App->entityFactory->CreateArrow({posX, posY - 350}, { posX, posY + 20}, 290, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,3);
+	App->entityFactory->CreateArrow({posX, posY - 350}, { posX, posY + 20}, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,2);
 
 }
 
