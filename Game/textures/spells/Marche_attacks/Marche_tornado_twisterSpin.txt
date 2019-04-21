@@ -1,0 +1,2 @@
+twisterSpin grid rects: 140w 70h
+twisterSpin x2 grid rects: 180w 80h
