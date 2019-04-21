@@ -13,27 +13,34 @@ EmmiterArrows::EmmiterArrows(fPoint pos, fPoint destination, uint speed, const j
 {
 	// TODO SFX arrow throwing
 
-	entityTex = App->tex->Load("textures/spells/Ritz_attacks/Ritz_fx.png");
+	entityTex = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
+	
+	fall.PushBack({ 0, 0, 170, 310 });
+	fall.speed = 5.5f;
+	fall.loop = true;
 
-	anim.PushBack({ 0, 28, 45, 8 });
-	anim.PushBack({ 45, 28, 45,8 });
-	anim.PushBack({ 90, 28, 45,8 });
-	anim.PushBack({ 135, 28, 45, 8 });
-	anim.PushBack({ 180, 28, 45, 8 });
-	anim.PushBack({ 225, 28, 45, 8 });
-	anim.PushBack({ 270, 28, 45, 8 });
-	anim.PushBack({ 315, 28, 45, 8 });
-	anim.PushBack({ 360, 28, 45, 8 });
-	anim.PushBack({ 405, 28, 45, 8 });
-	anim.speed = (float)speed;
+	anim.PushBack({ 0, 0, 170, 398 });
+	anim.PushBack({ 170, 0, 170, 398 });
+	anim.PushBack({ 340, 0, 170, 398 });
+	anim.PushBack({ 510, 0, 170, 398 });
+	anim.PushBack({ 680, 0, 170, 398 });
+	anim.PushBack({ 850, 0, 170, 398 });
+	anim.PushBack({ 0, 429, 170, 398 });
+	anim.PushBack({ 170, 429, 170, 398 });
+	anim.speed = 10.5f;
+	anim.loop = false;
 
-	currentAnimation = &anim;
+	currentAnimation = &fall;
 
-	SetPivot(22, 4);
-	size.create(45, 8);
+	SetPivot(85, 378);
+	size.create(170, 398);
+
+	damage = true;
 	App->audio->PlayFx(App->entityFactory->SharaUltimateWoosh, 0);
 	// Important for aiming offset
-	SetInitially();
+	position -= pivot;
+	SetNewDirection(destination);
+	angle = 0;
 }
 
 EmmiterArrows::~EmmiterArrows()
@@ -52,25 +59,16 @@ bool EmmiterArrows::Update(float dt)
 {
 	if (to_explode) {
 		to_delete = true;
-
-
-
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), GetSubtilePos(), propagationType::BFS,
-			damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 2, 20, true);
 	}
 	else {
 		Move(dt);
 	}
-	
-		
-	
-
 	return true;
 }
 
 bool EmmiterArrows::Move(float dt)
 {
-	if (position.y <= destination.y)
+	if (position.y + size.y <= destination.y)
 	{
 		position += direction * speed * dt;
 	}
@@ -78,8 +76,9 @@ bool EmmiterArrows::Move(float dt)
 	{
 		if (damage)
 		{
+			currentAnimation = &anim;
 			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), GetSubtilePos(), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 10, 1, 20, false);
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 4, 120, false);
 			timeLifeTimer.Start();
 			damage = false;
 		}

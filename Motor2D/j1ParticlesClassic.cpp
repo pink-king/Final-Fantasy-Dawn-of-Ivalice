@@ -52,6 +52,8 @@ bool j1ParticlesClassic::Start()
 
 	particleAtlas = App->tex->Load("textures/particles/particle_spritesheet.png");
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
+	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
+
 	explosion01.anim.PushBack({0,0,32,32});
 	explosion01.anim.PushBack({ 0,32,32,32 });
 	explosion01.anim.PushBack({ 0,64,32,32 });
@@ -76,6 +78,73 @@ bool j1ParticlesClassic::Start()
 	fire01.anim.loop = false;
 	fire01.anim.speed = 13.f;
 	fire01.texture = particleAtlas2; 
+
+	fire02.anim.PushBack({ 384, 192, 96, 96});
+	fire02.anim.PushBack({ 0, 288, 96, 96} );
+	fire02.anim.PushBack({ 96, 288,96, 96 } );
+	fire02.anim.PushBack({ 192, 288, 96, 96 });
+	fire02.anim.PushBack({ 288, 288, 96, 96 });
+	fire02.anim.PushBack({ 384, 288, 96, 96 });
+	fire02.anim.PushBack({ 0, 384, 96, 96 });
+	fire02.anim.PushBack({ 96, 384, 96, 96 });
+	fire02.anim.loop = false;
+	fire02.anim.speed = 13.f;
+	fire02.texture = particleAtlasV03;
+
+	fire03.anim.PushBack({ 192, 384, 48, 48});
+	fire03.anim.PushBack({ 240, 384, 48, 48 });
+	fire03.anim.PushBack({ 288, 384, 48, 48 });
+	fire03.anim.PushBack({ 336, 384, 48, 48 });
+	fire03.anim.PushBack({ 384, 384, 48, 48 });
+	fire03.anim.PushBack({ 432, 384, 48, 48 });
+	fire03.anim.PushBack({ 0, 480, 48, 48 });
+	fire03.anim.PushBack({ 48, 480, 48, 48 });
+	fire03.anim.loop = false;
+	fire03.anim.speed = 13.f;
+	fire03.texture = particleAtlasV03;
+
+	strike.anim.PushBack({ 96, 480, 28, 25 });
+	strike.anim.PushBack({ 124, 480, 28, 25 });
+	strike.anim.PushBack({ 152, 480, 28, 25 });
+	strike.anim.PushBack({ 180, 480, 28, 25 });
+	strike.anim.PushBack({ 208, 480, 28, 25 });
+	strike.anim.loop = false;
+	strike.anim.speed = 13.f;
+	strike.texture = particleAtlasV03;
+
+	blast01.anim.PushBack({ 366, 0, 96, 96 });
+	blast01.anim.PushBack({ 0, 96, 96, 96 });
+	blast01.anim.PushBack({ 96, 96, 96, 96 });
+	blast01.anim.PushBack({ 192, 96, 96, 96 });
+	blast01.anim.PushBack({ 288, 96, 96, 96 });
+	blast01.anim.PushBack({ 384, 96, 96, 96 });
+	blast01.anim.PushBack({ 0, 192, 96, 96 });
+	blast01.anim.PushBack({ 96, 192, 96, 96 });
+	blast01.anim.PushBack({ 192, 192, 96, 96 });
+	blast01.anim.PushBack({ 288, 192, 96, 96 });
+	blast01.anim.loop = false;
+	blast01.anim.speed = 13.f;
+	blast01.texture = particleAtlasV03;
+	
+	blood01.anim.PushBack({ 126, 0, 48, 48 });
+	blood01.anim.PushBack({ 174, 0, 48, 48 });
+	blood01.anim.PushBack({ 222, 0, 48, 48 });
+	blood01.anim.PushBack({ 270, 0, 48, 48 });
+	blood01.anim.PushBack({ 318, 0, 48, 48 });
+	blood01.anim.loop = false;
+	blood01.anim.speed = 13.f;
+	blood01.texture = particleAtlasV03;
+
+	blood02.anim.PushBack({ 0, 0, 21, 21 });
+	blood02.anim.PushBack({ 21, 0, 21, 21 });
+	blood02.anim.PushBack({ 42, 0, 21, 21 });
+	blood02.anim.PushBack({ 63, 0, 21, 21 });
+	blood02.anim.PushBack({ 84, 0, 21, 21 });
+	blood02.anim.PushBack({ 105, 0, 21, 21 });
+	blood02.anim.loop = false;
+	blood02.anim.speed = 13.f;
+	blood02.texture = particleAtlasV03;
+
 
 	healing.anim.PushBack({ 0, 0, 16, 48 });
 	healing.anim.PushBack({ 16, 0, 16, 48 });

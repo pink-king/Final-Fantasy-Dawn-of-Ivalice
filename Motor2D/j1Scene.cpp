@@ -375,6 +375,11 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 	{
 		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
