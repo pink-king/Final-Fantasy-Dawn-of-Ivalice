@@ -342,7 +342,7 @@ bool Shara::Update(float dt)
 			if (!App->gui->spawnedClocks.Shara.special2)
 			{
 
-				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Ritz", App->scene->inGamePanel);
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Shara", App->scene->inGamePanel);
 
 				App->gui->spawnedClocks.Shara.special2 = true;
 			}
