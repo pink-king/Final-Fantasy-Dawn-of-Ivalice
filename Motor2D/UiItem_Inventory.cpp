@@ -249,6 +249,12 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 	}
 	else   // only when closing inventory, delete the description
 	{
+
+		if (App->gui->selected_object == ent->MyDescription->iconImageInventory)
+		{
+			App->gui->selected_object = nullptr; 
+		}
+
 				// delete last descr
 				ent->MyDescription->DeleteEverything();
 				ent->MyDescription = nullptr;
