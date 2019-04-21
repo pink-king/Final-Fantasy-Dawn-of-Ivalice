@@ -16,7 +16,7 @@
 
 #define staringPosition iPoint(278, 101)
 #define tabOffset iPoint(15,17)
-#define tabOffsetPotion iPoint(25,23)
+#define tabOffsetPotion iPoint(23,18)
 
 struct elementsStartingPositionsOffsets
 { 
@@ -28,7 +28,7 @@ struct elementsStartingPositionsOffsets
 };
 struct potionLabelPositions
 {
-	iPoint potion1 = iPoint(970, 419);
+	iPoint potion1 = iPoint(928, 405);
 
 };
 
