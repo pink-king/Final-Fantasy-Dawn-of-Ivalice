@@ -64,9 +64,11 @@ public:
 	SceneState state = SceneState::STARTMENU;
 	
 	bool paused;
-	unsigned int open_closeInventory;
-	unsigned int open_PauseMenu;
-	unsigned int enterGame;
+	unsigned int openInventorySFX;
+	unsigned int closeinventorySFX;
+	unsigned int open_PauseMenuSFX;
+	unsigned int enterGameSFX;
+
 private:
 	SDL_Texture* debug_tex;
 	pugi::xml_node sceneNode;

@@ -21,6 +21,7 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 	SetPivot(13, 4);
 	size.create(32, 8);
+	App->audio->PlayFx(App->entityFactory->sharaBasic);
 
 	// Important for aiming offset
 	SetInitially();
@@ -35,10 +36,14 @@ bool BasicArrow::PreUpdate()
 {
 	if (OnCollisionWithEnemy()) {
 		to_explode = true;
+		BodyContact = true;
 	}
 
 	if (OnCollisionWithWall())	{
+		App->audio->PlayFx(App->entityFactory->basicWallImp, 0);
 		to_delete = true; 
+		WallContact = true;
+		
 		App->camera2D->AddTrauma(35.f / 100.f);
 		App->input->DoGamePadRumble(0.35f, 100);
 		App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
@@ -52,11 +57,9 @@ bool BasicArrow::Update(float dt)
 		Move(dt);
 	}
 	else Contact();
+	
 
-	if (OnCollisionWithWall())
-	{
-		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
-	}
+	
 	return true;
 }
 
@@ -74,6 +77,10 @@ bool BasicArrow::Contact()
 
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
+	if (BodyContact)
+		App->audio->PlayFx(App->entityFactory->basicBodyImp, 0);
+
+	
 
 	// TODO Add sfx, blood, slice etc
 	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);

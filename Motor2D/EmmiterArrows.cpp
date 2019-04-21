@@ -13,33 +13,30 @@ EmmiterArrows::EmmiterArrows(fPoint pos, fPoint destination, uint speed, const j
 {
 	// TODO SFX arrow throwing
 
-	entityTex = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
-	
-	fall.PushBack({ 0, 0, 170, 310 });
-	fall.speed = 5.5f;
-	fall.loop = true;
+	entityTex = App->entityFactory->arrowsTexture;
 
-	anim.PushBack({ 0, 0, 170, 398 });
-	anim.PushBack({ 170, 0, 170, 398 });
-	anim.PushBack({ 340, 0, 170, 398 });
-	anim.PushBack({ 510, 0, 170, 398 });
-	anim.PushBack({ 680, 0, 170, 398 });
-	anim.PushBack({ 850, 0, 170, 398 });
-	anim.PushBack({ 0, 429, 170, 398 });
-	anim.PushBack({ 170, 429, 170, 398 });
-	anim.speed = 10.5f;
-	anim.loop = false;
+	anim.PushBack({ 0,48,64,16 });
+	anim.PushBack({ 64,48,64,16 });
+	anim.PushBack({ 128,48,64,16 });
+	anim.PushBack({ 192,48,64,16 });
+	anim.PushBack({ 256,48,64,16 });
+	anim.PushBack({ 320,48,64,16 });
+	anim.PushBack({ 384,48,64,16 });
+	anim.PushBack({ 448,48,64,16 });
+	anim.PushBack({ 0,64,64,16 });
+	anim.PushBack({ 64,64,64,16 });
+	anim.speed = 10.F;
 
-	currentAnimation = &fall;
+	currentAnimation = &anim;
 
-	SetPivot(85, 378);
-	size.create(170, 398);
+	SetPivot(32, 8);
+	size.create(64, 16);
 
 	damage = true;
+	App->audio->PlayFx(App->entityFactory->SharaUltimateWoosh, 0);
 	// Important for aiming offset
-	position -= pivot;
-	SetNewDirection(destination);
-	angle = 0;
+	SetInitially();
+	
 }
 
 EmmiterArrows::~EmmiterArrows()
@@ -70,21 +67,61 @@ bool EmmiterArrows::Move(float dt)
 	if (position.y + size.y <= destination.y)
 	{
 		position += direction * speed * dt;
+		iPoint drawRectified;
+		drawRectified.x = position.x + size.x * 0.5f;
+		drawRectified.y = position.y + (size.y * 0.5f) * 2;
+
+		// flip particles pseudo randomly
+		SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+		if (rand() % 2 == 0)
+		{
+			renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+		}
+
+		iPoint fire01Pivot = { 8, 48 };
+		drawRectified -= fire01Pivot;
+		//App->particles->AddParticle(App->particles->fire02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 	}
 	else
 	{
 		if (damage)
 		{
-			currentAnimation = &anim;
 			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), GetSubtilePos(), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 4, 120, false);
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 2, 120, false);
+			App->attackManager->AddPropagationAttack(App->entityFactory->player->GetShara(), GetSubtilePos(), propagationType::BFS,
+				damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 4, 200, true);
 			timeLifeTimer.Start();
 			damage = false;
+
+			iPoint drawRectified;
+			drawRectified.x = position.x + size.x * 0.5f;
+			drawRectified.y = position.y + (size.y * 0.5f) * 2;
+
+			// flip particles pseudo randomly
+			SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+			if (rand() % 2 == 0)
+			{
+				renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+			}
+
+			iPoint fireBlastPivot = { 85, 390 };
+			drawRectified -= fireBlastPivot;
+			App->particles->AddParticle(App->particles->fireBlast, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+
+			App->camera2D->AddTrauma(6.5f / 100.f);
+			App->input->DoGamePadRumble(0.2f, 100);
 		}
 		
 		if (timeLife < timeLifeTimer.ReadSec())
 		{
 			to_explode = true;
+			if (to_explode && willExplode)
+			{
+				willExplode = false;
+				App->audio->PlayFx(App->entityFactory->emitter_explodeFire, 0);
+			}
 		}
 	}
 	return true;
@@ -93,11 +130,22 @@ bool EmmiterArrows::Move(float dt)
 
 bool EmmiterArrows::CleanUp()
 {
-	if (entityTex != nullptr)
-	{
-		App->tex->UnLoad(entityTex);
-		entityTex = nullptr;
-	}
-
 	return true;
+}
+
+void EmmiterArrows::Draw()
+{
+	{
+		iPoint subTilePos = GetSubtilePos();
+		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+		App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
+
+		if (entityTex != nullptr)
+		{
+			if (currentAnimation != nullptr)
+				App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
+			else
+				App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
+		}
+	}
 }

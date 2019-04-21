@@ -566,6 +566,7 @@ bool Ritz::Update(float dt)
 				CheckRenderFlip();
 				currentAnimation = &attack1[pointingDir];
 				entityTex = attack1Tex;
+				App->audio->PlayFx(App->entityFactory->RitzBasic, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components

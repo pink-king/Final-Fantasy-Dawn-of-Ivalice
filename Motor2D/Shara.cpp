@@ -283,7 +283,6 @@ bool Shara::Update(float dt)
 			//App->audio->PlayFx(App->entityFactory->ritzBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
-			App->audio->PlayFx(App->entityFactory->sharaBasic);
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::BASIC_ARROW);
 
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
