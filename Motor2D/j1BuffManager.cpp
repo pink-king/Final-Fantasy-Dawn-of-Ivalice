@@ -184,11 +184,8 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 
 
-	else if (attacker->type == ENTITY_TYPE::PLAYER)
-	{
-		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
-			App->audio->PlayFx(enemyHitbyMarche, 0);
-	}
+	if (attacker == App->entityFactory->player->GetMarche())
+		App->audio->PlayFx(enemyHitbyMarche, 0);
 	//if(attacker->type == ENTITY_TYPE::PLAYER && defen) //aqui
 	/*if (defender->hitPoint != nullptr)
 	{
@@ -645,6 +642,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	drawRectified.x = entity->position.x + entity->size.x * 0.5f;
 	drawRectified.y = entity->position.y + (entity->size.y * 0.5f) * 2;
 
+	iPoint bloodRect = drawRectified;
 	// flip particles pseudo randomly
 	SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
 
@@ -670,7 +668,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						(*item)->count.Start();
 						--(*item)->totalTime;
 
-						//add particles
+						//add particles burned
 						iPoint fire01Pivot = { 8, 48 };
 						drawRectified -= fire01Pivot;
 						App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
@@ -678,6 +676,11 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 						//	App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						//TODO: call create hitpoint label
+
+						//add blood particles 
+						iPoint bloodPivot = { 10, 10 };
+						bloodRect -= bloodPivot;
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x - 10, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
 					}
 				}
 				else
@@ -699,14 +702,18 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					{
 						--(*item)->totalTime;
 						(*item)->count.Start();
-						//add particles
+						//add particles ice
 						iPoint ice01Pivot = { 8, 48 };
-
 						drawRectified -= ice01Pivot;
 						App->particles->AddParticle(App->particles->ice02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						App->audio->PlayFx(freezedSFX);
 						entity->life -= (*item)->secDamage;
 						// remove previous hitpoint link
+
+						//add blood particles
+						iPoint bloodPivot = { 10, 10 };
+						bloodRect -= bloodPivot;
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x , bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
@@ -724,14 +731,19 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						(*item)->count.Start();
 						--(*item)->totalTime;
 
-						//add particles
-						iPoint Poison01Pivot = { 8, 48 };
+						//add particles poison
+						iPoint Poison01Pivot = { 8, 16 };
 						drawRectified -= Poison01Pivot;
 						App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
-						//TODO: call create hitpoint label
+						
+
+						//add blood particle
+						iPoint bloodPivot = { 10, 10 };
+						bloodRect -= bloodPivot;
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x + 10, bloodRect.y - 10, { 0,0 }, 0u, renderFlip);
 					}
 				}
 				else
@@ -751,8 +763,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						(*item)->count.Start();
 						--(*item)->totalTime;
 
-						//add particles
-						iPoint healthPivot = { 8, 30 };
+						//add particles healing
+						iPoint healthPivot = { 8, 40 };
 						drawRectified -= healthPivot;
 						App->audio->PlayFx(healingSFX, 0);
 						App->particles->AddParticle(App->particles->healing, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
@@ -841,15 +853,11 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	}
 	if (entity->life <= 0 && entity->type != ENTITY_TYPE::PLAYER)
 	{
-		//entity->to_delete = true;
-		// When we kill the player we will have a diying animation aswell (or tell him to delete), as for now, only come here ENEMIES or PLAYERS, so should be fine
-		//If causes any trouble put it back without any problem
 		entity->to_die = true;
 		return true;
 	}
 	if (entity->stat.size() == 0)
 		ret = true;
-
 
 	return ret;
 }
