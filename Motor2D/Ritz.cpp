@@ -344,6 +344,144 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	attack1[(int)facingDirection::NW].speed = 20.f;
 	// -------------------------------------------------------------
 
+	// TELEPORT
+	// -------------------------------------------------------------
+	tpAnim[(int)facingDirection::E].PushBack({ 0,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 45,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 90,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 135,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 180,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 225,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 270,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 315,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 360,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 405,240,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 0,300,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 45,300,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 90,300,45,60 });
+	tpAnim[(int)facingDirection::E].PushBack({ 135,300,45,60 });
+	tpAnim[(int)facingDirection::E].loop = false;
+	tpAnim[(int)facingDirection::E].speed = 30.f;
+	// ---------
+	tpAnim[(int)facingDirection::W].PushBack({ 0,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 45,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 90,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 135,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 180,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 225,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 270,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 315,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 360,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 405,240,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 0,300,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 45,300,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 90,300,45,60 });
+	tpAnim[(int)facingDirection::W].PushBack({ 135,300,45,60 });
+	tpAnim[(int)facingDirection::W].loop = false;
+	tpAnim[(int)facingDirection::W].speed = 30.f;
+	// --------------------------------------------------------------
+	tpAnim[(int)facingDirection::N].PushBack({ 0,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 45,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 90,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 135,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 180,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 225,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 270,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 315,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 360,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 405,360,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 0,420,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 45,420,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 90,420,45,60 });
+	tpAnim[(int)facingDirection::N].PushBack({ 135,420,45,60 });
+	tpAnim[(int)facingDirection::N].loop = false;
+	tpAnim[(int)facingDirection::N].speed = 30.f;
+	// -------------------------------------------------------------
+	tpAnim[(int)facingDirection::S].PushBack({ 0,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 45,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 90,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 135,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 180,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 225,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 270,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 315,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 360,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 405,480,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 0,540,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 45,540,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 90,540,45,60 });
+	tpAnim[(int)facingDirection::S].PushBack({ 135,540,45,60 });
+	tpAnim[(int)facingDirection::S].loop = false;
+	tpAnim[(int)facingDirection::S].speed = 30.f;
+	// --------------------------------------------------------------
+	tpAnim[(int)facingDirection::NE].PushBack({ 0,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 45,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 90,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 135,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 180,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 225,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 270,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 315,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 360,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 405,120,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 0,180,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 45,180,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 90,180,45,60 });
+	tpAnim[(int)facingDirection::NE].PushBack({ 135,180,45,60 });
+	tpAnim[(int)facingDirection::NE].loop = false;
+	tpAnim[(int)facingDirection::NE].speed = 30.f;
+	// ----------
+	tpAnim[(int)facingDirection::NW].PushBack({ 0,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 45,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 90,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 135,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 180,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 225,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 270,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 315,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 360,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 405,120,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 0,180,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 45,180,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 90,180,45,60 });
+	tpAnim[(int)facingDirection::NW].PushBack({ 135,180,45,60 });
+	tpAnim[(int)facingDirection::NW].loop = false;
+	tpAnim[(int)facingDirection::NW].speed = 30.f;
+	// --------------------------------------------------------------
+	tpAnim[(int)facingDirection::SE].PushBack({ 0,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 45,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 90,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 135,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 180,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 225,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 270,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 315,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 360,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 405,0,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 0,60,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 45,60,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 90,60,45,60 });
+	tpAnim[(int)facingDirection::SE].PushBack({ 135,60,45,60 });
+	tpAnim[(int)facingDirection::SE].loop = false;
+	tpAnim[(int)facingDirection::SE].speed = 30.f;
+	// ------------
+	tpAnim[(int)facingDirection::SW].PushBack({ 0,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 45,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 90,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 135,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 180,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 225,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 270,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 315,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 360,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 405,0,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 0,60,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 45,60,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 90,60,45,60 });
+	tpAnim[(int)facingDirection::SW].PushBack({ 135,60,45,60 });
+	tpAnim[(int)facingDirection::SW].loop = false;
+	tpAnim[(int)facingDirection::SW].speed = 30.f;
+
 	currentAnimation = &run[(int)facingDirection::SE];
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
@@ -474,11 +612,16 @@ bool Ritz::Update(float dt)
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
-			coolDownData.special1.timer.Start();
-			App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
-			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
-			App->camera2D->AddTrauma(20.f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			//coolDownData.special1.timer.Start();
+			//App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
+			////App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
+			//App->camera2D->AddTrauma(20.f / 100.f);
+			//App->input->DoGamePadRumble(0.3f, 100);
+			
+			
+			
+			
+			
 			// add gui clock
 
 			/*if (!App->gui->spawnedClocks.Ritz.special1)
@@ -494,6 +637,13 @@ bool Ritz::Update(float dt)
 			}*/
 
 
+		}
+		if (!inputReady)
+		{
+			////reposition pos
+			//transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
+			//transference_pivot -= pivot;
+			//position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
 		break;
 
