@@ -7,7 +7,7 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include <assert.h>
-
+#include "j1Audio.h"
 
 UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, function, parent)
 {

@@ -97,10 +97,13 @@ public:
 
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	int GetRandomValue(int min, int max);
-	//j1Entity* CreateLootType(int x, int y);
+	j1Entity* CreateLootType(int x, int y);
 	LOOT_TYPE WillDrop();
 	iPoint GetEnemySubtile(j1Entity* enemy);
 	iPoint SetLootPos(int x, int y);
+
+	void GenerateDescriptionForLootItem(LootEntity* lootItem);
+	void DoDescriptionComparison(LootEntity* lootItem);
 
 public:
 

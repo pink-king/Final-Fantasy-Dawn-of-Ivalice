@@ -179,10 +179,12 @@ bool j1EntityFactory::Update(float dt)
 			}
 			if (createLoot)
 			{
-				CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				//CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
 				justGold = true;
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				
+
 
 			}
 			
@@ -274,7 +276,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		/*ret = CreateLootType(positionX, positionY);
+		ret = CreateLootType(positionX, positionY);
 		if (ret != nullptr)
 		{
 			ret->type = LOOT;
@@ -282,7 +284,10 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 			LoadLootData((LootEntity*)ret, App->config);
 
 			entities.push_back(ret);
-		}*/
+		}
+
+			//GenerateDescriptionForLootItem((LootEntity*)ret);
+		
 		LOG("From factory Loot Entity");
 		break;
 	default:
@@ -810,6 +815,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -884,6 +890,8 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -958,6 +966,8 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -1085,6 +1095,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1161,6 +1172,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1237,6 +1249,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1320,27 +1333,27 @@ int j1EntityFactory::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-//j1Entity * j1EntityFactory::CreateLootType(int x, int y)
-//{
-//	j1Entity * ret = nullptr;
-//
-//	switch (WillDrop())
-//	{
-//	case LOOT_TYPE::CONSUMABLE:
-//
-//		ret = new Consumable(x, y);
-//		break;
-//
-//	case LOOT_TYPE::EQUIPABLE:
-//		ret = new Equipable(x, y);
-//		break;
-//
-//	default:
-//		break;
-//	}
-//
-//	return ret;
-//}
+j1Entity * j1EntityFactory::CreateLootType(int x, int y)
+{
+	j1Entity * ret = nullptr;
+
+	switch (WillDrop())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+
+		ret = new Consumable(x, y);
+		break;
+
+	case LOOT_TYPE::EQUIPABLE:
+		ret = new Equipable(x, y);
+		break;
+
+	default:
+		break;
+	}
+
+	return ret;
+}
 
 LOOT_TYPE j1EntityFactory::WillDrop()
 {
@@ -1370,4 +1383,91 @@ iPoint j1EntityFactory::GetEnemySubtile(j1Entity * enemy)
 iPoint j1EntityFactory::SetLootPos(int x, int y)
 {
 	return App->map->SubTileMapToWorld(x, y);
+}
+
+
+void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
+{
+
+	SDL_Rect destRect = App->scene->lootPanelRect;
+	iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
+
+	if (lootItem->GetType() == LOOT_TYPE::EQUIPABLE)
+	{
+		float attack, resistance;
+	attack = resistance = 0.0f;
+
+
+
+	std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+	for (; iter != lootItem->stats.end(); ++iter)
+	{
+		if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+		{
+			attack = (*iter)->GetValue();
+		}
+		else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+		{
+			resistance = (*iter)->GetValue();
+		}
+
+	}
+
+	lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
+
+
+	// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+	lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+	lootItem->MyDescription->iconImage->printFromLoot = true;
+	lootItem->MyDescription->iconImage->scaleFactor = 4.0f; 
+	
+         }
+
+	else if(lootItem->GetType() == LOOT_TYPE::CONSUMABLE)
+	{                                                       // TODO: Also capture the potion duration when available
+
+		uint HP = 0; 
+
+		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+		for (; iter != lootItem->stats.end(); ++iter)
+		{
+			if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+			{
+				HP = (*iter)->GetValue();
+			}
+
+		}
+
+		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
+		
+		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+		lootItem->MyDescription->iconImage->printFromLoot = true;
+		lootItem->MyDescription->iconImage->scaleFactor = 6.0f;
+	}
+
+
+
+	// hide all elements until the item is focused by the Corsshair 
+
+	//lootItem->MyDescription->HideAllElements(true);
+
+
+}
+
+void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
+{
+
+	if (lootItem->spawnedDescription)
+	{
+			if (lootItem->MyDescription->hasToCompare)
+			{
+				lootItem->MyDescription->ChangeComparisonLabels();   // this compares and puts the "compare" boolean to false
+			}
+
+	}
+	
+
 }

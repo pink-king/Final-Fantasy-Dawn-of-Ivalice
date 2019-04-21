@@ -293,6 +293,7 @@ bool j1Scene::Update(float dt)
 				Mix_PauseMusic();
 				if (!pausePanel->enable)
 					App->audio->PlayFx(open_PauseMenuSFX, 0);
+				
 				pausePanel->enable = true;
 				paused = true;
 			}
@@ -305,15 +306,26 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			if (inventory->enable)
+			App->pause = !App->pause;
+			if (App->pause)
 			{
+				inventory->enable = true;
+				App->gui->resetHoverSwapping = false;
+				inventoryItem->LoadElements();
 				App->audio->PlayFx(openInventorySFX, 0);
-				inventory->enable = false;
+
 			}
+		
 			else
 			{
 				App->audio->PlayFx(closeinventorySFX, 0);
-				inventory->enable = true;
+				inventory->enable = false;
+			}
+
+			if(inventory->enable)
+			{
+				SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
+				SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
 			}
 		}
 	}
@@ -434,7 +446,7 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
+void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 {
 
 	// images
@@ -448,10 +460,14 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
-		if ( lootFlag == "loot")
+		if (lootFlag == "loot")
 		{
 
-			lootPanelRect = &section; 
+			lootPanelRect = section;
+		}
+		else if (lootFlag == "lootNoButton")
+		{
+			lootPanelRectNoButton = section;
 		}
 		else
 		{                                  // this is useless now
@@ -465,7 +481,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			}
 
 		}
-		
+
 
 	}
 
@@ -568,8 +584,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	for (pugi::xml_node uiNode = node.child("healthbars").child("healthbar"); uiNode; uiNode = uiNode.next_sibling("healthbar"))
 	{
 
-		
-		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() }; 
+
+		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string variant = uiNode.child("type").attribute("value").as_string();
@@ -580,11 +596,11 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
 			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
 		}
-		else if(variant == "enemy")
+		else if (variant == "enemy")
 		{
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
 		}
-	
+
 	}
 
 	// cooldown clocks    
@@ -596,10 +612,10 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		std::string type = uiNode.child("type").attribute("value").as_string();
 
-		
+
 		if (type == "ability1")
 		{
-			App->gui->allclocksData.ability1.position = position; 
+			App->gui->allclocksData.ability1.position = position;
 			App->gui->allclocksData.ability1.section = section;
 			App->gui->allclocksData.ability1.type = type;
 		}
@@ -632,7 +648,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
-	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1090,26 }, inGamePanel);
+	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
 	return true;
 }
 
@@ -683,6 +699,8 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
+	inventoryItem = App->gui->AddInventory(inventory);
+	
 	return true;
 }
 
