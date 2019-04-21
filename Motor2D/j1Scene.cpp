@@ -331,7 +331,7 @@ bool j1Scene::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	{
-		App->entityFactory->player->selectedCharacterEntity->life -= 20;
+		App->entityFactory->player->life -= 20;
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = 20;
 	}

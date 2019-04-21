@@ -67,11 +67,11 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 			if (conversionFactor == 0.0f)
 			{
-				conversionFactor = maxSection / App->entityFactory->player->selectedCharacterEntity->life;
+				conversionFactor = maxSection / App->entityFactory->player->life;
 			}
 
 			lastSection = dynamicImage->section.w;
-			dynamicImage->section.w = conversionFactor * App->entityFactory->player->selectedCharacterEntity->life;
+			dynamicImage->section.w = conversionFactor * App->entityFactory->player->life;
 
 
 			if (damageInform.doDamage)
