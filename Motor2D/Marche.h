@@ -27,7 +27,7 @@ public:
 
 
 public:
-
+	bool dodgedTest;
     
 	myClocks myUIClocks;
 

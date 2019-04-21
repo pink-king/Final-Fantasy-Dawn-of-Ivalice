@@ -121,6 +121,8 @@ public:
 
 	//----SFX-----//
 	unsigned int lootGroundSFX;
+	unsigned int potionGroundSFX;
+	unsigned int coinGroundedSFX;
 	unsigned int swapChar;
 	unsigned int stepSFX;
 	unsigned int enemySpawn;
@@ -145,11 +147,13 @@ public:
 	unsigned int goblinAttack;
 	unsigned int goblinLaugh;
 	unsigned int marcheUltimateScream;
+	unsigned int marcheAbility1;
 	unsigned int marcheAbility2; //tornado
 	unsigned int dash;
 	unsigned int sharaAbility1;
+	unsigned int sharaAbility2_shoot;
 	unsigned int sharaAbility2_ImpactsWall;
-	
+	unsigned int BombDeathSFX;
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile

@@ -397,6 +397,13 @@ bool j1Scene::Update(float dt)
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
 	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
+	{
+		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+		App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
+	}
 
 	LoadMusicFromScene();
 	return true;
@@ -684,7 +691,7 @@ void j1Scene::LoadMusicFromScene()
 	if (state == SceneState::GAME && beginGameMus)
 	{
 		App->audio->PlayFx(enterGameSFX, 0);
-		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 		begin = true;
 		beginGameMus = false;
 

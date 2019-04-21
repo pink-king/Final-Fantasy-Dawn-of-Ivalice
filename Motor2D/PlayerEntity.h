@@ -104,7 +104,7 @@ protected:
 	fPoint dashDestinationPos;
 
 public:
-	
+	bool dodged = false;
 	float lastAxisMovAngle = 0.f;
 	fPoint previousPos;
 	int pointingDir = 0; // relative to facing direction enum order

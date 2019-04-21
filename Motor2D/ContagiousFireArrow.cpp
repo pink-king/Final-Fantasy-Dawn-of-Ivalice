@@ -30,13 +30,16 @@ ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint sp
 
 	SetPivot(32, 8);
 	size.create(64, 16);
-
+	wallImpact = false;
+	App->audio->PlayFx(App->entityFactory->sharaAbility2_shoot, 0);
 	// Important for aiming offset
 	SetInitially();
 }
 
 ContagiousFireArrow::~ContagiousFireArrow()
 {
+	if(wallImpact)
+		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
 	LOG("Bye Contagiousarrow!");
 }
 
@@ -51,9 +54,9 @@ bool ContagiousFireArrow::PreUpdate()
 
 	if (OnCollisionWithWall())
 	{
-		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall,0);
+		wallImpact = true;
 		to_explode = true;
-		
+		LOG("contagious wall");
 	}
 	return true;
 }

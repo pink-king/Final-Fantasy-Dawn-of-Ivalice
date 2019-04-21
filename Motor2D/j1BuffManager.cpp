@@ -182,13 +182,13 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			App->audio->PlayFx(playerDeath, 0);
 
 	}
+
+
 	else if (attacker->type == ENTITY_TYPE::PLAYER)
 	{
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 			App->audio->PlayFx(enemyHitbyMarche, 0);
 	}
-
-	
 	//if(attacker->type == ENTITY_TYPE::PLAYER && defen) //aqui
 	/*if (defender->hitPoint != nullptr)
 	{
@@ -212,11 +212,13 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		//If causes any trouble put it back without any problem
 		defender->isParalize = false;
 		defender->to_die = true;
+
 	} 
 	else
 	{
-		if (defender->type == ENTITY_TYPE::ENEMY_TEST)
-			App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+		
+			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)
+				App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 
 		if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT && !defender->isBurned)
 		{
@@ -728,7 +730,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						//TODO: call create hitpoint label
 					}
 				}

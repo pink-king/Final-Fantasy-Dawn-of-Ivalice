@@ -29,7 +29,6 @@ EmmiterArrows::EmmiterArrows(fPoint pos, fPoint destination, uint speed, const j
 	anim.PushBack({ 170, 429, 170, 398 });
 	anim.speed = 10.5f;
 	anim.loop = false;
-
 	currentAnimation = &fall;
 
 	SetPivot(85, 378);
@@ -71,9 +70,15 @@ bool EmmiterArrows::Move(float dt)
 	if (position.y + size.y <= destination.y)
 	{
 		position += direction * speed * dt;
+		willExplode = true;
 	}
 	else
 	{
+		if (willExplode)
+		{
+			App->audio->PlayFx(App->entityFactory->emitter_explodeFire, 0);
+			willExplode = false;
+		}
 		if (damage)
 		{
 			currentAnimation = &anim;
@@ -83,15 +88,10 @@ bool EmmiterArrows::Move(float dt)
 			damage = false;
 		}
 		
+		
 		if (timeLife < timeLifeTimer.ReadSec())
-		{
 			to_explode = true;
-			if (to_explode && willExplode)
-			{
-				willExplode = false;
-				App->audio->PlayFx(App->entityFactory->emitter_explodeFire, 0);
-			}
-		}
+		
 	}
 	return true;
 }

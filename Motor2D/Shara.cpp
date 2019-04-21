@@ -204,7 +204,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
 	coolDownData.ultimate.cooldownTime = 3000;
-
+	coolDownData.dodge.cooldownTime = 500;
 	previousPos = position;
 }
 

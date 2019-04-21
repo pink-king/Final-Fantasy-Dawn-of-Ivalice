@@ -52,7 +52,10 @@ bool Consumable::Update(float dt)
 		if (checkgrounded && grounded)
 		{
 			checkgrounded = false;
-			App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
+			if (objectType == OBJECT_TYPE::POTIONS)
+				App->audio->PlayFx(App->entityFactory->potionGroundSFX, 0);
+
+			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->entityFactory->coinGroundedSFX, 0);
 		}
     
 	return true;

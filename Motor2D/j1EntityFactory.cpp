@@ -72,7 +72,9 @@ bool j1EntityFactory::Start()
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	// Load SFX
-	lootGroundSFX = App->audio->LoadFx("audio/fx/lootgrounded.wav");
+	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
+	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
+	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
 	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
@@ -82,7 +84,7 @@ bool j1EntityFactory::Start()
 	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
-
+	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
 	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/ritz_basic_hit.wav");
@@ -98,15 +100,18 @@ bool j1EntityFactory::Start()
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
 	strech_Shoot = App->audio->LoadFx("audio/fx/Player/strech&shoot.wav");
 	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara_ultimate_woosh.wav");
-	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/emitter_explodeFire.wav");
+	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/SharaUltimateGrounding.wav");
 	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
 	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility2_impactswall.wav");
+	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/SharaAbility2Shoot.wav");
 
 	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
 
 	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
 	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
+
+	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
 
 
 	LoadSpawnGroups();

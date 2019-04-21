@@ -19,7 +19,7 @@ public:
 	//virtual bool CleanUp();
 
 	// functionality ------
-
+	bool dodgedtest = false;
 
 public:
 

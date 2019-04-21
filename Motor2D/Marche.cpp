@@ -209,7 +209,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 0; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
+	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
 	coolDownData.ultimate.cooldownTime = 10000;
@@ -310,17 +310,24 @@ bool Marche::Update(float dt)
 		break;
 	case combatState::DODGE:
 
-		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
+		if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
 		{
-			coolDownData.dodge.timer.Start();
 			//App->audio->PlayFx(App->entityFactory->dash, 0);
+			coolDownData.dodge.timer.Start();
+			dodgedTest = true;
+				
+		}
+		else 
+		{
+			
+			dodged = false;
 		}
 			break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-
+			App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(),PROJECTILE_TYPE::BASIC_ARROW);
 			// add gui clock
 

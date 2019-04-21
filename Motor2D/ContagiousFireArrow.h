@@ -18,6 +18,7 @@ public:
 	bool Explode();
 
 	void Draw() override;
+	bool wallImpact;
 };
 
 #endif

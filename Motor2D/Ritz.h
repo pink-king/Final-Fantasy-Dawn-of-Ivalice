@@ -20,7 +20,7 @@ public:
 
 	// functionality ------
 
-
+	bool dodgedtest=false;
 public:
 	myClocks myUIClocks;
 

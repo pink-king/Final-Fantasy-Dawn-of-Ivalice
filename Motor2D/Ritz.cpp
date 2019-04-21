@@ -348,7 +348,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 300;
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
 	coolDownData.ultimate.cooldownTime = 3000;
