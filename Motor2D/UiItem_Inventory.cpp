@@ -18,7 +18,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 
 
-bool UiItem_Inventory::LoadElements()
+bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 {
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
 
@@ -103,22 +103,24 @@ bool UiItem_Inventory::LoadElements()
 
 
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - -  bag objects 
-
-
-	if (!App->entityFactory->player->bagObjects.empty())
+	if (!onlyEquipped)
 	{
-		int i = 0;
-		int j = 0;
-		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+		// - - - - - - - - - - - - - - - - - - - - - - - - - -  bag objects 
 
 
-		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+		if (!App->entityFactory->player->bagObjects.empty())
 		{
-			
-			// first generate description if it does not have it or if it was deleted ingame
+			int i = 0;
+			int j = 0;
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
 
-			De_______GenerateDescription((*iter), true);
+
+			for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+			{
+
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
 
 
 				iPoint position(0, 0);
@@ -142,7 +144,7 @@ bool UiItem_Inventory::LoadElements()
 				}
 
 
-				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;   
+				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
 				if (!(*iter)->MyDescription->spawnedInventoryImage)
 				{
 					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
@@ -151,73 +153,79 @@ bool UiItem_Inventory::LoadElements()
 				(*iter)->MyDescription->spawnedInventoryImage = true;
 
 				i++;
-			
 
+
+
+			}
 
 		}
 
-	}
 
+		// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
 
-	// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
-	
-	// - - - - - - - - - - - - - - - - - - - - - - - - - -  consumables
-	if (!App->entityFactory->player->consumables.empty())
-	{
-		first_potion = false;
-		potion_counter = 0;
-		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
-		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
+		// - - - - - - - - - - - - - - - - - - - - - - - - - -  consumables
+		if (!App->entityFactory->player->consumables.empty())
 		{
-
-			// first generate description if it does not have it or if it was deleted ingame
-
-			De_______GenerateDescription((*iter), true);
-
-
-			iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302 ) };
-
-			if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+			first_potion = false;
+			potion_counter = 0;
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
+			for (; iter != App->entityFactory->player->consumables.end(); ++iter)
 			{
-				potion_counter++;
-			}
-			
 
-			
-			if (!(*iter)->MyDescription->spawnedInventoryImage)
-			{
-				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-				(*iter)->MyDescription->spawnedInventoryImage = true;
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
+
+
+				iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302) };
+
+				if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+				{
+					potion_counter++;
+				}
+
+
+
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+					(*iter)->MyDescription->spawnedInventoryImage = true;
+
+				}
+
+
+
+
+				if (!first_label_potion)
+				{
+					potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
+					first_label_potion = true;
+				}
+				else
+				{
+					str_potion = "" + std::to_string(potion_counter);
+					potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+				}
 
 			}
-				
-				
-			
-
-			if (!first_label_potion)
-			{
-				potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
-				first_label_potion = true;
-			}
-			else
-			{
-				str_potion = "" + std::to_string(potion_counter);
-				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
-			}
-
 		}
+		else
+		{
+			if (first_label_potion)
+			{
+				potionLabel->to_delete = true;
+				first_label_potion = false;
+			}
+		}
+
+
 	}
 	else
 	{
-		if (first_label_potion)
-		{
-			potionLabel->to_delete = true;
-			first_label_potion = false;
-		}
-	}
-	
+	App->gui->resetHoverSwapping = false;    // when changing characters, the selected object must be reasigned
+    }
 
 
 	return true;
@@ -266,6 +274,33 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 				LOG("_______________________________________________   Deleted description"); 
 		
+
+	}
+
+
+}
+
+void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
+{
+
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
+
+		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+		{
+
+			if ((*iter)->spawnedDescription)
+			{
+				if ((*iter)->MyDescription->spawnedInventoryImage)
+				{
+
+					De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
+				}
+
+			}
+		}
 
 	}
 

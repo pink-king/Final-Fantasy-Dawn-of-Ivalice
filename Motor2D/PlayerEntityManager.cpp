@@ -191,12 +191,35 @@ bool PlayerEntityManager::SwapInputChecker()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
 		{
+
+			if (App->scene->inventory->enable)
+			{
+				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
+			}
+
 			SetPreviousCharacter();
+
+			if (App->scene->inventory->enable)
+			{
+				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+			}
+			
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 		{
+			if (App->scene->inventory->enable)
+			{
+				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
+			}
+			
 			SetNextCharacter();
+
+			if (App->scene->inventory->enable)
+			{
+				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+			}
+
 		}
 	}
 
