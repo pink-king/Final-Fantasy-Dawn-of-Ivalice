@@ -81,6 +81,11 @@ public:
 		loops = 0;
 		current_frame = 0.0f;
 	}
+
+	int GetSize() const
+	{
+		return last_frame;
+	}
 };
 
 #endif

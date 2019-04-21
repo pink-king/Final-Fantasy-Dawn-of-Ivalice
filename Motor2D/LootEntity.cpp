@@ -41,7 +41,7 @@ bool LootEntity::Start()
 }
 bool LootEntity::Update(float dt)
 {
-
+	
 	return true;
 }
 float LootEntity::LerpX(float origin, float destination, float t )
@@ -70,7 +70,7 @@ iPoint LootEntity::GetFinalPos()
 }
 iPoint LootEntity::GetPosition()
 {
-	return App->map->SubTileMapToWorld(App->entityFactory->GetEnemySubtile(this).x, App->entityFactory->GetEnemySubtile(this).y);
+	return (iPoint(position));
 }
 
 std::string LootEntity::GetName()
@@ -246,12 +246,13 @@ void LootEntity::ExplosionMaker(float dt)
 	}
 	else
 	{
-		position.y - 0.070*timeTest*timeTest;
+		position.y  - 0.070*timeTest*timeTest;
 		position.y += decrementY;
 	}
 	
 	
 }
+
 
 
 void LootEntity::CheckClampedCrossHairToSpawnDescription()
@@ -264,11 +265,11 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 
 		
 		// create a new one
-		App->entityFactory->GenerateDescriptionForLootItem(this); 
+		App->entityFactory->GenerateDescriptionForLootItem(this);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));
-		this->MyDescription->HideAllElements(false); 
+		this->MyDescription->HideAllElements(false);
 
-		spawnedDescription = true; 
+		spawnedDescription = true;
 	}
 
 	// if description is showing, but crosshair stops focusing item 
@@ -289,3 +290,4 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 
 
 }
+

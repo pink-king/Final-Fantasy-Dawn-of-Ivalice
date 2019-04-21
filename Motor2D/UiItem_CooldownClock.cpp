@@ -21,10 +21,24 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 	this->type = type;
 
 	// then load the ability type 
+
 	keepAnEye.ability = type; 
 
+
 	// lastly, define the player to keep an eye at
-	keepAnEye.character = charName; 
+
+	if (charName == "Marche")
+	{
+		keepAnEye.character = "Marche"; 
+	}
+	else if (charName == "Ritz")
+	{
+		keepAnEye.character = "Ritz";
+	}
+	else if (charName == "Shara")
+	{
+		keepAnEye.character = "Shara";
+	}
 
 	
 	this->parent = parent; 
@@ -60,7 +74,7 @@ void UiItem_CooldownClock::CheckState()
 	
 
 
-
+	// potion    // TODO (when potion cooldonwn available 
 	
 
 
@@ -137,11 +151,6 @@ void UiItem_CooldownClock::DoLogic()
 			{
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
 
-				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
-
-				heightDiff = LastHeight - this->section.h;
-
-				this->hitBox.y += heightDiff;
 			}
 			else
 			{
@@ -166,6 +175,8 @@ void UiItem_CooldownClock::DoLogic()
 void UiItem_CooldownClock::Restart()
 {
 	hide = true;
+
+	// TODO: Reset clock
 
 
 }

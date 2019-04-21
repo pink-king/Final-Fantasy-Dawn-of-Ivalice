@@ -17,15 +17,15 @@ j1Entity::j1Entity(iPoint worldPos, SDL_Rect spriteAtlasRect) : type(NO_TYPE), d
 	position.x = worldPos.x;
 	position.y = worldPos.y;
 
-	pivot.create(spriteAtlasRect.w * 0.5f, spriteAtlasRect.h - 16.f); // places pivot always on sprite "tile midpoint"
+	pivot.create(spriteAtlasRect.w * 0.5f, spriteAtlasRect.h * 0.75f); // places pivot always on sprite "tile midpoint"
 }
 
 j1Entity::~j1Entity()
 {
-	App->entityFactory->DeleteEntityFromSubtile(this); 
+	App->entityFactory->DeleteEntityFromSubtile(this);
 
-
-
+	// put the lifeBar to delete here, to ensure that every time an entity is killed, the lifebar does so
+	
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
 
@@ -38,7 +38,6 @@ j1Entity::~j1Entity()
 
 
 	}
-
 
 
 }
@@ -99,6 +98,15 @@ fPoint j1Entity::GetPivotPos() const
 	return position + pivot;
 }
 
+fPoint j1Entity::GetThrowingPos() const
+{
+	// Still open to adjustments
+	fPoint center(0, 0);
+	center.x = position.x + size.x * 0.5F; 
+	center.y = position.y + size.y * 0.5F;
+	return center;
+}
+
 bool j1Entity::Move(float dt)
 {
 	return true;
@@ -130,6 +138,7 @@ iPoint j1Entity::GetPreviousSubtilePos() const
 void j1Entity::UpdateTilePositions()
 {
 	changedTile = false; 
+	changedSubtile = false; 
 	fPoint pivotPos = GetPivotPos();
 
 	// extra protection TODO: rework the player/entities invalid walkability return positions
@@ -141,6 +150,7 @@ void j1Entity::UpdateTilePositions()
 
 		if (previousSubtilePos != imOnSubtile)
 		{
+			changedSubtile = true; 
 			//LOG("subtile pos changed");
 			// assign this entity to a tile vector
 			App->entityFactory->AssignEntityToSubtile(this);

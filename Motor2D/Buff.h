@@ -23,11 +23,12 @@ enum class BUFF_TYPE
 
 enum class ELEMENTAL_TYPE
 {
+	NO_ELEMENT,
 	FIRE_ELEMENT,
 	ICE_ELEMENT,
 	POISON_ELEMENT,
-	NORMAL_ELEMENT,
-	ALL_ELEMENTS
+	ALL_ELEMENTS,
+	MAX
 };
 
 enum class ROL
@@ -36,6 +37,7 @@ enum class ROL
 	DEFENCE_ROL,
 	COOLDOWN,
 	VELOCITY,
+	HEALTH,
 	NO_ROL
 };
 class Buff
@@ -58,7 +60,7 @@ private:
 	j1Entity*			character = nullptr;
 	BUFF_TYPE			type = BUFF_TYPE::NO_BUFF;
 	std::string			stat = "\0";
-	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NORMAL_ELEMENT;
+	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NO_ELEMENT;
 	ROL			rol = ROL::NO_ROL;
 	float				value = 0.F;
 

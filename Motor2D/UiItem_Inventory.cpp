@@ -8,9 +8,10 @@
 
 
 
-UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
+
+UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
-	this->parent = parent; 
+	this->parent = parent;
 	this->guiType = GUI_TYPES::INVENTORY;
 	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 41, startingPos.y + 285 }, &tab_image, parent);
 }
@@ -20,9 +21,9 @@ UiItem_Inventory::UiItem_Inventory(UiItem * const parent):UiItem(parent)
 bool UiItem_Inventory::LoadElements()
 {
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
-	
-	
-if (!App->entityFactory->player->equipedObjects.empty())
+
+
+	if (!App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
@@ -99,10 +100,10 @@ if (!App->entityFactory->player->equipedObjects.empty())
 			
 		}
 	}
-	
-	
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - -  bag objects 
+
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -  bag objects 
 
 
 	if (!App->entityFactory->player->bagObjects.empty())
@@ -298,9 +299,9 @@ void UiItem_Inventory::Draw(const float & dt)
 }
 
 
-void UiItem_Inventory::De_______Equip(LootEntity * callback)
+void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
-	iPoint destPos = {}; 
+	iPoint destPos = {};
 
 
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
@@ -383,8 +384,9 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 	}
 
-}
 
+
+}
 
 
 

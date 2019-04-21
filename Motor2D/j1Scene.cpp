@@ -21,6 +21,8 @@
 #include "j1BuffManager.h"
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
+#include "Projectile.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -45,7 +47,8 @@ bool j1Scene::Start()
 {
 	debug = true;
 
-	if (App->map->Load("maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	// App->audio->Load("audio/music/menu_1.0.ogg");
+	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -68,7 +71,7 @@ bool j1Scene::Start()
 	App->entityFactory->CreatePlayer({ 300,300 });*/
 
 
-
+	
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
@@ -88,6 +91,8 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::STARTMENU)
 	{
+		
+		
 		if (!LoadedUi)
 		{
 			LoadInGameUi(sceneNode);
@@ -109,7 +114,12 @@ bool j1Scene::Start()
 		inventory->enable = false;
 	}
 
-
+	begin = true;
+	
+	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
+	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
+	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
 	return true;
 }
 
@@ -156,7 +166,16 @@ bool j1Scene::PreUpdate()
 			LOG("subtile NOT empty");
 
 		// DEBUG attack propagation!
-		App->attackManager->AddPropagationAttack(App->entityFactory->player->GetSelectedCharacterEntity(), { entitySubTilePoint.x,entitySubTilePoint.y }, propagationType::BFS, 100, 20, 40);
+		App->attackManager->AddPropagationAttack(
+			App->entityFactory->player->GetSelectedCharacterEntity(), // from entity
+			{ entitySubTilePoint.x,entitySubTilePoint.y }, // impact position, (on subtilemap units)
+			propagationType::BFS, // propagation expansion type
+			damageType::INTIME,	// damage type: direct/in time
+			ELEMENTAL_TYPE::ICE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
+			5, // base attack damage
+			13, // radius (on subtile units)
+			60, // propagation speed, in ms (time between steps)
+			true); // if this attack instantate particles of the elemental type while propagating
 		App->camera2D->AddTrauma(0.7f);
 	}
 
@@ -167,6 +186,7 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	int mx, my;
+	
 	App->input->GetMousePosition(mx, my);
 	iPoint mousePos = App->render->ScreenToWorld(mx, my);
 	//LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
@@ -202,17 +222,25 @@ bool j1Scene::Update(float dt)
 	{
 		if (state == SceneState::GAME)
 		{
+
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
 			startMenu->enable = true;
 		}
 		else
+		{
+			
 			state = SceneState::GAME;
+			
+		}
 
 	}
 
+	
 	if (state == SceneState::STARTMENU)
 	{
+		
+
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -224,9 +252,12 @@ bool j1Scene::Update(float dt)
 		uiShara->enable = false;
 		//settingPanel->enable = false;
 	}
-
+	
 	if (state == SceneState::GAME)
 	{
+		//Mix_CloseAudio();
+		//if()
+		
 		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
@@ -259,10 +290,16 @@ bool j1Scene::Update(float dt)
 			App->pause = !App->pause;
 			if (App->pause)
 			{
+				Mix_PauseMusic();
+				if (!pausePanel->enable)
+					App->audio->PlayFx(open_PauseMenuSFX, 0);
+				
 				pausePanel->enable = true;
+				paused = true;
 			}
-			else
+			else 
 			{
+				Mix_ResumeMusic();
 				pausePanel->enable = false;
 			}
 		}
@@ -275,18 +312,21 @@ bool j1Scene::Update(float dt)
 				inventory->enable = true;
 				App->gui->resetHoverSwapping = false;
 				inventoryItem->LoadElements();
+				App->audio->PlayFx(openInventorySFX, 0);
+
 			}
+		
 			else
 			{
+				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
 			}
-				
-			
-		}
-		if (inventory->enable)
-		{
-			SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
-			SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
+
+			if(inventory->enable)
+			{
+				SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
+				SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
+			}
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -317,40 +357,67 @@ bool j1Scene::Update(float dt)
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
 	static int cont = 0;
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)      // commented lifebars due to crash, cleaning order when exiting app
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }, 70, 11, 1, 10, 1.0f); 
-		//ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }); 
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		j1Entity* ent;
-		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y }, 125, 11, 1, 30, 1.0f);
-	//	ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
+		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
-		App->entityFactory->CreateEnemiesGroup(EnemyType::BOMB, EnemyType::TEST, SDL_Rect{ 2,2,4,4 }, 2, 10, 10, 50);
+		/*std::vector<EnemyType> typeVec; 
+		typeVec.reserve(2);
+		typeVec.push_back(EnemyType::BOMB);
+		typeVec.push_back(EnemyType::TEST);
+		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
 	}
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
+	}
+
+
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
 	{
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y },100, 12, 1, 10, 2.F), 21, 10, "burn");
+		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
+	{
+		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+		App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
 	}
 
-	/*static char title[90];
-	sprintf_s(title, 90, " | %i instantiated Entities |", App->entityFactory->entities.size());
-	App->win->AddStringToTitle(title);*/
-
-	
-	//LOG("CURRENTLY THERE ARE %i ENTITES FOLLOWING YOU", App->entityFactory->entities.size());
-
-	//App->win->SetTitle(App->title.data());
-
-
+	LoadMusicFromScene();
 	return true;
 }
 
@@ -372,12 +439,14 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	App->tex->UnLoad(debug_tex); 
-
+	
+	
+	
 	LOG("Freeing scene");
 	return true;
 }
 
-void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
+void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 {
 
 	// images
@@ -391,16 +460,16 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
-		if ( lootFlag == "loot")
+		if (lootFlag == "loot")
 		{
 
-			lootPanelRect = section; 
+			lootPanelRect = section;
 		}
 		else if (lootFlag == "lootNoButton")
 		{
 			lootPanelRectNoButton = section;
 		}
-	else
+		else
 		{                                  // this is useless now
 			if (isPanel != 1)
 			{
@@ -412,7 +481,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			}
 
 		}
-		
+
 
 	}
 
@@ -515,8 +584,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	for (pugi::xml_node uiNode = node.child("healthbars").child("healthbar"); uiNode; uiNode = uiNode.next_sibling("healthbar"))
 	{
 
-		
-		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() }; 
+
+		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string variant = uiNode.child("type").attribute("value").as_string();
@@ -527,11 +596,11 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
 			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
 		}
-		else if(variant == "enemy")
+		else if (variant == "enemy")
 		{
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
 		}
-	
+
 	}
 
 	// cooldown clocks    
@@ -543,10 +612,10 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 		std::string type = uiNode.child("type").attribute("value").as_string();
 
-		
+
 		if (type == "ability1")
 		{
-			App->gui->allclocksData.ability1.position = position; 
+			App->gui->allclocksData.ability1.position = position;
 			App->gui->allclocksData.ability1.section = section;
 			App->gui->allclocksData.ability1.type = type;
 		}
@@ -631,5 +700,27 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
+	
 	return true;
+}
+
+void j1Scene::LoadMusicFromScene()
+{
+	if (state == SceneState::GAME && beginGameMus)
+	{
+		App->audio->PlayFx(enterGameSFX, 0);
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+		begin = true;
+		beginGameMus = false;
+
+	}
+
+	if (state == SceneState::STARTMENU && begin)
+	{
+
+		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
+		begin = false;
+		beginGameMus = true;
+
+	}
 }

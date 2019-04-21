@@ -146,28 +146,19 @@ bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int
 	int scale = App->win->GetScale();
 
 	SDL_Rect r = { x*scale,y*scale,w*scale,h*scale };
-	SDL_Rect cam = { -camera->x,-camera->y,camera->w,camera->h };
+	SDL_Rect cam = { -camera->x,-camera->y,camera->w,camera->h};
 
 	return SDL_HasIntersection(&r, &cam);
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale,double angle, int pivot_x, int pivot_y, bool useWindowScale) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale,double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
 	SDL_Rect rect;
-	if (useWindowScale)
-	{
-		rect.x = (int)(camera->x * speed) + x * scale;
-		rect.y = (int)(camera->y * speed) + y * scale;
-	}
-	else
-	{
-		rect.x = (int)(camera->x * speed) + x;
-		rect.y = (int)(camera->y * speed) + y;
-	}
-
+	rect.x = (int)(camera->x * speed) + x * scale;
+	rect.y = (int)(camera->y * speed) + y * scale;
 
 	if(section != NULL)
 	{
@@ -277,7 +268,7 @@ bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 	return ret;
 }
 
-bool j1Render::DrawIsoQuad(SDL_Rect rect) const
+bool j1Render::DrawIsoQuad(SDL_Rect rect, SDL_Color color) const
 {
 	bool ret = true;
 
@@ -298,10 +289,10 @@ bool j1Render::DrawIsoQuad(SDL_Rect rect) const
 	p4.y += rect.y;
 	
 	//Draw the quad
- 	App->render->DrawLine(p1.x, p1.y, p2.x, p2.y, 255, 0, 0, 255, true);
-	App->render->DrawLine(p2.x, p2.y, p3.x, p3.y, 255, 0, 0, 255, true);
-	App->render->DrawLine(p3.x, p3.y, p4.x, p4.y, 255, 0, 0, 255, true);
-	App->render->DrawLine(p4.x, p4.y, p1.x, p1.y, 255, 0, 0, 255, true);
+ 	App->render->DrawLine(p1.x, p1.y, p2.x, p2.y, color.r, color.g, color.b, color.a, true);
+	App->render->DrawLine(p2.x, p2.y, p3.x, p3.y, color.r, color.g, color.b, color.a, true);
+	App->render->DrawLine(p3.x, p3.y, p4.x, p4.y, color.r, color.g, color.b, color.a, true);
+ 	App->render->DrawLine(p4.x, p4.y, p1.x, p1.y, color.r, color.g, color.b, color.a, true);
 	
 
 	return ret;

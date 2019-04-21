@@ -4,26 +4,39 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
-#include "j1Scene.h"
-
+#include <ctime>
 #include <random>
 
-Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, ENTITY_TYPE entityType, const char* name) 
- 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), j1Entity(entityType, position.x, position.y, "ENEMY_TEST")
+Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name) 
+ 	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
-	currentAnimation = &idle[(int)facingDirectionEnemy::S];
-	this->attackSpeed = 1.f / attackSpeed;
+	debugSubtile = App->entityFactory->debugsubtileTex;
 
-	// already create my life bar here
+	// Intial orientation random
+	pointingDir = 1 + std::rand() % 8;
+	currentAnimation = &idle[pointingDir]; 
+	CheckRenderFlip();
 
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel); 
+	this->attackPerS = 1.F / attackSpeed;
+	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
 }
 
 Enemy::~Enemy()
 {
-	// TODO: Loot spawn in all enemies? 
-	App->attackManager->DestroyAllMyCurrentAttacks(this);
-	LOG("parent enemy bye");
+// TODO: Loot spawn in all enemies? 
+App->attackManager->DestroyAllMyCurrentAttacks(this);
+
+if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+{
+
+	if (lifeBar != nullptr)
+	{
+		lifeBar->deliever = nullptr;
+		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+		lifeBar->to_delete = true;
+	}
+}
+LOG("parent enemy bye");
 }
 
 bool Enemy::SearchNewPath()
@@ -180,6 +193,7 @@ int Enemy::GetRandomValue(const int& min, const int& max) const
 
 bool Enemy::isInDetectionRange() const
 {
+	
 	iPoint playerPos = App->entityFactory->player->GetTilePos(); 
 	return (GetTilePos().DistanceManhattan(playerPos) < detectionRange);
 }
@@ -292,6 +306,12 @@ void Enemy::DebugPath() const
 	iPoint subTilePos = GetSubtilePos();
 	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
+
+	// Real subtile? 
+	//App->render->Blit(debugSubtile, subTilePos.x - 16, subTilePos.y - 8, NULL);
+
+	/*App->render->DrawQuad({ subTilePos.x, subTilePos.y, 5,5 }, 255, 255, 0, 255, true);
+	App->render->DrawIsoQuad({ subTilePos.x, subTilePos.y, 16, 16});*/
 }
 
 

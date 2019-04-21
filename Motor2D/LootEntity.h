@@ -7,7 +7,6 @@
 #include "PlayerEntity.h"
 #include "j1PerfTimer.h"
 #include <random>
-#include "PlayerEntityManager.h"
 
 //#include "pcg_random.hpp"
 #include "j1Scene.h"
@@ -43,7 +42,8 @@ enum class EQUIPABLE_TYPE
 	ROD,
 	ARMOR,
 	VEST,
-	MANTLE
+	MANTLE,
+	NO_EQUIPABLE
 
 };
 enum class EXPLOSION_DIRECTION
@@ -70,6 +70,7 @@ public:
 	void Draw();
 	iPoint GetPosition();
 	int GetRandomValue(int min, int max);
+	//void GetAttributesForDescription(); 
 
 	float EaseOutBack(float t);
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
@@ -80,9 +81,6 @@ public:
 
 	void DecideExplosion();
 	void ExplosionMaker(float dt);
-
-	void CheckClampedCrossHairToSpawnDescription(); 
-
 public:
 
 	uint level;
@@ -92,7 +90,7 @@ public:
 	iPoint lootSubtile;
 	iPoint loot_pos;
 	std::string lootname;
-	PlayerEntity* player;
+
 	SDL_Rect loot_rect;
 	//SDL_Texture* goldTex;
 
@@ -103,6 +101,7 @@ public:
 	ELEMENTAL_TYPE elemetalType;
 
 	j1Entity* character = nullptr;
+	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
 
 	// - - - - - - - LootEntity stats in XML - - - - - - - // 
 	std::string name; 
@@ -110,7 +109,8 @@ public:
 
 	// - - - - - - - The attached description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
-	bool spawnedDescription = false; 
+	bool spawnedDescription = false;
+	void CheckClampedCrossHairToSpawnDescription();
 
 protected:
 
@@ -122,6 +122,8 @@ protected:
 	float initialPosY;
 	fPoint goalPos;
 	bool start;
+	bool grounded;
+	bool checkgrounded;
 protected:
 	iPoint originPos;
 	float timeTest;
@@ -132,7 +134,6 @@ protected:
 	float decrementY;
 	float decrementX;
 	j1PerfTimer displacementTime;
-	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
 	std::random_device rd;

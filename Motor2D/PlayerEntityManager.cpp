@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "UiItem.h"
 #include "UiItem_Label.h"
+
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = new Marche(position.x,position.y);
@@ -28,15 +29,13 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 
-	debug = true;
+	debug = false;
 	
 }
 
 PlayerEntityManager::~PlayerEntityManager()
 {
-	delete marche;
-	delete ritz;
-	delete shara;
+	
 	delete crossHair;
 
 	// TODO: free characters vector
@@ -58,7 +57,10 @@ bool PlayerEntityManager::Start()
 	pivot = selectedCharacterEntity->pivot;
 
 
-
+	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
+	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
+	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
 	return true;
 }
 
@@ -91,6 +93,7 @@ bool PlayerEntityManager::Update(float dt)
 		{
 			if (CollectLoot((LootEntity*)(*item)))
 			{
+				
 				App->entityFactory->DeleteEntityFromSubtile(*item);
 				item = App->entityFactory->entities.erase(item);
 				break;
@@ -142,9 +145,16 @@ bool PlayerEntityManager::PostUpdate()
 
 bool PlayerEntityManager::CleanUp()
 {
-	/*delete marche;
-	delete ritz;
-	delete shara;*/
+	std::vector<PlayerEntity*>::iterator charIter = characters.begin();
+	for (; charIter != characters.end(); ++charIter)
+	{
+		(*charIter)->CleanUp();
+		delete (*charIter);
+		(*charIter) = nullptr;
+
+	}
+	characters.clear();
+
 	std::vector<LootEntity*>::iterator iter = bagObjects.begin();
 	for (; iter != bagObjects.end(); ++iter)
 	{
@@ -156,12 +166,18 @@ bool PlayerEntityManager::CleanUp()
 	std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
 	for (; iter2 != equipedObjects.end(); ++iter2)
 	{
-		
 		delete *iter2;
 		*iter2 = nullptr;
 	}
 	equipedObjects.clear();
 
+	std::vector<LootEntity*>::iterator iter3 = consumables.begin();
+	for (; iter3 != consumables.end(); ++iter3)
+	{
+		delete *iter3;
+		*iter3 = nullptr;
+	}
+	consumables.clear();
 	return true;
 }
 
@@ -171,15 +187,17 @@ bool PlayerEntityManager::SwapInputChecker()
 	bool ret = true;
 
 	// checks gamepad and swaps character
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+	if (selectedCharacterEntity->inputReady)
 	{
-		SetPreviousCharacter();
-	}
+		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+		{
+			SetPreviousCharacter();
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
-	{
-		SetNextCharacter();
+		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+		{
+			SetNextCharacter();
+		}
 	}
 
 	return ret;
@@ -221,6 +239,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot();
+			App->audio->PlayFx(App->entityFactory->swapChar, 0);
 			break;
 		}
 	}
@@ -260,7 +279,8 @@ void PlayerEntityManager::SetNextCharacter()
 			// sets current animation
 			SetCurrentAnimation();
 			// updates pivot
-			UpdatePivot();
+			UpdatePivot(); 
+			App->audio->PlayFx(App->entityFactory->swapChar, 0);
 			break;
 		}
 	}
@@ -314,6 +334,16 @@ iPoint PlayerEntityManager::GetCrossHairSubtile()
 	return ret;
 }
 
+iPoint PlayerEntityManager::GetCrossHairPivotPos()
+{
+	iPoint ret = { 0,0 };
+	if (crossHair != nullptr)
+	{
+		ret = crossHair->GetPivotPos();
+	}
+	return ret;
+}
+
 const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 {
 	return lastCharHeadingAngle;
@@ -321,10 +351,10 @@ const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 
 bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshair)
 {
-	bool ret = true; 
-
+	bool ret = true;
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
+		App->audio->PlayFx(pickLoot, 0);
 		// when a loot item is collected, the description should be hiden
 		
 		
@@ -370,26 +400,26 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	}
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
-		if (!fromCrosshair)                                             // consumables focused by crosshair cannot be picked
+		if (!fromCrosshair)
 		{
 			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
+			{
+				App->audio->PlayFx(pickPotion, 0);
 				consumables.push_back(entityLoot);
+			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 			{
+				App->audio->PlayFx(pickGold, 0);
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
-				str_coin = "x " + std::to_string(gold);
+				str_coin = "x  " + std::to_string(gold);
 				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+				App->tex->UnLoad(entityLoot->entityTex);
 				return false;
 			}
 		}
-		else
-		{
-			ret = false; 
-		}
-		
-
+		else ret = false;
 	}
 	return ret;
 }
@@ -447,6 +477,8 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 	{
 		if (consumable == *item)
 		{
+			if (consumable->objectType == OBJECT_TYPE::POTIONS)
+				App->audio->PlayFx(consumHealPotion, 0);
 			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 			{
 				App->buff->CreateHealth((*iter)->GetCharacter(), (*iter)->GetValue(), 8);
@@ -586,7 +618,7 @@ bool Crosshair::ManageInput(float dt)
 			//LOG("DONT SEARCH");
 	}
 	else
-	{
+	{	//TODO: UNCLAMP when player pull the crosshair out a target
 		if (clampedEntity != nullptr && !clampedEntity->to_delete) // for if the entity is killed protection
 		{
 			position = clampedEntity->GetPivotPos();
@@ -770,8 +802,6 @@ bool Crosshair::CleanUp()
 //{
 //	return MAX(lower, MIN(n, upper));
 //}
-
-
 j1Entity* Crosshair::GetClampedEntity() const
 {
 	j1Entity* ret = nullptr;
@@ -780,19 +810,19 @@ j1Entity* Crosshair::GetClampedEntity() const
 
 	while (entitiesItem != App->entityFactory->entities.end())
 	{
-	     
+
 		if (!(*entitiesItem)->to_delete)
 		{
 			if ((*entitiesItem) == clampedEntity)
 			{
 
-				ret = (*entitiesItem); 
+				ret = (*entitiesItem);
 
 			}
-				
+
 		}
 		++entitiesItem;
 	}
 
-	return ret; 
+	return ret;
 }

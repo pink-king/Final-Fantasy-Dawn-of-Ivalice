@@ -29,12 +29,12 @@ struct labelInfo
 
 
 
-/*// - - - - - - - the following two methods are only meant for loading the xml data - - - - - - - 
+/*// - - - - - - - the following two methods are only meant for loading the xml data - - - - - - -
 struct coolDownClockData
 {
-	iPoint position; 
-	SDL_Rect section; 
-	std::string type; 
+	iPoint position;
+	SDL_Rect section;
+	std::string type;
 };
 
 struct theClocks
@@ -44,10 +44,10 @@ struct theClocks
 
 };
 
-// - - - - - - - the following two methods are meant for checking created clocks according to type and player - - - - - - - 
+// - - - - - - - the following two methods are meant for checking created clocks according to type and player - - - - - - -
 
 struct createdClocks {
-	bool special1 = false; 
+	bool special1 = false;
 	bool special2 = false;
 	bool ulti = false;
 	bool potion = false;
@@ -55,22 +55,22 @@ struct createdClocks {
 
 
 struct clockOwners {
-	createdClocks Marche, Ritz, Shara; 
+	createdClocks Marche, Ritz, Shara;
 };
 
-// - - - - - - - - - - - - - this method is meant to contain all clocks for a single player - - - - - - - - - - - - // 
+// - - - - - - - - - - - - - this method is meant to contain all clocks for a single player - - - - - - - - - - - - //
 
 
 
 struct myClocks {
-	UiItem_CooldownClock* special1 = nullptr; 
+	UiItem_CooldownClock* special1 = nullptr;
 	UiItem_CooldownClock* special2 = nullptr;
 	UiItem_CooldownClock* ulti = nullptr;
 	UiItem_CooldownClock* potion = nullptr;
 };*/
 
 struct theClocks;
-struct clockOwners; 
+struct clockOwners;
 
 class j1Gui : public j1Module
 {
@@ -88,35 +88,35 @@ public:
 
 	bool PostUpdate();
 	bool CleanUp();
-	void destroyElement(UiItem*); 
+	void destroyElement(UiItem*);
 	// TODO: add destroy element, IMPORTANT!! ---> hitpoint labels are destroyed in hitpoint label manager
 
 	std::list<UiItem*>	ListItemUI;
 	UiItem* canvas = nullptr;
-	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent);
-	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel = false);
-	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent); // , TypeBar type = VERTICAL);
-	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
-	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent = nullptr);
-	UiItem_Checkbox* AddCheckbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
+	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent);
+	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool isPanel = false);
+	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem* const parent); // , TypeBar type = VERTICAL);
+	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr);
+	UiItem* AddEmptyElement(iPoint pos, UiItem* const parent = nullptr);
+	UiItem_Checkbox* AddCheckbox(iPoint position, std::string& function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent = nullptr);
 
 	// TODO: AddHitPoint();
-	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
-	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);
+	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
+	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
 
 
-	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent = nullptr);
-	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem*const parent = nullptr);
+	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
+	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem* const parent = nullptr);
 
-	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent = nullptr);
+	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem* const parent = nullptr);
 
 
-	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem*const parent = nullptr);
-	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem*const parent = nullptr);
-	UiItem_Description* AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect,  std::string effect, iPoint HPandTime, LootEntity* callback, UiItem*const parent = nullptr);
+	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent = nullptr);
+	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent = nullptr);
+	UiItem_Description* AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent = nullptr);
 
-	
-	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem *const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
+
+	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	UiItem_Inventory* AddInventory(UiItem* const parent);
 
 	SDL_Texture* GetAtlas();
@@ -129,21 +129,22 @@ public:
 	void GoBackToStartMenu();
 
 	UiItem_HealthBar* healthBar = nullptr;
-	SDL_Texture * lootTexture;
+	SDL_Texture* lootTexture;
 private:
-	SDL_Texture * atlas;
+	SDL_Texture* atlas;
 
 	std::string atlas_file_name;
 	bool debug_ = false;
-public: 
+public:
 	UiItem* selected_object = nullptr;
 
 public:
 	bool resetHoverSwapping = false;
-	theClocks allclocksData; 
+	theClocks allclocksData;
 	clockOwners spawnedClocks;
-
-	enemyHealthBarInfo enemyLifeBarInfo; 
+	unsigned int selectUI;
+	unsigned int acceptUI;
+	enemyHealthBarInfo enemyLifeBarInfo;
 };
 
 
@@ -152,3 +153,4 @@ public:
 
 
 #endif
+

@@ -28,7 +28,7 @@ public:
 	int chance;
 	
 	
-	float originTest;
+	
 	bool isUsed = false;
 
 

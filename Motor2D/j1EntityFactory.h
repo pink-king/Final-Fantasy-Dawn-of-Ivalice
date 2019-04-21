@@ -7,6 +7,21 @@
 #include "PlayerEntityManager.h"
 #include <vector>
 
+#include "j1Map.h"
+#include "ConsumableLoot.h"
+#include "EquipableLoot.h"
+
+#include "Projectile.h"
+struct GroupInfo {
+	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies)
+		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies) {}
+
+	std::vector<EnemyType> types;
+	SDL_Rect zone = { 0, 0, 0, 0 };
+	uint minEnemies;
+	uint maxEnemies;
+};
+
 enum class EnvironmentAssetsTypes
 {
 	NO_TYPE,
@@ -16,9 +31,6 @@ enum class EnvironmentAssetsTypes
 	MAX
 };
 
-#include "j1Map.h"
-#include "ConsumableLoot.h"
-#include "EquipableLoot.h"
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
@@ -45,8 +57,14 @@ public:
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
-	Enemy* CreateEnemy(EnemyType etype, iPoint pos, uint speed, uint tilesDetectionRange, uint attackRange, uint baseDamage, float attackSpeed);
-	void CreateEnemiesGroup(EnemyType etype1, EnemyType etype2, SDL_Rect zone, uint minNum, uint maxNum, uint minDmg, uint maxDmg);
+	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
+	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
+	void LoadSpawnGroups();
+	
+	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime = 0);
+
+	LootEntity* CreateLoot( int posX, int posY);
+	LootEntity* CreateGold(int posX, int posY);
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
 
@@ -93,7 +111,52 @@ public:
 	PlayerEntityManager*	player = nullptr;
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
+	// TO DO Atlas of enemies
+	SDL_Texture*			enemyZombieTex = nullptr; 
+	SDL_Texture*			enemyBombTex = nullptr; 
+	SDL_Texture*			debugsubtileTex = nullptr; 
+	SDL_Texture*			arrowsTexture = nullptr; 
+	SDL_Texture*			ritzUltimateTex = nullptr; 
+	SDL_Texture*			ritzBasicTex = nullptr; 
+	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
+	bool justGold;
+
+	//----SFX-----//
+	unsigned int lootGroundSFX;
+	unsigned int potionGroundSFX;
+	unsigned int coinGroundedSFX;
+	unsigned int swapChar;
+	unsigned int stepSFX;
+	unsigned int enemySpawn;
+	unsigned int goblinDetection;
+	unsigned int marcheDamaged;
+	unsigned int marcheBasic;
+	unsigned int RitzDamaged;
+	unsigned int RitzBasic;
+	unsigned int RitzBasicHit;
+	unsigned int RitzAbility2;
+	unsigned int RitzAbility1;
+	unsigned int RitzUltimate;
+	unsigned int sharaBasic;
+	unsigned int basicBodyImp;
+	unsigned int basicWallImp;
+	unsigned int strech_Shoot;
+	unsigned int emitter_explodeFire;
+	unsigned int SharaUltimateWoosh;
+	unsigned int SharaDamaged;
+	unsigned int goblinDamaged;
+	unsigned int goblinDeath;
+	unsigned int goblinAttack;
+	unsigned int goblinLaugh;
+	unsigned int marcheUltimateScream;
+	unsigned int marcheAbility1;
+	unsigned int marcheAbility2; //tornado
+	unsigned int dash;
+	unsigned int sharaAbility1;
+	unsigned int sharaAbility2_shoot;
+	unsigned int sharaAbility2_ImpactsWall;
+	unsigned int BombDeathSFX;
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile
@@ -105,8 +168,7 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
-	bool toDrop = false;
-	int lootChance = 25;
+	int lootChance = 15;
 
 };
 
