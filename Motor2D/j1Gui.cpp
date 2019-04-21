@@ -143,7 +143,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				{
 					item_pos.x = (*item)->hitBox.x;
 					item_pos.y = (*item)->hitBox.y;
-				                                           // solve merge
+					selected_object->state = IDLE;
+					selected_object->tabbed = false;                          // solve merge
 					selected_object = (*item);
 
 
