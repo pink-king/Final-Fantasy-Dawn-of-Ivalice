@@ -86,9 +86,8 @@
 
       <healthbars>
         <healthbar name="life_bar">
-          <staticSection x="118" y="398" w="134" h="26"/>
-          <dynamicSection x="118" y="430" w="132" h="24"/>
-          <damageSection x="32" y="595" w="115" h="26"/>
+          <dynamicSection x="0" y="432" w="153" h="31"/>
+          <damageSection x="28" y="414" w="126" h="16"/>
           <position x="32" y="133"/>
           <type value="player"/>
         </healthbar>
@@ -355,17 +354,17 @@
       <panelBars>
 
         <panelBar name="volumeSlider">
-          <section_bar x="1102" y="618" w="165" h="43"/>
+          <section_bar x="1101" y="610" w="175" h="34"/>
           <position x="588" y="267"/>
-          <section_thumb x="1115" y="558" w="29" h="38"/>
+          <section_thumb x="1150" y="558" w="42" h="42"/>
           <image_idle x="470" y="481" w="55" h="53"/>
           <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
-          <section_bar x="1102" y="618" w="165" h="43"/>
+          <section_bar x="1101" y="610" w="175" h="34"/>
           <position x="588" y="364"/>
-          <section_thumb x="1115" y="558" w="29" h="38"/>
+         <section_thumb x="1150" y="558" w="42" h="42"/>
           <image_idle x="504" y="722" w="58" h="59"/>
           <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>

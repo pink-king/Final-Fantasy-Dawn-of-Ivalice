@@ -592,9 +592,8 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		if (variant == "player")
 		{
-			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
-			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
+			App->gui->healthBar = App->gui->AddHealthBar(position, &dynamicSection, &damageSection, type::player, inGamePanel);
 		}
 		else if (variant == "enemy")
 		{

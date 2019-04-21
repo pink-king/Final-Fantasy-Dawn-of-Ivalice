@@ -7,19 +7,17 @@
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
 
-UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent) : UiItem(position, parent)
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
-	iPoint staticPos = position;
-	staticImage = App->gui->AddImage(staticPos, staticSection, this);
 
-	iPoint newPos(staticPos.x + (staticSection->w - dynamicSection->w) / 2, staticPos.y + (staticSection->h - dynamicSection->h) / 2);
 
-	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
 
-	damageImage = App->gui->AddImage(newPos + iPoint(8, 0), damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	dynamicImage = App->gui->AddImage(position, dynamicSection, this);
+
+	damageImage = App->gui->AddImage(position + playerBarOffset, damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 	damageImage->hide = true;
 
 	maxSection = dynamicImage->section.w;
@@ -154,7 +152,7 @@ void UiItem_HealthBar::DamageLogic()
 
 	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
 
-	iPoint destinationRectPos = iPoint(dynamicImage->hitBox.x + dynamicImage->section.w, dynamicImage->hitBox.y);
+	iPoint destinationRectPos = iPoint(dynamicImage->hitBox.x + dynamicImage->section.w, dynamicImage->hitBox.y + playerBarOffset.y);
 
 	damageImage->hide = false;
 

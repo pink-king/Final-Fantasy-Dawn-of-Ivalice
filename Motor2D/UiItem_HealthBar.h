@@ -30,7 +30,7 @@ class UiItem_HealthBar : public UiItem
 {
 
 public:
-	UiItem_HealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent);
+	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent);
 	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem*const parent, j1Entity* deliever);
 
 	void Draw(const float& dt);
@@ -41,7 +41,6 @@ public:
 
 
 public:
-	UiItem_Image * staticImage = nullptr;
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
 
@@ -58,7 +57,11 @@ private:
 
 	iPoint offsetFromEnemy; 
 	uint enemyMaxLife; 
-	bool startShowing = false; 
+	bool startShowing = false;
+
+
+	iPoint playerBarOffset = { 28,11 };
+
 public:
 	damageInfo damageInform;
 	j1Entity* deliever = nullptr; 
