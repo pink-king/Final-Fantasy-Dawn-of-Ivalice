@@ -667,13 +667,21 @@ bool Ritz::Update(float dt)
 			App->audio->PlayFx(App->entityFactory->RitzUltimate, 0);
 
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
+			coolDownData.ultimate.timer.Start();
 
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
-			App->camera2D->AddTrauma(70.0f / 100.f);
-			App->input->DoGamePadRumble(0.7f, 400);*/
-			
+
+			if (!App->gui->spawnedClocks.Ritz.ulti)
+			{
+
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Ritz", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Ritz.ulti = true;
+			}
+			else
+			{
+				myUIClocks.ulti->Restart();
+			}
 
 
 
