@@ -179,10 +179,11 @@ bool j1EntityFactory::Update(float dt)
 			}
 			if (createLoot)
 			{
-				CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
-				justGold = true;
-				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
-				
+				//CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				//justGold = true;
+				//CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
+
 
 			}
 			
@@ -274,7 +275,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		/*ret = CreateLootType(positionX, positionY);
+		ret = CreateLootType(positionX, positionY);
 		if (ret != nullptr)
 		{
 			ret->type = LOOT;
@@ -282,7 +283,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 			LoadLootData((LootEntity*)ret, App->config);
 
 			entities.push_back(ret);
-		}*/
+		}
 
 			//GenerateDescriptionForLootItem((LootEntity*)ret);
 		
@@ -1323,27 +1324,27 @@ int j1EntityFactory::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-//j1Entity * j1EntityFactory::CreateLootType(int x, int y)
-//{
-//	j1Entity * ret = nullptr;
-//
-//	switch (WillDrop())
-//	{
-//	case LOOT_TYPE::CONSUMABLE:
-//
-//		ret = new Consumable(x, y);
-//		break;
-//
-//	case LOOT_TYPE::EQUIPABLE:
-//		ret = new Equipable(x, y);
-//		break;
-//
-//	default:
-//		break;
-//	}
-//
-//	return ret;
-//}
+j1Entity * j1EntityFactory::CreateLootType(int x, int y)
+{
+	j1Entity * ret = nullptr;
+
+	switch (WillDrop())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+
+		ret = new Consumable(x, y);
+		break;
+
+	case LOOT_TYPE::EQUIPABLE:
+		ret = new Equipable(x, y);
+		break;
+
+	default:
+		break;
+	}
+
+	return ret;
+}
 
 LOOT_TYPE j1EntityFactory::WillDrop()
 {
