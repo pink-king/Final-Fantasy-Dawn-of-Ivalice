@@ -6,6 +6,7 @@
 #include "j1Audio.h"
 #include "j1EntityFactory.h"
 #include "Brofiler/Brofiler.h"
+#include "j1Window.h"
 //#include "SDL/include/SDL_timer.h"
 
 #define MARGIN 20
@@ -50,7 +51,7 @@ bool j1ParticlesClassic::Start()
 
 	// TODO: LOAD FROM XML ----------------------
 
-	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
+	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles2.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
@@ -241,29 +242,49 @@ bool j1ParticlesClassic::Start()
 	ice03.anim.speed = 10.F;
 	ice03.texture = particleAtlas2;
 
-	poison01.anim.PushBack({ 0, 253, 16, 16 });
+	/*poison01.anim.PushBack({ 0, 253, 16, 16 });
 	poison01.anim.PushBack({ 16, 253, 16, 16 });
 	poison01.anim.PushBack({ 32, 253, 16, 16 });
 	poison01.anim.PushBack({ 48, 253, 16, 16 });
 	poison01.anim.loop = false;
 	poison01.anim.speed = 35.F;
+	poison01.texture = particleAtlas2;*/
+
+	poison01.anim.PushBack({ 140, 48, 16, 16 });
+	poison01.anim.PushBack({ 156, 48, 16, 16 });
+	poison01.anim.PushBack({ 172, 48, 16, 16 });
+	poison01.anim.PushBack({ 188, 48, 16, 16 });
+	poison01.anim.loop = false;
+	poison01.anim.speed = 35.F;
 	poison01.texture = particleAtlas2;
 
-	poison02.anim.PushBack({ 0, 269, 16, 16 });
-	poison02.anim.PushBack({ 16, 269, 16, 16 });
-	poison02.anim.PushBack({ 32, 269, 16, 16 });
-	poison02.anim.PushBack({ 48, 269, 16, 16 });
+	poison02.anim.PushBack({ 140, 64, 16, 16 });
+	poison02.anim.PushBack({ 156, 64, 16, 16 });
+	poison02.anim.PushBack({ 172, 64, 16, 16 });
+	poison02.anim.PushBack({ 188, 64, 16, 16 });
 	poison02.anim.loop = false;
 	poison02.anim.speed = 35.F;
 	poison02.texture = particleAtlas2;
 
+	stone01.anim.PushBack({ 0, 240, 16, 48 });
+	stone01.anim.PushBack({ 16, 240, 16, 48 });
+	stone01.anim.PushBack({ 32, 240, 16, 48 });
+	stone01.anim.PushBack({ 48, 240, 16, 48 });
+	stone01.anim.PushBack({ 64, 240, 16, 48 });
+	stone01.anim.PushBack({ 80, 240, 16, 48 });
+	stone01.anim.PushBack({ 96, 240, 16, 48 });
+	stone01.anim.PushBack({ 112, 240, 16, 48 });
+	stone01.anim.loop = false;
+	stone01.anim.speed = 35.F;
+	stone01.texture = particleAtlas2;
+
 	arrowTrail.anim.PushBack({ 0, 0, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 0, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 0, 71, 30 });
-	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
+	arrowTrail.anim.PushBack({ 0, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
-	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
+	arrowTrail.anim.PushBack({ 0, 60, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 60, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
 	arrowTrail.anim.loop = false;
@@ -362,6 +383,9 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
 		/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
+		AddParticle(stone01, p.x, p.y);
+		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
+		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);
 	}
 
 	return ret;
@@ -387,7 +411,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 		}
 		else if (SDL_GetTicks() >= (*p)->born)
 		{
-			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * 2, (*p)->pivot.y * 2);
+			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * App->win->GetScale(), (*p)->pivot.y * App->win->GetScale());
 			if ((*p)->fx_played == false && (*p)->fx != 0)
 			{
 				(*p)->fx_played = true;

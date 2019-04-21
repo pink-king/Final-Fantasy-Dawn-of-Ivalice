@@ -29,6 +29,7 @@ FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity 
 	SetPivot(32, 8);
 	size.create(64, 16);
 
+	timer.Start(); 
 	// Important for aiming offset
 	SetInitially();
 }
@@ -73,6 +74,7 @@ bool FireArrow::Update(float dt)
 {
 	if (!to_explode) {
 		Move(dt);
+		SpawnTrail();
 	}
 	else Explode(); 
 	
@@ -102,7 +104,7 @@ void FireArrow::Explode()
 {
 	// Add FX
 	// TODO Add fire dmg
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
+	App->attackManager->AddPropagationAttack(owner, GetPreviousSubtilePos(), propagationType::BFS,
 		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 45, 1, 50, true);
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 20, 7, 80, true);
@@ -120,6 +122,28 @@ void FireArrow::Explode()
 	App->camera2D->AddTrauma(0.5F);
 	App->input->DoGamePadRumble(0.5F, 200);
 	to_delete = true; 
+}
+
+void FireArrow::SpawnTrail()
+{
+	if (lastPos.DistanceManhattan(GetPivotPos()) > 35 && timer.Read() > 120)
+	{
+		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x , GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
+
+		fPoint paralel = { 0,0 };
+		paralel.x = -direction.y;
+		paralel.y = direction.x;
+		fPoint newPos = { 0,0 };
+		newPos.x = GetPivotPos().x + paralel.x * 20;
+		newPos.y = GetPivotPos().y + paralel.y * 20;
+		App->particles->AddParticle(App->particles->arrowTrail, newPos.x, newPos.y, { 0,0 }, 450, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
+		newPos.x = GetPivotPos().x - paralel.x * 20;
+		newPos.y = GetPivotPos().y - paralel.y * 20;
+		App->particles->AddParticle(App->particles->arrowTrail, newPos.x, newPos.y, { 0,0 }, 450, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
+
+		//timer.Start();
+		lastPos = GetPivotPos();
+	}
 }
 
 
