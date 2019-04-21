@@ -313,22 +313,22 @@
       </images>
       <buttons>
         <button name="button_ingame" function = "FadeToScene">
-          <idleSec x="305" y="572" w="81" h="37"/>
-          <hoverSec x="387" y="572" w="83" h="39" />
-          <clickSec x="471" y="572" w="83" h="39" />
+          <idleSec x="856" y="2252" w="216" h="67"/>
+          <hoverSec x="856" y="2320" w="216" h="67" />
+          <clickSec x="856" y="2388" w="216" h="67" />
           <position x="101" y="360"/>
         </button>
         <button name="button_settings" function = "SettingsScreen">
-          <idleSec x="585" y="613" w="114" h="31"/>
-          <hoverSec x="570" y="511" w="112" h="32" />
-          <clickSec x="585" y="645" w="112" h="32" />
-          <position x="101" y="430"/>
+          <idleSec x="1073" y="2252" w="216" h="67"/>
+          <hoverSec x="1073" y="2320" w="216" h="67" />
+          <clickSec x="1073" y="2388" w="216" h="67" />
+          <position x="101" y="460"/>
         </button>
         <button name="button_exit" function = "ExitGame">
-          <idleSec x="305" y="614" w="138" h="32"/>
-          <hoverSec x="445" y="613" w="140" h="33" />
-          <clickSec x="555" y="572" w="140" h="33" />
-          <position x="101" y="500"/>
+        <idleSec x="856" y="2456" w="216" h="67"/>
+          <hoverSec x="856" y="2524" w="216" h="67" />
+          <clickSec x="856" y="2592" w="216" h="67" />
+          <position x="101" y="560"/>
         </button>
 
       </buttons>
