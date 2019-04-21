@@ -12,12 +12,12 @@
 class UiItem_Image;
 class UiItem_Label; 
 
-enum EquipmentStatType
+struct EquipmentStatType
 {
-	HP,
-	HIT_SEC,
-	COOLDOWN,
-	ATT,
+	int HP = 666; 
+	bool spawnedHP = false; 
+	int velocity = 666; 
+	bool spawnedVecloty = false; 
 };
 
 enum descriptionType
@@ -85,12 +85,17 @@ public:
 	
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 
-	UiItem_Label* resistanceLabel = nullptr;
+	UiItem_Label* resistanceLabel = nullptr;  // also for armor
 
 	comparisonLabel damageComparisonLabel; 
-	comparisonLabel resistanceComparisonLabel;  // this one will be used in armors too for defense
+	comparisonLabel resistanceComparisonLabel;  // also for armor
 	// for potions 
 	UiItem_Label* effectLabel = nullptr; 
+
+	// for armors
+
+	UiItem_Label* HPLabel = nullptr; 
+	UiItem_Label* VelocityLabel = nullptr;
 
 	bool hide = false; 
 	bool spawnedInventoryImage = false; 

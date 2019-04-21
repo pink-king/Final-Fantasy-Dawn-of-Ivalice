@@ -19,12 +19,117 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->descrType = descriptionType::EQUIPMENT; 
 	this->parent = parent; 
 
-	// TODO
+	this->guiType = GUI_TYPES::DESCRIPTION;
+
+	// common 
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton->useCamera = false;
+
+	if (itemName.empty())
+	{
+		itemName = "Item has no name";
+	}
+
+	name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name->useCamera = false;
+
+
+	std::string lvlString("LVL ");
+	lvlString.append(std::to_string((int)level));
+	this->level = App->gui->AddLabel(lvlString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+
+	this->level->useCamera = false;
+
+	// - - - - - - - - - - - - - - - - - - 
+
+
+	std::string resString("DEF: ");
+	resString.append(std::to_string((int)Value));
+	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+
+	resistanceLabel->useCamera = false;
+
 
 	// the icon image is created after creating description in loot spawning
 
 
-	// add only resistance comparison label
+	// attached character name
+	std::string characterString;
+
+
+	if (callback->equipableType == EQUIPABLE_TYPE::SWORD)
+	{
+		characterString = "Marche";
+
+		damageComparisonLabel.character = "Marche";
+		damageComparisonLabel.type = "sword";
+
+		resistanceComparisonLabel.character = "Marche";
+		resistanceComparisonLabel.type = "sword";
+
+	}
+	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
+	{
+		characterString = "Ritz";
+
+		damageComparisonLabel.character = "Ritz";
+		damageComparisonLabel.type = "rod";
+
+		resistanceComparisonLabel.character = "Ritz";
+		resistanceComparisonLabel.type = "rod";
+	}
+	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
+	{
+		characterString = "Shara";
+
+		damageComparisonLabel.character = "Shara";
+		damageComparisonLabel.type = "bow";
+
+		resistanceComparisonLabel.character = "Shara";
+		resistanceComparisonLabel.type = "bow";
+	}
+
+	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	attachedCharacter->useCamera = false;
+
+
+	// the label with the "+6" etc
+
+	resistanceComparisonLabel.text = " ";
+	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceComparisonLabel.label->useCamera = false;
+
+
+
+
+	// hp, velocity or both depending on type; 
+
+	this->equipmentLootInfo = variableType; 
+
+
+
+	if (this->equipmentLootInfo.HP != 666)
+	{
+		std::string HPString("HP: ");
+		HPString.append(std::to_string((int)variableType.HP));
+
+
+		this->HPLabel = App->gui->AddLabel(HPString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->HPLabel->useCamera = false;
+
+		this->equipmentLootInfo.spawnedHP = true; 
+	}
+	if (this->equipmentLootInfo.velocity != 666)
+	{
+		std::string VelocityString("VEL: ");
+		VelocityString.append(std::to_string((int)variableType.velocity));
+
+		this->VelocityLabel = App->gui->AddLabel(VelocityString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->VelocityLabel->useCamera = false;
+
+		this->equipmentLootInfo.spawnedVecloty = true; 
+	}
+
 }
 
 
@@ -394,9 +499,21 @@ void UiItem_Description::SwitchCameraUsage()
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-		// this->level->useCamera = true;
-		//this->attachedCharacter->useCamera = true;
-		// this->resistanceComparisonLabel.label->useCamera = true;
+	      this->level->useCamera = true;
+		  this->attachedCharacter->useCamera = true;
+		  this->resistanceLabel->useCamera = true;
+		
+		  this->resistanceComparisonLabel.label->useCamera = true;   // ADD HP LABEL AND VELOCITY LABEL
+	      
+		   
+		  if (this->equipmentLootInfo.spawnedHP)
+		  {
+			  HPLabel->useCamera = true; 
+		  }
+		  if (this->equipmentLootInfo.spawnedVecloty)
+		  {
+			  this->VelocityLabel->useCamera = true; 
+		  }
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -433,9 +550,21 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-		//this->level->hide = hide;
-		// this->attachedCharacter->hide = hide;
-		// this->resistanceComparisonLabel.label->hide = hide;
+		 this->level->hide = hide;
+		this->attachedCharacter->hide = hide;
+		this->resistanceLabel->hide = hide;
+		
+	    this->resistanceComparisonLabel.label->hide = hide;   // ADD HP LABEL AND VELOCITY LABEL
+	
+		if (this->equipmentLootInfo.spawnedHP)
+		{
+			HPLabel->hide = hide;
+		}
+		if (this->equipmentLootInfo.spawnedVecloty)
+		{
+			this->VelocityLabel->hide = hide;
+		}
+
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -492,11 +621,33 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
-		/*this->level->hitBox.x = referencePanelPosition.x + 150;
-		this->level->hitBox.y = referencePanelPosition.y + 180;*/
+		this->resistanceLabel->hitBox.x = referencePanelPosition.x + 90;
+		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 70;
+		
+		this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;    // ADD HP LABEL AND VELOCITY LABEL
+		this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
 
-		/*this->resistanceComparisonLabel.label->hitBox.x = ;
-		this->resistanceComparisonLabel.label->hitBox.y = ;*/
+
+
+
+		if (this->equipmentLootInfo.spawnedHP && this->equipmentLootInfo.spawnedVecloty)
+		{
+			HPLabel->hitBox.x = referencePanelPosition.x + 90;
+			HPLabel->hitBox.y = referencePanelPosition.y + 100;
+
+			VelocityLabel->hitBox.x = referencePanelPosition.x + 90;
+			VelocityLabel->hitBox.y = referencePanelPosition.y + 130;
+		}
+		else if (this->equipmentLootInfo.spawnedHP && !this->equipmentLootInfo.spawnedVecloty)
+		{
+			HPLabel->hitBox.x = referencePanelPosition.x + 90;
+			HPLabel->hitBox.y = referencePanelPosition.y + 100;
+		}
+		else if (!this->equipmentLootInfo.spawnedHP && this->equipmentLootInfo.spawnedVecloty)
+		{
+			VelocityLabel->hitBox.x = referencePanelPosition.x + 90;
+			VelocityLabel->hitBox.y = referencePanelPosition.y + 100;
+		}
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -553,8 +704,20 @@ void UiItem_Description::DeleteEverything()
 	{
 		App->gui->destroyElement(this->level);
 		App->gui->destroyElement(this->attachedCharacter);
+		App->gui->destroyElement(this->resistanceLabel);
 
-		App->gui->destroyElement(this->resistanceComparisonLabel.label);
+		App->gui->destroyElement(this->resistanceComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+
+
+		if (this->equipmentLootInfo.spawnedHP)
+		{
+			App->gui->destroyElement(this->HPLabel); 
+		}
+
+		if (this->equipmentLootInfo.spawnedVecloty)
+		{
+			App->gui->destroyElement(this->VelocityLabel);
+		}
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
