@@ -375,22 +375,26 @@ bool Marche::Update(float dt)
 		break;
 
 	case combatState::ULTIMATE:
-	{
-		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
-		{
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
-			LOG("Launch ULTIMATE");
-			
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
-			App->camera2D->AddTrauma(70.0f / 100.f);
-			App->input->DoGamePadRumble(0.7f, 400);*/
+
+	
+
+				if (!App->gui->spawnedClocks.Marche.ulti)
+				{
+
+					myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->inGamePanel);
+
+					App->gui->spawnedClocks.Marche.ulti = true;
+				}
+				else
+				{
+					myUIClocks.ulti->Restart();
+				}
+		
+
 			UlitMarche();
 
 			coolDownData.ultimate.timer.Start();
-		
-		}
 		break;
-	}
 	case combatState::MAX:
 		break;
 	default:
