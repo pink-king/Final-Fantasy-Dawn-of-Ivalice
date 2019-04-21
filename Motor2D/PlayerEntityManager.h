@@ -29,7 +29,7 @@ public:
 public:
 	iPoint GetSubtilePoint();
 	iPoint GetPivotPos();
-
+	j1Entity* GetClampedEntity() const;
 private:
 	bool ManageInput(float dt);
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
@@ -86,7 +86,7 @@ public:
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
 	//loot funtions
-	bool CollectLoot(LootEntity* entityLoot);
+	bool CollectLoot(LootEntity* entityLoot, bool fromCrosshair = false);
 
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
@@ -106,6 +106,11 @@ public:
 
 	uint							gold = 0;
 	std::string						str_coin;
+
+	Crosshair* GetCrosshair()
+	{
+		return crossHair;
+	}
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;

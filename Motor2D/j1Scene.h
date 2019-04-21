@@ -8,6 +8,7 @@ struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
+class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
 
@@ -48,16 +49,19 @@ public:
 	bool CleanUp();
 
 public:
-	UiItem * inGamePanel = nullptr;
-	UiItem * uiMarche = nullptr;
-	UiItem * uiShara = nullptr;
-	UiItem * uiRitz = nullptr;
-	UiItem * startMenu = nullptr;
-	UiItem * settingPanel = nullptr;
-	UiItem * pausePanel = nullptr;
-	UiItem * inventory = nullptr;
-	UiItem_Label * coins_label = nullptr;
-	SDL_Rect * lootPanelRect = nullptr; 
+	UiItem* inGamePanel = nullptr;
+	UiItem* uiMarche = nullptr;
+	UiItem* uiShara = nullptr;
+	UiItem* uiRitz = nullptr;
+	UiItem* startMenu = nullptr;
+	UiItem* settingPanel = nullptr;
+	UiItem* pausePanel = nullptr;
+	UiItem* inventory = nullptr;
+	UiItem_Label* coins_label = nullptr;
+	UiItem_Image* tab_inventory = nullptr;
+	SDL_Rect lootPanelRect;
+	SDL_Rect lootPanelRectNoButton;
+	UiItem_Inventory* inventoryItem = nullptr;
 	
 	bool debug = false;
 	bool exitGame = false;
@@ -77,6 +81,7 @@ private:
 	UiItem_Bar* fx_bar = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
+	SDL_Rect inventory_transparency = { 0,0,1280,720 };
 
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
@@ -86,6 +91,7 @@ private:
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
+	
 	void LoadMusicFromScene();
 	PlayerEntityManager* player_selected = nullptr;
 

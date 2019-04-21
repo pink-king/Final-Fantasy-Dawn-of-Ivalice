@@ -4,6 +4,7 @@
 #include "UiItem.h"
 #include "p2Point.h"
 #include "j1Textures.h"
+#include <string.h>
 #include <cstdint>
 
 #define MAX_Weapons_plus_Equipment 15 
@@ -15,6 +16,7 @@
 
 #define staringPosition iPoint(274, 101)
 #define tabOffset iPoint(15,17)
+#define tabOffsetPotion iPoint(25,23)
 
 struct elementsStartingPositionsOffsets
 { 
@@ -24,10 +26,16 @@ struct elementsStartingPositionsOffsets
 
 	iPoint potions = iPoint(100, 100);
 };
+struct potionLabelPositions
+{
+	iPoint potion1 = iPoint(970, 419);
+
+};
 
 
 class LootEntity; 
 class UiItem_Description; 
+class UiItem_Label;
 
 class UiItem_Inventory : public UiItem
 {
@@ -41,6 +49,7 @@ public:
 
 	void De_______Equip(LootEntity*);
 
+	void De_______GenerateDescription(LootEntity*, bool firstTime);
 
 	bool drawTest = false; 
 
@@ -51,6 +60,12 @@ public:
 
 private:
 	SDL_Rect tab_image = { 726,1,69,70 };
+	bool first_potion = false;
+	bool first_label_potion = false;
+	int potion_counter = 1;
+	UiItem_Label * potionLabel = nullptr;
+	potionLabelPositions potion_positions;
+	std::string str_potion;
 };
 
 

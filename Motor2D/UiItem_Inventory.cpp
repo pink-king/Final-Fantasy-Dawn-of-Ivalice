@@ -20,7 +20,6 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 bool UiItem_Inventory::LoadElements()
 {
-
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
 
 
@@ -30,51 +29,75 @@ bool UiItem_Inventory::LoadElements()
 
 		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 		{
-			if (!(*iter)->MyDescription->spawnedInventoryImage)
-			{
+
+			
 				iPoint destPos = {};
 
-				if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+			if((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+			{
+
+
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
+
+
+				// current weapon, armor and head have a target position each
+				switch ((*iter)->GetObjectType())
 				{
-					// current weapon, armor and head have a target position each
-					switch ((*iter)->GetObjectType())
-					{
-					case OBJECT_TYPE::WEAPON_OBJECT:
-						destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
-						destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+				case OBJECT_TYPE::WEAPON_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 
-						(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
-						break;
-					case OBJECT_TYPE::ARMOR_OBJECT:
-						destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
-						destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+					(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
+					break;
+				case OBJECT_TYPE::ARMOR_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
 
-						(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
-						break;
-					case OBJECT_TYPE::HEAD_OBJECT:
-						destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
-						destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+					(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
+					break;
+				case OBJECT_TYPE::HEAD_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
 
-						(*iter)->MyDescription->myLootItemIsEquipped.head = true;
-						break;
+					(*iter)->MyDescription->myLootItemIsEquipped.head = true;
+					break;
 
 
-					}
+				}
 
-					// create the icon image directly in that desired slot (aka position) 
+				// create the icon image directly in that desired slot (aka position) 
 
+
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
 					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
 					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 					(*iter)->MyDescription->spawnedInventoryImage = true;
-
-
 					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
-
 				}
+				/*else
+				{
+					(*iter)->MyDescription->HideAllElements(false);
+					(*iter)->MyDescription->iconImageInventory->hide = false;
+				}*/
+
 
 
 			}
+			/*else
+			{
+				if ((*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->HideAllElements(true);
+					(*iter)->MyDescription->iconImageInventory->hide = true;
+				}
+			}*/
+
+				
+			
 		}
 	}
 
@@ -92,8 +115,12 @@ bool UiItem_Inventory::LoadElements()
 
 		for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 		{
-			if (!(*iter)->MyDescription->spawnedInventoryImage)
-			{
+			
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true);
+
+
 				iPoint position(0, 0);
 
 				if (i == 5)
@@ -115,13 +142,16 @@ bool UiItem_Inventory::LoadElements()
 				}
 
 
-				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;   
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				}
 				(*iter)->MyDescription->spawnedInventoryImage = true;
 
 				i++;
-			}
+			
 
 
 		}
@@ -130,29 +160,117 @@ bool UiItem_Inventory::LoadElements()
 
 
 	// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - -  consumables
+	if (!App->entityFactory->player->consumables.empty())
+	{
+		first_potion = false;
+		potion_counter = 0;
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
+		for (; iter != App->entityFactory->player->consumables.end(); ++iter)
+		{
+
+			// first generate description if it does not have it or if it was deleted ingame
+
+			De_______GenerateDescription((*iter), true);
+
+
+			iPoint position_1 = { (startingPos.x + 669), (startingPos.y + 302 ) };
+
+			if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+			{
+				potion_counter++;
+			}
+			
+
+			
+			if (!(*iter)->MyDescription->spawnedInventoryImage)
+			{
+				(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+				(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+				(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+				(*iter)->MyDescription->spawnedInventoryImage = true;
+
+			}
+				
+				
+			
+
+			if (!first_label_potion)
+			{
+				potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
+				first_label_potion = true;
+			}
+			else
+			{
+				str_potion = "" + std::to_string(potion_counter);
+				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+			}
+
+		}
+	}
+	else
+	{
+		if (first_label_potion)
+		{
+			potionLabel->to_delete = true;
+			first_label_potion = false;
+		}
+	}
+	
 
 
 	return true;
 }
 
-/*
-void UiItem_Inventory::DoLogicSelected(LootEntity * ent, bool doIt)
+
+void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
 {
+	
 
-	App->gui->selected_object = ent->MyDescription->iconImageInventory;
-	ent->MyDescription->iconImageInventory->tabbed = true;
-	ent->MyDescription->iconImageInventory->state = HOVER;
+	if (firstTime)
+	{
+		if (!ent->spawnedDescription)
+		{
+			// create a new description
+			App->entityFactory->GenerateDescriptionForLootItem(ent);
+			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			ent->MyDescription->HideAllElements(false);
 
-	if(doIt)
-	ent->MyDescription->HideAllElements(false);
-	else
-		ent->MyDescription->HideAllElements(true);
+			ent->spawnedDescription = true;
 
-}*/
+			LOG("_______________________________________________   spawned description");
+		}
+		else
+		{
+		//	ent->MyDescription->HideAllElements(false);
+		}
+		
+	}
+	else   // only when closing inventory, delete the description
+	{
+				// delete last descr
+				ent->MyDescription->DeleteEverything();
+				ent->MyDescription = nullptr;
 
-void UiItem_Inventory::Draw(const float& dt)
+
+				ent->spawnedDescription = false;
+
+
+
+				LOG("_______________________________________________   Deleted description"); 
+		
+
+	}
+
+
+}
+
+
+
+void UiItem_Inventory::Draw(const float & dt)
 {
-	/*SDL_Rect draw = { 0 };
+	/*SDL_Rect draw = { 0 }; 
 
 	if (!drawTest)
 	{
@@ -161,7 +279,7 @@ void UiItem_Inventory::Draw(const float& dt)
 			draw.x = initialPositions.weaponsAndEquipment.x + i*boxSize;
 
 
-			App->render->DrawQuad();
+			App->render->DrawQuad(); 
 		}
 	}*/
 
@@ -169,11 +287,19 @@ void UiItem_Inventory::Draw(const float& dt)
 	//App->gui->ApplyTabBetweenSimilar(true); 
 
 
+	
+
+/*	if (!App->scene->inventory->enable)
+	{
+
+
+
+	}*/
 
 }
 
 
-void UiItem_Inventory::De_______Equip(LootEntity * callback)
+void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
 
@@ -258,11 +384,9 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 	}
 
+
+
 }
-
-
-
-
 
 
 

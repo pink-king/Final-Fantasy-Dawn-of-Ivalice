@@ -9,7 +9,7 @@
 #include "UiItem_CooldownClockManager.h"
 
 
-UiItem::UiItem(const iPoint & pos, UiItem * const parent)
+UiItem::UiItem(const iPoint& pos, UiItem* const parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
@@ -24,7 +24,7 @@ UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 
 UiItem::UiItem(UiItem * const parent)
 {
-	
+
 	if (parent != nullptr)
 		this->parent = parent;
 
@@ -35,7 +35,7 @@ UiItem::UiItem(UiItem * const parent)
 
 
 
-UiItem::UiItem(const iPoint & pos, std::string &function, UiItem *const parent) : parent(parent)
+UiItem::UiItem(const iPoint & pos, std::string & function, UiItem * const parent) : parent(parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
@@ -59,7 +59,7 @@ UiItem::~UiItem()
 
 void UiItem::DrawUi(float dt)
 {
-	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); 
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
 	for (; iter != App->gui->ListItemUI.end(); )
 	{
@@ -75,7 +75,7 @@ void UiItem::DrawUi(float dt)
 						(*iter)->Draw(dt);
 				}
 			}
-			++iter; 
+			++iter;
 		}
 		else
 		{
@@ -113,4 +113,6 @@ void UiItem::Draw_Cursor(float dt) {
 
 
 }
+
+
 

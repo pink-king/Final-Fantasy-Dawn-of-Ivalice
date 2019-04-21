@@ -30,38 +30,25 @@
     <InGameUi>
       <images>
 
-		 <image name="loot_item_panel">
-          <section x="640" y="238" w="244" h="257"/>
-		  <flag  value="loot" />
+        <image name="loot_item_panel">
+          <section x="640" y="222" w="244" h="257"/>
+          <flag  value="loot" />
         </image>
-		
-		<image name="ability1_button">
-          <section x="714" y="91" w="22" h="31"/>
-		  <position x="114" y="589"/>
+        <image name="loot_item_panel_no_button">
+          <section x="922" y="222" w="238" h="243"/>
+          <flag  value="lootNoButton" />
         </image>
-		
-		<image name="ability2_button">
-          <section x="766" y="91" w="22" h="31"/>
-		  <position x="174" y="589"/>
-        </image>
-		
-		<image name="ulti_button">
-          <section x="807" y="91" w="47" h="31"/>
-		  <position x="222" y="589"/>
-        </image>
-		
-		
         <image name="life_bar">
           <section x="110" y="482" w="134" h="26"/>
           <position x="32" y="133"/>
         </image>
         <image name="bag">
           <section x="245" y="482" w="37" h="42"/>
-          <position x="1210" y="660"/>
+          <position x="1220" y="22"/>
         </image>
-        <image name="squareButton">
+        <image name="backButton">
           <section x="275" y="546" w="30" h="30"/>
-          <position x="1170" y="669"/>
+          <position x="1180" y="31"/>
         </image>
         <image name="LButton">
           <section x="244" y="525" w="30" h="19"/>
@@ -75,6 +62,14 @@
           <section x="1033" y="1" w="94" h="109"/>
           <position x="40" y="21"/>
         </image>
+        <image name="dPad">
+          <section x="527" y="105" w="52" h="52"/>
+          <position x="1170" y="617"/>
+        </image>
+        <image name="potion">
+          <section x="580" y="105" w="26" h="32"/>
+          <position x="1232" y="625"/>
+        </image>
         <!--
         <image name="level_box">
           <section x="1 " y="519" w="57" h="24"/>
@@ -83,7 +78,7 @@
         -->
         <image name="coin">
           <section x="59" y="519" w="25" h="25"/>
-          <position x="1055" y="31"/>
+          <position x="1050" y="31"/>
         </image>
 
       </images>
@@ -98,12 +93,12 @@
           <type value="player"/>
         </healthbar>
 
-		    <healthbar name="life_bar_enemy">
+        <healthbar name="life_bar_enemy">
           <dynamicSection x="90" y="690" w="52" h="6"/>
           <position x="113" y="78"/>
           <type value="enemy"/>
         </healthbar>
-		
+
       </healthbars>
 
 
@@ -114,19 +109,19 @@
           <type value="ability1"/>
         </clock>
 
-		 <clock name="ability2_clock">
+        <clock name="ability2_clock">
           <section x="859" y="126" w="51" h="51"/>
           <position x="160" y="630"/>
           <type value="ability2"/>
         </clock>
-		
-		 <clock name="ulti_clock">
+
+        <clock name="ulti_clock">
           <section x="859" y="126" w="51" h="51"/>
           <position x="220" y="630"/>
           <type value="ulti"/>
-		  
+
         </clock>
-		
+
       </clocks>
 
 
@@ -135,21 +130,21 @@
 
 
     <InGameUiM>
-      <images>                                         
+      <images>
         <image name="basic_marche">
-          <section x="650" y="126" w="51" h="51"/>   
+          <section x="371" y="1" w="51" h="51"/>
           <position x="40" y="630 "/>
         </image>
-        <image name="ability1_marche">
-          <section x="704" y="126" w="51" h="51"/>   
+        <image name="dash_marche">
+          <section x="371" y="105" w="51" h="51"/>
           <position x="100" y="630"/>
         </image>
-        <image name="ability2_marche">
-          <section x="755" y="126" w="51" h="51"/>   
+        <image name="tornado_marche">
+          <section x="475" y="1" w="51" h="51"/>
           <position x="160" y="630"/>
         </image>
-		 <image name="ulti_marche">
-          <section x="807" y="126" w="51" h="51"/>   
+        <image name="rage_marche">
+          <section x="423" y="1" w="51" h="51"/>
           <position x="220" y="630"/>
         </image>
         <image name="marche">
@@ -164,6 +159,26 @@
           <section x="283" y="481" w="58" h="64"/>
           <position x="153" y="41"/>
         </image>
+        <image name="basic_button">
+          <section x="878" y="6" w="24" h="24"/>
+          <position x="53" y="604"/>
+        </image>
+
+        <image name="dash_button">
+          <section x="760" y="7" w="24" h="24"/>
+          <position x="113" y="604"/>
+        </image>
+
+        <image name="tornado_button">
+          <section x="819" y="6" w="24" h="24"/>
+          <position x="173" y="604"/>
+        </image>
+        <image name="rage_button">
+          <section x="819" y="32" w="21" h="30"/>
+          <position x="235" y="598"/>
+        </image>
+
+
       </images>
     </InGameUiM>
 
@@ -171,20 +186,24 @@
     <InGameUiS>
       <images>
         <image name="basic_shara">
-          <section x="650" y="126" w="51" h="51"/> 
+          <section x="423" y="53" w="51" h="51"/>
           <position x="40" y="630 "/>
         </image>
-        <image name="ability1_shara">
-          <section x="704" y="126" w="51" h="51"/>  
+        <image name="dash_shara">
+          <section x="423" y="105" w="51" h="51"/>
           <position x="100" y="630"/>
         </image>
-        <image name="ability2_shara">
-          <section x="755" y="126" w="51" h="51"/>   
+        <image name="fireArrow_shara">
+          <section x="475" y="53" w="51" h="51"/>
           <position x="160" y="630"/>
         </image>
-        <image name="ulti_shara">
-         <section x="807" y="126" w="51" h="51"/>   
-         <position x="220" y="630"/>
+        <image name="contagious_shara">
+          <section x="527" y="53" w="51" h="51"/>
+          <position x="220" y="630"/>
+        </image>
+        <image name="skyShot_shara">
+          <section x="579" y="53" w="51" h="51"/>
+          <position x="280" y="630"/>
         </image>
         <image name="shara">
           <section x="1129" y="1" w="96" h="100"/>
@@ -198,6 +217,28 @@
           <section x="342" y=" 481" w="64" h="64"/>
           <position x="153" y="41"/>
         </image>
+        <image name="basic_button">
+          <section x="844" y="1" w="58" h="30"/>
+          <position x="36" y="598"/>
+        </image>
+
+        <image name="dash_button">
+          <section x="726" y="2" w="58" h="30"/>
+          <position x="96" y="598"/>
+        </image>
+
+        <image name="fireArrow_button">
+          <section x="785" y="1" w="58" h="30"/>
+          <position x="156" y="598"/>
+        </image>
+        <image name="contagious_button">
+          <section x="726" y="33" w="58" h="30"/>
+          <position x="218" y="598"/>
+        </image>
+        <image name="skiShot_button">
+          <section x="785" y="32" w="55" h="30"/>
+          <position x="278" y="598"/>
+        </image>
       </images>
     </InGameUiS>
 
@@ -206,19 +247,19 @@
     <InGameUiR>
       <images>
         <image name="basic_ritz">
-          <section x="650" y="126" w="51" h="51"/> 
+          <section x="527" y="1" w="51" h="51"/>
           <position x="40" y="630 "/>
         </image>
-        <image name="ability1_ritz">
-          <section x="704" y="126" w="51" h="51"/>    
+        <image name="dash_ritz">
+          <section x="475" y="105" w="51" h="51"/>
           <position x="100" y="630"/>
         </image>
-        <image name="ability2_ritz">
-          <section x="755" y="126" w="51" h="51"/>      
+        <image name="teleport_ritz">
+          <section x="371" y="53" w="51" h="51"/>
           <position x="160" y="630"/>
         </image>
-        <image name="ulti_ritz">
-          <section x="807" y="126" w="51" h="51"/> 
+        <image name="deathCircle_ritz">
+          <section x="579" y="1" w="51" h="51"/>
           <position x="220" y="630"/>
         </image>
         <image name="ritz">
@@ -232,6 +273,24 @@
         <image name="player3">
           <section x="407" y="481" w="62" h="62"/>
           <position x="153" y="41"/>
+        </image>
+        <image name="basic_button">
+          <section x="844" y="1" w="58" h="30"/>
+          <position x="36" y="598"/>
+        </image>
+
+        <image name="dash_button">
+          <section x="726" y="2" w="58" h="30"/>
+          <position x="96" y="598"/>
+        </image>
+
+        <image name="teleport_button">
+          <section x="785" y="1" w="58" h="30"/>
+          <position x="156" y="598"/>
+        </image>
+        <image name="deathCircle_button">
+          <section x="785" y="32" w="55" h="30"/>
+          <position x="218" y="598"/>
         </image>
       </images>
     </InGameUiR>
@@ -280,9 +339,9 @@
           <position x="504" y="109"/>
         </image>
       </images>
-      
+
       <labels>
-     
+
       </labels>
 
       <panelBars>
@@ -307,7 +366,7 @@
       </panelBars>
 
       <PanelCheckboxes>
-<!--
+        <!--
         <PanelCheckbox name="test_checkbox" function = "FpsCap">
           <panelPosition x="588" y="473"/>
           <panelSection x="293" y="666" w="200" h="36"/>
@@ -339,15 +398,15 @@
     </Settings>
 
     <SettingsInGame>
-      
+
       <images>
-        
+
       </images>
-      
-      
+
+
       <labels>
-        <label name="test">
-          <position x="530" y="70"/>
+        <label name="PauseMenu">
+          <position x="529" y="70"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="PAUSE MENU"/>
         </label>
@@ -367,14 +426,14 @@
           <position x="530" y="561"/>
         </button>
       </buttons>
-      
+
     </SettingsInGame>
 
     <Inventory>
       <images>
         <image name="inventoryPanel">
-          <section x="1" y="1" w="369" h="406"/>
-          <position x="750" y="190"/>
+          <section x="0" y="2252" w="740" h="519"/>
+          <position x="274" y="101"/>
         </image>
       </images>
     </Inventory>
@@ -385,9 +444,9 @@
 
   <map>
     <folder>maps/</folder>
-	  <levels>
+    <levels>
       <level name="iso.tmx"/>
-	  </levels>
+    </levels>
   </map>
 
   <loot>
