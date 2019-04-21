@@ -135,7 +135,7 @@ void UiItem_CooldownClock::DoLogic()
 			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
 			{
-				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / maxHeight;
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
 
