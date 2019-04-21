@@ -13,7 +13,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
 	this->guiType = GUI_TYPES::INVENTORY;
-	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 135, startingPos.y + 275 }, &tab_image, parent);
+	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 126, startingPos.y + 267 }, &tab_image, parent);
 }
 
 
