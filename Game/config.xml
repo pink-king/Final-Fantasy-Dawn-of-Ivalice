@@ -395,9 +395,9 @@
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
-          <idleSec x="585" y="678" w="93" h="40"/>
-          <hoverSec x="585" y="719" w="94" h="42" />
-          <clickSec x="585" y="762" w="95" h="42" />
+          <idleSec x="1073" y="2456" w="215" h="64"/>
+          <hoverSec x="1073" y="2521" w="215" h="64" />
+          <clickSec x="1073" y="2586" w="215" h="64" />
           <position x="588" y="561"/>
         </button>
       </buttons>
@@ -421,15 +421,15 @@
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToStartMenu">
-          <idleSec x="1061" y="772" w="195" h="37"/>
-          <hoverSec x="1061" y="732" w="196" h="39" />
-          <clickSec x="1061" y="692" w="196" h="39" />
-          <position x="530" y="500"/>
+          <idleSec x="856" y="2725" w="215" h="64"/>
+          <hoverSec x="856" y="2660" w="215" h="64" />
+          <clickSec x="1072" y="2651" w="215" h="64" />
+          <position x="530" y="450"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
-          <idleSec x="585" y="678" w="93" h="40"/>
-          <hoverSec x="585" y="719" w="94" h="42" />
-          <clickSec x="585" y="762" w="95" h="42" />
+          <idleSec x="1073" y="2456" w="215" h="64"/>
+          <hoverSec x="1073" y="2521" w="215" h="64" />
+          <clickSec x="1073" y="2586" w="215" h="64" />
           <position x="530" y="561"/>
         </button>
       </buttons>
