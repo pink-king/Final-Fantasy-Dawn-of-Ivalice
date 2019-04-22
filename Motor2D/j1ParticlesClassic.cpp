@@ -275,7 +275,7 @@ bool j1ParticlesClassic::Start()
 	stone01.anim.PushBack({ 96, 240, 16, 48 });
 	stone01.anim.PushBack({ 112, 240, 16, 48 });
 	stone01.anim.loop = false;
-	stone01.anim.speed = 35.F;
+	stone01.anim.speed = 20.F;
 	stone01.texture = particleAtlas2;
 
 	arrowTrail.anim.PushBack({ 0, 0, 71, 30 });
