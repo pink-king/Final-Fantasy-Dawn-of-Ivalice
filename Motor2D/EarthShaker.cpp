@@ -36,8 +36,8 @@ void EarthShaker::Attack()
 	App->attackManager->AddPropagationAttack(owner, App->entityFactory->player->GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 10, 60, true);
 	App->attackManager->AddPropagationAttack(owner, App->entityFactory->player->GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 50, 10, 60, false);
 
-	App->input->DoGamePadRumble(0.8F, 800);
-	App->camera2D->AddTrauma(0.7f);
+	App->input->DoGamePadRumble(1.F, 900);
+	App->camera2D->AddTrauma(1.f);
 }
 
 void EarthShaker::SpawnTornados()

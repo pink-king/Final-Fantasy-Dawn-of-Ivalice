@@ -56,7 +56,7 @@ bool j1ParticlesClassic::Start()
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
 	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
-
+	windsTex = App->tex->Load("textures/particles/windsTexture.png");
 	explosion01.anim.PushBack({0,354,32,32});
 	explosion01.anim.PushBack({ 0,386,32,32 });
 	explosion01.anim.PushBack({ 0,418,32,32 });
@@ -174,6 +174,21 @@ bool j1ParticlesClassic::Start()
 	blast01.anim.speed = 13.f;
 	blast01.texture = particleAtlasV03;
 	
+	burn01.anim.PushBack({ 0, 48, 96, 96 });
+	burn01.anim.PushBack({ 96, 48, 96, 96 });
+	burn01.anim.PushBack({ 192, 48, 96, 96 });
+	burn01.anim.PushBack({ 288, 48, 96, 96 });
+	burn01.anim.PushBack({ 384, 48, 96, 96 });
+	burn01.anim.PushBack({ 0, 144, 96, 96 });
+	burn01.anim.PushBack({ 96, 144, 96, 96 });
+	burn01.anim.PushBack({ 192, 144, 96, 96 });
+	burn01.anim.PushBack({ 288, 144, 96, 96 });
+	burn01.anim.PushBack({ 384, 144, 96, 96 });
+	burn01.anim.PushBack({ 0, 240, 96, 96 });
+	burn01.anim.loop = false;
+	burn01.anim.speed = 13.f;
+	burn01.texture = windsTex;
+
 	blood01.anim.PushBack({ 126, 0, 48, 48 });
 	blood01.anim.PushBack({ 174, 0, 48, 48 });
 	blood01.anim.PushBack({ 222, 0, 48, 48 });
@@ -347,6 +362,12 @@ bool j1ParticlesClassic::CleanUp()
 		explosionsTex = nullptr;
 	}
 
+	if (windsTex != nullptr)
+	{
+		App->tex->UnLoad(windsTex);
+		windsTex = nullptr;
+	}
+
 	//removing active particles
 	if (!active.empty())
 	{
@@ -383,9 +404,10 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
 		/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
-		AddParticle(stone01, p.x, p.y);
+		/*AddParticle(stone01, p.x, p.y);
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
-		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);
+		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
+		AddParticle(burn01, p.x, p.y, { 0,0 }, 0, SDL_FLIP_NONE, 0, INT_MAX, INT_MAX, 0.5F);
 	}
 
 	return ret;
