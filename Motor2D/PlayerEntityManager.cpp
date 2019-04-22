@@ -93,12 +93,15 @@ bool PlayerEntityManager::Update(float dt)
 	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
 		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
 		{
-			if (CollectLoot((LootEntity*)(*item)))
+			if ((*item)->manualCollectable)
 			{
-				
-				App->entityFactory->DeleteEntityFromSubtile(*item);
-				item = App->entityFactory->entities.erase(item);
-				break;
+				if (CollectLoot((LootEntity*)(*item)))
+				{
+
+					App->entityFactory->DeleteEntityFromSubtile(*item);
+					item = App->entityFactory->entities.erase(item);
+					break;
+				}
 			}
 		}
 	
