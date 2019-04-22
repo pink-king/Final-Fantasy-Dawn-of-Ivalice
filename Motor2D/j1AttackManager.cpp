@@ -115,7 +115,7 @@ bool j1AttackManager::CleanUp()
 	return true;
 }
 
-void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint,propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles)
+void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint,propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize)
 {
 	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, dmgType, elemType, baseDamage, subTileStepRadius, propagationStepSpeed, instantiateParticles));
 }
@@ -137,9 +137,9 @@ attackData::attackData()
 	//Start();
 }
 
-attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles) :
+attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles,bool paralize) :
 	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), dmgType(dmgType), elemType(elemType),
-	baseDamage(baseDamage),subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed), instantiateParticles(instantiateParticles)
+	baseDamage(baseDamage),subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed), instantiateParticles(instantiateParticles),paralize(paralize)
 {
 	//fromType = fromEntity->type;
 	Start();
@@ -316,11 +316,6 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 		// substract pivot
 		drawRectified -= firePivot;
 		App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y , { 0,0 }, 0u, renderFlip);
-
-		iPoint smokePivot = { 11, -17 };
-		drawRectified -= smokePivot;
-		App->particles->AddParticle(App->particles->smoke01, drawRectified.x, drawRectified.y, { 0,0 }, 800u, renderFlip);
-
 		break;
 	}
 	case ELEMENTAL_TYPE::ICE_ELEMENT:
@@ -484,18 +479,18 @@ bool attackData::DoInTimeAttack()
 			LOG("wtf, if no element, no party");
 			break;
 		case ELEMENTAL_TYPE::FIRE_ELEMENT:
-			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
+			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
 			break;
 		case ELEMENTAL_TYPE::ICE_ELEMENT: // WARNING: VERY OP
-			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
+			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
 			break;
 		case ELEMENTAL_TYPE::POISON_ELEMENT:
-			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
+			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
 			break;
 		case ELEMENTAL_TYPE::ALL_ELEMENTS:
-			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
-			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
-			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState");
+			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
+			App->buff->CreatePoision((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
+			App->buff->CreateParalize((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
 			break;
 		case ELEMENTAL_TYPE::MAX:
 			break;

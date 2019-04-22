@@ -39,7 +39,7 @@ enum class STAT_TYPE
 {
 	NORMAL,
 	BURNED_STAT,
-	PARALIZE_STAT,
+	ICE_STAT,
 	POISON_STAT,
 
 	POTION_STAT,
@@ -54,7 +54,8 @@ class Buff;
 class entityStat
 {
 public:
-	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f, Buff* temporalBuff = nullptr):type(stat), secDamage(secDamage), totalTime(totalTime), temporalBuff(temporalBuff){}
+	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f, Buff* temporalBuff = nullptr, bool to_paralitze = false)
+		:type(stat), secDamage(secDamage), totalTime(totalTime), temporalBuff(temporalBuff), to_paralitze(to_paralitze){}
 	entityStat() {};
 public:
 	STAT_TYPE		type = STAT_TYPE::NORMAL;
@@ -62,6 +63,7 @@ public:
 	j1Timer			count;
 	uint			totalTime = 0;
 	Buff*			temporalBuff = nullptr;
+	bool			to_paralitze = false;
 };
 
 struct EntityInfo
@@ -126,11 +128,13 @@ public:
 	pugi::xml_parse_result	result;
 
 	bool					isInRange = false;
-	bool					isParalize = false;
+	bool					isFrozen = false;
 	bool					isBurned = false;
 	bool					isPosioned = false;
 	bool					isPotionActive = false;
 	
+	bool					isParalize = false;
+
 	bool					changedTile = false; 
 	bool					changedSubtile = false; 
 	//Animation			idle;

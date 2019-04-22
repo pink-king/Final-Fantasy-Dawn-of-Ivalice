@@ -460,7 +460,7 @@ bool Marche::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
 	{
-		App->buff->CreatePoision(this, this, 5, 5, "a");
+		App->buff->CreatePoision(this, this, 5, 5, "a",false);
 	}
 
 	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
