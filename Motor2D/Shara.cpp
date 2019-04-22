@@ -312,17 +312,17 @@ bool Shara::Update(float dt)
 			//App->input->DoGamePadRumble(0.3f, 100);
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special1)
+			if (!App->gui->spawnedClocks.Shara.special1)
 			{
 
-				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Ritz", App->scene->inGamePanel);
+				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Shara", App->scene->inGamePanel);
 
-				App->gui->spawnedClocks.Ritz.special1 = true;
+				App->gui->spawnedClocks.Shara.special1 = true;
 			}
 			else
 			{
 				myUIClocks.special1->Restart();
-			}*/
+			}
 
 
 		}
@@ -339,17 +339,17 @@ bool Shara::Update(float dt)
 
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special2)
+			if (!App->gui->spawnedClocks.Shara.special2)
 			{
 
-				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Ritz", App->scene->inGamePanel);
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Shara", App->scene->inGamePanel);
 
-				App->gui->spawnedClocks.Ritz.special2 = true;
+				App->gui->spawnedClocks.Shara.special2 = true;
 			}
 			else
 			{
 				myUIClocks.special2->Restart();
-			}*/
+			}
 
 
 		}
