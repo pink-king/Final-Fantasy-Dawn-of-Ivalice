@@ -132,7 +132,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 		}
 		else if (rol == ROL::ATTACK_ROL)
 		{
-			if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
+			if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
 				(ent == (*iter)->GetCharacter()))
 			{
 				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)

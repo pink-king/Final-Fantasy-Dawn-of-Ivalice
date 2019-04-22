@@ -898,12 +898,12 @@ void Marche::UlitMarche()
 {
 	if (!startUlti)
 	{
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetMarche(), "stat", 100));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetShara(), "stat", 100));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetRitz(),"stat", 100));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "stat", 100));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetShara(), "stat", 100));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetRitz(), "stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetMarche(), "stat", 1));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetShara(), "stat", 1));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetRitz(),"stat", 1));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "stat", 1));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetShara(), "stat", 1));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetRitz(), "stat", 1));
 		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetMarche(), "stat", 0.8f));
 		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetShara(), "stat", 0.8f));
 		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetRitz(), "stat", 0.8f));
