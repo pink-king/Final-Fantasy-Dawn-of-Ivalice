@@ -40,10 +40,24 @@ void UiItem_Label::Draw(const float & dt)
 {
 	if (!hide)
 	{
+		prevTextDimension.x = textureDimensions.x;
+		prevTextDimension.y = textureDimensions.y;
 		float speed = 0.0f;
 
 		if (!useCamera)
 			speed = 1.0f;
+
+		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+		if (textureDimensions.x > prevTextDimension.x)
+		{
+			if (!first_hitbox)
+			{
+				hitBox.x -= 28;
+				first_hitbox = true;
+			}
+			else
+				hitBox.x -= 14;
+		}
 
 		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 	}
