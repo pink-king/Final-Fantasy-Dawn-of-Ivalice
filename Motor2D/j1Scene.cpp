@@ -250,6 +250,7 @@ bool j1Scene::Update(float dt)
 		uiMarche->enable = false;
 		uiRitz->enable = false;
 		uiShara->enable = false;
+		App->entityFactory->player->selectedCharacterEntity->inputReady = false;
 		//settingPanel->enable = false;
 	}
 	
@@ -257,7 +258,7 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		
+		if(!inventory->enable && !pausePanel->enable)
 		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
@@ -286,6 +287,7 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
+			App->entityFactory->player->selectedCharacterEntity->inputReady = false;
 			App->gui->resetHoverSwapping = false;
 			App->pause = !App->pause;
 			if (App->pause)
