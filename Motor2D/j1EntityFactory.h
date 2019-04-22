@@ -130,7 +130,7 @@ public:
 	unsigned int lootGroundSFX;
 	unsigned int potionGroundSFX;
 	unsigned int coinGroundedSFX;
-	unsigned int swapChar;
+	unsigned int swapCharSFX;
 	unsigned int stepSFX;
 	unsigned int enemySpawn;
 	unsigned int goblinDetection;
@@ -156,10 +156,13 @@ public:
 	unsigned int goblinLaugh;
 	unsigned int marcheUltimateScream;
 	unsigned int marcheAbility1;
+	unsigned int marcheEarthShakeSFX;
 	unsigned int marcheAbility2; //tornado
 	unsigned int dash;
 	unsigned int sharaAbility1;
 	unsigned int sharaAbility2_shoot;
+	unsigned int sharaBasic_ImpactsWall; 
+	unsigned int sharaAbility1_ImpactsWall; 
 	unsigned int sharaAbility2_ImpactsWall;
 	unsigned int BombDeathSFX;
 private:

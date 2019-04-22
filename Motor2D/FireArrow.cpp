@@ -38,7 +38,7 @@ FireArrow::~FireArrow()
 {
 	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
 	if(hitwall)
-		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
+		App->audio->PlayFx(App->entityFactory->sharaAbility1_ImpactsWall, 0);
 
 
 }

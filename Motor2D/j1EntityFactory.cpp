@@ -81,7 +81,7 @@ bool j1EntityFactory::Start()
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
 	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
-	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	swapCharSFX = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
@@ -92,6 +92,8 @@ bool j1EntityFactory::Start()
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate.wav");
 	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
+	marcheEarthShakeSFX = App->audio->LoadFx("audio/fx/Player/marche_earthShake.wav");
+
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
 	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/ritz_basic_hit.wav");
@@ -109,6 +111,8 @@ bool j1EntityFactory::Start()
 	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara_ultimate_woosh.wav");
 	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/SharaUltimateGrounding.wav");
 	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
+	sharaBasic_ImpactsWall = App->audio->LoadFx("audio/fx/Player/SharaBasicImpact.wav");
+	sharaAbility1_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility1_impactswall.wav");
 	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility2_impactswall.wav");
 	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/SharaAbility2Shoot.wav");
 

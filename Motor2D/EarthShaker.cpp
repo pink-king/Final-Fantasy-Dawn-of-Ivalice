@@ -10,6 +10,8 @@ EarthShaker::EarthShaker(fPoint pos, const j1Entity* owner) : Projectile(pos, {0
 {
 	gen.seed(rd());
 	tornados = 5;
+	App->audio->PlayFx(App->entityFactory->marcheEarthShakeSFX, 0);
+
 }
 
 EarthShaker::~EarthShaker()

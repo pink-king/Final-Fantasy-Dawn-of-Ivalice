@@ -103,7 +103,7 @@ bool ContagiousFireArrow::Explode()
 		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 15, GetPivotPos().y - 20);
 
 	}
-	else 	App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
+	
 
 	to_delete = true;
 	return true;

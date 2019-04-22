@@ -618,7 +618,7 @@ bool Marche::Update(float dt)
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-			App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
+			//App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
 			
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetPivotPos(), { 0,0 }, 0, this, PROJECTILE_TYPE::EARTH_SHAKER);
 			// add gui clock
