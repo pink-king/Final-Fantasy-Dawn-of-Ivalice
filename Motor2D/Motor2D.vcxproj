@@ -125,6 +125,7 @@
     <ClCompile Include="Ritz.cpp" />
     <ClCompile Include="Shara.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
+    <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Ritz.h" />
     <ClInclude Include="Shara.h" />
     <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="Tornado.h" />
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />

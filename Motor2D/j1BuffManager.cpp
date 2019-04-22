@@ -367,13 +367,13 @@ void j1BuffManager::TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TY
 			entity->stat.push_back(newStat);
 			break;
 		case ROL::VELOCITY:
-			newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value);
+			newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value,nullptr,false);
 			newStat->temporalBuff = new Buff(type, entity, "\0", element, rol, value);
 			ChangeEntityVariables(entity, type, rol, value);
 			entity->stat.push_back(newStat);
 			break;
 		case ROL::HEALTH:
-			newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value);
+			newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value,nullptr, false);
 			newStat->temporalBuff = new Buff(type, entity, "\0", element, rol, value);
 			ChangeEntityVariables(entity, type, rol, value);
 			entity->stat.push_back(newStat);
@@ -658,7 +658,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		if (*item != nullptr)
 		{ 
 
-			if ((*item)->to_paralitze = true)
+			if ((*item)->to_paralitze == true)
 			{
 				if(!entity->isParalize)
 					AdjustEntityAnimationSpeed(entity);

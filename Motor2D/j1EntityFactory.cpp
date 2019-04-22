@@ -15,6 +15,7 @@
 #include "Emmiter.h"
 #include "EmmiterArrows.h"
 #include "Medusa.h"
+#include "Tornado.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -72,6 +73,7 @@ bool j1EntityFactory::Start()
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
+	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
@@ -443,6 +445,10 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		entities.push_back(ret);
 		break; 
 
+	case PROJECTILE_TYPE::TORNADO:
+		ret = new Tornado(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
