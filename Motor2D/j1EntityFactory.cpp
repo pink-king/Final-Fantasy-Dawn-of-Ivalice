@@ -86,10 +86,10 @@ bool j1EntityFactory::Start()
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
 
 	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
-	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
-	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/marche_basic2.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1Grunt.wav");
+	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/marche_basic2Grunt.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
-	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate.wav");
 	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");

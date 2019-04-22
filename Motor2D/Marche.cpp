@@ -780,7 +780,7 @@ bool Marche::Update(float dt)
 
 			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
-			
+
 			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
 			App->camera2D->AddTrauma(70.0f / 100.f);
 			App->input->DoGamePadRumble(0.7f, 400);*/
@@ -798,8 +798,9 @@ bool Marche::Update(float dt)
 			UlitMarche();
 
 			coolDownData.ultimate.timer.Start();
-		
+
 		}
+		
 		break;
 	
 	case combatState::MAX:
