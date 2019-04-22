@@ -260,6 +260,24 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		}
 	}
 
+
+	if (attacker == App->entityFactory->player->GetMarche())
+	{
+		iPoint drawRectified;
+		drawRectified.x = defender->position.x + defender->size.x * 0.5f;
+		drawRectified.y = defender->position.y + (defender->size.y * 0.5f) * 2;
+
+		// flip particles pseudo randomly
+		SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+		if (rand() % 2 == 0)
+		{
+			renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+		}
+		iPoint bloodPivot = { 10, 10 };
+		drawRectified -= bloodPivot;
+		App->particles->AddParticle(App->particles->blood02, drawRectified.x, drawRectified.y - defender->pivot.y, { 0,0 }, 0u, renderFlip);
+	}
 	
 }
 
@@ -387,13 +405,13 @@ void j1BuffManager::TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TY
 		case ROL::VELOCITY:
 			newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value, nullptr, false);
 			newStat->temporalBuff = new Buff(type, entity, "\0", element, rol, value);
-			ChangeEntityVariables(entity, type, rol, value);
+			App->buff->ChangeEntityVariables(entity, type, rol, value);
 			entity->stat.push_back(newStat);
 			break;
 		case ROL::HEALTH:
 			newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value, nullptr, false);
 			newStat->temporalBuff = new Buff(type, entity, "\0", element, rol, value);
-			ChangeEntityVariables(entity, type, rol, value);
+			App->buff->ChangeEntityVariables(entity, type, rol, value);
 			entity->stat.push_back(newStat);
 			break;
 		case ROL::NO_ROL:
@@ -620,6 +638,7 @@ void j1BuffManager::DeleteBuff(Buff* buff)
 		{
 			if ((*item)->GetRol() != ROL::ATTACK_ROL && (*item)->GetRol() != ROL::DEFENCE_ROL)
 				ResetEntityVariables(*item);
+
 			buffs.remove(*item);
 		}
 	}
@@ -634,22 +653,36 @@ void j1BuffManager::AddItemStats(LootEntity * item)
 			buffs.push_back(*iter);
 
 		else
-			ChangeEntityVariables((*iter)->GetCharacter(), (*iter)->GetType(),(*iter)->GetRol(), (*iter)->GetValue());
+		{
+			ChangeEntityVariables((*iter)->GetCharacter(), (*iter)->GetType(), (*iter)->GetRol(), (*iter)->GetValue());
+			buffs.push_back(*iter);
+		}
 	}
 }
 
 
 void j1BuffManager::RemoveItemStat(const LootEntity * item)
 {
-	std::list<Buff*>::iterator iter = buffs.begin();
+	/*std::list<Buff*>::iterator iter = buffs.begin();
 	for (; iter != buffs.end(); ++iter)
 	{
-		if ((*iter)->GetItemObject() == item)
+		if ((*iter)->GetItemObject() != nullptr && item == nullptr)
 		{
-			if ((*iter)->GetRol() == ROL::ATTACK_ROL || (*iter)->GetRol() == ROL::DEFENCE_ROL)
-				buffs.push_back(*iter);
-			buffs.remove(*iter);
-		}		
+			if ((*iter)->GetItemObject() == item)
+			{
+				if ((*iter)->GetRol() != ROL::ATTACK_ROL && (*iter)->GetRol() != ROL::DEFENCE_ROL)
+					App->buff->ResetEntityVariables(*iter);
+
+				buffs.remove(*iter);
+			}
+		}
+	}*/
+	std::vector<Buff*>::const_iterator iter = item->stats.begin();
+	for (; iter != item->stats.end(); ++iter)
+	{
+		if ((*iter)->GetRol() != ROL::ATTACK_ROL && (*iter)->GetRol() != ROL::DEFENCE_ROL)
+			App->buff->ResetEntityVariables(*iter);
+		buffs.remove(*iter);
 	}
 }
 

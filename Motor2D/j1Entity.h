@@ -31,6 +31,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		//etc
 		LOOT,
 		ENEMY_TEST,
+		PROJECTILE,
 		// LAST
 		MAX_TYPE
 	};

@@ -25,15 +25,14 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 	/*App->scene->MarcheIcon->hitBox.x = App->scene->SharaIcon->hitBox.x = App->scene->RitzIcon->hitBox.x = staringPosition.x + 30;
 	App->scene->MarcheIcon->hitBox.y = App->scene->SharaIcon->hitBox.y = App->scene->RitzIcon->hitBox.y = staringPosition.y + 30;*/
 
-	if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
 	{
 		App->scene->MarcheIcon->hide = false;
 		App->scene->SharaIcon->hide = true;
 		App->scene->RitzIcon->hide = true;
-
 	}
 
-	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
+	else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA)
 	{
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = false;
@@ -41,7 +40,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 	}
 
 
-	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
+	else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ)
 	{
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;
