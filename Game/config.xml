@@ -454,6 +454,19 @@
           <section x="68" y="2252" w="787" h="520"/>
           <position x="278" y="101"/>
         </image>
+      <image name="marche_inv">
+          <section x="1485" y="1468" w="96" h="183"/>
+          <position x="534" y="133"/>
+        </image>
+      <image name="ritz_inv">
+          <section x="1364" y="1468" w="116" h="179"/>
+          <position x="523" y="138"/>
+        </image>
+      <image name="shara_inv">
+          <section x="1281" y="1468" w="81" h="183"/>
+          <position x="543" y="133"/>
+        </image>
+      
       </images>
     </Inventory>
 
