@@ -71,13 +71,26 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 
 		lastSection = dynamicImage->section.w;
-		dynamicImage->section.w = conversionFactor * App->entityFactory->player->life;
+		
+		uint value = conversionFactor * App->entityFactory->player->life;
+		if (value >= playerBarOffset.x)
+		{
+			dynamicImage->section.w = value; 
+		}
+
+		if (App->entityFactory->player->life <= 0)
+		{
+			dynamicImage->section.w = playerBarOffset.x; 
+		}
+		
 
 
 		if (damageInform.doDamage)
 		{
-			damageBarTimer.Start();
-			DamageLogic();
+			
+				damageBarTimer.Start();
+				DamageLogic();
+			}
 		}
 		else if (damageBarTimer.ReadMs() > 400) // if time's over
 		{
@@ -162,7 +175,7 @@ void UiItem_HealthBar::DamageLogic()
 
 	damageImage->hide = false;
 
-	if (destinationRectPos.x >= damageImage->hitBox.x)                              // check that it does not go beyond left limit
+	if (destinationRectPos.x >= damageImage->hitBox.x + playerBarOffset.x)                              // check that it does not go beyond left limit
 	{
 		damageImage->resizedRect = { destinationRectPos.x , destinationRectPos.y, destinationRectWidth, damageImage->hitBox.h };
 	}

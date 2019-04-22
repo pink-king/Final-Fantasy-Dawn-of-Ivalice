@@ -191,7 +191,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 		labelsSpawned.totalLabels++; 
 	}
 
-	if (playerStreak > 10000 && !labelsSpawned.brutal)                         // brutal   
+	if (playerStreak > 15000 && !labelsSpawned.brutal)                         // brutal   
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 
