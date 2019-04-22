@@ -14,7 +14,10 @@
 #include "DeathCircle.h"
 #include "Emmiter.h"
 #include "EmmiterArrows.h"
+#include "Medusa.h"
+#include "Tornado.h"
 #include "Brofiler/Brofiler.h"
+#include "EarthShaker.h"
 #include <ctime>
 #include <algorithm>
 
@@ -71,6 +74,8 @@ bool j1EntityFactory::Start()
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
+	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
+
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
@@ -82,6 +87,7 @@ bool j1EntityFactory::Start()
 
 	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
 	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
+	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/marche_basic2.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
 	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
@@ -439,6 +445,21 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 
 	case PROJECTILE_TYPE::EMMITER:
 		ret = new Emmiter(pos, owner);
+		entities.push_back(ret);
+		break;
+
+	case PROJECTILE_TYPE::MEDUSA:
+		ret = new Medusa(pos, owner);
+		entities.push_back(ret);
+		break;
+
+	case PROJECTILE_TYPE::TORNADO:
+		ret = new Tornado(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
+
+	case PROJECTILE_TYPE::EARTH_SHAKER:
+		ret = new EarthShaker(pos, owner);
 		entities.push_back(ret);
 		break;
 

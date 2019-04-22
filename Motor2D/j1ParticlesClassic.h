@@ -66,10 +66,11 @@ public:
 private:
 
 	SDL_Texture* particleAtlas2 = nullptr; 
-	SDL_Texture* particleAtlas = nullptr;
 	SDL_Texture* particleAtlasV03 = nullptr; 
 	SDL_Texture* particleArrowsTex = nullptr;
 	SDL_Texture* SharaUltimate = nullptr;
+	SDL_Texture* explosionsTex = nullptr;
+	SDL_Texture* windsTex = nullptr;
 
 	std::list<Particle*> active;
 	pugi::xml_node particleNode;
@@ -78,7 +79,11 @@ public:
 	
 	Particle healing;
 	Particle explosion01;
+	Particle explosion02;
+	Particle explosion03;
+	Particle smoke01;
 	Particle blast01;
+	Particle burn01;
 	Particle fire01;
 	Particle fire02;
 	Particle fire03;
@@ -86,13 +91,14 @@ public:
 	Particle strike; 
 	Particle ice01;
 	Particle ice02;
-	Particle ice03; 
+	Particle ice03;
+	Particle stone01;
 	Particle poison01;
 	Particle poison02;
 	Particle blood01;
 	Particle blood02;
 	Particle arrowTrail;
-
+	Particle powder01;
 };
 
 #endif // __j1PARTICLES_H__

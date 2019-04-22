@@ -30,7 +30,6 @@ ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint sp
 
 	SetPivot(32, 8);
 	size.create(64, 16);
-	wallImpact = false;
 	App->audio->PlayFx(App->entityFactory->sharaAbility2_shoot, 0);
 
 	timer.Start();
@@ -93,8 +92,16 @@ bool ContagiousFireArrow::Explode()
 	App->input->DoGamePadRumble(0.35f, 100);
 
 	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
-	if (!hitwall) {
+	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
+	/*App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
+		App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 45, GetPivotPos().y - 40, { 0, 0 }, 200);
+		App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 25, GetPivotPos().y - 15, { 0,0 }, 100);*/
+
+	if (!wallImpact) {
 		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
+		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 30, GetPivotPos().y - 35);
+		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 15, GetPivotPos().y - 20);
+
 	}
 	else 	App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
 
@@ -104,10 +111,12 @@ bool ContagiousFireArrow::Explode()
 
 void ContagiousFireArrow::SpawnParticles()
 {
-	if (timer.Read() > 400)
+	if (lastPos.DistanceManhattan(GetPivotPos()) > 40 && timer.Read() > 100)
 	{
 		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
-		timer.Start();
+		//timer.Start();
+		lastPos = GetPivotPos();
+
 	}
 }
 

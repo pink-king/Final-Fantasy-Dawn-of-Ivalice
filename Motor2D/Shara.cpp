@@ -333,7 +333,7 @@ bool Shara::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			App->audio->PlayFx(App->entityFactory->sharaAbility1);
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 

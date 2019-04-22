@@ -597,7 +597,7 @@ bool Ritz::Update(float dt)
 			{
 				SetStopperState();
 				tpPos = GetTeleportPos();
-				//App->audio->PlayFx(App->entityFactory->RitzAbility1, 0); // TODO
+				App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -639,7 +639,7 @@ bool Ritz::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
-			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
 
 			// add gui clock
 

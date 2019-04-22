@@ -222,6 +222,7 @@ void EnemyBomb::SetState(float dt)
 		if (checkTime.ReadSec() > explosionDelay && currentAnimation->Finished())
 		{
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
+			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);			
 			to_delete = true;

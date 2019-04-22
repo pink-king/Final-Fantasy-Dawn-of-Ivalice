@@ -6,6 +6,7 @@
 #include "j1Audio.h"
 #include "j1EntityFactory.h"
 #include "Brofiler/Brofiler.h"
+#include "j1Window.h"
 //#include "SDL/include/SDL_timer.h"
 
 #define MARGIN 20
@@ -50,23 +51,71 @@ bool j1ParticlesClassic::Start()
 
 	// TODO: LOAD FROM XML ----------------------
 
-	particleAtlas = App->tex->Load("textures/particles/particle_spritesheet.png");
-	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles.png");
+	
+	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles2.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
+	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
+	windsTex = App->tex->Load("textures/particles/windsTexture.png");
 
-	explosion01.anim.PushBack({0,0,32,32});
-	explosion01.anim.PushBack({ 0,32,32,32 });
-	explosion01.anim.PushBack({ 0,64,32,32 });
-	explosion01.anim.PushBack({ 32,0,32,32 });
-	explosion01.anim.PushBack({ 32,32,32,32 });
-	explosion01.anim.PushBack({ 32,64,32,32 });
-	explosion01.anim.PushBack({ 32,96,32,32 });
+
+	explosion01.anim.PushBack({ 0,354,32,32 });
+	explosion01.anim.PushBack({ 0,386,32,32 });
+	explosion01.anim.PushBack({ 0,418,32,32 });
+	explosion01.anim.PushBack({ 32,354,32,32 });
+	explosion01.anim.PushBack({ 32,386,32,32 });
+	explosion01.anim.PushBack({ 32,418,32,32 });
+	explosion01.anim.PushBack({ 32,450,32,32 });
 	explosion01.anim.speed = 10.f;
 	explosion01.anim.loop = false;
-	explosion01.texture = particleAtlas;
+	explosion01.texture = explosionsTex;
 	//explosion01.life = 2000; // if we want a particle that loops, must be specified a life for destroy it
+
+	explosion02.anim.PushBack({ 0, 105, 62, 62 });
+	explosion02.anim.PushBack({ 62, 105, 62, 62 });
+	explosion02.anim.PushBack({ 124, 105, 62, 62 });
+	explosion02.anim.PushBack({ 186, 105, 62, 62 });
+	explosion02.anim.PushBack({ 0, 167, 62, 62 });
+	explosion02.anim.PushBack({ 62, 167, 62, 62 });
+	explosion02.anim.PushBack({ 124, 167, 62, 62 });
+	explosion02.anim.PushBack({ 186, 167, 62, 62 });
+	explosion02.anim.PushBack({ 0, 229, 62, 62 });
+	explosion02.anim.PushBack({ 62, 229, 62, 62 });
+	explosion02.anim.PushBack({ 124, 229, 62, 62 });
+	explosion02.anim.PushBack({ 186, 229, 62, 62 });
+	explosion02.anim.PushBack({ 0, 291, 62, 62 });
+	explosion02.anim.PushBack({ 62, 291, 62, 62 });
+	explosion02.anim.PushBack({ 124, 291, 62, 62 });
+	explosion02.anim.PushBack({ 186, 291, 62, 62 });
+	explosion02.anim.speed = 20.f;
+	explosion02.anim.loop = false;
+	explosion02.texture = explosionsTex;
+
+	explosion03.anim.PushBack({ 114, 29, 41, 38 });
+	explosion03.anim.PushBack({ 155, 29, 41, 38 });
+	explosion03.anim.PushBack({ 196, 29, 41, 38 });
+	explosion03.anim.PushBack({ 0, 67, 41, 38 });
+	explosion03.anim.PushBack({ 41, 67, 41, 38 });
+	explosion03.anim.PushBack({ 82, 67, 41, 38 });
+	explosion03.anim.PushBack({ 123, 67, 41, 38 });
+	explosion03.anim.PushBack({ 164, 67, 41, 38 });
+	explosion03.anim.speed = 10.f;
+	explosion03.anim.loop = false;
+	explosion03.texture = explosionsTex;
+
+	smoke01.anim.PushBack({ 0, 0, 38, 29 });
+	smoke01.anim.PushBack({ 38, 0, 38, 29 });
+	smoke01.anim.PushBack({ 76, 0, 38, 29 });
+	smoke01.anim.PushBack({ 114, 0, 38, 29 });
+	smoke01.anim.PushBack({ 152, 0, 38, 29 });
+	smoke01.anim.PushBack({ 190, 0, 38, 29 });
+	smoke01.anim.PushBack({ 0, 29, 38, 29 });
+	smoke01.anim.PushBack({ 38, 29, 38, 29 });
+	smoke01.anim.PushBack({ 76, 29, 38, 29 });
+	smoke01.anim.speed = 10.f;
+	smoke01.anim.loop = false;
+	smoke01.texture = explosionsTex;
 
 
 	fire01.anim.PushBack({ 0, 192, 16, 48});
@@ -128,6 +177,32 @@ bool j1ParticlesClassic::Start()
 	blast01.anim.speed = 13.f;
 	blast01.texture = particleAtlasV03;
 	
+	burn01.anim.PushBack({ 0, 48, 96, 96 });
+	burn01.anim.PushBack({ 96, 48, 96, 96 });
+	burn01.anim.PushBack({ 192, 48, 96, 96 });
+	burn01.anim.PushBack({ 288, 48, 96, 96 });
+	burn01.anim.PushBack({ 384, 48, 96, 96 });
+	burn01.anim.PushBack({ 0, 144, 96, 96 });
+	burn01.anim.PushBack({ 96, 144, 96, 96 });
+	burn01.anim.PushBack({ 192, 144, 96, 96 });
+	burn01.anim.PushBack({ 288, 144, 96, 96 });
+	burn01.anim.PushBack({ 384, 144, 96, 96 });
+	burn01.anim.PushBack({ 0, 240, 96, 96 });
+	burn01.anim.loop = false;
+	burn01.anim.speed = 13.f;
+	burn01.texture = windsTex;
+
+	powder01.anim.PushBack({ 0, 19, 64, 29 });
+	powder01.anim.PushBack({ 64, 19, 64, 29 });
+	powder01.anim.PushBack({ 128, 19, 64, 29 });
+	powder01.anim.PushBack({ 192, 19, 64, 29 });
+	powder01.anim.PushBack({ 256, 19, 64, 29 });
+	powder01.anim.PushBack({ 320, 19, 64, 29 });
+	powder01.anim.PushBack({ 384, 19, 64, 29 });
+	powder01.anim.speed = 10.5f;
+	powder01.anim.loop = false;
+	powder01.texture = windsTex;
+
 	blood01.anim.PushBack({ 126, 0, 48, 48 });
 	blood01.anim.PushBack({ 174, 0, 48, 48 });
 	blood01.anim.PushBack({ 222, 0, 48, 48 });
@@ -157,7 +232,7 @@ bool j1ParticlesClassic::Start()
 	healing.anim.PushBack({ 96, 0, 16, 48 });
 	healing.anim.PushBack({ 112, 0, 16, 48 });
 	healing.anim.loop = false;
-	healing.anim.speed = 10.F; 
+	healing.anim.speed = 15.F; 
 	healing.texture = particleAtlas2; 
 
 	ice01.anim.PushBack({ 0, 48, 16, 48 });
@@ -196,29 +271,49 @@ bool j1ParticlesClassic::Start()
 	ice03.anim.speed = 10.F;
 	ice03.texture = particleAtlas2;
 
-	poison01.anim.PushBack({ 0, 253, 16, 16 });
+	/*poison01.anim.PushBack({ 0, 253, 16, 16 });
 	poison01.anim.PushBack({ 16, 253, 16, 16 });
 	poison01.anim.PushBack({ 32, 253, 16, 16 });
 	poison01.anim.PushBack({ 48, 253, 16, 16 });
 	poison01.anim.loop = false;
 	poison01.anim.speed = 35.F;
+	poison01.texture = particleAtlas2;*/
+
+	poison01.anim.PushBack({ 140, 48, 16, 16 });
+	poison01.anim.PushBack({ 156, 48, 16, 16 });
+	poison01.anim.PushBack({ 172, 48, 16, 16 });
+	poison01.anim.PushBack({ 188, 48, 16, 16 });
+	poison01.anim.loop = false;
+	poison01.anim.speed = 35.F;
 	poison01.texture = particleAtlas2;
 
-	poison02.anim.PushBack({ 0, 269, 16, 16 });
-	poison02.anim.PushBack({ 16, 269, 16, 16 });
-	poison02.anim.PushBack({ 32, 269, 16, 16 });
-	poison02.anim.PushBack({ 48, 269, 16, 16 });
+	poison02.anim.PushBack({ 140, 64, 16, 16 });
+	poison02.anim.PushBack({ 156, 64, 16, 16 });
+	poison02.anim.PushBack({ 172, 64, 16, 16 });
+	poison02.anim.PushBack({ 188, 64, 16, 16 });
 	poison02.anim.loop = false;
 	poison02.anim.speed = 35.F;
 	poison02.texture = particleAtlas2;
 
+	stone01.anim.PushBack({ 0, 240, 16, 48 });
+	stone01.anim.PushBack({ 16, 240, 16, 48 });
+	stone01.anim.PushBack({ 32, 240, 16, 48 });
+	stone01.anim.PushBack({ 48, 240, 16, 48 });
+	stone01.anim.PushBack({ 64, 240, 16, 48 });
+	stone01.anim.PushBack({ 80, 240, 16, 48 });
+	stone01.anim.PushBack({ 96, 240, 16, 48 });
+	stone01.anim.PushBack({ 112, 240, 16, 48 });
+	stone01.anim.loop = false;
+	stone01.anim.speed = 20.F;
+	stone01.texture = particleAtlas2;
+
 	arrowTrail.anim.PushBack({ 0, 0, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 0, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 0, 71, 30 });
-	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
+	arrowTrail.anim.PushBack({ 0, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
-	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
+	arrowTrail.anim.PushBack({ 0, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 60, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
 	arrowTrail.anim.loop = false;
@@ -251,20 +346,42 @@ bool j1ParticlesClassic::CleanUp()
 	LOG("Unloading particles");
 
 	//unloading graphics
-	if (App->tex->UnLoad(particleAtlas))
-		particleAtlas = nullptr;
-
-	if (App->tex->UnLoad(particleAtlas2))
+	
+	if (particleAtlas2 != nullptr)
+	{
+		App->tex->UnLoad(particleAtlas2);
 		particleAtlas2 = nullptr;
+	}
 
-	if (App->tex->UnLoad(particleAtlasV03))
+	if (particleAtlasV03 != nullptr)
+	{
+		App->tex->UnLoad(particleAtlasV03);
 		particleAtlasV03 = nullptr;
+	}
 
-	if (App->tex->UnLoad(particleArrowsTex))
+	if (particleArrowsTex != nullptr)
+	{
+		App->tex->UnLoad(particleArrowsTex);
 		particleArrowsTex = nullptr;
+	}
 
-	if (App->tex->UnLoad(SharaUltimate))
+	if (SharaUltimate != nullptr)
+	{
+		App->tex->UnLoad(SharaUltimate);
 		SharaUltimate = nullptr;
+	}
+
+	if (explosionsTex != nullptr)
+	{
+		App->tex->UnLoad(explosionsTex);
+		explosionsTex = nullptr;
+	}
+
+	if (windsTex != nullptr)
+	{
+		App->tex->UnLoad(windsTex);
+		windsTex = nullptr;
+	}
 
 	//removing active particles
 	if (!active.empty())
@@ -302,6 +419,13 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
 		/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
+
+		/*AddParticle(stone01, p.x, p.y);
+		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
+		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
+
+		AddParticle(burn01, p.x, p.y, { 0,0 }, 0, SDL_FLIP_NONE, 0, INT_MAX, INT_MAX, 0.5F);
+
 	}
 
 	return ret;
@@ -327,7 +451,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 		}
 		else if (SDL_GetTicks() >= (*p)->born)
 		{
-			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * 2, (*p)->pivot.y * 2);
+			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * App->win->GetScale(), (*p)->pivot.y * App->win->GetScale());
 			if ((*p)->fx_played == false && (*p)->fx != 0)
 			{
 				(*p)->fx_played = true;

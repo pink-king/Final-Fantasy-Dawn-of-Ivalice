@@ -19,8 +19,8 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	void UlitMarche();
-	void MarcheUltimate();
-	//bool PostUpdate();
+	/*void MarcheUltimate();*/
+	bool PostUpdate();
 	//virtual bool CleanUp();
 
 	// functionality ------
@@ -32,7 +32,31 @@ public:
 	myClocks myUIClocks;
 
 private:
+	// BASE DAMAGE
+	int baseDamage;
+	// BASIC ATTACK
+	SDL_Texture* basicAttackTex = nullptr;
+	Animation basicAttackAnim[(int)facingDirection::MAX][2];
+	j1Timer basicAttackPulsationTimer;
+	Uint32 basicAttackPulsationMaxTime;
 
+	// WHIRLWIND
+	SDL_Texture* whirlwindTex = nullptr;
+	SDL_Texture* whirlwindFireTex = nullptr;
+	Animation whirlwindAnim[(int)facingDirection::MAX];
+	Animation whirlwindFireAnim;
+	Animation whirlwindFireAnimExitLoop;
+	j1Timer whirlwindTotalCastingTimer;
+	j1Timer whirlwindAttackTimer;
+	Uint32 whirlwindMaxCastingTime;
+	Uint32 whirlwindCadence;
+	bool doingWhirlwind = false;
+	fPoint whirlwindFirePos;
+	Uint16 whirlwindFinalBoomDMG;
+	Uint16 whirlwindWhileLoopDMG;
+	float maxTornadoDistanceMultiplier;
+
+	// DASH pivoting
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 
 };
