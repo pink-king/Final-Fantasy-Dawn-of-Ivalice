@@ -36,7 +36,7 @@ public:
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();
 	iPoint ScreenToWorld(int x, int y) const;
-	iPoint WorldToScreen(int x, int y) const;
+	iPoint WorldToScreen(int x, int y, bool descriptions = false) const;
 
 	bool IsOnCamera(const int&x, const int&y, const int&w, const int& h) const;
 
