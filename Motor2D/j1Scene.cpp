@@ -322,11 +322,7 @@ bool j1Scene::Update(float dt)
 				inventory->enable = false;
 			}
 
-			if(inventory->enable)
-			{
-				SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
-				SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
-			}
+			
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)

@@ -408,6 +408,10 @@
     <SettingsInGame>
 
       <images>
+        <image name="bg_transparency">
+          <section x="1320" y="1" w="1280" h="720"/>
+          <position x="0" y="0"/>
+        </image>
         <image name="scroll">
           <section x="1281" y="810" w="604" h="654"/>
           <position x="341" y="21"/>
@@ -442,6 +446,10 @@
 
     <Inventory>
       <images>
+        <image name="bg_transparency">
+          <section x="1320" y="1" w="1280" h="720"/>
+          <position x="0" y="0"/>
+        </image>
         <image name="inventoryPanel">
           <section x="68" y="2252" w="787" h="520"/>
           <position x="278" y="101"/>
