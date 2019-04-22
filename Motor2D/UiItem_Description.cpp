@@ -648,9 +648,9 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		}
 		else
 		{
-			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
 		}
 
@@ -669,7 +669,7 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		else
 		{
 
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;    // ADD HP LABEL AND VELOCITY LABEL
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;    // ADD HP LABEL AND VELOCITY LABEL
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
 		}
 
