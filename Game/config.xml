@@ -408,14 +408,17 @@
     <SettingsInGame>
 
       <images>
-
+        <image name="scroll">
+          <section x="1281" y="810" w="604" h="654"/>
+          <position x="341" y="21"/>
+        </image>
       </images>
 
 
       <labels>
         <label name="PauseMenu">
-          <position x="500" y="70"/>
-          <color R="255" G="255" B="255" A="255"/>
+          <position x="500" y="93"/>
+          <color R="0" G="0" B="0" A="255"/>
           <text value="PAUSE MENU"/>
         </label>
       </labels>
@@ -425,13 +428,13 @@
           <idleSec x="856" y="2725" w="215" h="64"/>
           <hoverSec x="856" y="2660" w="215" h="64" />
           <clickSec x="1072" y="2651" w="215" h="64" />
-          <position x="530" y="450"/>
+          <position x="530" y="440"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
           <idleSec x="1073" y="2456" w="215" h="64"/>
           <hoverSec x="1073" y="2521" w="215" h="64" />
           <clickSec x="1073" y="2586" w="215" h="64" />
-          <position x="530" y="561"/>
+          <position x="530" y="551"/>
         </button>
       </buttons>
 
