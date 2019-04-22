@@ -61,7 +61,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	if (this->numerOrText == variant::number)
 	{
-		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);
+		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
 	}
 	else if(this->valueInformation.string == "FIERCE")
 	{
