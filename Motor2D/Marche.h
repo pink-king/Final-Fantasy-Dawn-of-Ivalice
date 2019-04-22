@@ -31,6 +31,13 @@ public:
 	myClocks myUIClocks;
 
 private:
+	// BASE DAMAGE
+	int baseDamage;
+	// BASIC ATTACK
+	SDL_Texture* basicAttackTex = nullptr;
+	Animation basicAttackAnim[(int)facingDirection::MAX][2];
+	j1Timer basicAttackPulsationTimer;
+	Uint32 basicAttackPulsationMaxTime;
 	// WHIRLWIND
 	SDL_Texture* whirlwindTex = nullptr;
 	SDL_Texture* whirlwindFireTex = nullptr;

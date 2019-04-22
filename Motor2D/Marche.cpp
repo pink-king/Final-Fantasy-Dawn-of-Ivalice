@@ -14,7 +14,7 @@
 #include "j1Scene.h"
 #include "Projectile.h"
 
-Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
+Marche::Marche(int posX, int posY) : PlayerEntity(posX, posY)
 {
 	character = characterName::MARCHE;
 	name.assign("Marche");
@@ -24,6 +24,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
 	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
+	basicAttackTex = App->tex->Load("textures/characters/marche/marche_blocking_basic_attack.png");
 	entityTex = spritesheet;
 
 	// IDLE
@@ -33,7 +34,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	idle[(int)facingDirection::E].PushBack({ 90,0,45,60 });
 	idle[(int)facingDirection::W].PushBack({ 90,0,45,60 }); // same as E but flipped - 4
 	idle[(int)facingDirection::NE].PushBack({ 135,0,45,60 });
-	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 }); 
+	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 });
 	idle[(int)facingDirection::SW].PushBack({ 45,0,45,60 }); // same as SE but flipped - 3
 	idle[(int)facingDirection::NW].PushBack({ 135,0,45,60 }); // same as NE but flipped - 7
 	// one frame doesnt need speed
@@ -50,7 +51,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::N].speed = 10.0f;
 
 	run[(int)facingDirection::S].PushBack({ 0,60,45,60 });
-	run[(int)facingDirection::S].PushBack({ 45,60,45,60 }); 
+	run[(int)facingDirection::S].PushBack({ 45,60,45,60 });
 	run[(int)facingDirection::S].PushBack({ 90,60,45,60 });
 	run[(int)facingDirection::S].PushBack({ 135,60,45,60 });
 	run[(int)facingDirection::S].PushBack({ 180,60,45,60 });
@@ -113,106 +114,106 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dash[(int)facingDirection::E].PushBack({ 285,0, 95,110 });
 	dash[(int)facingDirection::E].loop = false;
 	dash[(int)facingDirection::E].speed = 16.f;
-	
+
 	dash[(int)facingDirection::W].PushBack({ 0,0,95,110 });
 	dash[(int)facingDirection::W].PushBack({ 95,0,95,110 });
 	dash[(int)facingDirection::W].PushBack({ 190,0, 95,110 });
 	dash[(int)facingDirection::W].PushBack({ 285,0, 95,110 });
 	dash[(int)facingDirection::W].loop = false;
 	dash[(int)facingDirection::W].speed = 16.0f;
-	
+
 	dash[(int)facingDirection::S].PushBack({ 0,110,95,110 });
 	dash[(int)facingDirection::S].PushBack({ 95,110,95,110 });
 	dash[(int)facingDirection::S].PushBack({ 190,110, 95,110 });
 	dash[(int)facingDirection::S].PushBack({ 285,110, 95,110 });
 	dash[(int)facingDirection::S].loop = false;
 	dash[(int)facingDirection::S].speed = 16.0f;
-	
+
 	dash[(int)facingDirection::N].PushBack({ 0,220,95,110 });
 	dash[(int)facingDirection::N].PushBack({ 95,220,95,110 });
 	dash[(int)facingDirection::N].PushBack({ 190,220, 95,110 });
 	dash[(int)facingDirection::N].PushBack({ 285,220, 95,110 });
 	dash[(int)facingDirection::N].loop = false;
 	dash[(int)facingDirection::N].speed = 16.0f;
-	
+
 	dash[(int)facingDirection::SE].PushBack({ 0,330,95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 95,330,95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 190,330, 95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 285,330, 95,110 });
 	dash[(int)facingDirection::SE].loop = false;
 	dash[(int)facingDirection::SE].speed = 16.0f;
-	
+
 	dash[(int)facingDirection::SW].PushBack({ 0,330,95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 95,330,95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 190,330, 95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 285,330, 95,110 });
 	dash[(int)facingDirection::SW].loop = false;
 	dash[(int)facingDirection::SW].speed = 16.0f;
-	
+
 	dash[(int)facingDirection::NE].PushBack({ 0,440,95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 95,440,95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 190,440, 95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 285,440, 95,110 });
 	dash[(int)facingDirection::NE].loop = false;
 	dash[(int)facingDirection::NE].speed = 16.0f;
-	
+
 	dash[(int)facingDirection::NW].PushBack({ 0,440,95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 95,440,95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 190,440, 95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 285,440, 95,110 });
 	dash[(int)facingDirection::NW].loop = false;
 	dash[(int)facingDirection::NW].speed = 16.0f;
-	
+
 	// TODO: polish this offset positions
 	// this offsets relates to its position inside the 95,110 rect pivot position (character foot line)
 	dashPivotOffset[(int)facingDirection::E][0] = { 52.f,68.f };
 	dashPivotOffset[(int)facingDirection::E][1] = { 60.f,68.f };
 	dashPivotOffset[(int)facingDirection::E][2] = { 75.f,68.f };
 	dashPivotOffset[(int)facingDirection::E][3] = { 85.f,72.f };
-	
+
 	dashPivotOffset[(int)facingDirection::W][0] = { 37.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][1] = { 29.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][2] = { 15.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][3] = { 10.f,68.f };
-	
+
 	dashPivotOffset[(int)facingDirection::S][0] = { 48.f,94.f };
 	dashPivotOffset[(int)facingDirection::S][1] = { 48.f,94.f };
 	dashPivotOffset[(int)facingDirection::S][2] = { 48.f,101.f };
 	dashPivotOffset[(int)facingDirection::S][3] = { 48.f,94.f };
-	
+
 	dashPivotOffset[(int)facingDirection::N][0] = { 48.f,52.f };
 	dashPivotOffset[(int)facingDirection::N][1] = { 48.f,52.f };
 	dashPivotOffset[(int)facingDirection::N][2] = { 48.f,52.f };
 	dashPivotOffset[(int)facingDirection::N][3] = { 48.f,52.f };
-	
+
 	dashPivotOffset[(int)facingDirection::SE][0] = { 48.f,84.f };
 	dashPivotOffset[(int)facingDirection::SE][1] = { 58.f,90.f };
 	dashPivotOffset[(int)facingDirection::SE][2] = { 67.f,92.f };
 	dashPivotOffset[(int)facingDirection::SE][3] = { 73.f,93.f };
-	
+
 	dashPivotOffset[(int)facingDirection::NE][0] = { 48.f,58.f };
 	dashPivotOffset[(int)facingDirection::NE][1] = { 64.f,58.f };
 	dashPivotOffset[(int)facingDirection::NE][2] = { 70.f,56.f };
 	dashPivotOffset[(int)facingDirection::NE][3] = { 73.f,62.f };
-	
+
 	dashPivotOffset[(int)facingDirection::NW][0] = { 48.f,58.f };
 	dashPivotOffset[(int)facingDirection::NW][1] = { 32.f,58.f };
 	dashPivotOffset[(int)facingDirection::NW][2] = { 26.f,56.f };
 	dashPivotOffset[(int)facingDirection::NW][3] = { 24.f,62.f };
-	
+
 	dashPivotOffset[(int)facingDirection::SW][0] = { 48.f,84.f };
 	dashPivotOffset[(int)facingDirection::SW][1] = { 40.f,90.f };
 	dashPivotOffset[(int)facingDirection::SW][2] = { 28.f,92.f };
 	dashPivotOffset[(int)facingDirection::SW][3] = { 23.f,93.f };
 	// --------------------------------------------------------------------
-	
+
 	// WHIRLWIND : TODO, needs correct order of pushing
 	int indexAnim[(int)facingDirection::MAX] = { 13,13,14,14,13,14,14,13 };
 	for (int y = 0; y <= (int)facingDirection::MAX; ++y)
 	{ // 60,65
-		for(int x = 0; x < indexAnim[y]; ++x)
-			whirlwindAnim[y].PushBack({x*60, y*65, 60,65});
-	
+		for (int x = 0; x < indexAnim[y]; ++x)
+			whirlwindAnim[y].PushBack({ x * 60, y * 65, 60,65 });
+
 		whirlwindAnim[y].speed = 20.f;
 		whirlwindAnim[y].loop = false;
 	}
@@ -234,7 +235,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	// decay
 	//whirlwindFireAnim.PushBack({ 180,240, 180,80 });
 	//whirlwindFireAnim.PushBack({ 360,240, 180,80 });
-    //whirlwindFireAnim.PushBack({ 0,320, 180,80 });
+	//whirlwindFireAnim.PushBack({ 0,320, 180,80 });
 	//whirlwindFireAnim.PushBack({ 180,320, 180,80 });
 
 	whirlwindFireAnimExitLoop.PushBack({ 180,240, 180,80 });
@@ -244,18 +245,172 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	whirlwindFireAnimExitLoop.speed = 10.f;
 	whirlwindFireAnimExitLoop.loop = false;
 
-	
-	
+	// BASIC ATTACK  -------
+	float attackAnimSpeed = 20.f;
+	// ---------------------------
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 0,150,60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 60,150,60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 120,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 180,150, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 240,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 300,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 360,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::E][0].loop = false;
+	// -----
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 360,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 420,150, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 480,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 540,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 600,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 660,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::E][1].loop = false;
+	// ------
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 0,150,60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 60,150,60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 120,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 180,150, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 240,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 300,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 360,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::W][0].loop = false;
+	// -----							  
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 360,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 420,150, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 480,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 540,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 600,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 660,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::W][1].loop = false;
+	// ---------------------------
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 0,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 60,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 120,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 180,75, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 240,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 300,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 360,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::S][0].loop = false;
+	// -----
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 360,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 420,75, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 480,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 540,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 600,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 660,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::S][1].loop = false;
+	// ---------------------------
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 0, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 60, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 120, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 180, 300, 60, 75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 240, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 300, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 360, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::N][0].loop = false;
+	// -----
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 360,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 420,300, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 480,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 540,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 600,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 660,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::N][1].loop = false;
+	// -----------------------------
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 0,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 60,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 120,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 180,0, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 240,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 300,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 360,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::SE][0].loop = false;
+	// -----
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 360,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 420,0, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 480,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 540,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 600,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 660,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::SE][1].loop = false;
+	// --------------
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 0,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 60,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 120,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 180,0, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 240,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 300,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 360,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::SW][0].loop = false;
+	// -----							  
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 360,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 420,0, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 480,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 540,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 600,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 660,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::SW][1].loop = false;
+	// ------------------------------------------
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 0, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 60, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 120, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 180, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 240, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 300, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 360, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::NE][0].loop = false;
+	// -----
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 360,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 420,225, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 480,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 540,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 600,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 660,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::NE][1].loop = false;
+	// ---------------
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 0, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 60, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 120, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 180, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 240, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 300, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 360, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::NW][0].loop = false;
+	// -----							  
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 360,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 420,225, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 480,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 540,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 600,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 660,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].speed = attackAnimSpeed;
+	basicAttackAnim[(int)facingDirection::NW][1].loop = false;
+
+
 	// ------------------------------------------------------------------
 
 
 	currentAnimation = &run[(int)facingDirection::W];
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
-	coolDownData.basic.cooldownTime = 0;
+	coolDownData.basic.cooldownTime = 0; // warning for encadenate the second time timer max
 	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
-	coolDownData.special2.cooldownTime = 1000;
+	coolDownData.special2.cooldownTime = 1500;
 	coolDownData.ultimate.cooldownTime = 10000;
 
 	previousPos = position;
@@ -267,13 +422,16 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dashMaxDistance = 64.f;
 	whirlwindMaxCastingTime = 3500;
 	whirlwindCadence = 150;
-
+	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
+										// second hit is more powerfull too
+	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
 }
 
 Marche::~Marche()
 {
 	App->tex->UnLoad(whirlwindTex);
 	App->tex->UnLoad(whirlwindFireTex);
+	App->tex->UnLoad(basicAttackTex);
 }
 
 bool Marche::Start()
@@ -311,6 +469,7 @@ bool Marche::Update(float dt)
 				currentAnimation = &idle[pointingDir];
 				inputReady = true;
 				transference_pivot = { 0,0 };
+				combat_state = combatState::IDLE;
 			}
 		}
 	}
@@ -322,20 +481,84 @@ bool Marche::Update(float dt)
 		
 		break;
 	case combatState::BASIC:
-		
-		if (coolDownData.basic.timer.Read() > coolDownData.basic.cooldownTime)
+	{
+		static int attackType;
+
+		if (coolDownData.basic.timer.Read() > coolDownData.basic.cooldownTime && inputReady)
 		{
-			App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
 			LOG("Launch BASIC");
+			inputReady = false;
 			coolDownData.basic.timer.Start();
+			
+			if (basicAttackPulsationTimer.Read() > basicAttackPulsationMaxTime)
+			{
+				basicAttackPulsationTimer.Start();
+				LOG("ATTACK1");
+				attackType = 0;
+			}
+			else
+			{
+				LOG("ATTACK2");
+				attackType = 1;
+			}
+			currentAnimation = &basicAttackAnim[pointingDir][attackType];
+			entityTex = basicAttackTex;
+
+			//App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
+			
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
 			App->camera2D->AddTrauma(10.0f / 100.f);
 			App->input->DoGamePadRumble(0.3f, 100);
-			
+
+		}
+		if (!inputReady)
+		{
+			// check type of attack and hit frame of each and instantiate the feel
+			if (attackType == 0)
+			{
+				if ((int)currentAnimation->GetCurrentFloatFrame() >= 4.f) // hit frame of 0 type
+				{
+					App->attackManager->AddPropagationAttack(
+						(j1Entity*)this,
+						App->entityFactory->player->GetSubtilePos(),
+						propagationType::BFS,
+						damageType::DIRECT,
+						ELEMENTAL_TYPE::NO_ELEMENT,
+						baseDamage,
+						2, 30, false);
+
+					// FINAL RUMBLE AND SHAKE
+					App->camera2D->AddTrauma(0.45f);
+					App->input->DoGamePadRumble(0.4f, 300);
+
+					// force change state
+					combat_state = combatState::IDLE;
+				}
+			}
+			else
+			{
+				App->attackManager->AddPropagationAttack(
+					(j1Entity*)this,
+					App->entityFactory->player->GetSubtilePos(),
+					propagationType::BFS,
+					damageType::DIRECT,
+					ELEMENTAL_TYPE::NO_ELEMENT,
+					baseDamage * 2, // TODO: PASS parameter basedamage from attackdata from attack manager to float
+					3, 20, false);
+
+				// FINAL RUMBLE AND SHAKE
+				App->camera2D->AddTrauma(0.65f);
+				App->input->DoGamePadRumble(0.8f, 300);
+
+				// force change state
+				combat_state = combatState::IDLE;
+			}
+
 		}
 		break;
+	}
 	case combatState::DODGE:
 	{
 		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
@@ -415,6 +638,8 @@ bool Marche::Update(float dt)
 			{
 				if (whirlwindTotalCastingTimer.Read() > whirlwindMaxCastingTime)
 				{
+					// hability timer restart
+					coolDownData.special2.timer.Start();
 					// changes animation to real pointing direction, and decelerates
 					float fft = currentAnimation->GetCurrentFloatFrame(); // float frame temp
 					// resets current whirlwind froming anim
