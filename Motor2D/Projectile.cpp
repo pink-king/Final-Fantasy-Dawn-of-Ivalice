@@ -2,7 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Render.h"
-
+#include "j1Window.h"
 
 
 
@@ -75,7 +75,7 @@ void Projectile::Draw()
 	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * App->win->GetScale(), pivot.y * App->win->GetScale());
 		else
 			App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
 	}

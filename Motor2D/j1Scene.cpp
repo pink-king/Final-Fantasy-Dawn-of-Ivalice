@@ -165,7 +165,7 @@ bool j1Scene::PreUpdate()
 		else
 			LOG("subtile NOT empty");
 
-		// DEBUG attack propagation!
+		 //DEBUG attack propagation!
 		App->attackManager->AddPropagationAttack(
 			App->entityFactory->player->GetSelectedCharacterEntity(), // from entity
 			{ entitySubTilePoint.x,entitySubTilePoint.y }, // impact position, (on subtilemap units)
@@ -374,9 +374,13 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
 	{
 		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MEDUSA);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
@@ -396,13 +400,13 @@ bool j1Scene::Update(float dt)
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
 		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
 	}
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
-	{
-		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
+	//{
+	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
 
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
-		App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
-	}
+	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+	//	App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
+	//}
 
 	LoadMusicFromScene();
 	return true;

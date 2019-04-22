@@ -90,6 +90,7 @@ public:
 	Particle ice01;
 	Particle ice02;
 	Particle ice03; 
+	Particle stone01;
 	Particle poison01;
 	Particle poison02;
 	Particle blood01;

@@ -14,6 +14,7 @@
 #include "DeathCircle.h"
 #include "Emmiter.h"
 #include "EmmiterArrows.h"
+#include "Medusa.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -436,6 +437,11 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = new Emmiter(pos, owner);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::MEDUSA:
+		ret = new Medusa(pos, owner);
+		entities.push_back(ret);
+		break; 
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
