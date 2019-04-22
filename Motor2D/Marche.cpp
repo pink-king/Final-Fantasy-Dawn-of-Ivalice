@@ -580,7 +580,7 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 			App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(),PROJECTILE_TYPE::TORNADO);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetPivotPos(), { 0,0 }, 0, this, PROJECTILE_TYPE::EARTH_SHAKER);
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Marche.special1)

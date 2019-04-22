@@ -16,6 +16,7 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
+#include "EarthShaker.h"
 #include "Brofiler/Brofiler.h"
 #include <ctime>
 #include <algorithm>
@@ -449,6 +450,12 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = new Tornado(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::EARTH_SHAKER:
+		ret = new EarthShaker(pos, owner);
+		entities.push_back(ret);
+		break; 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 

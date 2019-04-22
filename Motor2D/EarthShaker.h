@@ -2,7 +2,7 @@
 #define __EARTHSHAKER_H__
 
 #include "Projectile.h"
-
+#include <random>
 
 class EarthShaker : public Projectile
 {
@@ -13,12 +13,13 @@ public:
 	bool Update(float dt) override;
 	bool PostUpdate() override; 
 
-	void SpawnTornado(); 
-
+	void Attack(); 
+	void SpawnTornados(); 
 
 private: 
-	j1Timer timer; 
-
+	uint tornados;
+	std::random_device rd;  
+	std::mt19937 gen;
 };
 
 
