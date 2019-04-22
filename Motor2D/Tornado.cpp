@@ -113,10 +113,13 @@ bool Tornado::Attack()
 {
 	if (AttackTimer.Read() > AttackTime)
 	{
+		App->camera2D->AddTrauma(0.2F);
+		App->input->DoGamePadRumble(0.3F, 30);
+
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 15, 3, 20, false);
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-			damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 2, 200, true);
+			damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 3, 200, true);
 		AttackTimer.Start();
 	}
 	return true;
