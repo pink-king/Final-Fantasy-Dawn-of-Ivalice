@@ -341,14 +341,17 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 
 
-void UiItem_Inventory::Draw(const float& dt)
+void UiItem_Inventory::Draw(const float & dt)
 {
 	/*SDL_Rect draw = { 0 };
+
 	if (!drawTest)
 	{
 		for (int i = 0; i < MAX_Weapons_plus_Equipment; ++i)
 		{
 			draw.x = initialPositions.weaponsAndEquipment.x + i*boxSize;
+
+
 			App->render->DrawQuad();
 		}
 	}*/
@@ -361,12 +364,15 @@ void UiItem_Inventory::Draw(const float& dt)
 
 /*	if (!App->scene->inventory->enable)
 	{
+
+
+
 	}*/
 
 }
 
 
-void UiItem_Inventory::De_______Equip(LootEntity * callback)
+void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
 
@@ -454,3 +460,4 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 
 }
+
