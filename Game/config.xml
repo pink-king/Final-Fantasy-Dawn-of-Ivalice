@@ -341,14 +341,15 @@
           <section x="0" y="1531" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
-        <image name="TitleSettings">
-          <section x="911" y="111" w="269" h="65"/>
-          <position x="504" y="109"/>
-        </image>
+        
       </images>
 
       <labels>
-
+        <label name="Settings">
+          <position x="545" y="70"/>
+          <color R="255" G="255" B="255" A="255"/>
+          <text value="SETTINGS"/>
+        </label>
       </labels>
 
       <panelBars>
@@ -413,7 +414,7 @@
 
       <labels>
         <label name="PauseMenu">
-          <position x="529" y="70"/>
+          <position x="500" y="70"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="PAUSE MENU"/>
         </label>

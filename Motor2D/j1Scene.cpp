@@ -521,7 +521,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 
-		App->gui->AddLabel(text.data(), color, App->font->openSansBold36, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->piecesofEight48, position, parent);
 
 	}
 

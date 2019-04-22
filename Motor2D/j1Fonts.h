@@ -47,6 +47,7 @@ public:
 	_TTF_Font*			    openSansBold18;
 	_TTF_Font*			    openSansBold36;
 	_TTF_Font*			    openSansSemiBold24;
+	_TTF_Font*			    piecesofEight48;
 
 	// hitpoint labels
 	_TTF_Font*              shatterBoxx36;
