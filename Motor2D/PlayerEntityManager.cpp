@@ -443,7 +443,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 				App->audio->PlayFx(pickGold, 0);
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
-				str_coin = "x  " + std::to_string(gold);
+				str_coin = std::to_string(gold) + " x";
 				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 				App->tex->UnLoad(entityLoot->entityTex);
 				return false;

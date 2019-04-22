@@ -63,6 +63,8 @@ public:
 	bool selected = false;
 	int scaleFactor;
 	iPoint textureDimensions;
+	iPoint prevTextDimension;
+	bool first_hitbox = false;
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string& functionName) {};
