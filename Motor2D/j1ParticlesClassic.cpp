@@ -189,6 +189,17 @@ bool j1ParticlesClassic::Start()
 	burn01.anim.speed = 13.f;
 	burn01.texture = windsTex;
 
+	powder01.anim.PushBack({ 0, 19, 64, 29 });
+	powder01.anim.PushBack({ 64, 19, 64, 29 });
+	powder01.anim.PushBack({ 128, 19, 64, 29 });
+	powder01.anim.PushBack({ 192, 19, 64, 29 });
+	powder01.anim.PushBack({ 256, 19, 64, 29 });
+	powder01.anim.PushBack({ 320, 19, 64, 29 });
+	powder01.anim.PushBack({ 384, 19, 64, 29 });
+	powder01.anim.speed = 10.5f;
+	powder01.anim.loop = false;
+	powder01.texture = windsTex;
+
 	blood01.anim.PushBack({ 126, 0, 48, 48 });
 	blood01.anim.PushBack({ 174, 0, 48, 48 });
 	blood01.anim.PushBack({ 222, 0, 48, 48 });

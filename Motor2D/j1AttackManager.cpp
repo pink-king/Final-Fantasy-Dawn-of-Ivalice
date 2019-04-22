@@ -355,6 +355,9 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 		// substract pivot
 		drawRectified -= stonePivot;
 		App->particles->AddParticle(App->particles->stone01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+		iPoint smokePivot = { 32, -17 };
+		drawRectified -= smokePivot;
+		App->particles->AddParticle(App->particles->powder01, drawRectified.x, drawRectified.y, { 0,0 }, 500u, renderFlip);
 	}
 	break;
 	case ELEMENTAL_TYPE::ALL_ELEMENTS:

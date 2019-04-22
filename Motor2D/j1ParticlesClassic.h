@@ -98,6 +98,7 @@ public:
 	Particle blood01;
 	Particle blood02;
 	Particle arrowTrail;
+	Particle powder01;
 
 };
 
