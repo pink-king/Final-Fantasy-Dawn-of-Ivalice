@@ -109,6 +109,7 @@ public:
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
+
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
 	// TO DO Atlas of enemies
@@ -119,6 +120,8 @@ public:
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
 	SDL_Texture*			marcheTornadoTex = nullptr;
+	SDL_Texture*			lootItemsTex = nullptr; 
+
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;

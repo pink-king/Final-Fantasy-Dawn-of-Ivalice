@@ -75,6 +75,7 @@ bool j1EntityFactory::Start()
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
+	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -172,7 +173,7 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::NO_TYPE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
 					createLoot = true;
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
@@ -250,6 +251,11 @@ bool j1EntityFactory::CleanUp()
 	App->tex->UnLoad(enemyZombieTex);
 	App->tex->UnLoad(enemyBombTex);
 	App->tex->UnLoad(debugsubtileTex);
+	App->tex->UnLoad(arrowsTexture);
+	App->tex->UnLoad(ritzUltimateTex);
+	App->tex->UnLoad(ritzBasicTex);
+	App->tex->UnLoad(marcheTornadoTex);
+	App->tex->UnLoad(lootItemsTex); 
 
 	return ret;
 }
