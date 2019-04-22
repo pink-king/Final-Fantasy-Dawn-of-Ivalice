@@ -167,6 +167,9 @@
     <ClCompile Include="Emmiter.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="Tornado.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
     <ClCompile Include="Medusa.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
@@ -357,6 +360,9 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="Emmiter.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Tornado.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="Medusa.h">

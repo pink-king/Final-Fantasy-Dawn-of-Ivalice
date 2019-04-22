@@ -115,6 +115,7 @@ public:
 	SDL_Texture*			arrowsTexture = nullptr; 
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
+	SDL_Texture*			marcheTornadoTex = nullptr;
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
