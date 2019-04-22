@@ -412,6 +412,12 @@ Marche::Marche(int posX, int posY) : PlayerEntity(posX, posY)
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
 	coolDownData.ultimate.cooldownTime = 10000;
+	// starts timers
+	coolDownData.basic.timer.Start();
+	coolDownData.dodge.timer.Start();
+	coolDownData.special1.timer.Start();
+	coolDownData.special2.timer.Start();
+	coolDownData.ultimate.timer.Start();
 
 	previousPos = position;
 
@@ -422,6 +428,7 @@ Marche::Marche(int posX, int posY) : PlayerEntity(posX, posY)
 	dashMaxDistance = 64.f;
 	whirlwindMaxCastingTime = 3500;
 	whirlwindCadence = 150;
+	maxTornadoDistanceMultiplier = 30.f; // multiplicate the direction vector
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 										// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
@@ -696,8 +703,25 @@ bool Marche::Update(float dt)
 						// camera shake and rumble
 						App->camera2D->AddTrauma(0.3f);
 						App->input->DoGamePadRumble(0.4f, whirlwindCadence * 0.9f);
+
+						// instantiate or not a random tornado
+						if (rand() % 2 == 0)
+						{
+							LOG("tornado extra");
+							// get offset position
+							fPoint offset;
+							offset.x = GetPivotPos().x + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
+							offset.y = GetPivotPos().y + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
+
+							App->entityFactory->CreateArrow(GetPivotPos(), offset, 75, this, PROJECTILE_TYPE::TORNADO);
+
+						}
+						else
+						{
+							LOG("NOT TORNADO");
+						}
 					}
-					
+
 				}
 
 			}

@@ -52,6 +52,7 @@ private:
 	fPoint whirlwindFirePos;
 	Uint16 whirlwindFinalBoomDMG;
 	Uint16 whirlwindWhileLoopDMG;
+	float maxTornadoDistanceMultiplier;
 
 	// DASH pivoting
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];

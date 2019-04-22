@@ -245,6 +245,10 @@ bool j1EntityFactory::CleanUp()
 	App->tex->UnLoad(enemyZombieTex);
 	App->tex->UnLoad(enemyBombTex);
 	App->tex->UnLoad(debugsubtileTex);
+	App->tex->UnLoad(ritzUltimateTex);
+	App->tex->UnLoad(ritzBasicTex);
+	App->tex->UnLoad(arrowsTexture);
+	App->tex->UnLoad(marcheTornadoTex);
 
 	return ret;
 }
