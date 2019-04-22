@@ -416,7 +416,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 10000;
+	coolDownData.ultimate.cooldownTime = 1;
 	// starts timers
 	coolDownData.basic.timer.Start();
 	coolDownData.dodge.timer.Start();
@@ -441,6 +441,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
+	ultiTime = 5;
 }
 
 Marche::~Marche()
@@ -449,6 +450,12 @@ Marche::~Marche()
 	App->tex->UnLoad(whirlwindFireTex);
 	App->tex->UnLoad(basicAttackTex);
 
+
+	for (std::list<Buff*>::iterator iter = ulti_buffs.begin(); iter != ulti_buffs.end(); ++iter)
+	{
+		ulti_buffs.remove(*iter);
+	}
+	ulti_buffs.clear();
 }
 
 bool Marche::Start()
@@ -787,7 +794,7 @@ bool Marche::Update(float dt)
 			App->input->DoGamePadRumble(0.7f, 400);*/
 			if (!App->gui->spawnedClocks.Marche.ulti)
 			{
-
+				
 				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->inGamePanel);
 
 				App->gui->spawnedClocks.Marche.ulti = true;
@@ -796,12 +803,11 @@ bool Marche::Update(float dt)
 			{
 				myUIClocks.ulti->Restart();
 			}
-			UlitMarche();
+			activeUlti = true;
 
 			coolDownData.ultimate.timer.Start();
 
 		}
-		
 		break;
 	
 	case combatState::MAX:
@@ -810,6 +816,8 @@ bool Marche::Update(float dt)
 		break;
 	}
 
+
+	
 	//test buff
 	/*j1Entity* j1 = nullptr;
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
@@ -861,7 +869,7 @@ bool Marche::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
 	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "\0", 100);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
@@ -888,16 +896,37 @@ bool Marche::Update(float dt)
 
 void Marche::UlitMarche()
 {
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
-	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
-	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, 5);
+	if (!startUlti)
+	{
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetMarche(), "stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetShara(), "stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetRitz(),"stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetShara(), "stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetRitz(), "stat", 100));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetMarche(), "stat", 0.8f));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetShara(), "stat", 0.8f));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetRitz(), "stat", 0.8f));
+		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, App->entityFactory->player->GetRitz(), "stat", 100));
+		
+		ultiTimer.Start();
+		startUlti = true;
+	}
+	if (ultiTime < ultiTimer.ReadSec() && startUlti)
+	{
+		for (std::list<Buff*>::iterator iter = ulti_buffs.begin(); iter != ulti_buffs.end();++iter)
+		{
+			App->buff->DeleteBuff(*iter);
+
+			ulti_buffs.remove(*iter);
+		}
+		ulti_buffs.clear();
+
+		activeUlti = false;
+		startUlti = false;
+	}
+
+
 }
 
 //bool Marche::CleanUp()

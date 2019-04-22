@@ -58,7 +58,14 @@ private:
 
 	// DASH pivoting
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
-
+public:
+	bool activeUlti = false;
+private:
+	
+	bool startUlti = false;
+	j1Timer ultiTimer;
+	uint ultiTime;
+	std::list<Buff*> ulti_buffs;
 };
 
 #endif

@@ -161,6 +161,8 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
+	if (marche->activeUlti)
+		marche->UlitMarche();
 	return ret;
 }
 
