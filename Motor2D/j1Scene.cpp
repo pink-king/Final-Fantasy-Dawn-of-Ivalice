@@ -240,7 +240,7 @@ bool j1Scene::Update(float dt)
 	if (state == SceneState::STARTMENU)
 	{
 		
-
+		App->entityFactory->player->selectedCharacterEntity->inputReady = false;
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -250,7 +250,6 @@ bool j1Scene::Update(float dt)
 		uiMarche->enable = false;
 		uiRitz->enable = false;
 		uiShara->enable = false;
-		App->entityFactory->player->selectedCharacterEntity->inputReady = false;
 		//settingPanel->enable = false;
 	}
 	
@@ -258,7 +257,9 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		if(!inventory->enable && !pausePanel->enable)
+		if (!pausePanel->enable)
+			App->entityFactory->player->selectedCharacterEntity->inputReady = true;
+
 		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
@@ -287,44 +288,49 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
-			App->entityFactory->player->selectedCharacterEntity->inputReady = false;
-			App->gui->resetHoverSwapping = false;
-			App->pause = !App->pause;
-			if (App->pause)
+			if (!inventory->enable)
 			{
-				Mix_PauseMusic();
-				if (!pausePanel->enable)
-					App->audio->PlayFx(open_PauseMenuSFX, 0);
-				
-				pausePanel->enable = true;
-				paused = true;
-			}
-			else 
-			{
-				Mix_ResumeMusic();
-				pausePanel->enable = false;
+				App->gui->resetHoverSwapping = false;
+				App->pause = !App->pause;
+				if (App->pause)
+				{
+					App->entityFactory->player->selectedCharacterEntity->inputReady = false;
+					Mix_PauseMusic();
+					if (!pausePanel->enable)
+						App->audio->PlayFx(open_PauseMenuSFX, 0);
+
+					pausePanel->enable = true;
+					paused = true;
+				}
+				else
+				{
+					Mix_ResumeMusic();
+					pausePanel->enable = false;
+				}
 			}
 		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			App->pause = !App->pause;
-			if (App->pause)
+			if (!pausePanel->enable)
 			{
-				inventory->enable = true;
-				App->gui->resetHoverSwapping = false;
-				inventoryItem->LoadElements();
-				App->audio->PlayFx(openInventorySFX, 0);
+				App->pause = !App->pause;
+				if (App->pause && !pausePanel->enable)
+				{
+					inventory->enable = true;
+					App->gui->resetHoverSwapping = false;
+					inventoryItem->LoadElements();
+					App->audio->PlayFx(openInventorySFX, 0);
+
+				}
+
+				else
+				{
+					App->audio->PlayFx(closeinventorySFX, 0);
+					inventory->enable = false;
+				}
 
 			}
-		
-			else
-			{
-				App->audio->PlayFx(closeinventorySFX, 0);
-				inventory->enable = false;
-			}
-
-			
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
