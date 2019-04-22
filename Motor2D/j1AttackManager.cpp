@@ -223,6 +223,8 @@ bool attackData::Update(float dt)
 	// debug draw
 	if (debug)
 	{
+		BROFILER_CATEGORY("Propagations Debug", Profiler::Color::Chocolate);
+
 		// blit debug attack expansion -----------------------------------------------------------------
 		std::vector<iPoint>::iterator debugDrawVisitedSubtiles = visited.begin();
 		for (; debugDrawVisitedSubtiles != visited.end(); ++debugDrawVisitedSubtiles)
@@ -267,6 +269,9 @@ bool attackData::PostUpdate()
 
 bool attackData::InstantiateParticles()
 {
+
+	BROFILER_CATEGORY("Attacks Propagations Particles", Profiler::Color::Chocolate);
+
 	bool ret = true;
 
 	if (instantiateParticles)
@@ -287,6 +292,7 @@ bool attackData::InstantiateParticles()
 
 bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass directly the particle to attack manager instead of the type
 {
+
 	bool ret = true;
 
 	// center particle to subtile
@@ -424,6 +430,8 @@ std::vector<j1Entity*>* attackData::GetInvolvedEntitiesFromSubtile(const iPoint 
 
 void attackData::CheckEntitiesFromSubtileStep()
 {
+	BROFILER_CATEGORY("Attacks Check Entities Subtile", Profiler::Color::FireBrick);
+
 	while (!subtileQueue.empty())
 	{
 		//LOG("Checking entities on involved subtile");
@@ -524,6 +532,7 @@ bool attackData::DoInTimeAttack()
 
 bool attackData::DoNextStepBFS()
 {
+	BROFILER_CATEGORY("Attacks DoNextStepBFS", Profiler::Color::Chocolate);
 
 	int frontierRadius = 1; // test for twice step (more resolution, but less "wave effect")
 

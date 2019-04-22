@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent) : UiItem(position, parent)
 {
@@ -55,6 +56,7 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 void UiItem_HealthBar::Draw(const float& dt)
 {
 
+	BROFILER_CATEGORY("Healthbar Draw", Profiler::Color::MidnightBlue);
 
 
 	// we will use the draw call to calculate, but the two images are drawn in image cpp
@@ -137,6 +139,8 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 void UiItem_HealthBar::UpdatePos()
 {
+	BROFILER_CATEGORY("Healthbar Pos", Profiler::Color::MidnightBlue);
+
 	iPoint pos = App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
 
 	dynamicImage->hitBox.x = pos.x;
@@ -149,6 +153,8 @@ void UiItem_HealthBar::UpdatePos()
 
 void UiItem_HealthBar::DamageLogic()
 {
+	BROFILER_CATEGORY("Healthbar Logic", Profiler::Color::MidnightBlue);
+
 
 	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
 
