@@ -346,7 +346,7 @@
 
       <labels>
         <label name="Settings">
-          <position x="545" y="70"/>
+          <position x="541" y="60"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="SETTINGS"/>
         </label>
@@ -355,16 +355,16 @@
       <panelBars>
 
         <panelBar name="volumeSlider">
-          <section_bar x="1101" y="610" w="175" h="34"/>
-          <position x="588" y="267"/>
+          <section_bar x="1101" y="610" w="215" h="34"/>
+          <position x="267" y="297"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
           <image_idle x="470" y="481" w="55" h="53"/>
           <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
-          <section_bar x="1101" y="610" w="175" h="34"/>
-          <position x="588" y="364"/>
+          <section_bar x="1101" y="610" w="215" h="34"/>
+          <position x="267" y="394"/>
          <section_thumb x="1150" y="558" w="42" h="42"/>
           <image_idle x="504" y="722" w="58" h="59"/>
           <image_hover x="221" y="721" w="61" h="61"/>
@@ -399,7 +399,7 @@
           <idleSec x="1073" y="2456" w="215" h="64"/>
           <hoverSec x="1073" y="2521" w="215" h="64" />
           <clickSec x="1073" y="2586" w="215" h="64" />
-          <position x="588" y="561"/>
+          <position x="267" y="561"/>
         </button>
       </buttons>
 
