@@ -650,7 +650,7 @@ bool Crosshair::ManageInput(float dt)
 {
 	bool debug = true;
 
-	uint32 maxClampThreshold = 20000;
+	uint32 maxClampThreshold = 24000;
 
 	Sint16 RJoystickX = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
 	Sint16 RJoystickY = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);
@@ -694,7 +694,6 @@ bool Crosshair::ManageInput(float dt)
 
 			// if clamped type is loot, it can be picked 
 
-		
 			if (clampedEntity->type == ENTITY_TYPE::LOOT)  // TODO:  add condition so that potions do not enter this 
 			{
 				
@@ -702,30 +701,24 @@ bool Crosshair::ManageInput(float dt)
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
-					for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+					
+					if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
 					{
-						if ((*item) == clampedEntity)
-						{
+						// then delete loot from subtile and factory 
+						App->entityFactory->DeleteEntityFromSubtile((j1Entity*)clampedEntity);
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+						// erase - remove idiom.
+						App->entityFactory->entities.erase(
+							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), clampedEntity), App->entityFactory->entities.end());
 
-							if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
-							{
-								// first detach clamped entity
-								clampedEntity = nullptr;
-
-								// then delete loot from subtile and factory 
-								App->entityFactory->DeleteEntityFromSubtile(*item);
-								item = App->entityFactory->entities.erase(item);
-								break;
-							}
-			
-						}
-
+						//last detach clamped entity
+						clampedEntity = nullptr;
+						clamped = false;
+						//LOG("entities size: %i", App->entityFactory->entities.size());
 					}
-			
 				}
 			}
-
-
 		}
 		else
 		{
@@ -748,8 +741,6 @@ bool Crosshair::ManageInput(float dt)
 		{
 			position.x = position.x + (RJoystickX * 0.003f * sensitivitySpeed.x) * dt;
 			position.y = position.y + (RJoystickY * 0.003f * sensitivitySpeed.y) * dt;
-
-			
 		}
 
 	}
@@ -775,6 +766,13 @@ bool Crosshair::ManageInput(float dt)
 
 		position.x += headingVector.x * maxRadiusDistance;
 		position.y += headingVector.y * maxRadiusDistance;
+
+		// and if we have any clamped entity, unclamp
+		if (clamped) 
+		{
+			clamped = false;
+			clampedEntity = nullptr;
+		}
 	}
 	
 
@@ -819,7 +817,7 @@ j1Entity* Crosshair::SearchForTargetOnThisSubtile(const iPoint subtile) const
 
 		for (; subIter != subtileVec->end(); ++subIter)
 		{
-			if ((*subIter)->type != ENTITY_TYPE::PLAYER)
+			if ((*subIter)->type != ENTITY_TYPE::PLAYER && (*subIter)->type != ENTITY_TYPE::PROJECTILE)
 			{
 				//LOG("enemy found");
 				ret = (*subIter);
