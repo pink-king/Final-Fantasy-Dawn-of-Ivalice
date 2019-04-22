@@ -202,6 +202,7 @@ bool PlayerEntityManager::SwapInputChecker()
 			if (App->scene->inventory->enable)
 			{
 				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+
 			}
 			
 		}
@@ -218,6 +219,7 @@ bool PlayerEntityManager::SwapInputChecker()
 			if (App->scene->inventory->enable)
 			{
 				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+
 			}
 
 		}

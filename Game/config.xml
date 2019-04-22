@@ -457,14 +457,17 @@
       <image name="marche_inv">
           <section x="1485" y="1468" w="96" h="183"/>
           <position x="534" y="133"/>
+		  <charFlag value = "Marche"/>
         </image>
       <image name="ritz_inv">
           <section x="1364" y="1468" w="116" h="179"/>
           <position x="523" y="138"/>
+		  <charFlag value = "Ritz"/>
         </image>
       <image name="shara_inv">
           <section x="1281" y="1468" w="81" h="183"/>
           <position x="543" y="133"/>
+		  <charFlag value = "Shara"/>
         </image>
       
       </images>

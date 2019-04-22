@@ -36,6 +36,7 @@ struct potionLabelPositions
 class LootEntity; 
 class UiItem_Description; 
 class UiItem_Label;
+class UiItem_Image;
 
 class UiItem_Inventory : public UiItem
 {
@@ -68,6 +69,11 @@ private:
 	UiItem_Label * potionLabel = nullptr;
 	potionLabelPositions potion_positions;
 	std::string str_potion;
+
+public: 
+	UiItem_Image* MarcheIcon = nullptr; 
+	UiItem_Image* SharaIcon = nullptr;
+	UiItem_Image* RitzIcon = nullptr;
 };
 
 

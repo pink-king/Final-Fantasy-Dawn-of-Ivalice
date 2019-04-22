@@ -20,6 +20,36 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 {
+	// - - - - - - - - - - character icons
+
+	MarcheIcon->hitBox.x = SharaIcon->hitBox.x = RitzIcon->hitBox.x = staringPosition.x + 30; 
+	MarcheIcon->hitBox.y = SharaIcon->hitBox.y = RitzIcon->hitBox.y = staringPosition.y + 30;
+
+	if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+	{
+		MarcheIcon->hide = false; 
+		SharaIcon->hide = true;
+		RitzIcon->hide = true;
+
+	}
+
+	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
+	{
+		MarcheIcon->hide = true;
+		SharaIcon->hide = false;
+		RitzIcon->hide = true;
+	}
+
+
+	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
+	{
+		MarcheIcon->hide = true;
+		SharaIcon->hide = true;
+		RitzIcon->hide = false;
+	}
+
+
+
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
 
 
@@ -306,6 +336,8 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 
 }
+
+
 
 
 

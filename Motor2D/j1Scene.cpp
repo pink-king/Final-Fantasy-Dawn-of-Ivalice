@@ -479,6 +479,23 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 
 
+			std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
+			if (charFlag == "Marche")
+			{
+				MarcheIcon = App->gui->AddImage(position, &section, nullptr);
+			}
+			else if (charFlag == "Ritz")
+			{
+			    RitzIcon = App->gui->AddImage(position, &section, nullptr);
+			}
+			else if (charFlag == "Shara")
+			{
+				SharaIcon = App->gui->AddImage(position, &section, nullptr);
+			}
+
+
+
+
 	}
 
 
@@ -695,6 +712,21 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
+
+
+	inventoryItem->MarcheIcon = MarcheIcon;    // pass the scene icons to inventory
+	inventoryItem->SharaIcon = SharaIcon;
+	inventoryItem->RitzIcon = RitzIcon;
+
+	App->gui->destroyElement(MarcheIcon);     // delete the scene ones
+	App->gui->destroyElement(SharaIcon);
+	App->gui->destroyElement(RitzIcon);
+
+
+	inventoryItem->MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
+	inventoryItem->SharaIcon->parent = inventoryItem;
+	inventoryItem->RitzIcon->parent = inventoryItem;
+
 	
 	return true;
 }
