@@ -130,6 +130,7 @@ public:
 	unsigned int goblinDetection;
 	unsigned int marcheDamaged;
 	unsigned int marcheBasic;
+	unsigned int marcheBasic2;
 	unsigned int RitzDamaged;
 	unsigned int RitzBasic;
 	unsigned int RitzBasicHit;

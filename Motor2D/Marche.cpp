@@ -501,11 +501,13 @@ bool Marche::Update(float dt)
 			if (basicAttackPulsationTimer.Read() > basicAttackPulsationMaxTime)
 			{
 				basicAttackPulsationTimer.Start();
+				App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
 				LOG("ATTACK1");
 				attackType = 0;
 			}
 			else
 			{
+				App->audio->PlayFx(App->entityFactory->marcheBasic2, 0);
 				LOG("ATTACK2");
 				attackType = 1;
 			}
@@ -757,10 +759,10 @@ bool Marche::Update(float dt)
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
+			App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
 			
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
+			/*App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
 			App->camera2D->AddTrauma(70.0f / 100.f);
 			App->input->DoGamePadRumble(0.7f, 400);*/
 			UlitMarche();

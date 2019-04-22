@@ -573,6 +573,7 @@ bool Ritz::Update(float dt)
 	{
 		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
 		{
+			
 			coolDownData.dodge.timer.Start();
 			//App->audio->PlayFx(App->entityFactory->dash, 0);
 		}
@@ -592,7 +593,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-
+			App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
 			if (teleportTex != nullptr)
 			{
 				SetStopperState();

@@ -86,6 +86,7 @@ bool j1EntityFactory::Start()
 
 	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
 	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
+	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/marche_basic2.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
 	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
