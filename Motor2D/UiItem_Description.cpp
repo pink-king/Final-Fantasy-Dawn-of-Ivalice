@@ -639,10 +639,21 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 100;
 
 
-		this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
-		this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-		this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
-		this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
+		if (App->scene->inventory->enable)
+		{
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
+			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
+			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
+		}
+		else
+		{
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;
+			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;
+			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
+		}
+		
 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
@@ -650,9 +661,17 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		this->resistanceLabel->hitBox.x = referencePanelPosition.x + 90;
 		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 70;
 		
-		this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;    // ADD HP LABEL AND VELOCITY LABEL
-		this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
+		if (App->scene->inventory->enable)
+		{
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;    // ADD HP LABEL AND VELOCITY LABEL
+			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
+		}
+		else
+		{
 
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;    // ADD HP LABEL AND VELOCITY LABEL
+			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
+		}
 
 
 
