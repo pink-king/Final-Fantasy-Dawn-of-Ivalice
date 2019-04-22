@@ -260,6 +260,24 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		}
 	}
 
+
+	if (attacker == App->entityFactory->player->GetMarche())
+	{
+		iPoint drawRectified;
+		drawRectified.x = defender->position.x + defender->size.x * 0.5f;
+		drawRectified.y = defender->position.y + (defender->size.y * 0.5f) * 2;
+
+		// flip particles pseudo randomly
+		SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+		if (rand() % 2 == 0)
+		{
+			renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+		}
+		iPoint bloodPivot = { 10, 10 };
+		drawRectified -= bloodPivot;
+		App->particles->AddParticle(App->particles->blood02, drawRectified.x, drawRectified.y - defender->pivot.y, { 0,0 }, 0u, renderFlip);
+	}
 	
 }
 
