@@ -714,19 +714,15 @@ bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 	inventoryItem = App->gui->AddInventory(inventory);
 
 
-	inventoryItem->MarcheIcon = MarcheIcon;    // pass the scene icons to inventory
-	inventoryItem->SharaIcon = SharaIcon;
-	inventoryItem->RitzIcon = RitzIcon;
-
-	App->gui->destroyElement(MarcheIcon);     // delete the scene ones
-	App->gui->destroyElement(SharaIcon);
-	App->gui->destroyElement(RitzIcon);
 
 
-	inventoryItem->MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
-	inventoryItem->SharaIcon->parent = inventoryItem;
-	inventoryItem->RitzIcon->parent = inventoryItem;
+	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
+	SharaIcon->parent = inventoryItem;
+	RitzIcon->parent = inventoryItem;
 
+	MarcheIcon->hide = true; 
+	SharaIcon->hide = true;
+	RitzIcon->hide = true;
 	
 	return true;
 }

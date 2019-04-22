@@ -70,10 +70,8 @@ private:
 	potionLabelPositions potion_positions;
 	std::string str_potion;
 
-public: 
-	UiItem_Image* MarcheIcon = nullptr; 
-	UiItem_Image* SharaIcon = nullptr;
-	UiItem_Image* RitzIcon = nullptr;
+
+
 };
 
 

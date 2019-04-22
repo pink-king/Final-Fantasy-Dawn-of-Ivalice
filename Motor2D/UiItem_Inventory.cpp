@@ -5,7 +5,7 @@
 #include "j1EntityFactory.h"
 #include "j1Fonts.h"
 #include "j1Render.h"
-
+#include "j1Scene.h"
 
 
 
@@ -22,30 +22,30 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 {
 	// - - - - - - - - - - character icons
 
-	MarcheIcon->hitBox.x = SharaIcon->hitBox.x = RitzIcon->hitBox.x = staringPosition.x + 30; 
-	MarcheIcon->hitBox.y = SharaIcon->hitBox.y = RitzIcon->hitBox.y = staringPosition.y + 30;
+	/*App->scene->MarcheIcon->hitBox.x = App->scene->SharaIcon->hitBox.x = App->scene->RitzIcon->hitBox.x = staringPosition.x + 30; 
+	App->scene->MarcheIcon->hitBox.y = App->scene->SharaIcon->hitBox.y = App->scene->RitzIcon->hitBox.y = staringPosition.y + 30;*/
 
 	if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 	{
-		MarcheIcon->hide = false; 
-		SharaIcon->hide = true;
-		RitzIcon->hide = true;
+		App->scene->MarcheIcon->hide = false;
+		App->scene->SharaIcon->hide = true;
+		App->scene->RitzIcon->hide = true;
 
 	}
 
 	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
 	{
-		MarcheIcon->hide = true;
-		SharaIcon->hide = false;
-		RitzIcon->hide = true;
+		App->scene->MarcheIcon->hide = true;
+		App->scene->SharaIcon->hide = false;
+		App->scene->RitzIcon->hide = true;
 	}
 
 
 	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
 	{
-		MarcheIcon->hide = true;
-		SharaIcon->hide = true;
-		RitzIcon->hide = false;
+		App->scene->MarcheIcon->hide = true;
+		App->scene->SharaIcon->hide = true;
+		App->scene->RitzIcon->hide = false;
 	}
 
 
