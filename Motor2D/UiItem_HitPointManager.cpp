@@ -152,7 +152,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 	//LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);
 
-	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
+	if (playerStreak > 3000 && !labelsSpawned.fierce)                         // fierce 
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 	    
@@ -163,7 +163,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 		labelsSpawned.totalLabels++; 
 	}
 
-	if (playerStreak > 200 && !labelsSpawned.brutal)                         // brutal   
+	if (playerStreak > 10000 && !labelsSpawned.brutal)                         // brutal   
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 

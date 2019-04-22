@@ -143,7 +143,7 @@ public:
 	// FOR GUI ELEMENTS
 	UiItem_HealthBar* lifeBar = nullptr; 
 	
-
+	bool manualCollectable;
 	int value;
 protected:
 	iPoint imOnTile;

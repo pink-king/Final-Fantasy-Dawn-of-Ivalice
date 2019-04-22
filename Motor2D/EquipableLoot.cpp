@@ -9,6 +9,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
+	manualCollectable = false;
 }
 
 

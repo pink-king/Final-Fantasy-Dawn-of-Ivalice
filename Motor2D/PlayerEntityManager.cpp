@@ -93,12 +93,15 @@ bool PlayerEntityManager::Update(float dt)
 	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
 		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
 		{
-			if (CollectLoot((LootEntity*)(*item)))
+			if ((*item)->manualCollectable)
 			{
-				
-				App->entityFactory->DeleteEntityFromSubtile(*item);
-				item = App->entityFactory->entities.erase(item);
-				break;
+				if (CollectLoot((LootEntity*)(*item)))
+				{
+
+					App->entityFactory->DeleteEntityFromSubtile(*item);
+					item = App->entityFactory->entities.erase(item);
+					break;
+				}
 			}
 		}
 	
@@ -440,7 +443,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 				App->audio->PlayFx(pickGold, 0);
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
-				str_coin = "x  " + std::to_string(gold);
+				str_coin = std::to_string(gold) + " x";
 				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 				App->tex->UnLoad(entityLoot->entityTex);
 				return false;

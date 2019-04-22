@@ -10,6 +10,7 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
+	manualCollectable = true;
 }
 
 
