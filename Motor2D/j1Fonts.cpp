@@ -43,6 +43,8 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	shatterBoxx36 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 36);
 	shatterBoxx48 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 48);
 
+	piecesofEight48 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 48);
+
 
 	return ret;
 }

@@ -135,10 +135,13 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
-iPoint j1Render::WorldToScreen(int x, int y) const
+iPoint j1Render::WorldToScreen(int x, int y, bool descriptions) const
 {
 
-	return iPoint(x*App->win->GetScale() + camera->x, y*App->win->GetScale() + camera->y);
+	if (!descriptions)
+		return iPoint(x * App->win->GetScale() + camera->x, y * App->win->GetScale() + camera->y);
+	else
+		return iPoint(x * App->win->GetScale(), y * App->win->GetScale());
 }
 
 bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const

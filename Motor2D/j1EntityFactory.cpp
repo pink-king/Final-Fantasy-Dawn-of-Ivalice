@@ -1415,40 +1415,87 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 	if (lootItem->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
-		float attack, resistance;
-	attack = resistance = 0.0f;
-
-
-
-	std::vector<Buff*>::iterator iter = lootItem->stats.begin();
-	for (; iter != lootItem->stats.end(); ++iter)
-	{
-		if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+		if (lootItem->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
 		{
-			attack = (*iter)->GetValue();
+
+
+			float attack, resistance;
+			attack = resistance = 0.0f;
+
+
+
+			std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+			for (; iter != lootItem->stats.end(); ++iter)
+			{
+				if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+				{
+					attack = (*iter)->GetValue();
+				}
+				else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+				{
+					resistance = (*iter)->GetValue();
+				}
+
+			}
+
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
+
+
+			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+			lootItem->MyDescription->iconImage->printFromLoot = true;
+			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+
 		}
-		else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+		else if (lootItem->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT || lootItem->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT)
 		{
-			resistance = (*iter)->GetValue();
+
+
+			int defense, HP, velocity;
+			defense = HP = velocity = 666;
+
+			std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+			for (; iter != lootItem->stats.end(); ++iter)
+			{
+				if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+				{
+					defense = (int)(*iter)->GetValue();
+				}
+				else if ((*iter)->GetRol() == ROL::HEALTH)
+				{
+					HP = (int)(*iter)->GetValue();
+				}
+				else if ((*iter)->GetRol() == ROL::VELOCITY)
+				{
+					velocity = (int)(*iter)->GetValue();
+				}
+
+			}
+
+			EquipmentStatType data;
+			data.HP = HP;
+			data.velocity = velocity;
+
+			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel);
+
+
+			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+			lootItem->MyDescription->iconImage->printFromLoot = true;
+			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+
+
+
 		}
 
 	}
 
-	lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
-
-
-	// add the icon image in the description, pass it the same texture as loot, and print it from that texture
-
-	lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
-	lootItem->MyDescription->iconImage->printFromLoot = true;
-	lootItem->MyDescription->iconImage->scaleFactor = 4.0f; 
-	
-         }
-
-	else if(lootItem->GetType() == LOOT_TYPE::CONSUMABLE)
+	else if (lootItem->GetType() == LOOT_TYPE::CONSUMABLE)
 	{                                                       // TODO: Also capture the potion duration when available
 
-		uint HP = 0; 
+		uint HP = 0;
 
 		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
 		for (; iter != lootItem->stats.end(); ++iter)
@@ -1461,7 +1508,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		}
 
 		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
-		
+
 		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
 		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);

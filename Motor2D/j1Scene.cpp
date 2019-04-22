@@ -322,11 +322,7 @@ bool j1Scene::Update(float dt)
 				inventory->enable = false;
 			}
 
-			if(inventory->enable)
-			{
-				SDL_SetRenderDrawColor(App->render->renderer, 168, 168, 186, 200);
-				SDL_RenderFillRect(App->render->renderer, &inventory_transparency);
-			}
+			
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -488,6 +484,23 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 
 
+		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
+		if (charFlag == "Marche")
+		{
+			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
+		}
+		else if (charFlag == "Ritz")
+		{
+			RitzIcon = App->gui->AddImage(position, &section, nullptr);
+		}
+		else if (charFlag == "Shara")
+		{
+			SharaIcon = App->gui->AddImage(position, &section, nullptr);
+		}
+
+
+
+
 	}
 
 
@@ -526,7 +539,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 
-		App->gui->AddLabel(text.data(), color, App->font->openSansBold36, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->piecesofEight48, position, parent);
 
 	}
 
@@ -597,9 +610,8 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		if (variant == "player")
 		{
-			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
-			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
+			App->gui->healthBar = App->gui->AddHealthBar(position, &dynamicSection, &damageSection, type::player, inGamePanel);
 		}
 		else if (variant == "enemy")
 		{
@@ -648,25 +660,25 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 }
 
-bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
+bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
-	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
+	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
 	return true;
 }
 
 
-bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
+bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node StartMenuNode = nodeScene.child("StartMenu");
-	startMenu= App->gui->AddEmptyElement({ 0,0 });
+	startMenu = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(startMenu, StartMenuNode);
 	return true;
 }
 
-bool j1Scene::LoadPlayerUi(pugi::xml_node & nodeScene)
+bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node marcheNode = nodeScene.child("InGameUiM");
 	uiMarche = App->gui->AddEmptyElement({ 0,0 });
@@ -683,7 +695,7 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node & nodeScene)
 	return true;
 }
 
-bool j1Scene::LoadSettings(pugi::xml_node & nodeScene)
+bool j1Scene::LoadSettings(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node settingNode = nodeScene.child("Settings");
 	settingPanel = App->gui->AddEmptyElement({ 0,0 });
@@ -691,21 +703,32 @@ bool j1Scene::LoadSettings(pugi::xml_node & nodeScene)
 	return true;
 }
 
-bool j1Scene::LoadPauseSettings(pugi::xml_node & nodeScene)
+bool j1Scene::LoadPauseSettings(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node settingPauseNode = nodeScene.child("SettingsInGame");
-	pausePanel=App->gui->AddEmptyElement({ 0,0 });
+	pausePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(pausePanel, settingPauseNode);
 	return true;
 }
 
-bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
+bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
-	
+
+
+
+
+	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
+	SharaIcon->parent = inventoryItem;
+	RitzIcon->parent = inventoryItem;
+
+	MarcheIcon->hide = true;
+	SharaIcon->hide = true;
+	RitzIcon->hide = true;
+
 	return true;
 }
 

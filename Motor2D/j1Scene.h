@@ -98,6 +98,10 @@ private:
 	bool begin;
 	bool beginGameMus;
 
+public:
+	UiItem_Image* MarcheIcon = nullptr;
+	UiItem_Image* SharaIcon = nullptr;
+	UiItem_Image* RitzIcon = nullptr;
 	
 };
 
