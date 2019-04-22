@@ -467,10 +467,12 @@ bool Marche::Update(float dt)
 							ELEMENTAL_TYPE::FIRE_ELEMENT,
 							whirlwindWhileLoopDMG,
 							3, 30, true);
+
+						// camera shake and rumble
+						App->camera2D->AddTrauma(0.3f);
+						App->input->DoGamePadRumble(0.4f, whirlwindCadence * 0.9f);
 					}
-					// camera shake and rumble
-					App->camera2D->AddTrauma(0.3f);
-					App->input->DoGamePadRumble(0.4f, whirlwindCadence * 0.9f);
+					
 				}
 
 			}
