@@ -48,6 +48,11 @@ bool UiItem_HitPointManager::Update(float dt)
 		}
 		else
 		{
+			if ((*hitPointIterator)->fromEnemy)
+			{
+				enemyLabels--;
+			}
+
 			labelScoreAccum -= (*hitPointIterator)->valueInformation.number; 
 			// cleanup
 			(*hitPointIterator)->CleanUp();
@@ -92,8 +97,9 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type, bool healing)
+UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type, bool healing, bool playerIsAttacker)
 {
+	UiItem_HitPoint* ret = nullptr;
 
 	std::string str = std::to_string(damage); 
 
@@ -132,11 +138,30 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 	if (healing)
 		c = { 0, 255, 0, 255 };
 
+
+	if (playerIsAttacker)
+		labelScoreAccum += damage;
+
+	else
+		++enemyLabels;
+
+
+
+	
+
+
+
 	iPoint newPos(App->render->WorldToScreen(pos.x, pos.y));                                               // adjust this  
 
-	labelScoreAccum += damage;
-	return App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
-	 
+
+	 ret = App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
+
+	 if (!playerIsAttacker)
+	 {
+		 ret->fromEnemy = true;
+	 }
+
+	 return ret; 
 
 }
 
@@ -147,7 +172,7 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 	// streak = number of score labels and summation of their scores 
 	if (!hitPointLabels.empty())
 	{
-		playerStreak = (hitPointLabels.size() - labelsSpawned.totalLabels) * labelScoreAccum;  // text labels must not be considerated
+		playerStreak = (hitPointLabels.size() - labelsSpawned.totalLabels - enemyLabels) * labelScoreAccum;    // text labels must not be considerated
 	}
 
 	//LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);

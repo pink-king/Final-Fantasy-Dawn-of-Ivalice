@@ -192,23 +192,27 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->audio->PlayFx(enemyHitbyMarche, 0);
 	
 
+	bool playerAttacks = false;
+	if (attacker->type == ENTITY_TYPE::PLAYER)
+		playerAttacks = true;
+
 	// Calling Hit point labels
 	switch (elementType)
 	{
 	case ELEMENTAL_TYPE::NO_ELEMENT :
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT);
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT, false, playerAttacks);
 		break; 
 	case ELEMENTAL_TYPE::FIRE_ELEMENT:
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::FIRE_ELEMENT);
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::FIRE_ELEMENT, false, playerAttacks);
 		break; 
 	case ELEMENTAL_TYPE::ICE_ELEMENT:
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::ICE_ELEMENT);
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::ICE_ELEMENT, false, playerAttacks);
 
 	case ELEMENTAL_TYPE::POISON_ELEMENT:
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::POISON_ELEMENT);
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::POISON_ELEMENT, false, playerAttacks);
 
 	case ELEMENTAL_TYPE::ALL_ELEMENTS:
-		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::ALL_ELEMENTS);
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::ALL_ELEMENTS, false, playerAttacks);
 		break;
 
 	default:
