@@ -13,6 +13,7 @@
 #include "j1App.h"
 #include "j1Scene.h"
 #include "Projectile.h"
+#include "j1ParticlesClassic.h"
 
 Marche::Marche(int posX, int posY) : PlayerEntity(posX, posY)
 {
@@ -669,6 +670,25 @@ bool Marche::Update(float dt)
 					// FINAL RUMBLE AND SHAKE
 					App->camera2D->AddTrauma(0.7f);
 					App->input->DoGamePadRumble(0.7f, 300);
+
+					// instantiate final explosion particles
+					int maxParticles = 13; // TODO: RANDOM between x/y
+					float maxDistance = 60.f;
+					float maxDelayTime = 700.f;
+					for (int i = 0; i < maxParticles; ++i)
+					{
+						fPoint instaPos;
+						instaPos.x = GetPivotPos().x + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+						instaPos.y = GetPivotPos().y + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+						App->particles->AddParticle(
+							App->particles->burn01, 
+							instaPos.x, 
+							instaPos.y, 
+							{ 0,0 }, 
+							App->camera2D->GetFloatNegOneToOne() * maxDelayTime, 
+							SDL_FLIP_NONE, 0, INT_MAX, INT_MAX, 0.5F);
+					}
+
 
 				}
 				else
