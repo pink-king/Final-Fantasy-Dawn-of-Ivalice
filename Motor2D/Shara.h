@@ -26,6 +26,8 @@ public:
 
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
+	Animation attack[(int)facingDirection::MAX];
+	SDL_Texture* attackTex = nullptr;
 
 };
 
