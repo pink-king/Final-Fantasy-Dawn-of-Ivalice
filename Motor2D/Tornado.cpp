@@ -115,6 +115,8 @@ bool Tornado::Attack()
 	{
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 15, 3, 20, false);
+		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
+			damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 2, 200, true);
 		AttackTimer.Start();
 	}
 	return true;

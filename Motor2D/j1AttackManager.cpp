@@ -336,7 +336,7 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 		// ------------------------
 		// substract pivot
 		drawRectified -= poison01Pivot;
-		if(rand() % 2 == 0)
+		if (rand() % 2 == 0)
 		{
 			App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 			App->particles->AddParticle(App->particles->poison02, drawRectified.x, drawRectified.y, { 0,0 }, 100u, renderFlip);
@@ -346,8 +346,17 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 			App->particles->AddParticle(App->particles->poison02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 			App->particles->AddParticle(App->particles->poison01, drawRectified.x, drawRectified.y, { 0,0 }, 100u, renderFlip);
 		}
-		break;
 	}
+		break;
+	case ELEMENTAL_TYPE::STONE_ELEMENT:
+	{
+		iPoint stonePivot = { 8,48 };
+		// ------------------------
+		// substract pivot
+		drawRectified -= stonePivot;
+		App->particles->AddParticle(App->particles->stone01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+	}
+	break;
 	case ELEMENTAL_TYPE::ALL_ELEMENTS:
 		break;
 	case ELEMENTAL_TYPE::MAX:
