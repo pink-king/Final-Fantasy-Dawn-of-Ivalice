@@ -239,8 +239,6 @@ bool j1Scene::Update(float dt)
 	
 	if (state == SceneState::STARTMENU)
 	{
-		
-	//	App->entityFactory->player->selectedCharacterEntity->inputReady = false;
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -257,8 +255,7 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		if (!pausePanel->enable)
-		//	App->entityFactory->player->selectedCharacterEntity->inputReady = true;
+	
 
 		App->map->active = true;
 		inGamePanel->enable = true;
@@ -294,7 +291,6 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause)
 				{
-					//App->entityFactory->player->selectedCharacterEntity->inputReady = false;
 					Mix_PauseMusic();
 					if (!pausePanel->enable)
 						App->audio->PlayFx(open_PauseMenuSFX, 0);
