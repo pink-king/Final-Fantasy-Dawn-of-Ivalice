@@ -612,6 +612,7 @@ bool Marche::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 			App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
+			
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetPivotPos(), { 0,0 }, 0, this, PROJECTILE_TYPE::EARTH_SHAKER);
 			// add gui clock
 
@@ -857,13 +858,6 @@ bool Marche::Update(float dt)
 			App->entityFactory->player->DesequipItem(*item);
 	}
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
-	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
-		if (item != App->entityFactory->player->consumables.end())
-			App->entityFactory->player->ConsumConsumable(*item,this);
-	}
-
 	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
 	{
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
@@ -887,20 +881,7 @@ bool Marche::Update(float dt)
 	//	
 	//}
 
-	if (stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(this))
-		{
-			App->buff->entitiesTimeDamage.remove(this);
-		}
-	}
-	if (App->entityFactory->player->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(App->entityFactory->player))
-		{
-			App->buff->entitiesTimeDamage.remove(App->entityFactory->player);
-		}
-	}
+	
 	return true;
 }
 

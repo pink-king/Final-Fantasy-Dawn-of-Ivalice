@@ -105,6 +105,12 @@ bool PlayerEntityManager::Update(float dt)
 			}
 		}
 	
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->entityFactory->player->ConsumConsumable(*item, this);
+	}
 	// WARNING: search other way to do this
 	////provisional function to life
 	//std::vector<PlayerEntity*>::iterator item = characters.begin();
@@ -125,6 +131,35 @@ bool PlayerEntityManager::Update(float dt)
 		App->win->AddStringToTitle(title);
 	}*/
 	App->win->ClearTitle();
+
+	if (marche->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(marche))
+		{
+			App->buff->entitiesTimeDamage.remove(marche);
+		}
+	}
+	if (ritz->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(ritz))
+		{
+			App->buff->entitiesTimeDamage.remove(ritz);
+		}
+	}
+	if (shara->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(shara))
+		{
+			App->buff->entitiesTimeDamage.remove(shara);
+		}
+	}
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
 
 	return ret;
 }
