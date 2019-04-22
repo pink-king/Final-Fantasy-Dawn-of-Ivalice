@@ -12,12 +12,12 @@
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent) : UiItem(position, parent)
 {
-	this->callback = callback; 
+	this->callback = callback;
 
-	this->resistance = Value; 
+	this->resistance = Value;
 
-	this->descrType = descriptionType::EQUIPMENT; 
-	this->parent = parent; 
+	this->descrType = descriptionType::EQUIPMENT;
+	this->parent = parent;
 
 	this->guiType = GUI_TYPES::DESCRIPTION;
 
@@ -49,6 +49,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	resistanceLabel->useCamera = false;
 
+
 	// the icon image is created after creating description in loot spawning
 
 
@@ -56,36 +57,27 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	std::string characterString;
 
 
-	if (callback->equipableType == EQUIPABLE_TYPE::SWORD)
+	if (callback->equipableType == EQUIPABLE_TYPE::ARMOR)
 	{
 		characterString = "Marche";
 
-		damageComparisonLabel.character = "Marche";
-		damageComparisonLabel.type = "sword";
-
 		resistanceComparisonLabel.character = "Marche";
-		resistanceComparisonLabel.type = "sword";
+		resistanceComparisonLabel.type = "armor";
 
 	}
-	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
+	else if (callback->equipableType == EQUIPABLE_TYPE::MANTLE)
 	{
 		characterString = "Ritz";
 
-		damageComparisonLabel.character = "Ritz";
-		damageComparisonLabel.type = "rod";
-
 		resistanceComparisonLabel.character = "Ritz";
-		resistanceComparisonLabel.type = "rod";
+		resistanceComparisonLabel.type = "mantle";
 	}
-	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
+	else if (callback->equipableType == EQUIPABLE_TYPE::VEST)
 	{
 		characterString = "Shara";
 
-		damageComparisonLabel.character = "Shara";
-		damageComparisonLabel.type = "bow";
-
 		resistanceComparisonLabel.character = "Shara";
-		resistanceComparisonLabel.type = "bow";
+		resistanceComparisonLabel.type = "vest";
 	}
 
 	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
@@ -128,6 +120,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->equipmentLootInfo.spawnedVecloty = true;
 	}
+
 }
 
 
@@ -308,7 +301,7 @@ void UiItem_Description::Draw(const float& dt)
 				}
 
 				HideAllElements(false);
-				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 20));
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
@@ -357,35 +350,45 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	if (!App->entityFactory->player->equipedObjects.empty())
 	{
+		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
 
-		if (this->descrType == descriptionType::WEAPON)
+		for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
 		{
-			std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
-
-			for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
+			if ((*lootItem) != this->callback)  // do not compare with itself
 			{
-				if ((*lootItem) != this->callback)
+
+				float attack = 0.0f;
+				float resistance = 0.0f;
+
+				float HP = 666.0f;
+				float velocity = 666.0f;
+
+
+				SDL_Color destColor = { 0, 0, 0, 255 };
+
+				if (((*lootItem)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT && this->descrType == descriptionType::WEAPON)
+					||
+					((*lootItem)->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT && this->descrType == descriptionType::EQUIPMENT)
+					||
+					((*lootItem)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && this->descrType == descriptionType::EQUIPMENT)
+					)
 				{
 
-					float attack = 0.0f;
-					float resistance = 0.0f;
+					if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
+						&& this->resistanceComparisonLabel.character == "Marche")
 
-					if ((*lootItem)->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
+						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
+							&& this->resistanceComparisonLabel.character == "Ritz")
+
+						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
+							&& this->resistanceComparisonLabel.character == "Shara"))
 					{
 
-						if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()
-							&& this->damageComparisonLabel.character == "Marche")
+						std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
 
-							|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
-								&& this->damageComparisonLabel.character == "Ritz")
-
-							|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
-								&& this->damageComparisonLabel.character == "Shara"))
+						if (this->descrType == descriptionType::WEAPON)
 						{
-
-							std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
-
-							for (; iter != (*lootItem)->stats.end(); ++iter)
+							for (; iter != (*lootItem)->stats.end(); ++iter)    // capture att and def 
 							{
 								if ((*iter)->GetRol() == ROL::ATTACK_ROL)
 								{
@@ -398,62 +401,87 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							}
 
-							this->resistanceComparisonLabel.value = (int)(this->resistance - resistance);    // diff between new item and current
+
 							this->damageComparisonLabel.value = (int)(this->attack - attack);
 
-							std::string dmgString = "+ ";
-							dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
+							std::string dmgString = "";
 
-							SDL_Color destColor = { 0, 0, 0, 255 };
+
 							if (this->damageComparisonLabel.value > 0)
 							{
+								dmgString.append("+");
 								destColor = { 0, 255, 0, 255 };
 							}
 							else if (this->damageComparisonLabel.value <= 0)
 							{
+								if (this->damageComparisonLabel.value == 0)
+								{
+									dmgString.append("+");
+								}
 								destColor = { 255, 0, 0, 255 };
 							}
-							/*	else
-								{
-									destColor = { 0, 0, 0, 0 };
-								}*/
+
+							dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
 
 							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
 
-							std::string resString = "+ ";
-							resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
-
-							destColor = { 0, 0, 0, 255 };
-							if (this->resistanceComparisonLabel.value > 0)
+						}
+						else
+						{
+							for (; iter != (*lootItem)->stats.end(); ++iter)   // capture def and other 2 possible rols
 							{
-								destColor = { 0, 255, 0, 255 };
+								if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+								{
+									resistance = (*iter)->GetValue();
+								}
+								else if ((*iter)->GetRol() == ROL::HEALTH)
+								{
+									HP = (*iter)->GetValue();
+								}
+								else if ((*iter)->GetRol() == ROL::VELOCITY)
+								{
+									velocity = (*iter)->GetValue();
+								}
+
 							}
-							else if (this->resistanceComparisonLabel.value <= 0)
-							{
-								destColor = { 255, 0, 0, 255 };
-							}
-							/*else
-							{
-								destColor = { 0, 0, 0, 0 };
-							}*/
-
-
-							this->resistanceComparisonLabel.label->ChangeTextureIdle(resString, &destColor, App->font->openSansBold18);
-
-
-							ret = true;
 						}
 
+						// they both have resistance 
+
+						this->resistanceComparisonLabel.value = (int)(this->resistance - resistance);    // diff between new item and current
+
+						std::string resString = "";
+
+
+						destColor = { 0, 0, 0, 255 };
+						if (this->resistanceComparisonLabel.value > 0)
+						{
+							resString.append("+");
+							destColor = { 0, 255, 0, 255 };
+						}
+						else if (this->resistanceComparisonLabel.value <= 0)
+						{
+							if (this->resistanceComparisonLabel.value == 0)
+							{
+								resString.append("+");
+							}
+							destColor = { 255, 0, 0, 255 };
+						}
+
+						resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
+
+						this->resistanceComparisonLabel.label->ChangeTextureIdle(resString, &destColor, App->font->openSansBold18);
+
+
+						ret = true;
 					}
 
 				}
 
 			}
-		}
-		/*else if (this->descrType == descriptionType::EQUIPMENT)
-		{
 
-		}*/
+		}
+
 	}
 
 
@@ -562,6 +590,7 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 		{
 			this->VelocityLabel->hide = hide;
 		}
+
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -625,6 +654,7 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
 		}
 
+
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
@@ -645,13 +675,11 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 
 
-
 		if (this->equipmentLootInfo.spawnedHP && this->equipmentLootInfo.spawnedVecloty)
 		{
 			HPLabel->hitBox.x = referencePanelPosition.x + 90;
 			HPLabel->hitBox.y = referencePanelPosition.y + 100;
 
-			
 			VelocityLabel->hitBox.x = referencePanelPosition.x + 90;
 			VelocityLabel->hitBox.y = referencePanelPosition.y + 130;
 		}
