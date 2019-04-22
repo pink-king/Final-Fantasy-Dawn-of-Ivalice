@@ -8,6 +8,7 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "p2Log.h"
+#include "Brofiler/Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -409,6 +410,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 bool j1Gui::PostUpdate()
 {
+
+	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
 
 	// temporal debug 
 

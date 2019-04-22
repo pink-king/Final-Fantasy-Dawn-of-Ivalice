@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1EntityFactory.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, std::string charName, UiItem*const parent) :UiItem(position, parent)
 {
@@ -35,6 +36,8 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 
 void UiItem_CooldownClock::Draw(const float & dt)
 {
+	BROFILER_CATEGORY("Clock draw", Profiler::Color::Azure);
+
 
 	DoLogic(); 
 
@@ -62,6 +65,7 @@ void UiItem_CooldownClock::CheckState()
 
 void UiItem_CooldownClock::DoLogic()
 {
+	BROFILER_CATEGORY("Clock Logic", Profiler::Color::Aqua);
 
 	LastHeight = this->section.h;
 

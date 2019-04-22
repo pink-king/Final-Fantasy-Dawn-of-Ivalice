@@ -8,7 +8,7 @@
 #include "j1Fonts.h"
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
-
+#include "Brofiler/Brofiler.h"
 
 #include <string.h>
 
@@ -33,6 +33,8 @@ bool UiItem_HitPointManager::Start()
 
 bool UiItem_HitPointManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Update HitPoint", Profiler::Color::PeachPuff);
+
 
 	std::vector<UiItem_HitPoint*>::iterator hitPointIterator = hitPointLabels.begin();
 
