@@ -163,22 +163,26 @@
           <position x="153" y="41"/>
         </image>
         <image name="basic_button">
-          <section x="346" y="6" w="24" h="24"/>
-          <position x="53" y="609"/>
+          <section x="312" y="1" w="58" h="30"/>
+          <position x="36" y="603"/>
         </image>
 
         <image name="dash_button">
-          <section x="287" y="6" w="24" h="24"/>
-          <position x="113" y="609"/>
+          <section x="253" y="1" w="58" h="30"/>
+          <position x="96" y="603"/>
         </image>
 
+        <image name="scarWind_button">
+          <section x="194" y="33" w="58" h="30"/>
+          <position x="156" y="603"/>
+        </image>
         <image name="tornado_button">
-          <section x="228" y="2" w="24" h="30"/>
-          <position x="233" y="603"/>
+          <section x="194" y="2" w="58" h="30"/>
+          <position x="218" y="603"/>
         </image>
         <image name="rage_button">
-          <section x="287" y="32" w="21" h="30"/>
-          <position x="295" y="603"/>
+          <section x="253" y="32" w="55" h="30"/>
+          <position x="278" y="603"/>
         </image>
 
 
@@ -294,6 +298,10 @@
         <image name="teleport_button">
           <section x="194" y="33" w="58" h="30"/>
           <position x="156" y="603"/>
+        </image>
+        <image name="medusa_button">
+          <section x="194" y="2" w="58" h="30"/>
+          <position x="218" y="603"/>
         </image>
         <image name="deathCircle_button">
           <section x="253" y="32" w="55" h="30"/>
