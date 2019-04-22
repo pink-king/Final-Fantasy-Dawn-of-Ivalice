@@ -66,6 +66,8 @@ bool PlayerEntityManager::Start()
 
 bool PlayerEntityManager::PreUpdate()
 {
+	selectedCharacterEntity->PreUpdate();
+
 	return true;
 }
 

@@ -19,7 +19,7 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	void UlitMarche();
-	//bool PostUpdate();
+	bool PostUpdate();
 	//virtual bool CleanUp();
 
 	// functionality ------
@@ -31,9 +31,24 @@ public:
 	myClocks myUIClocks;
 
 private:
+	// WHIRLWIND
+	SDL_Texture* whirlwindTex = nullptr;
+	SDL_Texture* whirlwindFireTex = nullptr;
+	Animation whirlwindAnim[(int)facingDirection::MAX];
+	Animation whirlwindFireAnim;
+	Animation whirlwindFireAnimExitLoop;
+	j1Timer whirlwindTotalCastingTimer;
+	j1Timer whirlwindAttackTimer;
+	Uint32 whirlwindMaxCastingTime;
+	Uint32 whirlwindCadence;
+	bool doingWhirlwind = false;
+	fPoint whirlwindFirePos;
+	Uint16 whirlwindFinalBoomDMG;
+	Uint16 whirlwindWhileLoopDMG;
 
+	// DASH pivoting
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
-
+	
 };
 
 #endif

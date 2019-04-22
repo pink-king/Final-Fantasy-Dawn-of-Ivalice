@@ -22,6 +22,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	// TODO: import from xml
 	spritesheet = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
+	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
+	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
 	entityTex = spritesheet;
 
 	// IDLE
@@ -111,56 +113,56 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dash[(int)facingDirection::E].PushBack({ 285,0, 95,110 });
 	dash[(int)facingDirection::E].loop = false;
 	dash[(int)facingDirection::E].speed = 16.f;
-
+	
 	dash[(int)facingDirection::W].PushBack({ 0,0,95,110 });
 	dash[(int)facingDirection::W].PushBack({ 95,0,95,110 });
 	dash[(int)facingDirection::W].PushBack({ 190,0, 95,110 });
 	dash[(int)facingDirection::W].PushBack({ 285,0, 95,110 });
 	dash[(int)facingDirection::W].loop = false;
 	dash[(int)facingDirection::W].speed = 16.0f;
-
+	
 	dash[(int)facingDirection::S].PushBack({ 0,110,95,110 });
 	dash[(int)facingDirection::S].PushBack({ 95,110,95,110 });
 	dash[(int)facingDirection::S].PushBack({ 190,110, 95,110 });
 	dash[(int)facingDirection::S].PushBack({ 285,110, 95,110 });
 	dash[(int)facingDirection::S].loop = false;
 	dash[(int)facingDirection::S].speed = 16.0f;
-
+	
 	dash[(int)facingDirection::N].PushBack({ 0,220,95,110 });
 	dash[(int)facingDirection::N].PushBack({ 95,220,95,110 });
 	dash[(int)facingDirection::N].PushBack({ 190,220, 95,110 });
 	dash[(int)facingDirection::N].PushBack({ 285,220, 95,110 });
 	dash[(int)facingDirection::N].loop = false;
 	dash[(int)facingDirection::N].speed = 16.0f;
-
+	
 	dash[(int)facingDirection::SE].PushBack({ 0,330,95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 95,330,95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 190,330, 95,110 });
 	dash[(int)facingDirection::SE].PushBack({ 285,330, 95,110 });
 	dash[(int)facingDirection::SE].loop = false;
 	dash[(int)facingDirection::SE].speed = 16.0f;
-
+	
 	dash[(int)facingDirection::SW].PushBack({ 0,330,95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 95,330,95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 190,330, 95,110 });
 	dash[(int)facingDirection::SW].PushBack({ 285,330, 95,110 });
 	dash[(int)facingDirection::SW].loop = false;
 	dash[(int)facingDirection::SW].speed = 16.0f;
-
+	
 	dash[(int)facingDirection::NE].PushBack({ 0,440,95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 95,440,95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 190,440, 95,110 });
 	dash[(int)facingDirection::NE].PushBack({ 285,440, 95,110 });
 	dash[(int)facingDirection::NE].loop = false;
 	dash[(int)facingDirection::NE].speed = 16.0f;
-
+	
 	dash[(int)facingDirection::NW].PushBack({ 0,440,95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 95,440,95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 190,440, 95,110 });
 	dash[(int)facingDirection::NW].PushBack({ 285,440, 95,110 });
 	dash[(int)facingDirection::NW].loop = false;
 	dash[(int)facingDirection::NW].speed = 16.0f;
-
+	
 	// TODO: polish this offset positions
 	// this offsets relates to its position inside the 95,110 rect pivot position (character foot line)
 	dashPivotOffset[(int)facingDirection::E][0] = { 52.f,68.f };
@@ -172,38 +174,80 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dashPivotOffset[(int)facingDirection::W][1] = { 29.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][2] = { 15.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][3] = { 10.f,68.f };
-
+	
 	dashPivotOffset[(int)facingDirection::S][0] = { 48.f,94.f };
 	dashPivotOffset[(int)facingDirection::S][1] = { 48.f,94.f };
 	dashPivotOffset[(int)facingDirection::S][2] = { 48.f,101.f };
 	dashPivotOffset[(int)facingDirection::S][3] = { 48.f,94.f };
-
+	
 	dashPivotOffset[(int)facingDirection::N][0] = { 48.f,52.f };
 	dashPivotOffset[(int)facingDirection::N][1] = { 48.f,52.f };
 	dashPivotOffset[(int)facingDirection::N][2] = { 48.f,52.f };
 	dashPivotOffset[(int)facingDirection::N][3] = { 48.f,52.f };
-
+	
 	dashPivotOffset[(int)facingDirection::SE][0] = { 48.f,84.f };
 	dashPivotOffset[(int)facingDirection::SE][1] = { 58.f,90.f };
 	dashPivotOffset[(int)facingDirection::SE][2] = { 67.f,92.f };
 	dashPivotOffset[(int)facingDirection::SE][3] = { 73.f,93.f };
-
+	
 	dashPivotOffset[(int)facingDirection::NE][0] = { 48.f,58.f };
 	dashPivotOffset[(int)facingDirection::NE][1] = { 64.f,58.f };
 	dashPivotOffset[(int)facingDirection::NE][2] = { 70.f,56.f };
 	dashPivotOffset[(int)facingDirection::NE][3] = { 73.f,62.f };
-
+	
 	dashPivotOffset[(int)facingDirection::NW][0] = { 48.f,58.f };
 	dashPivotOffset[(int)facingDirection::NW][1] = { 32.f,58.f };
 	dashPivotOffset[(int)facingDirection::NW][2] = { 26.f,56.f };
 	dashPivotOffset[(int)facingDirection::NW][3] = { 24.f,62.f };
-
+	
 	dashPivotOffset[(int)facingDirection::SW][0] = { 48.f,84.f };
 	dashPivotOffset[(int)facingDirection::SW][1] = { 40.f,90.f };
 	dashPivotOffset[(int)facingDirection::SW][2] = { 28.f,92.f };
 	dashPivotOffset[(int)facingDirection::SW][3] = { 23.f,93.f };
+	// --------------------------------------------------------------------
+	
+	// WHIRLWIND : TODO, needs correct order of pushing
+	int indexAnim[(int)facingDirection::MAX] = { 13,13,14,14,13,14,14,13 };
+	for (int y = 0; y <= (int)facingDirection::MAX; ++y)
+	{ // 60,65
+		for(int x = 0; x < indexAnim[y]; ++x)
+			whirlwindAnim[y].PushBack({x*60, y*65, 60,65});
+	
+		whirlwindAnim[y].speed = 20.f;
+		whirlwindAnim[y].loop = false;
+	}
+	// --------------
+	// whirlwind fire anim
+	// all time loop
+	whirlwindFireAnim.PushBack({ 0,0, 180,80 });
+	whirlwindFireAnim.PushBack({ 180,0, 180,80 });
+	whirlwindFireAnim.PushBack({ 360,0, 180,80 });
+	whirlwindFireAnim.PushBack({ 0,80, 180,80 });
+	//whirlwindFireAnim.PushBack({ 180,80, 180,80 });
+	//whirlwindFireAnim.PushBack({ 360,80, 180,80 });
+	//whirlwindFireAnim.PushBack({ 0,160, 180,80 });
+	//whirlwindFireAnim.PushBack({ 180,160, 180,80 });
+	//whirlwindFireAnim.PushBack({ 360,160, 180,80 });
+	//whirlwindFireAnim.PushBack({ 0,240, 180,80 });
+	whirlwindFireAnim.speed = 10.f;
+	whirlwindFireAnim.loop = true;
+	// decay
+	//whirlwindFireAnim.PushBack({ 180,240, 180,80 });
+	//whirlwindFireAnim.PushBack({ 360,240, 180,80 });
+    //whirlwindFireAnim.PushBack({ 0,320, 180,80 });
+	//whirlwindFireAnim.PushBack({ 180,320, 180,80 });
 
-	dashMaxDistance = 64.f;
+	whirlwindFireAnimExitLoop.PushBack({ 180,240, 180,80 });
+	whirlwindFireAnimExitLoop.PushBack({ 360,240, 180,80 });
+	whirlwindFireAnimExitLoop.PushBack({ 0,320, 180,80 });
+	whirlwindFireAnimExitLoop.PushBack({ 180,320, 180,80 });
+	whirlwindFireAnimExitLoop.speed = 10.f;
+	whirlwindFireAnimExitLoop.loop = false;
+
+	
+	
+	// ------------------------------------------------------------------
+
 
 	currentAnimation = &run[(int)facingDirection::W];
 
@@ -216,18 +260,21 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	previousPos = position;
 
-
 	// better speed 
 	characterBaseSpeed.x /= 1.3f; 
 	characterBaseSpeed.y /= 1.3f;
 
-	//
-	//previousFrame = 1; // fake previousFrame to enter on first anim state
+	dashMaxDistance = 64.f;
+	whirlwindMaxCastingTime = 3500;
+	whirlwindCadence = 150;
 
 }
 
 Marche::~Marche()
-{}
+{
+	App->tex->UnLoad(whirlwindTex);
+	App->tex->UnLoad(whirlwindFireTex);
+}
 
 bool Marche::Start()
 {
@@ -247,45 +294,26 @@ bool Marche::Update(float dt)
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
-	/*if (App->pathfinding->IsWalkable(onTilePos))
+
+	if (!isParalize)
 	{
-		previousPos = position;*/
-
-		
-		if (!isParalize)
+		if (inputReady)
 		{
-			if (inputReady)
+			InputMovement(dt);
+			InputCombat();
+		}
+		if (!inputReady) // dash, or animations that needs control of its finish state
+		{
+			if (currentAnimation->Finished())
 			{
-				InputMovement(dt);
-				InputCombat();
-			}
-			if (!inputReady) // dash, or animations that needs control of its finish state
-			{	// TODO: do switch combat state if this get more complexity
-
-				//reposition pos
-				transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
-				transference_pivot -= pivot;
-
-				if (currentAnimation->Finished())
-				{
-					currentAnimation->Reset();
-					entityTex = spritesheet;
-					currentAnimation = &idle[pointingDir];
-					inputReady = true;
-					transference_pivot = { 0,0 };
-				}
-
-				position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
-
+				currentAnimation->Reset();
+				entityTex = spritesheet;
+				currentAnimation = &idle[pointingDir];
+				inputReady = true;
+				transference_pivot = { 0,0 };
 			}
 		}
-		
-		//LOG("transpivot: %f,%f:", transference_pivot.x, transference_pivot.y);
-	/*}
-	else
-	{
-		position = previousPos;
-	}*/
+	}
 
 	// CHECK COMBAT STATE
 	switch (combat_state)
@@ -309,20 +337,21 @@ bool Marche::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
-
-		if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
+	{
+		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
 		{
-			//App->audio->PlayFx(App->entityFactory->dash, 0);
 			coolDownData.dodge.timer.Start();
-			dodgedTest = true;
-				
+			//App->audio->PlayFx(App->entityFactory->dash, 0);
 		}
-		else 
+		if (!inputReady)
 		{
-			
-			dodged = false;
+			//reposition pos
+			transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
+			transference_pivot -= pivot;
+			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
-			break;
+		break;
+	}
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
@@ -348,32 +377,107 @@ bool Marche::Update(float dt)
 		break;
 
 	case combatState::SPECIAL2:
-		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
+	{
+		static int startFacingDirIndex;
+
+		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime && inputReady)
 		{
-			coolDownData.special2.timer.Start();
+			//coolDownData.special2.timer.Start(); // TO LAST STEP
+			inputReady = false;
+			currentAnimation = &whirlwindAnim[pointingDir];
+			entityTex = whirlwindTex;
+			startFacingDirIndex = pointingDir;
+			whirlwindFirePos = position;
 
-			App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
 
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
-
+			//App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
+			// ------------------------------------------------------------------------------------------
 			// add gui clock
-
 			if (!App->gui->spawnedClocks.Marche.special2)
 			{
-
 				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->inGamePanel);
-
 				App->gui->spawnedClocks.Marche.special2 = true;
 			}
 			else
 			{
 				myUIClocks.special2->Restart();
 			}
+		}
+		if (!inputReady)
+		{
+			//checks animation state
+			if ((int)currentAnimation->GetCurrentFloatFrame() >= 4 && !doingWhirlwind)
+			{
+				whirlwindTotalCastingTimer.Start();
+				doingWhirlwind = true;
+			}
+			if (doingWhirlwind)
+			{
+				if (whirlwindTotalCastingTimer.Read() > whirlwindMaxCastingTime)
+				{
+					// changes animation to real pointing direction, and decelerates
+					float fft = currentAnimation->GetCurrentFloatFrame(); // float frame temp
+					// resets current whirlwind froming anim
+					currentAnimation->Reset();
+					// changes to final target direction
+					currentAnimation = &whirlwindAnim[GetPointingDir(lastAxisMovAngle)];
+					currentAnimation->SetCurrentFrame(fft);
+					combat_state = combatState::IDLE;
+					doingWhirlwind = false;
+					// DO LAST ATTACK -----
+					App->attackManager->AddPropagationAttack(
+						(j1Entity*)this,
+						App->entityFactory->player->GetSubtilePos(),
+						propagationType::BFS,
+						damageType::DIRECT,
+						ELEMENTAL_TYPE::FIRE_ELEMENT,
+						whirlwindFinalBoomDMG,
+						5, 30, true);
 
+					// FINAL RUMBLE AND SHAKE
+					App->camera2D->AddTrauma(0.7f);
+					App->input->DoGamePadRumble(0.7f, 300);
+
+				}
+				else
+				{
+					// stores current frame, direction etc
+					float currentFFrame = currentAnimation->GetCurrentFloatFrame();
+					// checks input, needed to move on whirlwinding
+					InputMovement(dt);
+					// rechange current animation and state
+					combat_state = combatState::SPECIAL2;
+					currentAnimation = &whirlwindAnim[startFacingDirIndex];
+					currentAnimation->SetCurrentFrame(currentFFrame);
+					// checks animation to loop between casting time
+					if ((int)currentAnimation->GetCurrentFloatFrame() >= 9)
+					{
+						currentAnimation->SetCurrentFrame(5.f);
+					}
+
+					// do attack
+					if (whirlwindAttackTimer.Read() > whirlwindCadence)
+					{
+						whirlwindAttackTimer.Start();
+						App->attackManager->AddPropagationAttack(
+							(j1Entity*)this,
+							App->entityFactory->player->GetSubtilePos(),
+							propagationType::BFS,
+							damageType::DIRECT,
+							ELEMENTAL_TYPE::FIRE_ELEMENT,
+							whirlwindWhileLoopDMG,
+							3, 30, true);
+					}
+					// camera shake and rumble
+					App->camera2D->AddTrauma(0.3f);
+					App->input->DoGamePadRumble(0.4f, whirlwindCadence * 0.9f);
+				}
+
+			}
 
 		}
 		break;
-
+	}
 	case combatState::ULTIMATE:
 	{
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
@@ -512,7 +616,29 @@ void Marche::UlitMarche()
 //	return true;
 //}
 
-//bool Marche::PostUpdate()
-//{
-//	return true;
-//}
+bool Marche::PostUpdate()
+{
+	// draw fire whirlwind if we need
+	if (doingWhirlwind)
+	{
+		// checks next exit loop anim and resets
+		if (whirlwindFireAnimExitLoop.Finished())
+		{
+			whirlwindFireAnimExitLoop.Reset();
+		}
+		whirlwindFirePos = App->camera2D->lerp(whirlwindFirePos, position, App->GetDt() * 10.5f);
+		// TODO: improve hardcoded positions to place anim on correct pos
+		App->render->Blit(whirlwindFireTex, whirlwindFirePos.x - 63, whirlwindFirePos.y - 10, &whirlwindFireAnim.GetCurrentFrame());
+		LOG("blitpos:%f,%f", whirlwindFirePos.x, whirlwindFirePos.y);
+	}
+	else
+	{
+		// checks 
+		if (!whirlwindFireAnimExitLoop.Finished())
+		{
+			App->render->Blit(whirlwindFireTex, position.x - 63, position.y - 10, &whirlwindFireAnimExitLoop.GetCurrentFrame());
+		}
+	}
+
+	return true;
+}
