@@ -416,7 +416,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 1;
+	coolDownData.ultimate.cooldownTime = 5000;
 	// starts timers
 	coolDownData.basic.timer.Start();
 	coolDownData.dodge.timer.Start();
@@ -441,7 +441,6 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
-	ultiTime = 5;
 }
 
 Marche::~Marche()
@@ -449,13 +448,6 @@ Marche::~Marche()
 	App->tex->UnLoad(whirlwindTex);
 	App->tex->UnLoad(whirlwindFireTex);
 	App->tex->UnLoad(basicAttackTex);
-
-
-	for (std::list<Buff*>::iterator iter = ulti_buffs.begin(); iter != ulti_buffs.end(); ++iter)
-	{
-		ulti_buffs.remove(*iter);
-	}
-	ulti_buffs.clear();
 }
 
 bool Marche::Start()
@@ -803,7 +795,7 @@ bool Marche::Update(float dt)
 			{
 				myUIClocks.ulti->Restart();
 			}
-			activeUlti = true;
+			UlitMarche();
 
 			coolDownData.ultimate.timer.Start();
 
@@ -896,7 +888,7 @@ bool Marche::Update(float dt)
 
 void Marche::UlitMarche()
 {
-	if (!startUlti)
+	/*if (!startUlti)
 	{
 		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetMarche(), "stat", 1));
 		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetShara(), "stat", 1));
@@ -924,9 +916,18 @@ void Marche::UlitMarche()
 
 		activeUlti = false;
 		startUlti = false;
-	}
+	}*/
 
-
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, 5);
 }
 
 //bool Marche::CleanUp()

@@ -394,6 +394,51 @@ void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 	}
 }
 
+void j1BuffManager::TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TYPE element, ROL rol, float value, uint time)
+{
+
+	entityStat* newStat = nullptr;
+	switch (rol)
+	{
+	case ROL::ATTACK_ROL:
+		newStat = new entityStat(STAT_TYPE::ATTACK_BUFF, time, value);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		break;
+	case ROL::DEFENCE_ROL:
+		newStat = new entityStat(STAT_TYPE::DEFENCE_BUFF, time, value);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		break;
+	case ROL::VELOCITY:
+		newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value, nullptr, false);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		break;
+	case ROL::HEALTH:
+		newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value, nullptr, false);
+		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
+		entity->stat.push_back(newStat);
+		break;
+	case ROL::NO_ROL:
+		break;
+	default:
+		break;
+	}
+	bool isInList = false;
+	for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
+	{
+		if ((*item) == entity)
+			isInList = true;
+	}
+
+	if (!isInList)
+	{
+		entitiesTimeDamage.push_back(entity);
+	}
+
+}
+
 void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL rol, float value)
 {
 	if (entity != nullptr)
@@ -862,6 +907,70 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 				else
 				{
 					entity->isPotionActive = false;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::ATTACK_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					DeleteBuff((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::DEFENCE_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					DeleteBuff((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::SPEED_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					DeleteBuff((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
+					entity->stat.remove(*item);
+				}
+				break;
+			case STAT_TYPE::HEALTH_BUFF:
+				if ((*item)->totalTime > 0)
+				{
+					if ((*item)->count.ReadSec() > 1)
+					{
+						(*item)->count.Start();
+						--(*item)->totalTime;
+					}
+				}
+				else
+				{
+					DeleteBuff((*item)->temporalBuff);
+					(*item)->temporalBuff = nullptr;
 					entity->stat.remove(*item);
 				}
 				break;

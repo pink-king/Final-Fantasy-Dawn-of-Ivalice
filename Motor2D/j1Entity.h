@@ -44,6 +44,12 @@ enum class STAT_TYPE
 	POISON_STAT,
 
 	POTION_STAT,
+
+	ATTACK_BUFF,
+	DEFENCE_BUFF,
+	HEALTH_BUFF,
+	SPEED_BUFF
+
 };
 class Buff; 
 
