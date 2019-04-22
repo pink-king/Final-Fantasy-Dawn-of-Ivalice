@@ -170,6 +170,9 @@
     <ClCompile Include="Medusa.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="EarthShaker.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -360,6 +363,9 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="Medusa.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EarthShaker.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>

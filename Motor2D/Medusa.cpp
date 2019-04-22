@@ -11,6 +11,8 @@ Medusa::Medusa(fPoint pos, const j1Entity* owner) : Projectile(pos, { 0,0 }, 0, 
 	pulsations = 0;
 	radius = 3;
 	propSpeed = 120; 
+
+	// TODO Add SFX probably the whole ability
 }
 
 Medusa::~Medusa()

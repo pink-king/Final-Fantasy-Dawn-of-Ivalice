@@ -83,6 +83,7 @@
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
+    <ClCompile Include="EarthShaker.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Emmiter.cpp" />
     <ClCompile Include="EmmiterArrows.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
+    <ClInclude Include="EarthShaker.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Emmiter.h" />
     <ClInclude Include="EmmiterArrows.h" />

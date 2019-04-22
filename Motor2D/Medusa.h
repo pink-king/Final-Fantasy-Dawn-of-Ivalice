@@ -1,3 +1,6 @@
+#ifndef __MEDUSA_H__
+#define __MEDUSA_H__
+
 #include "Projectile.h"
 
 
@@ -23,3 +26,5 @@ private:
 	float propSpeed; 
 
 };
+
+#endif
