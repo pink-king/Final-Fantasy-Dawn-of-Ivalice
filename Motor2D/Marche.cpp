@@ -677,6 +677,10 @@ bool Marche::Update(float dt)
 					float maxDelayTime = 700.f;
 					for (int i = 0; i < maxParticles; ++i)
 					{
+						/*Particle* randParticle = nullptr;
+						if (rand() % 2 == 0)
+							randParticle = App->particles->fire03;*/
+
 						fPoint instaPos;
 						instaPos.x = GetPivotPos().x + (maxDistance * App->camera2D->GetFloatNegOneToOne());
 						instaPos.y = GetPivotPos().y + (maxDistance * App->camera2D->GetFloatNegOneToOne());
@@ -686,7 +690,7 @@ bool Marche::Update(float dt)
 							instaPos.y, 
 							{ 0,0 }, 
 							App->camera2D->GetFloatNegOneToOne() * maxDelayTime, 
-							SDL_FLIP_NONE, 0, INT_MAX, INT_MAX, 0.5F);
+							SDL_FLIP_NONE, 0, 48, 24, 0.65F);
 					}
 
 
