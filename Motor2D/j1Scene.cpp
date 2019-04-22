@@ -461,6 +461,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
+		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
 		if (lootFlag == "loot")
 		{
 
@@ -469,6 +470,18 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		else if (lootFlag == "lootNoButton")
 		{
 			lootPanelRectNoButton = section;
+		}
+		else if (charFlag == "Marche")
+		{
+			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
+		}
+		else if (charFlag == "Ritz")
+		{
+			RitzIcon = App->gui->AddImage(position, &section, nullptr);
+		}
+		else if (charFlag == "Shara")
+		{
+			SharaIcon = App->gui->AddImage(position, &section, nullptr);
 		}
 		else
 		{                                  // this is useless now
@@ -481,21 +494,6 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 			}
 
-		}
-
-
-		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
-		if (charFlag == "Marche")
-		{
-			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
-		}
-		else if (charFlag == "Ritz")
-		{
-			RitzIcon = App->gui->AddImage(position, &section, nullptr);
-		}
-		else if (charFlag == "Shara")
-		{
-			SharaIcon = App->gui->AddImage(position, &section, nullptr);
 		}
 
 
