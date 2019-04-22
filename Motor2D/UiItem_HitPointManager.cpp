@@ -153,7 +153,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 
 
 
-	iPoint newPos(App->render->WorldToScreen(pos.x, pos.y, true));                                               // adjust this  
+	iPoint newPos(App->render->WorldToScreen(pos.x + 3, pos.y - 10, true));  // todo: pas the attacked entity and capture the width                                               // adjust this  
 
 
 	 ret = App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
