@@ -96,9 +96,26 @@ void UiItem::DrawUi(float dt)
 	}
 
 
+	Draw_Cursor(dt);
 
 }
 
 
 
 
+
+
+void UiItem::Draw_Cursor(float dt) {
+	int x, y;
+	x = y = 0;
+	App->input->GetMousePosition(x, y);
+	x *= App->win->GetScale();
+	y *= App->win->GetScale();
+
+
+	SDL_Rect section = { 252,638,25,32 };       // do this in XML 	
+	App->render->BlitGui(App->gui->GetAtlas(), x, y, &section, 0.0F);
+
+
+
+}
