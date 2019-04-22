@@ -14,6 +14,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	// TODO: import from xml
 	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/shara/Shara_dash_WIP.png");
+	attackTex = App->tex->Load("textures/characters/marche/Shara_ultimate_animation.png");
 	entityTex = spritesheet;
 
 	// TODO: improve this from xml and with for loop, just for testing now
@@ -51,7 +52,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	run[(int)facingDirection::E].PushBack({ 110,120,55,60 });
 	run[(int)facingDirection::E].PushBack({ 165,120,55,60 });
 	run[(int)facingDirection::E].PushBack({ 220,120,55,60 });
-	run[(int)facingDirection::E].PushBack({ 275,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 275,120,55,60 });
 	run[(int)facingDirection::E].speed = 10.0f;
 
 	run[(int)facingDirection::W].PushBack({ 0,120,55,60 });
@@ -59,7 +60,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	run[(int)facingDirection::W].PushBack({ 110,120,55,60 });
 	run[(int)facingDirection::W].PushBack({ 165,120,55,60 });
 	run[(int)facingDirection::W].PushBack({ 220,120,55,60 });
-	run[(int)facingDirection::W].PushBack({ 275,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 275,120,55,60 });
 	run[(int)facingDirection::W].speed = 10.0f;
 
 	run[(int)facingDirection::SE].PushBack({ 0,240,55,60 });
@@ -192,6 +193,111 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	dashPivotOffset[(int)facingDirection::SW][1] = { 55.f,88.f };
 	dashPivotOffset[(int)facingDirection::SW][2] = { 50.f,87.f };
 	dashPivotOffset[(int)facingDirection::SW][3] = { 40.f,91.f };
+
+
+	attack[(int)facingDirection::S].PushBack({ 0, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 45, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 90, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 135, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 180, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 225, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 270, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 315, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 360, 0, 45, 70 });
+	attack[(int)facingDirection::S].PushBack({ 405, 0, 45, 70 });
+	attack[(int)facingDirection::S].speed = 15.F;
+	attack[(int)facingDirection::S].loop = true; 
+
+	attack[(int)facingDirection::SE].PushBack({ 0, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 45, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 90, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 135, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 180, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 225, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 270, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 315, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 360, 70, 45, 70 });
+	attack[(int)facingDirection::SE].PushBack({ 405, 70, 45, 70 });
+	attack[(int)facingDirection::SE].speed = 15.F;
+	attack[(int)facingDirection::SE].loop = true;
+
+	attack[(int)facingDirection::SW].PushBack({ 0, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 45, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 90, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 135, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 180, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 225, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 270, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 315, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 360, 70, 45, 70 });
+	attack[(int)facingDirection::SW].PushBack({ 405, 70, 45, 70 });
+	attack[(int)facingDirection::SW].speed = 15.F;
+	attack[(int)facingDirection::SW].loop = true;
+
+	attack[(int)facingDirection::E].PushBack({ 0, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 45, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 90, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 135, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 180, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 225, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 270, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 315, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 360, 140, 45, 70 });
+	attack[(int)facingDirection::E].PushBack({ 405, 140, 45, 70 });
+	attack[(int)facingDirection::E].speed = 15.F;
+	attack[(int)facingDirection::E].loop = true;
+
+	attack[(int)facingDirection::W].PushBack({ 0, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 45, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 90, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 135, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 180, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 225, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 270, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 315, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 360, 140, 45, 70 });
+	attack[(int)facingDirection::W].PushBack({ 405, 140, 45, 70 });
+	attack[(int)facingDirection::W].speed = 15.F;
+	attack[(int)facingDirection::W].loop = true;
+
+	attack[(int)facingDirection::N].PushBack({ 0, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 45, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 90, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 135, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 180, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 225, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 270, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 315, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 360, 210, 45, 70 });
+	attack[(int)facingDirection::N].PushBack({ 405, 210, 45, 70 });
+	attack[(int)facingDirection::N].speed = 15.F;
+	attack[(int)facingDirection::N].loop = true;
+
+	attack[(int)facingDirection::NE].PushBack({ 0, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 45, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 90, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 135, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 180, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 225, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 270, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 315, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 360, 280, 45, 70 });
+	attack[(int)facingDirection::NE].PushBack({ 405, 280, 45, 70 });
+	attack[(int)facingDirection::NE].speed = 15.F;
+	attack[(int)facingDirection::NE].loop = true;
+
+	attack[(int)facingDirection::NW].PushBack({ 0, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 45, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 90, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 135, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 180, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 225, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 270, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 315, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 360, 280, 45, 70 });
+	attack[(int)facingDirection::NW].PushBack({ 405, 280, 45, 70 });
+	attack[(int)facingDirection::NW].speed = 15.F;
+	attack[(int)facingDirection::NW].loop = true;
 
 	dashMaxDistance = 120.f;
 
