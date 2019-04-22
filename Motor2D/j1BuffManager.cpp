@@ -191,17 +191,30 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	if (attacker == App->entityFactory->player->GetMarche())
 		App->audio->PlayFx(enemyHitbyMarche, 0);
 	
-	/*if (defender->hitPoint != nullptr)
+
+	// Calling Hit point labels
+	switch (elementType)
 	{
-		defender->hitPoint->attachedEntity = nullptr;
+	case ELEMENTAL_TYPE::NO_ELEMENT :
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT);
+		break; 
+	case ELEMENTAL_TYPE::FIRE_ELEMENT:
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::FIRE_ELEMENT);
+		break; 
+	case ELEMENTAL_TYPE::ICE_ELEMENT:
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::ICE_ELEMENT);
 
+	case ELEMENTAL_TYPE::POISON_ELEMENT:
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::POISON_ELEMENT);
+
+	case ELEMENTAL_TYPE::ALL_ELEMENTS:
+		App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::ALL_ELEMENTS);
+		break;
+
+	default:
+		break;
 	}
-	else
-	{*/
-	
 
-	App->HPManager->callHPLabelSpawn(iPoint(defender->position.x, defender->position.y), lifeToSubstract, ELEMENTAL_TYPE::NO_ELEMENT); // must be overall improved /types of damage? calculate
-//	}
 		
 																													  // but, enemy can die no
 	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
@@ -684,6 +697,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						else
 						{
 							entity->life -= (*item)->secDamage;
+							// Calling hitpoint label when it deals dmg
+							App->HPManager->callHPLabelSpawn(iPoint(entity->position.x, entity->position.y), (*item)->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT);
 						}
 						(*item)->count.Start();
 						--(*item)->totalTime;
@@ -696,6 +711,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 						//	App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						//TODO: call create hitpoint label
+
 
 						// Reset drawRectified
 						drawRectified += fire01Pivot;
@@ -748,6 +764,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						else
 						{
 							entity->life -= (*item)->secDamage;
+							// Calling hitpoint label when it deals dmg
+							App->HPManager->callHPLabelSpawn(iPoint(entity->position.x, entity->position.y), (*item)->secDamage, ELEMENTAL_TYPE::ICE_ELEMENT);
 						}
 						// remove previous hitpoint link
 
@@ -777,6 +795,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						else
 						{
 							entity->life -= (*item)->secDamage;
+							// Calling hitpoint label when it deals dmg
+							App->HPManager->callHPLabelSpawn(iPoint(entity->position.x, entity->position.y), (*item)->secDamage, ELEMENTAL_TYPE::POISON_ELEMENT);
 						}
 						(*item)->count.Start();
 						--(*item)->totalTime;
@@ -829,6 +849,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 					if ((*item)->count.ReadSec() > 1)
 					{
 						entity->life += (*item)->secDamage;
+						// TODO Add hp label of health
+						App->HPManager->callHPLabelSpawn(iPoint(entity->position.x, entity->position.y), (*item)->secDamage, ELEMENTAL_TYPE::NO_ELEMENT, true);
 						(*item)->count.Start();
 						--(*item)->totalTime;
 

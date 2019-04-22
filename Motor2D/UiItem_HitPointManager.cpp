@@ -92,7 +92,7 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type)
+UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type, bool healing)
 {
 
 	std::string str = std::to_string(damage); 
@@ -129,6 +129,8 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break; 
 	}
 	
+	if (healing)
+		c = { 0, 255, 0, 255 };
 
 	iPoint newPos(App->render->WorldToScreen(pos.x, pos.y));                                               // adjust this  
 
