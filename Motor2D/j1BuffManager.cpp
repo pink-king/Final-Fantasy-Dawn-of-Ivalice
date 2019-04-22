@@ -692,6 +692,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 						//	App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						//TODO: call create hitpoint label
+						
+						// Reset drawRectified
+						drawRectified += fire01Pivot;		
 
 						//add blood particles 
 						iPoint bloodPivot = { 10, 10 };
@@ -700,9 +703,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 
 						if ((*item)->to_paralitze == true)
 						{
-							iPoint healthPivot = { 8, 48 };
-							drawRectified -= healthPivot;
-							App->audio->PlayFx(healingSFX, 0);
+							iPoint stonePivot = { 8, 48 };
+							drawRectified -= stonePivot;
+							// TODO Add SFX
+							//App->audio->PlayFx(healingSFX, 0);
 							App->particles->AddParticle(App->particles->stone01, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						}
 					}
@@ -730,6 +734,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						drawRectified -= ice01Pivot;
 						App->particles->AddParticle(App->particles->ice02, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						App->audio->PlayFx(freezedSFX);
+						// Reset drawRectified
+						drawRectified += ice01Pivot;
 
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
@@ -749,13 +755,6 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 
-						if ((*item)->to_paralitze == true)
-						{
-							iPoint healthPivot = { 8, 48 };
-							drawRectified -= healthPivot;
-							App->audio->PlayFx(healingSFX, 0);
-							App->particles->AddParticle(App->particles->stone01, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
-						}
 						//TODO: call create hitpoint label
 					}
 				}
@@ -786,6 +785,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 						
+						// Reset drawRectified
+						drawRectified += Poison01Pivot;		
 
 						//add blood particle
 						iPoint bloodPivot = { 10, 10 };
@@ -794,10 +795,11 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 
 						if ((*item)->to_paralitze == true)
 						{
-							iPoint healthPivot = { 8, 48 };
-							drawRectified -= healthPivot;
-							App->audio->PlayFx(healingSFX, 0);
-							App->particles->AddParticle(App->particles->stone01, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
+							iPoint stonePivot = { 8, 48 };
+							drawRectified -= stonePivot;
+							// TODO Add SFX
+							//App->audio->PlayFx(healingSFX, 0); 
+							App->particles->AddParticle(App->particles->stone01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						}
 					}
 				}
