@@ -54,8 +54,12 @@ bool UiItem_HitPointManager::Update(float dt)
 			{
 				enemyLabels--;
 			}
+			else
+			{
+				labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
+			}
 
-			labelScoreAccum -= (*hitPointIterator)->valueInformation.number; 
+			
 			// cleanup
 			(*hitPointIterator)->CleanUp();
 			delete (*hitPointIterator);
@@ -162,7 +166,10 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 	 {
 		 ret->fromEnemy = true;
 	 }
-
+	 else
+	 {
+		 ret->fromEnemy = false; 
+	 }
 
 	 return ret; 
 
@@ -180,18 +187,18 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 	//LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);
 
-	if (playerStreak > 3000 && !labelsSpawned.fierce)                         // fierce 
+	if (playerStreak > 200 && !labelsSpawned.fierce)                         // fierce 
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 	    
-		pos.x -= 300; 
+		pos.x -= 500; 
 		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
 		labelsSpawned.totalLabels++; 
 	}
 
-	if (playerStreak > 15000 && !labelsSpawned.brutal)                         // brutal   
+	if (playerStreak > 1000 && !labelsSpawned.brutal)                         // brutal   
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 
