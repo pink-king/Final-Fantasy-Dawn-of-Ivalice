@@ -307,7 +307,8 @@ bool j1Scene::Update(float dt)
 		{
 			if (!inventory->enable)
 			{
-				App->gui->resetHoverSwapping = false;
+				AcceptUISFX_logic = true;
+
 				App->pause = !App->pause;
 				if (App->pause)
 				{
@@ -317,11 +318,15 @@ bool j1Scene::Update(float dt)
 
 					pausePanel->enable = true;
 					paused = true;
+					App->gui->resetHoverSwapping = false;
 				}
 				else
 				{
 					Mix_ResumeMusic();
-					pausePanel->enable = false;
+					App->gui->resetHoverSwapping = false;
+					App->gui->selected_object = nullptr;
+					App->gui->GoBackToGame();
+					AcceptUISFX_logic = false;
 				}
 			}
 		}
