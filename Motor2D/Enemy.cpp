@@ -317,8 +317,8 @@ void Enemy::DebugPath() const
 
 void Enemy::Draw() 
 {
-
-	DebugPath();
+	if(App->scene->debugSubtiles == true)
+		DebugPath();
 
 	if (entityTex != nullptr)
 	{

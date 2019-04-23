@@ -135,19 +135,3 @@ bool EmmiterArrows::CleanUp()
 	return true;
 }
 
-void EmmiterArrows::Draw()
-{
-	{
-		iPoint subTilePos = GetSubtilePos();
-		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
-		App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
-
-		if (entityTex != nullptr)
-		{
-			if (currentAnimation != nullptr)
-				App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
-			else
-				App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
-		}
-	}
-}

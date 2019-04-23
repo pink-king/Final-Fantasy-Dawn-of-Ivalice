@@ -72,7 +72,7 @@ private:
 
 private:
 	//int propagationResolution = 1;
-	bool debug = true;
+	//bool debug = true;
 	// propagation data itself -----------
 	const j1Entity* fromEntity = nullptr;
 	//ENTITY_TYPE fromType = ENTITY_TYPE::NO_TYPE;
@@ -131,10 +131,10 @@ public:
 	SDL_Texture* debugSubtileTex2 = nullptr;
 	SDL_Texture* debugSubtileTex3 = nullptr;
 	bool matrix[MAX_TYPE][MAX_TYPE]; // used for "collision" between entities involved on area attack propagation
+	bool debug = false;
 
 private:
 	std::vector<attackData*> currentPropagationAttacks;
-	//bool debug = true;
 	//std::queue<attackData*> queuedAttacks;
 	
 };

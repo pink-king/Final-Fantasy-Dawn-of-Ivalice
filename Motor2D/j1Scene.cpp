@@ -45,7 +45,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	debug = true;
+	debug = false;
 
 	// App->audio->Load("audio/music/menu_1.0.ogg");
 	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
@@ -75,7 +75,7 @@ bool j1Scene::Start()
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ 300,300 });//-980, 2440 });
+	App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
 
 	if (state == SceneState::GAME)
 	{
@@ -134,13 +134,30 @@ bool j1Scene::PreUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)   
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->win->SetScale(2);
 
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		App->map->ToggleDebugDraw();
+		debug = !debug;
+	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		debugSubtiles = !debugSubtiles;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	{
+		debugColl = !debugColl;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
+		hackerMode = !hackerMode;
+	}
 	// FAKE KEYS FOR TESTING 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
@@ -150,7 +167,7 @@ bool j1Scene::PreUpdate()
 		App->win->SetScale(2);*/
 
 	// debug testing subtiles entities empty
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode)
 	{
 		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
 		iPoint clickedTile = entitySubTilePoint;
@@ -165,14 +182,14 @@ bool j1Scene::PreUpdate()
 		else
 			LOG("subtile NOT empty");
 
-		// DEBUG attack propagation!
+		 //DEBUG attack propagation!
 		App->attackManager->AddPropagationAttack(
 			App->entityFactory->player->GetSelectedCharacterEntity(), // from entity
 			{ entitySubTilePoint.x,entitySubTilePoint.y }, // impact position, (on subtilemap units)
 			propagationType::BFS, // propagation expansion type
 			damageType::INTIME,	// damage type: direct/in time
 			ELEMENTAL_TYPE::ICE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
-			5, // base attack damage
+			100, // base attack damage
 			13, // radius (on subtile units)
 			60, // propagation speed, in ms (time between steps)
 			true); // if this attack instantate particles of the elemental type while propagating
@@ -194,14 +211,12 @@ bool j1Scene::Update(float dt)
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 
 	// map debug draw grids
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
-		App->map->ToggleDebugDraw();
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	/*if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");
+		App->SaveGame("save_game.xml");*/
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -215,8 +230,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
-		debug = !debug;
+	
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
@@ -334,20 +348,21 @@ bool j1Scene::Update(float dt)
 			}
 		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
-	{
-		App->entityFactory->player->life -= 20;
-		App->gui->healthBar->damageInform.doDamage = true;
-		App->gui->healthBar->damageInform.damageValue = 20;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
-	{
-
-		App->entityFactory->player->selectedCharacterEntity->life += 30;
-		App->gui->healthBar->damageInform.damageValue = -30;
-	}
 	
+	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+	//{
+	//	App->entityFactory->player->life -= 20;
+	//	App->gui->healthBar->damageInform.doDamage = true;
+	//	App->gui->healthBar->damageInform.damageValue = 20;
+	//}
+
+	//if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
+	//{
+
+	//	App->entityFactory->player->selectedCharacterEntity->life += 30;
+	//	App->gui->healthBar->damageInform.damageValue = -30;
+	//}
+	//
 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -369,7 +384,7 @@ bool j1Scene::Update(float dt)
 		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 		j1Entity* ent;
 		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
@@ -377,48 +392,52 @@ bool j1Scene::Update(float dt)
 
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	if (hackerMode)
 	{
-		/*std::vector<EnemyType> typeVec; 
-		typeVec.reserve(2);
-		typeVec.push_back(EnemyType::BOMB);
-		typeVec.push_back(EnemyType::TEST);
-		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+		{
+			/*std::vector<EnemyType> typeVec; 
+			typeVec.reserve(2);
+			typeVec.push_back(EnemyType::BOMB);
+			typeVec.push_back(EnemyType::TEST);
+			App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
-	}
-	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
-	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
-	}
+		}
+		if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
+		{
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+		{
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-	{
-		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MEDUSA);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+		{
+			App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MEDUSA);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
-	{
-		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
+		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+		{
+			App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
+		}
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		{
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
+		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-	{
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
-	}
+	
 
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
-	{
-		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+	//if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
+	//{
+	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
 
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
-		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
-	}
+	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+	//	App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+	//}
 	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
 	//{
 	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });

@@ -374,7 +374,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				if (CreateRandomBetween(1, 10) <= bombProbs)
 				{
 					// Last paramater is dummy
-					ret = CreateEnemy(EnemyType::BOMB, spawnPos, true);
+					ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
 
 					if (ret != nullptr)
 					{
@@ -391,7 +391,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
 				{	
 					// Last paramater is dummy
-					ret = CreateEnemy(EnemyType::TEST, spawnPos, true);
+					ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
 
 					if (ret != nullptr)
 					{

@@ -51,6 +51,8 @@ bool j1AttackManager::Start()
 
 bool j1AttackManager::PreUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		debug = !debug; 
 	return true;
 }
 
@@ -221,7 +223,7 @@ bool attackData::Update(float dt)
 	}
 
 	// debug draw
-	if (debug)
+	if (App->attackManager->debug == true) // Cant acces to every attackdata to change debug boolean
 	{
 		BROFILER_CATEGORY("Propagations Debug", Profiler::Color::Chocolate);
 
