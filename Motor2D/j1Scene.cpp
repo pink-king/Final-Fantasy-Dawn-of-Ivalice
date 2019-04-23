@@ -62,9 +62,12 @@ bool j1Scene::Start()
 
 	
 	App->camera2D->SetCameraPos({ 2000,0 });
-
 	// create player for testing purposes here
 	 //  {300,300}
+	App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
+	App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, -1575, 2150, "TriggerWIN"); // Delete This
+	App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, 336, 264, "TriggerWIN");	// The real one
+
 
 	if (state == SceneState::GAME)
 	{
@@ -481,7 +484,7 @@ bool j1Scene::CleanUp()
 void j1Scene::UnLoadScene()
 {
 	App->map->UnloadMap();
-	App->entityFactory->UnLoadLevelEntities();	
+	App->entityFactory->CleanUp();	
 }
 
 void j1Scene::DeathScene()

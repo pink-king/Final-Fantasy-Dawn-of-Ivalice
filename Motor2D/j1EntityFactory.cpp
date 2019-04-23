@@ -18,6 +18,7 @@
 #include "Tornado.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "DumbTrigger.h"
 #include <ctime>
 #include <algorithm>
 
@@ -273,12 +274,6 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 {
 	j1Entity* ret = nullptr; 
 
-	std::vector<j1Entity*>::iterator item = entities.begin();
-	for (; item != entities.end(); ++item)
-	{
-		if (*item == nullptr)
-			break;
-	}
 	switch (type)
 	{
 	case NO_TYPE:
@@ -288,6 +283,11 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		break;
 	case ENTITY_DYNAMIC:
 		break;
+	case TRIGGERWIN:
+		ret = new DumbTrigger({ positionX, positionY });
+		ret->type = type; 
+		entities.push_back(ret);
+		break; 
 
 	case ENEMY_TEST:
 		/*ret = new EnemyTest(iPoint(positionX, positionY));
@@ -621,6 +621,27 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 	return ret;
 }
 
+bool j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
+{
+
+	bool ret = true;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGERWIN) 
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
 int j1EntityFactory::GetSubtileEntityIndexAt(const iPoint pos) const
 {
 	return (pos.y * subtileWidth) + pos.x;
@@ -653,6 +674,15 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
+void j1EntityFactory::AssignEntityToSubtilePos(j1Entity * entity, iPoint subtile)
+{
+	if (CheckSubtileMapBoundaries(subtile))
+		entitiesDataMap[GetSubtileEntityIndexAt(subtile)].entities.push_back(entity);
+
+	else
+			LOG("Trying to assign entity out of boundaries, ignoring");
+}
+
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 {
 	bool ret = false;
@@ -673,6 +703,28 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	}
 
 	return ret;
+}
+
+bool j1EntityFactory::DeleteEntityFromSubtilePos(j1Entity * entity, iPoint subtile)
+{
+	bool ret = false; 
+
+	int index = GetSubtileEntityIndexAt(subtile);
+
+	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+	{
+		if (*entityIterator == entity)
+		{
+			//LOG("found");
+			entitiesDataMap[index].entities.erase(entityIterator);
+			ret = true;
+			break;
+		}
+	}
+
+	return ret; 
 }
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
@@ -751,7 +803,7 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 		entities.push_back(assetEntity);
 		break;
 	case EnvironmentAssetsTypes::WALL1:
-		break;
+		break;		
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
