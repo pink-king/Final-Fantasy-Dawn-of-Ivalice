@@ -369,6 +369,14 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 	break;
 	case ELEMENTAL_TYPE::ALL_ELEMENTS:
 		break;
+	case ELEMENTAL_TYPE::DUST: // only visual effect for now
+	{
+		// substract pivot
+		iPoint smokePivot = { 32, -17 };
+		drawRectified -= smokePivot;
+		App->particles->AddParticle(App->particles->powder01, drawRectified.x, drawRectified.y, { 0,0 }, 20u, renderFlip);
+		break;
+	}
 	case ELEMENTAL_TYPE::MAX:
 		break;
 	default:

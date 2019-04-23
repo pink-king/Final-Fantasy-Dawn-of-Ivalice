@@ -29,6 +29,8 @@ enum class ELEMENTAL_TYPE
 	POISON_ELEMENT,
 	STONE_ELEMENT,
 	ALL_ELEMENTS,
+	// only visual effects for attack manager
+	DUST,
 	MAX
 };
 

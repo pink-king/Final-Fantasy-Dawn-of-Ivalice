@@ -47,7 +47,7 @@ Tornado::Tornado(fPoint pos, fPoint destination, uint speed, const j1Entity * ow
 
 	SetPivot(70,50);
 	size.create(136, 71);
-	App->audio->PlayFx(App->entityFactory->marcheAbility2);
+	App->audio->PlayFx(App->entityFactory->marcheAbility2); // TODO: ADJUST SFX VOL
 
 	LifeTimer.Start();
 	AttackTimer.Start();

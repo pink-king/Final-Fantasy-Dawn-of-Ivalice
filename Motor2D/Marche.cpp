@@ -614,7 +614,23 @@ bool Marche::Update(float dt)
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
 
+	// super saiyajin state
+	if (superSaiyajin)
+	{
+		// checks timer and changes textures
+		if (superSaiyajinTimer.ReadSec() >= superTransMaxTimeSec)
+		{
+			spritesheet = runTexTempPtr;
+			basicAttackTex = basicAttackTexPtr;
+			superSaiyajin = false;
+			// check if we are attacking to prevent glitches
+			if (combat_state == combatState::BASIC)
+				entityTex = basicAttackTex;
+			else
+				entityTex = spritesheet;
 
+		}
+	}
 		
 	if (!isParalize)
 	{
@@ -635,29 +651,8 @@ bool Marche::Update(float dt)
 				inputReady = true;
 				transference_pivot = { 0,0 };
 			}
-
-
 		}
 	}
-	
-	// super saiyajin state
-	if (superSaiyajin)
-	{
-		// checks timer and changes textures
-		if (superSaiyajinTimer.ReadSec() >= superTransMaxTimeSec)
-		{
-			spritesheet = runTexTempPtr;
-			basicAttackTex = basicAttackTexPtr;
-			superSaiyajin = false;
-			// check if we are attacking to prevent glitches
-			if (combat_state == combatState::BASIC)
-				entityTex = basicAttackTex;
-			else
-				entityTex = spritesheet;
-
-		}
-	}
-	
 
 	// CHECK COMBAT STATE
 	switch (combat_state)
@@ -958,9 +953,8 @@ bool Marche::Update(float dt)
 			{
 				myUIClocks.ulti->Restart();
 			}
+			
 			UlitMarche();
-
-			coolDownData.ultimate.timer.Start();
 
 		}
 		if (!inputReady)
@@ -978,6 +972,44 @@ bool Marche::Update(float dt)
 				// change run spritesheet and attack texture
 				spritesheet = superRunTex;
 				basicAttackTex = superAttackTex;
+				// timer
+				coolDownData.ultimate.timer.Start();
+				// instantiate tornados
+				fPoint offset;
+				fPoint pivotPosition = GetPivotPos();
+				//for (int i = 0; i < 6; ++i) // TODO: DO RANDOM
+				//{
+				//	offset.x = pivotPosition.x + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
+				//	offset.y = pivotPosition.y + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
+
+				//	App->entityFactory->CreateArrow(GetPivotPos(), offset, 120, this, PROJECTILE_TYPE::TORNADO);
+				//}
+				// instantiate mega dust wave
+				float speed = 220.f;
+				for (int i = 0; i < 120; ++i)
+				{	
+					offset.x = pivotPosition.x + (10.f * App->camera2D->GetFloatNegOneToOne());
+					offset.y = pivotPosition.y + (10.f * App->camera2D->GetFloatNegOneToOne());
+					fPoint dir;
+					dir = offset - pivotPosition;
+					dir.Normalize();
+					Uint32 delay = i * 2u;
+					SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+					if (rand() % 2 == 0)
+						renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+
+					dir.x *= speed;
+					dir.y *= speed;
+					App->particles->AddParticle(
+						App->particles->powder01, 
+						pivotPosition.x - 29,  // adjust texture rect // 64, 29 });
+						pivotPosition.y - 16, 
+						{ (int)dir.x, (int)dir.y }, 
+						delay, 
+						renderFlip);
+					LOG("particle: %i", i);
+				}
+
 			}
 			//reposition pos
 			transference_pivot = superAnimPivots[pointingDir];
