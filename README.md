@@ -6,6 +6,42 @@
 
 Final Fantasy: Dawn of Ivalice is new version for pc based on Final Fantasy Tactics Advance. In Dawn of Ivalice, our protagonists opens and enters to a different book. In this, Marche and his friends will wake up inside a dungeon full of danger, where they must reach different levels to return to the world that they knew. In these levels, our protagonists will fight to different enemies to get the level key and advance.
 
+##Gamepad functions
+
+* A - Accept UI button
+* DPAD RIGHT - Consum potion / increase volumen bar
+* DPAD RIGHT - Decrease volumen bar
+* RIGHT BUTTON - Swap next character
+* LEFT BUTTON - Swap previous character
+* LEFT TRIGGER - Open scope
+* LEFT TRIGGER + A - PickLoot 
+* LEFT TRIGGER + B - Dodge
+* LEFT TRIGGER + X - Basic
+* LEFT TRIGGER + RIGHT STICK - Ability 1
+* LEFT TRIGGER + Y - Ability 2
+* LEFT TRIGGER + RIGHT TRIGGER - Ultimate
+* LEFT TRIGGER + RIGHT JOYSTICK - Move scope
+* LEFT JOYSTICK - Move
+* START -  Open / close pause Menu
+* SELECT - Open / close inventory
+
+## Debug KEYS
+
+* F1 - DebugDraw - Map And pivots
+* F2 - Debug Draw Subtiles
+* F3 - Debug Attack Propagations
+* F4 - Debug Collisions
+* F5 - Zoom Out
+* F6 - Zoom in
+* F7  - Debug Camera Shake and GamePad Rumbles
+* F8 - Debug UI 
+* F9  - Access hacker Mode (Abilities with keyboard and mouse)
+* 1  - Zombie 
+* 2 - Bomb
+* 4KP  - Previous Character
+* 6KP  - Next Character
+
+
 # Pink King Games
 
 <p align="center">
