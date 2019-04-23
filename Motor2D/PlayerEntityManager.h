@@ -106,6 +106,7 @@ public:
 	std::vector<LootEntity*>		bagObjects;
 	std::vector<LootEntity*>		consumables;
 
+	uint							limitBagObject;
 	uint							gold = 0;
 	std::string						str_coin;
 

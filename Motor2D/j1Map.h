@@ -164,7 +164,6 @@ public:
 
 	TileSet* GetTilesetFromTileId(int id) const;
 private:
-
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
@@ -174,6 +173,7 @@ private:
 	bool LoadMapAssets(pugi::xml_node& node);
 	bool LoadSpawns(pugi::xml_node& node); 
 
+	bool UnloadMap();
 
 public:
 	MapData data;
