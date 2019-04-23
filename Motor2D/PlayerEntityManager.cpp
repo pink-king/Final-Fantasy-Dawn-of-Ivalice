@@ -136,7 +136,7 @@ bool PlayerEntityManager::Update(float dt)
 	//	sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
 	//	App->win->AddStringToTitle(title);
 	//}*/
-	//App->win->ClearTitle();
+	App->win->ClearTitle();
 
 	if (marche->stat.size() != 0)
 	{
