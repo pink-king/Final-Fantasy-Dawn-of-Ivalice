@@ -106,6 +106,7 @@ public:
 	std::vector<LootEntity*>		bagObjects;
 	std::vector<LootEntity*>		consumables;
 
+	uint							limitBagObject;
 	uint							gold = 0;
 	std::string						str_coin;
 
@@ -130,7 +131,6 @@ private:
 	bool debug = true;
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	bool deleteObj = false;
 
 	unsigned int pickLoot;
 	unsigned int pickGold;

@@ -362,7 +362,7 @@ void j1BuffManager::CreateParalize(j1Entity* attacker, j1Entity* defender, float
 		newStat->count.Start();
 		defender->stat.push_back(newStat);
 
-		defender->isParalize = true;
+		defender->isFrozen = true;
 		bool isInList = false;
 		
 		for (std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin(); item != entitiesTimeDamage.end(); ++item)
@@ -799,6 +799,12 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 				{
 					entity->stat.remove(*item);
 					entity->isFrozen = false;
+					if ((*item)->to_paralitze)
+					{
+						if (entity->isParalize)
+							AdjustEntityAnimationSpeed(entity);
+						entity->isParalize = false;
+					}
 
 				}
 				else
@@ -880,15 +886,6 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
 						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y, { 0,0 }, 0u, renderFlip);
-
-						if ((*item)->to_paralitze == true)
-						{
-							iPoint stonePivot = { 8, 48 };
-							drawRectified -= stonePivot;
-							// TODO Add SFX
-							//App->audio->PlayFx(healingSFX, 0); 
-							App->particles->AddParticle(App->particles->stone01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
-						}
 					}
 				}
 				else

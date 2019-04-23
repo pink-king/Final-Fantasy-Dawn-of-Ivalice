@@ -140,7 +140,7 @@ bool DeathCircle::PostUpdate()
 			App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::DIRECT, ELEMENTAL_TYPE::ICE_ELEMENT, 70, 8, 30, true);
 			App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-				damageType::INTIME, ELEMENTAL_TYPE::ICE_ELEMENT, 50, 10, 30, true);
+				damageType::INTIME, ELEMENTAL_TYPE::ICE_ELEMENT, 50, 10, 30, true,true);
 			App->camera2D->AddTrauma(0.8F);
 			App->input->DoGamePadRumble(0.6F, 800);
 			madeFinisher = true;
