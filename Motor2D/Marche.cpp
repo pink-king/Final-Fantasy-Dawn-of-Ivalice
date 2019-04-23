@@ -564,8 +564,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 
 	// better speed 
-	characterBaseSpeed.x /= 1.3f; 
-	characterBaseSpeed.y /= 1.3f;
+	characterBaseSpeed.x /= 1.6f; 
+	characterBaseSpeed.y /= 1.6f;
 
 	//
 	//previousFrame = 1; // fake previousFrame to enter on first anim state
