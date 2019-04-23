@@ -58,7 +58,7 @@ private:
 
 	// DASH pivoting
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
-
+	fPoint basicAttackPivotOffset[(int)facingDirection::MAX];
 };
 
 #endif
