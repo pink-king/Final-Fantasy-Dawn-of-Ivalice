@@ -51,6 +51,7 @@ public:
 
 	void UnLoadScene();
 	void DeathScene();
+	void NewScene();
 
 public:
 	UiItem* inGamePanel = nullptr;
@@ -105,7 +106,6 @@ private:
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
 	
 	void LoadMusicFromScene();
-	void NewScene();
 	PlayerEntityManager* player_selected = nullptr;
 
 	bool begin;

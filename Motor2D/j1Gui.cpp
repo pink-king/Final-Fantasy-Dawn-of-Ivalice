@@ -723,6 +723,7 @@ void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
 	App->scene->state = SceneState::GAME;
+	App->scene->NewScene();
 }
 
 
