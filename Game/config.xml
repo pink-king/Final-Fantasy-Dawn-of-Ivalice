@@ -484,7 +484,7 @@
     <DeathScreen>
       <images>
         <image name="death_screen">
-          <section x="1281" y="1468" w="1280" h="720"/>
+          <section x="1290" y="1653" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
       </images>
@@ -494,7 +494,7 @@
           <idleSec x="856" y="2725" w="215" h="64"/>
           <hoverSec x="856" y="2660" w="215" h="64" />
           <clickSec x="1072" y="2651" w="215" h="64" />
-          <position x="530" y="440"/>
+          <position x="540" y="600"/>
         </button>
       </buttons>
     </DeathScreen>
