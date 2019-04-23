@@ -85,6 +85,10 @@ public:
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
 	bool AcceptUISFX_logic;
+
+
+	bool to_win = false;
+
 private:
 	SDL_Texture* debug_tex = nullptr;
 	pugi::xml_node sceneNode;

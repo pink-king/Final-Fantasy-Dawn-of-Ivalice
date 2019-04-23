@@ -299,7 +299,7 @@ void EnemyTest::SetState(float dt)
 
 bool EnemyTest::CleanUp()
 {
-	if (path_to_follow.size() > 0)
+	/*if (path_to_follow.size() > 0)
 	{
 		std::vector<iPoint>::iterator item = path_to_follow.begin();
 		for (; item != path_to_follow.end(); ++item)
@@ -312,7 +312,7 @@ bool EnemyTest::CleanUp()
 		}
 	}
 
-	path_to_follow.clear();
+	path_to_follow.clear();*/
 
 	std::list<entityStat*>::iterator item = stat.begin();
 	for (; item != stat.end(); ++item)

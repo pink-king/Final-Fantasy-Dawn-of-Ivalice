@@ -455,6 +455,11 @@ bool j1Scene::Update(float dt)
 	//}
 
 	LoadMusicFromScene();
+
+
+	if (to_win)
+		winScene();
+
 	return true;
 }
 
@@ -806,6 +811,8 @@ void j1Scene::NewScene()
 {
 	if (App->entityFactory->IsEnabled())
 		App->entityFactory->Disable();
+
+	App->audio->UnloadFX();
 	
 	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
@@ -840,15 +847,14 @@ void j1Scene::NewScene()
 }
 void j1Scene::UnLoadScene()
 {
-	App->map->UnloadMap();
+	App->attackManager->CleanUp();
 	App->entityFactory->Disable();
+	App->map->UnloadMap();
 	App->audio->UnloadFX();
 	App->pathfinding->Disable();
 
 	App->audio->active = false;
 
-	App->attackManager->CleanUp();
-	
 }
 
 void j1Scene::DeathScene()
@@ -859,14 +865,10 @@ void j1Scene::DeathScene()
 	UnLoadScene();
 
 	App->audio->active = false;
-
-	App->attackManager->CleanUp();
-
 }
 
 void j1Scene::winScene()
 {
-
 	winPanel->enable = true;
 	inGamePanel->enable = false;
 	App->gui->resetHoverSwapping = false;
@@ -874,6 +876,7 @@ void j1Scene::winScene()
 
 	App->audio->active = false;
 
-	App->attackManager->CleanUp();
+	state = SceneState::STARTMENU;
+	to_win = false;
 
 }

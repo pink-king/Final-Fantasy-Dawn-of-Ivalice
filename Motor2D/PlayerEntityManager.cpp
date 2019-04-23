@@ -134,7 +134,7 @@ bool PlayerEntityManager::Update(float dt)
 	//static char title[30];
 	//sprintf_s(title, 30, " | life: %f", life);
 	//App->win->AddStringToTitle(title);
-
+	
 	//*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
 	//{
 	//	static char title[30];

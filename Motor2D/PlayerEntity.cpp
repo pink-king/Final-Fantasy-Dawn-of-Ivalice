@@ -158,7 +158,8 @@ bool PlayerEntity::InputMovement(float dt)
 	//// TODO: rework this, only for vertical slice
 	if (!App->entityFactory->isThisSubtileTriggerFree(App->entityFactory->player->GetSubtilePos()))
 	{
-		App->scene->winScene();
+		//App->scene->winScene();
+		App->scene->to_win = true;
 	}
 
 	//LOG("animation Angle: %f", animationAngle);

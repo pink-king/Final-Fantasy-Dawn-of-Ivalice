@@ -413,6 +413,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			}
 		}
 	}
+
 	LOG("Created %i Enemies", numEnemies);
 	LOG("Ceated %i TESTS", numTests);
 	LOG("Ceated %i BOMBS", numBombs);
