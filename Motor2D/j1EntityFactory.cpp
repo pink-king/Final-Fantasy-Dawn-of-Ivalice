@@ -134,6 +134,8 @@ bool j1EntityFactory::Start()
 
 bool j1EntityFactory::PreUpdate()
 {
+	BROFILER_CATEGORY("Entities PreUpdate", Profiler::Color::LavenderBlush);
+
 	bool ret = true;
 	
 	// logic / collisions

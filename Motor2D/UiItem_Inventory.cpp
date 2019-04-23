@@ -6,8 +6,7 @@
 #include "j1Fonts.h"
 #include "j1Render.h"
 #include "j1Scene.h"
-
-
+#include "Brofiler/Brofiler.h"
 
 UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
@@ -21,6 +20,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 {
 	// - - - - - - - - - - character icons
+	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
 	/*App->scene->MarcheIcon->hitBox.x = App->scene->SharaIcon->hitBox.x = App->scene->RitzIcon->hitBox.x = staringPosition.x + 30;
 	App->scene->MarcheIcon->hitBox.y = App->scene->SharaIcon->hitBox.y = App->scene->RitzIcon->hitBox.y = staringPosition.y + 30;*/
@@ -263,6 +263,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 
 void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
 {
+	BROFILER_CATEGORY("Inventory Generate Description", Profiler::Color::Olive);
 
 
 	if (firstTime)
@@ -375,6 +376,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
 
+	BROFILER_CATEGORY("Inventory Equip", Profiler::Color::Olive);
 
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
 

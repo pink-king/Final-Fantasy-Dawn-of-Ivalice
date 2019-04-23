@@ -43,15 +43,15 @@ public:
 
 
 
-	_TTF_Font*				default;
-	_TTF_Font*			    openSansBold18;
-	_TTF_Font*			    openSansBold36;
-	_TTF_Font*			    openSansSemiBold24;
-	_TTF_Font*				piecesofEight48;
+	_TTF_Font*				default = nullptr;
+	_TTF_Font*			    openSansBold18 = nullptr;
+	_TTF_Font*			    openSansBold36 = nullptr;
+	_TTF_Font*			    openSansSemiBold24 = nullptr;
+	_TTF_Font*				piecesofEight48 = nullptr;
 
 	// hitpoint labels
-	_TTF_Font*              shatterBoxx36;
-	_TTF_Font*              shatterBoxx48;
+	_TTF_Font*              shatterBoxx36 = nullptr;
+	_TTF_Font*              shatterBoxx48 = nullptr;
 
 
 };
