@@ -171,16 +171,24 @@ bool j1Scene::PreUpdate()
 		App->win->SetScale(2);*/
 	if (App->input->GetKey(SDL_SCANCODE_P) == 1)
 	{
-		App->map->UnloadMap();
+		UnLoadScene();
 	}
-	//if (App->input->GetKey(SDL_SCANCODE_O) == 1)
-	//{
-	//	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-	//	{
-	//
-	//		// re set entities data map (create or delete/create if we have a previous one)
-	//	}
-	//}
+	if (App->input->GetKey(SDL_SCANCODE_O) == 1)
+	{
+		if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		{
+			int w, h;
+			uchar* data = NULL;
+			if (App->map->CreateWalkabilityMap(w, h, &data))
+				App->pathfinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+
+			// re set entities data map (create or delete/create if we have a previous one)
+			App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
+			App->entityFactory->CreatePlayer({ -1575, 2150 });
+		}
+	}
 	// debug testing subtiles entities empty
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode)
 	{
@@ -493,6 +501,13 @@ bool j1Scene::CleanUp()
 	
 	LOG("Freeing scene");
 	return true;
+}
+
+void j1Scene::UnLoadScene()
+{
+	App->map->UnloadMap();
+	App->entityFactory->UnLoadLevelEntities();
+	state = SceneState::NO_SCENE;
 }
 
 void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)

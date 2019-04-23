@@ -17,6 +17,7 @@ enum class SceneState
 {
 	STARTMENU,
 	GAME,
+	NO_SCENE,
 	MAX_STATES
 };
 
@@ -47,6 +48,8 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+	void UnLoadScene();
 
 public:
 	UiItem* inGamePanel = nullptr;
