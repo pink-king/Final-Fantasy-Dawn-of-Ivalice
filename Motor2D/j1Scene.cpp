@@ -232,19 +232,6 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_REPEAT)
-	{
-		App->pause = !App->pause;
-		if (App->pause)
-		{
-			deathPanel->enable = true;
-			App->gui->resetHoverSwapping = false;
-		}
-		else 
-		{
-			deathPanel->enable = false;
-		}
-	}
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
@@ -367,6 +354,7 @@ bool j1Scene::Update(float dt)
 
 			}
 		}
+
 	}
 	
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
