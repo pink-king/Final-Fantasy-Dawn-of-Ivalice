@@ -150,7 +150,7 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
-
+	bool UnloadMap();
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 	iPoint SubTileMapToWorld(int x, int y) const;
@@ -173,7 +173,7 @@ private:
 	bool LoadMapAssets(pugi::xml_node& node);
 	bool LoadSpawns(pugi::xml_node& node); 
 
-	bool UnloadMap();
+	
 
 public:
 	MapData data;
