@@ -71,7 +71,7 @@ private:
 	SDL_Texture* SharaUltimate = nullptr;
 	SDL_Texture* explosionsTex = nullptr;
 	SDL_Texture* windsTex = nullptr;
-
+	SDL_Texture* arrowTex = nullptr; 
 	std::list<Particle*> active;
 	pugi::xml_node particleNode;
 
@@ -99,6 +99,8 @@ public:
 	Particle blood02;
 	Particle arrowTrail;
 	Particle powder01;
+	Particle arrow; 
+
 };
 
 #endif // __j1PARTICLES_H__

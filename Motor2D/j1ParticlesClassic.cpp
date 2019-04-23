@@ -58,7 +58,7 @@ bool j1ParticlesClassic::Start()
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
 	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
 	windsTex = App->tex->Load("textures/particles/windsTexture.png");
-
+	arrowTex = App->entityFactory->arrowsTexture; 
 
 	explosion01.anim.PushBack({ 0,354,32,32 });
 	explosion01.anim.PushBack({ 0,386,32,32 });
@@ -335,7 +335,21 @@ bool j1ParticlesClassic::Start()
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
-
+	
+	arrow.anim.PushBack({ 0,48,64,16 });
+	arrow.anim.PushBack({ 64,48,64,16 });
+	arrow.anim.PushBack({ 128,48,64,16 });
+	arrow.anim.PushBack({ 192,48,64,16 });
+	arrow.anim.PushBack({ 256,48,64,16 });
+	arrow.anim.PushBack({ 320,48,64,16 });
+	arrow.anim.PushBack({ 384,48,64,16 });
+	arrow.anim.PushBack({ 448,48,64,16 });
+	arrow.anim.PushBack({ 0,64,64,16 });
+	arrow.anim.PushBack({ 64,64,64,16 });
+	arrow.anim.speed = 10.F;
+	arrow.texture = arrowTex; 
+	arrow.anim.loop = false;
+	arrow.life = 2000.F; 
 
 	return true;
 }
@@ -424,8 +438,8 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
 		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
 
-		AddParticle(burn01, p.x, p.y, { 0,0 }, 0, SDL_FLIP_NONE, 0, INT_MAX, INT_MAX, 0.5F);
-
+		AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
+		
 	}
 
 	return ret;
