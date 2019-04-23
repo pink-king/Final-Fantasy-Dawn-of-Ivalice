@@ -314,6 +314,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	maxEmitterDelayTime = 1000;
 
 	previousPos = position;
+
 }
 
 Shara::~Shara()

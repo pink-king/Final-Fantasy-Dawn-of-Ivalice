@@ -31,6 +31,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 
 	debug = false;
 	
+	Start();
 }
 
 PlayerEntityManager::~PlayerEntityManager()
