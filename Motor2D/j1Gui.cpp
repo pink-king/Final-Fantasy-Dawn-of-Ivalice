@@ -733,8 +733,10 @@ void j1Gui::FadeToScene()
 		RELEASE_ARRAY(data);
 
 		// re set entities data map (create or delete/create if we have a previous one)
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
 		App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
+		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, -1575, 2150, "TriggerWIN"); // Delete This
+		App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, 336, 264, "TriggerWIN");	// The real one
 	}
 }
 
