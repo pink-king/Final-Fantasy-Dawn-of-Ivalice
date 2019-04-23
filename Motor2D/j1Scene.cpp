@@ -868,7 +868,7 @@ void j1Scene::UnLoadScene()
 
 	App->audio->active = false;
 
-	state = SceneState::STARTMENU;
+	state = SceneState::NO_SCENE;
 
 }
 

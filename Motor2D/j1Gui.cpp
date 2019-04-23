@@ -772,4 +772,7 @@ void j1Gui::GoBackToStartMenuFromDeathWin()
 	App->scene->winPanel->enable = false;
 	App->scene->startMenu->enable = true;
 	App->scene->state = SceneState::STARTMENU;
+
+	// TODO: vertical slice workaround
+	App->audio->active = true;
 }
