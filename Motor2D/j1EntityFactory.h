@@ -105,7 +105,7 @@ public:
 	void GenerateDescriptionForLootItem(LootEntity* lootItem);
 	void DoDescriptionComparison(LootEntity* lootItem);
 
-	void UnLoadLevelEntities();
+	//void UnLoadLevelEntities();
 public:
 
 	//j1Entity*				Player = nullptr;

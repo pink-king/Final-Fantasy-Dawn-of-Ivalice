@@ -506,7 +506,7 @@ bool j1Scene::CleanUp()
 void j1Scene::UnLoadScene()
 {
 	App->map->UnloadMap();
-	App->entityFactory->UnLoadLevelEntities();
+	// App->entityFactory->UnLoadLevelEntities();
 	state = SceneState::NO_SCENE;
 }
 
