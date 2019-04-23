@@ -244,6 +244,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)
 				App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 
+			if (App->entityFactory->GetRandomValue(1, 2) == 2 && defender->type == ENTITY_TYPE::ENEMY_BOMB)
+				App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+
 		if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT && !defender->isBurned)
 		{
 			if (App->entityFactory->GetRandomValue(1, 10) == 1)
@@ -816,6 +819,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 
+						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
+							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
 						
 						//TODO: call create hitpoint label
 					}
@@ -848,6 +853,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
+							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
 						//TODO: call create hitpoint label
 
 						// Reset drawRectified

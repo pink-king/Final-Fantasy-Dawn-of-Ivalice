@@ -67,6 +67,7 @@ bool PlayerEntityManager::Start()
 bool PlayerEntityManager::PreUpdate()
 {
 	selectedCharacterEntity->PreUpdate();
+	//App->scene->AcceptUISFX_logic = false;
 
 	return true;
 }
@@ -422,6 +423,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 		App->audio->PlayFx(pickLoot, 0);
 		// when a loot item is collected, the description should be hiden
 		
+
 		
 		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
 
@@ -649,7 +651,7 @@ bool Crosshair::Update(float dt)
 bool Crosshair::ManageInput(float dt)
 {
 	bool debug = true;
-
+//	App->scene->AcceptUISFX_logic = false;
 	uint32 maxClampThreshold = 24000;
 
 	Sint16 RJoystickX = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
@@ -680,7 +682,8 @@ bool Crosshair::ManageInput(float dt)
 		{
 			//LOG("");
 		}
-			
+		App->scene->AcceptUISFX_logic = false;
+
 			//LOG("DONT SEARCH");
 	}
 	else
@@ -698,7 +701,7 @@ bool Crosshair::ManageInput(float dt)
 			{
 				
 				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
-
+				App->scene->AcceptUISFX_logic = true;
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
@@ -715,13 +718,16 @@ bool Crosshair::ManageInput(float dt)
 						//last detach clamped entity
 						clampedEntity = nullptr;
 						clamped = false;
+						App->scene->AcceptUISFX_logic = false;
 						//LOG("entities size: %i", App->entityFactory->entities.size());
 					}
+					
 				}
 			}
 		}
 		else
 		{
+			App->scene->AcceptUISFX_logic = false;
 			clamped = false; // protection
 			clampedEntity = nullptr;
 		}

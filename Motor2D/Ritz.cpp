@@ -638,7 +638,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
-			App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
+			//App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
 
 			// add gui clock
