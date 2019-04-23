@@ -421,12 +421,11 @@ bool j1Gui::PostUpdate()
 		debug_ = !debug_;
 	}
 
-
+	canvas->DrawUi(dt);
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
-		canvas->DrawUi(dt);
-
+		
 		if (debug_)
 		{
 
