@@ -63,6 +63,7 @@ Tornado::Tornado(fPoint pos, fPoint destination, uint speed, const j1Entity * ow
 
 Tornado::~Tornado()
 {
+	App->audio->PlayFx(App->entityFactory->marcheTornadoExplosion,0);
 }
 
 bool Tornado::PreUpdate()

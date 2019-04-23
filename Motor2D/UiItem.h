@@ -34,7 +34,7 @@ class UiItem
 protected:
 	// UiItem* parent = NULL;
 public:
-	UiItem* parent = NULL;
+	UiItem* parent = nullptr;
 
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;

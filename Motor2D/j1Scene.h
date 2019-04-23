@@ -72,9 +72,9 @@ public:
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
-
+	bool AcceptUISFX_logic;
 private:
-	SDL_Texture* debug_tex;
+	SDL_Texture* debug_tex = nullptr;
 	pugi::xml_node sceneNode;
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;

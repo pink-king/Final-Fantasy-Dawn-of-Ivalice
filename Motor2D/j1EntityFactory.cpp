@@ -93,10 +93,11 @@ bool j1EntityFactory::Start()
 	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate.wav");
 	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
 	marcheEarthShakeSFX = App->audio->LoadFx("audio/fx/Player/marche_earthShake.wav");
-
+	marcheTornadoExplosion = App->audio->LoadFx("audio/fx/Player/marche_tornado_explosion.wav");
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
 	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/ritz_basic_hit.wav");
+	RitzMedusa = App->audio->LoadFx("audio/fx/Player/ritz_medusa.wav");
 	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz_Ability2.wav");
 	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/ritz_teleport.wav");
 	RitzUltimate = App->audio->LoadFx("audio/fx/Player/ritz_ultimateTest2.wav");
@@ -105,7 +106,6 @@ bool j1EntityFactory::Start()
 	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara_damaged.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
 	basicBodyImp = App->audio->LoadFx("audio/fx/Player/arrow_impactBody.wav");
-	basicWallImp = App->audio->LoadFx("audio/fx/Player/basic_wall_impact.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
 	strech_Shoot = App->audio->LoadFx("audio/fx/Player/strech&shoot.wav");
 	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara_ultimate_woosh.wav");
@@ -123,6 +123,7 @@ bool j1EntityFactory::Start()
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
 
 	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
+	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
 
 
 	LoadSpawnGroups();
@@ -134,6 +135,8 @@ bool j1EntityFactory::Start()
 
 bool j1EntityFactory::PreUpdate()
 {
+	BROFILER_CATEGORY("Entities PreUpdate", Profiler::Color::LavenderBlush);
+
 	bool ret = true;
 	
 	// logic / collisions

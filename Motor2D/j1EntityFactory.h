@@ -136,16 +136,17 @@ public:
 	unsigned int goblinDetection;
 	unsigned int marcheDamaged;
 	unsigned int marcheBasic;
+	unsigned int marcheTornadoExplosion;
 	unsigned int marcheBasic2;
 	unsigned int RitzDamaged;
 	unsigned int RitzBasic;
 	unsigned int RitzBasicHit;
+	unsigned int RitzMedusa;
 	unsigned int RitzAbility2;
 	unsigned int RitzAbility1;
 	unsigned int RitzUltimate;
 	unsigned int sharaBasic;
 	unsigned int basicBodyImp;
-	unsigned int basicWallImp;
 	unsigned int strech_Shoot;
 	unsigned int emitter_explodeFire;
 	unsigned int SharaUltimateWoosh;
@@ -165,6 +166,7 @@ public:
 	unsigned int sharaAbility1_ImpactsWall; 
 	unsigned int sharaAbility2_ImpactsWall;
 	unsigned int BombDeathSFX;
+	unsigned int bombgetHitSFX;
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile

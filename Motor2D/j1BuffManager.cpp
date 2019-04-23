@@ -1,12 +1,12 @@
 #include "j1BuffManager.h"
 #include <string.h>
 #include "j1EntityFactory.h"
-
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "UiItem_Image.h"
 #include "j1ParticlesClassic.h"
+#include "Brofiler/Brofiler.h"
 
 j1BuffManager::j1BuffManager()
 {
@@ -154,6 +154,8 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 
 void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
+	BROFILER_CATEGORY("Direct Attack", Profiler::Color::ForestGreen);
+
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
@@ -243,6 +245,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		
 			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)
 				App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+
+			if (App->entityFactory->GetRandomValue(1, 2) == 2 && defender->type == ENTITY_TYPE::ENEMY_BOMB)
+				App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
 
 		if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT && !defender->isBurned)
 		{
@@ -694,6 +699,9 @@ void j1BuffManager::RemoveItemStat(const LootEntity * item)
 
 bool j1BuffManager::DamageInTime(j1Entity* entity)
 { 
+
+	BROFILER_CATEGORY("Damage in Time", Profiler::Color::ForestGreen);
+
 	bool ret = false;
 
 	iPoint drawRectified;
@@ -816,6 +824,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 
+						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
+							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
 						
 						//TODO: call create hitpoint label
 					}
@@ -848,6 +858,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
+							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
 						//TODO: call create hitpoint label
 
 						// Reset drawRectified

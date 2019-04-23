@@ -259,6 +259,7 @@ bool attackData::Update(float dt)
 bool attackData::PostUpdate()
 {
 	// Draw particles if we want
+	BROFILER_CATEGORY("Attacks Propagations Particles PostUpdate", Profiler::Color::Chocolate);
 
 	if (instantiateParticles)
 		InstantiateParticles();
@@ -269,8 +270,6 @@ bool attackData::PostUpdate()
 
 bool attackData::InstantiateParticles()
 {
-
-	BROFILER_CATEGORY("Attacks Propagations Particles", Profiler::Color::Chocolate);
 
 	bool ret = true;
 
