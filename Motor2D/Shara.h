@@ -21,13 +21,20 @@ public:
 	// functionality ------
 	bool dodgedtest = false;
 
+private:
+	bool SetStopperState();
+
 public:
 	myClocks myUIClocks;
 
-
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
-
+	Animation ultiCastAnim[(int)facingDirection::MAX];
+	SDL_Texture* ultiCastTex = nullptr;
+	// TODO
+	j1Timer ultiEmitterTimerDelayer;
+	Uint32 maxEmitterDelayTime;
+	bool instantiateEmitter = false;
 };
 
 #endif

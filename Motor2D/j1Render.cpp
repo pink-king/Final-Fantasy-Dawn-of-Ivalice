@@ -137,11 +137,11 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 
 iPoint j1Render::WorldToScreen(int x, int y, bool descriptions) const
 {
-	if(!descriptions)
-		return iPoint(x*App->win->GetScale() + camera->x, y*App->win->GetScale() + camera->y);
+
+	if (!descriptions)
+		return iPoint(x * App->win->GetScale() + camera->x, y * App->win->GetScale() + camera->y);
 	else
-		return iPoint(x*App->win->GetScale(), y*App->win->GetScale());
-	
+		return iPoint(x * App->win->GetScale(), y * App->win->GetScale());
 }
 
 bool j1Render::IsOnCamera(const int & x, const int & y, const int & w, const int & h) const
@@ -193,56 +193,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	}
 
 	return ret;
-}
-
-bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle, SDL_Rect wantedRect) const
-{
-	bool ret = true;
-
-	SDL_Rect rect;
-	rect.x = (int)(camera->x * speed) + x;
-	rect.y = (int)(camera->y * speed) + y;
-
-	if (section != NULL)
-	{
-		rect.w = section->w;
-		rect.h = section->h;
-
-	}
-
-	else
-	{
-		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
-	}
-
-
-	if (wantedRect.h && wantedRect.w)       // adjust texture rect position and dimensions
-	{
-		rect.h = wantedRect.h;
-		rect.w = wantedRect.w;
-		rect.x = wantedRect.x;
-		rect.y = wantedRect.y;
-
-	}
-
-
-
-
-	rect.w *= scaleFactor;
-	rect.h *= scaleFactor;           // a resized image rect does not have the same size as the section.
-
-
-
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, flippingAngle, 0, SDL_FLIP_NONE) != 0)
-	{
-		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-		ret = false;
-	}
-
-
-	return ret;
 }*/
-
 
 bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, SDL_RendererFlip flip, float spriteScale, double angle, int pivot_x, int pivot_y, bool useWindowScale) const
 {
@@ -292,7 +243,6 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 
 	return ret;
 }
-
 bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * section, float speed, float scaleFactor, float flippingAngle, SDL_Rect wantedRect) const
 {
 	bool ret = true;
@@ -340,9 +290,6 @@ bool j1Render::BlitGui(SDL_Texture * texture, int x, int y, const SDL_Rect * sec
 
 	return ret;
 }
-
-
-
 
 bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {

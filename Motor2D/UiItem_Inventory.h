@@ -19,7 +19,7 @@
 #define tabOffsetPotion iPoint(23,18)
 
 struct elementsStartingPositionsOffsets
-{ 
+{
 	iPoint currentWeapon = iPoint(140, 30);
 	iPoint currentHead = iPoint(140, 102);
 	iPoint currentArmor = iPoint(140, 178);
@@ -33,8 +33,8 @@ struct potionLabelPositions
 };
 
 
-class LootEntity; 
-class UiItem_Description; 
+class LootEntity;
+class UiItem_Description;
 class UiItem_Label;
 class UiItem_Image;
 
@@ -42,7 +42,7 @@ class UiItem_Inventory : public UiItem
 {
 
 public:
-	UiItem_Inventory(UiItem * const parent);
+	UiItem_Inventory(UiItem* const parent);
 
 	bool LoadElements(bool onlyEquipped = false);
 	//void DoLogicSelected(LootEntity*, bool);
@@ -52,9 +52,9 @@ public:
 
 	void De_______GenerateDescription(LootEntity*, bool firstTime);
 
-	void callDeleteWhenSwitchingCharacters(); 
+	void callDeleteWhenSwitchingCharacters();
 
-	bool drawTest = false; 
+	bool drawTest = false;
 
 
 
@@ -66,14 +66,13 @@ private:
 	bool first_potion = false;
 	bool first_label_potion = false;
 	int potion_counter = 1;
-	UiItem_Label * potionLabel = nullptr;
+	UiItem_Label* potionLabel = nullptr;
 	potionLabelPositions potion_positions;
 	std::string str_potion;
 
 
 
 };
-
 
 
 

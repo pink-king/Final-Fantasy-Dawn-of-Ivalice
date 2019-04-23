@@ -7,7 +7,7 @@
 #include "j1EntityFactory.h"
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
-	entityTex = App->tex->Load("textures/loot/loot_items.png");
+	entityTex = App->entityFactory->lootItemsTex;
 	//ChooseEntity();
 	lootSubtile.x = posX;
 	lootSubtile.y = posY;
@@ -262,7 +262,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()
 	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
 	{
 
-		
+
 		
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);

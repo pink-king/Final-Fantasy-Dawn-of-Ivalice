@@ -16,7 +16,6 @@ public:
 
 	bool CleanUp() override;
 
-	void Draw();
 private:
 
 	j1Timer timeLifeTimer;

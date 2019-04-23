@@ -129,9 +129,9 @@ public:
 	void GoBackToStartMenu();
 
 	UiItem_HealthBar* healthBar = nullptr;
-	SDL_Texture* lootTexture;
+	SDL_Texture* lootTexture = nullptr;
 private:
-	SDL_Texture* atlas;
+	SDL_Texture* atlas = nullptr;
 
 	std::string atlas_file_name;
 	bool debug_ = false;

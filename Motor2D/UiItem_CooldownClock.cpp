@@ -5,11 +5,12 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1EntityFactory.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, std::string charName, UiItem*const parent) :UiItem(position, parent)
 {
 
-	this->guiType = GUI_TYPES::CLOCK;
+	this->guiType = GUI_TYPES::CLOCK; 
 
 	// first capture sections according to the ability type. They are defined in gui cpp 
 
@@ -21,23 +22,24 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 	this->type = type;
 
 	// then load the ability type 
-	keepAnEye.ability = type;
+
+	keepAnEye.ability = type; 
+
 
 	// lastly, define the player to keep an eye at
 	keepAnEye.character = charName;
 
-
-	this->parent = parent;
+	
+	
+	this->parent = parent; 
 }
 
 void UiItem_CooldownClock::Draw(const float & dt)
 {
+	BROFILER_CATEGORY("Clock draw", Profiler::Color::Azure);
 
 
-
-	//SDL_SetTextureAlphaMod(App->gui->GetAtlas(), alphaValue);
-
-	DoLogic();
+	DoLogic(); 
 
 	if (!hide)
 	{
@@ -48,21 +50,13 @@ void UiItem_CooldownClock::Draw(const float & dt)
 		section.y = hitBox.y; // the icons itself on HUD, never moves on world coords, always remains "static"
 		SDL_RenderFillRect(App->render->renderer, &section);
 	}
-
+	
 
 }
 
 
-void UiItem_CooldownClock::CheckState()
+void UiItem_CooldownClock::CheckState() 
 {
-
-
-
-
-
-
-
-
 
 
 }
@@ -71,6 +65,7 @@ void UiItem_CooldownClock::CheckState()
 
 void UiItem_CooldownClock::DoLogic()
 {
+	BROFILER_CATEGORY("Clock Logic", Profiler::Color::Aqua);
 
 	LastHeight = this->section.h;
 
@@ -135,7 +130,7 @@ void UiItem_CooldownClock::DoLogic()
 			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
 			{
-				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / maxHeight;
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
 

@@ -64,6 +64,10 @@ public:
 	UiItem_Inventory* inventoryItem = nullptr;
 	
 	bool debug = false;
+	bool debugSubtiles = false; 
+	bool debugColl = false;
+	bool hackerMode = false;
+
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	
@@ -72,9 +76,9 @@ public:
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
-
+	bool AcceptUISFX_logic;
 private:
-	SDL_Texture* debug_tex;
+	SDL_Texture* debug_tex = nullptr;
 	pugi::xml_node sceneNode;
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;
@@ -98,12 +102,10 @@ private:
 	bool begin;
 	bool beginGameMus;
 
-
-public: 
+public:
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;
 	UiItem_Image* RitzIcon = nullptr;
-
 	
 };
 

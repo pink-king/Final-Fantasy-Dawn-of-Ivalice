@@ -14,10 +14,10 @@ class UiItem_Label;
 
 struct EquipmentStatType
 {
-	int HP = 666; 
-	bool spawnedHP = false; 
-	int velocity = 666; 
-	bool spawnedVecloty = false; 
+	int HP = 666;
+	bool spawnedHP = false;
+	int velocity = 666;
+	bool spawnedVecloty = false;
 };
 
 enum descriptionType
@@ -94,7 +94,7 @@ public:
 
 	// for armors
 
-	UiItem_Label* HPLabel = nullptr; 
+	UiItem_Label* HPLabel = nullptr;
 	UiItem_Label* VelocityLabel = nullptr;
 
 	bool hide = false; 

@@ -8,6 +8,7 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "p2Log.h"
+#include "Brofiler/Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -156,7 +157,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		}
 
 
-		
+
 		/*for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
 		if ((*item)->parent->enable)
@@ -410,18 +411,21 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 bool j1Gui::PostUpdate()
 {
 
+	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
+
 	// temporal debug 
 
-	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+
 		debug_ = !debug_;
 	}
 
-
+	canvas->DrawUi(dt);
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
-		canvas->DrawUi(dt);
-
+		
 		if (debug_)
 		{
 
@@ -457,7 +461,7 @@ bool j1Gui::CleanUp()
 	{
 		if ((*item) != nullptr)
 		{
-			delete *item;
+			delete* item;
 			*item = nullptr;
 		}
 	}
@@ -472,19 +476,19 @@ void j1Gui::destroyElement(UiItem * elem)
 
 	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
 	{
-		if ( elem != nullptr && (*item) == elem)
+		if (elem != nullptr && (*item) == elem)
 		{
-			delete (*item); 
-			*item = nullptr; 
+			delete (*item);
+			*item = nullptr;
 
-			item = ListItemUI.erase(item); 
+			item = ListItemUI.erase(item);
 
 		}
 
 	}
 }
 
-UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent)
+UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 	newUIItem = new UiItem_Label(text, color, font, position, parent);
@@ -493,7 +497,7 @@ UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font* font,
 
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool isPanel)
+UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;
 

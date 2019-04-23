@@ -6,8 +6,7 @@
 #include "j1Fonts.h"
 #include "j1Render.h"
 #include "j1Scene.h"
-
-
+#include "Brofiler/Brofiler.h"
 
 UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
@@ -21,19 +20,19 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 {
 	// - - - - - - - - - - character icons
+	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
-	/*App->scene->MarcheIcon->hitBox.x = App->scene->SharaIcon->hitBox.x = App->scene->RitzIcon->hitBox.x = staringPosition.x + 30; 
+	/*App->scene->MarcheIcon->hitBox.x = App->scene->SharaIcon->hitBox.x = App->scene->RitzIcon->hitBox.x = staringPosition.x + 30;
 	App->scene->MarcheIcon->hitBox.y = App->scene->SharaIcon->hitBox.y = App->scene->RitzIcon->hitBox.y = staringPosition.y + 30;*/
 
-	if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
 	{
 		App->scene->MarcheIcon->hide = false;
 		App->scene->SharaIcon->hide = true;
 		App->scene->RitzIcon->hide = true;
-
 	}
 
-	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
+	else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA)
 	{
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = false;
@@ -41,7 +40,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 	}
 
 
-	else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
+	else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ)
 	{
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;
@@ -60,10 +59,10 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 		{
 
-			
-				iPoint destPos = {};
 
-			if((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+			iPoint destPos = {};
+
+			if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 			{
 
 
@@ -126,8 +125,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 				}
 			}*/
 
-				
-			
+
+
 		}
 	}
 
@@ -254,8 +253,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 	}
 	else
 	{
-	App->gui->resetHoverSwapping = false;    // when changing characters, the selected object must be reasigned
-    }
+		App->gui->resetHoverSwapping = false;    // when changing characters, the selected object must be reasigned
+	}
 
 
 	return true;
@@ -264,7 +263,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 
 void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
 {
-	
+	BROFILER_CATEGORY("Inventory Generate Description", Profiler::Color::Olive);
+
 
 	if (firstTime)
 	{
@@ -281,29 +281,29 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		}
 		else
 		{
-		//	ent->MyDescription->HideAllElements(false);
+			//	ent->MyDescription->HideAllElements(false);
 		}
-		
+
 	}
 	else   // only when closing inventory, delete the description
 	{
 
 		if (App->gui->selected_object == ent->MyDescription->iconImageInventory)
 		{
-			App->gui->selected_object = nullptr; 
+			App->gui->selected_object = nullptr;
 		}
 
-				// delete last descr
-				ent->MyDescription->DeleteEverything();
-				ent->MyDescription = nullptr;
+		// delete last descr
+		ent->MyDescription->DeleteEverything();
+		ent->MyDescription = nullptr;
 
 
-				ent->spawnedDescription = false;
+		ent->spawnedDescription = false;
 
 
 
-				LOG("_______________________________________________   Deleted description"); 
-		
+		LOG("_______________________________________________   Deleted description");
+
 
 	}
 
@@ -343,7 +343,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 void UiItem_Inventory::Draw(const float & dt)
 {
-	/*SDL_Rect draw = { 0 }; 
+	/*SDL_Rect draw = { 0 };
 
 	if (!drawTest)
 	{
@@ -352,7 +352,7 @@ void UiItem_Inventory::Draw(const float & dt)
 			draw.x = initialPositions.weaponsAndEquipment.x + i*boxSize;
 
 
-			App->render->DrawQuad(); 
+			App->render->DrawQuad();
 		}
 	}*/
 
@@ -360,7 +360,7 @@ void UiItem_Inventory::Draw(const float & dt)
 	//App->gui->ApplyTabBetweenSimilar(true); 
 
 
-	
+
 
 /*	if (!App->scene->inventory->enable)
 	{
@@ -376,6 +376,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
 
+	BROFILER_CATEGORY("Inventory Equip", Profiler::Color::Olive);
 
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
 
@@ -460,6 +461,4 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 }
-
-
 

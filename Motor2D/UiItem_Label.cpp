@@ -21,7 +21,6 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 	if (texture)
 		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
 
-
 	// the parent
 	this->parent = parent;
 
@@ -62,6 +61,7 @@ void UiItem_Label::Draw(const float & dt)
 
 		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 	}
+
 }
 
 bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* color, const TTF_Font* font)

@@ -5,6 +5,8 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1Scene.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
 {
@@ -54,23 +56,30 @@ UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * f
 
 void UiItem_HitPoint::Draw(const float & dt)
 {
-	
+	BROFILER_CATEGORY("Hit Point Draw", Profiler::Color::DarkTurquoise);
+
 	// TODO: blit hitPoints with an extra value: the scaling
 
 	returnLifeState(); 
 
-	if (this->numerOrText == variant::number)
+	if (!App->scene->inventory->enable)
 	{
-		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);
+		if (this->numerOrText == variant::number)
+		{
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
+		}
+		else if (this->valueInformation.string == "FIERCE")
+		{
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, -10.0f);  // rotate hitlabels
+		}
+		else if (this->valueInformation.string == "BRUTAL")
+		{
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
+		}
+
 	}
-	else if(this->valueInformation.string == "FIERCE")
-	{
-		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, -10.0f);  // rotate hitlabels
-	}
-	else if (this->valueInformation.string == "BRUTAL")
-	{
-		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
-	}
+
+	
 
 
 }
@@ -168,6 +177,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 
 void UiItem_HitPoint::updateHitPointSizes()
 {
+	BROFILER_CATEGORY("Hit Point Update Sizes", Profiler::Color::DarkTurquoise);
 
 	if (returnLifeState() != dead)
 	{
@@ -204,6 +214,8 @@ void UiItem_HitPoint::updateHitPointSizes()
 
 void UiItem_HitPoint::updateHitPointOpacities()
 {
+	BROFILER_CATEGORY("Hit Point Update Opacities", Profiler::Color::DarkTurquoise);
+
 	if (returnLifeState() != dead)
 		{
 			switch (returnLifeState())

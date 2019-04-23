@@ -116,7 +116,7 @@
 
         <clock name="ulti_clock">
           <section x="859" y="126" w="51" h="51"/>
-          <position x="280" y="635"/>                         
+          <position x="280" y="635"/>
           <type value="ulti"/>
 
         </clock>
@@ -163,22 +163,26 @@
           <position x="153" y="41"/>
         </image>
         <image name="basic_button">
-          <section x="346" y="6" w="24" h="24"/>
-          <position x="53" y="609"/>
+          <section x="312" y="1" w="58" h="30"/>
+          <position x="36" y="603"/>
         </image>
 
         <image name="dash_button">
-          <section x="287" y="6" w="24" h="24"/>
-          <position x="113" y="609"/>
+          <section x="253" y="1" w="58" h="30"/>
+          <position x="96" y="603"/>
         </image>
 
+        <image name="scarWind_button">
+          <section x="194" y="33" w="58" h="30"/>
+          <position x="156" y="603"/>
+        </image>
         <image name="tornado_button">
-          <section x="228" y="2" w="24" h="30"/>
-          <position x="233" y="603"/>
+          <section x="194" y="2" w="58" h="30"/>
+          <position x="218" y="603"/>
         </image>
         <image name="rage_button">
-          <section x="287" y="32" w="21" h="30"/>
-          <position x="295" y="603"/>
+          <section x="253" y="32" w="55" h="30"/>
+          <position x="278" y="603"/>
         </image>
 
 
@@ -295,6 +299,10 @@
           <section x="194" y="33" w="58" h="30"/>
           <position x="156" y="603"/>
         </image>
+        <image name="medusa_button">
+          <section x="194" y="2" w="58" h="30"/>
+          <position x="218" y="603"/>
+        </image>
         <image name="deathCircle_button">
           <section x="253" y="32" w="55" h="30"/>
           <position x="278" y="603"/>
@@ -325,7 +333,7 @@
           <position x="101" y="460"/>
         </button>
         <button name="button_exit" function = "ExitGame">
-        <idleSec x="856" y="2456" w="216" h="67"/>
+          <idleSec x="856" y="2456" w="216" h="67"/>
           <hoverSec x="856" y="2524" w="216" h="67" />
           <clickSec x="856" y="2592" w="216" h="67" />
           <position x="101" y="560"/>
@@ -341,7 +349,7 @@
           <section x="0" y="1531" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
-        
+
       </images>
 
       <labels>
@@ -365,7 +373,7 @@
         <panelBar name="fxSlider">
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="267" y="394"/>
-         <section_thumb x="1150" y="558" w="42" h="42"/>
+          <section_thumb x="1150" y="558" w="42" h="42"/>
           <image_idle x="504" y="722" w="58" h="59"/>
           <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
@@ -454,22 +462,22 @@
           <section x="68" y="2252" w="787" h="520"/>
           <position x="278" y="101"/>
         </image>
-      <image name="marche_inv">
+        <image name="marche_inv">
           <section x="1485" y="1468" w="96" h="183"/>
           <position x="534" y="133"/>
-		  <charFlag value = "Marche"/>
+          <charFlag value = "Marche"/>
         </image>
-      <image name="ritz_inv">
+        <image name="ritz_inv">
           <section x="1364" y="1468" w="116" h="179"/>
           <position x="523" y="138"/>
-		  <charFlag value = "Ritz"/>
+          <charFlag value = "Ritz"/>
         </image>
-      <image name="shara_inv">
+        <image name="shara_inv">
           <section x="1281" y="1468" w="81" h="183"/>
           <position x="543" y="133"/>
-		  <charFlag value = "Shara"/>
+          <charFlag value = "Shara"/>
         </image>
-      
+
       </images>
     </Inventory>
 

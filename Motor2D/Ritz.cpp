@@ -473,7 +473,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.basic.cooldownTime = 0; // basic magic ball
 	coolDownData.dodge.cooldownTime = 0;
 	coolDownData.special1.cooldownTime = 1500; // TELEPORT
-	coolDownData.special2.cooldownTime = 1000; // idk
+	coolDownData.special2.cooldownTime = 1000; // Medusa
 	coolDownData.ultimate.cooldownTime = 3000; // death circle
 
 	previousPos = position;
@@ -597,7 +597,7 @@ bool Ritz::Update(float dt)
 			{
 				SetStopperState();
 				tpPos = GetTeleportPos();
-				//App->audio->PlayFx(App->entityFactory->RitzAbility1, 0); // TODO
+				App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -638,8 +638,8 @@ bool Ritz::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
-			App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
-			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
+			//App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
 
 			// add gui clock
 
@@ -667,7 +667,6 @@ bool Ritz::Update(float dt)
 			App->audio->PlayFx(App->entityFactory->RitzUltimate, 0);
 
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
-			LOG("Launch ULTIMATE");
 			coolDownData.ultimate.timer.Start();
 
 
@@ -675,6 +674,7 @@ bool Ritz::Update(float dt)
 			{
 
 				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Ritz", App->scene->inGamePanel);
+			
 
 				App->gui->spawnedClocks.Ritz.ulti = true;
 			}
@@ -682,8 +682,6 @@ bool Ritz::Update(float dt)
 			{
 				myUIClocks.ulti->Restart();
 			}
-
-
 
 		}
 		break;

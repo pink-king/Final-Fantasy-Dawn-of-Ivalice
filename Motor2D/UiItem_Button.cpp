@@ -50,7 +50,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 	if (functionName == "GoBackToStartMenu")
 		App->gui->GoBackToStartMenu();
 
-	App->audio->PlayFx(App->gui->acceptUI, 0);
+	if(App->scene->AcceptUISFX_logic)
+		App->audio->PlayFx(App->gui->acceptUI, 0);
 
 	if (App->scene->paused && !App->pause)
 	{

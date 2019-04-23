@@ -90,7 +90,7 @@ fPoint j1Entity::GetPosition()
 
 void j1Entity::SetPivot(const float & x, const float & y)
 {
-	pivot.create(x,y );
+	pivot.create(x,y);
 }
 
 fPoint j1Entity::GetPivotPos() const

@@ -109,6 +109,7 @@ public:
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
+
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
 	// TO DO Atlas of enemies
@@ -118,6 +119,9 @@ public:
 	SDL_Texture*			arrowsTexture = nullptr; 
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
+	SDL_Texture*			marcheTornadoTex = nullptr;
+	SDL_Texture*			lootItemsTex = nullptr; 
+
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
@@ -126,21 +130,23 @@ public:
 	unsigned int lootGroundSFX;
 	unsigned int potionGroundSFX;
 	unsigned int coinGroundedSFX;
-	unsigned int swapChar;
+	unsigned int swapCharSFX;
 	unsigned int stepSFX;
 	unsigned int enemySpawn;
 	unsigned int goblinDetection;
 	unsigned int marcheDamaged;
 	unsigned int marcheBasic;
+	unsigned int marcheTornadoExplosion;
+	unsigned int marcheBasic2;
 	unsigned int RitzDamaged;
 	unsigned int RitzBasic;
 	unsigned int RitzBasicHit;
+	unsigned int RitzMedusa;
 	unsigned int RitzAbility2;
 	unsigned int RitzAbility1;
 	unsigned int RitzUltimate;
 	unsigned int sharaBasic;
 	unsigned int basicBodyImp;
-	unsigned int basicWallImp;
 	unsigned int strech_Shoot;
 	unsigned int emitter_explodeFire;
 	unsigned int SharaUltimateWoosh;
@@ -151,12 +157,16 @@ public:
 	unsigned int goblinLaugh;
 	unsigned int marcheUltimateScream;
 	unsigned int marcheAbility1;
+	unsigned int marcheEarthShakeSFX;
 	unsigned int marcheAbility2; //tornado
 	unsigned int dash;
 	unsigned int sharaAbility1;
 	unsigned int sharaAbility2_shoot;
+	unsigned int sharaBasic_ImpactsWall; 
+	unsigned int sharaAbility1_ImpactsWall; 
 	unsigned int sharaAbility2_ImpactsWall;
 	unsigned int BombDeathSFX;
+	unsigned int bombgetHitSFX;
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile

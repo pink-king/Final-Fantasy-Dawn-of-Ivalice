@@ -10,7 +10,7 @@
 
 
 class UiItem_Image;
-class j1Entity; 
+class j1Entity;
 
 enum type
 {
@@ -30,21 +30,21 @@ class UiItem_HealthBar : public UiItem
 {
 
 public:
-	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent);
-	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem*const parent, j1Entity* deliever);
+	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent);
+	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever);
 
 	void Draw(const float& dt);
 
 	void DamageLogic();
 	void DamageQuadReset();
-	void UpdatePos(); 
+	void UpdatePos();
 
 
 public:
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
 
-private: 
+private:
 
 	uint maxSection = 0;
 	uint lastSection = 0;
@@ -55,8 +55,8 @@ private:
 	j1PerfTimer damageBarTimer;
 
 
-	iPoint offsetFromEnemy; 
-	uint enemyMaxLife; 
+	iPoint offsetFromEnemy;
+	uint enemyMaxLife;
 	bool startShowing = false;
 
 
@@ -64,10 +64,9 @@ private:
 
 public:
 	damageInfo damageInform;
-	j1Entity* deliever = nullptr; 
+	j1Entity* deliever = nullptr;
 
-; 
+	;
 };
 
 #endif
-

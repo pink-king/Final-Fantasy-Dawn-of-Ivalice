@@ -65,7 +65,7 @@ struct MapLayer
 	std::string	name;
 	int			width;
 	int			height;
-	uint*		data;
+	uint*		data = nullptr;
 	Properties	properties;
 	TileQuadtree* tileQuadTree = nullptr;
 
@@ -94,7 +94,7 @@ struct TileSet
 	int					spacing;
 	int					tile_width;
 	int					tile_height;
-	SDL_Texture*		texture;
+	SDL_Texture*		texture = nullptr;
 	int					tex_width;
 	int					tex_height;
 	int					num_tiles_width;
@@ -186,7 +186,7 @@ private:
 	pugi::xml_document	map_file;
 	std::string			folder;
 	SDL_Texture*		texture = nullptr;
-	bool debugDraw = true;
+	bool debugDraw = false;
 };
 
 #endif // __j1MAP_H__

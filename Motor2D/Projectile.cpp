@@ -2,12 +2,12 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Render.h"
-
+#include "j1Window.h"
 
 
 
 Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entity * owner, const char* name, PROJECTILE_TYPE type)
-	: destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::NO_TYPE, pos.x, pos.y, name), type(type)
+	: destination(destination), speed(speed), owner(owner), j1Entity(ENTITY_TYPE::PROJECTILE, pos.x, pos.y, name), type(type)
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
 }
@@ -68,14 +68,17 @@ bool Projectile::ReachedDestiny() const
 
 void Projectile::Draw()
 {
+	if (App->scene->debugSubtiles == true)
+	{
 	iPoint subTilePos = GetSubtilePos();
 	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
+	}
 
 	if (entityTex != nullptr)
 	{
 		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * 2, pivot.y * 2);
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x * App->win->GetScale(), pivot.y * App->win->GetScale());
 		else
 			App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
 	}

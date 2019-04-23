@@ -81,7 +81,7 @@ void UiItem_Bar::DoLogicHovered() {
 		nexPosX = thumb->hitBox.x - 2;
 	}
 
-	if (nexPosX >= (bar->hitBox.x-(thumb->hitBox.w*0.5)) && nexPosX <= (bar->hitBox.x + bar->hitBox.w)-(thumb->hitBox.w*0.5))
+	if (nexPosX >= (bar->hitBox.x - (thumb->hitBox.w*0.5)) && nexPosX <= (bar->hitBox.x + bar->hitBox.w) - (thumb->hitBox.w*0.5))
 	{
 		thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
 	}
