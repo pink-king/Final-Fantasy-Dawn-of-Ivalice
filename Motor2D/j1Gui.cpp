@@ -8,6 +8,7 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "p2Log.h"
+#include "Brofiler/Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -134,19 +135,29 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					item_pos.y = (*item)->hitBox.y;
 					first = true;
 					selected_object = (*item);
+
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
 				}
 				else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
 				{
 					item_pos.x = (*item)->hitBox.x;
 					item_pos.y = (*item)->hitBox.y;
+					selected_object->state = IDLE;
+					selected_object->tabbed = false;                          // solve merge
 					selected_object = (*item);
+
+
+					selected_object->state = HOVER;
+					selected_object->tabbed = true;
+					setClicked = true;
 				}
 			}
 		}
 
-		selected_object->state = HOVER;
-		selected_object->tabbed = true;
-		setClicked = true;
+
+
 		/*for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
 		if ((*item)->parent->enable)
@@ -191,7 +202,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			std::list<UiItem*> candidates;
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w && (*item)->hitBox.y == selected_object->hitBox.y)
 					{
@@ -239,7 +250,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x && (*item)->hitBox.y == selected_object->hitBox.y)
 
@@ -292,7 +303,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
@@ -341,7 +352,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if (selected_object && (*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
 				{
 					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
 					if ((*item)->hitBox.y > selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
@@ -400,18 +411,21 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 bool j1Gui::PostUpdate()
 {
 
+	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
+
 	// temporal debug 
 
-	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+
 		debug_ = !debug_;
 	}
 
-
+	canvas->DrawUi(dt);
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
-		canvas->DrawUi(dt);
-
+		
 		if (debug_)
 		{
 
@@ -447,7 +461,7 @@ bool j1Gui::CleanUp()
 	{
 		if ((*item) != nullptr)
 		{
-			delete *item;
+			delete* item;
 			*item = nullptr;
 		}
 	}
@@ -462,18 +476,19 @@ void j1Gui::destroyElement(UiItem * elem)
 
 	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
 	{
-		if ( elem != nullptr && (*item) == elem)
+		if (elem != nullptr && (*item) == elem)
 		{
-			delete (*item); 
+			delete (*item);
+			*item = nullptr;
 
-			item = ListItemUI.erase(item); 
+			item = ListItemUI.erase(item);
 
 		}
 
 	}
 }
 
-UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent)
+UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 	newUIItem = new UiItem_Label(text, color, font, position, parent);
@@ -482,7 +497,7 @@ UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font* font,
 
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool isPanel)
+UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -609,11 +624,11 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * staticSection, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, type variant, UiItem * const parent) // , TypeBar type)
+UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, type variant, UiItem * const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_HealthBar(position, staticSection, dynamicSection, damageSection, variant, parent);
+	newUIItem = new UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 

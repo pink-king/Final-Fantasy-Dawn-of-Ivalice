@@ -49,6 +49,8 @@ private:
 	fPoint sensitivitySpeed = { 5.f,5.f };
 	bool clamped = false; // following a enemy entity
 	float maxRadiusDistance;
+
+	
 };
 
 
@@ -128,7 +130,8 @@ private:
 	bool debug = true;
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	
+	bool deleteObj = false;
+
 	unsigned int pickLoot;
 	unsigned int pickGold;
 	unsigned int consumHealPotion;

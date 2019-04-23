@@ -34,7 +34,7 @@ class UiItem
 protected:
 	// UiItem* parent = NULL;
 public:
-	UiItem* parent = NULL;
+	UiItem* parent = nullptr;
 
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;
@@ -63,6 +63,8 @@ public:
 	bool selected = false;
 	int scaleFactor;
 	iPoint textureDimensions;
+	iPoint prevTextDimension;
+	bool first_hitbox = false;
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string& functionName) {};

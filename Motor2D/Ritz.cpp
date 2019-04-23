@@ -473,7 +473,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.basic.cooldownTime = 0; // basic magic ball
 	coolDownData.dodge.cooldownTime = 0;
 	coolDownData.special1.cooldownTime = 1500; // TELEPORT
-	coolDownData.special2.cooldownTime = 1000; // idk
+	coolDownData.special2.cooldownTime = 1000; // Medusa
 	coolDownData.ultimate.cooldownTime = 3000; // death circle
 
 	previousPos = position;
@@ -597,7 +597,7 @@ bool Ritz::Update(float dt)
 			{
 				SetStopperState();
 				tpPos = GetTeleportPos();
-				//App->audio->PlayFx(App->entityFactory->RitzAbility1, 0); // TODO
+				App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -607,7 +607,7 @@ bool Ritz::Update(float dt)
 
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special1)
+			if (!App->gui->spawnedClocks.Ritz.special1)
 			{
 
 				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Ritz", App->scene->inGamePanel);
@@ -617,7 +617,7 @@ bool Ritz::Update(float dt)
 			else
 			{
 				myUIClocks.special1->Restart();
-			}*/
+			}
 
 
 		}
@@ -638,12 +638,12 @@ bool Ritz::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
-			App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
-			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
+			//App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
 
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special2)
+			if (!App->gui->spawnedClocks.Ritz.special2)
 			{
 
 				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Ritz", App->scene->inGamePanel);
@@ -653,7 +653,7 @@ bool Ritz::Update(float dt)
 			else
 			{
 				myUIClocks.special2->Restart();
-			}*/
+			}
 
 
 		}
@@ -667,15 +667,21 @@ bool Ritz::Update(float dt)
 			App->audio->PlayFx(App->entityFactory->RitzUltimate, 0);
 
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
-			LOG("Launch ULTIMATE");
+			coolDownData.ultimate.timer.Start();
 
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
-			App->camera2D->AddTrauma(70.0f / 100.f);
-			App->input->DoGamePadRumble(0.7f, 400);*/
+
+			if (!App->gui->spawnedClocks.Ritz.ulti)
+			{
+
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Ritz", App->scene->inGamePanel);
 			
 
-
+				App->gui->spawnedClocks.Ritz.ulti = true;
+			}
+			else
+			{
+				myUIClocks.ulti->Restart();
+			}
 
 		}
 		break;
@@ -696,6 +702,13 @@ bool Ritz::Update(float dt)
 	{
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, this, "\0", 20);
 	}*/
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->entityFactory->player->ConsumConsumable(*item, this);
+	}
+
 	if (stat.size() != 0)
 	{
 		if (App->buff->DamageInTime(this))

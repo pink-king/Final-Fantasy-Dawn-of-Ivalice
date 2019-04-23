@@ -33,10 +33,11 @@ public:
 	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat);
 	bool DamageInTime(j1Entity* entity);
 	//functions to create damage in time
-	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat);
-	void CreatePoision(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat);
-	void CreateParalize(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat);
+	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize = false);
+	void CreatePoision(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize = false);
+	void CreateParalize(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize = false);
 	void CreateHealth(j1Entity* entity, float lifeSecond, uint time);
+
 	void TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TYPE element, ROL rol, float value, uint time);
 
 	void ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL rol, float value);

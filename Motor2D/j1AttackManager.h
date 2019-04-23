@@ -40,7 +40,7 @@ class attackData // intelligent class that manage itsel from the attackmanager c
 {
 public:
 	attackData();
-	attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propaType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileRadius, uint32 propagationStepSpeed, bool instantiateParticles); // all time relative are on ms
+	attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propaType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize = false); // all time relative are on ms
 	~attackData();
 
 	bool Start();
@@ -72,7 +72,7 @@ private:
 
 private:
 	//int propagationResolution = 1;
-	bool debug = true;
+	//bool debug = true;
 	// propagation data itself -----------
 	const j1Entity* fromEntity = nullptr;
 	//ENTITY_TYPE fromType = ENTITY_TYPE::NO_TYPE;
@@ -86,6 +86,7 @@ private:
 	int currentPropagationStep; // stores the current step
 	uint32 propagationStepSpeed; // stores the speed to switch to next step of propagation state
 	j1Timer stepTimer;
+	bool paralize;
 	// associated entity
 	//j1Entity* fromEntity = nullptr;
 	
@@ -120,7 +121,7 @@ public:
 	bool CleanUp();
 
 	// functionality
-	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles);
+	void AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize = false);
 	/*void AddPropagationAttack(attackData* );
 	void AddPropagationAttackToQueue(attackData*);*/
 	bool DestroyAllMyCurrentAttacks(const j1Entity* entity) const;
@@ -130,10 +131,10 @@ public:
 	SDL_Texture* debugSubtileTex2 = nullptr;
 	SDL_Texture* debugSubtileTex3 = nullptr;
 	bool matrix[MAX_TYPE][MAX_TYPE]; // used for "collision" between entities involved on area attack propagation
+	bool debug = false;
 
 private:
 	std::vector<attackData*> currentPropagationAttacks;
-	//bool debug = true;
 	//std::queue<attackData*> queuedAttacks;
 	
 };

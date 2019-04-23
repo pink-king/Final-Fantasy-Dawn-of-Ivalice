@@ -18,6 +18,8 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 	this->font = font;
 
 
+	if (texture)
+		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
 
 	// the parent
 	this->parent = parent;
@@ -36,10 +38,29 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 
 void UiItem_Label::Draw(const float & dt)
 {
-	if(!hide)
-	App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F);
+	if (!hide)
+	{
+		prevTextDimension.x = textureDimensions.x;
+		prevTextDimension.y = textureDimensions.y;
+		float speed = 0.0f;
 
+		if (!useCamera)
+			speed = 1.0f;
 
+		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+		if (textureDimensions.x > prevTextDimension.x)
+		{
+			if (!first_hitbox)
+			{
+				hitBox.x -= 28;
+				first_hitbox = true;
+			}
+			else
+				hitBox.x -= 14;
+		}
+
+		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
+	}
 
 }
 

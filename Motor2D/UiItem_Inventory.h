@@ -14,36 +14,37 @@
 #define boxSize 48                   
 #define boxSeparation iPoint(77,74)
 
-#define staringPosition iPoint(274, 101)
+#define staringPosition iPoint(278, 101)
 #define tabOffset iPoint(15,17)
-#define tabOffsetPotion iPoint(25,23)
+#define tabOffsetPotion iPoint(23,18)
 
 struct elementsStartingPositionsOffsets
-{ 
-	iPoint currentWeapon = iPoint(56, 47);
-	iPoint currentHead = iPoint(56, 118);
-	iPoint currentArmor = iPoint(56, 194);
+{
+	iPoint currentWeapon = iPoint(140, 30);
+	iPoint currentHead = iPoint(140, 102);
+	iPoint currentArmor = iPoint(140, 178);
 
 	iPoint potions = iPoint(100, 100);
 };
 struct potionLabelPositions
 {
-	iPoint potion1 = iPoint(970, 419);
+	iPoint potion1 = iPoint(928, 405);
 
 };
 
 
-class LootEntity; 
-class UiItem_Description; 
+class LootEntity;
+class UiItem_Description;
 class UiItem_Label;
+class UiItem_Image;
 
 class UiItem_Inventory : public UiItem
 {
 
 public:
-	UiItem_Inventory(UiItem * const parent);
+	UiItem_Inventory(UiItem* const parent);
 
-	bool LoadElements();
+	bool LoadElements(bool onlyEquipped = false);
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
 
@@ -51,23 +52,27 @@ public:
 
 	void De_______GenerateDescription(LootEntity*, bool firstTime);
 
-	bool drawTest = false; 
+	void callDeleteWhenSwitchingCharacters();
+
+	bool drawTest = false;
 
 
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
-	iPoint startingPos = { 274, 101 };
+	iPoint startingPos = { 278, 101 };
 
 private:
 	SDL_Rect tab_image = { 726,1,69,70 };
 	bool first_potion = false;
 	bool first_label_potion = false;
 	int potion_counter = 1;
-	UiItem_Label * potionLabel = nullptr;
+	UiItem_Label* potionLabel = nullptr;
 	potionLabelPositions potion_positions;
 	std::string str_potion;
-};
 
+
+
+};
 
 
 

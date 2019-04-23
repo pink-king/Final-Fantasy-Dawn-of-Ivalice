@@ -105,7 +105,7 @@ public:
 	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
 
 
-	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
+	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
 	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem* const parent = nullptr);
 
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem* const parent = nullptr);
@@ -129,9 +129,9 @@ public:
 	void GoBackToStartMenu();
 
 	UiItem_HealthBar* healthBar = nullptr;
-	SDL_Texture* lootTexture;
+	SDL_Texture* lootTexture = nullptr;
 private:
-	SDL_Texture* atlas;
+	SDL_Texture* atlas = nullptr;
 
 	std::string atlas_file_name;
 	bool debug_ = false;

@@ -116,15 +116,15 @@ public:
 	SDL_Texture* dash_spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];
 	Animation run[(int)facingDirection::MAX];
-	Animation basicAttack[(int)facingDirection::MAX];
+	//Animation basicAttack[(int)facingDirection::MAX];
 	Animation dash[(int)facingDirection::MAX];
-	Animation receiveDamage[(int)facingDirection::MAX];
+	//Animation receiveDamage[(int)facingDirection::MAX];
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 private:
-	j1Timer inputDelayer;
-	j1Timer pulsationTimeRecorder;
+	/*j1Timer inputDelayer;
+	j1Timer pulsationTimeRecorder;*/
 	bool startMove;
 	j1PerfTimer stepSFXTimer;
 	bool isPreviousUpdateCollisioning = false;
