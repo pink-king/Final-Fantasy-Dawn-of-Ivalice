@@ -1606,17 +1606,3 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 	
 
 }
-
-void j1EntityFactory::UnLoadLevelEntities()
-{
-	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
-
-	while (entitiesItem != entities.rend())
-	{
-		(*entitiesItem)->CleanUp();
-		RELEASE(*entitiesItem);
-		*entitiesItem = nullptr;
-		++entitiesItem;
-	}
-	entities.clear();
-}
