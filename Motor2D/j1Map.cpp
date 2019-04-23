@@ -294,6 +294,8 @@ bool j1Map::CleanUp()
 	{
 		data.layers.remove(*layer_item);
 		(*layer_item)->tileQuadTree->CleanUp();
+		delete (*layer_item)->tileQuadTree;
+		(*layer_item)->tileQuadTree = nullptr;
 		++layer_item;
 	}
 	data.layers.clear();
@@ -586,6 +588,9 @@ bool j1Map::UnloadMap()
 	{
 		data.layers.remove(*layer_item);
 		(*layer_item)->tileQuadTree->CleanUp();
+		delete (*layer_item)->tileQuadTree;
+		(*layer_item)->tileQuadTree = nullptr;
+
 		++layer_item;
 	}
 	data.layers.clear();
