@@ -473,7 +473,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.basic.cooldownTime = 0; // basic magic ball
 	coolDownData.dodge.cooldownTime = 0;
 	coolDownData.special1.cooldownTime = 1500; // TELEPORT
-	coolDownData.special2.cooldownTime = 1000; // idk
+	coolDownData.special2.cooldownTime = 1000; // Medusa
 	coolDownData.ultimate.cooldownTime = 3000; // death circle
 
 	previousPos = position;
