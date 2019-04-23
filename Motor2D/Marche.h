@@ -40,9 +40,19 @@ private:
 	j1Timer basicAttackPulsationTimer;
 	Uint32 basicAttackPulsationMaxTime;
 
-	// ULTIMATE
-	Animation transMarche[(int)facingDirection::MAX];
-
+	// ULTIMATE -------------------------
+	SDL_Texture* superTransTex = nullptr;
+	SDL_Texture* superRunTex = nullptr;
+	SDL_Texture* superAttackTex = nullptr;
+	Animation superTransAnim[(int)facingDirection::MAX];
+	// i must to name this like this
+	bool superSaiyajin = false;
+	j1Timer superSaiyajinTimer;
+	Uint32 superTransMaxTimeSec;
+	fPoint superAnimPivots[(int)facingDirection::MAX];
+	SDL_Texture* runTexTempPtr = nullptr;
+	SDL_Texture* basicAttackTexPtr = nullptr;
+	// -----------------------------------
 	// WHIRLWIND
 	SDL_Texture* whirlwindTex = nullptr;
 	SDL_Texture* whirlwindFireTex = nullptr;
