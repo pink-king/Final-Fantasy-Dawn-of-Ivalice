@@ -102,6 +102,7 @@ bool j1Scene::Start()
 			LoadPauseSettings(sceneNode);
 			LoadInventory(sceneNode);
 			LoadDeathScreen(sceneNode);
+			LoadWinScreen(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
@@ -114,6 +115,7 @@ bool j1Scene::Start()
 		pausePanel->enable = false;
 		inventory->enable = false;
 		deathPanel->enable = false;
+		winPanel->enable = false;
 	}
 
 	begin = true;
@@ -354,6 +356,7 @@ bool j1Scene::Update(float dt)
 
 			}
 		}
+		
 
 	}
 	
@@ -769,6 +772,13 @@ bool j1Scene::LoadDeathScreen(pugi::xml_node& nodeScene)
 	pugi::xml_node deathNode = nodeScene.child("DeathScreen");
 	deathPanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(deathPanel, deathNode);
+	return true;
+}
+bool j1Scene::LoadWinScreen(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node winNode = nodeScene.child("WinScreen");
+	winPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(winPanel, winNode);
 	return true;
 }
 
