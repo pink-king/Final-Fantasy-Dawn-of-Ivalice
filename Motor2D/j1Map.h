@@ -186,7 +186,7 @@ private:
 	pugi::xml_document	map_file;
 	std::string			folder;
 	SDL_Texture*		texture = nullptr;
-	bool debugDraw = true;
+	bool debugDraw = false;
 };
 
 #endif // __j1MAP_H__

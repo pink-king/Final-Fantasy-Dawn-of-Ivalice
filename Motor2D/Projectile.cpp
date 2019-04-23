@@ -68,9 +68,12 @@ bool Projectile::ReachedDestiny() const
 
 void Projectile::Draw()
 {
+	if (App->scene->debugSubtiles == true)
+	{
 	iPoint subTilePos = GetSubtilePos();
 	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 	App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
+	}
 
 	if (entityTex != nullptr)
 	{

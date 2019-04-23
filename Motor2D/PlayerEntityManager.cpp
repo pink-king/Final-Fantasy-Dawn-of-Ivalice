@@ -66,6 +66,9 @@ bool PlayerEntityManager::Start()
 
 bool PlayerEntityManager::PreUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		debug = !debug;
+
 	selectedCharacterEntity->PreUpdate();
 	//App->scene->AcceptUISFX_logic = false;
 

@@ -438,7 +438,7 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
 		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
 
-		AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
+		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
 		
 	}
 

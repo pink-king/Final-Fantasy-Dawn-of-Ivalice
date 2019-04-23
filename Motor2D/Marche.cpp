@@ -1061,7 +1061,7 @@ bool Marche::Update(float dt)
 		std::vector<items*>::iterator item = equipedObjects.begin();
 		App->itemsManager->DesequipItem(this, *item);
 	}*/
-	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
+	/*if (App->input->GetKey(SDL_SCANCODE_3) == 1)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->bagObjects.begin();
 		if(item != App->entityFactory->player->bagObjects.end())
@@ -1082,7 +1082,7 @@ bool Marche::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
 	{
 		App->buff->CreatePoision(this, this, 5, 5, "a", false);
-	}
+	}*/
 
 	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{

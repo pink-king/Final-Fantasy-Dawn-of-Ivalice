@@ -415,7 +415,9 @@ bool j1Gui::PostUpdate()
 
 	// temporal debug 
 
-	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+
 		debug_ = !debug_;
 	}
 
