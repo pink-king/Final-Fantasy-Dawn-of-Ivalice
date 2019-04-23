@@ -2,7 +2,8 @@
 #include "j1AttackManager.h"
 #include "j1Input.h"
 #include "j1ModuleCamera2D.h"
-
+#include "j1Audio.h"
+#include "j1EntityFactory.h"
 Medusa::Medusa(fPoint pos, const j1Entity* owner) : Projectile(pos, { 0,0 }, 0, owner, "Medusa", PROJECTILE_TYPE::MEDUSA)
 {
 	timer.Start(); 
@@ -11,7 +12,7 @@ Medusa::Medusa(fPoint pos, const j1Entity* owner) : Projectile(pos, { 0,0 }, 0, 
 	pulsations = 0;
 	radius = 3;
 	propSpeed = 120; 
-
+	App->audio->PlayFx(App->entityFactory->RitzMedusa, 0);
 	// TODO Add SFX probably the whole ability
 }
 

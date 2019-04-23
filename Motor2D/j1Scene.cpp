@@ -80,7 +80,7 @@ bool j1Scene::Start()
 	if (state == SceneState::GAME)
 	{
 		App->map->active = true;
-
+		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
@@ -91,7 +91,7 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::STARTMENU)
 	{
-		
+		AcceptUISFX_logic = true;
 		
 		if (!LoadedUi)
 		{
@@ -222,10 +222,10 @@ bool j1Scene::Update(float dt)
 	{
 		if (state == SceneState::GAME)
 		{
-
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
 			startMenu->enable = true;
+
 		}
 		else
 		{
@@ -239,6 +239,7 @@ bool j1Scene::Update(float dt)
 	
 	if (state == SceneState::STARTMENU)
 	{
+		AcceptUISFX_logic = true;
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -287,6 +288,7 @@ bool j1Scene::Update(float dt)
 		{
 			if (!inventory->enable)
 			{
+				AcceptUISFX_logic = true;
 				App->gui->resetHoverSwapping = false;
 				App->pause = !App->pause;
 				if (App->pause)
@@ -302,6 +304,7 @@ bool j1Scene::Update(float dt)
 				{
 					Mix_ResumeMusic();
 					pausePanel->enable = false;
+					AcceptUISFX_logic = false;
 				}
 			}
 		}
@@ -313,17 +316,19 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause && !pausePanel->enable)
 				{
+					AcceptUISFX_logic = true;
 					inventory->enable = true;
 					App->gui->resetHoverSwapping = false;
 					inventoryItem->LoadElements();
 					App->audio->PlayFx(openInventorySFX, 0);
-
 				}
 
 				else
 				{
 					App->audio->PlayFx(closeinventorySFX, 0);
 					inventory->enable = false;
+					AcceptUISFX_logic = false;
+
 				}
 
 			}
