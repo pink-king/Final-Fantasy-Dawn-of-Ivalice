@@ -597,7 +597,7 @@ bool j1Map::UnloadMap()
 
 
 	// Clean up the pugui tree
-	//map_file.reset();
+	map_file.reset();
 
 	return ret;
 }
