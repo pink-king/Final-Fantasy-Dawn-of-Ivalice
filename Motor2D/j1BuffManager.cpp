@@ -707,11 +707,18 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	BROFILER_CATEGORY("Damage in Time", Profiler::Color::ForestGreen);
 
 	bool ret = false;
-
 	iPoint drawRectified;
-	drawRectified.x = entity->position.x + entity->size.x * 0.5f;
-	drawRectified.y = entity->position.y + (entity->size.y * 0.5f) * 2;
-
+	if (entity == App->entityFactory->player)
+	{
+		drawRectified.x = dynamic_cast<PlayerEntityManager*>(entity)->selectedCharacterEntity->position.x + dynamic_cast<PlayerEntityManager*>(entity)->selectedCharacterEntity->size.x * 0.5f;
+		drawRectified.y = dynamic_cast<PlayerEntityManager*>(entity)->selectedCharacterEntity->position.y + dynamic_cast<PlayerEntityManager*>(entity)->selectedCharacterEntity->size.y * 0.5f;
+		
+	}
+	else
+	{
+		drawRectified.x = entity->position.x + entity->size.x * 0.5f;
+		drawRectified.y = entity->position.y + (entity->size.y * 0.5f) * 2;
+	}
 	iPoint bloodRect = drawRectified;
 
 	// flip particles pseudo randomly
@@ -857,8 +864,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add particles poison
 						iPoint Poison01Pivot = { 8, 16 };
 						drawRectified -= Poison01Pivot;
-						App->particles->AddParticle(App->particles->poison01, drawRectified.x - 15, drawRectified.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
-						App->particles->AddParticle(App->particles->poison01, drawRectified.x + 15, drawRectified.y - entity->pivot.y, { 0,0 }, 0u);						
+						App->particles->AddParticle(App->particles->poison01, drawRectified.x - 15, drawRectified.y - entity->pivot.y*0.5, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->poison01, drawRectified.x + 15, drawRectified.y - entity->pivot.y*0.5, { 0,0 }, 0u);
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
@@ -872,7 +879,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood paricle
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y / 2, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y, { 0,0 }, 0u, renderFlip);
 
 						if ((*item)->to_paralitze == true)
 						{
