@@ -249,6 +249,7 @@ bool j1EntityFactory::CleanUp()
 	{
 		(*entitiesItem)->CleanUp();
 		RELEASE(*entitiesItem);
+		*entitiesItem = nullptr;
 		++entitiesItem;
 	}
 	entities.clear();

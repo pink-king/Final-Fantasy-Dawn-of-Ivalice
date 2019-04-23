@@ -723,22 +723,8 @@ void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
 	App->scene->state = SceneState::GAME;
-	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-	{
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
-		RELEASE_ARRAY(data);
-
-		// re set entities data map (create or delete/create if we have a previous one)
-		App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
-		App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, -1575, 2150, "TriggerWIN"); // Delete This
-		App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, 336, 264, "TriggerWIN");	// The real one
-	}
 }
+
 
 void j1Gui::ExitGame()
 {
