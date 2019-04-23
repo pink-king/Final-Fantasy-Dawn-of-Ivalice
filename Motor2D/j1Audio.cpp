@@ -198,3 +198,12 @@ void j1Audio::SetFxVolume(float volume)
 		
 	}
 }
+
+void j1Audio::UnloadFX()
+{
+	std::list<Mix_Chunk*>::iterator item;
+	for (item = fx.begin(); item != fx.end(); ++item)
+		Mix_FreeChunk(*item);
+
+	fx.clear();
+}

@@ -68,91 +68,93 @@ void UiItem_CooldownClock::DoLogic()
 	BROFILER_CATEGORY("Clock Logic", Profiler::Color::Aqua);
 
 	LastHeight = this->section.h;
-
-	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
-		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
-		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
+	if (App->entityFactory->player->selectedCharacterEntity != nullptr)
 	{
-
-		hide = false;
-
-		float proportion = 0.0f;
-
-		// ability 1 
-		if (keepAnEye.ability == "special1")
+		if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
+			|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
+			|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
 		{
-			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
-				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
+
+			hide = false;
+
+			float proportion = 0.0f;
+
+			// ability 1 
+			if (keepAnEye.ability == "special1")
 			{
+				if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read()
+					< App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
+				{
 
-				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight;
+					proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight;
 
-				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
+					this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
 
-				heightDiff = LastHeight - this->section.h;
+					heightDiff = LastHeight - this->section.h;
 
-				this->hitBox.y += heightDiff;
+					this->hitBox.y += heightDiff;
 
+				}
+				else
+				{
+					Restart();   // dont't call it if it is already called from the player
+				}
 			}
-			else
+
+
+			// ability 2
+			if (keepAnEye.ability == "special2")
 			{
-				Restart();   // dont't call it if it is already called from the player
+				if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
+					< App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
+				{
+
+					proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime / maxHeight;
+
+					this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
+
+					heightDiff = LastHeight - this->section.h;
+
+					this->hitBox.y += heightDiff;
+
+				}
+				else
+				{
+					Restart();    //dont't call it if it is already called from the player
+				}
 			}
+
+
+			// ulti 
+			if (keepAnEye.ability == "ulti")
+			{
+				if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
+					< App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
+				{
+					proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / maxHeight;
+
+					this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
+
+					heightDiff = LastHeight - this->section.h;
+
+					this->hitBox.y += heightDiff;
+				}
+				else
+				{
+					Restart();    //dont't call it if it is already called from the player
+				}
+			}
+
+
+
 		}
-
-
-		// ability 2
-		if (keepAnEye.ability == "special2")
+		else
 		{
-			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read()
-				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime)
-			{
+			hide = true;
 
-				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.cooldownTime / maxHeight;
 
-				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
-
-				heightDiff = LastHeight - this->section.h;
-
-				this->hitBox.y += heightDiff;
-
-			}
-			else
-			{
-				Restart();    //dont't call it if it is already called from the player
-			}
+			// TODO: Prevent h section from diminishing when clock is paused 
 		}
-
-
-		// ulti 
-		if (keepAnEye.ability == "ulti")
-		{
-			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read()
-				< App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime)
-			{
-				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / maxHeight;
-
-				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
-
-				heightDiff = LastHeight - this->section.h;
-
-				this->hitBox.y += heightDiff;
-			}
-			else
-			{
-				Restart();    //dont't call it if it is already called from the player
-			}
-		}
-
-
-
-	}
-	else
-	{
-		hide = true;
-
-
-		// TODO: Prevent h section from diminishing when clock is paused 
 	}
 
 

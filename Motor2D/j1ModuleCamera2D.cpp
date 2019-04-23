@@ -58,8 +58,9 @@ bool j1ModuleCamera2D::PostUpdate()
 	fPoint offset{ 640,360 }; // pivot of the "screen" itself at center pos
 	offset.y += 30.0f; // offset for character height compensation
 
-	fPoint playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
-
+	fPoint playerPos;
+	if(App->entityFactory->player != nullptr)
+		playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
 	fPoint test;
 	test.x = camera.x;
 	test.y = camera.y;

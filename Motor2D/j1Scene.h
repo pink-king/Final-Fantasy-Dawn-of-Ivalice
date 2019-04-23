@@ -50,6 +50,7 @@ public:
 	bool CleanUp();
 
 	void UnLoadScene();
+	void DeathScene();
 
 public:
 	UiItem* inGamePanel = nullptr;

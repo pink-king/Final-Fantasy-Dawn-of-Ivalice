@@ -8,6 +8,8 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "p2Log.h"
+#include "j1PathFinding.h"
+#include "j1EntityFactory.h"
 #include "Brofiler/Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
@@ -721,6 +723,19 @@ void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
 	App->scene->state = SceneState::GAME;
+	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	{
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+
+		RELEASE_ARRAY(data);
+
+		// re set entities data map (create or delete/create if we have a previous one)
+		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
+	}
 }
 
 void j1Gui::ExitGame()

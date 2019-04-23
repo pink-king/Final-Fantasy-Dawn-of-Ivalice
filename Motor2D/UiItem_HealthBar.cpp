@@ -64,41 +64,43 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 	if (this->variantType == type::player)
 	{
-
-		if (conversionFactor == 0.0f)
+		if (App->entityFactory->player != nullptr)
 		{
-			conversionFactor = maxSection / App->entityFactory->player->life;
-		}
+			if (conversionFactor == 0.0f)
+			{
+				conversionFactor = maxSection / App->entityFactory->player->life;
+			}
 
-		lastSection = dynamicImage->section.w;
-		
-		uint value = conversionFactor * App->entityFactory->player->life + playerBarOffset.x;
+			lastSection = dynamicImage->section.w;
 
-		if (App->entityFactory->player->life <= 0)
-		{
-			dynamicImage->section.w = playerBarOffset.x; 
-		}
-		else
-		{
-			dynamicImage->section.w = value;
-		}
-		
+			uint value = conversionFactor * App->entityFactory->player->life + playerBarOffset.x;
+
+			if (App->entityFactory->player->life <= 0)
+			{
+				dynamicImage->section.w = playerBarOffset.x;
+			}
+			else
+			{
+				dynamicImage->section.w = value;
+			}
 
 
-		if (damageInform.doDamage)
-		{
-			
+
+			if (damageInform.doDamage)
+			{
+
 				damageBarTimer.Start();
 				DamageLogic();
-		
-		}
-		else if (damageBarTimer.ReadMs() > 400) // if time's over
-		{
-			DamageQuadReset();
-		}
-		else if (lastSection < dynamicImage->section.w) // if life being recuperated
-		{
-			DamageQuadReset();
+
+			}
+			else if (damageBarTimer.ReadMs() > 400) // if time's over
+			{
+				DamageQuadReset();
+			}
+			else if (lastSection < dynamicImage->section.w) // if life being recuperated
+			{
+				DamageQuadReset();
+			}
 		}
 	}
 	else
