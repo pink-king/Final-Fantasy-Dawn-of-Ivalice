@@ -602,6 +602,7 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 		break;
 	case combatState::ULTIMATE:
 	{
+		App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);
 		currentAnimation = &ultiCastAnim[pointingDir];
 		entityTex = ultiCastTex;
 		break;
