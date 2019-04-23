@@ -833,6 +833,8 @@ void j1Scene::NewScene()
 
 	}
 
+	App->audio->active = true;
+
 	Start();
 
 }
@@ -842,6 +844,10 @@ void j1Scene::UnLoadScene()
 	App->entityFactory->Disable();
 	App->audio->UnloadFX();
 	App->pathfinding->Disable();
+
+	App->audio->active = false;
+
+	App->attackManager->CleanUp();
 	
 }
 
@@ -851,5 +857,23 @@ void j1Scene::DeathScene()
 	inGamePanel->enable = false;
 	App->gui->resetHoverSwapping = false;
 	UnLoadScene();
+
+	App->audio->active = false;
+
+	App->attackManager->CleanUp();
+
+}
+
+void j1Scene::winScene()
+{
+
+	winPanel->enable = true;
+	inGamePanel->enable = false;
+	App->gui->resetHoverSwapping = false;
+	UnLoadScene();
+
+	App->audio->active = false;
+
+	App->attackManager->CleanUp();
 
 }

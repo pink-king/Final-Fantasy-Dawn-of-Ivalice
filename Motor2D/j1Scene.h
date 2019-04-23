@@ -52,6 +52,7 @@ public:
 	void UnLoadScene();
 	void DeathScene();
 	void NewScene();
+	void winScene();
 
 public:
 	UiItem* inGamePanel = nullptr;

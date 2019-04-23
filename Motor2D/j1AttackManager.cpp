@@ -112,6 +112,13 @@ bool j1AttackManager::CleanUp()
 	if (currentPropagationAttacks.size() > 0)
 	{
 		LOG("TODO");
+
+		std::vector<attackData*>::iterator it = currentPropagationAttacks.begin();
+
+		for (; it != currentPropagationAttacks.end(); )
+		{
+			it = currentPropagationAttacks.erase(it);
+		}
 	}
 
 	return true;
