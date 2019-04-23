@@ -127,7 +127,7 @@ public:
 	void FpsCap();
 	void GoBackToGame();
 	void GoBackToStartMenu();
-	void GoBackToStartMenuFromDeath();
+	void GoBackToStartMenuFromDeathWin();
 
 	UiItem_HealthBar* healthBar = nullptr;
 	SDL_Texture* lootTexture = nullptr;
