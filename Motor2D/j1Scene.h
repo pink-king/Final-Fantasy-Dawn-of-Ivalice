@@ -88,6 +88,7 @@ public:
 
 
 	bool to_win = false;
+	bool to_lose = false;
 
 private:
 	SDL_Texture* debug_tex = nullptr;

@@ -172,6 +172,11 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
+	// TODO: vertical slice workarounds
+
+	if(life <= 0)
+		App->scene->to_lose = true;
+
 	return ret;
 }
 

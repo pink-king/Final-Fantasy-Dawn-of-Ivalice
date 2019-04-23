@@ -457,8 +457,21 @@ bool j1Scene::Update(float dt)
 	LoadMusicFromScene();
 
 
+	// TODO: vertical slice workarounds
+
 	if (to_win)
+	{
 		winScene();
+		to_win = false;
+	}
+
+	if (to_lose)
+	{
+		DeathScene();
+		to_lose = false;
+	}
+
+	// ------------------------------
 
 	return true;
 }
@@ -855,6 +868,8 @@ void j1Scene::UnLoadScene()
 
 	App->audio->active = false;
 
+	state = SceneState::STARTMENU;
+
 }
 
 void j1Scene::DeathScene()
@@ -875,8 +890,4 @@ void j1Scene::winScene()
 	UnLoadScene();
 
 	App->audio->active = false;
-
-	state = SceneState::STARTMENU;
-	to_win = false;
-
 }

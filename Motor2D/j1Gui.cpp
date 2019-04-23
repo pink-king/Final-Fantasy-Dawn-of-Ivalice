@@ -84,7 +84,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
 
-	if (selected_object && selected_object->tabbed)
+	if (selected_object && selected_object->tabbed && selected_object->parent->enable)
 	{
 		switch (selected_object->guiType)
 		{
