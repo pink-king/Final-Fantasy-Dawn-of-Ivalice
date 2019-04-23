@@ -79,6 +79,10 @@ bool PlayerEntityManager::Update(float dt)
 {
 	bool ret = true;
 
+	LOG("MY SUBTILE %i  %i", GetSubtilePos().x, GetSubtilePos().y);
+	if (!App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))
+		LOG("SOMEEEETHINGGGGGGGG");
+
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
 
 	selectedCharacterEntity->Update(dt);
