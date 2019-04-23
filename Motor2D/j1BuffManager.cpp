@@ -272,6 +272,10 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			}
 		}
 	}
+	else if (defender->life < 0 && attacker->type != ENTITY_TYPE::PLAYER)
+	{
+		defender->life = 0;
+	}
 
 
 	if (attacker == App->entityFactory->player->GetMarche())
@@ -1000,6 +1004,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		entity->isParalize = false;
 		entity->to_die = true;
 		return true;
+	}
+	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER)
+	{
+		entity->life = 0;
 	}
 	if (entity->stat.size() == 0)
 		ret = true;

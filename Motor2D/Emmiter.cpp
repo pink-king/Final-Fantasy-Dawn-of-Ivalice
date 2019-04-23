@@ -5,9 +5,6 @@
 Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER_ARROWS)
 {
-	entityTex = App->tex->Load("textures/spells/Ritz_ultimate/deathCircleTest.png");
-
-	anim.PushBack({ 0,0, 300, 225 });
 	SetPivot(150, 112);
 	size.create(300, 225);
 
@@ -18,7 +15,7 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	lifeTimer.Start();
 	createArrowsTimer.Start();
 	dieTimer.Start();
-	currentAnimation = &anim;
+	//currentAnimation = &anim;
 
 	rang.x = 100;
 	rang.y = 40;

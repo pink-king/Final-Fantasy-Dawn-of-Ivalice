@@ -72,15 +72,15 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 		lastSection = dynamicImage->section.w;
 		
-		uint value = conversionFactor * App->entityFactory->player->life;
-		if (value >= playerBarOffset.x)
-		{
-			dynamicImage->section.w = value; 
-		}
+		uint value = conversionFactor * App->entityFactory->player->life + playerBarOffset.x;
 
 		if (App->entityFactory->player->life <= 0)
 		{
 			dynamicImage->section.w = playerBarOffset.x; 
+		}
+		else
+		{
+			dynamicImage->section.w = value;
 		}
 		
 

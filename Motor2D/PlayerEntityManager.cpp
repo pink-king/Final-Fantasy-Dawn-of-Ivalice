@@ -123,6 +123,35 @@ bool PlayerEntityManager::Update(float dt)
 	//	if ((*item) != selectedCharacterEntity)
 	//		(*item)->life = selectedCharacterEntity->life;
 	//}
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
+		deleteObj = !deleteObj;
+
+	if (deleteObj)
+	{
+		std::vector<LootEntity*>::iterator iter = bagObjects.begin();
+		for (; iter != bagObjects.end(); ++iter)
+		{
+			delete *iter;
+			*iter = nullptr;
+		}
+		bagObjects.clear();
+
+		std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
+		for (; iter2 != equipedObjects.end(); ++iter2)
+		{
+			delete *iter2;
+			*iter2 = nullptr;
+		}
+		equipedObjects.clear();
+
+		std::vector<LootEntity*>::iterator iter3 = consumables.begin();
+		for (; iter3 != consumables.end(); ++iter3)
+		{
+			delete *iter3;
+			*iter3 = nullptr;
+		}
+		consumables.clear();
+	}
 
 	static char title[30];
 	sprintf_s(title, 30, " | life: %f", life);
