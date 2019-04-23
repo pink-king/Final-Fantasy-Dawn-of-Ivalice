@@ -21,7 +21,7 @@ EnemyBomb::~EnemyBomb()
 {
 	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
 	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
+		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
 
 
 }
