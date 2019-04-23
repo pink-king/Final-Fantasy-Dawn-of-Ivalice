@@ -564,8 +564,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 
 	// better speed 
-	characterBaseSpeed.x /= 1.3f; 
-	characterBaseSpeed.y /= 1.3f;
+	characterBaseSpeed.x /= 1.6f; 
+	characterBaseSpeed.y /= 1.6f;
 
 	//
 	//previousFrame = 1; // fake previousFrame to enter on first anim state
@@ -589,6 +589,24 @@ Marche::~Marche()
 	App->tex->UnLoad(superAttackTex);
 	App->tex->UnLoad(superRunTex);
 	App->tex->UnLoad(superTransTex);
+
+
+	if (!App->cleaningUp)
+	{
+		if (App->gui->spawnedClocks.Marche.special1)
+		{
+			myUIClocks.special1->to_delete = true;
+		}
+		if (App->gui->spawnedClocks.Marche.special2)
+		{
+			myUIClocks.special2->to_delete = true;
+		}
+		if (App->gui->spawnedClocks.Marche.ulti)
+		{
+			myUIClocks.ulti->to_delete = true;
+		}
+	}
+	
 	
 }
 
@@ -955,7 +973,7 @@ bool Marche::Update(float dt)
 			}
 			
 			UlitMarche();
-
+		
 		}
 		if (!inputReady)
 		{

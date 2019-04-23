@@ -56,7 +56,6 @@ void j1Map::Draw()
 
 		}
 	}
-
 	if (debugDraw)
 	{
 		BROFILER_CATEGORY("Map Tiles Debug", Profiler::Color::DarkSlateGray);
@@ -294,13 +293,13 @@ bool j1Map::CleanUp()
 	while(layer_item != data.layers.end())
 	{
 		data.layers.remove(*layer_item);
+		(*layer_item)->tileQuadTree->CleanUp();
 		++layer_item;
 	}
 	data.layers.clear();
-
 	// Clean up the pugui tree
 	map_file.reset();
-
+	map_loaded = false;
 	return true;
 }
 
@@ -562,6 +561,38 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 		}
 
 	}
+
+	return ret;
+}
+
+bool j1Map::UnloadMap()
+{
+	bool ret = true;
+	std::list<TileSet*>::iterator tiles_item;
+	tiles_item = data.tilesets.begin();
+
+	while (tiles_item != data.tilesets.end())
+	{
+		RELEASE(*tiles_item);
+		++tiles_item;
+	}
+	data.tilesets.clear();
+
+	// Remove all layers
+	std::list<MapLayer*>::iterator layer_item;
+	layer_item = data.layers.begin();
+
+	while (layer_item != data.layers.end())
+	{
+		data.layers.remove(*layer_item);
+		(*layer_item)->tileQuadTree->CleanUp();
+		++layer_item;
+	}
+	data.layers.clear();
+
+
+	// Clean up the pugui tree
+	map_file.reset();
 
 	return ret;
 }

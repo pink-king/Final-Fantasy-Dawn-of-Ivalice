@@ -484,6 +484,24 @@ Ritz::~Ritz()
 	App->tex->UnLoad(attack1Tex);
 	App->tex->UnLoad(teleportTex);
 	//App->tex->UnLoad();
+
+
+	if (!App->cleaningUp)
+	{
+		if (App->gui->spawnedClocks.Ritz.special1)
+		{
+			myUIClocks.special1->to_delete = true;
+		}
+		if (App->gui->spawnedClocks.Ritz.special2)
+		{
+			myUIClocks.special2->to_delete = true;
+		}
+		if (App->gui->spawnedClocks.Ritz.ulti)
+		{
+			myUIClocks.ulti->to_delete = true;
+		}
+	}
+
 }
 
 bool Ritz::Start()

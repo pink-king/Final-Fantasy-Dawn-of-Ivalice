@@ -124,8 +124,8 @@ public:
 	std::list<entityStat*>	stat;
 	SDL_RendererFlip		flip = SDL_FLIP_NONE;
 	//Collider* collider = nullptr;
-	float					life = 100000.f;
-	float					maxLife = 100000.f;
+	float					life = 100.f;
+	float					maxLife = 100.f;
 	float					defence = 0.f;
 	pugi::xml_document		file;
 	pugi::xml_parse_result	result;
