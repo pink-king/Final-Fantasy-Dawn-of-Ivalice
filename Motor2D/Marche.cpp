@@ -212,7 +212,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// WHIRLWIND : TODO, needs correct order of pushing
 	int indexAnim[(int)facingDirection::MAX] = { 13,13,14,14,13,14,14,13 };
-	for (int y = 0; y <= (int)facingDirection::MAX; ++y)
+	for (int y = 0; y < (int)facingDirection::MAX; ++y)
 	{ // 60,65
 		for (int x = 0; x < indexAnim[y]; ++x)
 			whirlwindAnim[y].PushBack({ x * 60, y * 65, 60,65 });
