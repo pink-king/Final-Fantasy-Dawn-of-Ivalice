@@ -266,11 +266,16 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 	}
 	
+	
 	if (state == SceneState::GAME)
 	{
 		//Mix_CloseAudio();
 		//if()
 	
+		if (startMenu->enable || inventory->enable)
+			AcceptUISFX_logic = true;
+		else if (!startMenu->enable && !inventory->enable)
+			AcceptUISFX_logic = false;
 
 		App->map->active = true;
 		inGamePanel->enable = true;
@@ -302,7 +307,6 @@ bool j1Scene::Update(float dt)
 		{
 			if (!inventory->enable)
 			{
-				AcceptUISFX_logic = true;
 				App->gui->resetHoverSwapping = false;
 				App->pause = !App->pause;
 				if (App->pause)
@@ -318,7 +322,6 @@ bool j1Scene::Update(float dt)
 				{
 					Mix_ResumeMusic();
 					pausePanel->enable = false;
-					AcceptUISFX_logic = false;
 				}
 			}
 		}
@@ -330,7 +333,6 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause && !pausePanel->enable)
 				{
-					AcceptUISFX_logic = true;
 					inventory->enable = true;
 					App->gui->resetHoverSwapping = false;
 					inventoryItem->LoadElements();
@@ -341,7 +343,6 @@ bool j1Scene::Update(float dt)
 				{
 					App->audio->PlayFx(closeinventorySFX, 0);
 					inventory->enable = false;
-					AcceptUISFX_logic = false;
 
 				}
 
