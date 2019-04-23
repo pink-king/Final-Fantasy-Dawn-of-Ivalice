@@ -21,12 +21,15 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	name.assign("Marche");
 
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
+	spritesheet = runTexTempPtr = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
 
 	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
-	basicAttackTex = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
+	basicAttackTex = basicAttackTexPtr = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
+	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
+	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
+	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
 	entityTex = spritesheet;
 
 	// IDLE
@@ -417,118 +420,128 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPivotOffset[(int)facingDirection::SW] = { 44, 64 };
 
 	// ------------------------------------------------------------------
+	float superTransAnimSpeed = 10.f;
+	superTransAnim[(int)facingDirection::SE].PushBack({ 0, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 105, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 210, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 315, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 420, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 525, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 630, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 735, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 840, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 945, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].PushBack({ 1050, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SE].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::SE].loop = false;
 
-	transMarche[(int)facingDirection::SE].PushBack({ 0, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 105, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 210, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 315, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 420, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 525, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 630, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 735, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 840, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 945, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].PushBack({ 1050, 0, 105, 65 });
-	transMarche[(int)facingDirection::SE].speed = 15.F; 
-	transMarche[(int)facingDirection::SE].loop = false;
+	superTransAnim[(int)facingDirection::SW].PushBack({ 0, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 105, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 210, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 315, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 420, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 525, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 630, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 735, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 840, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 945, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].PushBack({ 1050, 0, 105, 65 });
+	superTransAnim[(int)facingDirection::SW].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::SW].loop = false;
+	
+	superTransAnim[(int)facingDirection::S].PushBack({ 0, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 105, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 210, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 315, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 420, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 525, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 630, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 735, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 840, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 945, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].PushBack({ 1050, 65, 105, 65 });
+	superTransAnim[(int)facingDirection::S].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::S].loop = false;
+	
+	superTransAnim[(int)facingDirection::E].PushBack({ 0, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 105, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 210, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 315, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 420, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 525, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 630, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 735, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 840, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 945, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].PushBack({ 1050, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::E].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::E].loop = false;
 
-	transMarche[(int)facingDirection::SW].PushBack({ 0, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 105, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 210, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 315, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 420, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 525, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 630, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 735, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 840, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 945, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].PushBack({ 1050, 0, 105, 65 });
-	transMarche[(int)facingDirection::SW].speed = 15.F;
-	transMarche[(int)facingDirection::SW].loop = false;
+	superTransAnim[(int)facingDirection::W].PushBack({ 0, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 105, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 210, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 315, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 420, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 525, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 630, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 735, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 840, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 945, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].PushBack({ 1050, 130, 105, 65 });
+	superTransAnim[(int)facingDirection::W].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::W].loop = false;
 
-	transMarche[(int)facingDirection::S].PushBack({ 0, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 105, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 210, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 315, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 420, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 525, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 630, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 735, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 840, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 945, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].PushBack({ 1050, 65, 105, 65 });
-	transMarche[(int)facingDirection::S].speed = 15.F;
-	transMarche[(int)facingDirection::S].loop = false;
+	superTransAnim[(int)facingDirection::NE].PushBack({ 0, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 105, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 210, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 315, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 420, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 525, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 630, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 735, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 840, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 945, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].PushBack({ 1050, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NE].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::NE].loop = false;
+	
+	superTransAnim[(int)facingDirection::NW].PushBack({ 0, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 105, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 210, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 315, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 420, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 525, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 630, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 735, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 840, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 945, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].PushBack({ 1050, 195, 105, 65 });
+	superTransAnim[(int)facingDirection::NW].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::NW].loop = false;
 
-	transMarche[(int)facingDirection::E].PushBack({ 0, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 105, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 210, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 315, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 420, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 525, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 630, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 735, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 840, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 945, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].PushBack({ 1050, 130, 105, 65 });
-	transMarche[(int)facingDirection::E].speed = 15.F;
-	transMarche[(int)facingDirection::E].loop = false;
+	superTransAnim[(int)facingDirection::N].PushBack({ 0, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 105, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 210, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 315, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 420, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 525, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 630, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 735, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 840, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 945, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].PushBack({ 1050, 260, 105, 65 });
+	superTransAnim[(int)facingDirection::N].speed = superTransAnimSpeed;
+	superTransAnim[(int)facingDirection::N].loop = false;
 
-	transMarche[(int)facingDirection::W].PushBack({ 0, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 105, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 210, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 315, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 420, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 525, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 630, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 735, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 840, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 945, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].PushBack({ 1050, 130, 105, 65 });
-	transMarche[(int)facingDirection::W].speed = 15.F;
-	transMarche[(int)facingDirection::W].loop = false;
-
-	transMarche[(int)facingDirection::NE].PushBack({ 0, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 105, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 210, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 315, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 420, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 525, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 630, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 735, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 840, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 945, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].PushBack({ 1050, 195, 105, 65 });
-	transMarche[(int)facingDirection::NE].speed = 15.F;
-	transMarche[(int)facingDirection::NE].loop = false;
-
-	transMarche[(int)facingDirection::NW].PushBack({ 0, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 105, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 210, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 315, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 420, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 525, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 630, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 735, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 840, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 945, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].PushBack({ 1050, 195, 105, 65 });
-	transMarche[(int)facingDirection::NW].speed = 15.F;
-	transMarche[(int)facingDirection::NW].loop = false;
-
-	transMarche[(int)facingDirection::N].PushBack({ 0, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 105, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 210, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 315, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 420, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 525, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 630, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 735, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 840, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 945, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].PushBack({ 1050, 260, 105, 65 });
-	transMarche[(int)facingDirection::N].speed = 15.F;
-	transMarche[(int)facingDirection::N].loop = false;
+	// SUPER SAIYAN PIVOTS , still must to adjust, more resolution
+	superAnimPivots[(int)facingDirection::E] = { 53,58 }; // midpoints of center of flipped sprites
+	superAnimPivots[(int)facingDirection::W] = { 53,58 };
+	superAnimPivots[(int)facingDirection::N] = { 53,58 };
+	superAnimPivots[(int)facingDirection::S] = { 52,58 };
+	superAnimPivots[(int)facingDirection::NE] = { 53,58 };
+	superAnimPivots[(int)facingDirection::NW] = { 53,58 };
+	superAnimPivots[(int)facingDirection::SE] = { 53,58 };
+	superAnimPivots[(int)facingDirection::SW] = { 53,58 };
 
 	// ------------------------------------------------------------------
 
@@ -539,7 +552,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 5000;
+	coolDownData.ultimate.cooldownTime = 3000;
 	// starts timers
 	coolDownData.basic.timer.Start();
 	coolDownData.dodge.timer.Start();
@@ -564,6 +577,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
+	superTransMaxTimeSec = 10;
+
 }
 
 Marche::~Marche()
@@ -571,6 +586,10 @@ Marche::~Marche()
 	App->tex->UnLoad(whirlwindTex);
 	App->tex->UnLoad(whirlwindFireTex);
 	App->tex->UnLoad(basicAttackTex);
+	App->tex->UnLoad(superAttackTex);
+	App->tex->UnLoad(superRunTex);
+	App->tex->UnLoad(superTransTex);
+	
 }
 
 bool Marche::Start()
@@ -597,30 +616,47 @@ bool Marche::Update(float dt)
 
 
 		
-		if (!isParalize)
+	if (!isParalize)
+	{
+		if (inputReady)
 		{
-			if (inputReady)
-			{
-				InputMovement(dt);
-				InputCombat();
-			}
-			if (!inputReady) // dash, or animations that needs control of its finish state
-			{	
-				
-
-				if (currentAnimation->Finished())
-				{
-					currentAnimation->Reset();
-					entityTex = spritesheet;
-					currentAnimation = &idle[pointingDir];
-					inputReady = true;
-					transference_pivot = { 0,0 };
-				}
-
-
-			}
+			InputMovement(dt);
+			InputCombat();
 		}
-		
+		if (!inputReady) // dash, or animations that needs control of its finish state
+		{	
+			
+
+			if (currentAnimation->Finished())
+			{
+				currentAnimation->Reset();
+				entityTex = spritesheet;
+				currentAnimation = &idle[pointingDir];
+				inputReady = true;
+				transference_pivot = { 0,0 };
+			}
+
+
+		}
+	}
+	
+	// super saiyajin state
+	if (superSaiyajin)
+	{
+		// checks timer and changes textures
+		if (superSaiyajinTimer.ReadSec() >= superTransMaxTimeSec)
+		{
+			spritesheet = runTexTempPtr;
+			basicAttackTex = basicAttackTexPtr;
+			superSaiyajin = false;
+			// check if we are attacking to prevent glitches
+			if (combat_state == combatState::BASIC)
+				entityTex = basicAttackTex;
+			else
+				entityTex = spritesheet;
+
+		}
+	}
 	
 
 	// CHECK COMBAT STATE
@@ -657,10 +693,6 @@ bool Marche::Update(float dt)
 			}
 			currentAnimation = &basicAttackAnim[pointingDir][attackType];
 			entityTex = basicAttackTex;
-
-			//reposition pos
-			transference_pivot = basicAttackPivotOffset[pointingDir];
-			transference_pivot -= pivot;
 
 			//App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
 
@@ -714,6 +746,10 @@ bool Marche::Update(float dt)
 				// force change state
 				combat_state = combatState::IDLE;
 			}
+
+			//reposition DRAW pos
+			transference_pivot = basicAttackPivotOffset[pointingDir];
+			transference_pivot -= pivot;
 
 		}
 		break;
@@ -901,14 +937,14 @@ bool Marche::Update(float dt)
 
 	case combatState::ULTIMATE:
 	
-		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
+		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime && inputReady)
 		{
-			App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
-
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
-
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
+			inputReady = false;
+			currentAnimation = &superTransAnim[pointingDir];
+			entityTex = superTransTex;
+			
+			/*App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
 			App->camera2D->AddTrauma(70.0f / 100.f);
 			App->input->DoGamePadRumble(0.7f, 400);*/
 			if (!App->gui->spawnedClocks.Marche.ulti)
@@ -926,6 +962,26 @@ bool Marche::Update(float dt)
 
 			coolDownData.ultimate.timer.Start();
 
+		}
+		if (!inputReady)
+		{
+			if ((int)currentAnimation->GetCurrentFloatFrame() >= 5)
+			{
+				App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
+				combat_state = combatState::IDLE;
+				// camera shake and rumble
+				App->camera2D->AddTrauma(0.95f);
+				App->input->DoGamePadRumble(0.84f, 900);
+				// change general player state
+				superSaiyajin = true;
+				superSaiyajinTimer.Start();
+				// change run spritesheet and attack texture
+				spritesheet = superRunTex;
+				basicAttackTex = superAttackTex;
+			}
+			//reposition pos
+			transference_pivot = superAnimPivots[pointingDir];
+			transference_pivot -= pivot;
 		}
 		break;
 	
@@ -1045,16 +1101,16 @@ void Marche::UlitMarche()
 		startUlti = false;
 	}*/
 
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, superTransMaxTimeSec);
 	/*App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
 	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);*/
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
 	//App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
 	//App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
-	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
 	/*App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
 	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);*/
-	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, superTransMaxTimeSec);
 }
 
 //bool Marche::CleanUp()
