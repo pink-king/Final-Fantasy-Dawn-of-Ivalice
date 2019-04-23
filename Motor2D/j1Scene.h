@@ -57,6 +57,7 @@ public:
 	UiItem* settingPanel = nullptr;
 	UiItem* pausePanel = nullptr;
 	UiItem* inventory = nullptr;
+	UiItem* deathPanel = nullptr;
 	UiItem_Label* coins_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
 	SDL_Rect lootPanelRect;
@@ -95,6 +96,7 @@ private:
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
+	bool LoadDeathScreen(pugi::xml_node& nodeScene);
 	
 	void LoadMusicFromScene();
 	PlayerEntityManager* player_selected = nullptr;

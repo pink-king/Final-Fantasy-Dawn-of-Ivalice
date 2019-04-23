@@ -762,3 +762,10 @@ void j1Gui::GoBackToStartMenu()
 	App->scene->startMenu->enable = true;
 	App->scene->state = SceneState::STARTMENU;
 }
+void j1Gui::GoBackToStartMenuFromDeath()
+{
+	resetHoverSwapping = false;
+	App->scene->deathPanel->enable = false;
+	App->scene->startMenu->enable = true;
+	App->scene->state = SceneState::STARTMENU;
+}

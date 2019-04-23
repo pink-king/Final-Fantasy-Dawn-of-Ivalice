@@ -49,6 +49,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToGame();
 	if (functionName == "GoBackToStartMenu")
 		App->gui->GoBackToStartMenu();
+	if (functionName == "GoBackToStartMenuFromDeath")
+		App->gui->GoBackToStartMenuFromDeath();
 
 	if(App->scene->AcceptUISFX_logic)
 		App->audio->PlayFx(App->gui->acceptUI, 0);

@@ -101,6 +101,7 @@ bool j1Scene::Start()
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
 			LoadInventory(sceneNode);
+			LoadDeathScreen(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
@@ -112,6 +113,7 @@ bool j1Scene::Start()
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
 		inventory->enable = false;
+		deathPanel->enable = false;
 	}
 
 	begin = true;
@@ -230,7 +232,19 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_REPEAT)
+	{
+		App->pause = !App->pause;
+		if (App->pause)
+		{
+			deathPanel->enable = true;
+			App->gui->resetHoverSwapping = false;
+		}
+		else 
+		{
+			deathPanel->enable = false;
+		}
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
@@ -759,6 +773,14 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	SharaIcon->hide = true;
 	RitzIcon->hide = true;
 
+	return true;
+}
+
+bool j1Scene::LoadDeathScreen(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node deathNode = nodeScene.child("DeathScreen");
+	deathPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(deathPanel, deathNode);
 	return true;
 }
 
