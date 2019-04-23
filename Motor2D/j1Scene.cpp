@@ -203,6 +203,8 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	LOG("entities: %i", App->entityFactory->entities.size());
+
 	int mx, my;
 	
 	App->input->GetMousePosition(mx, my);
@@ -479,20 +481,6 @@ bool j1Scene::CleanUp()
 	
 	LOG("Freeing scene");
 	return true;
-}
-
-void j1Scene::UnLoadScene()
-{
-	App->map->UnloadMap();
-	App->entityFactory->CleanUp();	
-}
-
-void j1Scene::DeathScene()
-{
-	deathPanel->enable = true;
-	inGamePanel->enable = false;
-	App->gui->resetHoverSwapping = false;
-	UnLoadScene();
 }
 
 void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
@@ -816,8 +804,16 @@ void j1Scene::LoadMusicFromScene()
 
 void j1Scene::NewScene()
 {
+	
 	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
+
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
+		
+		if (!App->pathfinding->IsEnabled())
+			App->pathfinding->Enable();
+
 		int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data))
@@ -830,5 +826,28 @@ void j1Scene::NewScene()
 		App->entityFactory->CreatePlayer({ -1575, 2150 });
 		App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, -1575, 2150, "TriggerWIN"); // Delete This
 		App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, 336, 264, "TriggerWIN");	// The real one
+
+		state = SceneState::GAME;
+
 	}
+
+	Start();
+
+}
+void j1Scene::UnLoadScene()
+{
+	App->map->UnloadMap();
+	App->entityFactory->Disable();
+	App->audio->UnloadFX();
+	App->pathfinding->Disable();
+	
+}
+
+void j1Scene::DeathScene()
+{
+	deathPanel->enable = true;
+	inGamePanel->enable = false;
+	App->gui->resetHoverSwapping = false;
+	UnLoadScene();
+
 }

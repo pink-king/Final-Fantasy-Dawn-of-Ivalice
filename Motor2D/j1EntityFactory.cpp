@@ -268,6 +268,8 @@ bool j1EntityFactory::CleanUp()
 	App->tex->UnLoad(marcheTornadoTex);
 	App->tex->UnLoad(lootItemsTex); 
 
+	player = nullptr;
+
 	return ret;
 }
 

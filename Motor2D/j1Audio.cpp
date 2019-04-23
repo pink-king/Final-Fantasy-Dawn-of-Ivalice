@@ -56,8 +56,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 // Called before quitting
 bool j1Audio::CleanUp()
 {
-	if(!active)
-		return true;
+	/*if(!active)
+		return true;*/
 
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
@@ -138,8 +138,8 @@ unsigned int j1Audio::LoadFx(const char* path)
 {
 	unsigned int ret = 0;
 
-	if(!active)
-		return 0;
+	/*if(!active)
+		return 0;*/
 
 	Mix_Chunk* chunk = Mix_LoadWAV(path);
 
@@ -149,7 +149,7 @@ unsigned int j1Audio::LoadFx(const char* path)
 	}
 	else
 	{
-		fx.push_back(chunk);
+ 		fx.push_back(chunk);
 		ret = fx.size();
 	}
 
@@ -201,6 +201,14 @@ void j1Audio::SetFxVolume(float volume)
 
 void j1Audio::UnloadFX()
 {
+
+	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
+
+	if (music != NULL)
+	{
+		Mix_FreeMusic(music);
+	}
+
 	std::list<Mix_Chunk*>::iterator item;
 	for (item = fx.begin(); item != fx.end(); ++item)
 		Mix_FreeChunk(*item);
