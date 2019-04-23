@@ -40,6 +40,9 @@ private:
 	j1Timer basicAttackPulsationTimer;
 	Uint32 basicAttackPulsationMaxTime;
 
+	// ULTIMATE
+	Animation transMarche[(int)facingDirection::MAX];
+
 	// WHIRLWIND
 	SDL_Texture* whirlwindTex = nullptr;
 	SDL_Texture* whirlwindFireTex = nullptr;

@@ -418,6 +418,119 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// ------------------------------------------------------------------
 
+	transMarche[(int)facingDirection::SE].PushBack({ 0, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 105, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 210, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 315, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 420, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 525, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 630, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 735, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 840, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 945, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].PushBack({ 1050, 0, 105, 65 });
+	transMarche[(int)facingDirection::SE].speed = 15.F; 
+	transMarche[(int)facingDirection::SE].loop = false;
+
+	transMarche[(int)facingDirection::SW].PushBack({ 0, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 105, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 210, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 315, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 420, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 525, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 630, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 735, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 840, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 945, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].PushBack({ 1050, 0, 105, 65 });
+	transMarche[(int)facingDirection::SW].speed = 15.F;
+	transMarche[(int)facingDirection::SW].loop = false;
+
+	transMarche[(int)facingDirection::S].PushBack({ 0, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 105, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 210, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 315, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 420, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 525, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 630, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 735, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 840, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 945, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].PushBack({ 1050, 65, 105, 65 });
+	transMarche[(int)facingDirection::S].speed = 15.F;
+	transMarche[(int)facingDirection::S].loop = false;
+
+	transMarche[(int)facingDirection::E].PushBack({ 0, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 105, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 210, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 315, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 420, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 525, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 630, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 735, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 840, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 945, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].PushBack({ 1050, 130, 105, 65 });
+	transMarche[(int)facingDirection::E].speed = 15.F;
+	transMarche[(int)facingDirection::E].loop = false;
+
+	transMarche[(int)facingDirection::W].PushBack({ 0, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 105, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 210, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 315, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 420, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 525, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 630, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 735, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 840, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 945, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].PushBack({ 1050, 130, 105, 65 });
+	transMarche[(int)facingDirection::W].speed = 15.F;
+	transMarche[(int)facingDirection::W].loop = false;
+
+	transMarche[(int)facingDirection::NE].PushBack({ 0, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 105, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 210, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 315, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 420, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 525, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 630, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 735, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 840, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 945, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].PushBack({ 1050, 195, 105, 65 });
+	transMarche[(int)facingDirection::NE].speed = 15.F;
+	transMarche[(int)facingDirection::NE].loop = false;
+
+	transMarche[(int)facingDirection::NW].PushBack({ 0, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 105, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 210, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 315, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 420, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 525, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 630, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 735, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 840, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 945, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].PushBack({ 1050, 195, 105, 65 });
+	transMarche[(int)facingDirection::NW].speed = 15.F;
+	transMarche[(int)facingDirection::NW].loop = false;
+
+	transMarche[(int)facingDirection::N].PushBack({ 0, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 105, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 210, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 315, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 420, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 525, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 630, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 735, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 840, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 945, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].PushBack({ 1050, 260, 105, 65 });
+	transMarche[(int)facingDirection::N].speed = 15.F;
+	transMarche[(int)facingDirection::N].loop = false;
+
+	// ------------------------------------------------------------------
 
 	currentAnimation = &run[(int)facingDirection::W];
 
