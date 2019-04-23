@@ -169,7 +169,18 @@ bool j1Scene::PreUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
 		App->win->SetScale(2);*/
-
+	if (App->input->GetKey(SDL_SCANCODE_P) == 1)
+	{
+		App->map->UnloadMap();
+	}
+	//if (App->input->GetKey(SDL_SCANCODE_O) == 1)
+	//{
+	//	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	//	{
+	//
+	//		// re set entities data map (create or delete/create if we have a previous one)
+	//	}
+	//}
 	// debug testing subtiles entities empty
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode)
 	{

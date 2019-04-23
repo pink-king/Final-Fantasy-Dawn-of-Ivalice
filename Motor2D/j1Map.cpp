@@ -297,11 +297,9 @@ bool j1Map::CleanUp()
 		++layer_item;
 	}
 	data.layers.clear();
-
-	
 	// Clean up the pugui tree
 	map_file.reset();
-
+	map_loaded = false;
 	return true;
 }
 
