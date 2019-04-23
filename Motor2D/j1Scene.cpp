@@ -804,6 +804,8 @@ void j1Scene::LoadMusicFromScene()
 
 void j1Scene::NewScene()
 {
+	if (App->entityFactory->IsEnabled())
+		App->entityFactory->Disable();
 	
 	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 	{
