@@ -22,6 +22,11 @@ bool j1ModuleCamera2D::Start()
 {
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	
+	// TODO: vertical slice workaround
+	camera.x = 2900;
+	camera.y = -3250;
+	preShakePos.x = camera.x;
+	preShakePos.y = camera.y;
 	//lerpTimer.Start();
 	return true;
 }
@@ -36,6 +41,8 @@ bool j1ModuleCamera2D::PreUpdate()
 bool j1ModuleCamera2D::PostUpdate()
 {
 	BROFILER_CATEGORY("Camera Update", Profiler::Color::Gainsboro);
+
+	LOG("camera: %i, %i:", camera.x, camera.y);
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
@@ -59,15 +66,17 @@ bool j1ModuleCamera2D::PostUpdate()
 	offset.y += 30.0f; // offset for character height compensation
 
 	fPoint playerPos;
-	if(App->entityFactory->player != nullptr)
+	if (App->entityFactory->player != nullptr)
+	{
 		playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
-	fPoint test;
-	test.x = camera.x;
-	test.y = camera.y;
+		fPoint test;
+		test.x = camera.x;
+		test.y = camera.y;
 
-	test = lerp(test, { -playerPos.x + offset.x, -playerPos.y + offset.y }, 0.016f * smooth);
-	camera.x = test.x;
-	camera.y = test.y;
+		test = lerp(test, { -playerPos.x + offset.x, -playerPos.y + offset.y }, 0.016f * smooth);
+		camera.x = test.x;
+		camera.y = test.y;
+	}
 
 	// shake
 	// if we have current trauma
