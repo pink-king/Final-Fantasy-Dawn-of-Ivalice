@@ -109,8 +109,6 @@ public:
 
 	// - - - - - - - The attached description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
-	bool spawnedDescription = false;
-	void CheckClampedCrossHairToSpawnDescription();
 
 protected:
 

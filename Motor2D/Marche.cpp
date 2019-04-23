@@ -15,21 +15,17 @@
 #include "Projectile.h"
 #include "j1ParticlesClassic.h"
 
-Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
+Marche::Marche(int posX, int posY) : PlayerEntity(posX, posY)
 {
 	character = characterName::MARCHE;
 	name.assign("Marche");
 
 	// TODO: import from xml
-	spritesheet = runTexTempPtr = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
-
 	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
-	basicAttackTex = basicAttackTexPtr = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
-	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
-	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
-	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
+	basicAttackTex = App->tex->Load("textures/characters/marche/marche_blocking_basic_attack.png");
 	entityTex = spritesheet;
 
 	// IDLE
@@ -39,7 +35,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	idle[(int)facingDirection::E].PushBack({ 90,0,45,60 });
 	idle[(int)facingDirection::W].PushBack({ 90,0,45,60 }); // same as E but flipped - 4
 	idle[(int)facingDirection::NE].PushBack({ 135,0,45,60 });
-	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 }); 
+	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 });
 	idle[(int)facingDirection::SW].PushBack({ 45,0,45,60 }); // same as SE but flipped - 3
 	idle[(int)facingDirection::NW].PushBack({ 135,0,45,60 }); // same as NE but flipped - 7
 	// one frame doesnt need speed
@@ -56,7 +52,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::N].speed = 10.0f;
 
 	run[(int)facingDirection::S].PushBack({ 0,60,45,60 });
-	run[(int)facingDirection::S].PushBack({ 45,60,45,60 }); 
+	run[(int)facingDirection::S].PushBack({ 45,60,45,60 });
 	run[(int)facingDirection::S].PushBack({ 90,60,45,60 });
 	run[(int)facingDirection::S].PushBack({ 135,60,45,60 });
 	run[(int)facingDirection::S].PushBack({ 180,60,45,60 });
@@ -175,7 +171,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dashPivotOffset[(int)facingDirection::E][1] = { 60.f,68.f };
 	dashPivotOffset[(int)facingDirection::E][2] = { 75.f,68.f };
 	dashPivotOffset[(int)facingDirection::E][3] = { 85.f,72.f };
-	
+
 	dashPivotOffset[(int)facingDirection::W][0] = { 37.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][1] = { 29.f,68.f };
 	dashPivotOffset[(int)facingDirection::W][2] = { 15.f,68.f };
@@ -210,12 +206,11 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	dashPivotOffset[(int)facingDirection::SW][1] = { 40.f,90.f };
 	dashPivotOffset[(int)facingDirection::SW][2] = { 28.f,92.f };
 	dashPivotOffset[(int)facingDirection::SW][3] = { 23.f,93.f };
-
 	// --------------------------------------------------------------------
 
 	// WHIRLWIND : TODO, needs correct order of pushing
 	int indexAnim[(int)facingDirection::MAX] = { 13,13,14,14,13,14,14,13 };
-	for (int y = 0; y < (int)facingDirection::MAX; ++y)
+	for (int y = 0; y <= (int)facingDirection::MAX; ++y)
 	{ // 60,65
 		for (int x = 0; x < indexAnim[y]; ++x)
 			whirlwindAnim[y].PushBack({ x * 60, y * 65, 60,65 });
@@ -251,308 +246,173 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	whirlwindFireAnimExitLoop.speed = 10.f;
 	whirlwindFireAnimExitLoop.loop = false;
 
-
-	// ------------------------------------------------------------------
-
 	// BASIC ATTACK  -------
 	float attackAnimSpeed = 20.f;
 	// ---------------------------
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 0,150,85,75 });
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 85,150,85,75 });
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 170,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 255,150, 85,75 }); // first hit, 4 frame
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 340,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 425,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 510,150, 85,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 0,150,60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 60,150,60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 120,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 180,150, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 240,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 300,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][0].PushBack({ 360,150, 60,75 });
 	basicAttackAnim[(int)facingDirection::E][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::E][0].loop = false;
 	// -----
-	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 510,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 595,150, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 680,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 765,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 850,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 935,150, 85,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 360,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 420,150, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 480,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 540,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 600,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::E][1].PushBack({ 660,150, 60,75 });
 	basicAttackAnim[(int)facingDirection::E][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::E][1].loop = false;
 	// ------
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 0,150,85,75 });
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 85,150,85,75 });
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 170,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 255,150, 85,75 }); // first hit, 4 frame
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 340,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 425,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 510,150, 85,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 0,150,60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 60,150,60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 120,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 180,150, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 240,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 300,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][0].PushBack({ 360,150, 60,75 });
 	basicAttackAnim[(int)facingDirection::W][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::W][0].loop = false;
 	// -----							  
-	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 510,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 595,150, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 680,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 765,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 850,150, 85,75 });
-	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 935,150, 85,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 360,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 420,150, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 480,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 540,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 600,150, 60,75 });
+	basicAttackAnim[(int)facingDirection::W][1].PushBack({ 660,150, 60,75 });
 	basicAttackAnim[(int)facingDirection::W][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::W][1].loop = false;
 	// ---------------------------
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 0,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 85,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 170,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 255,75, 85,75 }); // first hit, 4 frame
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 340,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 425,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 510,75, 85,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 0,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 60,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 120,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 180,75, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 240,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 300,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][0].PushBack({ 360,75, 60,75 });
 	basicAttackAnim[(int)facingDirection::S][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::S][0].loop = false;
 	// -----
-	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 510,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 595,75, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 680,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 765,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 850,75, 85,75 });
-	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 935,75, 85,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 360,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 420,75, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 480,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 540,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 600,75, 60,75 });
+	basicAttackAnim[(int)facingDirection::S][1].PushBack({ 660,75, 60,75 });
 	basicAttackAnim[(int)facingDirection::S][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::S][1].loop = false;
 	// ---------------------------
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 0, 300, 85, 75 });
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 85, 300, 85, 75 });
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 170, 300, 85, 75 });
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 255, 300, 85, 75 }); // first hit, 4 frame
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 340, 300, 85, 75 });
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 425, 300, 85, 75 });
-	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 510, 300, 85, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 0, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 60, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 120, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 180, 300, 60, 75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 240, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 300, 300, 60, 75 });
+	basicAttackAnim[(int)facingDirection::N][0].PushBack({ 360, 300, 60, 75 });
 	basicAttackAnim[(int)facingDirection::N][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::N][0].loop = false;
 	// -----
-	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 510,300, 85,75 });
-	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 595,300, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 680,300, 85,75 });
-	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 765,300, 85,75 });
-	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 850,300, 85,75 });
-	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 935,300, 85,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 360,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 420,300, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 480,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 540,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 600,300, 60,75 });
+	basicAttackAnim[(int)facingDirection::N][1].PushBack({ 660,300, 60,75 });
 	basicAttackAnim[(int)facingDirection::N][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::N][1].loop = false;
 	// -----------------------------
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 0,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 85,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 170,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 255,0, 85,75 }); // first hit, 4 frame
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 340,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 425,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 510,0, 85,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 0,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 60,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 120,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 180,0, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 240,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 300,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][0].PushBack({ 360,0, 60,75 });
 	basicAttackAnim[(int)facingDirection::SE][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::SE][0].loop = false;
 	// -----
-	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 510,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 595,0, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 680,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 765,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 850,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 935,0, 85,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 360,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 420,0, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 480,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 540,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 600,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SE][1].PushBack({ 660,0, 60,75 });
 	basicAttackAnim[(int)facingDirection::SE][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::SE][1].loop = false;
 	// --------------
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 0,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 85,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 170,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 255,0, 85,75 }); // first hit, 4 frame
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 340,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 425,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 510,0, 85,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 0,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 60,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 120,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 180,0, 60,75 }); // first hit, 4 frame
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 240,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 300,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][0].PushBack({ 360,0, 60,75 });
 	basicAttackAnim[(int)facingDirection::SW][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::SW][0].loop = false;
 	// -----							  
-	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 510,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 595,0, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 680,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 765,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 850,0, 85,75 });
-	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 935,0, 85,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 360,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 420,0, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 480,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 540,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 600,0, 60,75 });
+	basicAttackAnim[(int)facingDirection::SW][1].PushBack({ 660,0, 60,75 });
 	basicAttackAnim[(int)facingDirection::SW][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::SW][1].loop = false;
 	// ------------------------------------------
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 0, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 85, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 170, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 255, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 340, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 425, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 510, 225,85,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 0, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 60, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 120, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 180, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 240, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 300, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NE][0].PushBack({ 360, 225,60,75 });
 	basicAttackAnim[(int)facingDirection::NE][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::NE][0].loop = false;
 	// -----
-	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 510,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 595,225, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 680,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 765,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 850,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 935,225, 85,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 360,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 420,225, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 480,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 540,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 600,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NE][1].PushBack({ 660,225, 60,75 });
 	basicAttackAnim[(int)facingDirection::NE][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::NE][1].loop = false;
 	// ---------------
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 0, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 85, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 170, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 255, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 340, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 425, 225,85,75 });
-	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 510, 225,85,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 0, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 60, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 120, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 180, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 240, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 300, 225,60,75 });
+	basicAttackAnim[(int)facingDirection::NW][0].PushBack({ 360, 225,60,75 });
 	basicAttackAnim[(int)facingDirection::NW][0].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::NW][0].loop = false;
 	// -----							  
-	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 510,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 595,225, 85,75 }); // HIT2, 2 frame
-	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 680,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 765,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 850,225, 85,75 });
-	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 935,225, 85,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 360,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 420,225, 60,75 }); // HIT2, 2 frame
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 480,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 540,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 600,225, 60,75 });
+	basicAttackAnim[(int)facingDirection::NW][1].PushBack({ 660,225, 60,75 });
 	basicAttackAnim[(int)facingDirection::NW][1].speed = attackAnimSpeed;
 	basicAttackAnim[(int)facingDirection::NW][1].loop = false;
 
-	// BASIC attack pivot offsets ...
-	basicAttackPivotOffset[(int)facingDirection::E] = { 43, 55 };
-	basicAttackPivotOffset[(int)facingDirection::W] = { 43, 55 };
-	basicAttackPivotOffset[(int)facingDirection::N] = { 43, 60 };
-	basicAttackPivotOffset[(int)facingDirection::S] = { 43, 56 };
-	basicAttackPivotOffset[(int)facingDirection::NE] = { 40,58 };
-	basicAttackPivotOffset[(int)facingDirection::NW] = { 46, 58 };
-	basicAttackPivotOffset[(int)facingDirection::SE] = { 44,64 };
-	basicAttackPivotOffset[(int)facingDirection::SW] = { 44, 64 };
 
 	// ------------------------------------------------------------------
-	float superTransAnimSpeed = 10.f;
-	superTransAnim[(int)facingDirection::SE].PushBack({ 0, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 105, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 210, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 315, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 420, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 525, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 630, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 735, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 840, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 945, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].PushBack({ 1050, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SE].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::SE].loop = false;
 
-	superTransAnim[(int)facingDirection::SW].PushBack({ 0, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 105, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 210, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 315, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 420, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 525, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 630, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 735, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 840, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 945, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].PushBack({ 1050, 0, 105, 65 });
-	superTransAnim[(int)facingDirection::SW].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::SW].loop = false;
-	
-	superTransAnim[(int)facingDirection::S].PushBack({ 0, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 105, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 210, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 315, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 420, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 525, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 630, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 735, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 840, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 945, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].PushBack({ 1050, 65, 105, 65 });
-	superTransAnim[(int)facingDirection::S].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::S].loop = false;
-	
-	superTransAnim[(int)facingDirection::E].PushBack({ 0, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 105, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 210, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 315, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 420, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 525, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 630, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 735, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 840, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 945, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].PushBack({ 1050, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::E].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::E].loop = false;
-
-	superTransAnim[(int)facingDirection::W].PushBack({ 0, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 105, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 210, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 315, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 420, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 525, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 630, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 735, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 840, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 945, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].PushBack({ 1050, 130, 105, 65 });
-	superTransAnim[(int)facingDirection::W].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::W].loop = false;
-
-	superTransAnim[(int)facingDirection::NE].PushBack({ 0, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 105, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 210, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 315, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 420, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 525, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 630, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 735, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 840, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 945, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].PushBack({ 1050, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NE].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::NE].loop = false;
-	
-	superTransAnim[(int)facingDirection::NW].PushBack({ 0, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 105, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 210, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 315, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 420, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 525, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 630, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 735, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 840, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 945, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].PushBack({ 1050, 195, 105, 65 });
-	superTransAnim[(int)facingDirection::NW].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::NW].loop = false;
-
-	superTransAnim[(int)facingDirection::N].PushBack({ 0, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 105, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 210, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 315, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 420, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 525, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 630, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 735, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 840, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 945, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].PushBack({ 1050, 260, 105, 65 });
-	superTransAnim[(int)facingDirection::N].speed = superTransAnimSpeed;
-	superTransAnim[(int)facingDirection::N].loop = false;
-
-	// SUPER SAIYAN PIVOTS , still must to adjust, more resolution
-	superAnimPivots[(int)facingDirection::E] = { 53,58 }; // midpoints of center of flipped sprites
-	superAnimPivots[(int)facingDirection::W] = { 53,58 };
-	superAnimPivots[(int)facingDirection::N] = { 53,58 };
-	superAnimPivots[(int)facingDirection::S] = { 52,58 };
-	superAnimPivots[(int)facingDirection::NE] = { 53,58 };
-	superAnimPivots[(int)facingDirection::NW] = { 53,58 };
-	superAnimPivots[(int)facingDirection::SE] = { 53,58 };
-	superAnimPivots[(int)facingDirection::SW] = { 53,58 };
-
-	// ------------------------------------------------------------------
 
 	currentAnimation = &run[(int)facingDirection::W];
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
-	coolDownData.basic.cooldownTime = 0;
+	coolDownData.basic.cooldownTime = 0; // warning for encadenate the second time timer max
 	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 3000;
+	coolDownData.ultimate.cooldownTime = 10000;
 	// starts timers
 	coolDownData.basic.timer.Start();
 	coolDownData.dodge.timer.Start();
@@ -562,23 +422,17 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	previousPos = position;
 
-
 	// better speed 
 	characterBaseSpeed.x /= 1.3f; 
 	characterBaseSpeed.y /= 1.3f;
-
-	//
-	//previousFrame = 1; // fake previousFrame to enter on first anim state
 
 	dashMaxDistance = 64.f;
 	whirlwindMaxCastingTime = 3500;
 	whirlwindCadence = 150;
 	maxTornadoDistanceMultiplier = 30.f; // multiplicate the direction vector
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
-											// second hit is more powerfull too
+										// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
-	superTransMaxTimeSec = 10;
-
 }
 
 Marche::~Marche()
@@ -586,19 +440,12 @@ Marche::~Marche()
 	App->tex->UnLoad(whirlwindTex);
 	App->tex->UnLoad(whirlwindFireTex);
 	App->tex->UnLoad(basicAttackTex);
-	App->tex->UnLoad(superAttackTex);
-	App->tex->UnLoad(superRunTex);
-	App->tex->UnLoad(superTransTex);
-	
 }
 
 bool Marche::Start()
 {
 	SetPivot(23, 48);
 	size.create(45,60);
-
-	combat_state = combatState::IDLE;
-
 	return true;
 }
 
@@ -614,24 +461,6 @@ bool Marche::Update(float dt)
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
 
-	// super saiyajin state
-	if (superSaiyajin)
-	{
-		// checks timer and changes textures
-		if (superSaiyajinTimer.ReadSec() >= superTransMaxTimeSec)
-		{
-			spritesheet = runTexTempPtr;
-			basicAttackTex = basicAttackTexPtr;
-			superSaiyajin = false;
-			// check if we are attacking to prevent glitches
-			if (combat_state == combatState::BASIC)
-				entityTex = basicAttackTex;
-			else
-				entityTex = spritesheet;
-
-		}
-	}
-		
 	if (!isParalize)
 	{
 		if (inputReady)
@@ -640,9 +469,7 @@ bool Marche::Update(float dt)
 			InputCombat();
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
-		{	
-			
-
+		{
 			if (currentAnimation->Finished())
 			{
 				currentAnimation->Reset();
@@ -650,6 +477,7 @@ bool Marche::Update(float dt)
 				currentAnimation = &idle[pointingDir];
 				inputReady = true;
 				transference_pivot = { 0,0 };
+				combat_state = combatState::IDLE;
 			}
 		}
 	}
@@ -661,7 +489,6 @@ bool Marche::Update(float dt)
 		
 		break;
 	case combatState::BASIC:
-		
 	{
 		static int attackType;
 
@@ -670,19 +497,17 @@ bool Marche::Update(float dt)
 			LOG("Launch BASIC");
 			inputReady = false;
 			coolDownData.basic.timer.Start();
-
+			
 			if (basicAttackPulsationTimer.Read() > basicAttackPulsationMaxTime)
 			{
 				basicAttackPulsationTimer.Start();
 				App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
-
 				LOG("ATTACK1");
 				attackType = 0;
 			}
 			else
 			{
 				App->audio->PlayFx(App->entityFactory->marcheBasic2, 0);
-
 				LOG("ATTACK2");
 				attackType = 1;
 			}
@@ -690,7 +515,7 @@ bool Marche::Update(float dt)
 			entityTex = basicAttackTex;
 
 			//App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
-
+			
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
@@ -698,7 +523,6 @@ bool Marche::Update(float dt)
 			App->input->DoGamePadRumble(0.3f, 100);
 
 		}
-
 		if (!inputReady)
 		{
 			// check type of attack and hit frame of each and instantiate the feel
@@ -742,19 +566,15 @@ bool Marche::Update(float dt)
 				combat_state = combatState::IDLE;
 			}
 
-			//reposition DRAW pos
-			transference_pivot = basicAttackPivotOffset[pointingDir];
-			transference_pivot -= pivot;
-
 		}
 		break;
 	}
 	case combatState::DODGE:
-
+	{
 		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
 		{
 			coolDownData.dodge.timer.Start();
-				
+			//App->audio->PlayFx(App->entityFactory->dash, 0);
 		}
 		if (!inputReady)
 		{
@@ -763,13 +583,13 @@ bool Marche::Update(float dt)
 			transference_pivot -= pivot;
 			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
-			break;
+		break;
+	}
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-			//App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
-			
+			App->audio->PlayFx(App->entityFactory->marcheAbility1, 0);
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetPivotPos(), { 0,0 }, 0, this, PROJECTILE_TYPE::EARTH_SHAKER);
 			// add gui clock
 
@@ -790,241 +610,174 @@ bool Marche::Update(float dt)
 		break;
 
 	case combatState::SPECIAL2:
+	{
 		static int startFacingDirIndex;
 
-		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
+		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime && inputReady)
 		{
+			//coolDownData.special2.timer.Start(); // TO LAST STEP
 			inputReady = false;
 			currentAnimation = &whirlwindAnim[pointingDir];
 			entityTex = whirlwindTex;
 			startFacingDirIndex = pointingDir;
 			whirlwindFirePos = position;
 
-			// add gui clock
 
+			//App->audio->PlayFx(App->entityFactory->marcheAbility2, 0);
+			// ------------------------------------------------------------------------------------------
+			// add gui clock
 			if (!App->gui->spawnedClocks.Marche.special2)
 			{
-
 				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->inGamePanel);
-
 				App->gui->spawnedClocks.Marche.special2 = true;
 			}
 			else
 			{
 				myUIClocks.special2->Restart();
 			}
-
-			if (!inputReady)
+		}
+		if (!inputReady)
+		{
+			//checks animation state
+			if ((int)currentAnimation->GetCurrentFloatFrame() >= 4 && !doingWhirlwind)
 			{
-				//checks animation state
-				if ((int)currentAnimation->GetCurrentFloatFrame() >= 4 && !doingWhirlwind)
+				whirlwindTotalCastingTimer.Start();
+				doingWhirlwind = true;
+			}
+			if (doingWhirlwind)
+			{
+				if (whirlwindTotalCastingTimer.Read() > whirlwindMaxCastingTime)
 				{
-					whirlwindTotalCastingTimer.Start();
-					doingWhirlwind = true;
-				}
-				if (doingWhirlwind)
-				{
-					if (whirlwindTotalCastingTimer.Read() > whirlwindMaxCastingTime)
+					// hability timer restart
+					coolDownData.special2.timer.Start();
+					// changes animation to real pointing direction, and decelerates
+					float fft = currentAnimation->GetCurrentFloatFrame(); // float frame temp
+					// resets current whirlwind froming anim
+					currentAnimation->Reset();
+					// changes to final target direction
+					currentAnimation = &whirlwindAnim[GetPointingDir(lastAxisMovAngle)];
+					currentAnimation->SetCurrentFrame(fft);
+					combat_state = combatState::IDLE;
+					doingWhirlwind = false;
+					// DO LAST ATTACK -----
+					App->attackManager->AddPropagationAttack(
+						(j1Entity*)this,
+						App->entityFactory->player->GetSubtilePos(),
+						propagationType::BFS,
+						damageType::DIRECT,
+						ELEMENTAL_TYPE::FIRE_ELEMENT,
+						whirlwindFinalBoomDMG,
+						5, 30, true);
+
+					// FINAL RUMBLE AND SHAKE
+					App->camera2D->AddTrauma(0.7f);
+					App->input->DoGamePadRumble(0.7f, 300);
+
+					// instantiate final explosion particles
+					int maxParticles = 13; // TODO: RANDOM between x/y
+					float maxDistance = 60.f;
+					float maxDelayTime = 700.f;
+					for (int i = 0; i < maxParticles; ++i)
 					{
-						// hability timer restart
-						coolDownData.special2.timer.Start();
-						// changes animation to real pointing direction, and decelerates
-						float fft = currentAnimation->GetCurrentFloatFrame(); // float frame temp
-						// resets current whirlwind froming anim
-						currentAnimation->Reset();
-						// changes to final target direction
-						currentAnimation = &whirlwindAnim[GetPointingDir(lastAxisMovAngle)];
-						currentAnimation->SetCurrentFrame(fft);
-						combat_state = combatState::IDLE;
-						doingWhirlwind = false;
-						// DO LAST ATTACK -----
+						/*Particle* randParticle = nullptr;
+						if (rand() % 2 == 0)
+							randParticle = App->particles->fire03;*/
+
+						fPoint instaPos;
+						instaPos.x = GetPivotPos().x + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+						instaPos.y = GetPivotPos().y + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+						App->particles->AddParticle(
+							App->particles->burn01, 
+							instaPos.x, 
+							instaPos.y, 
+							{ 0,0 }, 
+							App->camera2D->GetFloatNegOneToOne() * maxDelayTime, 
+							SDL_FLIP_NONE, 0, 48, 24, 0.65F);
+					}
+
+
+				}
+				else
+				{
+					// stores current frame, direction etc
+					float currentFFrame = currentAnimation->GetCurrentFloatFrame();
+					// checks input, needed to move on whirlwinding
+					InputMovement(dt);
+					// rechange current animation and state
+					combat_state = combatState::SPECIAL2;
+					currentAnimation = &whirlwindAnim[startFacingDirIndex];
+					currentAnimation->SetCurrentFrame(currentFFrame);
+					// checks animation to loop between casting time
+					if ((int)currentAnimation->GetCurrentFloatFrame() >= 9)
+					{
+						currentAnimation->SetCurrentFrame(5.f);
+					}
+
+					// do attack
+					if (whirlwindAttackTimer.Read() > whirlwindCadence)
+					{
+						whirlwindAttackTimer.Start();
 						App->attackManager->AddPropagationAttack(
 							(j1Entity*)this,
 							App->entityFactory->player->GetSubtilePos(),
 							propagationType::BFS,
 							damageType::DIRECT,
 							ELEMENTAL_TYPE::FIRE_ELEMENT,
-							whirlwindFinalBoomDMG,
-							5, 30, true);
+							whirlwindWhileLoopDMG,
+							3, 30, true);
 
-						// FINAL RUMBLE AND SHAKE
-						App->camera2D->AddTrauma(0.7f);
-						App->input->DoGamePadRumble(0.7f, 300);
+						// camera shake and rumble
+						App->camera2D->AddTrauma(0.3f);
+						App->input->DoGamePadRumble(0.4f, whirlwindCadence * 0.9f);
 
-						// instantiate final explosion particles
-						int maxParticles = 13; // TODO: RANDOM between x/y
-						float maxDistance = 60.f;
-						float maxDelayTime = 700.f;
-						for (int i = 0; i < maxParticles; ++i)
+						// instantiate or not a random tornado
+						if (rand() % 2 == 0)
 						{
-							fPoint instaPos;
-							instaPos.x = GetPivotPos().x + (maxDistance * App->camera2D->GetFloatNegOneToOne());
-							instaPos.y = GetPivotPos().y + (maxDistance * App->camera2D->GetFloatNegOneToOne());
-							App->particles->AddParticle(
-								App->particles->burn01,
-								instaPos.x,
-								instaPos.y,
-								{ 0,0 },
-								App->camera2D->GetFloatNegOneToOne() * maxDelayTime,
-								SDL_FLIP_NONE, 0, 48, 24, 0.65F);
+							LOG("tornado extra");
+							// get offset position
+							fPoint offset;
+							offset.x = GetPivotPos().x + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
+							offset.y = GetPivotPos().y + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
+
+							App->entityFactory->CreateArrow(GetPivotPos(), offset, 75, this, PROJECTILE_TYPE::TORNADO);
+
 						}
-
-
-					}
-					else
-					{
-						// stores current frame, direction etc
-						float currentFFrame = currentAnimation->GetCurrentFloatFrame();
-						// checks input, needed to move on whirlwinding
-						InputMovement(dt);
-						// rechange current animation and state
-						combat_state = combatState::SPECIAL2;
-						currentAnimation = &whirlwindAnim[startFacingDirIndex];
-						currentAnimation->SetCurrentFrame(currentFFrame);
-						// checks animation to loop between casting time
-						if ((int)currentAnimation->GetCurrentFloatFrame() >= 9)
+						else
 						{
-							currentAnimation->SetCurrentFrame(5.f);
+							LOG("NOT TORNADO");
 						}
-
-						// do attack
-						if (whirlwindAttackTimer.Read() > whirlwindCadence)
-						{
-							whirlwindAttackTimer.Start();
-							App->attackManager->AddPropagationAttack(
-								(j1Entity*)this,
-								App->entityFactory->player->GetSubtilePos(),
-								propagationType::BFS,
-								damageType::DIRECT,
-								ELEMENTAL_TYPE::FIRE_ELEMENT,
-								whirlwindWhileLoopDMG,
-								3, 30, true);
-
-							// camera shake and rumble
-							App->camera2D->AddTrauma(0.3f);
-							App->input->DoGamePadRumble(0.4f, whirlwindCadence* 0.9f);
-
-							// instantiate or not a random tornado
-							if (rand() % 2 == 0)
-							{
-								LOG("tornado extra");
-								// get offset position
-								fPoint offset;
-								offset.x = GetPivotPos().x + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
-								offset.y = GetPivotPos().y + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
-
-								App->entityFactory->CreateArrow(GetPivotPos(), offset, 75, this, PROJECTILE_TYPE::TORNADO);
-
-							}
-							else
-							{
-								LOG("NOT TORNADO");
-							}
-						}
-						
 					}
 
 				}
 
 			}
+
 		}
 		break;
-
+	}
 	case combatState::ULTIMATE:
-	
-		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime && inputReady)
+	{
+		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
+			App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
 			LOG("Launch ULTIMATE");
-			inputReady = false;
-			currentAnimation = &superTransAnim[pointingDir];
-			entityTex = superTransTex;
 			
 			/*App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
 			App->camera2D->AddTrauma(70.0f / 100.f);
 			App->input->DoGamePadRumble(0.7f, 400);*/
-			if (!App->gui->spawnedClocks.Marche.ulti)
-			{
-				
-				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->inGamePanel);
-
-				App->gui->spawnedClocks.Marche.ulti = true;
-			}
-			else
-			{
-				myUIClocks.ulti->Restart();
-			}
-			
 			UlitMarche();
 
-		}
-		if (!inputReady)
-		{
-			if ((int)currentAnimation->GetCurrentFloatFrame() >= 5)
-			{
-				App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
-				combat_state = combatState::IDLE;
-				// camera shake and rumble
-				App->camera2D->AddTrauma(0.95f);
-				App->input->DoGamePadRumble(0.84f, 900);
-				// change general player state
-				superSaiyajin = true;
-				superSaiyajinTimer.Start();
-				// change run spritesheet and attack texture
-				spritesheet = superRunTex;
-				basicAttackTex = superAttackTex;
-				// timer
-				coolDownData.ultimate.timer.Start();
-				// instantiate tornados
-				fPoint offset;
-				fPoint pivotPosition = GetPivotPos();
-				//for (int i = 0; i < 6; ++i) // TODO: DO RANDOM
-				//{
-				//	offset.x = pivotPosition.x + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
-				//	offset.y = pivotPosition.y + (maxTornadoDistanceMultiplier * App->camera2D->GetFloatNegOneToOne());
-
-				//	App->entityFactory->CreateArrow(GetPivotPos(), offset, 120, this, PROJECTILE_TYPE::TORNADO);
-				//}
-				// instantiate mega dust wave
-				float speed = 220.f;
-				for (int i = 0; i < 120; ++i)
-				{	
-					offset.x = pivotPosition.x + (10.f * App->camera2D->GetFloatNegOneToOne());
-					offset.y = pivotPosition.y + (10.f * App->camera2D->GetFloatNegOneToOne());
-					fPoint dir;
-					dir = offset - pivotPosition;
-					dir.Normalize();
-					Uint32 delay = i * 2u;
-					SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
-					if (rand() % 2 == 0)
-						renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-
-					dir.x *= speed;
-					dir.y *= speed;
-					App->particles->AddParticle(
-						App->particles->powder01, 
-						pivotPosition.x - 29,  // adjust texture rect // 64, 29 });
-						pivotPosition.y - 16, 
-						{ (int)dir.x, (int)dir.y }, 
-						delay, 
-						renderFlip);
-					LOG("particle: %i", i);
-				}
-
-			}
-			//reposition pos
-			transference_pivot = superAnimPivots[pointingDir];
-			transference_pivot -= pivot;
+			coolDownData.ultimate.timer.Start();
+		
 		}
 		break;
-	
+	}
 	case combatState::MAX:
 		break;
 	default:
 		break;
 	}
 
-
-	
 	//test buff
 	/*j1Entity* j1 = nullptr;
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
@@ -1061,7 +814,7 @@ bool Marche::Update(float dt)
 		std::vector<items*>::iterator item = equipedObjects.begin();
 		App->itemsManager->DesequipItem(this, *item);
 	}*/
-	/*if (App->input->GetKey(SDL_SCANCODE_3) == 1)
+	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->bagObjects.begin();
 		if(item != App->entityFactory->player->bagObjects.end())
@@ -1073,16 +826,23 @@ bool Marche::Update(float dt)
 		if (item != App->entityFactory->player->equipedObjects.end())
 			App->entityFactory->player->DesequipItem(*item);
 	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_A) == 1)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->entityFactory->player->ConsumConsumable(*item,this);
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
 	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "\0", 100);
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, this, "\0", 100);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
 	{
-		App->buff->CreatePoision(this, this, 5, 5, "a", false);
-	}*/
+		App->buff->CreatePoision(this, this, 5, 5, "a",false);
+	}
 
 	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
 	{
@@ -1097,52 +857,35 @@ bool Marche::Update(float dt)
 	//	
 	//}
 
-	
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}	
+	}
+	if (App->entityFactory->player->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(App->entityFactory->player))
+		{
+			App->buff->entitiesTimeDamage.remove(App->entityFactory->player);
+		}
+	}
 	return true;
 }
 
 void Marche::UlitMarche()
 {
-	/*if (!startUlti)
-	{
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetMarche(), "stat", 1));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetShara(), "stat", 1));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, App->entityFactory->player->GetRitz(),"stat", 1));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "stat", 1));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetShara(), "stat", 1));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetRitz(), "stat", 1));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetMarche(), "stat", 0.8f));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetShara(), "stat", 0.8f));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, App->entityFactory->player->GetRitz(), "stat", 0.8f));
-		ulti_buffs.push_back(App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, App->entityFactory->player->GetRitz(), "stat", 100));
-		
-		ultiTimer.Start();
-		startUlti = true;
-	}
-	if (ultiTime < ultiTimer.ReadSec() && startUlti)
-	{
-		for (std::list<Buff*>::iterator iter = ulti_buffs.begin(); iter != ulti_buffs.end();++iter)
-		{
-			App->buff->DeleteBuff(*iter);
-
-			ulti_buffs.remove(*iter);
-		}
-		ulti_buffs.clear();
-
-		activeUlti = false;
-		startUlti = false;
-	}*/
-
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, superTransMaxTimeSec);
-	/*App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);*/
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
-	//App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
-	//App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
-	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
-	/*App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
-	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);*/
-	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, superTransMaxTimeSec);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, 5);
+	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, 100, 5);
 }
 
 //bool Marche::CleanUp()

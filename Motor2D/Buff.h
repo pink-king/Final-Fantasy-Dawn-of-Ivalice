@@ -27,10 +27,10 @@ enum class ELEMENTAL_TYPE
 	FIRE_ELEMENT,
 	ICE_ELEMENT,
 	POISON_ELEMENT,
+
 	STONE_ELEMENT,
+
 	ALL_ELEMENTS,
-	// only visual effects for attack manager
-	DUST,
 	MAX
 };
 

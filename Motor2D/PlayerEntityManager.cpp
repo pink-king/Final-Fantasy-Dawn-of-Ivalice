@@ -66,11 +66,7 @@ bool PlayerEntityManager::Start()
 
 bool PlayerEntityManager::PreUpdate()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-		debug = !debug;
-
 	selectedCharacterEntity->PreUpdate();
-	//App->scene->AcceptUISFX_logic = false;
 
 	return true;
 }
@@ -97,24 +93,15 @@ bool PlayerEntityManager::Update(float dt)
 	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
 		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
 		{
-			if ((*item)->manualCollectable)
+			if (CollectLoot((LootEntity*)(*item)))
 			{
-				if (CollectLoot((LootEntity*)(*item)))
-				{
-
-					App->entityFactory->DeleteEntityFromSubtile(*item);
-					item = App->entityFactory->entities.erase(item);
-					break;
-				}
+				
+				App->entityFactory->DeleteEntityFromSubtile(*item);
+				item = App->entityFactory->entities.erase(item);
+				break;
 			}
 		}
 	
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
-	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
-		if (item != App->entityFactory->player->consumables.end())
-			App->entityFactory->player->ConsumConsumable(*item, this);
-	}
 	// WARNING: search other way to do this
 	////provisional function to life
 	//std::vector<PlayerEntity*>::iterator item = characters.begin();
@@ -123,35 +110,6 @@ bool PlayerEntityManager::Update(float dt)
 	//	if ((*item) != selectedCharacterEntity)
 	//		(*item)->life = selectedCharacterEntity->life;
 	//}
-	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
-		deleteObj = !deleteObj;
-
-	if (deleteObj)
-	{
-		std::vector<LootEntity*>::iterator iter = bagObjects.begin();
-		for (; iter != bagObjects.end(); ++iter)
-		{
-			delete *iter;
-			*iter = nullptr;
-		}
-		bagObjects.clear();
-
-		std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
-		for (; iter2 != equipedObjects.end(); ++iter2)
-		{
-			delete *iter2;
-			*iter2 = nullptr;
-		}
-		equipedObjects.clear();
-
-		std::vector<LootEntity*>::iterator iter3 = consumables.begin();
-		for (; iter3 != consumables.end(); ++iter3)
-		{
-			delete *iter3;
-			*iter3 = nullptr;
-		}
-		consumables.clear();
-	}
 
 	static char title[30];
 	sprintf_s(title, 30, " | life: %f", life);
@@ -164,35 +122,6 @@ bool PlayerEntityManager::Update(float dt)
 		App->win->AddStringToTitle(title);
 	}*/
 	App->win->ClearTitle();
-
-	if (marche->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(marche))
-		{
-			App->buff->entitiesTimeDamage.remove(marche);
-		}
-	}
-	if (ritz->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(ritz))
-		{
-			App->buff->entitiesTimeDamage.remove(ritz);
-		}
-	}
-	if (shara->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(shara))
-		{
-			App->buff->entitiesTimeDamage.remove(shara);
-		}
-	}
-	if (stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(this))
-		{
-			App->buff->entitiesTimeDamage.remove(this);
-		}
-	}
 
 	return ret;
 }
@@ -264,37 +193,12 @@ bool PlayerEntityManager::SwapInputChecker()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
 		{
-
-			if (App->scene->inventory->enable)
-			{
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
-			}
-
 			SetPreviousCharacter();
-
-			if (App->scene->inventory->enable)
-			{
-				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-
-			}
-
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 		{
-			if (App->scene->inventory->enable)
-			{
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
-			}
-
 			SetNextCharacter();
-
-			if (App->scene->inventory->enable)
-			{
-				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-
-			}
-
 		}
 	}
 
@@ -337,7 +241,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot();
-			App->audio->PlayFx(App->entityFactory->swapCharSFX, 0);
+			App->audio->PlayFx(App->entityFactory->swapChar, 0);
 			break;
 		}
 	}
@@ -378,7 +282,7 @@ void PlayerEntityManager::SetNextCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot(); 
-			App->audio->PlayFx(App->entityFactory->swapCharSFX, 0);
+			App->audio->PlayFx(App->entityFactory->swapChar, 0);
 			break;
 		}
 	}
@@ -447,29 +351,11 @@ const float PlayerEntityManager::GetLastPlayerHeadingAngle() const
 	return lastCharHeadingAngle;
 }
 
-bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshair)
+bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot)
 {
-	bool ret = true;
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
 		App->audio->PlayFx(pickLoot, 0);
-		// when a loot item is collected, the description should be hiden
-		
-
-		
-		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
-
-		if (entityLoot->spawnedDescription)                 // only destroy description if it has been spawned( when collecting with the crosshair)
-		{
-			entityLoot->MyDescription->DeleteEverything();
-			entityLoot->MyDescription = nullptr;
-
-			entityLoot->spawnedDescription = false;
-
-		}
-		
-		// - - - - - - - - - - - - - - - - - - - - - - 
-
 		if (equipedObjects.size() == 0)
 		{
 			equipedObjects.push_back(entityLoot);
@@ -499,28 +385,24 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	}
 	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
-		if (!fromCrosshair)
+		if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
 		{
-			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
-			{
-				App->audio->PlayFx(pickPotion, 0);
-				consumables.push_back(entityLoot);
-			}
-
-			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
-			{
-				App->audio->PlayFx(pickGold, 0);
-				gold += entityLoot->price;
-				entityLoot->to_delete = true;
-				str_coin = std::to_string(gold) + " x";
-				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
-				//App->tex->UnLoad(entityLoot->entityTex);
-				return false;
-			}
+			App->audio->PlayFx(pickPotion, 0);
+			consumables.push_back(entityLoot);
 		}
-		else ret = false;
+
+		else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
+		{
+			App->audio->PlayFx(pickGold, 0);
+			gold += entityLoot->price;
+			entityLoot->to_delete = true;
+			str_coin = "x  " + std::to_string(gold);
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+			return false;
+		}
+
 	}
-	return ret;
+	return true;
 }
 
 void PlayerEntityManager::EquipItem(LootEntity * entityLoot)
@@ -581,7 +463,6 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 			{
 				App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);
-
 			}
 			item = consumables.erase(item);
 			break;
@@ -683,8 +564,8 @@ bool Crosshair::Update(float dt)
 bool Crosshair::ManageInput(float dt)
 {
 	bool debug = true;
-//	App->scene->AcceptUISFX_logic = false;
-	uint32 maxClampThreshold = 24000;
+
+	uint32 maxClampThreshold = 20000;
 
 	Sint16 RJoystickX = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
 	Sint16 RJoystickY = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);
@@ -714,8 +595,7 @@ bool Crosshair::ManageInput(float dt)
 		{
 			//LOG("");
 		}
-		App->scene->AcceptUISFX_logic = false;
-
+			
 			//LOG("DONT SEARCH");
 	}
 	else
@@ -726,40 +606,9 @@ bool Crosshair::ManageInput(float dt)
 			position.x -= pivotOffset.x;
 			position.y -= pivotOffset.y;
 
-
-			// if clamped type is loot, it can be picked 
-
-			if (clampedEntity->type == ENTITY_TYPE::LOOT)  // TODO:  add condition so that potions do not enter this 
-			{
-				
-				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
-				App->scene->AcceptUISFX_logic = true;
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-				{
-					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
-					
-					if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
-					{
-						// then delete loot from subtile and factory 
-						App->entityFactory->DeleteEntityFromSubtile((j1Entity*)clampedEntity);
-						//LOG("entities size: %i", App->entityFactory->entities.size());
-						// erase - remove idiom.
-						App->entityFactory->entities.erase(
-							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), clampedEntity), App->entityFactory->entities.end());
-
-						//last detach clamped entity
-						clampedEntity = nullptr;
-						clamped = false;
-						App->scene->AcceptUISFX_logic = false;
-						//LOG("entities size: %i", App->entityFactory->entities.size());
-					}
-					
-				}
-			}
 		}
 		else
 		{
-			App->scene->AcceptUISFX_logic = false;
 			clamped = false; // protection
 			clampedEntity = nullptr;
 		}
@@ -779,6 +628,8 @@ bool Crosshair::ManageInput(float dt)
 		{
 			position.x = position.x + (RJoystickX * 0.003f * sensitivitySpeed.x) * dt;
 			position.y = position.y + (RJoystickY * 0.003f * sensitivitySpeed.y) * dt;
+
+			
 		}
 
 	}
@@ -804,13 +655,6 @@ bool Crosshair::ManageInput(float dt)
 
 		position.x += headingVector.x * maxRadiusDistance;
 		position.y += headingVector.y * maxRadiusDistance;
-
-		// and if we have any clamped entity, unclamp
-		if (clamped) 
-		{
-			clamped = false;
-			clampedEntity = nullptr;
-		}
 	}
 	
 
@@ -855,7 +699,7 @@ j1Entity* Crosshair::SearchForTargetOnThisSubtile(const iPoint subtile) const
 
 		for (; subIter != subtileVec->end(); ++subIter)
 		{
-			if ((*subIter)->type != ENTITY_TYPE::PLAYER && (*subIter)->type != ENTITY_TYPE::PROJECTILE)
+			if ((*subIter)->type != ENTITY_TYPE::PLAYER)
 			{
 				//LOG("enemy found");
 				ret = (*subIter);
@@ -904,27 +748,3 @@ bool Crosshair::CleanUp()
 //{
 //	return MAX(lower, MIN(n, upper));
 //}
-j1Entity* Crosshair::GetClampedEntity() const
-{
-	j1Entity* ret = nullptr;
-
-	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-
-	while (entitiesItem != App->entityFactory->entities.end())
-	{
-
-		if (!(*entitiesItem)->to_delete)
-		{
-			if ((*entitiesItem) == clampedEntity)
-			{
-
-				ret = (*entitiesItem);
-
-			}
-
-		}
-		++entitiesItem;
-	}
-
-	return ret;
-}

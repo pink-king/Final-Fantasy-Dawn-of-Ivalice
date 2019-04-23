@@ -5,6 +5,9 @@
 Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER_ARROWS)
 {
+	entityTex = App->tex->Load("textures/spells/Ritz_ultimate/deathCircleTest.png");
+
+	anim.PushBack({ 0,0, 300, 225 });
 	SetPivot(150, 112);
 	size.create(300, 225);
 
@@ -15,7 +18,7 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	lifeTimer.Start();
 	createArrowsTimer.Start();
 	dieTimer.Start();
-	//currentAnimation = &anim;
+	currentAnimation = &anim;
 
 	rang.x = 100;
 	rang.y = 40;
@@ -25,7 +28,7 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	dieTime = 6u;
 
 	constantHeigth = App->render->camera->h;
-	/*App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);*/
+	App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);
 }
 
 Emmiter::~Emmiter()
@@ -78,7 +81,7 @@ void Emmiter::CreateArrow()
 	posX += position.x + size.x / 2;
 
 
-	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS, 2);
+	App->entityFactory->CreateArrow({posX, posY - 350}, { posX, posY + 100}, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS,2);
 
 }
 

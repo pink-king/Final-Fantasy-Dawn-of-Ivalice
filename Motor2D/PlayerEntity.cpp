@@ -12,7 +12,7 @@
 PlayerEntity::PlayerEntity(int posX, int posY) : j1Entity(PLAYER, posX , posY, "PlayerParent")
 {
 	//SetPivot(16, 40);
-	debug = false;
+	debug = true;
 }
 
 PlayerEntity::~PlayerEntity()
@@ -27,13 +27,11 @@ bool PlayerEntity::Start()
 
 bool PlayerEntity::PreUpdate()
 {
-	
 	return true;
 }
 
 bool PlayerEntity::Update(float dt)
 {
-
 	//InputMovement(dt);
 	return true;
 }
@@ -109,14 +107,11 @@ bool PlayerEntity::InputMovement(float dt)
 	iPoint pivot_pos = (iPoint)GetPivotPos() - iPoint(0, colSize * 0.5f);
 	SDL_Rect collider = { pivot_pos.x, pivot_pos.y, colSize, colSize};
 
-	
-	if (App->scene->debugColl == true)
-	{
-		// Red isometric quad | collider foot
-		App->render->DrawIsoQuad(collider);
-		// test isoquad draw
-		App->render->DrawIsoQuad({ 32,16, 128,96 });
-	}
+	// Red isometric quad | collider foot
+	App->render->DrawIsoQuad(collider);
+	// test isoquad draw
+	App->render->DrawIsoQuad({ 32,16, 128,96 });
+
 	// Check collisions and do behaviour ------------
 	std::vector<SDL_Rect> resultant_intersections = Collision2D(collider);
 	if (!resultant_intersections.empty())
@@ -357,17 +352,13 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 
 		//Isometric
 		tileNeighbours[i] = App->map->MapToWorld(tileNeighbours[i].x, tileNeighbours[i].y);
-		
-		//if(debug) // TODO: temporal DRAWs, must be moved to postupdate
-		if(App->scene->debugColl == true)	// Cant modify from here
+		if(debug) // TODO: temporal DRAWs, must be moved to postupdate
 			App->render->DrawIsoQuad({ tileNeighbours[i].x, tileNeighbours[i].y, tile_size,tile_size }, color);
 
 		//Orthogonal
 		tileNeighbours[i] = App->map->IsoTo2D(tileNeighbours[i].x, tileNeighbours[i].y);
 		SDL_Rect tileWorldRect = { tileNeighbours[i].x , tileNeighbours[i].y, tile_size,tile_size }; // size of tile data
-	
-																									 //if(debug) // DRAW
-		if (App->scene->debugColl == true)
+		if(debug) // DRAW
 			App->render->DrawQuad(
 			{ tileWorldRect.x - offset.x, tileWorldRect.y - offset.y, tileWorldRect.w, tileWorldRect.h },
 			color.r, color.g, color.b, color.a);
@@ -386,8 +377,7 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 		}
 	}
 
-	//if (debug)
-	if(App->scene->debugColl == true)
+	if (debug)
 	{
 		// DEBUG draw -----------
 		//Draw yellow quad
@@ -513,8 +503,7 @@ fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vecto
 			break;
 		}
 
-		//if (debug)
-		if (App->scene->debugColl == true)
+		if (debug)
 		{
 			// DEBUG DRAW ------------------
 			App->render->DrawQuad({ pcol.x - offset.x, pcol.y - offset.y, pcol.w, pcol.h }, 255, 0, 0, 150);
@@ -538,8 +527,7 @@ fPoint PlayerEntity::GetCollisionsBehaviourNewPos(SDL_Rect playerCol, std::vecto
 		posToTransfer.y += pcol.h * 0.5f; // half collider size
 		posToTransfer = posToTransfer - pivot;
 
-		//if (debug)
-		if (App->scene->debugColl == true)
+		if (debug)
 		{
 			// DEBUG DRAW on player world pos ---------------------
 			SDL_Rect newPosrect = { posToTransfer.x, posToTransfer.y, playerCol.w, playerCol.h };

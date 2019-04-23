@@ -35,7 +35,6 @@ public:
 
 	int equipableChance;
 
-	//bool repositionDescription = false; 
 };
 
 #endif // !_EQUIPABLELOOT_H__

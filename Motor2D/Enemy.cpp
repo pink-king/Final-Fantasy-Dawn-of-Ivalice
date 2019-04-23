@@ -4,7 +4,6 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
-#include "j1Scene.h"
 #include <ctime>
 #include <random>
 
@@ -19,29 +18,14 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 	CheckRenderFlip();
 
 	this->attackPerS = 1.F / attackSpeed;
-
-
-
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
 	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
 }
 
 Enemy::~Enemy()
 {
-// TODO: Loot spawn in all enemies? 
-App->attackManager->DestroyAllMyCurrentAttacks(this);
-
-if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
-{
-
-	if (lifeBar != nullptr)
-	{
-		lifeBar->deliever = nullptr;
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->to_delete = true;
-	}
-}
-LOG("parent enemy bye");
+	// TODO: Loot spawn in all enemies? 
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
+	LOG("parent enemy bye");
 }
 
 bool Enemy::SearchNewPath()
@@ -322,8 +306,8 @@ void Enemy::DebugPath() const
 
 void Enemy::Draw() 
 {
-	if(App->scene->debugSubtiles == true)
-		DebugPath();
+
+	DebugPath();
 
 	if (entityTex != nullptr)
 	{

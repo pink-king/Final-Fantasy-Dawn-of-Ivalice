@@ -3,7 +3,6 @@
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1Fonts.h"
-#include "Brofiler/Brofiler.h"
 
 #include "SDL\include\SDL.h"
 #include "SDL_TTF\include\SDL_ttf.h"
@@ -43,8 +42,6 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 
 	shatterBoxx36 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 36);
 	shatterBoxx48 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 48);
-
-	piecesofEight48 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 48);
 
 
 	return ret;
@@ -88,8 +85,6 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 
 SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * font)
 {
-	BROFILER_CATEGORY("FONTS Print", Profiler::Color::Gold);
-
 	SDL_Texture* ret = NULL;
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
 
@@ -109,8 +104,6 @@ SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * fon
 // calculate size of a text
 bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* font) const
 {
-	BROFILER_CATEGORY("FONTS Calc Size", Profiler::Color::Gold);
-
 	bool ret = false;
 
 	if (TTF_SizeText((font) ? font : default, text, &width, &height) != 0)

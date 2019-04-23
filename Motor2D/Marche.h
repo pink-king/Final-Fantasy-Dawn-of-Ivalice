@@ -19,7 +19,6 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	void UlitMarche();
-	/*void MarcheUltimate();*/
 	bool PostUpdate();
 	//virtual bool CleanUp();
 
@@ -39,20 +38,6 @@ private:
 	Animation basicAttackAnim[(int)facingDirection::MAX][2];
 	j1Timer basicAttackPulsationTimer;
 	Uint32 basicAttackPulsationMaxTime;
-
-	// ULTIMATE -------------------------
-	SDL_Texture* superTransTex = nullptr;
-	SDL_Texture* superRunTex = nullptr;
-	SDL_Texture* superAttackTex = nullptr;
-	Animation superTransAnim[(int)facingDirection::MAX];
-	// i must to name this like this
-	bool superSaiyajin = false;
-	j1Timer superSaiyajinTimer;
-	Uint32 superTransMaxTimeSec;
-	fPoint superAnimPivots[(int)facingDirection::MAX];
-	SDL_Texture* runTexTempPtr = nullptr;
-	SDL_Texture* basicAttackTexPtr = nullptr;
-	// -----------------------------------
 	// WHIRLWIND
 	SDL_Texture* whirlwindTex = nullptr;
 	SDL_Texture* whirlwindFireTex = nullptr;
@@ -71,7 +56,7 @@ private:
 
 	// DASH pivoting
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
-	fPoint basicAttackPivotOffset[(int)facingDirection::MAX];
+	
 };
 
 #endif

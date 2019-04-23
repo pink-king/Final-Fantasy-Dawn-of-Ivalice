@@ -20,9 +20,9 @@ public:
 
 private: 
 	j1Timer timer; 
-	bool hitwall = false; 
+	fPoint lastPos; 
 	bool wallImpact = false;
-	fPoint lastPos;
+
 };
 
 #endif

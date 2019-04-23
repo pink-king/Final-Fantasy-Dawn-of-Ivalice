@@ -45,7 +45,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	debug = false;
+	debug = true;
 
 	// App->audio->Load("audio/music/menu_1.0.ogg");
 	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
@@ -75,12 +75,12 @@ bool j1Scene::Start()
 	App->camera2D->SetCameraPos({ 2000,0 });
 
 	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
+	App->entityFactory->CreatePlayer({ 300,300 });//-980, 2440 });
 
 	if (state == SceneState::GAME)
 	{
 		App->map->active = true;
-		//AcceptUISFX_logic = false;
+
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
@@ -91,7 +91,7 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::STARTMENU)
 	{
-		AcceptUISFX_logic = true;
+		
 		
 		if (!LoadedUi)
 		{
@@ -134,30 +134,13 @@ bool j1Scene::PreUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)   
 		App->win->SetScale(2);
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		App->map->ToggleDebugDraw();
-		debug = !debug;
-	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	{
-		debugSubtiles = !debugSubtiles;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
-	{
-		debugColl = !debugColl;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-	{
-		hackerMode = !hackerMode;
-	}
 	// FAKE KEYS FOR TESTING 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
@@ -167,7 +150,7 @@ bool j1Scene::PreUpdate()
 		App->win->SetScale(2);*/
 
 	// debug testing subtiles entities empty
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
 		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
 		iPoint clickedTile = entitySubTilePoint;
@@ -189,7 +172,7 @@ bool j1Scene::PreUpdate()
 			propagationType::BFS, // propagation expansion type
 			damageType::INTIME,	// damage type: direct/in time
 			ELEMENTAL_TYPE::ICE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
-			100, // base attack damage
+			5, // base attack damage
 			13, // radius (on subtile units)
 			60, // propagation speed, in ms (time between steps)
 			true); // if this attack instantate particles of the elemental type while propagating
@@ -211,12 +194,14 @@ bool j1Scene::Update(float dt)
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 
 	// map debug draw grids
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		App->map->ToggleDebugDraw();
 
-	/*if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");*/
+		App->SaveGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -230,16 +215,17 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
+		debug = !debug;
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
 		if (state == SceneState::GAME)
 		{
+
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
 			startMenu->enable = true;
-
 		}
 		else
 		{
@@ -253,7 +239,8 @@ bool j1Scene::Update(float dt)
 	
 	if (state == SceneState::STARTMENU)
 	{
-		AcceptUISFX_logic = true;
+		
+
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -266,17 +253,11 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 	}
 	
-	
 	if (state == SceneState::GAME)
 	{
 		//Mix_CloseAudio();
 		//if()
-	
-		if (startMenu->enable || inventory->enable)
-			AcceptUISFX_logic = true;
-		else if (!startMenu->enable && !inventory->enable)
-			AcceptUISFX_logic = false;
-
+		
 		App->map->active = true;
 		inGamePanel->enable = true;
 		startMenu->enable = false;
@@ -305,65 +286,51 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
-			if (!inventory->enable)
+			App->gui->resetHoverSwapping = false;
+			App->pause = !App->pause;
+			if (App->pause)
 			{
-				App->gui->resetHoverSwapping = false;
-				App->pause = !App->pause;
-				if (App->pause)
-				{
-					Mix_PauseMusic();
-					if (!pausePanel->enable)
-						App->audio->PlayFx(open_PauseMenuSFX, 0);
-
-					pausePanel->enable = true;
-					paused = true;
-				}
-				else
-				{
-					Mix_ResumeMusic();
-					pausePanel->enable = false;
-				}
+				Mix_PauseMusic();
+				if (!pausePanel->enable)
+					App->audio->PlayFx(open_PauseMenuSFX, 0);
+				pausePanel->enable = true;
+				paused = true;
+			}
+			else 
+			{
+				Mix_ResumeMusic();
+				pausePanel->enable = false;
 			}
 		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			if (!pausePanel->enable)
+			if (inventory->enable)
 			{
-				App->pause = !App->pause;
-				if (App->pause && !pausePanel->enable)
-				{
-					inventory->enable = true;
-					App->gui->resetHoverSwapping = false;
-					inventoryItem->LoadElements();
-					App->audio->PlayFx(openInventorySFX, 0);
-				}
-
-				else
-				{
-					App->audio->PlayFx(closeinventorySFX, 0);
-					inventory->enable = false;
-
-				}
-
+				App->audio->PlayFx(openInventorySFX, 0);
+				inventory->enable = false;
+			}
+			else
+			{
+				App->audio->PlayFx(closeinventorySFX, 0);
+				inventory->enable = true;
 			}
 		}
 	}
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+	{
+		App->entityFactory->player->selectedCharacterEntity->life -= 20;
+		App->gui->healthBar->damageInform.doDamage = true;
+		App->gui->healthBar->damageInform.damageValue = 20;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
+	{
+
+		App->entityFactory->player->selectedCharacterEntity->life += 30;
+		App->gui->healthBar->damageInform.damageValue = -30;
+	}
 	
-	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
-	//{
-	//	App->entityFactory->player->life -= 20;
-	//	App->gui->healthBar->damageInform.doDamage = true;
-	//	App->gui->healthBar->damageInform.damageValue = 20;
-	//}
-
-	//if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
-	//{
-
-	//	App->entityFactory->player->selectedCharacterEntity->life += 30;
-	//	App->gui->healthBar->damageInform.damageValue = -30;
-	//}
-	//
 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -377,66 +344,62 @@ bool j1Scene::Update(float dt)
 
 
 	iPoint coords = App->render->ScreenToWorld(x, y);
-
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent; 
 		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }); 
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		j1Entity* ent;
 		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
+		ent->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, ent, inGamePanel);
 
 	}
 	
-	if (hackerMode)
+	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
-		{
-			/*std::vector<EnemyType> typeVec; 
-			typeVec.reserve(2);
-			typeVec.push_back(EnemyType::BOMB);
-			typeVec.push_back(EnemyType::TEST);
-			App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+		/*std::vector<EnemyType> typeVec; 
+		typeVec.reserve(2);
+		typeVec.push_back(EnemyType::BOMB);
+		typeVec.push_back(EnemyType::TEST);
+		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
-		}
-		if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
-		{
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-		{
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-		{
-			App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MEDUSA);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
-		{
-			App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
-		}
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-		{
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
-		}
 	}
-	
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MAGIC_BOLT);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::MEDUSA);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(fPoint{ (float)coords.x, (float)coords.y }, { 0,0 }, 0, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::DEATH_CIRCLE);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
+	}
 
 
-	//if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
-	//{
-	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
+	{
+		Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
 
-	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
-	//	App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
-	//}
+		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+		App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+	}
 	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
 	//{
 	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
@@ -474,7 +437,7 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
+void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
 
 	// images
@@ -488,27 +451,10 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
-		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
-		if (lootFlag == "loot")
+		if ( lootFlag == "loot")
 		{
 
-			lootPanelRect = section;
-		}
-		else if (lootFlag == "lootNoButton")
-		{
-			lootPanelRectNoButton = section;
-		}
-		else if (charFlag == "Marche")
-		{
-			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
-		}
-		else if (charFlag == "Ritz")
-		{
-			RitzIcon = App->gui->AddImage(position, &section, nullptr);
-		}
-		else if (charFlag == "Shara")
-		{
-			SharaIcon = App->gui->AddImage(position, &section, nullptr);
+			lootPanelRect = &section; 
 		}
 		else
 		{                                  // this is useless now
@@ -522,9 +468,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			}
 
 		}
-
-
-
+		
 
 	}
 
@@ -564,7 +508,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 
-		App->gui->AddLabel(text.data(), color, App->font->piecesofEight48, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->openSansBold36, position, parent);
 
 	}
 
@@ -627,22 +571,23 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	for (pugi::xml_node uiNode = node.child("healthbars").child("healthbar"); uiNode; uiNode = uiNode.next_sibling("healthbar"))
 	{
 
-
-		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() };
+		
+		SDL_Rect dynamicSection = { uiNode.child("dynamicSection").attribute("x").as_int(), uiNode.child("dynamicSection").attribute("y").as_int(), uiNode.child("dynamicSection").attribute("w").as_int(), uiNode.child("dynamicSection").attribute("h").as_int() }; 
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		std::string variant = uiNode.child("type").attribute("value").as_string();
 
 		if (variant == "player")
 		{
+			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
-			App->gui->healthBar = App->gui->AddHealthBar(position, &dynamicSection, &damageSection, type::player, inGamePanel);
+			App->gui->healthBar = App->gui->AddHealthBar(position, &staticSection, &dynamicSection, &damageSection, type::player, inGamePanel);
 		}
-		else if (variant == "enemy")
+		else if(variant == "enemy")
 		{
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
 		}
-
+	
 	}
 
 	// cooldown clocks    
@@ -654,10 +599,10 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		std::string type = uiNode.child("type").attribute("value").as_string();
 
-
+		
 		if (type == "ability1")
 		{
-			App->gui->allclocksData.ability1.position = position;
+			App->gui->allclocksData.ability1.position = position; 
 			App->gui->allclocksData.ability1.section = section;
 			App->gui->allclocksData.ability1.type = type;
 		}
@@ -685,25 +630,25 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 }
 
-bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
+bool j1Scene::LoadInGameUi(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node inGameNode = nodeScene.child("InGameUi");
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
-	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
+	coins_label = App->gui->AddLabel("x 0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1090,26 }, inGamePanel);
 	return true;
 }
 
 
-bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
+bool j1Scene::LoadStartMenu(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node StartMenuNode = nodeScene.child("StartMenu");
-	startMenu = App->gui->AddEmptyElement({ 0,0 });
+	startMenu= App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(startMenu, StartMenuNode);
 	return true;
 }
 
-bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
+bool j1Scene::LoadPlayerUi(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node marcheNode = nodeScene.child("InGameUiM");
 	uiMarche = App->gui->AddEmptyElement({ 0,0 });
@@ -720,7 +665,7 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	return true;
 }
 
-bool j1Scene::LoadSettings(pugi::xml_node& nodeScene)
+bool j1Scene::LoadSettings(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node settingNode = nodeScene.child("Settings");
 	settingPanel = App->gui->AddEmptyElement({ 0,0 });
@@ -728,32 +673,19 @@ bool j1Scene::LoadSettings(pugi::xml_node& nodeScene)
 	return true;
 }
 
-bool j1Scene::LoadPauseSettings(pugi::xml_node& nodeScene)
+bool j1Scene::LoadPauseSettings(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node settingPauseNode = nodeScene.child("SettingsInGame");
-	pausePanel = App->gui->AddEmptyElement({ 0,0 });
+	pausePanel=App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(pausePanel, settingPauseNode);
 	return true;
 }
 
-bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
+bool j1Scene::LoadInventory(pugi::xml_node & nodeScene)
 {
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
-	inventoryItem = App->gui->AddInventory(inventory);
-
-
-
-
-	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
-	SharaIcon->parent = inventoryItem;
-	RitzIcon->parent = inventoryItem;
-
-	MarcheIcon->hide = true;
-	SharaIcon->hide = true;
-	RitzIcon->hide = true;
-
 	return true;
 }
 

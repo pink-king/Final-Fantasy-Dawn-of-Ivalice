@@ -28,8 +28,6 @@ bool j1ModuleCamera2D::Start()
 
 bool j1ModuleCamera2D::PreUpdate()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
-		debug = !debug; 
 	return true;
 }
 

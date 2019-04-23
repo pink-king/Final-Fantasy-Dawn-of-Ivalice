@@ -29,7 +29,7 @@ FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity 
 	SetPivot(32, 8);
 	size.create(64, 16);
 
-	timer.Start();
+	timer.Start(); 
 	// Important for aiming offset
 	SetInitially();
 }
@@ -38,8 +38,7 @@ FireArrow::~FireArrow()
 {
 	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
 	if(hitwall)
-		App->audio->PlayFx(App->entityFactory->sharaAbility1_ImpactsWall, 0);
-
+		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
 
 }
 
@@ -76,7 +75,6 @@ bool FireArrow::Update(float dt)
 	if (!to_explode) {
 		Move(dt);
 		SpawnTrail();
-
 	}
 	else Explode(); 
 	
@@ -126,12 +124,11 @@ void FireArrow::Explode()
 	to_delete = true; 
 }
 
-
 void FireArrow::SpawnTrail()
 {
 	if (lastPos.DistanceManhattan(GetPivotPos()) > 35 && timer.Read() > 120)
 	{
-		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
+		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x , GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
 
 		fPoint paralel = { 0,0 };
 		paralel.x = -direction.y;
@@ -148,4 +145,7 @@ void FireArrow::SpawnTrail()
 		lastPos = GetPivotPos();
 	}
 }
+
+
+
 

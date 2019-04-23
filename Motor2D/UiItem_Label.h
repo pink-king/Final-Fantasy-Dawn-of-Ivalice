@@ -22,7 +22,7 @@ protected:
 
 
 public:  
-	//bool hide = false;
+	bool hide = false;
 
 };
 #endif

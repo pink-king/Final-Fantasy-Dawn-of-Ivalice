@@ -10,7 +10,6 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
-	manualCollectable = true;
 }
 
 
@@ -49,11 +48,6 @@ bool Consumable::Update(float dt)
 			grounded = true;
 			
 		}
-		/*else if (!repositionDescription)
-		{
-			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
-			repositionDescription = true;
-		}*/
 
 		if (checkgrounded && grounded)
 		{
@@ -96,7 +90,7 @@ void Consumable::SetConsumable()
 		loot_rect = { 13,27,22,23 };
 		size.create(22, 23);
 
-		SetPivot(12, 17);
+		SetPivot(16, 20);
 
 		break;
 

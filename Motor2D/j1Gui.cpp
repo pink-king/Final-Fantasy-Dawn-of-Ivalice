@@ -8,7 +8,6 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "p2Log.h"
-#include "Brofiler/Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -90,6 +89,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		case GUI_TYPES::CHECKBOX:
 			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
+				
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
 			}
@@ -98,10 +98,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		case GUI_TYPES::BUTTON:
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
 			{
+				
 				selected_object->state = CLICK;
 			}
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
+				
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
 				selected_object->state = IDLE;
@@ -127,7 +129,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		bool first = false;
 		for (; item != ListItemUI.end(); ++item)
 		{
-			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON || (*item)->tabbable) && (*item)->parent->enable && !(*item)->hide)
+			if (((*item)->guiType == BAR || (*item)->guiType == CHECKBOX || (*item)->guiType == BUTTON || (*item)->tabbable)  && (*item)->parent->enable)
 			{
 				if (!first)
 				{
@@ -135,29 +137,19 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					item_pos.y = (*item)->hitBox.y;
 					first = true;
 					selected_object = (*item);
-
-					selected_object->state = HOVER;
-					selected_object->tabbed = true;
-					setClicked = true;
 				}
 				else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
 				{
 					item_pos.x = (*item)->hitBox.x;
 					item_pos.y = (*item)->hitBox.y;
-					selected_object->state = IDLE;
-					selected_object->tabbed = false;                          // solve merge
 					selected_object = (*item);
-
-
-					selected_object->state = HOVER;
-					selected_object->tabbed = true;
-					setClicked = true;
 				}
 			}
 		}
 
-
-
+		selected_object->state = HOVER;
+		selected_object->tabbed = true;
+		setClicked = true;
 		/*for (; item != ListItemUI.end(); item++)                   // this should work for all types
 		{
 		if ((*item)->parent->enable)
@@ -196,13 +188,13 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
 		Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || xAxis > 30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || xAxis>30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
 			for (; item != ListItemUI.end(); item++)
 			{
-				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					if ((*item)->hitBox.x > selected_object->hitBox.x + selected_object->hitBox.w && (*item)->hitBox.y == selected_object->hitBox.y)
 					{
@@ -210,7 +202,6 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(selectUI, 0);
-
 						candidates.push_back(*item);       // add objects on the right to a list
 
 					}
@@ -221,12 +212,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-				UiItem* first_selected = selected_object;
+
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = (*item)->hitBox.x - (first_selected->hitBox.x + first_selected->hitBox.w);
+					currentDistance = (*item)->hitBox.x - (selected_object->hitBox.x + selected_object->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -250,7 +241,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					if ((*item)->hitBox.x + (*item)->hitBox.w < selected_object->hitBox.x && (*item)->hitBox.y == selected_object->hitBox.y)
 
@@ -259,7 +250,6 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(selectUI, 0);
-
 						candidates.push_back(*item);       // add objects on the left to a list
 
 					}
@@ -270,12 +260,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-				UiItem* first_selected = selected_object;
+
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = first_selected->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
+					currentDistance = selected_object->hitBox.x - ((*item)->hitBox.x + (*item)->hitBox.w);
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -296,14 +286,14 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || yAxis < -30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || yAxis<-30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if ((*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
@@ -311,7 +301,6 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(selectUI, 0);
-
 						candidates.push_back(*item);       // add objects on the right to a list
 
 					}
@@ -322,12 +311,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-				UiItem* first_selected = selected_object;
+
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = first_selected->hitBox.y - (*item)->hitBox.y;
+					currentDistance = selected_object->hitBox.y - (*item)->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -352,7 +341,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if (selected_object && (*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if ((*item) != selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable)
 				{
 					LOG("Trying to taaaaaab   selected : %i vs next: %i", selected_object->hitBox.y, (*item)->hitBox.y);
 					if ((*item)->hitBox.y > selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
@@ -361,7 +350,6 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(selectUI, 0);
-
 						candidates.push_back(*item);       // add objects on the right to a list
 
 					}
@@ -372,12 +360,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 				int distanceToBeat = 10000;
 				int currentDistance = 0;
-				UiItem* first_selected = selected_object;
+
 				item = candidates.begin();
 
 				for (; item != candidates.end(); item++)        // distance between objects:
 				{
-					currentDistance = (*item)->hitBox.y - first_selected->hitBox.y;
+					currentDistance = (*item)->hitBox.y - selected_object->hitBox.y;
 
 					if (currentDistance < distanceToBeat)
 					{
@@ -403,29 +391,21 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 }
 
 
-
-
-
-
-
 bool j1Gui::PostUpdate()
 {
 
-	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
-
 	// temporal debug 
 
-	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
-
+	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
 		debug_ = !debug_;
 	}
 
-	canvas->DrawUi(dt);
+
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
-		
+		canvas->DrawUi(dt);
+
 		if (debug_)
 		{
 
@@ -461,7 +441,7 @@ bool j1Gui::CleanUp()
 	{
 		if ((*item) != nullptr)
 		{
-			delete* item;
+			delete *item;
 			*item = nullptr;
 		}
 	}
@@ -471,24 +451,7 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
-void j1Gui::destroyElement(UiItem * elem)
-{
-
-	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
-	{
-		if (elem != nullptr && (*item) == elem)
-		{
-			delete (*item);
-			*item = nullptr;
-
-			item = ListItemUI.erase(item);
-
-		}
-
-	}
-}
-
-UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
+UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 	newUIItem = new UiItem_Label(text, color, font, position, parent);
@@ -497,7 +460,7 @@ UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font
 
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
+UiItem_Image * j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem *const parent, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -511,31 +474,7 @@ UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem 
 	return (UiItem_Image*)newUIItem;
 }
 
-
-
-UiItem_Image* j1Gui::AddSpecialImage(iPoint position, const SDL_Rect * section, UiItem * const parent, SDL_Texture * newTex, UiItem_Description * myDescr)
-{
-	UiItem* newUIItem = nullptr;
-
-
-	newUIItem = new UiItem_Image(position, section, parent, newTex, myDescr);
-
-	ListItemUI.push_back(newUIItem);
-
-	return (UiItem_Image*)newUIItem;
-}
-
-UiItem_Inventory* j1Gui::AddInventory(UiItem * const parent)
-{
-	UiItem* newUIItem = nullptr;
-	newUIItem = new UiItem_Inventory(parent);
-	ListItemUI.push_back(newUIItem);
-	return (UiItem_Inventory*)newUIItem;
-}
-
-
-
-UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect * image_idle, const SDL_Rect * image_hover, UiItem * const parent)
+UiItem_Bar * j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect *image_idle, const SDL_Rect * image_hover, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -548,7 +487,7 @@ UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * se
 
 
 
-UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
+UiItem_Button * j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -559,7 +498,7 @@ UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, const SDL
 
 	ListItemUI.push_back(newUIItem);
 
-	UiItem_Button * button = (UiItem_Button*)newUIItem;
+	UiItem_Button* button = (UiItem_Button*)newUIItem;
 	button->AddFuntion(function);
 
 	return (UiItem_Button*)newUIItem;
@@ -567,7 +506,7 @@ UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, const SDL
 
 
 
-UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
+UiItem * j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 	if (parent == NULL)
@@ -579,7 +518,7 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, const SDL_Rect * panel_section, const SDL_Rect * box_section, const SDL_Rect * tick_section, labelInfo * labelInfo, UiItem * const parent)
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -589,7 +528,7 @@ UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, con
 	return (UiItem_Checkbox*)newUIItem;
 }
 
-UiItem_HitPoint* j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, variant type)
+UiItem_HitPoint * j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type)
 {
 	UiItem_HitPoint* newUIItem = nullptr;
 	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent, type);
@@ -606,7 +545,7 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, T
 }
 
 
-UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, variant type)
+UiItem_HitPoint * j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type)
 {
 	UiItem_HitPoint* newUIItem = nullptr;
 	newUIItem = new UiItem_HitPoint(text, color, font, position, parent, type);
@@ -624,11 +563,11 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, type variant, UiItem * const parent) // , TypeBar type)
+UiItem_HealthBar * j1Gui::AddHealthBar(iPoint position, const SDL_Rect* staticSection, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem*const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
+	newUIItem = new UiItem_HealthBar(position, staticSection, dynamicSection, damageSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -638,7 +577,7 @@ UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicS
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, type variant, j1Entity * deliever, UiItem * const parent) // , TypeBar type)
+UiItem_HealthBar * j1Gui::AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem*const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -652,7 +591,7 @@ UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, ty
 
 
 
-UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::string type, std::string charName, UiItem * const parent)
+UiItem_CooldownClock * j1Gui::AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem*const parent)
 {
 	UiItem* newUIItem = nullptr;
 
@@ -667,12 +606,12 @@ UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::
 
 
 
-UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity * callback, UiItem * const parent)
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, UiItem*const parent)
 {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -681,11 +620,11 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, uint level, LootEntity * callback, UiItem * const parent) {
-
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, UiItem*const parent) {
+	
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent);
+	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -694,23 +633,11 @@ UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string i
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, LootEntity * callback, UiItem * const parent)
-{
-	UiItem* newUIItem = nullptr;
-
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
-
-	ListItemUI.push_back(newUIItem);
-
-
-	return (UiItem_Description*)newUIItem;
-}
 
 
 
 
-
-SDL_Texture* j1Gui::GetAtlas()
+SDL_Texture * j1Gui::GetAtlas()
 {
 	return atlas;
 }
@@ -719,6 +646,7 @@ SDL_Texture* j1Gui::GetAtlas()
 
 void j1Gui::FadeToScene()
 {
+	
 	resetHoverSwapping = false;
 	App->scene->state = SceneState::GAME;
 }
@@ -744,12 +672,13 @@ void j1Gui::GoBackToMenu()
 
 void j1Gui::FpsCap()
 {
-
-
+	
+	
 }
 
 void j1Gui::GoBackToGame()
 {
+	
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
 }
@@ -762,3 +691,4 @@ void j1Gui::GoBackToStartMenu()
 	App->scene->startMenu->enable = true;
 	App->scene->state = SceneState::STARTMENU;
 }
+
