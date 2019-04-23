@@ -42,7 +42,7 @@ public:
 
 private:
 
-	_Mix_Music*			music = NULL;
+	_Mix_Music*			music = nullptr;
 	std::list<Mix_Chunk*>	fx;
 	float final_volume = MIX_MAX_VOLUME;
 	float final_fx_volume = MIX_MAX_VOLUME;

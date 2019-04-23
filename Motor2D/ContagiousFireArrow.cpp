@@ -94,8 +94,8 @@ bool ContagiousFireArrow::Explode()
 	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
 	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
 	/*App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
-	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 45, GetPivotPos().y - 40, { 0, 0 }, 200);
-	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 25, GetPivotPos().y - 15, { 0,0 }, 100);*/
+		App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 45, GetPivotPos().y - 40, { 0, 0 }, 200);
+		App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 25, GetPivotPos().y - 15, { 0,0 }, 100);*/
 
 	if (!wallImpact) {
 		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);
@@ -103,8 +103,7 @@ bool ContagiousFireArrow::Explode()
 		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 15, GetPivotPos().y - 20);
 
 	}
-	else 	App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
-
+	
 
 	to_delete = true;
 	return true;
@@ -112,15 +111,12 @@ bool ContagiousFireArrow::Explode()
 
 void ContagiousFireArrow::SpawnParticles()
 {
-	if (lastPos.DistanceManhattan(GetPivotPos()) > 40 && timer.Read()>100)
+	if (lastPos.DistanceManhattan(GetPivotPos()) > 40 && timer.Read() > 100)
 	{
-		//App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, { 0,0 }, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
 		App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, direction.ReturniPoint() * speed, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
-
 		//timer.Start();
-		//App->particles->AddParticle(App->particles->arrowTrail, GetPivotPos().x, GetPivotPos().y, { 0,0 }, 300u, SDL_FLIP_NONE, angle, App->particles->arrowTrail.pivot.x, App->particles->arrowTrail.pivot.y);
+		lastPos = GetPivotPos();
 
-		lastPos = GetPivotPos(); 
 	}
 }
 

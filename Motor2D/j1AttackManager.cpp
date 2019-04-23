@@ -51,6 +51,8 @@ bool j1AttackManager::Start()
 
 bool j1AttackManager::PreUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		debug = !debug; 
 	return true;
 }
 
@@ -115,7 +117,7 @@ bool j1AttackManager::CleanUp()
 	return true;
 }
 
-void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint,propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize)
+void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize)
 {
 	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, dmgType, elemType, baseDamage, subTileStepRadius, propagationStepSpeed, instantiateParticles));
 }
@@ -137,9 +139,9 @@ attackData::attackData()
 	//Start();
 }
 
-attackData::attackData(const j1Entity* fromEntity,iPoint startSubtilePoint, propagationType type, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles,bool paralize) :
-	 fromEntity(fromEntity), startSubtilePoint(startSubtilePoint) ,propaType(type), dmgType(dmgType), elemType(elemType),
-	baseDamage(baseDamage),subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed), instantiateParticles(instantiateParticles),paralize(paralize)
+attackData::attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType type, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subtileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize) :
+	fromEntity(fromEntity), startSubtilePoint(startSubtilePoint), propaType(type), dmgType(dmgType), elemType(elemType),
+	baseDamage(baseDamage), subTileStepRadius(subtileStepRadius), propagationStepSpeed(propagationStepSpeed), instantiateParticles(instantiateParticles), paralize(paralize)
 {
 	//fromType = fromEntity->type;
 	Start();
@@ -221,8 +223,10 @@ bool attackData::Update(float dt)
 	}
 
 	// debug draw
-	if (debug)
+	if (App->attackManager->debug == true) // Cant acces to every attackdata to change debug boolean
 	{
+		BROFILER_CATEGORY("Propagations Debug", Profiler::Color::Chocolate);
+
 		// blit debug attack expansion -----------------------------------------------------------------
 		std::vector<iPoint>::iterator debugDrawVisitedSubtiles = visited.begin();
 		for (; debugDrawVisitedSubtiles != visited.end(); ++debugDrawVisitedSubtiles)
@@ -257,6 +261,7 @@ bool attackData::Update(float dt)
 bool attackData::PostUpdate()
 {
 	// Draw particles if we want
+	BROFILER_CATEGORY("Attacks Propagations Particles PostUpdate", Profiler::Color::Chocolate);
 
 	if (instantiateParticles)
 		InstantiateParticles();
@@ -267,6 +272,7 @@ bool attackData::PostUpdate()
 
 bool attackData::InstantiateParticles()
 {
+
 	bool ret = true;
 
 	if (instantiateParticles)
@@ -287,6 +293,7 @@ bool attackData::InstantiateParticles()
 
 bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass directly the particle to attack manager instead of the type
 {
+
 	bool ret = true;
 
 	// center particle to subtile
@@ -315,10 +322,12 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 		// ------------------------
 		// substract pivot
 		drawRectified -= firePivot;
-		App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y , { 0,0 }, 0u, renderFlip); 
+		App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 		iPoint smokePivot = { 11, -17 };
 		drawRectified -= smokePivot;
 		App->particles->AddParticle(App->particles->smoke01, drawRectified.x, drawRectified.y, { 0,0 }, 800u, renderFlip);
+
+		
 		break;
 	}
 	case ELEMENTAL_TYPE::ICE_ELEMENT:
@@ -362,6 +371,14 @@ bool attackData::InstantiateParticleType(iPoint drawPos) // TODO: maybe pass dir
 	break;
 	case ELEMENTAL_TYPE::ALL_ELEMENTS:
 		break;
+	case ELEMENTAL_TYPE::DUST: // only visual effect for now
+	{
+		// substract pivot
+		iPoint smokePivot = { 32, -17 };
+		drawRectified -= smokePivot;
+		App->particles->AddParticle(App->particles->powder01, drawRectified.x, drawRectified.y, { 0,0 }, 20u, renderFlip);
+		break;
+	}
 	case ELEMENTAL_TYPE::MAX:
 		break;
 	default:
@@ -422,6 +439,8 @@ std::vector<j1Entity*>* attackData::GetInvolvedEntitiesFromSubtile(const iPoint 
 
 void attackData::CheckEntitiesFromSubtileStep()
 {
+	BROFILER_CATEGORY("Attacks Check Entities Subtile", Profiler::Color::FireBrick);
+
 	while (!subtileQueue.empty())
 	{
 		//LOG("Checking entities on involved subtile");
@@ -522,6 +541,7 @@ bool attackData::DoInTimeAttack()
 
 bool attackData::DoNextStepBFS()
 {
+	BROFILER_CATEGORY("Attacks DoNextStepBFS", Profiler::Color::Chocolate);
 
 	int frontierRadius = 1; // test for twice step (more resolution, but less "wave effect")
 

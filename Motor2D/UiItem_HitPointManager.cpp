@@ -8,7 +8,7 @@
 #include "j1Fonts.h"
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
-
+#include "Brofiler/Brofiler.h"
 
 #include <string.h>
 
@@ -33,6 +33,8 @@ bool UiItem_HitPointManager::Start()
 
 bool UiItem_HitPointManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Update HitPoint", Profiler::Color::PeachPuff);
+
 
 	std::vector<UiItem_HitPoint*>::iterator hitPointIterator = hitPointLabels.begin();
 
@@ -48,7 +50,16 @@ bool UiItem_HitPointManager::Update(float dt)
 		}
 		else
 		{
-			labelScoreAccum -= (*hitPointIterator)->valueInformation.number; 
+			if ((*hitPointIterator)->fromEnemy)
+			{
+				enemyLabels--;
+			}
+			else
+			{
+				labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
+			}
+
+			
 			// cleanup
 			(*hitPointIterator)->CleanUp();
 			delete (*hitPointIterator);
@@ -92,8 +103,9 @@ bool UiItem_HitPointManager::CleanUp()
 }
 
 
-UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type)
+UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type, bool healing, bool playerIsAttacker)
 {
+	UiItem_HitPoint* ret = nullptr;
 
 	std::string str = std::to_string(damage); 
 
@@ -129,12 +141,37 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break; 
 	}
 	
+	if (healing)
+		c = { 0, 255, 0, 255 };
 
-	iPoint newPos(App->render->WorldToScreen(pos.x, pos.y));                                               // adjust this  
 
-	labelScoreAccum += damage;
-	return App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
-	 
+	if (playerIsAttacker)
+		labelScoreAccum += damage;
+
+	else
+		++enemyLabels;
+
+
+
+	
+
+
+
+	iPoint newPos(App->render->WorldToScreen(pos.x + 3, pos.y - 10, true));  // todo: pas the attacked entity and capture the width                                               // adjust this  
+
+
+	 ret = App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
+
+	 if (!playerIsAttacker)
+	 {
+		 ret->fromEnemy = true;
+	 }
+	 else
+	 {
+		 ret->fromEnemy = false; 
+	 }
+
+	 return ret; 
 
 }
 
@@ -145,23 +182,23 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 	// streak = number of score labels and summation of their scores 
 	if (!hitPointLabels.empty())
 	{
-		playerStreak = (hitPointLabels.size() - labelsSpawned.totalLabels) * labelScoreAccum;  // text labels must not be considerated
+		playerStreak = (hitPointLabels.size() - labelsSpawned.totalLabels - enemyLabels) * labelScoreAccum;    // text labels must not be considerated
 	}
 
 	//LOG("............................................  Player  streak %i, number of labels %i, summation of label scores %i ", playerStreak, (hitPointLabels.size() - labelsSpawned.totalLabels), labelScoreAccum);
 
-	if (playerStreak > 20 && !labelsSpawned.fierce)                         // fierce 
+	if (playerStreak > 200 && !labelsSpawned.fierce)                         // fierce 
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 	    
-		pos.x -= 300; 
+		pos.x -= 500; 
 		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
 		labelsSpawned.totalLabels++; 
 	}
 
-	if (playerStreak > 200 && !labelsSpawned.brutal)                         // brutal   
+	if (playerStreak > 2000 && !labelsSpawned.brutal)                         // brutal   
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
 

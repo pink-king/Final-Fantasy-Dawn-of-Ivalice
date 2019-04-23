@@ -8,6 +8,7 @@ struct SDL_Texture;
 class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
+class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
 
@@ -48,18 +49,25 @@ public:
 	bool CleanUp();
 
 public:
-	UiItem * inGamePanel = nullptr;
-	UiItem * uiMarche = nullptr;
-	UiItem * uiShara = nullptr;
-	UiItem * uiRitz = nullptr;
-	UiItem * startMenu = nullptr;
-	UiItem * settingPanel = nullptr;
-	UiItem * pausePanel = nullptr;
-	UiItem * inventory = nullptr;
-	UiItem_Label * coins_label = nullptr;
-	SDL_Rect * lootPanelRect = nullptr; 
+	UiItem* inGamePanel = nullptr;
+	UiItem* uiMarche = nullptr;
+	UiItem* uiShara = nullptr;
+	UiItem* uiRitz = nullptr;
+	UiItem* startMenu = nullptr;
+	UiItem* settingPanel = nullptr;
+	UiItem* pausePanel = nullptr;
+	UiItem* inventory = nullptr;
+	UiItem_Label* coins_label = nullptr;
+	UiItem_Image* tab_inventory = nullptr;
+	SDL_Rect lootPanelRect;
+	SDL_Rect lootPanelRectNoButton;
+	UiItem_Inventory* inventoryItem = nullptr;
 	
 	bool debug = false;
+	bool debugSubtiles = false; 
+	bool debugColl = false;
+	bool hackerMode = false;
+
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	
@@ -68,15 +76,16 @@ public:
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
-
+	bool AcceptUISFX_logic;
 private:
-	SDL_Texture* debug_tex;
+	SDL_Texture* debug_tex = nullptr;
 	pugi::xml_node sceneNode;
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
+	SDL_Rect inventory_transparency = { 0,0,1280,720 };
 
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
@@ -86,12 +95,17 @@ private:
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
+	
 	void LoadMusicFromScene();
 	PlayerEntityManager* player_selected = nullptr;
 
 	bool begin;
 	bool beginGameMus;
 
+public:
+	UiItem_Image* MarcheIcon = nullptr;
+	UiItem_Image* SharaIcon = nullptr;
+	UiItem_Image* RitzIcon = nullptr;
 	
 };
 

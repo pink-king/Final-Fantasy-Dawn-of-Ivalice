@@ -119,6 +119,7 @@ public:
 
 	bool				vsync = false;
 	bool				pause = false;
+	bool                cleaningUp = false;
 
 	std::string			title;
 private:

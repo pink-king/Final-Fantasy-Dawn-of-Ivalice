@@ -31,6 +31,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		//etc
 		LOOT,
 		ENEMY_TEST,
+		PROJECTILE,
 		// LAST
 		MAX_TYPE
 	};
@@ -46,8 +47,9 @@ enum class STAT_TYPE
 
 	ATTACK_BUFF,
 	DEFENCE_BUFF,
-	SPEED_BUFF,
-	HEALTH_BUFF
+	HEALTH_BUFF,
+	SPEED_BUFF
+
 };
 class Buff; 
 
@@ -55,8 +57,7 @@ class entityStat
 {
 public:
 	entityStat(STAT_TYPE stat, uint totalTime, float secDamage = 0.f, Buff* temporalBuff = nullptr, bool to_paralitze = false)
-		:type(stat), secDamage(secDamage), totalTime(totalTime), temporalBuff(temporalBuff), to_paralitze(to_paralitze){}
-	entityStat() {};
+		:type(stat), secDamage(secDamage), totalTime(totalTime), temporalBuff(temporalBuff), to_paralitze(to_paralitze) {}
 public:
 	STAT_TYPE		type = STAT_TYPE::NORMAL;
 	float			secDamage = 0.f;
@@ -64,6 +65,7 @@ public:
 	uint			totalTime = 0;
 	Buff*			temporalBuff = nullptr;
 	bool			to_paralitze = false;
+
 };
 
 struct EntityInfo
@@ -132,7 +134,6 @@ public:
 	bool					isBurned = false;
 	bool					isPosioned = false;
 	bool					isPotionActive = false;
-	
 	bool					isParalize = false;
 
 	bool					changedTile = false; 
@@ -144,7 +145,7 @@ public:
 	// FOR GUI ELEMENTS
 	UiItem_HealthBar* lifeBar = nullptr; 
 	
-
+	bool manualCollectable;
 	int value;
 protected:
 	iPoint imOnTile;

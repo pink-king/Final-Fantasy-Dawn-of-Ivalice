@@ -5,11 +5,12 @@
 #include "j1Scene.h"
 #include "j1Input.h"
 #include "j1Window.h"
+#include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_CooldownClockManager.h"
 
 
-UiItem::UiItem(const iPoint & pos, UiItem * const parent)
+UiItem::UiItem(const iPoint& pos, UiItem* const parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
@@ -24,7 +25,7 @@ UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 
 UiItem::UiItem(UiItem * const parent)
 {
-	
+
 	if (parent != nullptr)
 		this->parent = parent;
 
@@ -35,7 +36,7 @@ UiItem::UiItem(UiItem * const parent)
 
 
 
-UiItem::UiItem(const iPoint & pos, std::string &function, UiItem *const parent) : parent(parent)
+UiItem::UiItem(const iPoint & pos, std::string & function, UiItem * const parent) : parent(parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
@@ -59,7 +60,10 @@ UiItem::~UiItem()
 
 void UiItem::DrawUi(float dt)
 {
-	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); 
+	BROFILER_CATEGORY("Draw Ui", Profiler::Color::DarkOrange);
+
+
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
 	for (; iter != App->gui->ListItemUI.end(); )
 	{
@@ -75,7 +79,7 @@ void UiItem::DrawUi(float dt)
 						(*iter)->Draw(dt);
 				}
 			}
-			++iter; 
+			++iter;
 		}
 		else
 		{
@@ -92,10 +96,12 @@ void UiItem::DrawUi(float dt)
 	}
 
 
-
-
 	Draw_Cursor(dt);
+
 }
+
+
+
 
 
 
@@ -107,10 +113,9 @@ void UiItem::Draw_Cursor(float dt) {
 	y *= App->win->GetScale();
 
 
-	SDL_Rect section = { 252,638,25,32 };       // do this in XML 
+	SDL_Rect section = { 252,638,25,32 };       // do this in XML 	
 	App->render->BlitGui(App->gui->GetAtlas(), x, y, &section, 0.0F);
 
 
 
 }
-

@@ -51,13 +51,16 @@ bool j1ParticlesClassic::Start()
 
 	// TODO: LOAD FROM XML ----------------------
 
+	
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles2.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
 	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
 	windsTex = App->tex->Load("textures/particles/windsTexture.png");
-	explosion01.anim.PushBack({0,354,32,32});
+	arrowTex = App->entityFactory->arrowsTexture; 
+
+	explosion01.anim.PushBack({ 0,354,32,32 });
 	explosion01.anim.PushBack({ 0,386,32,32 });
 	explosion01.anim.PushBack({ 0,418,32,32 });
 	explosion01.anim.PushBack({ 32,354,32,32 });
@@ -68,7 +71,6 @@ bool j1ParticlesClassic::Start()
 	explosion01.anim.loop = false;
 	explosion01.texture = explosionsTex;
 	//explosion01.life = 2000; // if we want a particle that loops, must be specified a life for destroy it
-
 
 	explosion02.anim.PushBack({ 0, 105, 62, 62 });
 	explosion02.anim.PushBack({ 62, 105, 62, 62 });
@@ -90,7 +92,7 @@ bool j1ParticlesClassic::Start()
 	explosion02.anim.loop = false;
 	explosion02.texture = explosionsTex;
 
-	explosion03.anim.PushBack({ 114, 29, 41, 38});
+	explosion03.anim.PushBack({ 114, 29, 41, 38 });
 	explosion03.anim.PushBack({ 155, 29, 41, 38 });
 	explosion03.anim.PushBack({ 196, 29, 41, 38 });
 	explosion03.anim.PushBack({ 0, 67, 41, 38 });
@@ -114,6 +116,7 @@ bool j1ParticlesClassic::Start()
 	smoke01.anim.speed = 10.f;
 	smoke01.anim.loop = false;
 	smoke01.texture = explosionsTex;
+
 
 	fire01.anim.PushBack({ 0, 192, 16, 48});
 	fire01.anim.PushBack({ 16, 192, 16, 48 });
@@ -310,7 +313,7 @@ bool j1ParticlesClassic::Start()
 	arrowTrail.anim.PushBack({ 0, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 30, 71, 30 });
-	arrowTrail.anim.PushBack({ 0, 60, 71, 30 });
+	arrowTrail.anim.PushBack({ 0, 30, 71, 30 });
 	arrowTrail.anim.PushBack({ 71, 60, 71, 30 });
 	arrowTrail.anim.PushBack({ 142, 60, 71, 30 });
 	arrowTrail.anim.loop = false;
@@ -332,7 +335,21 @@ bool j1ParticlesClassic::Start()
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
-
+	
+	arrow.anim.PushBack({ 0,48,64,16 });
+	arrow.anim.PushBack({ 64,48,64,16 });
+	arrow.anim.PushBack({ 128,48,64,16 });
+	arrow.anim.PushBack({ 192,48,64,16 });
+	arrow.anim.PushBack({ 256,48,64,16 });
+	arrow.anim.PushBack({ 320,48,64,16 });
+	arrow.anim.PushBack({ 384,48,64,16 });
+	arrow.anim.PushBack({ 448,48,64,16 });
+	arrow.anim.PushBack({ 0,64,64,16 });
+	arrow.anim.PushBack({ 64,64,64,16 });
+	arrow.anim.speed = 10.F;
+	arrow.texture = arrowTex; 
+	arrow.anim.loop = false;
+	arrow.life = 2000.F; 
 
 	return true;
 }
@@ -343,6 +360,7 @@ bool j1ParticlesClassic::CleanUp()
 	LOG("Unloading particles");
 
 	//unloading graphics
+	
 	if (particleAtlas2 != nullptr)
 	{
 		App->tex->UnLoad(particleAtlas2);
@@ -415,10 +433,13 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
 		/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
+
 		/*AddParticle(stone01, p.x, p.y);
 		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
 		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
-		AddParticle(burn01, p.x, p.y, { 0,0 }, 0, SDL_FLIP_NONE, 0, INT_MAX, INT_MAX, 0.5F);
+
+		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
+		
 	}
 
 	return ret;

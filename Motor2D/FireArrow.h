@@ -14,16 +14,16 @@ public:
 	bool Move(float dt) override;
 	void Pierce();
 	void Explode(); 
-	void SpawnTrail(); 
+	void SpawnTrail();
 
 private: 
 
-	fPoint lastPos; 
+	fPoint lastPos;
 	uint piercedEnemies = 0;
 	uint maxPiercedEnemies = 3;
 	bool attacked = false; 
 	bool hitwall = false;
-	j1Timer timer; 
+	j1Timer timer;
 };
 
 
