@@ -477,6 +477,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.ultimate.cooldownTime = 3000; // death circle
 
 	previousPos = position;
+
 }
 
 Ritz::~Ritz()

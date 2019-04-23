@@ -607,13 +607,12 @@ Marche::~Marche()
 		}
 	}
 	
-	
 }
 
 bool Marche::Start()
 {
 	SetPivot(23, 48);
-	size.create(45,60);
+	size.create(45, 60);
 
 	combat_state = combatState::IDLE;
 
