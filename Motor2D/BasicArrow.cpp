@@ -29,7 +29,10 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 BasicArrow::~BasicArrow()
 {
+	if (wallCol)
+		App->audio->PlayFx(App->entityFactory->sharaBasic_ImpactsWall, 0);
 	LOG("Bye arrow!");
+
 }
 
 bool BasicArrow::PreUpdate()
@@ -39,11 +42,12 @@ bool BasicArrow::PreUpdate()
 	}
 
 	if (OnCollisionWithWall())	{
-		App->audio->PlayFx(App->entityFactory->basicWallImp, 0);
+		
 		to_delete = true; 
 		App->camera2D->AddTrauma(35.f / 100.f);
 		App->input->DoGamePadRumble(0.35f, 100);
 		App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
+		wallCol = true;
 	}
 	return true;
 }

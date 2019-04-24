@@ -10,6 +10,7 @@
 #include "Brofiler/Brofiler.h"
 #include "p2Point.h"
 #include "p2log.h"
+#include "j1Audio.h"
 
 
 
@@ -28,7 +29,7 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* sectio
 
 
 														 // thumb
-	iPoint thumbPos(position.x + (section->w*0.5) - (thumb_section->w*0.5), position.y + (section->h*0.07));
+	iPoint thumbPos(position.x + (section->w*0.5) - (thumb_section->w*0.5), position.y - (section->h*0.09));
 
 	thumb = App->gui->AddImage(thumbPos, thumb_section, this);    // TODO: this should have as pareNT "this"
 
@@ -80,7 +81,7 @@ void UiItem_Bar::DoLogicHovered() {
 		nexPosX = thumb->hitBox.x - 2;
 	}
 
-	if (nexPosX >= bar->hitBox.x && nexPosX <= (bar->hitBox.x + bar->hitBox.w - thumb->hitBox.w))
+	if (nexPosX >= (bar->hitBox.x - (thumb->hitBox.w*0.5)) && nexPosX <= (bar->hitBox.x + bar->hitBox.w) - (thumb->hitBox.w*0.5))
 	{
 		thumb->SetPos(iPoint(nexPosX, thumb->hitBox.y));
 	}

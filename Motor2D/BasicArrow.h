@@ -15,6 +15,8 @@ public:
 	bool Move(float dt) override;
 	bool Contact();
 
+private:
+	bool wallCol = false;
 };
 
 #endif

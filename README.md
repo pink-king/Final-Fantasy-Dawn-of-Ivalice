@@ -1,52 +1,79 @@
 # Final Fantasy: Dawn of Ivalice
 
-<p align="center">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/titleFF_rescaled.png" width="520">
-</p>
-
 Final Fantasy: Dawn of Ivalice is new version for pc based on Final Fantasy Tactics Advance. In Dawn of Ivalice, our protagonists opens and enters to a different book. In this, Marche and his friends will wake up inside a dungeon full of danger, where they must reach different levels to return to the world that they knew. In these levels, our protagonists will fight to different enemies to get the level key and advance.
 
-# Pink King Games
+##Gamepad functions
 
-<p align="center">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/Logo.png" width="320">
-</p>
+* A - Accept UI button
+* DPAD RIGHT - Consum potion / increase volumen bar
+* DPAD RIGHT - Decrease volumen bar
+* RIGHT BUTTON - Swap next character
+* LEFT BUTTON - Swap previous character
+* LEFT TRIGGER - Open scope
+* LEFT TRIGGER + A - PickLoot 
+* LEFT TRIGGER + B - Dodge
+* LEFT TRIGGER + X - Basic
+* LEFT TRIGGER + RIGHT STICK - Ability 1
+* LEFT TRIGGER + Y - Ability 2
+* LEFT TRIGGER + RIGHT TRIGGER - Ultimate
+* LEFT TRIGGER + RIGHT JOYSTICK - Move scope
+* LEFT JOYSTICK - Move
+* START -  Open / close pause Menu
+* SELECT - Open / close inventory
+
+## Debug KEYS
+
+* F1 - DebugDraw - Map And pivots
+* F2 - Debug Draw Subtiles
+* F3 - Debug Attack Propagations
+* F4 - Debug Collisions
+* F5 - Zoom Out
+* F6 - Zoom in
+* F7  - Debug Camera Shake and GamePad Rumbles
+* F8 - Debug UI 
+* F9  - Access hacker Mode (Abilities with keyboard and mouse)
+* 1  - Zombie 
+* 2 - Bomb
+* 4KP  - Previous Character
+* 6KP  - Next Character
+
+
+# Pink King Games
 
 
 Pink King Games it's a new company of videogames born in Terrassa, Catalonia. This company has been created by a group of seven students of CITM(UPC). The members previously worked in similar projects and this moment is the first time that they work together.
 
-This company has three pillars: 
+# The team 
 
-* **Attract** people with a good product.
 
-* People **play** the game.
+Lead
+Sebastián López
+Github: Sebi-Lopez - https://github.com/Sebi-Lopez
 
-* **Stick with us** because the product accomplishes their expectations. 
+Management
+José Antonio Prieto
+Github: peterMcP - https://github.com/peterMcP
 
-Following these pillars, we hope to create games that thrill our players and raise expectations for our new projects.
+Code
+Dídac Llop 
+Github: didaclis - https://github.com/didaclis
 
-# Team 
+Art/audio
+Carlos Peña 
+Github: CarlosUPC - https://github.com/CarlosUPC
 
-<p align="center">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/team.jpg" width="512">
-</p>
-<p align="center">
-Starting for left-up Marc doctor, Pol Recasens, Dídac Llop, Sebastian López, Carlos Peña, Gerard Clotet, Jose Antonio Prieto
-</p>
+Design 
+Marc Doctor 
+Github: thedoctormarc - https://github.com/thedoctormarc
 
-Each member of the team takes responsibility for an area. In this way, the entire team can give their opinion but the last decision has it the manager and the leader, and of course a balanced team opinion. When the decision affects more than one area, all responsables of these areas must agree with them. in the case of not reaching a conclusion, leader decide.
+UI
+Pol Recasens
+Github: PolRecasensSarra - https://github.com/PolRecasensSarra
 
-### Team and responsabilities:
+QA
+Gerard Clotet 
+Github: GerardClotet - https://github.com/GerardClotet
 
-| Charge  | Responsable  |  Github Account  |
-|:-:|:-:|:-:|
-| **Lead**  | Sebastián López  | [Sebi-Lopez](https://github.com/Sebi-Lopez)  |
-| **Management** | José Antonio Prieto  | [peterMcP](https://github.com/peterMcP)  |
-| **Code**  | Dídac Llop | [didaclis](https://github.com/didaclis) |
-| **Art/audio**  | Carlos Peña  | [CarlosUPC](https://github.com/CarlosUPC)  |
-| **Design**  | Marc Doctor  | [thedoctormarc](https://github.com/thedoctormarc)  |
-| **UI** | Pol Recasens | [PolRecasensSarra](https://github.com/PolRecasensSarra)  |
-| **QA** | Gerard Clotet | [GerardClotet](https://github.com/GerardClotet)  |
 
 # Index
 
@@ -70,29 +97,15 @@ Each member of the team takes responsibility for an area. In this way, the entir
 
 * [Annex](https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/wiki/10.-Annex)
 
+
 # Social Media
 
 Our company thinks that the relationship with the audience is very important. That's why we update our social media frequently with updates of the development of the game. This method allows us to show ourselves with total transparency to the consumer. We also value a lot the feedback of the followers and listen to the ideas that they propose to improve the game.
 
-<p align="center">
-<a href="https://twitter.com/PinkKingGames">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/twitter.png"  width="82">
-
-<a href="https://www.instagram.com/pinkking_games/">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/instagram.png"  width="150">
-
-<a href="https://www.youtube.com/channel/UCIPDvRkdBphrM7Lle0wrIcA/featured">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/youtube.png"  width="100">
-</p>
-
 For any question, contact us here:
 
-<p align="center">
-<a href="https://mail.google.com/mail/u/0/#inbox?compose=new">
-<img src="https://github.com/pink-king/Final-Fantasy-Dawn-of-Ivalice/blob/master/docs/wiki/homePage/gmail.png"   width="90">
-<p align="center">
-PinkKingGames@gmail.com
-</p>
+** PinkKingGames@gmail.com **
+
 
 
 # License

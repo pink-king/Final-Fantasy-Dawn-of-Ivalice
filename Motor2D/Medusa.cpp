@@ -2,7 +2,8 @@
 #include "j1AttackManager.h"
 #include "j1Input.h"
 #include "j1ModuleCamera2D.h"
-
+#include "j1Audio.h"
+#include "j1EntityFactory.h"
 Medusa::Medusa(fPoint pos, const j1Entity* owner) : Projectile(pos, { 0,0 }, 0, owner, "Medusa", PROJECTILE_TYPE::MEDUSA)
 {
 	timer.Start(); 
@@ -11,7 +12,7 @@ Medusa::Medusa(fPoint pos, const j1Entity* owner) : Projectile(pos, { 0,0 }, 0, 
 	pulsations = 0;
 	radius = 3;
 	propSpeed = 120; 
-
+	App->audio->PlayFx(App->entityFactory->RitzMedusa, 0);
 	// TODO Add SFX probably the whole ability
 }
 
@@ -49,7 +50,7 @@ bool Medusa::PostUpdate()
 
 void Medusa::Pulsation()
 {
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 5, radius, propSpeed, true);
+	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 5, radius, propSpeed, true, true);
 	App->input->DoGamePadRumble(0.2F, 500);
 	App->camera2D->AddTrauma(10.F / 100);
 	radius += 1; 
@@ -58,7 +59,7 @@ void Medusa::Pulsation()
 
 void Medusa::Explode()
 {
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 60, radius, 50, true);
+	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 60, radius, 50, true, true);
 	App->input->DoGamePadRumble(0.5F, 1000);
 	App->camera2D->AddTrauma(40.F / 100);
 	to_delete = true; 
@@ -67,7 +68,7 @@ void Medusa::Explode()
 
 void Medusa::CenterPulsation()
 {
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 15, 3, propSpeed, true);
+	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 15, 3, propSpeed, true, true);
 	App->input->DoGamePadRumble(0.2F, 100);
 	App->camera2D->AddTrauma(0.5F / 100);
 	centerTimer.Start();

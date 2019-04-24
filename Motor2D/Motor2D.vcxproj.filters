@@ -167,10 +167,13 @@
     <ClCompile Include="Emmiter.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="Tornado.cpp">
-      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    <ClCompile Include="UiItem_Inventory.cpp">
+      <Filter>Development\Modules\GUI\managers</Filter>
     </ClCompile>
     <ClCompile Include="Medusa.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Tornado.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="EarthShaker.cpp">
@@ -365,10 +368,13 @@
     <ClInclude Include="Emmiter.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="Tornado.h">
-      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    <ClInclude Include="UiItem_Inventory.h">
+      <Filter>Development\Modules\GUI\managers</Filter>
     </ClInclude>
     <ClInclude Include="Medusa.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Tornado.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="EarthShaker.h">

@@ -47,7 +47,7 @@ private:
 	float traumaDecay = 0.9f;
 	float maxOffset = 16.f;
 	iPoint preShakePos;
-	bool debug = true;
+	bool debug = false;
 };
 
 #endif //__J1MODULECAMERA2D_H__

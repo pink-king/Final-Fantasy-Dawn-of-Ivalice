@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1EntityFactory.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* section, std::string type, std::string charName, UiItem*const parent) :UiItem(position, parent)
 {
@@ -26,31 +27,18 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 
 
 	// lastly, define the player to keep an eye at
+	keepAnEye.character = charName;
 
-	if (charName == "Marche")
-	{
-		keepAnEye.character = "Marche"; 
-	}
-	else if (charName == "Ritz")
-	{
-		keepAnEye.character = "Ritz";
-	}
-	else if (charName == "Shara")
-	{
-		keepAnEye.character = "Shara";
-	}
-
+	
 	
 	this->parent = parent; 
 }
 
 void UiItem_CooldownClock::Draw(const float & dt)
 {
+	BROFILER_CATEGORY("Clock draw", Profiler::Color::Azure);
 
-	
-	
-	//SDL_SetTextureAlphaMod(App->gui->GetAtlas(), alphaValue);
-	
+
 	DoLogic(); 
 
 	if (!hide)
@@ -71,31 +59,24 @@ void UiItem_CooldownClock::CheckState()
 {
 
 
-	
-
-
-	// potion    // TODO (when potion cooldonwn available 
-	
-
-
-
 }
 
 
 
 void UiItem_CooldownClock::DoLogic()
 {
+	BROFILER_CATEGORY("Clock Logic", Profiler::Color::Aqua);
 
-	LastHeight = this->section.h; 
+	LastHeight = this->section.h;
 
 	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
 	{
 
-		hide = false; 
+		hide = false;
 
-		float proportion = 0.0f; 
+		float proportion = 0.0f;
 
 		// ability 1 
 		if (keepAnEye.ability == "special1")
@@ -104,14 +85,14 @@ void UiItem_CooldownClock::DoLogic()
 				< App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime)
 			{
 
-				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight; 
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.cooldownTime / maxHeight;
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special1.timer.Read() / proportion;
-			
+
 				heightDiff = LastHeight - this->section.h;
 
-				this->hitBox.y += heightDiff; 
-			
+				this->hitBox.y += heightDiff;
+
 			}
 			else
 			{
@@ -131,7 +112,7 @@ void UiItem_CooldownClock::DoLogic()
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.special2.timer.Read() / proportion;
 
-				heightDiff = LastHeight - this->section.h; 
+				heightDiff = LastHeight - this->section.h;
 
 				this->hitBox.y += heightDiff;
 
@@ -151,6 +132,11 @@ void UiItem_CooldownClock::DoLogic()
 			{
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / this->section.h;
 
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
+
+				heightDiff = LastHeight - this->section.h;
+
+				this->hitBox.y += heightDiff;
 			}
 			else
 			{
@@ -158,12 +144,12 @@ void UiItem_CooldownClock::DoLogic()
 			}
 		}
 
-		
+
 
 	}
 	else
 	{
-		hide = true; 
+		hide = true;
 
 
 		// TODO: Prevent h section from diminishing when clock is paused 
@@ -175,8 +161,6 @@ void UiItem_CooldownClock::DoLogic()
 void UiItem_CooldownClock::Restart()
 {
 	hide = true;
-
-	// TODO: Reset clock
 
 
 }

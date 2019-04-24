@@ -16,8 +16,8 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
-#include "EarthShaker.h"
 #include "Brofiler/Brofiler.h"
+#include "EarthShaker.h"
 #include <ctime>
 #include <algorithm>
 
@@ -75,24 +75,29 @@ bool j1EntityFactory::Start()
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
+	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
+
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
 	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
-	swapChar = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	swapCharSFX = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
 	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
 
 	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche_damaged.wav");
-	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1.wav");
-	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/marche_basic2.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/marche_basic1Grunt.wav");
+	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/marche_basic2Grunt.wav");
 	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/marche_tornado.wav");
-	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate_Scream.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/marcheUltimate.wav");
 	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/marche_ability1.wav");
+	marcheEarthShakeSFX = App->audio->LoadFx("audio/fx/Player/marche_earthShake.wav");
+	marcheTornadoExplosion = App->audio->LoadFx("audio/fx/Player/marche_tornado_explosion.wav");
 	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz_damaged.wav");
 	RitzBasic = App->audio->LoadFx("audio/fx/Player/ritz_basic.wav");
 	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/ritz_basic_hit.wav");
+	RitzMedusa = App->audio->LoadFx("audio/fx/Player/ritz_medusa.wav");
 	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz_Ability2.wav");
 	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/ritz_teleport.wav");
 	RitzUltimate = App->audio->LoadFx("audio/fx/Player/ritz_ultimateTest2.wav");
@@ -101,12 +106,13 @@ bool j1EntityFactory::Start()
 	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara_damaged.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
 	basicBodyImp = App->audio->LoadFx("audio/fx/Player/arrow_impactBody.wav");
-	basicWallImp = App->audio->LoadFx("audio/fx/Player/basic_wall_impact.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/sharaBasic.wav");
 	strech_Shoot = App->audio->LoadFx("audio/fx/Player/strech&shoot.wav");
 	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara_ultimate_woosh.wav");
 	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/SharaUltimateGrounding.wav");
 	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/shara_ability1.wav");
+	sharaBasic_ImpactsWall = App->audio->LoadFx("audio/fx/Player/SharaBasicImpact.wav");
+	sharaAbility1_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility1_impactswall.wav");
 	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/sharaAbility2_impactswall.wav");
 	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/SharaAbility2Shoot.wav");
 
@@ -117,6 +123,7 @@ bool j1EntityFactory::Start()
 	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
 
 	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
+	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
 
 
 	LoadSpawnGroups();
@@ -128,6 +135,8 @@ bool j1EntityFactory::Start()
 
 bool j1EntityFactory::PreUpdate()
 {
+	BROFILER_CATEGORY("Entities PreUpdate", Profiler::Color::LavenderBlush);
+
 	bool ret = true;
 	
 	// logic / collisions
@@ -171,7 +180,7 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::NO_TYPE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
 					createLoot = true;
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
@@ -184,10 +193,12 @@ bool j1EntityFactory::Update(float dt)
 			}
 			if (createLoot)
 			{
-				CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				//CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
+				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
 				justGold = true;
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				
+
 
 			}
 			
@@ -247,10 +258,11 @@ bool j1EntityFactory::CleanUp()
 	App->tex->UnLoad(enemyZombieTex);
 	App->tex->UnLoad(enemyBombTex);
 	App->tex->UnLoad(debugsubtileTex);
+	App->tex->UnLoad(arrowsTexture);
 	App->tex->UnLoad(ritzUltimateTex);
 	App->tex->UnLoad(ritzBasicTex);
-	App->tex->UnLoad(arrowsTexture);
 	App->tex->UnLoad(marcheTornadoTex);
+	App->tex->UnLoad(lootItemsTex); 
 
 	return ret;
 }
@@ -283,15 +295,18 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		/*ret = CreateLootType(positionX, positionY);
+		ret = CreateLootType(positionX, positionY);
 		if (ret != nullptr)
 		{
 			ret->type = LOOT;
 			ret->name = name;
 			LoadLootData((LootEntity*)ret, App->config);
-
+			
 			entities.push_back(ret);
-		}*/
+		}
+
+			//GenerateDescriptionForLootItem((LootEntity*)ret);
+		
 		LOG("From factory Loot Entity");
 		break;
 	default:
@@ -359,7 +374,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				if (CreateRandomBetween(1, 10) <= bombProbs)
 				{
 					// Last paramater is dummy
-					ret = CreateEnemy(EnemyType::BOMB, spawnPos, true);
+					ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
 
 					if (ret != nullptr)
 					{
@@ -376,7 +391,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
 				{	
 					// Last paramater is dummy
-					ret = CreateEnemy(EnemyType::TEST, spawnPos, true);
+					ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
 
 					if (ret != nullptr)
 					{
@@ -449,7 +464,7 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 	case PROJECTILE_TYPE::MEDUSA:
 		ret = new Medusa(pos, owner);
 		entities.push_back(ret);
-		break; 
+		break;
 
 	case PROJECTILE_TYPE::TORNADO:
 		ret = new Tornado(pos, destination, speed, owner);
@@ -459,7 +474,7 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 	case PROJECTILE_TYPE::EARTH_SHAKER:
 		ret = new EarthShaker(pos, owner);
 		entities.push_back(ret);
-		break; 
+		break;
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
@@ -834,6 +849,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -908,6 +924,8 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -982,6 +1000,8 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
+
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)
@@ -1109,6 +1129,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1185,6 +1206,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1261,6 +1283,7 @@ bool j1EntityFactory::LoadLootData(LootEntity * lootEntity, pugi::xml_node & con
 
 				if (id == randID)
 				{
+					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
 					{
@@ -1344,27 +1367,27 @@ int j1EntityFactory::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-//j1Entity * j1EntityFactory::CreateLootType(int x, int y)
-//{
-//	j1Entity * ret = nullptr;
-//
-//	switch (WillDrop())
-//	{
-//	case LOOT_TYPE::CONSUMABLE:
-//
-//		ret = new Consumable(x, y);
-//		break;
-//
-//	case LOOT_TYPE::EQUIPABLE:
-//		ret = new Equipable(x, y);
-//		break;
-//
-//	default:
-//		break;
-//	}
-//
-//	return ret;
-//}
+j1Entity * j1EntityFactory::CreateLootType(int x, int y)
+{
+	j1Entity * ret = nullptr;
+
+	switch (WillDrop())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+
+		ret = new Consumable(x, y);
+		break;
+
+	case LOOT_TYPE::EQUIPABLE:
+		ret = new Equipable(x, y);
+		break;
+
+	default:
+		break;
+	}
+
+	return ret;
+}
 
 LOOT_TYPE j1EntityFactory::WillDrop()
 {
@@ -1394,4 +1417,138 @@ iPoint j1EntityFactory::GetEnemySubtile(j1Entity * enemy)
 iPoint j1EntityFactory::SetLootPos(int x, int y)
 {
 	return App->map->SubTileMapToWorld(x, y);
+}
+
+
+void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
+{
+
+	SDL_Rect destRect = App->scene->lootPanelRect;
+	iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
+
+	if (lootItem->GetType() == LOOT_TYPE::EQUIPABLE)
+	{
+		if (lootItem->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
+		{
+
+
+			float attack, resistance;
+			attack = resistance = 0.0f;
+
+
+
+			std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+			for (; iter != lootItem->stats.end(); ++iter)
+			{
+				if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+				{
+					attack = (*iter)->GetValue();
+				}
+				else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+				{
+					resistance = (*iter)->GetValue();
+				}
+
+			}
+
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
+
+
+			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+			lootItem->MyDescription->iconImage->printFromLoot = true;
+			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+
+		}
+		else if (lootItem->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT || lootItem->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT)
+		{
+
+
+			int defense, HP, velocity;
+			defense = HP = velocity = 666;
+
+			std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+			for (; iter != lootItem->stats.end(); ++iter)
+			{
+				if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+				{
+					defense = (int)(*iter)->GetValue();
+				}
+				else if ((*iter)->GetRol() == ROL::HEALTH)
+				{
+					HP = (int)(*iter)->GetValue();
+				}
+				else if ((*iter)->GetRol() == ROL::VELOCITY)
+				{
+					velocity = (int)(*iter)->GetValue();
+				}
+
+			}
+
+			EquipmentStatType data;
+			data.HP = HP;
+			data.velocity = velocity;
+
+			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel);
+
+
+			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+			lootItem->MyDescription->iconImage->printFromLoot = true;
+			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+
+
+
+		}
+
+	}
+
+	else if (lootItem->GetType() == LOOT_TYPE::CONSUMABLE)
+	{                                                       // TODO: Also capture the potion duration when available
+
+		uint HP = 0;
+
+		std::vector<Buff*>::iterator iter = lootItem->stats.begin();
+		for (; iter != lootItem->stats.end(); ++iter)
+		{
+			if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+			{
+				HP = (*iter)->GetValue();
+			}
+
+		}
+
+		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
+
+		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
+
+		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
+		lootItem->MyDescription->iconImage->printFromLoot = true;
+		lootItem->MyDescription->iconImage->scaleFactor = 6.0f;
+	}
+
+
+
+	// hide all elements until the item is focused by the Corsshair 
+
+	//lootItem->MyDescription->HideAllElements(true);
+
+
+}
+
+void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
+{
+
+	if (lootItem->spawnedDescription)
+	{
+			if (lootItem->MyDescription->hasToCompare)
+			{
+				lootItem->MyDescription->ChangeComparisonLabels();   // this compares and puts the "compare" boolean to false
+			}
+
+	}
+	
+
 }

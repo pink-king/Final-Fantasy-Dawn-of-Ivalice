@@ -9,6 +9,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
+	manualCollectable = false;
 }
 
 
@@ -37,17 +38,28 @@ bool Equipable::Update(float dt)
 		LOG("displaced %f", position.x - originPos.x);
 		LOG("actual time %f", timeTest);
 	}
-	else
+	else grounded = true;
+	/*else if(!repositionDescription)
 	{
-		grounded = true;
+		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
+		repositionDescription = true; 
+	}*/
 
-	}
 
+	/*if (!spawnedDescription)
+	{*/
+		
+	//}
+
+	
 	if (checkgrounded && grounded)
 	{
 		checkgrounded = false;
 		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 	}
+
+	CheckClampedCrossHairToSpawnDescription();
+
 	return true;
 }
 

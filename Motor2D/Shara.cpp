@@ -5,6 +5,7 @@
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
+#include "j1ParticlesClassic.h"
 
 Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 {
@@ -14,6 +15,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	// TODO: import from xml
 	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/shara/Shara_dash_WIP.png");
+	ultiCastTex = App->tex->Load("textures/characters/shara/Shara_ultimate_animation.png");
 	entityTex = spritesheet;
 
 	// TODO: improve this from xml and with for loop, just for testing now
@@ -51,7 +53,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	run[(int)facingDirection::E].PushBack({ 110,120,55,60 });
 	run[(int)facingDirection::E].PushBack({ 165,120,55,60 });
 	run[(int)facingDirection::E].PushBack({ 220,120,55,60 });
-	run[(int)facingDirection::E].PushBack({ 275,120,45,60 });
+	run[(int)facingDirection::E].PushBack({ 275,120,55,60 });
 	run[(int)facingDirection::E].speed = 10.0f;
 
 	run[(int)facingDirection::W].PushBack({ 0,120,55,60 });
@@ -59,7 +61,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	run[(int)facingDirection::W].PushBack({ 110,120,55,60 });
 	run[(int)facingDirection::W].PushBack({ 165,120,55,60 });
 	run[(int)facingDirection::W].PushBack({ 220,120,55,60 });
-	run[(int)facingDirection::W].PushBack({ 275,120,45,60 });
+	run[(int)facingDirection::W].PushBack({ 275,120,55,60 });
 	run[(int)facingDirection::W].speed = 10.0f;
 
 	run[(int)facingDirection::SE].PushBack({ 0,240,55,60 });
@@ -193,8 +195,113 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	dashPivotOffset[(int)facingDirection::SW][2] = { 50.f,87.f };
 	dashPivotOffset[(int)facingDirection::SW][3] = { 40.f,91.f };
 
-	dashMaxDistance = 120.f;
+	// ULTIMATE shot animation
 
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 0, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 45, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 90, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 135, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 180, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 225, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 270, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 315, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 360, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].PushBack({ 405, 0, 45, 70 });
+	ultiCastAnim[(int)facingDirection::S].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::S].loop = false; 
+	
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 0, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 45, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 90, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 135, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 180, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 225, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 270, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 315, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 360, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].PushBack({ 405, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SE].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::SE].loop = false;
+	
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 0, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 45, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 90, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 135, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 180, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 225, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 270, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 315, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 360, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].PushBack({ 405, 70, 45, 70 });
+	ultiCastAnim[(int)facingDirection::SW].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::SW].loop = false;
+	
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 0, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 45, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 90, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 135, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 180, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 225, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 270, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 315, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 360, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].PushBack({ 405, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::E].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::E].loop = false;
+	
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 0, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 45, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 90, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 135, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 180, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 225, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 270, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 315, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 360, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].PushBack({ 405, 140, 45, 70 });
+	ultiCastAnim[(int)facingDirection::W].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::W].loop = false;
+	
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 0, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 45, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 90, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 135, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 180, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 225, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 270, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 315, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 360, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].PushBack({ 405, 210, 45, 70 });
+	ultiCastAnim[(int)facingDirection::N].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::N].loop = false;
+	
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 0, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 45, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 90, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 135, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 180, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 225, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 270, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 315, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 360, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].PushBack({ 405, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NE].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::NE].loop = false;
+	
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 0, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 45, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 90, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 135, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 180, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 225, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 270, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 315, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 360, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].PushBack({ 405, 280, 45, 70 });
+	ultiCastAnim[(int)facingDirection::NW].speed = 15.F;
+	ultiCastAnim[(int)facingDirection::NW].loop = false;
+
+	dashMaxDistance = 120.f;
 
 	currentAnimation = &run[(int)facingDirection::SE];
 
@@ -204,12 +311,15 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1000;
 	coolDownData.ultimate.cooldownTime = 3000;
-	coolDownData.dodge.cooldownTime = 500;
+	maxEmitterDelayTime = 1000;
+
 	previousPos = position;
 }
 
 Shara::~Shara()
-{}
+{
+	App->tex->UnLoad(ultiCastTex);
+}
 
 bool Shara::Start()
 {
@@ -229,11 +339,7 @@ bool Shara::Update(float dt)
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
-	/*if (App->pathfinding->IsWalkable(onTilePos))
-	{
-		previousPos = position;*/
-
-
+	
 	if (!isParalize)
 	{
 		if (inputReady)
@@ -242,12 +348,7 @@ bool Shara::Update(float dt)
 			InputCombat();
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
-		{	// TODO: do switch combat state if this get more complexity
-
-			//reposition pos
-			transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
-			transference_pivot -= pivot;
-
+		{
 			if (currentAnimation->Finished())
 			{
 				currentAnimation->Reset();
@@ -256,11 +357,20 @@ bool Shara::Update(float dt)
 				inputReady = true;
 				transference_pivot = { 0,0 };
 			}
-
-			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
-
 		}
 	}
+
+	// Check if we have a emitter to instantiate from ultimate 
+	// TODO: add emitter delayer on emitter itself
+	if (instantiateEmitter)
+	{
+		if (ultiEmitterTimerDelayer.Read() >= maxEmitterDelayTime)
+		{
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::EMMITER);
+			instantiateEmitter = false;
+		}
+	}
+	// ---------------------------------------------------------
 
 	if (stat.size() != 0)
 	{
@@ -294,12 +404,21 @@ bool Shara::Update(float dt)
 		}
 		break;
 	case combatState::DODGE:
+	{
 		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
 		{
 			coolDownData.dodge.timer.Start();
 			//App->audio->PlayFx(App->entityFactory->dash, 0);
 		}
+		if (!inputReady)
+		{
+			//reposition pos
+			transference_pivot = dashPivotOffset[pointingDir][(int)currentAnimation->GetCurrentFloatFrame()];
+			transference_pivot -= pivot;
+			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
+		}
 		break;
+	}
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
@@ -312,17 +431,17 @@ bool Shara::Update(float dt)
 			//App->input->DoGamePadRumble(0.3f, 100);
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special1)
+			if (!App->gui->spawnedClocks.Shara.special1)
 			{
 
-				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Ritz", App->scene->inGamePanel);
+				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Shara", App->scene->inGamePanel);
 
-				App->gui->spawnedClocks.Ritz.special1 = true;
+				App->gui->spawnedClocks.Shara.special1 = true;
 			}
 			else
 			{
 				myUIClocks.special1->Restart();
-			}*/
+			}
 
 
 		}
@@ -339,17 +458,17 @@ bool Shara::Update(float dt)
 
 			// add gui clock
 
-			/*if (!App->gui->spawnedClocks.Ritz.special2)
+			if (!App->gui->spawnedClocks.Shara.special2)
 			{
 
-				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Ritz", App->scene->inGamePanel);
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Shara", App->scene->inGamePanel);
 
-				App->gui->spawnedClocks.Ritz.special2 = true;
+				App->gui->spawnedClocks.Shara.special2 = true;
 			}
 			else
 			{
 				myUIClocks.special2->Restart();
-			}*/
+			}
 
 
 		}
@@ -357,20 +476,76 @@ bool Shara::Update(float dt)
 
 	case combatState::ULTIMATE:
 	{
-		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
+		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime && inputReady)
 		{
-			/*App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
-			LOG("Launch ULTIMATE");
+			LOG("Launch ULTIMATE"); // this basic requieres no input while casting
+			if (ultiCastTex != nullptr)
+			{
+				SetStopperState();
+				//App->audio->PlayFx(App->entityFactory->RitzBasic, 0);
+			}
 
-			App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 20, 40);
-			App->camera2D->AddTrauma(70.0f / 100.f);
-			App->input->DoGamePadRumble(0.7f, 400);*/
+			// TODO: Adds a camera shaking based on "x" needed data from attack components
+			// same applies when we receive damage
+			App->camera2D->AddTrauma(.74f);
+			App->input->DoGamePadRumble(0.3f, 100);
 
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::EMMITER);
+			// CLOCKS
+			if (!App->gui->spawnedClocks.Shara.ulti)
+			{
 
-			coolDownData.ultimate.timer.Start();
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Shara", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Shara.ulti = true;
+			}
+			else
+			{
+				myUIClocks.ulti->Restart();
+			}
 
 		}
+		if (!inputReady)
+		{
+			// wait until the required casting frame, and we are done
+			if ((int)currentAnimation->GetCurrentFloatFrame() >= 8) // shot frame
+			{
+				// prepares emitter instantiation
+				instantiateEmitter = true;
+				// launch particle
+				App->particles->AddParticle(App->particles->arrow, GetPivotPos().x, GetPivotPos().y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32, 8);
+				// change combat state to idle
+				combat_state = combatState::IDLE;
+				App->camera2D->AddTrauma(40.0f / 100.f);
+				App->input->DoGamePadRumble(0.4f, 100);
+				// restart timer
+				coolDownData.ultimate.timer.Start();
+			}
+		}
+		break;
+
+
+
+		/*if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
+		{
+			coolDownData.ultimate.timer.Start();
+
+
+			if (!App->gui->spawnedClocks.Shara.ulti)
+			{
+
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Shara", App->scene->inGamePanel);
+
+				App->gui->spawnedClocks.Shara.ulti = true;
+			}
+			else
+			{
+				myUIClocks.ulti->Restart();
+			}
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::EMMITER);
+
+
+		}*/
+		
 		break;
 	}
 	case combatState::MAX:
@@ -379,7 +554,67 @@ bool Shara::Update(float dt)
 		break;
 	}
 
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->entityFactory->player->ConsumConsumable(*item, this);
+	}
+
 	return true;
+}
+
+// TODO: think this and port to parent class
+// used the same maybe on all characters
+
+bool Shara::SetStopperState() // disable user player input and sets the facing dir to crosshair angle, set textures and animations
+{
+	bool ret = true;
+
+	inputReady = false; // deactivate user input
+	// checks the direction of aiming
+	iPoint targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
+	fPoint targetPos;
+	targetPos.x = targetDirection.x - GetPivotPos().x;
+	targetPos.y = targetDirection.y - GetPivotPos().y;
+	targetPos.Normalize();
+	// sets new pointing dir
+	float angle = atan2f(targetPos.y, targetPos.x);
+	pointingDir = GetPointingDir(angle);
+	// updates renderflip if we need
+	CheckRenderFlip();
+	// links animation and textures
+	switch (combat_state)
+	{
+	case combatState::IDLE:
+		break;
+	case combatState::BASIC:
+	{
+		/*currentAnimation = &attack1[pointingDir];
+		entityTex = attack1Tex;*/
+		break;
+	}
+	case combatState::DODGE: // common on all three player subclasses, this behaviour pertains to player Entity
+		break;
+	case combatState::SPECIAL1:
+		break;
+	case combatState::SPECIAL2:
+		break;
+	case combatState::ULTIMATE:
+	{
+		App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);
+		currentAnimation = &ultiCastAnim[pointingDir];
+		entityTex = ultiCastTex;
+		break;
+	}
+	case combatState::MAX:
+		break;
+	default:
+		ret = false;
+		break;
+	}
+
+	return ret;
 }
 
 //bool Shara::CleanUp()

@@ -29,7 +29,7 @@ public:
 public:
 	iPoint GetSubtilePoint();
 	iPoint GetPivotPos();
-
+	j1Entity* GetClampedEntity() const;
 private:
 	bool ManageInput(float dt);
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
@@ -49,6 +49,8 @@ private:
 	fPoint sensitivitySpeed = { 5.f,5.f };
 	bool clamped = false; // following a enemy entity
 	float maxRadiusDistance;
+
+	
 };
 
 
@@ -86,7 +88,7 @@ public:
 	PlayerEntity* selectedCharacterEntity = nullptr;
 
 	//loot funtions
-	bool CollectLoot(LootEntity* entityLoot);
+	bool CollectLoot(LootEntity* entityLoot, bool fromCrosshair = false);
 
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
@@ -106,6 +108,11 @@ public:
 
 	uint							gold = 0;
 	std::string						str_coin;
+
+	Crosshair* GetCrosshair()
+	{
+		return crossHair;
+	}
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
@@ -123,7 +130,8 @@ private:
 	bool debug = true;
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	
+	bool deleteObj = false;
+
 	unsigned int pickLoot;
 	unsigned int pickGold;
 	unsigned int consumHealPotion;

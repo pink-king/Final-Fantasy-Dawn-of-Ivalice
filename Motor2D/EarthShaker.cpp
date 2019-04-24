@@ -4,10 +4,14 @@
 #include "j1Input.h"
 #include "p2Defs.h"
 #include "j1EntityFactory.h"
+#include "p2Defs.h"
+#include "j1EntityFactory.h"
 EarthShaker::EarthShaker(fPoint pos, const j1Entity* owner) : Projectile(pos, {0,0}, 0, owner, "EarthShaker", PROJECTILE_TYPE::EARTH_SHAKER)
 {
 	gen.seed(rd());
 	tornados = 5;
+	App->audio->PlayFx(App->entityFactory->marcheEarthShakeSFX, 0);
+
 }
 
 EarthShaker::~EarthShaker()
