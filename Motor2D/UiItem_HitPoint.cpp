@@ -11,14 +11,14 @@
 UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
-	lifeSpan.Start(); 
+	lifeSpan.Start();
 
 	texture = App->font->Print(valueInfo.string.data(), color, font);
-	
+
 	this->numerOrText = type;
 
 	this->guiType = GUI_TYPES::HITPOINT;
-	
+
 	this->valueInformation.string = valueInfo.string;
 	this->valueInformation.number = valueInfo.number;   // necessary for HitPoint manager
 
@@ -39,7 +39,7 @@ UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * f
 	texture = App->font->Print(text.data(), color, font);
 
 	// distinguish both types
-	this->numerOrText = type; 
+	this->numerOrText = type;
 
 	this->guiType = GUI_TYPES::HITPOINT;
 
@@ -60,7 +60,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	// TODO: blit hitPoints with an extra value: the scaling
 
-	returnLifeState(); 
+	returnLifeState();
 
 	if (!App->scene->inventory->enable)
 	{
@@ -79,7 +79,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	}
 
-	
+
 
 
 }
@@ -87,15 +87,15 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 lifeState UiItem_HitPoint::returnLifeState() {
 
-	lifeState ret = fadeIn; 
-	uint lifeMoment = lifeSpan.ReadMs(); 
+	lifeState ret = fadeIn;
+	uint lifeMoment = lifeSpan.ReadMs();
 
 
 	// first considerate the type
-	uint maxLife = 0; 
+	uint maxLife = 0;
 	if (this->numerOrText == variant::number)
 	{
-		maxLife = NUMBER_LIFE; 
+		maxLife = NUMBER_LIFE;
 	}
 	else
 	{
@@ -103,27 +103,27 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	}
 
-		if (lifeMoment < 300)
-		{
-			ret = fadeIn;
-		}
-		else if (lifeMoment >= 300 && lifeMoment <= 1000)
-		{
-			ret = Middle;
-		}
-		else if (lifeMoment > 1000 && lifeMoment <= maxLife)
-		{
-			ret = fadeOut;
-		}
-		else
-		{
-			ret = dead;
-			//CleanUp(); 
-			to_delete = true;
-		}
+	if (lifeMoment < 300)
+	{
+		ret = fadeIn;
+	}
+	else if (lifeMoment >= 300 && lifeMoment <= 1000)
+	{
+		ret = Middle;
+	}
+	else if (lifeMoment > 1000 && lifeMoment <= maxLife)
+	{
+		ret = fadeOut;
+	}
+	else
+	{
+		ret = dead;
+		//CleanUp(); 
+		to_delete = true;
+	}
 
 
-	return ret; 
+	return ret;
 }
 
 
@@ -150,7 +150,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 		/*if (attachedEntity->life > 0)    // TODO: DO THIS FROM THE ENEMY
 		{
 			  // TODO: DO THIS FROM THE ENEMY
-			
+
 			if (attachedEntity->life > 0)    // have a "pivot" on the enemy
 			{
 				//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
@@ -160,7 +160,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 				hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w / 2;
 
 			}
-			
+
 		}
 		else
 			LOG("");
@@ -168,10 +168,10 @@ void UiItem_HitPoint::updateHitPointPositions()
 		}*/
 	}
 
-			// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
-			/*int w, h;
-			SDL_QueryTexture((*item)->texture, NULL, NULL, &w, &h);
-			 */
+	// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
+	/*int w, h;
+	SDL_QueryTexture((*item)->texture, NULL, NULL, &w, &h);
+	 */
 
 }
 
@@ -184,31 +184,31 @@ void UiItem_HitPoint::updateHitPointSizes()
 
 		switch (returnLifeState())
 		{
-			case fadeIn:
-				scaleFactor *= 1.03f;
-				break;
-			case Middle:
+		case fadeIn:
+			scaleFactor *= 1.03f;
+			break;
+		case Middle:
 
-				if (this->numerOrText == variant::number)
-				{
-					scaleFactor /= 1.003f;
-				}
+			if (this->numerOrText == variant::number)
+			{
+				scaleFactor /= 1.003f;
+			}
 
-				break;
-			case fadeOut:
+			break;
+		case fadeOut:
 
-				if (this->numerOrText == variant::number)
-				{
-					scaleFactor /= 1.02f;
-				}
-				else
-				{
-					scaleFactor /= 1.005f;
-				}
-				break;
+			if (this->numerOrText == variant::number)
+			{
+				scaleFactor /= 1.02f;
+			}
+			else
+			{
+				scaleFactor /= 1.005f;
+			}
+			break;
 		}
 	}
-		
+
 }
 
 
@@ -217,35 +217,35 @@ void UiItem_HitPoint::updateHitPointOpacities()
 	BROFILER_CATEGORY("Hit Point Update Opacities", Profiler::Color::DarkTurquoise);
 
 	if (returnLifeState() != dead)
+	{
+		switch (returnLifeState())
 		{
-			switch (returnLifeState())
+		case fadeIn:
+			alphaValue *= 3;
+			break;
+		case Middle:
+			if (this->numerOrText == variant::number)
 			{
-			case fadeIn:
-				alphaValue *= 3;
-				break;
-			case Middle:
-				if (this->numerOrText == variant::number)
-				{
-					alphaValue /= 1.1f;
-				}
-				else
-				{
-					alphaValue /= 1.01f;
-				}
+				alphaValue /= 1.1f;
+			}
+			else
+			{
+				alphaValue /= 1.01f;
+			}
 
-				break;
-			case fadeOut:
-				if (this->numerOrText == variant::number)
-				{
-					alphaValue /= 1.7f;
-				}
-				else
-				{
-					alphaValue /= 1.1f;
-				}
-				break;
+			break;
+		case fadeOut:
+			if (this->numerOrText == variant::number)
+			{
+				alphaValue /= 1.7f;
 			}
-			SDL_SetTextureAlphaMod(texture,alphaValue);
+			else
+			{
+				alphaValue /= 1.1f;
 			}
+			break;
+		}
+		SDL_SetTextureAlphaMod(texture, alphaValue);
+	}
 
 }

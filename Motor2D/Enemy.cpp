@@ -23,6 +23,8 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 
 	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+
+
 	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
 }
 
