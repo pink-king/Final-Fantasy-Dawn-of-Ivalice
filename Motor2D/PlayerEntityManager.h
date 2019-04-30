@@ -86,7 +86,6 @@ public:
 	const j1Entity* GetSelectedCharacterEntity() const;
 	const float GetLastPlayerHeadingAngle() const;
 	PlayerEntity* selectedCharacterEntity = nullptr;
-	int pointingDirectionTemp;
 	//loot funtions
 	bool CollectLoot(LootEntity* entityLoot, bool fromCrosshair = false);
 

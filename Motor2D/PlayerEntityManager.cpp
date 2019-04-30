@@ -305,7 +305,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 {
 	float current_frame = 0;
 	fPoint tempPosition;
-	pointingDirectionTemp = 0;
+	int pointingDirectionTemp = 0;
 
 	std::vector<PlayerEntity*>::reverse_iterator leftItem = characters.rbegin();
 
