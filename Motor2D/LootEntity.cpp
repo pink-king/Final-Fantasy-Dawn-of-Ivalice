@@ -255,7 +255,7 @@ void LootEntity::ExplosionMaker(float dt)
 
 
 
-void LootEntity::CheckClampedCrossHairToSpawnDescription()
+void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this with player proximity instead of crosshair
 {
 	// if the crosshair focuses the item and description is hiden 
 

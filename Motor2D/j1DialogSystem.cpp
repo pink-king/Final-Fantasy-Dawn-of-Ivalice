@@ -38,7 +38,7 @@ bool j1DialogSystem::Update(float dt)
 	}
 		
 
-
+	// change keys for hover / unhover and controller A button
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
