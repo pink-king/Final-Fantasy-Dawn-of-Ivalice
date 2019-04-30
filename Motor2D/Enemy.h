@@ -100,7 +100,7 @@ protected:
 
 	uint pointingDir = 0; 
 	SDL_Texture* debugSubtile = nullptr;
-	uint baseDamage;
+	uint baseDamage = 10;
 
 	//bool to_die = false;
 	bool dummy = false; 

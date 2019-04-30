@@ -108,6 +108,7 @@ public:
 
 	virtual void LoadEntitydata(pugi::xml_node&);
 
+	void DoPushback();
 	friend class PlayerEntity;
 	
 
@@ -145,8 +146,13 @@ public:
 	// FOR GUI ELEMENTS
 	UiItem_HealthBar* lifeBar = nullptr; 
 	
-	bool manualCollectable;
-	int value;
+	bool					manualCollectable;
+	int						value;
+
+	float					unitariX;
+	float					unitariY;
+
+	bool					DoPush = false;
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
