@@ -104,7 +104,6 @@ public:
 
 	void GenerateDescriptionForLootItem(LootEntity* lootItem);
 	void DoDescriptionComparison(LootEntity* lootItem);
-	int getPlayerPointingDir();
 public:
 
 	//j1Entity*				Player = nullptr;
