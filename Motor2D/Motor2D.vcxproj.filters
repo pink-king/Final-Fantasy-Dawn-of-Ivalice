@@ -179,6 +179,9 @@
     <ClCompile Include="EarthShaker.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="j1DialogSystem.cpp">
+      <Filter>Development\Modules\GUI\managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="EarthShaker.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="j1DialogSystem.h">
+      <Filter>Development\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

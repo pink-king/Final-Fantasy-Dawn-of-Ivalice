@@ -23,6 +23,7 @@
 #include "j1ModuleCamera2D.h"
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
+#include "j1DialogSystem.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -45,6 +46,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	particles = new j1ParticlesClassic();
 	camera2D = new j1ModuleCamera2D();
 	HPManager = new UiItem_HitPointManager();
+	dialog = new j1DialogSystem();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -63,6 +65,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(camera2D);
 	AddModule(HPManager);
+	AddModule(dialog);
 	// render last to swap buffer
 	AddModule(render);
 
