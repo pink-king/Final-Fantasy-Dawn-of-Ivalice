@@ -20,8 +20,8 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 EnemyBomb::~EnemyBomb()
 {
 	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
-	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
+	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
+
 
 
 }
@@ -37,6 +37,12 @@ bool EnemyBomb::PreUpdate()
 }
 bool EnemyBomb::Update(float dt)
 {
+	if (DoPush)
+	{
+		DoPushback();
+		DoPush = false;
+	}
+
 	if(!isParalize)
 		SetState(dt);
 	

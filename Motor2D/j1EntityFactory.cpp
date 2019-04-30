@@ -18,7 +18,6 @@
 #include "Tornado.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
-#include "DumbTrigger.h"
 #include <ctime>
 #include <algorithm>
 
@@ -83,10 +82,9 @@ bool j1EntityFactory::Start()
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
 	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
 	swapCharSFX = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
 	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
-
-	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
 
 	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche/Marche_damaged.wav");
 	marcheBasic = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic1Grunt.wav");
@@ -109,7 +107,6 @@ bool j1EntityFactory::Start()
 	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara/Shara_damaged.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/Shara/sharaBasic.wav");
 	basicBodyImp = App->audio->LoadFx("audio/fx/Player/Shara/arrow_impactBody.wav");
-	
 	strech_Shoot = App->audio->LoadFx("audio/fx/Player/Shara/strech&shoot.wav");
 	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara/Shara_ultimate_woosh.wav");
 	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/Shara/SharaUltimateGrounding.wav");
@@ -274,6 +271,12 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 {
 	j1Entity* ret = nullptr; 
 
+	std::vector<j1Entity*>::iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		if (*item == nullptr)
+			break;
+	}
 	switch (type)
 	{
 	case NO_TYPE:
@@ -283,11 +286,6 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		break;
 	case ENTITY_DYNAMIC:
 		break;
-	case TRIGGERWIN:
-		ret = new DumbTrigger({ positionX, positionY });
-		ret->type = type; 
-		entities.push_back(ret);
-		break; 
 
 	case ENEMY_TEST:
 		/*ret = new EnemyTest(iPoint(positionX, positionY));
@@ -391,16 +389,16 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 			case EnemyType::TEST:
 				if (CreateRandomBetween(1, 10) <= testProbs && cont < numEnemies)
-				{	
+				{
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
 
 					if (ret != nullptr)
 					{
-					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 10));
-					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 28));
-					numTests++;
-					cont++;
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 10));
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 28));
+						numTests++;
+						cont++;
 					}
 				}
 				break;
@@ -408,6 +406,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			default:
 				break;
 			}
+
 		}
 	}
 	LOG("Created %i Enemies", numEnemies);
@@ -621,27 +620,6 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 	return ret;
 }
 
-bool j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
-{
-
-	bool ret = true;
-
-	if (!isThisSubtileEmpty(pos))
-	{
-		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
-		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
-		{
-			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGERWIN) 
-			{
-				ret = false;
-				break;
-			}
-		}
-	}
-
-	return ret;
-}
-
 int j1EntityFactory::GetSubtileEntityIndexAt(const iPoint pos) const
 {
 	return (pos.y * subtileWidth) + pos.x;
@@ -674,15 +652,6 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
-void j1EntityFactory::AssignEntityToSubtilePos(j1Entity * entity, iPoint subtile)
-{
-	if (CheckSubtileMapBoundaries(subtile))
-		entitiesDataMap[GetSubtileEntityIndexAt(subtile)].entities.push_back(entity);
-
-	else
-			LOG("Trying to assign entity out of boundaries, ignoring");
-}
-
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 {
 	bool ret = false;
@@ -703,28 +672,6 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	}
 
 	return ret;
-}
-
-bool j1EntityFactory::DeleteEntityFromSubtilePos(j1Entity * entity, iPoint subtile)
-{
-	bool ret = false; 
-
-	int index = GetSubtileEntityIndexAt(subtile);
-
-	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
-
-	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
-	{
-		if (*entityIterator == entity)
-		{
-			//LOG("found");
-			entitiesDataMap[index].entities.erase(entityIterator);
-			ret = true;
-			break;
-		}
-	}
-
-	return ret; 
 }
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
@@ -803,7 +750,7 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 		entities.push_back(assetEntity);
 		break;
 	case EnvironmentAssetsTypes::WALL1:
-		break;		
+		break;
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
@@ -1605,4 +1552,10 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 	}
 	
 
+}
+
+int j1EntityFactory::getPlayerPointingDir()
+{
+	LOG("player pointidDir %i", player->pointingDirectionTemp);
+	return player->pointingDirectionTemp;
 }

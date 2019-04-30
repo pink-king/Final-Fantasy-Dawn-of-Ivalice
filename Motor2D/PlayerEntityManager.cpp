@@ -61,8 +61,6 @@ bool PlayerEntityManager::Start()
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
-
-	limitBagObject = 15;
 	return true;
 }
 
@@ -80,10 +78,6 @@ bool PlayerEntityManager::PreUpdate()
 bool PlayerEntityManager::Update(float dt)
 {
 	bool ret = true;
-
-	LOG("MY SUBTILE %i  %i", GetSubtilePos().x, GetSubtilePos().y);
-	if (!App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))
-		LOG("SOMEEEETHINGGGGGGGG");
 
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
 
@@ -129,17 +123,46 @@ bool PlayerEntityManager::Update(float dt)
 	//	if ((*item) != selectedCharacterEntity)
 	//		(*item)->life = selectedCharacterEntity->life;
 	//}
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
+		deleteObj = !deleteObj;
 
-	//static char title[30];
-	//sprintf_s(title, 30, " | life: %f", life);
-	//App->win->AddStringToTitle(title);
+	if (deleteObj)
+	{
+		std::vector<LootEntity*>::iterator iter = bagObjects.begin();
+		for (; iter != bagObjects.end(); ++iter)
+		{
+			delete *iter;
+			*iter = nullptr;
+		}
+		bagObjects.clear();
 
-	//*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
-	//{
-	//	static char title[30];
-	//	sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
-	//	App->win->AddStringToTitle(title);
-	//}*/
+		std::vector<LootEntity*>::iterator iter2 = equipedObjects.begin();
+		for (; iter2 != equipedObjects.end(); ++iter2)
+		{
+			delete *iter2;
+			*iter2 = nullptr;
+		}
+		equipedObjects.clear();
+
+		std::vector<LootEntity*>::iterator iter3 = consumables.begin();
+		for (; iter3 != consumables.end(); ++iter3)
+		{
+			delete *iter3;
+			*iter3 = nullptr;
+		}
+		consumables.clear();
+	}
+
+	static char title[30];
+	sprintf_s(title, 30, " | life: %f", life);
+	App->win->AddStringToTitle(title);
+
+	/*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
+	{
+		static char title[30];
+		sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
+		App->win->AddStringToTitle(title);
+	}*/
 	App->win->ClearTitle();
 
 	if (marche->stat.size() != 0)
@@ -282,7 +305,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 {
 	float current_frame = 0;
 	fPoint tempPosition;
-	int pointingDirectionTemp = 0;
+	pointingDirectionTemp = 0;
 
 	std::vector<PlayerEntity*>::reverse_iterator leftItem = characters.rbegin();
 
@@ -711,7 +734,7 @@ bool Crosshair::ManageInput(float dt)
 				
 				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
 				App->scene->AcceptUISFX_logic = true;
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN && App->entityFactory->player->bagObjects.size() < App->entityFactory->player->limitBagObject)
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 					

@@ -73,11 +73,9 @@ bool j1Scene::Start()
 
 	
 	App->camera2D->SetCameraPos({ 2000,0 });
+
 	// create player for testing purposes here
 	App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
-	App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, -1575, 2150, "TriggerWIN"); // Delete This
-	App->entityFactory->CreateEntity(ENTITY_TYPE::TRIGGERWIN, 336, 264, "TriggerWIN");	// The real one
-
 
 	if (state == SceneState::GAME)
 	{
@@ -171,26 +169,7 @@ bool j1Scene::PreUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
 		App->win->SetScale(2);*/
-	if (App->input->GetKey(SDL_SCANCODE_P) == 1)
-	{
-		UnLoadScene();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_O) == 1)
-	{
-		if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-		{
-			int w, h;
-			uchar* data = NULL;
-			if (App->map->CreateWalkabilityMap(w, h, &data))
-				App->pathfinding->SetMap(w, h, data);
 
-			RELEASE_ARRAY(data);
-
-			// re set entities data map (create or delete/create if we have a previous one)
-			App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
-			App->entityFactory->CreatePlayer({ -1575, 2150 });
-		}
-	}
 	// debug testing subtiles entities empty
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode)
 	{
@@ -255,6 +234,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
+	
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
@@ -348,6 +328,7 @@ bool j1Scene::Update(float dt)
 				{
 					Mix_ResumeMusic();
 					App->gui->resetHoverSwapping = false;
+					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
 					App->gui->GoBackToGame();
 					AcceptUISFX_logic = false;
@@ -377,8 +358,6 @@ bool j1Scene::Update(float dt)
 
 			}
 		}
-		
-
 	}
 	
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -503,13 +482,6 @@ bool j1Scene::CleanUp()
 	
 	LOG("Freeing scene");
 	return true;
-}
-
-void j1Scene::UnLoadScene()
-{
-	App->map->UnloadMap();
-	// App->entityFactory->UnLoadLevelEntities();
-	state = SceneState::NO_SCENE;
 }
 
 void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)

@@ -32,7 +32,6 @@ enum ENTITY_TYPE  // todo, pass to class
 		LOOT,
 		ENEMY_TEST,
 		PROJECTILE,
-		TRIGGERWIN,
 		// LAST
 		MAX_TYPE
 	};
@@ -109,6 +108,7 @@ public:
 
 	virtual void LoadEntitydata(pugi::xml_node&);
 
+	void DoPushback();
 	friend class PlayerEntity;
 	
 
@@ -146,8 +146,13 @@ public:
 	// FOR GUI ELEMENTS
 	UiItem_HealthBar* lifeBar = nullptr; 
 	
-	bool manualCollectable;
-	int value;
+	bool					manualCollectable;
+	int						value;
+
+	float					unitariX;
+	float					unitariY;
+
+	bool					DoPush = false;
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;

@@ -480,8 +480,8 @@
 
       </images>
     </Inventory>
-
-    <DeathScreen>
+    
+  <DeathScreen>
       <images>
         <image name="death_screen">
           <section x="1290" y="1653" w="1280" h="720"/>

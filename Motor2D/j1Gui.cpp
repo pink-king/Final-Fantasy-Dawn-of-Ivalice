@@ -82,7 +82,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
 
-	if (selected_object && selected_object->tabbed)
+	if (selected_object && selected_object->tabbed && selected_object->parent->enable)
 	{
 		switch (selected_object->guiType)
 		{
@@ -762,6 +762,7 @@ void j1Gui::GoBackToStartMenu()
 	App->scene->startMenu->enable = true;
 	App->scene->state = SceneState::STARTMENU;
 }
+
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;

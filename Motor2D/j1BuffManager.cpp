@@ -168,6 +168,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
 		App->audio->PlayFx(App->entityFactory->goblinAttack, 0);
 
+	if (attacker->type == ENTITY_TYPE::PLAYER)
+		getPlayerandEnemyVec(attacker, defender);
+
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{
 		App->gui->healthBar->damageInform.doDamage = true;
@@ -238,11 +241,10 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 		defender->isParalize = false;
 		defender->to_die = true;
-
+		
 	} 
 	else if (defender->life > 0 && attacker->type != ENTITY_TYPE::PLAYER)
 	{
-		
 			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)
 				App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
 
@@ -1062,4 +1064,77 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	default:
 		break;
 	}
+}
+
+fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
+{
+	fPoint vec;
+
+	vec.x = enemy->position.x - player->position.x;
+	vec.y = enemy->position.y - player->position.y;
+	LOG("xlabel %f", vec.x);
+	LOG("ylabel %f", vec.y);
+
+	float vecModule = sqrt(vec.x * vec.x + vec.y * vec.y);
+	LOG("vecModule %f", vecModule);
+
+	fPoint unitVec;
+	unitVec.x = vec.x / vecModule;
+	unitVec.y = vec.y / vecModule;
+	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
+	int xfactor, yfactor;
+	enemy->unitariX = unitVec.x;
+	enemy->unitariY = unitVec.y;
+	enemy->DoPush = true;
+	
+	return vec;
+
+	//if (unitVec.x > 0 && unitVec.y > 0)
+	//{
+	//	xfactor = 1;
+	//	yfactor = 1;
+	//}
+	//else if (unitVec.x > 0 && unitVec.y < 0)
+	//{
+	//	xfactor = 1;
+	//	yfactor = -1;
+	//}
+	//else if (unitVec.x < 0 && unitVec.y > 0)
+	//{
+	//	xfactor = -1;
+	//	yfactor = 1;
+	//}
+	//else if (unitVec.x < 0 && unitVec.y < 0)
+	//{
+	//	xfactor = -1;
+	//	yfactor = -1;
+	//}
+	//else if (unitVec.x == 0 && unitVec.y == 0)
+	//{
+	//	xfactor = 0;
+	//	yfactor = 0;
+	//}
+	//else if (unitVec.x == 0 && unitVec.y < 0)
+	//{
+	//	xfactor = 0;
+	//	yfactor = -1;
+	//}
+	//else if (unitVec.x < 0 && unitVec.y == 0)
+	//{
+	//	xfactor = -1;
+	//	yfactor = 0;
+	//}
+	//else if (unitVec.x > 0 && unitVec.y == 0)
+	//{
+	//	xfactor = 1;
+	//	yfactor = 0;
+	//}
+	//else if (unitVec.x == 0 && unitVec.y > 0)
+	//{
+	//	xfactor = 0;
+	//	yfactor = 1;
+	//}
+
+	/*float cosAngle = xfactor / unitVec.x;
+	float senAngle = yfactor / unitVec.y;*/
 }

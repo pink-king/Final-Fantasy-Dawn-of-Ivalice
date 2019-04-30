@@ -23,7 +23,7 @@ UiItem_HitPointManager::~UiItem_HitPointManager()
 
 bool UiItem_HitPointManager::Awake(pugi::xml_node &node)
 {
-	return true; 
+	return true;
 }
 
 bool UiItem_HitPointManager::Start()
@@ -59,16 +59,16 @@ bool UiItem_HitPointManager::Update(float dt)
 				labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
 			}
 
-			
+
 			// cleanup
 			(*hitPointIterator)->CleanUp();
 			delete (*hitPointIterator);
 			hitPointIterator = hitPointLabels.erase(hitPointIterator);
-			 
+
 		}
 	}
 
-	
+
 
 	calculatePlayerCombo();    // TODO: ideate condition so that this is not executed every frame, BUT it must not break the label spawning looping 
 
@@ -79,25 +79,25 @@ bool UiItem_HitPointManager::Update(float dt)
 bool UiItem_HitPointManager::CleanUp()
 {
 
-		for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item) 
+	for (std::vector<UiItem_HitPoint*>::iterator item = hitPointLabels.begin(); item != hitPointLabels.end(); ++item)
+	{
+		if ((*item) != nullptr)
 		{
-			if ((*item) != nullptr)
+
+
+			// first clear the texture 
+			if ((*item)->texture != nullptr)
 			{
-
-
-				// first clear the texture 
-				if ((*item)->texture != nullptr)
-				{
-					App->tex->UnLoad((*item)->texture);
-					(*item)->texture = nullptr;
-				}
-
-
-				delete *item;
-				*item = nullptr; 	
+				App->tex->UnLoad((*item)->texture);
+				(*item)->texture = nullptr;
 			}
+
+
+			delete *item;
+			*item = nullptr;
 		}
-		hitPointLabels.clear(); 
+	}
+	hitPointLabels.clear();
 
 	return true;
 }
@@ -107,22 +107,22 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 {
 	UiItem_HitPoint* ret = nullptr;
 
-	std::string str = std::to_string(damage); 
+	std::string str = std::to_string(damage);
 
 	valueInfo info = {
-	               str,
-	              damage,
+				   str,
+				  damage,
 	};
 
 
 	// TODO: load colors and fonts from XML 
 
-	SDL_Color c = {}; 
+	SDL_Color c = {};
 	switch (type)
 	{
 	case ELEMENTAL_TYPE::FIRE_ELEMENT:
 		c = { 255, 0, 0, 255 };
-		break; 
+		break;
 
 	case ELEMENTAL_TYPE::POISON_ELEMENT:
 		c = { 76, 40, 130, 255 };
@@ -136,11 +136,11 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		c = { 30, 30, 30, 255 };
 		break;
 
-	default: 
+	default:
 		c = { 30, 30, 30, 255 };
-		break; 
+		break;
 	}
-	
+
 	if (healing)
 		c = { 0, 255, 0, 255 };
 
@@ -153,25 +153,25 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 
 
 
-	
+
 
 
 
 	iPoint newPos(App->render->WorldToScreen(pos.x + 3, pos.y - 10, true));  // todo: pas the attacked entity and capture the width                                               // adjust this  
 
 
-	 ret = App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
+	ret = App->gui->AddHitPointLabel(info, c, App->font->openSansBold36, newPos, nullptr, variant::number);    // big font for testing
 
-	 if (!playerIsAttacker)
-	 {
-		 ret->fromEnemy = true;
-	 }
-	 else
-	 {
-		 ret->fromEnemy = false; 
-	 }
+	if (!playerIsAttacker)
+	{
+		ret->fromEnemy = true;
+	}
+	else
+	{
+		ret->fromEnemy = false;
+	}
 
-	 return ret; 
+	return ret;
 
 }
 
@@ -190,12 +190,12 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 	if (playerStreak > 200 && !labelsSpawned.fierce)                         // fierce 
 	{
 		iPoint pos(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x, App->entityFactory->player->selectedCharacterEntity->GetPosition().y));
-	    
-		pos.x -= 500; 
+
+		pos.x -= 500;
 		App->gui->AddHitPointLabel2("FIERCE", { 255, 165, 0,255 }, App->font->shatterBoxx36, pos, nullptr, variant::text);
 
 		labelsSpawned.fierce = true;
-		labelsSpawned.totalLabels++; 
+		labelsSpawned.totalLabels++;
 	}
 
 	if (playerStreak > 2000 && !labelsSpawned.brutal)                         // brutal   
@@ -204,15 +204,15 @@ void UiItem_HitPointManager::calculatePlayerCombo()
 
 		pos.x += 300; // to sepparate both labels
 		App->gui->AddHitPointLabel2("BRUTAL", { 255, 0, 0,255 }, App->font->shatterBoxx48, pos, nullptr, variant::text);
-		
+
 		labelsSpawned.brutal = true;
-		labelsSpawned.totalLabels++; 
+		labelsSpawned.totalLabels++;
 	}
 
 
 	if (labelScoreAccum == 0)     // reset all labels when player loses streak
 	{
-		playerStreak = 0; 
+		playerStreak = 0;
 		labelsSpawned.fierce = false;
 		labelsSpawned.brutal = false;
 

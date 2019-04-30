@@ -483,7 +483,6 @@ Ritz::~Ritz()
 {
 	App->tex->UnLoad(attack1Tex);
 	App->tex->UnLoad(teleportTex);
-	//App->tex->UnLoad();
 
 
 	if (!App->cleaningUp)
@@ -502,6 +501,11 @@ Ritz::~Ritz()
 		}
 	}
 
+
+
+
+
+	//App->tex->UnLoad();
 }
 
 bool Ritz::Start()

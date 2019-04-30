@@ -320,7 +320,6 @@ Shara::~Shara()
 {
 	App->tex->UnLoad(ultiCastTex);
 
-
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Shara.special1)

@@ -179,9 +179,6 @@
     <ClCompile Include="EarthShaker.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="DumbTrigger.cpp">
-      <Filter>Development\Modules\Entities</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -382,9 +379,6 @@
     </ClInclude>
     <ClInclude Include="EarthShaker.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="DumbTrigger.h">
-      <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
