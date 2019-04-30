@@ -50,7 +50,7 @@ bool Medusa::PostUpdate()
 
 void Medusa::Pulsation()
 {
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 5, radius, propSpeed, true);
+	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 5, radius, propSpeed, true, true);
 	App->input->DoGamePadRumble(0.2F, 500);
 	App->camera2D->AddTrauma(10.F / 100);
 	radius += 1; 
@@ -59,7 +59,7 @@ void Medusa::Pulsation()
 
 void Medusa::Explode()
 {
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 60, radius, 50, true);
+	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 60, radius, 50, true, true);
 	App->input->DoGamePadRumble(0.5F, 1000);
 	App->camera2D->AddTrauma(40.F / 100);
 	to_delete = true; 
@@ -68,7 +68,7 @@ void Medusa::Explode()
 
 void Medusa::CenterPulsation()
 {
-	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 15, 3, propSpeed, true);
+	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 15, 3, propSpeed, true, true);
 	App->input->DoGamePadRumble(0.2F, 100);
 	App->camera2D->AddTrauma(0.5F / 100);
 	centerTimer.Start();

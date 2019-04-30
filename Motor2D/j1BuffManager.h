@@ -44,7 +44,7 @@ public:
 	void ResetEntityVariables(Buff* buff);
 	//delete one buff
 	void DeleteBuff(Buff* buff);
-
+	fPoint getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy);
 	void AddItemStats(LootEntity* item);
 	void RemoveItemStat(const LootEntity* item);
 

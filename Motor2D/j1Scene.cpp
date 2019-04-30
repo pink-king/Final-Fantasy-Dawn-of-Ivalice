@@ -101,6 +101,8 @@ bool j1Scene::Start()
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
 			LoadInventory(sceneNode);
+			LoadDeathScreen(sceneNode);
+			LoadWinScreen(sceneNode);
 			LoadedUi = true;
 		}
 		App->map->active = false;
@@ -112,6 +114,8 @@ bool j1Scene::Start()
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
 		inventory->enable = false;
+		deathPanel->enable = false;
+		winPanel->enable = false;
 	}
 
 	begin = true;
@@ -307,7 +311,8 @@ bool j1Scene::Update(float dt)
 		{
 			if (!inventory->enable)
 			{
-				App->gui->resetHoverSwapping = false;
+				AcceptUISFX_logic = true;
+
 				App->pause = !App->pause;
 				if (App->pause)
 				{
@@ -317,11 +322,16 @@ bool j1Scene::Update(float dt)
 
 					pausePanel->enable = true;
 					paused = true;
+					App->gui->resetHoverSwapping = false;
 				}
 				else
 				{
 					Mix_ResumeMusic();
-					pausePanel->enable = false;
+					App->gui->resetHoverSwapping = false;
+					App->gui->selected_object->state = IDLE;
+					App->gui->selected_object = nullptr;
+					App->gui->GoBackToGame();
+					AcceptUISFX_logic = false;
 				}
 			}
 		}
@@ -754,6 +764,21 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	SharaIcon->hide = true;
 	RitzIcon->hide = true;
 
+	return true;
+}
+
+bool j1Scene::LoadDeathScreen(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node deathNode = nodeScene.child("DeathScreen");
+	deathPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(deathPanel, deathNode);
+	return true;
+}
+bool j1Scene::LoadWinScreen(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node winNode = nodeScene.child("WinScreen");
+	winPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(winPanel, winNode);
 	return true;
 }
 

@@ -54,6 +54,12 @@ bool EnemyTest::Update(float dt)
 	}*/
 	if (!isParalize)
 	{
+		if (DoPush)
+		{
+			DoPushback();
+			DoPush = false;
+		}
+
 		SetState(dt);
 
 		/*if (GetRandomValue(1, 10000) == 900)
