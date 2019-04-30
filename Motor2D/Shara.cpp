@@ -325,14 +325,17 @@ Shara::~Shara()
 		if (App->gui->spawnedClocks.Shara.special1)
 		{
 			myUIClocks.special1->to_delete = true;
+			App->gui->spawnedClocks.Shara.special1 = false;
 		}
 		if (App->gui->spawnedClocks.Shara.special2)
 		{
 			myUIClocks.special2->to_delete = true;
+			App->gui->spawnedClocks.Shara.special2 = false;
 		}
 		if (App->gui->spawnedClocks.Shara.ulti)
 		{
 			myUIClocks.ulti->to_delete = true;
+			App->gui->spawnedClocks.Shara.ulti = false;
 		}
 	}
 
