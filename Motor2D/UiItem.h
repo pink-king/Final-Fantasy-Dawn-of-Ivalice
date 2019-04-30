@@ -65,6 +65,7 @@ public:
 	iPoint textureDimensions;
 	iPoint prevTextDimension;
 	bool first_hitbox = false;
+	bool isDialog = false; 
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string& functionName) {};

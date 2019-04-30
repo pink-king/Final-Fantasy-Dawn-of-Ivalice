@@ -29,7 +29,8 @@ bool j1DialogSystem::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();        // TODO: Create function to delete all dialog elements, (distinguish them before)
-		
+		App->gui->deleteCurrentDialogs(); 
+
 		treeid = 0;
 		currentNode = dialogTrees[treeid]->dialogNodes[0];
 		input = 7;
@@ -42,6 +43,8 @@ bool j1DialogSystem::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();
+		App->gui->deleteCurrentDialogs();
+
 		treeid = 1;
 		currentNode = dialogTrees[treeid]->dialogNodes[0];
 		input = 7;
@@ -53,6 +56,8 @@ bool j1DialogSystem::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();
+		App->gui->deleteCurrentDialogs();
+
 		treeid = 2;
 		currentNode = dialogTrees[treeid]->dialogNodes[0];
 		input = 7;
@@ -62,6 +67,8 @@ bool j1DialogSystem::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();
+		App->gui->deleteCurrentDialogs();
+
 		input = 0;
 		PerformDialogue(treeid);
 	}
@@ -69,6 +76,8 @@ bool j1DialogSystem::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();
+		App->gui->deleteCurrentDialogs();
+
 		input = 1;
 		PerformDialogue(treeid);
 	}
@@ -76,12 +85,16 @@ bool j1DialogSystem::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();
+		App->gui->deleteCurrentDialogs();
+
 		input = 2;
 		PerformDialogue(treeid);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		//App->ui_manager->DeleteAllUIElements();
+		App->gui->deleteCurrentDialogs();
+
 		//dialogTrees[treeid]->karma = 0;
 		currentNode = dialogTrees[treeid]->dialogNodes[0];
 		input = 7;
@@ -153,11 +166,16 @@ void j1DialogSystem::PerformDialogue(int tr_id)
 void j1DialogSystem::BlitDialog()
 {
 	//App->ui_manager->AddLabel(150, 180, currentNode->text.c_str(), 50, App->ui_manager->screen, WHITE, "fonts/Final_Fantasy_font.ttf", this);
+	UiItem_Label* vendorLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel);
+	vendorLabel->isDialog = true; 
 
-	App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel);
 	int space = 500;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
-	             App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 0, 255, 0, 255 }, App->font->openSansBold18, iPoint(500, space += 50), App->scene->inGamePanel);
+	{
+		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 0, 255, 0, 255 }, App->font->openSansBold18, iPoint(500, space += 50), App->scene->inGamePanel);
+		characterLabel->isDialog = true; 
+	}
+		
 
 	//App->ui_manager->AddLabel(150, space += 30, currentNode->dialogOptions[i]->text.c_str(), 45, App->ui_manager->screen, GREEN, "fonts/Final_Fantasy_font.ttf", this);
 }

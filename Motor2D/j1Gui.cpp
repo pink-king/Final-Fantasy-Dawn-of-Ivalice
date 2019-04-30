@@ -488,6 +488,26 @@ void j1Gui::destroyElement(UiItem * elem)
 	}
 }
 
+void j1Gui::deleteCurrentDialogs()
+{
+	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end();)
+	{
+		if ((*item) && !(*item)->to_delete)
+		{
+			if ((*item)->isDialog)
+			{
+				delete (*item);
+				item = ListItemUI.erase(item);
+			}
+			else
+			{
+				++item; 
+			}
+		}
+	}
+
+}
+
 UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
