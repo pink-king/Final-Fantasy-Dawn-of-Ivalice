@@ -1553,9 +1553,3 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 	
 
 }
-
-int j1EntityFactory::getPlayerPointingDir()
-{
-	LOG("player pointidDir %i", player->pointingDirectionTemp);
-	return player->pointingDirectionTemp;
-}
