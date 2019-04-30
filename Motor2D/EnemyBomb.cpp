@@ -146,19 +146,14 @@ void EnemyBomb::SetState(float dt)
 			currentDestiny = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
 			currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F * 0.5F) };
 		}
+		SetNewDirection(); 
 		state = EnemyState::GO_NEXT_TILE;
 	}
 	break;
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
-		velocity.Normalize();
-		position += velocity * dt * speed;
-
-		SetLookingTo(currentDestiny.Return_fPoint());
-		currentAnimation = &run[pointingDir];
-
+		MoveToCurrDestiny(dt); 
 		state = EnemyState::CHECK;
 	}
 	break;

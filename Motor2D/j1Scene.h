@@ -66,9 +66,9 @@ public:
 	UiItem_Inventory* inventoryItem = nullptr;
 	
 	bool debug = false;
-	bool debugSubtiles = false; 
+	bool debugSubtiles = true; 
 	bool debugColl = false;
-	bool hackerMode = false;
+	bool hackerMode = true;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;

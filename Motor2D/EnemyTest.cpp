@@ -165,32 +165,20 @@ void EnemyTest::SetState(float dt)
 			currentDestiny = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
 			currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F * 0.5F) };
 		}
+		SetNewDirection();
 		state = EnemyState::GO_NEXT_TILE;
 	}
 	break;
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
-		velocity.Normalize();
-		fPoint tempPos = GetPivotPos() + velocity * dt * speed;
-
-		/*currentAnimation = &idle[(int)GetPointingDir(atan2f(velocity.y, velocity.x))];
-		CheckRenderFlip();*/
-		SetLookingTo(currentDestiny.Return_fPoint());
-		currentAnimation = &run[pointingDir];
-
-		//float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
-		//currentAnimation->SetCurrentFrame(current_cycle_frame);
-
-		// Collision between them currently not working properly
-		if (!isNextPosFree(tempPos.ReturniPoint()) && !freePass)
+		if(CheckFuturePos(dt) == false && !freePass)
 		{
 			state = EnemyState::WAITING;
 			checkTime.Start();
 			break;
 		}
-		else position = tempPos - pivot;
+		else MoveToCurrDestiny(dt); 
 
 		state = EnemyState::CHECK;
 	}
