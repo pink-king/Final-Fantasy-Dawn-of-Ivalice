@@ -7,7 +7,6 @@
 #include "j1Scene.h"
 #include <ctime>
 #include <random>
-
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name) 
  	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
@@ -334,4 +333,11 @@ void Enemy::Draw()
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 	}	
+}
+
+void j1Entity::DoPushback()
+{
+
+	position.x +=  unitariX*13;
+	position.y +=  unitariY*13;
 }
