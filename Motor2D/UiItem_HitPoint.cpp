@@ -79,8 +79,6 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	}
 
-	
-
 
 
 
