@@ -39,6 +39,22 @@ bool LootEntity::Start()
 	
 	return true;
 }
+bool LootEntity::CleanUp()
+{
+	std::vector<Buff*>::reverse_iterator Itemstat = stats.rbegin();
+
+	while (Itemstat != stats.rend())
+	{
+		if (*Itemstat != nullptr)
+		{
+			RELEASE(*Itemstat);
+			*Itemstat = nullptr;
+		}
+		++Itemstat;
+	}
+	stats.clear();
+	return true;
+}
 bool LootEntity::Update(float dt)
 {
 	

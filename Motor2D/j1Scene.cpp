@@ -27,6 +27,7 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
+	state = SceneState::STARTMENU;
 }
 
 // Destructor
@@ -47,38 +48,12 @@ bool j1Scene::Start()
 {
 	debug = false;
 
-	// App->audio->Load("audio/music/menu_1.0.ogg");
-	if (App->map->Load("maps/Level1_Final_Borders_Faked.tmx"))//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+	if(debug_tex == nullptr)
+		debug_tex = App->tex->Load("maps/path2.png");
+
+	if (state == SceneState::LEVEL1)
 	{
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
 
-		RELEASE_ARRAY(data);
-
-		// re set entities data map (create or delete/create if we have a previous one)
-		App->entityFactory->CreateEntitiesDataMap(App->map->data.width*2, App->map->data.height*2);
-	}
-
-	debug_tex = App->tex->Load("maps/path2.png");
-	
-	// More perspective on the map since the beggining
-	//App->render->camera.x = 500;
-	/*App->camera2D->SetCameraPos({ 500,0 });
-
-	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ 300,300 });*/
-
-
-	
-	App->camera2D->SetCameraPos({ 2000,0 });
-
-	// create player for testing purposes here
-	App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
-
-	if (state == SceneState::GAME)
-	{
 		App->map->active = true;
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
@@ -88,6 +63,9 @@ bool j1Scene::Start()
 		settingPanel->enable = false;
 		if (startMenu->enable)
 			startMenu->enable = false;
+
+		App->audio->PlayFx(enterGameSFX, 0);
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 	}
 	if (state == SceneState::STARTMENU)
 	{
@@ -116,14 +94,38 @@ bool j1Scene::Start()
 		inventory->enable = false;
 		deathPanel->enable = false;
 		winPanel->enable = false;
+
+		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
+		begin = false;
+	}
+
+	if (state == SceneState::DEATH)
+	{
+		App->gui->resetHoverSwapping = false;
+		App->audio->PlayFx(playerDeath, 0);
+		inGamePanel->enable = false;
+		deathPanel->enable = true;
+	}
+
+	if (state == SceneState::WIN)
+	{
+		App->gui->resetHoverSwapping = false;
+		inGamePanel->enable = false;
+		winPanel->enable = true;
 	}
 
 	begin = true;
 	
-	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
-	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
-	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
+	if(openInventorySFX == NULL)
+		openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
+	if (closeinventorySFX == NULL)
+		closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
+	if (open_PauseMenuSFX == NULL)
+		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	if (enterGameSFX == NULL)
+		enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
+	if(playerDeath == NULL)
+		playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 	return true;
 }
 
@@ -238,7 +240,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
-		if (state == SceneState::GAME)
+		if (state == SceneState::LEVEL1)
 		{
 			App->gui->resetHoverSwapping = false;
 			state = SceneState::STARTMENU;
@@ -248,7 +250,7 @@ bool j1Scene::Update(float dt)
 		else
 		{
 			
-			state = SceneState::GAME;
+			state = SceneState::LEVEL1;
 			
 		}
 
@@ -271,7 +273,7 @@ bool j1Scene::Update(float dt)
 	}
 	
 	
-	if (state == SceneState::GAME)
+	if (state == SceneState::LEVEL1)
 	{
 		//Mix_CloseAudio();
 		//if()
@@ -438,24 +440,16 @@ bool j1Scene::Update(float dt)
 		}
 	}
 	
+	if (App->entityFactory->player != nullptr && (state == SceneState::LEVEL1 || state == SceneState::LEVEL2))
+	{
+		if (App->entityFactory->player->life <= 0)
+		{
+			App->scene->LoadScene(SceneState::DEATH);
+		}
+	}
 
+	App->win->ClearTitle();
 
-	//if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)		// Spawn unanimate dummy
-	//{
-	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
-
-	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
-	//	App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
-	//{
-	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
-
-	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
-	//	App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
-	//}
-
-	LoadMusicFromScene();
 	return true;
 }
 
@@ -782,23 +776,78 @@ bool j1Scene::LoadWinScreen(pugi::xml_node& nodeScene)
 	return true;
 }
 
-void j1Scene::LoadMusicFromScene()
+void j1Scene::LoadNewMap(const char* mapName)
 {
-	if (state == SceneState::GAME && beginGameMus)
+	if (App->map->Load(mapName))
 	{
-		App->audio->PlayFx(enterGameSFX, 0);
-		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
-		begin = true;
-		beginGameMus = false;
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
 
+		RELEASE_ARRAY(data);
+
+		// re set entities data map (create or delete/create if we have a previous one)
+		App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
+	}
+}
+
+void j1Scene::UnLoadScene()
+{
+	App->map->Disable();
+	App->attackManager->Disable();
+	App->entityFactory->Disable();
+	App->pathfinding->Disable();
+	App->audio->UnLoadAudio();
+	App->buff->Disable();
+	App->camera2D->Disable();
+}
+
+void j1Scene::LoadScene(SceneState sceneState)
+{
+	UnLoadScene();
+	switch (sceneState)
+	{
+	case SceneState::STARTMENU:
+		state = SceneState::STARTMENU;
+		break;
+
+	case SceneState::LEVEL1:
+
+		state = SceneState::LEVEL1;
+
+		App->map->Enable();
+		App->attackManager->Enable();
+		App->pathfinding->Enable();
+		App->camera2D->Enable();
+		App->buff->Enable();
+		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		App->entityFactory->Enable();
+
+		App->camera2D->SetCameraPos({ 2000,0 });
+
+		// create player for testing purposes here
+		App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
+		break;
+
+	case SceneState::LEVEL2:
+		break;
+
+	case SceneState::DEATH:
+		state = SceneState::DEATH;
+		App->camera2D->Enable();
+		break;
+
+	case SceneState::WIN:
+		state = SceneState::WIN;
+		App->camera2D->Enable();
+		break;
+
+	case SceneState::MAX_STATES:
+		break;
+	default:
+		break;
 	}
 
-	if (state == SceneState::STARTMENU && begin)
-	{
-
-		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
-		begin = false;
-		beginGameMus = true;
-
-	}
+	Start();
 }

@@ -28,9 +28,10 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	// debug normal tile tex
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
-
+	to_delete = false;
 	debug = false;
 	
+	Start();
 }
 
 PlayerEntityManager::~PlayerEntityManager()
@@ -54,9 +55,6 @@ bool PlayerEntityManager::Start()
 	for (; item != characters.end(); ++item)
 		(*item)->Start();
 
-	pivot = selectedCharacterEntity->pivot;
-
-
 	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
@@ -66,6 +64,8 @@ bool PlayerEntityManager::Start()
 
 bool PlayerEntityManager::PreUpdate()
 {
+	pivot = selectedCharacterEntity->pivot;
+
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		debug = !debug;
 
@@ -153,18 +153,6 @@ bool PlayerEntityManager::Update(float dt)
 		consumables.clear();
 	}
 
-	static char title[30];
-	sprintf_s(title, 30, " | life: %f", life);
-	App->win->AddStringToTitle(title);
-
-	/*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
-	{
-		static char title[30];
-		sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
-		App->win->AddStringToTitle(title);
-	}*/
-	App->win->ClearTitle();
-
 	if (marche->stat.size() != 0)
 	{
 		if (App->buff->DamageInTime(marche))
@@ -251,6 +239,13 @@ bool PlayerEntityManager::CleanUp()
 		*iter3 = nullptr;
 	}
 	consumables.clear();
+
+	App->tex->UnLoad(debugTileTex);
+	debugTileTex = nullptr;
+	App->tex->UnLoad(debugSubtileTex);
+	debugSubtileTex = nullptr;
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 	return true;
 }
 

@@ -64,6 +64,8 @@ public:
 
 	bool Update(float dt);
 	bool Start();
+	bool CleanUp();
+
 	std::string GetName();
 	LOOT_TYPE GetType();
 	OBJECT_TYPE GetObjectType();

@@ -283,6 +283,7 @@ bool j1Map::CleanUp()
 	while(tiles_item != data.tilesets.end())
 	{
 		RELEASE(*tiles_item);
+		*tiles_item = nullptr;
 		++tiles_item;
 	}
 	data.tilesets.clear();
@@ -294,12 +295,18 @@ bool j1Map::CleanUp()
 	while(layer_item != data.layers.end())
 	{
 		data.layers.remove(*layer_item);
+		(*layer_item)->tileQuadTree->CleanUp();
+		(*layer_item)->tileQuadTree = nullptr;
+		*layer_item = nullptr;
 		++layer_item;
 	}
 	data.layers.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
+
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 
 	return true;
 }

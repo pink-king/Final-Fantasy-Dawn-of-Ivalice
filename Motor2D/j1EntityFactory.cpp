@@ -197,14 +197,8 @@ bool j1EntityFactory::Update(float dt)
 				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
 				justGold = true;
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
-				
-
-
 			}
-			
 		}
-
-
 	}
 
 	return ret;
@@ -246,11 +240,15 @@ bool j1EntityFactory::CleanUp()
 	{
 		(*entitiesItem)->CleanUp();
 		RELEASE(*entitiesItem);
+		*entitiesItem = nullptr;
 		++entitiesItem;
 	}
 	entities.clear();
 
+	draw_entities.clear();
+
 	RELEASE_ARRAY(entitiesDataMap);
+	entitiesDataMap = nullptr;
 
 	//unload texture
 	App->tex->UnLoad(texture);
@@ -263,6 +261,8 @@ bool j1EntityFactory::CleanUp()
 	App->tex->UnLoad(ritzBasicTex);
 	App->tex->UnLoad(marcheTornadoTex);
 	App->tex->UnLoad(lootItemsTex); 
+
+	player = nullptr;
 
 	return ret;
 }

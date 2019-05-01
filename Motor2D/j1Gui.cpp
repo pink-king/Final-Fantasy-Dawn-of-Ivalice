@@ -720,7 +720,7 @@ SDL_Texture* j1Gui::GetAtlas()
 void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
-	App->scene->state = SceneState::GAME;
+	App->scene->LoadScene(SceneState::LEVEL1);
 }
 
 void j1Gui::ExitGame()
@@ -758,16 +758,11 @@ void j1Gui::GoBackToStartMenu()
 {
 	resetHoverSwapping = false;
 	App->pause = false;
-	App->scene->pausePanel->enable = false;
-	App->scene->startMenu->enable = true;
-	App->scene->state = SceneState::STARTMENU;
+	App->scene->LoadScene(SceneState::STARTMENU);
 }
 
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
-	App->scene->deathPanel->enable = false;
-	App->scene->winPanel->enable = false;
-	App->scene->startMenu->enable = true;
-	App->scene->state = SceneState::STARTMENU;
+	App->scene->LoadScene(SceneState::STARTMENU);
 }

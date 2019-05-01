@@ -32,7 +32,6 @@ bool j1BuffManager::Start()
 	poisonedSFX = App->audio->LoadFx("audio/fx/States/poisoned.wav");
 	healingSFX = App->audio->LoadFx("audio/fx/States/Healing.wav");
 	enemyHitbyMarche = App->audio->LoadFx("audio/fx/States/enemyHitbyMarche.wav");
-	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 
 	return true;
 }
@@ -62,6 +61,7 @@ bool j1BuffManager::CleanUp()
 	while (item != buffs.end())
 	{
 		buffs.remove(*item);
+		*item = nullptr;
 		++item;
 	}
 	buffs.clear();
@@ -71,6 +71,7 @@ bool j1BuffManager::CleanUp()
 	while (item2 != entitiesTimeDamage.end())
 	{
 		entitiesTimeDamage.remove(*item2);
+		*item2 = nullptr;
 		++item2;
 	}
 	entitiesTimeDamage.clear();
@@ -190,10 +191,6 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		{
 			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
 		}
-
-		if (defender->life <= 0)
-			App->audio->PlayFx(playerDeath, 0);
-
 	}
 
 
@@ -274,7 +271,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			}
 		}
 	}
-	else if (defender->life < 0 && attacker->type != ENTITY_TYPE::PLAYER)
+	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
 		defender->life = 0;
 	}

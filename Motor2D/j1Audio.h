@@ -40,6 +40,7 @@ public:
 	// Set FX volume
 	void SetFxVolume(float volume);
 
+	void UnLoadAudio();
 private:
 
 	_Mix_Music*			music = nullptr;

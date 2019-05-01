@@ -13,6 +13,8 @@ Buff::Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE
 
 Buff::~Buff()
 {
+	object = nullptr;
+	character = nullptr;
 }
 
 BUFF_TYPE Buff::GetType()

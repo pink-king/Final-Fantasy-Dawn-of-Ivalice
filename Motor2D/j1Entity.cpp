@@ -64,6 +64,19 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
+	std::list<entityStat*>::iterator item;
+	item = stat.begin();
+
+	while (item != stat.end())
+	{
+		RELEASE(*item);
+		*item = nullptr;
+		++item;
+	}
+	stat.clear();
+
+	App->tex->UnLoad(entityTex);
+	entityTex = nullptr;
 	return true;
 }
 

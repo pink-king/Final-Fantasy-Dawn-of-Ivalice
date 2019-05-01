@@ -64,7 +64,7 @@ private:
 	BUFF_TYPE			type = BUFF_TYPE::NO_BUFF;
 	std::string			stat = "\0";
 	ELEMENTAL_TYPE		elementType = ELEMENTAL_TYPE::NO_ELEMENT;
-	ROL			rol = ROL::NO_ROL;
+	ROL					rol = ROL::NO_ROL;
 	float				value = 0.F;
 
 };
