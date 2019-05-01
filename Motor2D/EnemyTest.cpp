@@ -172,22 +172,23 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		if(CheckFuturePos(dt) == false && !freePass)
+		if(CheckFuturePos(dt) || freePass)
+		{
+			MoveToCurrDestiny(dt);			
+			state = EnemyState::CHECK;
+		}
+		else
 		{
 			state = EnemyState::WAITING;
 			checkTime.Start();
-			break;
 		}
-		else MoveToCurrDestiny(dt); 
-
-		state = EnemyState::CHECK;
 	}
 	break;
 
 	case EnemyState::CHECK:
 	{
 
-		if (App->entityFactory->player->ChangedTile())
+		if (App->entityFactory->player->ChangedTile())		// Repath when player changes tiles (and random values)
 		{
 			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
@@ -196,7 +197,7 @@ void EnemyTest::SetState(float dt)
 				state = EnemyState::IDLE;
 			}
 		}
-		else if (isOnDestiny())
+		else if (isOnDestiny())								// Got to the center of the destiny tile
 		{
 			if (path_to_follow.size() == 1 && isSubpathRange)
 			{
@@ -209,7 +210,7 @@ void EnemyTest::SetState(float dt)
 				state = EnemyState::GET_NEXT_TILE;
 			}
 		}
-		else state = EnemyState::GO_NEXT_TILE;
+		else state = EnemyState::GO_NEXT_TILE;				// Keep going to the destiny tile
 
 		if (path_to_follow.size() <= 0)
 		{
@@ -293,19 +294,9 @@ void EnemyTest::SetState(float dt)
 
 bool EnemyTest::CleanUp()
 {
-	if (path_to_follow.size() > 0)
-	{
-		std::vector<iPoint>::iterator item = path_to_follow.begin();
-		for (; item != path_to_follow.end(); ++item)
-		{
-			if (App->entityFactory->isThisSubtileReserved(*item))
-			{
-				App->entityFactory->FreeAdjacent(*item);
-				break;
-			}
-		}
-	}
-
+	if (path_to_follow.empty() == false)
+		FreeMyReservedAdjacents(); 
+	
 	path_to_follow.clear();
 
 	std::list<entityStat*>::iterator item = stat.begin();
