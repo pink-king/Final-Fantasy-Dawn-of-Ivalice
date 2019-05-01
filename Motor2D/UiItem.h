@@ -67,6 +67,10 @@ public:
 	bool first_hitbox = false;
 	bool isDialog = false; 
 
+	bool changeTexture = false; 
+
+	uint dialogPos = 666; 
+
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string& functionName) {};
 	virtual void DoLogicHovered() {};

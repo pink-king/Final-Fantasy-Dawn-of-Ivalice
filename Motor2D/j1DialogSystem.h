@@ -7,6 +7,8 @@
 #include "j1App.h"
 #include "p2Log.h"
 
+
+
 class DialogOption
 {
 public:
@@ -39,6 +41,8 @@ public:
 	int treeid/*, karma*/;
 };
 
+class UiItem_Label;
+
 class j1DialogSystem : public j1Module
 {
 public:
@@ -55,6 +59,16 @@ public:
 	void BlitDialog();
 	//bool CompareKarma();
 	//void CheckForKarma(DialogNode* karmaNode);
+
+
+	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
+
+	// TODO: when inventory closed, perform dialog again with "Anything else?" node (id == 4) 
+	// don'te delete anythings, since it was deleted when inventory was openned
+
+	bool isDialogInScreen = false; 
+	bool isDialogSequenceActive = true;  // TODO: it should be false, then true when arriving to the store
+
 private:
 	std::vector <DialogTree*> dialogTrees;
 	DialogNode* currentNode;

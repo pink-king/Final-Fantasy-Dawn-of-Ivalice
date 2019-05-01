@@ -591,19 +591,27 @@ Marche::~Marche()
 	App->tex->UnLoad(superTransTex);
 
 
+
+
+
+
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Marche.special1)
 		{
 			myUIClocks.special1->to_delete = true;
+			App->gui->spawnedClocks.Marche.special1 = false;
+
 		}
 		if (App->gui->spawnedClocks.Marche.special2)
 		{
 			myUIClocks.special2->to_delete = true;
+			App->gui->spawnedClocks.Marche.special2 = false;
 		}
 		if (App->gui->spawnedClocks.Marche.ulti)
 		{
 			myUIClocks.ulti->to_delete = true;
+			App->gui->spawnedClocks.Marche.ulti = false;
 		}
 	}
 
