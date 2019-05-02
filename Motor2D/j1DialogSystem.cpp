@@ -68,20 +68,31 @@ bool j1DialogSystem::Update(float dt)
 
 					isDialogInScreen = false;    // the dialog labels are no longer in screen
 
+
+
+
 					PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
 
 
 				}
 
-				// TODO 2: perform dialog when the inventory is openned:  A)Put selected to nullptr B) Delete dialogs 
-				// C) DON'T PLAY THE DIALOGUE D) put "isDialogInScreen" to False // 
+				// TODO 2: perform dialog when the inventory is openned: 
+				// A)Put selected to nullptr 
+				// B) Delete dialogs 
+				// C) DON'T PLAY THE DIALOGUE (done in TODO 1)  
+				// D) put "isDialogInScreen" to False 
 
-				// TODO 3: perform dialog when the inventory is closed:   A)Put "resetHoverSwapping" to false
-				// B) NOW, play the last on hold dialogue  C) put "isDialogInScreen" to False
+				// TODO 3: perform dialog when the inventory is closed:   
+				// A)Put "resetHoverSwapping" to false
+				// B) NOW, play the last on hold dialogue  
+				// C) put "isDialogInScreen" to True
 
 
-				// TODO: When "farewell" --> A)Put selected to nullptr  B) Delete dialogs C)Restore default dialogue tree
-				//D) put  "isDialogSequenceactive and "isDialogInScreen" to False
+				// TODO: When "farewell":
+				// A)Put selected to nullptr  
+				// B) Delete dialogs 
+				// C)Restore default dialogue tree
+				// D) put  "isDialogSequenceactive and "isDialogInScreen" to False
 
 
 
