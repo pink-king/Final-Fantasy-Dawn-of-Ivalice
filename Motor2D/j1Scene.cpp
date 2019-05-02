@@ -275,7 +275,7 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-	
+
 		if (startMenu->enable || inventory->enable)
 			AcceptUISFX_logic = true;
 		else if (!startMenu->enable && !inventory->enable)
@@ -338,28 +338,11 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 		{
-			if (!pausePanel->enable)
-			{
-				App->pause = !App->pause;
-				if (App->pause && !pausePanel->enable)
-				{
-					inventory->enable = true;
-					App->gui->resetHoverSwapping = false;
-					inventoryItem->LoadElements();
-					App->audio->PlayFx(openInventorySFX, 0);
-				}
-
-				else
-				{
-					App->audio->PlayFx(closeinventorySFX, 0);
-					inventory->enable = false;
-
-				}
-
-			}
+			DoOpenInventory();
 		}
+
 	}
-	
+	 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	//{
 	//	App->entityFactory->player->life -= 20;
@@ -801,4 +784,29 @@ void j1Scene::LoadMusicFromScene()
 		beginGameMus = true;
 
 	}
+}
+
+void j1Scene::DoOpenInventory()
+{
+	
+		if (!pausePanel->enable)
+		{
+			App->pause = !App->pause;
+			if (App->pause && !pausePanel->enable)
+			{
+				inventory->enable = true;
+				App->gui->resetHoverSwapping = false;
+				inventoryItem->LoadElements();
+				App->audio->PlayFx(openInventorySFX, 0);
+			}
+
+			else
+			{
+				App->audio->PlayFx(closeinventorySFX, 0);
+				inventory->enable = false;
+
+			}
+
+		}
+
 }

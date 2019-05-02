@@ -80,8 +80,10 @@ bool j1DialogSystem::Update(float dt)
 
 					
 
-					if(!enterInventory)
-					PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
+					if (!enterInventory)
+						PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
+					else
+						App->scene->DoOpenInventory(); 
 
 
 				}

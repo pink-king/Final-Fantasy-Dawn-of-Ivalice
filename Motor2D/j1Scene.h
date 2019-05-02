@@ -106,6 +106,10 @@ private:
 	bool begin;
 	bool beginGameMus;
 
+
+public: 
+	void DoOpenInventory(); 
+
 public:
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;
