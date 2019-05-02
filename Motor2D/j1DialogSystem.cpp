@@ -46,7 +46,8 @@ bool j1DialogSystem::Update(float dt)
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
-
+                  
+					bool enterInventory = false; 
 
 					std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
@@ -56,9 +57,15 @@ bool j1DialogSystem::Update(float dt)
 							if (App->gui->selected_object == (*iter))
 							{
 								input = (*iter)->dialogPos;   // capture the dialog option number
+
+								if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos)  
+								{
+									enterInventory = true;     // if the dialog option is the one that opens inventory
+								}
+
+
 							}
 			
-
 
 					}
 
@@ -71,6 +78,9 @@ bool j1DialogSystem::Update(float dt)
 
 
 
+					
+
+					if(!enterInventory)
 					PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
 
 
