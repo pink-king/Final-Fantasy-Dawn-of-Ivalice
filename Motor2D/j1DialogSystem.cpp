@@ -184,11 +184,11 @@ void j1DialogSystem::BlitDialog()
 void j1DialogSystem::spawnDialoguesAfterInventory()
 {
 
-	currentNode = dialogTrees[treeid]->dialogNodes[3]; // recover the node before the invetoy openned
+	currentNode = dialogTrees[treeid]->dialogNodes[3]; // recover the node before the inventory openned (could be cleaner code) 
 
-	input = 1; // "I changed my mind" (faked) 
+	input = 1; // "I changed my mind" (faked to go back to dialogue) 
 	
-	PerformDialogue(treeid); //"Anything else?" 
+	PerformDialogue(treeid);  
 
 
 }
