@@ -75,11 +75,6 @@ bool j1DialogSystem::Update(float dt)
 
 					isDialogInScreen = false;    // the dialog labels are no longer in screen
 
-
-
-
-					
-
 					if (!enterInventory)
 						PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
 					else
@@ -143,8 +138,7 @@ void j1DialogSystem::PerformDialogue(int tr_id)
 	if (dialogTrees.empty())
 		LOG("TreeEmpty");
 
-	/*if (CompareKarma() == true)  // no karma right now
-	{*/
+	
 		//Find the next node 
 		if (input >= 0 && input < currentNode->dialogOptions.size()) //Only if the input is valid
 		{
@@ -152,31 +146,12 @@ void j1DialogSystem::PerformDialogue(int tr_id)
 			{
 				if (currentNode->dialogOptions[input]->nextnode == dialogTrees[tr_id]->dialogNodes[j]->id) //If the option id is the same as one of the nodes ids in the tree
 				{
-					//CheckForKarma(currentNode);
 					currentNode = dialogTrees[tr_id]->dialogNodes[j]; // we assign our node pointer to the next node in the tree				
 					break;
 				}
 			}
 		}
-	/*}
-	else if (CompareKarma() == false)
-	{
-		for (int i = 0; i < dialogTrees[tr_id]->dialogNodes.size(); i++)
-		{
-			// We search the mood of the bad response bad response = -1  / neutral = 0
-			if (dialogTrees[tr_id]->karma == dialogTrees[tr_id]->dialogNodes[i]->karma)
-			{
-				currentNode = dialogTrees[tr_id]->dialogNodes[i]; //This node is the bad response from the npc
-			}
-		}
-	}*/
-
-	/*//Put the player's name in the lines of the npc dialog
-	while(currentNode->text.find("PLAYERNAME") != std::string::npos)
-	{	
-		currentNode->text.replace(currentNode->text.find("PLAYERNAME"), 10, "equisde");
-	}*/
-
+	
 	// Print the dialog in the screen
 	BlitDialog();
 }
@@ -206,20 +181,18 @@ void j1DialogSystem::BlitDialog()
 
 }
 
-/*bool j1DialogSystem::CompareKarma()
+void j1DialogSystem::spawnDialoguesAfterInventory()
 {
-	bool ret = true;
 
-	if (dialogTrees[treeid]->karma < 0)
-		ret = false;
+	currentNode = dialogTrees[treeid]->dialogNodes[3]; // recover the node before the invetoy openned
 
-	return ret;
+	input = 1; // "I changed my mind" (faked) 
+	
+	PerformDialogue(treeid); //"Anything else?" 
+
+
 }
 
-void j1DialogSystem::CheckForKarma(DialogNode* karmaNode)
-{
-	dialogTrees[treeid]->karma += karmaNode->dialogOptions[input]->karma;
-}*/
 
 bool j1DialogSystem::LoadDialogue(const char* file)
 {

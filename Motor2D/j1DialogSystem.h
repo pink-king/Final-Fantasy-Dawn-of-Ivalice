@@ -57,9 +57,9 @@ public:
 	bool LoadTreeData(pugi::xml_node& trees, DialogTree* oak);
 	bool LoadNodesDetails(pugi::xml_node& text_node, DialogNode* npc);
 	void BlitDialog();
-	//bool CompareKarma();
-	//void CheckForKarma(DialogNode* karmaNode);
 
+
+	void spawnDialoguesAfterInventory(); 
 
 	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
 

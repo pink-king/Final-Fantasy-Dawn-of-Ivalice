@@ -22,6 +22,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "Projectile.h"
+#include "j1DialogSystem.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -805,6 +806,11 @@ void j1Scene::DoOpenInventory()
 				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
 
+
+				if (App->dialog->isDialogSequenceActive)
+				{
+					App->dialog->spawnDialoguesAfterInventory(); 
+				}
 			}
 
 		}
