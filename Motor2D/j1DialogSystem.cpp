@@ -16,8 +16,8 @@ bool j1DialogSystem::Start()
 {
 	bool ret = true;
 	LoadDialogue("ShopDialog.xml");
-	currentNode = dialogTrees[treeid]->dialogNodes[0];
-	PerformDialogue(treeid);
+	currentNode = dialogTrees[treeid]->dialogNodes[0];   // load it but do not play it yet
+	//PerformDialogue(treeid);
 
 	
 
@@ -31,6 +31,13 @@ bool j1DialogSystem::Update(float dt)
 	if (App->scene->inGamePanel->enable)
 	{
 
+		if (spawnDialogSequence)
+		{
+			PerformDialogue(treeid);
+			spawnDialogSequence = false;
+		}
+		
+
 		if (isDialogSequenceActive)   // capture input only in this case
 		{
 
@@ -43,19 +50,19 @@ bool j1DialogSystem::Update(float dt)
 
 					std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
-					for (; iter != App->gui->ListItemUI.end(); )     // discover which of the dialog options is actually the selected object
+					for (; iter != App->gui->ListItemUI.end(); ++iter)     // discover which of the dialog options is actually the selected object
 					{
 
-						if (!(*iter)->to_delete && (*iter)->isDialog)
-						{
 							if (App->gui->selected_object == (*iter))
 							{
 								input = (*iter)->dialogPos;   // capture the dialog option number
 							}
-						}
+			
+
 
 					}
 
+		
 					App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
 					App->gui->deleteCurrentDialogs();             // then delete the active dialog labels                 
 

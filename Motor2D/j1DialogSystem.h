@@ -69,6 +69,9 @@ public:
 	bool isDialogInScreen = false; 
 	bool isDialogSequenceActive = true;  // TODO: it should be false, then true when arriving to the store
 
+
+	bool spawnDialogSequence = true; 
+
 private:
 	std::vector <DialogTree*> dialogTrees;
 	DialogNode* currentNode;
