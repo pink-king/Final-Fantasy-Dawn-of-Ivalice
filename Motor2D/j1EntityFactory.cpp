@@ -182,6 +182,7 @@ bool j1EntityFactory::Update(float dt)
 				//if entit is diffetent to player create loot
 				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
+					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
 					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
 				}
@@ -363,11 +364,14 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 	{
 		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
 		{
-			j1Entity* ret = nullptr;
+			Enemy* ret = nullptr;
+			int enemyLevel = CreateRandomBetween(0, 2);
+			int value;
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
 			LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
+
 			switch (*typeIter)
 			{
 			case EnemyType::BOMB:
@@ -376,10 +380,16 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
 
+					if (App->entityFactory->player != nullptr)
+					{
+						ret->level = App->entityFactory->player->level + enemyLevel;
+					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 15));
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 20));
+						value = CreateRandomBetween(0, 10);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", value + value * ret->level);
+						value = CreateRandomBetween(0, 8);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", value + value * ret->level);
 						numBombs++;
 						cont++;
 					}
@@ -393,10 +403,16 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
 
+					if (App->entityFactory->player != nullptr)
+					{
+						ret->level = App->entityFactory->player->level + enemyLevel;
+					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(0, 10));
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(0, 28));
+						value = CreateRandomBetween(0, 10);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", value + value * ret->level);
+						value = CreateRandomBetween(0, 12);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", value + value * ret->level);
 						numTests++;
 						cont++;
 					}
@@ -1552,4 +1568,17 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 	}
 	
 
+}
+
+void j1EntityFactory::AddExp(Enemy * enemy)
+{
+	uint expToAdd = 100;
+	uint bonusLevel = (enemy->level - player->level) * 25;
+	player->exp = expToAdd + bonusLevel;
+
+	if (player->exp > player->maxExpInLevel)
+	{
+		++player->level;
+		player->exp -= player->maxExpInLevel;
+	}
 }

@@ -104,6 +104,8 @@ public:
 
 	void GenerateDescriptionForLootItem(LootEntity* lootItem);
 	void DoDescriptionComparison(LootEntity* lootItem);
+
+	void AddExp(Enemy* enemy);
 	
 public:
 

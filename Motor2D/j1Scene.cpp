@@ -787,6 +787,7 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 		RELEASE_ARRAY(data);
 
+		App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
 		// re set entities data map (create or delete/create if we have a previous one)
 		App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
 	}
@@ -827,7 +828,6 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->SetCameraPos({ 2000,0 });
 
 		// create player for testing purposes here
-		App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
 		break;
 
 	case SceneState::LEVEL2:

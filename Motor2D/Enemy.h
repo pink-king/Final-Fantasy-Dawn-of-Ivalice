@@ -79,6 +79,8 @@ public:
 	float attackPerS = 0; 
 	float lastAnimationSpeed;
 	uint speed = 0;
+
+	uint level;
 protected:
 	std::vector<iPoint> path_to_follow;
 

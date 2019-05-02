@@ -44,6 +44,7 @@ public:
 	SDL_Texture* tex = nullptr;
 	Animation startAnim;
 	Animation loopAnim;
+
 private:
 	j1Entity* clampedEntity = nullptr;
 	fPoint sensitivitySpeed = { 5.f,5.f };
@@ -112,6 +113,10 @@ public:
 	{
 		return crossHair;
 	}
+
+	uint level;
+	uint exp;
+	uint maxExpInLevel;
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
