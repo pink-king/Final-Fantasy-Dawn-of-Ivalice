@@ -31,7 +31,7 @@ bool j1DialogSystem::Update(float dt)
 	if (App->scene->inGamePanel->enable)
 	{
 
-		if (spawnDialogSequence)
+		if (spawnDialogSequence)    // put the "isDialogSequenceactive to True"
 		{
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
@@ -73,9 +73,17 @@ bool j1DialogSystem::Update(float dt)
 
 				}
 
-				// TODO 2: perform dialog when the inventory is openned
+				// TODO 2: perform dialog when the inventory is openned:  A)Put selected to nullptr B) Delete dialogs 
+				// C) DON'T PLAY THE DIALOGUE D) put "isDialogInScreen" to False // 
 
-				// TODO 3: perform dialog when the inventory is closed
+				// TODO 3: perform dialog when the inventory is closed:   A)Put "resetHoverSwapping" to false
+				// B) NOW, play the last on hold dialogue  C) put "isDialogInScreen" to False
+
+
+				// TODO: When "farewell" --> A)Put selected to nullptr  B) Delete dialogs C)Restore default dialogue tree
+				//D) put  "isDialogSequenceactive and "isDialogInScreen" to False
+
+
 
 			}
 
