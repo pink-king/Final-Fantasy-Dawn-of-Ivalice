@@ -88,7 +88,7 @@ bool j1DialogSystem::Update(float dt)
 				// C) put "isDialogInScreen" to True
 
 
-				// TODO: When "farewell":
+				// TODO 4: When "farewell":
 				// A)Put selected to nullptr  
 				// B) Delete dialogs 
 				// C)Restore default dialogue tree
