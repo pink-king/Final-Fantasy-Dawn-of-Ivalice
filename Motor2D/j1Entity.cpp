@@ -75,7 +75,6 @@ bool j1Entity::CleanUp()
 	}
 	stat.clear();
 
-	App->tex->UnLoad(entityTex);
 	entityTex = nullptr;
 	return true;
 }
