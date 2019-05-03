@@ -61,8 +61,26 @@ public:
 
 	std::vector<LootEntity*>		vBagObjects;
 	std::vector<LootEntity*>		vConsumables;
+	bool                            firstTime = true; 
 
 public:
+
+
+	void generateVendorItems()
+	{
+		if (firstTime)                              
+		{
+			
+			firstTime = false; 
+		}
+		else
+		{
+
+		}
+
+	}
+
+
 	void cleanUp()
 	{
 		std::vector<LootEntity*>::iterator iter = vBagObjects.begin();

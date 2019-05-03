@@ -17,42 +17,48 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 
 
-bool UiItem_Inventory::LoadElements(bool onlyEquipped)
+bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
 	// - - - - - - - - - - character icons
 	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
-	/*App->scene->MarcheIcon->hitBox.x = App->scene->SharaIcon->hitBox.x = App->scene->RitzIcon->hitBox.x = staringPosition.x + 30;
-	App->scene->MarcheIcon->hitBox.y = App->scene->SharaIcon->hitBox.y = App->scene->RitzIcon->hitBox.y = staringPosition.y + 30;*/
+	isVendorInventory = isVendor;
 
-	if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
+	if (!isVendorInventory)
 	{
-		App->scene->MarcheIcon->hide = false;
-		App->scene->SharaIcon->hide = true;
-		App->scene->RitzIcon->hide = true;
+
+		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
+		{
+			App->scene->MarcheIcon->hide = false;
+			App->scene->SharaIcon->hide = true;
+			App->scene->RitzIcon->hide = true;
+		}
+
+		else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA)
+		{
+			App->scene->MarcheIcon->hide = true;
+			App->scene->SharaIcon->hide = false;
+			App->scene->RitzIcon->hide = true;
+		}
+
+
+		else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ)
+		{
+			App->scene->MarcheIcon->hide = true;
+			App->scene->SharaIcon->hide = true;
+			App->scene->RitzIcon->hide = false;
+		}
+
+
 	}
 
-	else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA)
-	{
-		App->scene->MarcheIcon->hide = true;
-		App->scene->SharaIcon->hide = false;
-		App->scene->RitzIcon->hide = true;
-	}
-
-
-	else if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ)
-	{
-		App->scene->MarcheIcon->hide = true;
-		App->scene->SharaIcon->hide = true;
-		App->scene->RitzIcon->hide = false;
-	}
 
 
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects 
 
 
-	if (!App->entityFactory->player->equipedObjects.empty())
+	if (!isVendorInventory && !App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
@@ -143,8 +149,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped)
 			int j = 0;
 			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
 
-
-			for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+			for (;iter != App->entityFactory->player->bagObjects.end(); ++iter)
 			{
 
 				// first generate description if it does not have it or if it was deleted ingame

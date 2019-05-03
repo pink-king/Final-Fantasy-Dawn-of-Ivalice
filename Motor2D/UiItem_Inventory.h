@@ -44,7 +44,7 @@ class UiItem_Inventory : public UiItem
 public:
 	UiItem_Inventory(UiItem* const parent);
 
-	bool LoadElements(bool onlyEquipped = false);
+	bool LoadElements(bool onlyEquipped = false, bool isVendor = false);
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
 
@@ -56,6 +56,7 @@ public:
 
 	bool drawTest = false;
 
+	bool isVendorInventory = false; 
 
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
