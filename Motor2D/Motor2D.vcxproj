@@ -209,6 +209,7 @@
     <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+    <ClInclude Include="Vendor.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

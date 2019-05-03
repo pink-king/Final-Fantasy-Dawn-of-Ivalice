@@ -54,6 +54,40 @@ private:
 };
 
 
+class Vendor
+{
+
+public:
+
+	std::vector<LootEntity*>		vBagObjects;
+	std::vector<LootEntity*>		vConsumables;
+
+public:
+	void cleanUp()
+	{
+		std::vector<LootEntity*>::iterator iter = vBagObjects.begin();
+		for (; iter != vBagObjects.end(); ++iter)
+		{
+			delete *iter;
+			*iter = nullptr;
+		}
+		vBagObjects.clear();
+
+		std::vector<LootEntity*>::iterator iter2 = vConsumables.begin();
+		for (; iter2 != vConsumables.end(); ++iter2)
+		{
+			delete *iter2;
+			*iter2 = nullptr;
+		}
+		vConsumables.clear();
+	}
+
+
+
+
+};
+
+
 class PlayerEntityManager : public j1Entity
 {
 public:
@@ -112,6 +146,12 @@ public:
 	{
 		return crossHair;
 	}
+
+	Vendor*	GetVendor()
+	{
+		return vendor; 
+	}
+
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
@@ -135,6 +175,10 @@ private:
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
 	unsigned int pickPotion;
+
+
+	// vendor
+	Vendor* vendor = nullptr; 
 	
 };
 

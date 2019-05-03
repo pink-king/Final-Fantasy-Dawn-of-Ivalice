@@ -386,6 +386,9 @@
     <ClInclude Include="j1DialogSystem.h">
       <Filter>Development\Modules\GUI\managers</Filter>
     </ClInclude>
+    <ClInclude Include="Vendor.h">
+      <Filter>Development\Modules\GUI\help</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

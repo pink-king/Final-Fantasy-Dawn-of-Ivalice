@@ -19,6 +19,10 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	// crosshair - one for all the characters, its should be improved so if we need
 	crossHair = new Crosshair();
 
+	// vendor
+	vendor = new Vendor(); 
+
+
 	characters.push_back(marche);
 	characters.push_back(ritz);
 	characters.push_back(shara);
@@ -37,6 +41,9 @@ PlayerEntityManager::~PlayerEntityManager()
 {
 	
 	delete crossHair;
+
+	// delete vendor
+	delete vendor; 
 
 	// TODO: free characters vector
 }
@@ -251,6 +258,11 @@ bool PlayerEntityManager::CleanUp()
 		*iter3 = nullptr;
 	}
 	consumables.clear();
+
+
+	// vendor objects
+	vendor->cleanUp(); 
+
 	return true;
 }
 
