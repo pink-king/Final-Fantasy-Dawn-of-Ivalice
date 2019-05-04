@@ -54,7 +54,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	}
 	else
 	{
-		App->entityFactory->player->GetVendor()->generateVendorItems(); 
+		App->entityFactory->player->GetVendor()->generateVendorItems();  
 
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;

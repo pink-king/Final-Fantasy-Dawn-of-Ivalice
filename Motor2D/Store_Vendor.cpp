@@ -26,7 +26,7 @@ void Vendor::generateVendorItems()
 
 		firstTime = false;
 	}
-	else
+	else                     // don't generate any more if player hasn't leveled up
 	{
 
 	}
@@ -39,9 +39,19 @@ void Vendor::EquipVendor(LootEntity* entityLoot)
 
 	if (vBagObjects.size() < 15)
 	{
-		vBagObjects.push_back(entityLoot);
+		if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
+		{
+			vBagObjects.push_back(entityLoot);
+		}
+		else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+		{
+			vConsumables.push_back(entityLoot);
+		}
+		
 		App->buff->AddItemStats(entityLoot);
 	}
+
+
 }
 
 void Vendor::DeEquipVendor(LootEntity* entityLoot)
@@ -51,7 +61,18 @@ void Vendor::DeEquipVendor(LootEntity* entityLoot)
 		if (entityLoot == *item)
 		{
 			App->buff->RemoveItemStat(*item);
-			vBagObjects.erase(item);
+
+			if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
+			{
+				vBagObjects.erase(item);
+			}
+			else if(entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+			{
+				vConsumables.erase(item);
+			}
+
+
+			
 			break;
 		}
 	}

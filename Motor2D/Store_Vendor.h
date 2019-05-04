@@ -20,7 +20,7 @@ public:
 	~Vendor() {};
 
 
-	void generateVendorItems(); 
+	void generateVendorItems();  // todo: every time the player levels up, a new unique item must appear 
 
 	void EquipVendor(LootEntity* entityLoot); 
 
