@@ -8,7 +8,7 @@
 #include "Ritz.h"
 #include "Shara.h"
 #include "j1Input.h"
-#include"LootEntity.h"
+#include "Store_Vendor.h"   // already includes loot entity
 #include "j1Audio.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
@@ -51,58 +51,6 @@ private:
 	float maxRadiusDistance;
 
 	
-};
-
-
-class Vendor
-{
-
-public:
-
-	std::vector<LootEntity*>		vBagObjects;
-	std::vector<LootEntity*>		vConsumables;
-	bool                            firstTime = true; 
-
-public:
-
-
-	void generateVendorItems()
-	{
-		if (firstTime)                              
-		{
-			
-			firstTime = false; 
-		}
-		else
-		{
-
-		}
-
-	}
-
-
-	void cleanUp()
-	{
-		std::vector<LootEntity*>::iterator iter = vBagObjects.begin();
-		for (; iter != vBagObjects.end(); ++iter)
-		{
-			delete *iter;
-			*iter = nullptr;
-		}
-		vBagObjects.clear();
-
-		std::vector<LootEntity*>::iterator iter2 = vConsumables.begin();
-		for (; iter2 != vConsumables.end(); ++iter2)
-		{
-			delete *iter2;
-			*iter2 = nullptr;
-		}
-		vConsumables.clear();
-	}
-
-
-
-
 };
 
 
@@ -197,6 +145,7 @@ private:
 
 	// vendor
 	Vendor* vendor = nullptr; 
+	
 	
 };
 

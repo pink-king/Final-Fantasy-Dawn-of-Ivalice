@@ -68,6 +68,10 @@ bool PlayerEntityManager::Start()
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
+
+
+	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
+
 	return true;
 }
 

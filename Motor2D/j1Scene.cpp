@@ -787,7 +787,7 @@ void j1Scene::LoadMusicFromScene()
 	}
 }
 
-void j1Scene::DoOpenInventory()
+void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 {
 	
 		if (!pausePanel->enable)
@@ -797,7 +797,7 @@ void j1Scene::DoOpenInventory()
 			{
 				inventory->enable = true;
 				App->gui->resetHoverSwapping = false;
-				inventoryItem->LoadElements();
+				inventoryItem->LoadElements(onlyEquipped, isVendor);
 				App->audio->PlayFx(openInventorySFX, 0);
 			}
 

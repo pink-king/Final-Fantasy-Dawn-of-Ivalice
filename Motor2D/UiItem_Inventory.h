@@ -46,7 +46,6 @@ public:
 
 	bool LoadElements(bool onlyEquipped = false, bool isVendor = false);
 	//void DoLogicSelected(LootEntity*, bool);
-	void Draw(const float& dt) override;
 
 	void De_______Equip(LootEntity*);
 

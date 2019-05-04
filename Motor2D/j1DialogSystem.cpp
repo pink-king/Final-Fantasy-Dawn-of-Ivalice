@@ -58,14 +58,23 @@ bool j1DialogSystem::Update(float dt)
 							{
 								input = (*iter)->dialogPos;   // capture the dialog option number
 
-								if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos)  
+								if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos) // open player inventory
 								{
-									enterInventory = true;     // if the dialog option is the one that opens inventory
+									enterInventory = true;     
+									App->scene->inventoryItem->isVendorInventory = false; 
 								}
+								else if (currentNode->dialogOptions.at(input)->text.find("Sure") != std::string::npos) // open vendor inventory
+								{
 
+									enterInventory = true;   
+									App->scene->inventoryItem->isVendorInventory = true; 
+								}
+							
+									
+								
 
 							}
-			
+							
 
 					}
 
@@ -78,7 +87,10 @@ bool j1DialogSystem::Update(float dt)
 					if (!enterInventory)
 						PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
 					else
-						App->scene->DoOpenInventory(); 
+					{
+							App->scene->DoOpenInventory(false, App->scene->inventoryItem->isVendorInventory);  // actually open it
+					}
+						 
 
 
 				}

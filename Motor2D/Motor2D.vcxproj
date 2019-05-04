@@ -125,6 +125,7 @@
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
     <ClCompile Include="Shara.cpp" />
+    <ClCompile Include="Store_Vendor.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="UiItem.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
     <ClInclude Include="Shara.h" />
+    <ClInclude Include="Store_Vendor.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Tornado.h" />
     <ClInclude Include="UiItem.h" />
@@ -209,7 +211,6 @@
     <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
-    <ClInclude Include="Vendor.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

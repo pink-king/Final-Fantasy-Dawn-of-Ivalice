@@ -1368,23 +1368,35 @@ int j1EntityFactory::GetRandomValue(int min, int max)
 	return ret_value;
 }
 
-j1Entity * j1EntityFactory::CreateLootType(int x, int y)
+j1Entity * j1EntityFactory::CreateLootType(int x, int y, LOOT_TYPE defined)
 {
 	j1Entity * ret = nullptr;
 
-	switch (WillDrop())
+	if (defined == LOOT_TYPE::NO_LOOT)
 	{
-	case LOOT_TYPE::CONSUMABLE:
+		switch (WillDrop())
+		{
+		case LOOT_TYPE::CONSUMABLE:
 
-		ret = new Consumable(x, y);
-		break;
+			ret = new Consumable(x, y);
+			break;
 
-	case LOOT_TYPE::EQUIPABLE:
+		case LOOT_TYPE::EQUIPABLE:
+			ret = new Equipable(x, y);
+			break;
+
+		default:
+			break;
+		}
+
+    }
+	else if(defined == LOOT_TYPE::EQUIPABLE)
+	{
 		ret = new Equipable(x, y);
-		break;
-
-	default:
-		break;
+	}
+	else if (defined == LOOT_TYPE::CONSUMABLE)
+	{
+		ret = new Consumable(x, y);
 	}
 
 	return ret;

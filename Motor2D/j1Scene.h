@@ -108,7 +108,7 @@ private:
 
 
 public: 
-	void DoOpenInventory(); 
+	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
 
 public:
 	UiItem_Image* MarcheIcon = nullptr;
