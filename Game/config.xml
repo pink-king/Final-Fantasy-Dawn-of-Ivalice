@@ -357,6 +357,8 @@
           <position x="541" y="60"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="SETTINGS"/>
+          <path p="fonts/Pieces_of_Eight/Pieces of Eight.ttf"/>
+          <size s="48"/>
         </label>
       </labels>
 
@@ -432,6 +434,8 @@
           <position x="500" y="93"/>
           <color R="0" G="0" B="0" A="255"/>
           <text value="PAUSE MENU"/>
+          <path p="fonts/Pieces_of_Eight/Pieces of Eight.ttf"/>
+          <size s="48"/>
         </label>
       </labels>
 

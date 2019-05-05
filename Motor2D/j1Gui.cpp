@@ -721,7 +721,7 @@ UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string i
 	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
-
+	
 
 	return (UiItem_Description*)newUIItem;
 }

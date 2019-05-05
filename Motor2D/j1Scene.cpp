@@ -557,8 +557,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string text = uiNode.child("text").attribute("value").as_string();
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
+		const char* path = uiNode.child("path").attribute("p").as_string();
+		uint size = uiNode.child("size").attribute("s").as_int();
+		
 
-		App->gui->AddLabel(text.data(), color, App->font->piecesofEight48, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->Load(path, size), position, parent);
 
 	}
 
