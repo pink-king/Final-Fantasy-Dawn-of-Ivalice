@@ -268,6 +268,37 @@ bool j1EntityFactory::CleanUp()
 	return ret;
 }
 
+bool j1EntityFactory::Load(pugi::xml_node &node)
+{
+
+	for (pugi::xml_node nodeEntities = node.child("Entities"); nodeEntities; nodeEntities = nodeEntities.next_sibling("Entities"))
+	{
+		
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->Load(nodeEntities);
+		}
+			
+	}
+	return true;
+}
+
+bool j1EntityFactory::Save(pugi::xml_node &node) const
+{
+	
+	std::vector<j1Entity*>::const_iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		if ((*item)->type == ENTITY_TYPE::PLAYER)
+		{
+			pugi::xml_node nodeEntities = node.append_child("Entities");
+			(*item)->Save(nodeEntities);
+		}
+	}
+	return true;
+}
+
+
 j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name)
 {
 	j1Entity* ret = nullptr; 

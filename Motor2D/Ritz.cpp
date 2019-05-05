@@ -817,3 +817,22 @@ fPoint Ritz::GetTeleportPos()
 //{
 //	return true;
 //}
+
+
+bool Ritz::Load(pugi::xml_node &node)
+{
+	pugi::xml_node nodeSpeed = node.child("Ritz");
+
+	position.x = nodeSpeed.attribute("speedx").as_float();
+	position.y = nodeSpeed.attribute("speedy").as_float();
+	return true;
+}
+
+bool Ritz::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodeData = node.append_child("Ritz");
+
+	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
+	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
+	return true;
+}

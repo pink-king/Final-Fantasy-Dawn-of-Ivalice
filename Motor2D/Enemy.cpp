@@ -320,6 +320,16 @@ void Enemy::DebugPath() const
 	App->render->DrawIsoQuad({ subTilePos.x, subTilePos.y, 16, 16});*/
 }
 
+bool Enemy::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool Enemy::Save(pugi::xml_node &) const
+{
+	return true;
+}
+
 
 void Enemy::Draw() 
 {

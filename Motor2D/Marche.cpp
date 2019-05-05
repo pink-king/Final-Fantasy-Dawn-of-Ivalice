@@ -1197,3 +1197,21 @@ bool Marche::PostUpdate()
 
 	return true;
 }
+
+bool Marche::Load(pugi::xml_node &node)
+{
+	pugi::xml_node nodeSpeed = node.child("Marche");
+
+	position.x = nodeSpeed.attribute("speedx").as_float();
+	position.y = nodeSpeed.attribute("speedy").as_float();
+	return true;
+}
+
+bool Marche::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodeData = node.append_child("Marche");
+
+	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
+	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
+	return true;
+}

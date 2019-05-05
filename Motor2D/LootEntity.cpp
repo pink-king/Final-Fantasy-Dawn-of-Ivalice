@@ -55,6 +55,189 @@ bool LootEntity::CleanUp()
 	stats.clear();
 	return true;
 }
+bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
+{
+	pugi::xml_node nodeData = node.child("data");
+
+	loot->name.assign(nodeData.attribute("name").as_string());
+
+	std::string charName = nodeData.attribute("characterObject").as_string();
+	if (charName.compare("Marche") == 0)
+		loot->character = App->entityFactory->player->GetMarche();
+	else if (charName.compare("Ritz") == 0)
+		loot->character = App->entityFactory->player->GetRitz();
+	else if (charName.compare("Shara") == 0)
+		loot->character = App->entityFactory->player->GetShara();
+
+	std::string charEquipable = nodeData.attribute("equipableType").as_string();
+	if (charEquipable.compare("sword") == 0)
+		loot->equipableType = EQUIPABLE_TYPE::SWORD;
+	else if (charEquipable.compare("bow") == 0)
+		loot->equipableType = EQUIPABLE_TYPE::BOW;
+	else if (charEquipable.compare("rod") == 0)
+		loot->equipableType = EQUIPABLE_TYPE::ROD;
+	else if (charEquipable.compare("armor") == 0)
+		loot->equipableType = EQUIPABLE_TYPE::ARMOR;
+	else if (charEquipable.compare("vest") == 0)
+		loot->equipableType = EQUIPABLE_TYPE::VEST;
+	else if (charEquipable.compare("mantle") == 0)
+		loot->equipableType = EQUIPABLE_TYPE::MANTLE;
+
+	std::string charElement = nodeData.attribute("elementalType").as_string();
+	if (charElement.compare("noElement") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
+	else if (charElement.compare("fireElement") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+	else if (charElement.compare("iceElement") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+	else if (charElement.compare("poisonElement") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+	else if (charElement.compare("stoneElement") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::STONE_ELEMENT;
+	else if (charElement.compare("allElement") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
+	else if (charElement.compare("dust") == 0)
+		loot->elemetalType = ELEMENTAL_TYPE::DUST;
+
+	std::string charObject = nodeData.attribute("objectType").as_string();
+	if (charObject.compare("weapon") == 0)
+		loot->objectType = OBJECT_TYPE::WEAPON_OBJECT;
+	else if (charObject.compare("armor") == 0)
+		loot->objectType = OBJECT_TYPE::ARMOR_OBJECT;
+	else if (charObject.compare("head") == 0)
+		loot->objectType = OBJECT_TYPE::HEAD_OBJECT;
+	else if (charObject.compare("potion") == 0)
+		loot->objectType = OBJECT_TYPE::POTIONS;
+	else if (charObject.compare("gold") == 0)
+		loot->objectType = OBJECT_TYPE::GOLD;
+
+	std::string charType = nodeData.attribute("lootType").as_string();
+	if (charType.compare("consumable") == 0)
+		loot->loot_type = LOOT_TYPE::CONSUMABLE;
+	else if (charType.compare("equipable") == 0)
+		loot->loot_type = LOOT_TYPE::EQUIPABLE;
+
+	for (pugi::xml_node nodebuffs = node.child("buffs"); nodebuffs; nodebuffs = nodebuffs.next_sibling("buffs"))
+	{
+		Buff* buf = new Buff();
+		buf = buf->Load(nodebuffs);
+		if (buf != nullptr)
+		{
+			buf->SetCharacter(loot->character);
+			buf->SetItemObject(loot);
+			stats.push_back(buf);
+		}
+	}
+
+	return true;
+}
+bool LootEntity::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodeData = node.append_child("data");
+
+	nodeData.append_attribute("name") = name.data();
+
+	nodeData.append_attribute("characterObject") = character->name.data();
+
+	switch (equipableType)
+	{
+	case EQUIPABLE_TYPE::SWORD:
+		nodeData.append_attribute("equipableType") = "sword";
+		break;
+	case EQUIPABLE_TYPE::BOW:
+		nodeData.append_attribute("equipableType") = "bow";
+		break;
+	case EQUIPABLE_TYPE::ROD:
+		nodeData.append_attribute("equipableType") = "rod";
+		break;
+	case EQUIPABLE_TYPE::ARMOR:
+		nodeData.append_attribute("equipableType") = "armor";
+		break;
+	case EQUIPABLE_TYPE::VEST:
+		nodeData.append_attribute("equipableType") = "vest";
+		break;
+	case EQUIPABLE_TYPE::MANTLE:
+		nodeData.append_attribute("equipableType") = "mantle";
+		break;
+	case EQUIPABLE_TYPE::NO_EQUIPABLE:
+		break;
+	default:
+		break;
+	}
+
+	switch (elemetalType)
+	{
+	case ELEMENTAL_TYPE::NO_ELEMENT:
+		nodeData.append_attribute("elementalType") = "noElement";
+		break;
+	case ELEMENTAL_TYPE::FIRE_ELEMENT:
+		nodeData.append_attribute("elementalType") = "fireElement";
+		break;
+	case ELEMENTAL_TYPE::ICE_ELEMENT:
+		nodeData.append_attribute("elementalType") = "iceElement";
+		break;
+	case ELEMENTAL_TYPE::POISON_ELEMENT:
+		nodeData.append_attribute("elementalType") = "poisonElement";
+		break;
+	case ELEMENTAL_TYPE::STONE_ELEMENT:
+		nodeData.append_attribute("elementalType") = "stoneElement";
+		break;
+	case ELEMENTAL_TYPE::ALL_ELEMENTS:
+		nodeData.append_attribute("elementalType") = "allElement";
+		break;
+	case ELEMENTAL_TYPE::DUST:
+		nodeData.append_attribute("elementalType") = "dust";
+		break;
+	case ELEMENTAL_TYPE::MAX:
+		break;
+	default:
+		break;
+	}
+
+	switch (objectType)
+	{
+	case OBJECT_TYPE::WEAPON_OBJECT:
+		nodeData.append_attribute("objectType") = "weapon";
+		break;
+	case OBJECT_TYPE::ARMOR_OBJECT:
+		nodeData.append_attribute("objectType") = "armor";
+		break;
+	case OBJECT_TYPE::HEAD_OBJECT:
+		nodeData.append_attribute("objectType") = "head";
+		break;
+	case OBJECT_TYPE::POTIONS:
+		nodeData.append_attribute("objectType") = "potion";
+		break;
+	case OBJECT_TYPE::GOLD:
+		nodeData.append_attribute("objectType") = "gold";
+		break;
+	case OBJECT_TYPE::NO_OBJECT:
+		break;
+	default:
+		break;
+	}
+
+	switch (loot_type)
+	{
+	case LOOT_TYPE::CONSUMABLE:
+		nodeData.append_attribute("lootType") = "consumable";
+		break;
+	case LOOT_TYPE::EQUIPABLE:		
+		nodeData.append_attribute("lootType") = "equipable";
+		break;
+	case LOOT_TYPE::NO_LOOT:
+		break;
+	default:
+		break;
+	}
+
+	for (std::vector<Buff*>::const_iterator item = stats.begin(); item != stats.end(); ++item)
+	{
+		pugi::xml_node nodeBuffs = node.append_child("buffs");
+		(*item)->Save(nodeBuffs);
+	}
+	return true;
+}
 bool LootEntity::Update(float dt)
 {
 	

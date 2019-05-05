@@ -84,5 +84,15 @@ void Projectile::Draw()
 	}
 }
 
+bool Projectile::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool Projectile::Save(pugi::xml_node &) const
+{
+	return true;
+}
+
 
 

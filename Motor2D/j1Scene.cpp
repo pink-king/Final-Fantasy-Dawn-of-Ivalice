@@ -140,11 +140,11 @@ bool j1Scene::PreUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->win->SetScale(1);
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->win->SetScale(2);
+		App->win->SetScale(2);*/
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -218,11 +218,11 @@ bool j1Scene::Update(float dt)
 
 	// map debug draw grids
 
-	/*if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");*/
+		App->SaveGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;

@@ -26,10 +26,7 @@ public:
 	CONSUMABLE_TYPE  consumableType;
 
 	int chance;
-	
-	
-	
-	bool isUsed = false;
+
 
 
 	//bool repositionDescription = false;

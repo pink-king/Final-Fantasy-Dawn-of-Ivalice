@@ -6,7 +6,29 @@
 	<audio />
 	<map />
 	<scene />
-	<entities />
+	<entities>
+		<Entities>
+			<position x="-1030.53223" y="2046.08911" />
+			<Experience level="1" exp="100" />
+			<life actualLife="100" maxLife="100" />
+			<gold value="265" />
+			<equipedObjects>
+				<data name="" characterObject="Ritz" equipableType="rod" elementalType="noElement" objectType="weapon" lootType="equipable" />
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="15" />
+				</buffs>
+			</equipedObjects>
+			<players>
+				<Marche speedx="1.25" speedy="0.9375" />
+			</players>
+			<players>
+				<Ritz speedx="2" speedy="1.5" />
+			</players>
+			<players>
+				<Shara speedx="2" speedy="1.5" />
+			</players>
+		</Entities>
+	</entities>
 	<AttackManager />
 	<Buff />
 	<ParticlesClassic />

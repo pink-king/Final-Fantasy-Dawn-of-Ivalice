@@ -47,14 +47,20 @@ class Buff
 {
 public:
 	Buff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* object = nullptr);
+	Buff() {};
 	~Buff();
 	BUFF_TYPE GetType();
 	ELEMENTAL_TYPE GetElementType();
 	ROL GetRol();
 	j1Entity* GetCharacter();
+	void SetCharacter(j1Entity* newCharacter);
 	LootEntity* GetItemObject();
+	void SetItemObject(LootEntity* newObject);
 	std::string GetStat();
 	float GetValue();
+
+	Buff* Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 
 	bool GetIfExist(BUFF_TYPE type, j1Entity* characer, std::string stat, ELEMENTAL_TYPE elementType, ROL rol);
 

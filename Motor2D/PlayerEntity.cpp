@@ -51,6 +51,16 @@ bool PlayerEntity::CleanUp()
 	return true;
 }
 
+bool PlayerEntity::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool PlayerEntity::Save(pugi::xml_node &) const
+{
+	return true;
+}
+
 
 
 bool PlayerEntity::InputMovement(float dt)

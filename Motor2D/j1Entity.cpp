@@ -119,6 +119,16 @@ fPoint j1Entity::GetThrowingPos() const
 	return center;
 }
 
+bool j1Entity::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool j1Entity::Save(pugi::xml_node &) const
+{
+	return true;
+}
+
 bool j1Entity::Move(float dt)
 {
 	return true;

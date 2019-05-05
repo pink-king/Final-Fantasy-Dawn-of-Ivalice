@@ -60,11 +60,15 @@ class LootEntity : public j1Entity
 
 public:
 	LootEntity(LOOT_TYPE type, int posX, int posY);
+	LootEntity() {};
 	~LootEntity();
 
 	bool Update(float dt);
 	bool Start();
 	bool CleanUp();
+
+	bool Load(pugi::xml_node& node, LootEntity* loot);
+	bool Save(pugi::xml_node&) const;
 
 	std::string GetName();
 	LOOT_TYPE GetType();
@@ -84,9 +88,6 @@ public:
 	void DecideExplosion();
 	void ExplosionMaker(float dt);
 public:
-
-	uint level;
-
 	iPoint Getoriginpos();
 	iPoint GetFinalPos();
 	iPoint lootSubtile;
@@ -95,6 +96,8 @@ public:
 
 	SDL_Rect loot_rect;
 	//SDL_Texture* goldTex;
+
+	uint level;
 
 	std::vector<Buff*>	stats;
 

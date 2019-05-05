@@ -253,6 +253,102 @@ bool PlayerEntityManager::CleanUp()
 	return true;
 }
 
+bool PlayerEntityManager::Load(pugi::xml_node &node)
+{
+
+	level = node.child("Experience").attribute("level").as_uint();
+	exp = node.child("Experience").attribute("exp").as_uint();
+
+	life = node.child("life").attribute("actualLife").as_float();
+	maxLife = node.child("life").attribute("maxLife").as_float();
+
+	gold = node.child("gold").attribute("value").as_uint();
+
+	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
+	{
+		LootEntity* bagObj = new LootEntity();
+		bagObj->Load(nodebagObjects, bagObj);
+		if (bagObj != nullptr)
+			bagObjects.push_back(bagObj);
+	}
+
+	for (pugi::xml_node nodebagObjects = node.child("equipedObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("equipedObjects"))
+	{
+		LootEntity* equipedObj = new LootEntity();
+		equipedObj->Load(nodebagObjects, equipedObj);
+		if (equipedObj != nullptr)
+			equipedObjects.push_back(equipedObj);
+	}
+
+	for (pugi::xml_node nodebagObjects = node.child("consumableObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("consumableObjects"))
+	{
+		LootEntity* cons = new LootEntity();
+		cons->Load(nodebagObjects, cons);
+		if (cons != nullptr)
+			equipedObjects.push_back(cons);
+	}
+
+	pugi::xml_node nodeMarche = node.child("players").child("Marche");
+	marche->Load(nodeMarche);
+	pugi::xml_node nodeRitz = node.child("players").child("Ritz");
+	ritz->Load(nodeRitz);
+	pugi::xml_node nodeShara = node.child("players").child("Shara");
+	shara->Load(nodeShara);
+	return true;
+}
+
+bool PlayerEntityManager::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodepos = node.append_child("position");
+
+	nodepos.append_attribute("x") = position.x;
+	nodepos.append_attribute("y") = position.y;
+
+	pugi::xml_node nodeexperience = node.append_child("Experience");
+	nodeexperience.append_attribute("level") = level;
+	nodeexperience.append_attribute("exp") = exp;
+
+	pugi::xml_node nodelife = node.append_child("life");
+	nodelife.append_attribute("actualLife") = life;
+	nodelife.append_attribute("maxLife") = maxLife;
+
+	pugi::xml_node nodegold = node.append_child("gold");
+	nodegold.append_attribute("value") = gold;
+
+	std::vector<LootEntity*>::const_iterator iter = bagObjects.begin();
+	for (; iter != bagObjects.end(); ++iter)
+	{
+		pugi::xml_node nodebagObjects = node.append_child("bagObjects");
+		(*iter)->Save(nodebagObjects);
+	}
+
+	std::vector<LootEntity*>::const_iterator iter2 = equipedObjects.begin();
+	for (; iter2 != equipedObjects.end(); ++iter2)
+	{
+		pugi::xml_node nodeequipedObjects = node.append_child("equipedObjects");
+		(*iter2)->Save(nodeequipedObjects);
+	}
+
+	
+	std::vector<LootEntity*>::const_iterator iter3 = consumables.begin();
+	for (; iter3 != consumables.end(); ++iter3)
+	{
+		pugi::xml_node nodeconsumableObjects = node.append_child("consumableObjects");
+		(*iter3)->Save(nodeconsumableObjects);
+	}
+
+	
+	std::vector<PlayerEntity*>::const_iterator iterChar = characters.begin();
+	for (; iterChar != characters.end(); ++iterChar)
+	{
+		pugi::xml_node nodePlayer = node.append_child("players");
+		(*iterChar)->Save(nodePlayer);
+	}
+
+	return true;
+}
+
+
 
 bool PlayerEntityManager::SwapInputChecker()
 {
