@@ -591,6 +591,19 @@ void PlayerEntityManager::DesequipItem(LootEntity * entityLoot)
 	}
 }
 
+void PlayerEntityManager::AddItemToTheBag(LootEntity * entityLoot)
+{
+
+
+	if (bagObjects.size() < 15)
+	{
+		bagObjects.push_back(entityLoot);
+		App->buff->AddItemStats(entityLoot);
+	}
+
+
+}
+
 void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * entity)
 {
 	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)

@@ -71,8 +71,6 @@ void Vendor::DeEquipVendor(LootEntity* entityLoot)
 				vConsumables.erase(item);
 			}
 
-
-			
 			break;
 		}
 	}

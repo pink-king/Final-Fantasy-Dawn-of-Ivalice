@@ -549,10 +549,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		   
 
 		}
-		else
+		else // VENDOR TO PLAYER
 		{
-			if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
-			{
 				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
 
 				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
@@ -596,16 +594,14 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 					}
 				}
 
-			}
-			else if (callback->GetType() == LOOT_TYPE::CONSUMABLE)
-			{
+				
+				// VENDOR TO PLAYER
 
-				            // TODO: vendor to player consumable, and diminish vendor consumable label count
-			}
-		
+			App->entityFactory->player->GetVendor()->DeEquipVendor(callback); 
 
-			App->entityFactory->player->EquipItem(callback);   // VENDOR TO PLAYER
+			//App->entityFactory->player->EquipItem(callback);   // TODO: don't equip it, just put it in bagobjects
 
+			App->entityFactory->player->AddItemToTheBag(callback); 
 		}
 		
 

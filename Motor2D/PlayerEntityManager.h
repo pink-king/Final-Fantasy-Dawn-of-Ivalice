@@ -92,6 +92,8 @@ public:
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
 
+	void AddItemToTheBag(LootEntity* entityLoot); 
+
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 public:
 
