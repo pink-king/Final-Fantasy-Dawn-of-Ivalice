@@ -617,14 +617,14 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
 				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 			}
-			else if (!isVendorInventory && App->dialog->isDialogSequenceActive)    // player to vendor:  it goes to the last bagobject spot
+			/*else if (!isVendorInventory && App->dialog->isDialogSequenceActive)    // player to vendor:  it goes to the last bagobject spot
 			{
 
 			}
 			else if (isVendorInventory)    // vendor to player:   it goes to the last bagobject spot 
 			{
 
-			}
+			}*/
 
 			break;
 
@@ -637,14 +637,14 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
 				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
 			}
-			else if (!isVendorInventory && App->dialog->isDialogSequenceActive)    // player to vendor:  it goes to the last bagobject spot
+			/*else if (!isVendorInventory && App->dialog->isDialogSequenceActive)    // player to vendor:  it goes to the last bagobject spot
 			{
 
 			}
 			else if (isVendorInventory)    // vendor to player:   it goes to the last bagobject spot 
 			{
 
-			}
+			}*/
 			break;
 
 
@@ -656,19 +656,19 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
 				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
 			}
-			else if (!isVendorInventory && App->dialog->isDialogSequenceActive)    // player to vendor:  it goes to the last bagobject spot
+			/*else if (!isVendorInventory && App->dialog->isDialogSequenceActive)    // player to vendor:  it goes to the last bagobject spot
 			{
 
 			}
 			else if (isVendorInventory)    // vendor to player:   it goes to the last bagobject spot 
 			{
 
-			}
+			}*/
 			break;
 
 		}
 
-		if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // only player to player 
+		if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
 		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
 
