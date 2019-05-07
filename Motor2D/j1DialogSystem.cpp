@@ -44,7 +44,7 @@ bool j1DialogSystem::Update(float dt)
 			if (isDialogInScreen)    // if dialog sequence is active AND inventory is NOT openned
 			{
 
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
                   
 					bool enterInventory = false; 
@@ -85,10 +85,11 @@ bool j1DialogSystem::Update(float dt)
 					isDialogInScreen = false;    // the dialog labels are no longer in screen
 
 					if (!enterInventory)
-						PerformDialogue(treeid);  // TODO 1: don't create dialog if the inventory has to be oppened
+						PerformDialogue(treeid);  
 					else
 					{
-							App->scene->DoOpenInventory(false, App->scene->inventoryItem->isVendorInventory);  // actually open it
+						PerformDialogue(treeid, false); // TODO 1: don't create dialog if the inventory has to be oppened
+					    App->scene->DoOpenInventory(false, App->scene->inventoryItem->isVendorInventory);  // actually open it
 					}
 						 
 
@@ -145,7 +146,7 @@ bool j1DialogSystem::CleanUp()
 	return ret;
 }
 
-void j1DialogSystem::PerformDialogue(int tr_id)
+void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 {
 	if (dialogTrees.empty())
 		LOG("TreeEmpty");
@@ -165,6 +166,8 @@ void j1DialogSystem::PerformDialogue(int tr_id)
 		}
 	
 	// Print the dialog in the screen
+
+	if(CreateLabels)
 	BlitDialog();
 }
 
@@ -200,8 +203,10 @@ void j1DialogSystem::spawnDialoguesAfterInventory()
 
 	//input = 1; // "I changed my mind" (faked to go back to dialogue) 
 	
-	PerformDialogue(treeid);        // last node was stored, it is "Anything else?" 
+	//PerformDialogue(treeid);        // last node was stored, it is "Anything else?" 
 
+
+	BlitDialog();    
 
 }
 

@@ -52,7 +52,7 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void PerformDialogue(int tr_id);
+	void PerformDialogue(int tr_id, bool createLabels = true);
 	bool LoadDialogue(const char*);
 	bool LoadTreeData(pugi::xml_node& trees, DialogTree* oak);
 	bool LoadNodesDetails(pugi::xml_node& text_node, DialogNode* npc);
