@@ -31,7 +31,7 @@ bool j1DialogSystem::Update(float dt)
 	if (App->scene->inGamePanel->enable)
 	{
 
-		if (spawnDialogSequence)    // put the "isDialogSequenceactive to True"
+		if (spawnDialogSequence)    // TODO: A) put it to true in store trigger   B) put the "isDialogSequenceactive to True"
 		{
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
@@ -58,20 +58,23 @@ bool j1DialogSystem::Update(float dt)
 							{
 								input = (*iter)->dialogPos;   // capture the dialog option number
 
-								if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos) // open player inventory
-								{
-									enterInventory = true;     
-									App->scene->inventoryItem->isVendorInventory = false; 
-								}
-								else if (currentNode->dialogOptions.at(input)->text.find("Sure") != std::string::npos) // open vendor inventory
-								{
-
-									enterInventory = true;   
-									App->scene->inventoryItem->isVendorInventory = true; 
-								}
-							
-									
 								
+								if (input >= 0 && input < currentNode->dialogOptions.size())
+								{
+									if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos) // open player inventory
+									{
+										enterInventory = true;
+										App->scene->inventoryItem->isVendorInventory = false;
+									}
+									else if (currentNode->dialogOptions.at(input)->text.find("Sure") != std::string::npos) // open vendor inventory
+									{
+
+										enterInventory = true;
+										App->scene->inventoryItem->isVendorInventory = true;
+									}
+								}
+								
+							
 
 							}
 							
@@ -85,7 +88,16 @@ bool j1DialogSystem::Update(float dt)
 					isDialogInScreen = false;    // the dialog labels are no longer in screen
 
 					if (!enterInventory)
-						PerformDialogue(treeid);  
+					{
+						if (input >= 0 && input < currentNode->dialogOptions.size())
+						{
+
+					       PerformDialogue(treeid);
+						
+						}
+							
+						
+					}
 					else
 					{
 						PerformDialogue(treeid, false); // TODO 1: don't create dialog if the inventory has to be oppened
@@ -151,12 +163,19 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 	if (dialogTrees.empty())
 		LOG("TreeEmpty");
 
+	bool exit = false; 
 	
 		//Find the next node 
 		if (input >= 0 && input < currentNode->dialogOptions.size()) //Only if the input is valid
 		{
 			for (int j = 0; j < dialogTrees[tr_id]->dialogNodes.size(); j++)
 			{
+				if (currentNode->dialogOptions[input]->nextnode > dialogTrees[tr_id]->maxNodes - 1)  // if greater, exit dialogue
+				{
+					exit = true; 
+				}
+				
+
 				if (currentNode->dialogOptions[input]->nextnode == dialogTrees[tr_id]->dialogNodes[j]->id) //If the option id is the same as one of the nodes ids in the tree
 				{
 					currentNode = dialogTrees[tr_id]->dialogNodes[j]; // we assign our node pointer to the next node in the tree				
@@ -167,8 +186,18 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 	
 	// Print the dialog in the screen
 
-	if(CreateLabels)
-	BlitDialog();
+		if (CreateLabels)
+		{
+			if(!exit)
+			BlitDialog();
+			else                                       // Stop dialogue if input is greater than max nodes ("Farewell")
+			{
+				isDialogSequenceActive = false; 
+				spawnDialogSequence = false;
+			}
+			
+	    }
+	
 }
 
 void j1DialogSystem::BlitDialog()
@@ -240,6 +269,7 @@ bool j1DialogSystem::LoadTreeData(pugi::xml_node& trees, DialogTree* oak)
 {
 	bool ret = true;
 
+	uint nodesCount = 0; 
 	//Filling the dialogue tree information
 	for (pugi::xml_node n = trees.child("node");n != NULL; n = n.next_sibling("node"))
 	{
@@ -250,7 +280,12 @@ bool j1DialogSystem::LoadTreeData(pugi::xml_node& trees, DialogTree* oak)
 		LoadNodesDetails(n, node);
 		oak->dialogNodes.push_back(node);
 		
+		nodesCount++; 
 	}
+
+	oak->maxNodes = nodesCount;   // Will be needed if nextnode is greater than the max nodes. Then, stop dialogue
+
+
 	return ret;
 }
 

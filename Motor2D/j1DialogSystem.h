@@ -39,6 +39,7 @@ public:
 public:
 	std::vector <DialogNode*> dialogNodes;
 	int treeid/*, karma*/;
+	int maxNodes; 
 };
 
 class UiItem_Label;
@@ -62,9 +63,6 @@ public:
 	void spawnDialoguesAfterInventory(); 
 
 	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
-
-	// TODO: when inventory closed, perform dialog again with "Anything else?" node (id == 4) 
-	// don'te delete anythings, since it was deleted when inventory was openned
 
 	bool isDialogInScreen = false; 
 	bool isDialogSequenceActive = true;  // TODO: it should be false, then true when arriving to the store

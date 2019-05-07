@@ -480,8 +480,8 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 			}
 
 		}
-	}
 
+	}
 
 
 }
