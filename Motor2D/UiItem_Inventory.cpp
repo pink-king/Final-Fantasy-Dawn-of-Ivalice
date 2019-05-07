@@ -424,6 +424,9 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		if (App->gui->selected_object == ent->MyDescription->iconImageInventory)
 		{
 			App->gui->selected_object = nullptr;
+
+			if(App->dialog->isDialogSequenceActive)
+			App->gui->resetHoverSwapping = false;    // reset hover swapping if inventory sequence active
 		}
 
 		// delete last descr
