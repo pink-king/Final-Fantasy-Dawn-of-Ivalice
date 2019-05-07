@@ -337,7 +337,7 @@ bool j1Scene::Update(float dt)
 			}
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
 			DoOpenInventory();
 		}
