@@ -598,7 +598,7 @@ void PlayerEntityManager::AddItemToTheBag(LootEntity * entityLoot)
 	if (bagObjects.size() < 15)
 	{
 		bagObjects.push_back(entityLoot);
-		App->buff->AddItemStats(entityLoot);
+		//App->buff->AddItemStats(entityLoot);  // dont add stats, because in vendor inventory already had them
 	}
 
 
@@ -610,7 +610,7 @@ void PlayerEntityManager::RemoveItemFromBag(LootEntity * entityLoot)
 	{
 		if (entityLoot == *item)
 		{
-			App->buff->RemoveItemStat(*item);
+			//App->buff->RemoveItemStat(*item);      // don't remove stats, because it goes to vendor  (it needs differentiation)
 			bagObjects.erase(item);
 			break;
 		}

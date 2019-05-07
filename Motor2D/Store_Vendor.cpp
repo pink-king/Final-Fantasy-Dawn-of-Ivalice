@@ -34,46 +34,60 @@ void Vendor::generateVendorItems()
 
 }
 
-void Vendor::EquipVendor(LootEntity* entityLoot)
+void Vendor::EquipVendor(LootEntity* entityLoot, bool fromPlayer)
 {
 
-	if (vBagObjects.size() < 15)
-	{
+	
 		if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 		{
-			vBagObjects.push_back(entityLoot);
+
+			if (vBagObjects.size() < 15)
+			{
+				vBagObjects.push_back(entityLoot);
+			}
 		}
 		else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 		{
 			vConsumables.push_back(entityLoot);
 		}
 		
-		App->buff->AddItemStats(entityLoot);
-	}
+		if(!fromPlayer)
+		App->buff->AddItemStats(entityLoot);   // if vendor recieves item from player, it already has stats
 
 
 }
 
 void Vendor::DeEquipVendor(LootEntity* entityLoot)
 {
-	for (std::vector<LootEntity*>::iterator item = vBagObjects.begin(); item != vBagObjects.end(); ++item)
+	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
-		if (entityLoot == *item)
+
+		for (std::vector<LootEntity*>::iterator item = vBagObjects.begin(); item != vBagObjects.end(); ++item)
 		{
-			App->buff->RemoveItemStat(*item);
-
-			if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
+			if (entityLoot == *item)
 			{
+				//App->buff->RemoveItemStat(*item);   // do we need to remove items stats? NO; because it goes to player
 				vBagObjects.erase(item);
+			
 			}
-			else if(entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
-			{
-				vConsumables.erase(item);
-			}
+		}
 
-			break;
+	}
+	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+	{
+
+		for (std::vector<LootEntity*>::iterator item = vConsumables.begin(); item != vConsumables.end(); ++item)
+		{
+			if (entityLoot == *item)
+			{
+				//App->buff->RemoveItemStat(*item);   // do we need to remove items stats? NO; because it goes to player
+				vConsumables.erase(item);
+
+			}
 		}
 	}
+	
+
 }
 
 

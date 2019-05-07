@@ -492,7 +492,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 	{
 		if (!isVendorInventory)                                                          
 		{
-			if (App->dialog->isDialogSequenceActive) 
+			if (!App->dialog->isDialogSequenceActive) 
 			{
 				bool hasEquipped = false; 
 
