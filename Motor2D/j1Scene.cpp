@@ -798,10 +798,17 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 			App->pause = !App->pause;
 			if (App->pause && !pausePanel->enable)
 			{
-				inventory->enable = true;
-				App->gui->resetHoverSwapping = false;
-				inventoryItem->LoadElements(onlyEquipped, isVendor);
-				App->audio->PlayFx(openInventorySFX, 0);
+				if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
+				{
+					inventory->enable = true;
+					App->gui->resetHoverSwapping = false;
+
+					App->scene->inventoryItem->isVendorInventory = false;
+
+					inventoryItem->LoadElements(onlyEquipped, isVendor);
+					App->audio->PlayFx(openInventorySFX, 0);
+				}
+				
 			}
 
 			else

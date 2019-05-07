@@ -604,6 +604,20 @@ void PlayerEntityManager::AddItemToTheBag(LootEntity * entityLoot)
 
 }
 
+void PlayerEntityManager::RemoveItemFromBag(LootEntity * entityLoot)
+{
+	for (std::vector<LootEntity*>::iterator item = equipedObjects.begin(); item != equipedObjects.end(); ++item)
+	{
+		if (entityLoot == *item)
+		{
+			App->buff->RemoveItemStat(*item);
+			bagObjects.erase(item);
+			break;
+		}
+	}
+
+}
+
 void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * entity)
 {
 	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)

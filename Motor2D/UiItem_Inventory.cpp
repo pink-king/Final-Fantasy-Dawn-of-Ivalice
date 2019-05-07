@@ -435,10 +435,10 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 
 		// if it is vendor inventory, reset the boolean
-		if (isVendorInventory)
+		/*if (isVendorInventory)
 		{
 			isVendorInventory = false; 
-		}
+		}*/
 
 		LOG("_______________________________________________   Deleted description");
 
@@ -494,6 +494,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		{
 			if (App->dialog->isDialogSequenceActive) 
 			{
+				bool hasEquipped = false; 
+
 				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
 				for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
@@ -537,12 +539,16 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 					}
 				}
 
-				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER when no inventory sequence is active
+				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
 			}
 			else
 			{
-				                                                             // TODO: player to vendor (equipables and consumables)
-				                                                             // no need for "my loot is equipped" 
+				                                                           // PLAYER TO VENDOR: when the inventory sequence is active
+				App->entityFactory->player->RemoveItemFromBag(callback); 
+
+				App->entityFactory->player->GetVendor()->EquipVendor(callback); 
+			
+				
 			}
 
 	
@@ -673,6 +679,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 	}
+
+
 
 
 
