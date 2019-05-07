@@ -606,7 +606,7 @@ void PlayerEntityManager::AddItemToTheBag(LootEntity * entityLoot)
 
 void PlayerEntityManager::RemoveItemFromBag(LootEntity * entityLoot)
 {
-	for (std::vector<LootEntity*>::iterator item = equipedObjects.begin(); item != equipedObjects.end(); ++item)
+	for (std::vector<LootEntity*>::iterator item = bagObjects.begin(); item != bagObjects.end(); ++item)
 	{
 		if (entityLoot == *item)
 		{
