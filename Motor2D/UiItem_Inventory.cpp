@@ -155,50 +155,53 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 		{
 			if (!App->entityFactory->player->bagObjects.empty())
 			{
+
 				int i = 0;
 				int j = 0;
 				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
 
 				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 				{
-
-					// first generate description if it does not have it or if it was deleted ingame
-
-					De_______GenerateDescription((*iter), true);
-
-
-					iPoint position(0, 0);
-
-					if (i == 5)
-					{
-						i = 0;
-						j++;
-					}
-
-					if (i == 0)  // first
+					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 					{
 
-						position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+						// first generate description if it does not have it or if it was deleted ingame
 
+						De_______GenerateDescription((*iter), true);
+
+
+						iPoint position(0, 0);
+
+						if (i == 5)
+						{
+							i = 0;
+							j++;
+						}
+
+						if (i == 0)  // first
+						{
+
+							position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+						}
+						else   // the rest of elements in the row
+						{
+							position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+						}
+
+
+						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+						if (!(*iter)->MyDescription->spawnedInventoryImage)
+						{
+							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+						}
+						(*iter)->MyDescription->spawnedInventoryImage = true;
+
+						i++;
 
 					}
-					else   // the rest of elements in the row
-					{
-						position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
-					}
-
-
-					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-					if (!(*iter)->MyDescription->spawnedInventoryImage)
-					{
-						(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-					}
-					(*iter)->MyDescription->spawnedInventoryImage = true;
-
-					i++;
-
-
 
 				}
 
@@ -214,6 +217,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 				{
+
 
 					// first generate description if it does not have it or if it was deleted ingame
 
@@ -560,57 +564,40 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		}
 		else // VENDOR TO PLAYER
 		{
+			if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
+			{
 				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
 
 				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 				{
-					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+					if ((*iter) == callback)
 					{
-						if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
+						if ((*iter)->GetObjectType() == callback->GetObjectType())
 						{
-							if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
+							if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 							{
-								//App->entityFactory->player->DesequipItem((*iter));
-								(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
-								(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+								if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+								{
 
-								// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-								(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-								(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-							}
-							else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.armor)
-							{
-								//App->entityFactory->player->DesequipItem((*iter));
-								(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
-								(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
-
-								// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-								(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-								(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-							}
-							else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.head)
-							{
-								//App->entityFactory->player->DesequipItem((*iter));
-								(*iter)->MyDescription->myLootItemIsEquipped.head = false;
-								(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
-
-								// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-								(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-								(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+									App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+									App->entityFactory->player->AddItemToTheBag(callback);
+								}
 							}
 						}
-
+						
 					}
+					
 				}
 
+			}
+ 			else    // todo: consumables, don't need to check anything
+			{
+
+			}
+
 				
-				// VENDOR TO PLAYER
-
-			App->entityFactory->player->GetVendor()->DeEquipVendor(callback); 
-
-			//App->entityFactory->player->EquipItem(callback);   // TODO: don't equip it, just put it in bagobjects
-
-			App->entityFactory->player->AddItemToTheBag(callback); 
+		
+			
 		}
 		
 
