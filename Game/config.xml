@@ -321,21 +321,21 @@
       </images>
       <buttons>
         <button name="button_ingame" function = "FadeToScene">
-          <idleSec x="856" y="2252" w="216" h="67"/>
-          <hoverSec x="856" y="2320" w="216" h="67" />
-          <clickSec x="856" y="2388" w="216" h="67" />
+          <idleSec x="856" y="2320" w="222" h="67"/>
+          <hoverSec x="856" y="2252" w="222" h="67" />
+          <clickSec x="856" y="2388" w="222" h="67" />
           <position x="101" y="360"/>
         </button>
         <button name="button_settings" function = "SettingsScreen">
-          <idleSec x="1073" y="2252" w="216" h="67"/>
-          <hoverSec x="1073" y="2320" w="216" h="67" />
-          <clickSec x="1073" y="2388" w="216" h="67" />
+          <idleSec  x="1079" y="2320" w="222" h="67"/>
+          <hoverSec x="1079" y="2252" w="222" h="67" />
+          <clickSec x="1079" y="2388" w="222" h="67" />
           <position x="101" y="460"/>
         </button>
         <button name="button_exit" function = "ExitGame">
-          <idleSec x="856" y="2456" w="216" h="67"/>
-          <hoverSec x="856" y="2524" w="216" h="67" />
-          <clickSec x="856" y="2592" w="216" h="67" />
+          <idleSec  x="856" y="2524" w="222" h="67"/>
+          <hoverSec x="856" y="2456" w="222" h="67" />
+          <clickSec x="856" y="2592" w="222" h="67" />
           <position x="101" y="560"/>
         </button>
 
@@ -406,9 +406,9 @@
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
-          <idleSec x="1073" y="2456" w="215" h="64"/>
-          <hoverSec x="1073" y="2521" w="215" h="64" />
-          <clickSec x="1073" y="2586" w="215" h="64" />
+          <idleSec  x="1079" y="2524" w="222" h="67"/>
+          <hoverSec x="1079" y="2456" w="222" h="67" />
+          <clickSec x="1079" y="2592" w="222" h="67" />
           <position x="267" y="561"/>
         </button>
       </buttons>
@@ -441,15 +441,15 @@
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToStartMenu">
-          <idleSec x="856" y="2725" w="215" h="64"/>
-          <hoverSec x="856" y="2660" w="215" h="64" />
-          <clickSec x="1072" y="2651" w="215" h="64" />
+          <idleSec  x="856" y="2728" w="222" h="67"/>
+          <hoverSec x="856" y="2660" w="222" h="67" />
+          <clickSec x="856" y="2796" w="222" h="67" />
           <position x="530" y="440"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
-          <idleSec x="1073" y="2456" w="215" h="64"/>
-          <hoverSec x="1073" y="2521" w="215" h="64" />
-          <clickSec x="1073" y="2586" w="215" h="64" />
+          <idleSec  x="1079" y="2524" w="222" h="67"/>
+          <hoverSec x="1079" y="2456" w="222" h="67" />
+          <clickSec x="1079" y="2592" w="222" h="67" />
           <position x="530" y="551"/>
         </button>
       </buttons>
@@ -488,16 +488,16 @@
   <DeathScreen>
       <images>
         <image name="death_screen">
-          <section x="1290" y="1653" w="1280" h="720"/>
+          <section x="1311" y="1653" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
       </images>
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToStartMenuFromDeathWin">
-          <idleSec x="856" y="2725" w="215" h="64"/>
-          <hoverSec x="856" y="2660" w="215" h="64" />
-          <clickSec x="1072" y="2651" w="215" h="64" />
+          <idleSec  x="856" y="2728" w="222" h="67"/>
+          <hoverSec x="856" y="2660" w="222" h="67" />
+          <clickSec x="856" y="2796" w="222" h="67" />
           <position x="540" y="600"/>
         </button>
       </buttons>
@@ -506,16 +506,16 @@
   <WinScreen>
       <images>
         <image name="win_screen">
-          <section x="1290" y="2374" w="1280" h="720"/>
+          <section x="1311" y="2374" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
       </images>
 
       <buttons>
         <button name="button_backMenuWin" function = "GoBackToStartMenuFromDeathWin">
-          <idleSec x="856" y="2725" w="215" h="64"/>
-          <hoverSec x="856" y="2660" w="215" h="64" />
-          <clickSec x="1072" y="2651" w="215" h="64" />
+          <idleSec  x="856" y="2728" w="222" h="67"/>
+          <hoverSec x="856" y="2660" w="222" h="67" />
+          <clickSec x="856" y="2796" w="222" h="67" />
           <position x="540" y="600"/>
         </button>
       </buttons>
