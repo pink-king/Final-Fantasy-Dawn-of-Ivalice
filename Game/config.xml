@@ -77,7 +77,7 @@
         </image>
         -->
         <image name="coin">
-          <section x="59" y="519" w="25" h="25"/>
+          <section x="59" y="518" w="26" h="26"/>
           <position x="1121" y="31"/>
         </image>
 
