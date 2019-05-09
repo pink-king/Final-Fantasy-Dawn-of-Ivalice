@@ -122,11 +122,11 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					(*iter)->MyDescription->spawnedInventoryImage = true;
 					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
 				}
-				/*else
+				else
 				{
 					(*iter)->MyDescription->HideAllElements(false);
-					(*iter)->MyDescription->iconImageInventory->hide = false;
-				}*/
+					(*iter)->MyDescription->iconImageInventory->tabbable = true; 
+				}
 
 
 
@@ -196,8 +196,16 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						{
 							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+							(*iter)->MyDescription->spawnedInventoryImage = true;
 						}
-						(*iter)->MyDescription->spawnedInventoryImage = true;
+						else
+						{
+							(*iter)->MyDescription->HideAllElements(false);
+							(*iter)->MyDescription->iconImageInventory->tabbable = true;
+						}
+
+					
 
 						i++;
 
@@ -250,8 +258,15 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					{
 						(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
 						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+						(*iter)->MyDescription->spawnedInventoryImage = true;
 					}
-					(*iter)->MyDescription->spawnedInventoryImage = true;
+					else
+					{
+						(*iter)->MyDescription->HideAllElements(false);
+						(*iter)->MyDescription->iconImageInventory->tabbable = true;
+					}
+				
 
 					i++;
 
@@ -299,6 +314,11 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 						(*iter)->MyDescription->spawnedInventoryImage = true;
 
+					}
+					else
+					{
+						(*iter)->MyDescription->HideAllElements(false);
+						(*iter)->MyDescription->iconImageInventory->tabbable = true;
 					}
 
 
@@ -357,6 +377,11 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 						(*iter)->MyDescription->spawnedInventoryImage = true;
 
+					}
+					else
+					{
+						(*iter)->MyDescription->HideAllElements(false);
+						(*iter)->MyDescription->iconImageInventory->tabbable = true;
 					}
 
 
@@ -483,7 +508,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity* ent)
 {
-	if (!isVendorInventory) {
+	/*if (!isVendorInventory) {
 
 		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
 		{
@@ -596,6 +621,18 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 
 	/*App->gui->selected_object = nullptr;     // already done in De_GenerateDescription 
 	App->gui->resetHoverSwapping = false; */
+
+
+// this way may be safer: 
+
+ent->MyDescription->HideAllElements(true, false, true); 
+ent->MyDescription->iconImageInventory->tabbable = false; 
+
+
+App->gui->selected_object = nullptr;     
+App->gui->resetHoverSwapping = false; 
+
+
 }
 
 
@@ -660,6 +697,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				}
 
 				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
+
+				//App->gui->resetHoverSwapping = false;
 			}
 			else
 			{

@@ -300,7 +300,9 @@ void UiItem_Description::Draw(const float& dt)
 					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
 				}
 
+				
 				HideAllElements(false);
+
 				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 20));
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
@@ -314,7 +316,7 @@ void UiItem_Description::Draw(const float& dt)
 				/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 				{
 					App->gui->resetHoverSwapping = false;
-					App->scene->inventoryItem->LoadElements();
+					App->scene->inventoryItem->LoadElements();    // ALERT ALERT: already done in player manager when switching chars
 				}*/
 
 				if (hasToCompare)
@@ -548,7 +550,7 @@ void UiItem_Description::SwitchCameraUsage()
 
 }
 
-void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
+void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool buyingOrSelling)
 {
 	// common 
 
@@ -557,11 +559,17 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 	this->name->hide = hide;
 	this->hide = hide;
 
-
-	if (closeInventory)                 // only when the inventory is closed, the duplicated icon image should be hiden 
+	if (spawnedInventoryImage)
 	{
-		iconImageInventory->hide = true;
+
+		if (closeInventory || buyingOrSelling)
+		{
+			iconImageInventory->hide = true;
+		}
+
 	}
+
+	
 	// - - - - - - - - - - - - - 
 
 	if (this->descrType == descriptionType::WEAPON)
@@ -596,6 +604,8 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory)
 	{
 		this->effectLabel->hide = hide;
 	}
+
+
 
 
 }

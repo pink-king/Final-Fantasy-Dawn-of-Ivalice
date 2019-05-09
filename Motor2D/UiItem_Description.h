@@ -64,7 +64,7 @@ public:
 
     void Draw(const float& dt);   // do we need this?? I bet we don't 
 
-	void HideAllElements(bool hide = true, bool closeInventory = false); 
+	void HideAllElements(bool hide = true, bool closeInventory = false, bool buyingOrSelling = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
 	bool ChangeComparisonLabels(); 
 	void SwitchCameraUsage(); 
