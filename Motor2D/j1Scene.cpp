@@ -803,8 +803,6 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 					inventory->enable = true;
 					App->gui->resetHoverSwapping = false;
 
-					App->scene->inventoryItem->isVendorInventory = false;
-
 					inventoryItem->LoadElements(onlyEquipped, isVendor);
 					App->audio->PlayFx(openInventorySFX, 0);
 				}

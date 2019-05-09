@@ -311,11 +311,11 @@ void UiItem_Description::Draw(const float& dt)
 					}
 
 				}
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+				/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 				{
 					App->gui->resetHoverSwapping = false;
 					App->scene->inventoryItem->LoadElements();
-				}
+				}*/
 
 				if (hasToCompare)
 					ChangeComparisonLabels();    // "+3 dmg", "+4def ect

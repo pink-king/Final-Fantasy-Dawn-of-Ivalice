@@ -441,11 +441,6 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		ent->spawnedDescription = false;
 
 
-		// if it is vendor inventory, reset the boolean
-		/*if (isVendorInventory)
-		{
-			isVendorInventory = false; 
-		}*/
 
 		LOG("_______________________________________________   Deleted description");
 
@@ -599,8 +594,8 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 
 	// finally reset the hoverswapping 
 
-	App->gui->selected_object = nullptr; 
-	App->gui->resetHoverSwapping = false; 
+	/*App->gui->selected_object = nullptr;     // already done in De_GenerateDescription 
+	App->gui->resetHoverSwapping = false; */
 }
 
 
@@ -675,7 +670,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				// PLAYER TO VENDOR: when the inventory sequence is active
 				App->entityFactory->player->RemoveItemFromBag(callback); 
 
-				App->entityFactory->player->GetVendor()->EquipVendor(callback); 
+				App->entityFactory->player->GetVendor()->EquipVendor(callback, true); 
 			
 
 
@@ -695,11 +690,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 				{
 					if ((*iter) == callback)
-					{
-						if ((*iter)->GetObjectType() == callback->GetObjectType())
-						{
-							if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-							{
+					{	
 								if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 								{
 
@@ -713,10 +704,9 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 
-									
+									break; 
 								}
-							}
-						}
+							
 						
 					}
 					

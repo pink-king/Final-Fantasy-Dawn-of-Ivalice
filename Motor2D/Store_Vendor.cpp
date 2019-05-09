@@ -68,6 +68,7 @@ void Vendor::DeEquipVendor(LootEntity* entityLoot)
 			{
 				//App->buff->RemoveItemStat(*item);   // do we need to remove items stats? NO; because it goes to player
 				vBagObjects.erase(item);
+				break; 
 			
 			}
 		}
@@ -82,7 +83,7 @@ void Vendor::DeEquipVendor(LootEntity* entityLoot)
 			{
 				//App->buff->RemoveItemStat(*item);   // do we need to remove items stats? NO; because it goes to player
 				vConsumables.erase(item);
-
+				break; 
 			}
 		}
 	}
