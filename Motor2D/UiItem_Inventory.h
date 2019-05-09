@@ -53,6 +53,8 @@ public:
 
 	void callDeleteWhenSwitchingCharacters();
 
+	void makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity*);
+
 	bool drawTest = false;
 
 	bool isVendorInventory = false; 

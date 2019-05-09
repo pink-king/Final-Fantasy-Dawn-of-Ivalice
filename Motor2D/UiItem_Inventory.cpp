@@ -486,6 +486,124 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 }
 
+void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity* ent)
+{
+	if (!isVendorInventory) {
+
+		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
+		{
+			if (!App->entityFactory->player->bagObjects.empty())
+			{
+				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+
+				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+				{
+					if ((*iter) == ent)
+					{
+						if ((*iter)->spawnedDescription)
+						{
+							if ((*iter)->MyDescription->spawnedInventoryImage)
+							{
+
+								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
+							}
+
+						}
+					}
+					
+				}
+
+			}
+		}
+		else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
+		{
+			if (!App->entityFactory->player->consumables.empty())
+			{
+				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
+
+				for (; iter != App->entityFactory->player->consumables.end(); ++iter)
+				{
+
+					if ((*iter) == ent)
+					{
+						if ((*iter)->spawnedDescription)
+						{
+							if ((*iter)->MyDescription->spawnedInventoryImage)
+							{
+
+								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
+							}
+
+						}
+					}
+				}
+
+			}
+		}
+	}
+	else if (isVendorInventory)
+	{
+		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
+		{
+			if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())
+			{
+				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
+
+				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+				{
+
+					if ((*iter) == ent)
+					{
+						if ((*iter)->spawnedDescription)
+						{
+							if ((*iter)->MyDescription->spawnedInventoryImage)
+							{
+
+								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
+							}
+
+						}
+					}
+				}
+
+			}
+		}
+		else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
+		{
+			if (!App->entityFactory->player->GetVendor()->vConsumables.empty())
+			{
+				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vConsumables.begin();
+
+				for (; iter != App->entityFactory->player->GetVendor()->vConsumables.end(); ++iter)
+				{
+
+					if ((*iter) == ent)
+					{
+						if ((*iter)->spawnedDescription)
+						{
+							if ((*iter)->MyDescription->spawnedInventoryImage)
+							{
+
+								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
+							}
+
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+
+
+	// finally reset the hoverswapping 
+
+	App->gui->selected_object = nullptr; 
+	App->gui->resetHoverSwapping = false; 
+}
+
+
 
 void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
@@ -550,11 +668,17 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 			}
 			else
 			{
-				                                                           // PLAYER TO VENDOR: when the inventory sequence is active
+
+				// delete item desciption so that it is not selected again
+				makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
+
+				// PLAYER TO VENDOR: when the inventory sequence is active
 				App->entityFactory->player->RemoveItemFromBag(callback); 
 
 				App->entityFactory->player->GetVendor()->EquipVendor(callback); 
 			
+
+
 				
 			}
 
@@ -579,8 +703,17 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 								if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 								{
 
+									// delete item desciption so that it is not selected again
+									makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
+
+
+
 									App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 									App->entityFactory->player->AddItemToTheBag(callback);
+
+
+
+									
 								}
 							}
 						}
