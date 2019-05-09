@@ -162,9 +162,6 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 				{
-					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
-					{
-
 						// first generate description if it does not have it or if it was deleted ingame
 
 						De_______GenerateDescription((*iter), true);
@@ -210,8 +207,6 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						i++;
 
 					}
-
-				}
 
 			}
 		}
