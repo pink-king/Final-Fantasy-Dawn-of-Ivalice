@@ -12,6 +12,9 @@ void Vendor::generateVendorItems()
 		{
 			j1Entity* equipable = App->entityFactory->CreateLootType(0, 0, LOOT_TYPE::EQUIPABLE);
 			App->entityFactory->LoadLootData((LootEntity*)equipable, App->config);
+		    
+			dynamic_cast<LootEntity*>(equipable)->level = 1; 
+
 			EquipVendor((LootEntity*)equipable);
 
 		}
