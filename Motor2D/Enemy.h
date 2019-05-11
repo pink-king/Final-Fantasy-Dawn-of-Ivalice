@@ -59,7 +59,8 @@ public:
 
 	bool SearchNewPath();
 	bool SearchNewSubPath(bool ignoringColl = false);
-	
+	bool SearchPathToSubtile(const iPoint& goal); 
+
 	int GetRandomValue(const int& min, const int& max) const;
 
 	bool isInDetectionRange() const;
@@ -71,7 +72,7 @@ public:
 	bool isOnDestiny() const; 
 	void SetNewDirection(); 
 	void MoveToCurrDestiny(float dt); 
-	void SearchNeighbourSubtile();
+	iPoint SearchNeighbourSubtile() const;
 
 	void FreeMyReservedAdjacents();
 
