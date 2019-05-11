@@ -644,14 +644,13 @@ if (!isVendorInventory)
 			if (!App->dialog->isDialogSequenceActive) 
 			{
 
-				bool hasEquipped = false; 
-
 				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
-				for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+				if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 				{
-					if ((*iter) == callback)
-					{
+				    for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+				    {
+				
 						if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 						{
 							if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
@@ -688,11 +687,14 @@ if (!isVendorInventory)
 								}
 							}
 
+							
 						}
+						
 					}
+					App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
 				}
 
-				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
+				
 
 				//App->gui->resetHoverSwapping = false;
 			}

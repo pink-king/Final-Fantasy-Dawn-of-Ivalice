@@ -608,6 +608,26 @@ void PlayerEntityManager::DesequipItem(LootEntity * entityLoot)
 void PlayerEntityManager::AddItemToTheBag(LootEntity * entityLoot)
 {
 
+	/*if (equipedObjects.size() == 0)
+	{
+		equipedObjects.push_back(entityLoot);
+	}
+	else
+	{
+		for (std::vector<LootEntity*>::iterator item = equipedObjects.begin(); item != equipedObjects.end(); ++item)
+		{
+
+			if (entityLoot->GetObjectType() == (*item)->GetObjectType() && entityLoot->character == (*item)->character)
+			{
+				bagObjects.push_back(*item);
+				equipedObjects.erase(item);
+				break;
+			}
+		}
+		equipedObjects.push_back(entityLoot);
+
+	}*/
+
 
 	if (bagObjects.size() < 15)
 	{
