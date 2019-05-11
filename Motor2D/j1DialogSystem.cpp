@@ -44,10 +44,15 @@ bool j1DialogSystem::Update(float dt)
 			SetCurrentDialog("VENDOR");
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		{
+			SetCurrentDialog("BOSS");
+		}
 
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
+			input = -1;                     // first time no input; 
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
@@ -146,7 +151,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else
+			else if(currentDialogType == "BOSS")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -158,24 +163,22 @@ void j1DialogSystem::doDialogTypeLogic()
 					{
 						input = (*iter)->dialogPos;   // capture the dialog option number
 
-						if (input >= 0 && input < currentNode->dialogOptions.size())
-						{
-
-							PerformDialogue(treeid);
-
-
-							App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
-							App->gui->deleteCurrentDialogs();             // then delete the active dialog labels                 
-
-							isDialogInScreen = false;    // the dialog labels are no longer in screen
-
-						}
+					
 					}
 				}
+
 				App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
 				App->gui->deleteCurrentDialogs();
 
 				isDialogInScreen = false;    // the dialog labels are no longer in screen
+
+
+				if (input >= 0 && input < currentNode->dialogOptions.size())
+				{
+
+					PerformDialogue(treeid);
+				}
+
 			}
 
 
@@ -191,21 +194,26 @@ void j1DialogSystem::SetCurrentDialog(std::string callback)
 {
 
 
-	for (int j = 0; j < dialogTrees.size(); j++)
+	if (!isDialogSequenceActive)
 	{
-		if (dialogTrees[j]->treeName == callback)
+
+		for (int j = 0; j < dialogTrees.size(); j++)
 		{
-			treeid = dialogTrees[j]->treeid; 
+			if (dialogTrees[j]->treeName == callback)
+			{
+				treeid = dialogTrees[j]->treeid;
 
-			currentDialogType = dialogTrees[j]->treeName; 
+				currentDialogType = dialogTrees[j]->treeName;
 
 
-			currentNode = dialogTrees[j]->dialogNodes[0]; 
+				currentNode = dialogTrees[j]->dialogNodes[0];
+			}
+
 		}
 
+		spawnDialogSequence = true;
 	}
-
-	spawnDialogSequence = true; 
+	
 
 }
 

@@ -21,5 +21,22 @@
       <option line="I want to sell something" nextnode="3"/>
 	  <option line="Farewell" nextnode="6"/>
     </node>
+	
   </dialogtree>
+    <dialogtree treeid="1" treeName="BOSS">
+    <node line="You blocked me on facebook" id="0">
+      <option line="Woot" nextnode="1"/>
+      <option line="And?" nextnode="1"/>
+    </node>                                                   
+    <node line="...And now you are going to die" id="1">
+      <option line="shiet" nextnode="666"/>
+      <option line="ok then" nextnode="666"/>
+    </node>
+  </dialogtree>
+  
+  
+  
+  
+  
+  
 </dialogue> 
