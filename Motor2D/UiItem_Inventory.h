@@ -68,6 +68,7 @@ private:
 	bool first_potion = false;
 	bool first_label_potion = false;
 	int potion_counter = 1;
+	int vendor_potion_counter = 1; 
 	UiItem_Label* potionLabel = nullptr;
 	potionLabelPositions potion_positions;
 	std::string str_potion;

@@ -95,6 +95,9 @@ public:
 	void AddItemToTheBag(LootEntity* entityLoot); 
 	void RemoveItemFromBag(LootEntity* entityLoot); 
 
+	void AddItemToConsumables(LootEntity* entityLoot);
+	void RemoveItemFromConsumables(LootEntity* entityLoot);
+
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 public:
 

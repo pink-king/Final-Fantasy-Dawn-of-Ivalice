@@ -632,6 +632,26 @@ void PlayerEntityManager::RemoveItemFromBag(LootEntity * entityLoot)
 
 }
 
+void PlayerEntityManager::AddItemToConsumables(LootEntity * entityLoot)
+{
+	consumables.push_back(entityLoot); 
+
+	int a = 0; 
+}
+
+void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)
+{
+	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
+	{
+		if (entityLoot == *item)
+		{
+			//App->buff->RemoveItemStat(*item);      // don't remove stats, because it goes to vendor  (it needs differentiation)
+			consumables.erase(item);
+			break;
+		}
+	}
+}
+
 void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * entity)
 {
 	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
