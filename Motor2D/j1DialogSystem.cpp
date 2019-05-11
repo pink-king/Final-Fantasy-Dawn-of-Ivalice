@@ -5,6 +5,7 @@
 #include "j1Input.h"
 #include "j1Scene.h"
 
+
 j1DialogSystem::j1DialogSystem()
 {
 }
@@ -15,11 +16,12 @@ j1DialogSystem::~j1DialogSystem()
 bool j1DialogSystem::Start()
 {
 	bool ret = true;
-	LoadDialogue("ShopDialog.xml");
-	currentNode = dialogTrees[treeid]->dialogNodes[0];   // load it but do not play it yet
+	LoadDialogue("Dialog.xml");
+	//currentNode = dialogTrees[treeid]->dialogNodes[0];   // load it but do not play it yet
 	//PerformDialogue(treeid);
 
 	
+
 
 	return ret;
 }
@@ -28,13 +30,27 @@ bool j1DialogSystem::Update(float dt)
 {
 	bool ret = true;
 
+
+
+
 	if (App->scene->inGamePanel->enable)
 	{
 
-		if (spawnDialogSequence)    // TODO: A) put it to true in store trigger   B) put the "isDialogSequenceactive to True"
+		// fake devug keys to test different dialog triggers
+
+
+		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+		{
+			SetCurrentDialog("VENDOR");
+		}
+
+
+
+		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
+			isDialogSequenceActive = true; 
 		}
 		
 
@@ -47,86 +63,10 @@ bool j1DialogSystem::Update(float dt)
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
                   
-					bool enterInventory = false; 
-
-					std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
-
-					for (; iter != App->gui->ListItemUI.end(); ++iter)     // discover which of the dialog options is actually the selected object
-					{
-
-							if (App->gui->selected_object == (*iter))
-							{
-								input = (*iter)->dialogPos;   // capture the dialog option number
-
-								
-								if (input >= 0 && input < currentNode->dialogOptions.size())
-								{
-									if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos) // open player inventory
-									{
-										enterInventory = true;
-										App->scene->inventoryItem->isVendorInventory = false;
-									}
-									else if (currentNode->dialogOptions.at(input)->text.find("Sure") != std::string::npos) // open vendor inventory
-									{
-
-										enterInventory = true;
-										App->scene->inventoryItem->isVendorInventory = true;
-									}
-								}
-								
-							
-
-							}
-							
-
-					}
-
-		
-					App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
-					App->gui->deleteCurrentDialogs();             // then delete the active dialog labels                 
-
-					isDialogInScreen = false;    // the dialog labels are no longer in screen
-
-					if (!enterInventory)
-					{
-						if (input >= 0 && input < currentNode->dialogOptions.size())
-						{
-
-					       PerformDialogue(treeid);
-						
-						}
-							
-						
-					}
-					else
-					{
-						PerformDialogue(treeid, false); // TODO 1: don't create dialog if the inventory has to be oppened
-					    App->scene->DoOpenInventory(false, App->scene->inventoryItem->isVendorInventory);  // actually open it
-					}
-						 
-
+					doDialogTypeLogic(); 
+	
 
 				}
-
-				// TODO 2: perform dialog when the inventory is openned: 
-				// A)Put selected to nullptr 
-				// B) Delete dialogs 
-				// C) DON'T PLAY THE DIALOGUE (done in TODO 1)  
-				// D) put "isDialogInScreen" to False 
-
-				// TODO 3: perform dialog when the inventory is closed:   
-				// A)Put "resetHoverSwapping" to false
-				// B) NOW, play the last on hold dialogue  
-				// C) put "isDialogInScreen" to True
-
-
-				// TODO 4: When "farewell":
-				// A)Put selected to nullptr  
-				// B) Delete dialogs 
-				// C)Restore default dialogue tree
-				// D) put  "isDialogSequenceactive and "isDialogInScreen" to False
-
-
 
 			}
 
@@ -140,6 +80,136 @@ bool j1DialogSystem::Update(float dt)
 		
 	return ret;
 }
+
+
+
+void j1DialogSystem::doDialogTypeLogic()
+{
+
+	
+
+
+			if (currentDialogType == "VENDOR")
+			{
+				bool enterInventory = false;
+				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+				for (; iter != App->gui->ListItemUI.end(); ++iter)     // discover which of the dialog options is actually the selected object
+				{
+
+					if (App->gui->selected_object == (*iter))
+					{
+						input = (*iter)->dialogPos;   // capture the dialog option number
+
+
+						if (input >= 0 && input < currentNode->dialogOptions.size())
+						{
+
+
+							if (currentNode->dialogOptions.at(input)->text.find("I will show you") != std::string::npos) // open player inventory
+							{
+								enterInventory = true;
+								App->scene->inventoryItem->isVendorInventory = false;
+							}
+							else if (currentNode->dialogOptions.at(input)->text.find("Sure") != std::string::npos) // open vendor inventory
+							{
+
+								enterInventory = true;
+								App->scene->inventoryItem->isVendorInventory = true;
+							}
+						}
+					}
+				}
+
+				App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
+				App->gui->deleteCurrentDialogs();             // then delete the active dialog labels                 
+
+				isDialogInScreen = false;    // the dialog labels are no longer in screen
+
+
+					if (!enterInventory)
+					{
+						if (input >= 0 && input < currentNode->dialogOptions.size())
+						{
+
+							PerformDialogue(treeid);
+
+						}
+
+
+					}
+
+					else
+					{
+						PerformDialogue(treeid, false); // TODO 1: don't create dialog if the inventory has to be oppened
+						App->scene->DoOpenInventory(false, App->scene->inventoryItem->isVendorInventory);  // actually open it
+					}
+			}	
+
+			else
+			{
+				bool enterInventory = false;
+				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+				for (; iter != App->gui->ListItemUI.end(); ++iter)     // discover which of the dialog options is actually the selected object
+				{
+
+					if (App->gui->selected_object == (*iter))
+					{
+						input = (*iter)->dialogPos;   // capture the dialog option number
+
+						if (input >= 0 && input < currentNode->dialogOptions.size())
+						{
+
+							PerformDialogue(treeid);
+
+
+							App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
+							App->gui->deleteCurrentDialogs();             // then delete the active dialog labels                 
+
+							isDialogInScreen = false;    // the dialog labels are no longer in screen
+
+						}
+					}
+				}
+				App->gui->selected_object = nullptr;          // first put the selected dialog label to nullptr 
+				App->gui->deleteCurrentDialogs();
+
+				isDialogInScreen = false;    // the dialog labels are no longer in screen
+			}
+
+
+
+
+
+
+
+
+}
+
+void j1DialogSystem::SetCurrentDialog(std::string callback) 
+{
+
+
+	for (int j = 0; j < dialogTrees.size(); j++)
+	{
+		if (dialogTrees[j]->treeName == callback)
+		{
+			treeid = dialogTrees[j]->treeid; 
+
+			currentDialogType = dialogTrees[j]->treeName; 
+
+
+			currentNode = dialogTrees[j]->dialogNodes[0]; 
+		}
+
+	}
+
+	spawnDialogSequence = true; 
+
+}
+
+
 
 bool j1DialogSystem::CleanUp()
 {
@@ -204,9 +274,9 @@ void j1DialogSystem::BlitDialog()
 {
 	isDialogInScreen = true; 
 
-	UiItem_Label* vendorLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel);
-	vendorLabel->isDialog = true; 
-	vendorLabel->tabbable = false; 
+	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel);
+	npcLabel->isDialog = true;
+	npcLabel->tabbable = false;
 
 	int space = 500;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
@@ -258,6 +328,7 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	{
 		DialogTree* tr = new DialogTree;
 		tr->treeid = t.attribute("treeid").as_int();
+		tr->treeName = t.attribute("treeName").as_string();
 	//	tr->karma = t.attribute("karma").as_int();
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	

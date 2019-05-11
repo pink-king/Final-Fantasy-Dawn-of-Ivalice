@@ -6,6 +6,7 @@
 #include <vector>
 #include "j1App.h"
 #include "p2Log.h"
+#include <map>
 
 
 
@@ -39,6 +40,7 @@ public:
 public:
 	std::vector <DialogNode*> dialogNodes;
 	int treeid/*, karma*/;
+	std::string treeName; 
 	int maxNodes; 
 };
 
@@ -58,17 +60,17 @@ public:
 	bool LoadTreeData(pugi::xml_node& trees, DialogTree* oak);
 	bool LoadNodesDetails(pugi::xml_node& text_node, DialogNode* npc);
 	void BlitDialog();
-
-
+	void doDialogTypeLogic(); 
+	void SetCurrentDialog(std::string callback); 
 	void spawnDialoguesAfterInventory(); 
 
 	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
 
 	bool isDialogInScreen = false; 
-	bool isDialogSequenceActive = true;  // TODO: it should be false, then true when arriving to the store
+	bool isDialogSequenceActive = false;  // TODO: it should be false, then true when arriving to the store
 
 
-	bool spawnDialogSequence = true; 
+	bool spawnDialogSequence = false; 
 
 private:
 	std::vector <DialogTree*> dialogTrees;
@@ -76,6 +78,9 @@ private:
 	int input = 7;
 	int treeid = 0;
 	pugi::xml_document	tree_file;	
+
+
+	std::string currentDialogType = "DEFAULT";
 };
 
 #endif

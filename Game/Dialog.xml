@@ -1,5 +1,5 @@
 <dialogue>
-  <dialogtree treeid="0">
+  <dialogtree treeid="0" treeName="VENDOR">
     <node line="Greetings stranger" id="0">
       <option line="Hello mister" nextnode="1"/>
       <option line="...hello?" nextnode="1"/>
