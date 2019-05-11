@@ -55,6 +55,10 @@ public:
 
 	void makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity*);
 
+	void RepositionBagItems(); 
+
+public: 
+
 	bool drawTest = false;
 
 	bool isVendorInventory = false; 

@@ -418,6 +418,104 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 }
 
 
+void UiItem_Inventory::RepositionBagItems()
+{
+	if (!isVendorInventory)
+	{
+		if (!App->entityFactory->player->bagObjects.empty())
+		{
+			int i = 0;
+			int j = 0;
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+
+			for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+			{
+
+				iPoint position(0, 0);
+
+				if (i == 5)
+				{
+					i = 0;
+					j++;
+				}
+
+				if (i == 0)  // first
+				{
+
+					position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+				}
+				else   // the rest of elements in the row
+				{
+					position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+				}
+
+				if ((*iter)->MyDescription->iconImageInventory->tabbable)
+				{
+					(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
+					(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+				}
+				
+				i++;
+
+			}
+
+		}
+	}
+	else
+	{
+		if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())
+		{
+			int i = 0;
+			int j = 0;
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
+
+			for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+			{
+
+				iPoint position(0, 0);
+
+				if (i == 5)
+				{
+					i = 0;
+					j++;
+				}
+
+				if (i == 0)  // first
+				{
+
+					position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+				}
+				else   // the rest of elements in the row
+				{
+					position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+				}
+
+				if ((*iter)->MyDescription->iconImageInventory->tabbable)
+				{
+					(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
+					(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+				}
+
+
+				i++;
+
+
+			}
+
+		}
+	}
+
+
+	App->gui->selected_object = nullptr;
+	App->gui->resetHoverSwapping = false;
+
+}
+
+
 void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool firstTime)
 {
 	BROFILER_CATEGORY("Inventory Generate Description", Profiler::Color::Olive);
@@ -503,122 +601,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity* ent)
 {
-	/*if (!isVendorInventory) {
 
-		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
-		{
-			if (!App->entityFactory->player->bagObjects.empty())
-			{
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
-
-				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
-				{
-					if ((*iter) == ent)
-					{
-						if ((*iter)->spawnedDescription)
-						{
-							if ((*iter)->MyDescription->spawnedInventoryImage)
-							{
-
-								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
-							}
-
-						}
-					}
-					
-				}
-
-			}
-		}
-		else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
-		{
-			if (!App->entityFactory->player->consumables.empty())
-			{
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
-
-				for (; iter != App->entityFactory->player->consumables.end(); ++iter)
-				{
-
-					if ((*iter) == ent)
-					{
-						if ((*iter)->spawnedDescription)
-						{
-							if ((*iter)->MyDescription->spawnedInventoryImage)
-							{
-
-								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
-							}
-
-						}
-					}
-				}
-
-			}
-		}
-	}
-	else if (isVendorInventory)
-	{
-		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
-		{
-			if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())
-			{
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
-
-				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
-				{
-
-					if ((*iter) == ent)
-					{
-						if ((*iter)->spawnedDescription)
-						{
-							if ((*iter)->MyDescription->spawnedInventoryImage)
-							{
-
-								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
-							}
-
-						}
-					}
-				}
-
-			}
-		}
-		else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
-		{
-			if (!App->entityFactory->player->GetVendor()->vConsumables.empty())
-			{
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vConsumables.begin();
-
-				for (; iter != App->entityFactory->player->GetVendor()->vConsumables.end(); ++iter)
-				{
-
-					if ((*iter) == ent)
-					{
-						if ((*iter)->spawnedDescription)
-						{
-							if ((*iter)->MyDescription->spawnedInventoryImage)
-							{
-
-								De_______GenerateDescription((*iter), false);     // when switching characters, delete de current equipped object descriptions
-							}
-
-						}
-					}
-				}
-
-			}
-		}
-	}
-
-
-
-	// finally reset the hoverswapping 
-
-	/*App->gui->selected_object = nullptr;     // already done in De_GenerateDescription 
-	App->gui->resetHoverSwapping = false; */
-
-
-// this way may be safer: 
 
 ent->MyDescription->HideAllElements(true, false, true); 
 ent->MyDescription->iconImageInventory->tabbable = false; 
@@ -638,8 +621,10 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 	BROFILER_CATEGORY("Inventory Equip", Profiler::Color::Olive);
 
+	bool doBagScroll = false; 
+
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
-if (!isVendorInventory)                                                          
+        if (!isVendorInventory)                                                          
 		{
 			if (!App->dialog->isDialogSequenceActive) 
 			{
@@ -692,6 +677,14 @@ if (!isVendorInventory)
 						
 					}
 					App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
+
+
+					if (!App->entityFactory->player->bagObjects.empty())
+					{
+						doBagScroll = true; 
+					}
+
+
 				}
 
 				
@@ -709,6 +702,14 @@ if (!isVendorInventory)
 				if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
 				{
 					App->entityFactory->player->RemoveItemFromBag(callback);
+
+
+					if (!App->entityFactory->player->bagObjects.empty())
+					{
+						doBagScroll = true;
+					}
+
+
 				}
 				else if(callback->GetType() == LOOT_TYPE::CONSUMABLE)
 				{
@@ -763,6 +764,11 @@ if (!isVendorInventory)
 									App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 									App->entityFactory->player->AddItemToTheBag(callback);
 
+
+									if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
+									{
+										doBagScroll = true;
+									}
 
 
 									break; 
@@ -869,8 +875,8 @@ if (!isVendorInventory)
 		}
 		
 
-	
-
+	    if(doBagScroll)
+		RepositionBagItems(); 
 
 
 
