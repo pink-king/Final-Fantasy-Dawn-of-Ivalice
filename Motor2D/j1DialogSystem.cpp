@@ -56,6 +56,7 @@ bool j1DialogSystem::Update(float dt)
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
+			App->pause = true; 
 		}
 		
 
@@ -272,6 +273,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			{
 				isDialogSequenceActive = false; 
 				spawnDialogSequence = false;
+				App->pause = false; 
 			}
 			
 	    }
