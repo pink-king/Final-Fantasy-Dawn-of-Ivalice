@@ -517,6 +517,14 @@ UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font
 
 }
 
+UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, bool type_writer, p2Point<int> position, UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = new UiItem_Label(text, color, font, type_writer, position, parent);
+	ListItemUI.push_back(newUIItem);
+	return (UiItem_Label*)newUIItem;
+}
+
 UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;

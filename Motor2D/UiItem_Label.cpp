@@ -26,42 +26,117 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 
 }
 
-//bool UiItem_Label::ChangeTextureHover(const std::string * textHover, const SDL_Color * color, const TTF_Font * font)
-//{
-//	return true;
-//}
-//
-//bool UiItem_Label::ChangeTextureIdle(const std::string * textHover, const SDL_Color * color, const TTF_Font * font)
-//{
-//	return true;
-//}
+UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, bool typewriter, p2Point<int> position, UiItem * const parent) :UiItem(position, parent)
+{
+	this->guiType = GUI_TYPES::LABEL;
+	typewriter_text = text;
+	this->text = "";
+	this->color = color;
+	this->font = font;
+	texture = App->font->Print(this->text.data(), color, font);
+
+	if (texture)
+		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+
+	// the parent
+	this->parent = parent;
+	spawn_typewriter = true;
+	right_text = true;
+	typewriter_time.Start();
+}
+
 
 void UiItem_Label::Draw(const float & dt)
 {
 	if (!hide)
 	{
-		prevTextDimension.x = textureDimensions.x;
-		prevTextDimension.y = textureDimensions.y;
-		float speed = 0.0f;
-
-		if (!useCamera)
-			speed = 1.0f;
-
-		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
-		if (textureDimensions.x > prevTextDimension.x)
+		if (!this->right_text)
 		{
-			if (!first_hitbox)
+			prevTextDimension.x = textureDimensions.x;
+			prevTextDimension.y = textureDimensions.y;
+			float speed = 0.0f;
+
+			if (!useCamera)
+				speed = 1.0f;
+
+			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+			if (textureDimensions.x > prevTextDimension.x)
 			{
-				hitBox.x -= 28;
-				first_hitbox = true;
+				if (!first_hitbox)
+				{
+					hitBox.x -= 28;
+					first_hitbox = true;
+				}
+				else
+					hitBox.x -= 14;
 			}
-			else
-				hitBox.x -= 14;
+
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 		}
 
-		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
+		else
+		{
+		
+			float speed = 0.0f;
+
+			if (!useCamera)
+				speed = 1.0f;
+
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
+		}
 	}
 
+
+
+	
+
+	if (typewriter_time.ReadMs() >= 1000.0f && !timer_typewriter && spawn_typewriter)
+	{
+		TypeWriter();
+	}
+
+
+
+}
+
+//bool UiItem_Label::Update(float dt)
+//{
+//	typewriter_time.Start();
+//
+//	if (typewriter_time.ReadMs() >= 1000.0f && !timer_typewriter)
+//	{
+//		TypeWriter();
+//	}
+//
+//
+//	return true;
+//}
+
+bool UiItem_Label::TypeWriter()
+{
+	int i = 0;
+	
+		
+	for (i; i < 1; i++)
+	{
+		if (counter_typewriter < typewriter_text.length())
+		{
+			this->text = this->text + typewriter_text.at(counter_typewriter);
+			ChangeTextureIdle(this->text, NULL, NULL);
+		}
+	}
+	
+	if (counter_typewriter == typewriter_text.length())
+	{
+		timer_typewriter = true;
+		spawn_typewriter = false;
+	}
+	else
+		counter_typewriter++;
+		
+		
+	
+	return true;
 }
 
 bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* color, const TTF_Font* font)

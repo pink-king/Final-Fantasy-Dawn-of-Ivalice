@@ -48,6 +48,7 @@ public:
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
+	//virtual bool Update(float dt){};
 
 	void DrawUi(float dt);
 
