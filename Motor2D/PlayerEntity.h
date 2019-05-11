@@ -33,6 +33,7 @@ enum class combatState
 	SPECIAL1,
 	SPECIAL2,
 	ULTIMATE,
+	DAMAGED,
 	MAX
 };
 
@@ -80,6 +81,7 @@ public:
 	{
 		return aiming;
 	}
+	void PushBackDamaged();
 private:
 
 	std::vector<SDL_Rect> Collision2D(SDL_Rect& collider);
@@ -94,6 +96,7 @@ public:
 	coolDown coolDownData;
 	float lastAnimationSpeed;
 	bool inputReady = true;
+	
 protected:
 	void DoDash();
 
@@ -102,7 +105,9 @@ protected:
 	fPoint untouchedPos; // stores original position before the dodge animation
 	fPoint transference_pivot = { 0,0 }; // to fake draw position when needed
 	fPoint dashDestinationPos;
-
+	fPoint PushBackDestinationPos;
+	float PushBakcMaxDistance;
+	
 public:
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;

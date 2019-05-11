@@ -54,11 +54,7 @@ bool EnemyTest::Update(float dt)
 	}*/
 	if (!isParalize)
 	{
-		if (DoPush)
-		{
-			DoPushback();
-			DoPush = false;
-		}
+		
 
 		SetState(dt);
 

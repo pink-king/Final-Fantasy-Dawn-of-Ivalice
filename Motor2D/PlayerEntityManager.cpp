@@ -78,7 +78,7 @@ bool PlayerEntityManager::PreUpdate()
 bool PlayerEntityManager::Update(float dt)
 {
 	bool ret = true;
-
+	
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
 
 	selectedCharacterEntity->Update(dt);
@@ -200,6 +200,9 @@ bool PlayerEntityManager::Update(float dt)
 bool PlayerEntityManager::PostUpdate()
 {
 	selectedCharacterEntity->PostUpdate();
+	//if(selectedchara)
+	selectedCharacterEntity->position.x += selectedCharacterEntity->unitariX * 10;
+	selectedCharacterEntity->position.y += selectedCharacterEntity->unitariY * 10;
 
 	if (debug)
 	{
@@ -667,7 +670,7 @@ bool Crosshair::Update(float dt)
 		Start();
 		isReseted = !isReseted;
 	}
-
+	
 	ManageInput(dt);
 
 	// draw animations

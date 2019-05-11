@@ -309,9 +309,4 @@ void Enemy::Draw()
 	}	
 }
 
-void j1Entity::DoPushback()
-{
 
-	position.x +=  unitariX*13;
-	position.y +=  unitariY*13;
-}

@@ -49,7 +49,7 @@ public:
 	void RemoveItemStat(const LootEntity* item);
 
 	void AdjustEntityAnimationSpeed(j1Entity* entity);
-
+	void DoPushback(j1Entity* player, fPoint unitVec);
 	iPoint enemydeadsubtile;
 
 	unsigned int burnedSFX;

@@ -105,8 +105,12 @@ public:
 	void GenerateDescriptionForLootItem(LootEntity* lootItem);
 	void DoDescriptionComparison(LootEntity* lootItem);
 	int getPlayerPointingDir();
-public:
 
+	fPoint getplayerDamagevec();
+	void setPlayerDmageVec(fPoint unitari);
+public:
+	fPoint					dmg_vec;
+	bool					pushEF=false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 

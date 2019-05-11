@@ -1559,3 +1559,13 @@ int j1EntityFactory::getPlayerPointingDir()
 	LOG("player pointidDir %i", player->pointingDirectionTemp);
 	return player->pointingDirectionTemp;
 }
+
+fPoint j1EntityFactory::getplayerDamagevec()
+{
+	return dmg_vec;
+}
+
+void j1EntityFactory::setPlayerDmageVec(fPoint unitari)
+{
+	dmg_vec = unitari;
+}

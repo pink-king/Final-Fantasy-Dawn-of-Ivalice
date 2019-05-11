@@ -163,7 +163,14 @@ bool PlayerEntity::InputMovement(float dt)
 bool PlayerEntity::InputCombat()
 {
 	combat_state = combatState::IDLE;
-	
+	if(DoPush)
+	{
+		combat_state = combatState::DAMAGED;
+		DoPushback();
+		LOG("log from inputcombat()");
+	}
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		combat_state = combatState::DAMAGED;
 	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN || 
 		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) ==  KEY_REPEAT)
 	{
@@ -581,4 +588,15 @@ void PlayerEntity::DoDash()
 	}
 	else
 		LOG("WARNING: no dash spritesheet defined, dash is not executed");
+}
+
+
+void PlayerEntity::PushBackDamaged()
+{
+	inputReady = false;
+	currentAnimation = &idle[pointingDir];
+	entityTex = spritesheet;
+	fPoint direction = { unitariX,unitariY };
+	PushBackDestinationPos = position + direction * PushBakcMaxDistance;
+
 }

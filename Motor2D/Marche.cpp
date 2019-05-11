@@ -624,6 +624,7 @@ bool Marche::Start()
 
 bool Marche::PreUpdate()
 {
+
 	return true;
 }
 
@@ -633,7 +634,12 @@ bool Marche::Update(float dt)
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
-
+	if (combat_state == combatState::DAMAGED)
+	{
+		PushBackDamaged();
+		DoPush = false;
+		
+	}
 	// super saiyajin state
 	if (superSaiyajin)
 	{
@@ -651,9 +657,11 @@ bool Marche::Update(float dt)
 
 		}
 	}
-		
+	
+	
 	if (!isParalize)
 	{
+		
 		if (inputReady)
 		{
 			InputMovement(dt);
@@ -662,7 +670,13 @@ bool Marche::Update(float dt)
 		if (!inputReady) // dash, or animations that needs control of its finish state
 		{	
 			
-
+			
+			// if (DoPush = false)
+			//{
+			//	//function like lerp to progresevly update
+			//	//inputready = false al buffmanager quan agafa el
+			//	inputReady = true;
+			//}
 			if (currentAnimation->Finished())
 			{
 				currentAnimation->Reset();
@@ -673,11 +687,19 @@ bool Marche::Update(float dt)
 			}
 		}
 	}
-
+	if (App->entityFactory->pushEF)
+	{
+		
+		DoPushback();
+		DoPush = false;
+		App->entityFactory->pushEF = false;
+		LOG("log from marche update()");
+	}
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{
 	case combatState::IDLE:
+		
 		
 		break;
 	case combatState::BASIC:
@@ -784,6 +806,13 @@ bool Marche::Update(float dt)
 			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
 			break;
+
+	case combatState::DAMAGED:
+		
+		position.x += unitariX; //no agafa
+		position.y += unitariY;//App->camera2D->lerp(position, PushBackDestinationPos, dt * currentAnimation->speed);
+		
+		break;
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
@@ -1173,6 +1202,13 @@ void Marche::UlitMarche()
 bool Marche::PostUpdate()
 {
 	// draw fire whirlwind if we need
+	
+	/*if (DoPush)
+	{
+		DoPushback();
+		DoPush = false;
+	}*/
+
 	if (doingWhirlwind)
 	{
 		// checks next exit loop anim and resets
@@ -1195,4 +1231,17 @@ bool Marche::PostUpdate()
 	}
 
 	return true;
+}
+
+void j1Entity::DoPushback()
+{
+	fPoint originilaPos = position;
+
+	position.x +=  2* App->entityFactory->getplayerDamagevec().x * 3;
+	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 3;
+	LOG("position.x %f",position.x);
+	LOG("position.y %f", position.y);
+	LOG("displaced Pos X %f", position.x - originilaPos.x);
+	LOG("displaced Pos Y %f", position.y - originilaPos.y);
+
 }

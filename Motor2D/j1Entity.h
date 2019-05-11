@@ -18,6 +18,7 @@
 class UiItem_HealthBar; 
 class UiItem_Image; 
 
+
 enum ENTITY_TYPE  // todo, pass to class
 	{
 		NO_TYPE,
@@ -153,6 +154,7 @@ public:
 	float					unitariY;
 
 	bool					DoPush = false;
+
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
