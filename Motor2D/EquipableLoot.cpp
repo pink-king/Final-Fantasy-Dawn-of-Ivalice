@@ -5,6 +5,7 @@
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
+	this->equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	SetEquipable();
 	originPos.x = position.x;
 	start = true;

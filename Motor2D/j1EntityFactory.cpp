@@ -339,7 +339,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("Created a entity");*/
 		break;
 	case LOOT:
-		ret = CreateLootType(positionX, positionY);
+		ret = CreateLootType(positionX, positionY, LOOT_TYPE::NO_LOOT);
 		if (ret != nullptr)
 		{
 			ret->type = LOOT;

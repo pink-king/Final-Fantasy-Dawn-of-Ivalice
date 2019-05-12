@@ -5,7 +5,7 @@
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
-	
+	consumableType == CONSUMABLE_TYPE::NO_CONSUMABLE;
 	SetConsumable();
 	originPos.x = position.x;
 	start = true;
