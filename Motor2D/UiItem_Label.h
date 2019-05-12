@@ -5,6 +5,7 @@
 #include <string>
 #include "p2Point.h"
 #include "SDL_ttf/include/SDL_ttf.h"
+#include "j1PerfTimer.h"
 
 class UiItem_Label : public UiItem
 {
@@ -29,12 +30,9 @@ protected:
 	SDL_Color color;
 	TTF_Font* font = nullptr;
 	SDL_Texture* texture = nullptr;
-<<<<<<< HEAD
+
 	j1PerfTimer typewriter_time;
 	bool finishedWriting = false; 
-=======
-	
->>>>>>> d7d25dd9e4c9f41d368fdd6322a26ade48404cbe
 
 
 public:  
