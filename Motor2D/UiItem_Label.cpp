@@ -130,6 +130,8 @@ bool UiItem_Label::TypeWriter()
 	{
 		timer_typewriter = true;
 		spawn_typewriter = false;
+
+		finishedWriting = true;
 	}
 	else
 		counter_typewriter++;

@@ -56,7 +56,7 @@ bool j1DialogSystem::Update(float dt)
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
-			App->pause = true; 
+			//App->pause = true; 
 		}
 		
 
@@ -65,14 +65,19 @@ bool j1DialogSystem::Update(float dt)
 
 			if (isDialogInScreen)    // if dialog sequence is active AND inventory is NOT openned
 			{
-
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				if (waitForNPCTalking)
 				{
-                  
-					doDialogTypeLogic(); 
-	
+					checkIfNPCFinishedTalking(); 
 
 				}
+				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				{
+
+					doDialogTypeLogic();
+
+
+				}
+				
 
 			}
 
@@ -87,6 +92,46 @@ bool j1DialogSystem::Update(float dt)
 	return ret;
 }
 
+
+void j1DialogSystem::checkIfNPCFinishedTalking()
+{
+
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+	for (; iter != App->gui->ListItemUI.end(); ++iter)     // discover which of the dialog options is actually the selected object
+	{
+		if ((*iter)->guiType == GUI_TYPES::LABEL)
+		{
+			if (dynamic_cast<UiItem_Label*>(*iter)->isDialog && dynamic_cast<UiItem_Label*>(*iter)->finishedWriting)
+			{
+				spawnPlayerLabelAfterNPCFinishesTalking();
+				break;
+			}
+		}
+
+	}
+
+}
+
+void j1DialogSystem::spawnPlayerLabelAfterNPCFinishesTalking()
+{
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+	for (; iter != App->gui->ListItemUI.end(); ++iter)     
+	{
+		if ((*iter)->guiType == GUI_TYPES::LABEL)
+		{
+			if (dynamic_cast<UiItem_Label*>(*iter)->isDialog && dynamic_cast<UiItem_Label*>(*iter)->dialogPos != 666) // player options
+			{
+				dynamic_cast<UiItem_Label*>(*iter)->hide = false; 
+				dynamic_cast<UiItem_Label*>(*iter)->tabbable = true;     // unhide and make it available to press A
+				waitForNPCTalking = false; 
+
+				App->gui->resetHoverSwapping = false; 
+			}
+		}
+	}
+
+}
 
 
 void j1DialogSystem::doDialogTypeLogic()
@@ -273,7 +318,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			{
 				isDialogSequenceActive = false; 
 				spawnDialogSequence = false;
-				App->pause = false; 
+				//App->pause = false; 
 			}
 			
 	    }
@@ -284,7 +329,9 @@ void j1DialogSystem::BlitDialog()
 {
 	isDialogInScreen = true; 
 
-	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel);
+	waitForNPCTalking = true; 
+
+	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, true, iPoint(500, 500), App->scene->inGamePanel);
 	npcLabel->isDialog = true;
 	npcLabel->tabbable = false;
 
@@ -295,11 +342,12 @@ void j1DialogSystem::BlitDialog()
 		
 		
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)
-		characterLabel->tabbable = true; 
+		characterLabel->tabbable = false; 
 		characterLabel->dialogPos = i; 
 
-		if(i == 0)
-		App->gui->resetHoverSwapping = false;   // assign the current UI selected object to the player first choice
+		characterLabel->hide = true;  // hide until npc finishes talking
+		/*if(i == 0)
+		App->gui->resetHoverSwapping = false;   // assign the current UI selected object to the player first choice*/
 	}
 		
 
