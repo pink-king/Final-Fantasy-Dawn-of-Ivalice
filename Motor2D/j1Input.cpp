@@ -12,13 +12,13 @@ j1Input::j1Input() : j1Module()
 {
 	name.assign("input");
 
-	keyboard = new j1KeyState[MAX_KEYS];
+	keyboard = DBG_NEW j1KeyState[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(j1KeyState) * MAX_KEYS);
-	mouse_buttons = new j1KeyState[NUM_MOUSE_BUTTONS];
+	mouse_buttons = DBG_NEW j1KeyState[NUM_MOUSE_BUTTONS];
 	memset(mouse_buttons, KEY_IDLE, sizeof(j1KeyState) * NUM_MOUSE_BUTTONS);
-	controller = new j1KeyState[SDL_CONTROLLER_BUTTON_MAX];
+	controller = DBG_NEW j1KeyState[SDL_CONTROLLER_BUTTON_MAX];
 	memset(controller, KEY_IDLE, sizeof(j1KeyState) * SDL_CONTROLLER_BUTTON_MAX);
-	controller_axis = new j1KeyState[SDL_CONTROLLER_AXIS_MAX];
+	controller_axis = DBG_NEW j1KeyState[SDL_CONTROLLER_AXIS_MAX];
 	memset(controller_axis, KEY_IDLE, sizeof(j1KeyState)* SDL_CONTROLLER_AXIS_MAX);
 }
 

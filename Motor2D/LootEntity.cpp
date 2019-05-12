@@ -5,6 +5,8 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1EntityFactory.h"
+
+
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	entityTex = App->entityFactory->lootItemsTex;
@@ -21,7 +23,7 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 LootEntity::~LootEntity()
 {
 	// TODO: call DeleteEverything() in the associated GUI description
-
+	
 
 }
 
@@ -53,11 +55,16 @@ bool LootEntity::CleanUp()
 		++Itemstat;
 	}
 	stats.clear();
+
+	delete MyDescription;
+	MyDescription = nullptr;
 	return true;
 }
 bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 {
 	pugi::xml_node nodeData = node.child("data");
+
+	entityTex = App->entityFactory->lootItemsTex;
 
 	loot->name.assign(nodeData.attribute("name").as_string());
 
@@ -113,13 +120,22 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 
 	std::string charType = nodeData.attribute("lootType").as_string();
 	if (charType.compare("consumable") == 0)
+	{
 		loot->loot_type = LOOT_TYPE::CONSUMABLE;
+		dynamic_cast<Consumable*>(loot)->SetConsumable();
+	}
 	else if (charType.compare("equipable") == 0)
+	{
 		loot->loot_type = LOOT_TYPE::EQUIPABLE;
+		Equipable* auxloot = dynamic_cast<Equipable*>(loot);
+		auxloot->equipableType = loot->equipableType;
+		auxloot->SetEquipable();
+		loot->loot_rect = auxloot->loot_rect;
+	}
 
 	for (pugi::xml_node nodebuffs = node.child("buffs"); nodebuffs; nodebuffs = nodebuffs.next_sibling("buffs"))
 	{
-		Buff* buf = new Buff();
+		Buff* buf = DBG_NEW Buff();
 		buf = buf->Load(nodebuffs);
 		if (buf != nullptr)
 		{
@@ -327,7 +343,7 @@ fPoint LootEntity::Lerp(fPoint origin, fPoint destination, float t)
 
 void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item)
 {
-	stats.push_back(new Buff(type, character, stat, elementType, rol, value, item));
+	stats.push_back(DBG_NEW Buff(type, character, stat, elementType, rol, value, item));
 
 }
 

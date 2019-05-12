@@ -14,6 +14,11 @@ Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 Projectile::~Projectile()
 {
+	if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}
 }
 
 

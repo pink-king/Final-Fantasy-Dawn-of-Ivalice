@@ -42,6 +42,7 @@ struct Properties
 
 struct PlayerData
 {
+	
 	std::string name;
 	Properties properties;
 	int x, y = 0;

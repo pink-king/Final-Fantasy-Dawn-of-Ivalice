@@ -482,22 +482,28 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 Ritz::~Ritz()
 {
 	App->tex->UnLoad(attack1Tex);
+	attack1Tex = nullptr;
 	App->tex->UnLoad(teleportTex);
+	teleportTex = nullptr;
+
+	memset(attack1, 0, sizeof(attack1));
+	memset(tpAnim, 0, sizeof(tpAnim));
+	memset(dashPivotOffset, 0, sizeof(dashPivotOffset));
 
 
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Ritz.special1)
 		{
-			myUIClocks.special1 = nullptr;
+			myUIClocks.special1->to_delete = true;
 		}
 		if (App->gui->spawnedClocks.Ritz.special2)
 		{
-			myUIClocks.special2 = nullptr;
+			myUIClocks.special2->to_delete = true;
 		}
 		if (App->gui->spawnedClocks.Ritz.ulti)
 		{
-			myUIClocks.ulti = nullptr;
+			myUIClocks.ulti->to_delete = true;
 		}
 	}
 

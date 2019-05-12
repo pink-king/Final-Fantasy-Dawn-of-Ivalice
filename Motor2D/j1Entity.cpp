@@ -74,8 +74,6 @@ bool j1Entity::CleanUp()
 		++item;
 	}
 	stat.clear();
-
-	entityTex = nullptr;
 	return true;
 }
 

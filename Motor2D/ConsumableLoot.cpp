@@ -87,7 +87,8 @@ void Consumable::ChooseConsumable()
 
 void Consumable::SetConsumable()
 {
-	ChooseConsumable();
+	if(consumableType == CONSUMABLE_TYPE::NO_CONSUMABLE)
+		ChooseConsumable();
 	switch (objectType)
 	{
 	case OBJECT_TYPE::GOLD:

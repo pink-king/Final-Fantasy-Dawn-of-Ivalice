@@ -11,13 +11,14 @@
 #include "UiItem.h"
 #include "UiItem_Label.h"
 
+
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
-	marche = new Marche(position.x,position.y);
-	ritz = new Ritz(position.x, position.y);
-	shara = new Shara(position.x, position.y);
+	marche = DBG_NEW Marche(position.x,position.y);
+	ritz = DBG_NEW Ritz(position.x, position.y);
+	shara = DBG_NEW Shara(position.x, position.y);
 	// crosshair - one for all the characters, its should be improved so if we need
-	crossHair = new Crosshair();
+	crossHair = DBG_NEW Crosshair();
 
 	characters.push_back(marche);
 	characters.push_back(ritz);
@@ -244,6 +245,9 @@ bool PlayerEntityManager::CleanUp()
 	}
 	consumables.clear();
 
+	delete crossHair;
+	crossHair = nullptr;
+
 	App->tex->UnLoad(debugTileTex);
 	debugTileTex = nullptr;
 	App->tex->UnLoad(debugSubtileTex);
@@ -266,7 +270,7 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
 	{
-		LootEntity* bagObj = new LootEntity();
+		LootEntity* bagObj = DBG_NEW LootEntity();
 		bagObj->Load(nodebagObjects, bagObj);
 		if (bagObj != nullptr)
 			bagObjects.push_back(bagObj);
@@ -274,7 +278,7 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 	for (pugi::xml_node nodebagObjects = node.child("equipedObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("equipedObjects"))
 	{
-		LootEntity* equipedObj = new LootEntity();
+		LootEntity* equipedObj = DBG_NEW LootEntity();
 		equipedObj->Load(nodebagObjects, equipedObj);
 		if (equipedObj != nullptr)
 			equipedObjects.push_back(equipedObj);
@@ -282,7 +286,7 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 	for (pugi::xml_node nodebagObjects = node.child("consumableObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("consumableObjects"))
 	{
-		LootEntity* cons = new LootEntity();
+		LootEntity* cons = DBG_NEW LootEntity();
 		cons->Load(nodebagObjects, cons);
 		if (cons != nullptr)
 			equipedObjects.push_back(cons);
@@ -989,8 +993,11 @@ bool Crosshair::Reset()
 
 bool Crosshair::CleanUp()
 {
-	if(tex != nullptr)
+	if (tex != nullptr)
+	{
 		App->tex->UnLoad(tex);
+		tex = nullptr;
+	}
 	
 	return true;
 }

@@ -53,13 +53,16 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-
-		App->map->active = true;
 		//AcceptUISFX_logic = false;
+		if (!inGamePanel->enable)
 		inGamePanel->enable = true;
+		if (!uiMarche->enable)
 		uiMarche->enable = true;
+		if (!uiShara->enable)
 		uiShara->enable = true;
+		if (!uiRitz->enable)
 		uiRitz->enable = true;
+		if (settingPanel->enable)
 		settingPanel->enable = false;
 		if (startMenu->enable)
 			startMenu->enable = false;
@@ -83,16 +86,25 @@ bool j1Scene::Start()
 			LoadWinScreen(sceneNode);
 			LoadedUi = true;
 		}
-		App->map->active = false;
+		if (!startMenu->enable)
 		startMenu->enable = true;
+		if (uiMarche->enable)
 		uiMarche->enable = false;
-		uiShara->enable = false;
+		if (uiShara->enable)
+			uiShara->enable = false;
+		if (uiRitz->enable)
 		uiRitz->enable = false;
+		if (settingPanel->enable)
 		settingPanel->enable = false;
+		if (inGamePanel->enable)
 		inGamePanel->enable = false;
+		if (pausePanel->enable)
 		pausePanel->enable = false;
+		if (inventory->enable)
 		inventory->enable = false;
+		if (deathPanel->enable)
 		deathPanel->enable = false;
+		if (winPanel->enable)
 		winPanel->enable = false;
 
 		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
@@ -101,30 +113,30 @@ bool j1Scene::Start()
 
 	if (state == SceneState::DEATH)
 	{
-		App->gui->resetHoverSwapping = false;
+		
 		App->audio->PlayFx(playerDeath, 0);
+		App->gui->resetHoverSwapping = false;
+		if (inGamePanel->enable)
 		inGamePanel->enable = false;
+		if (!deathPanel->enable)
 		deathPanel->enable = true;
 	}
 
 	if (state == SceneState::WIN)
 	{
 		App->gui->resetHoverSwapping = false;
-		inGamePanel->enable = false;
-		winPanel->enable = true;
+		if (inGamePanel->enable)
+			inGamePanel->enable = false;
+		if (!winPanel->enable)
+			winPanel->enable = true;
 	}
 
 	begin = true;
 	
-	if(openInventorySFX == NULL)
 		openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
-	if (closeinventorySFX == NULL)
 		closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
-	if (open_PauseMenuSFX == NULL)
 		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-	if (enterGameSFX == NULL)
 		enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
-	if(playerDeath == NULL)
 		playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 	return true;
 }
@@ -264,11 +276,6 @@ bool j1Scene::Update(float dt)
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
-		App->map->active = false;
-		inGamePanel->enable = false;
-		uiMarche->enable = false;
-		uiRitz->enable = false;
-		uiShara->enable = false;
 		//settingPanel->enable = false;
 	}
 	
@@ -283,9 +290,6 @@ bool j1Scene::Update(float dt)
 		else if (!startMenu->enable && !inventory->enable)
 			AcceptUISFX_logic = false;
 
-		App->map->active = true;
-		inGamePanel->enable = true;
-		startMenu->enable = false;
 		//settingPanel->enable = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 		{
@@ -361,25 +365,6 @@ bool j1Scene::Update(float dt)
 			}
 		}
 	}
-	
-	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
-	//{
-	//	App->entityFactory->player->life -= 20;
-	//	App->gui->healthBar->damageInform.doDamage = true;
-	//	App->gui->healthBar->damageInform.damageValue = 20;
-	//}
-
-	//if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
-	//{
-
-	//	App->entityFactory->player->selectedCharacterEntity->life += 30;
-	//	App->gui->healthBar->damageInform.damageValue = -30;
-	//}
-	//
-
-
-	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-		App->loot->trigger = true;*/
 	if(App->map->active)
 		App->map->Draw();
 
@@ -471,7 +456,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	App->tex->UnLoad(debug_tex); 
-	
+	debug_tex = nullptr;
 	
 	
 	LOG("Freeing scene");
@@ -795,18 +780,28 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
-	App->map->Disable();
-	App->attackManager->Disable();
-	App->entityFactory->Disable();
-	App->pathfinding->Disable();
-	App->audio->UnLoadAudio();
-	App->buff->Disable();
-	App->camera2D->Disable();
+	if(App->map->IsEnabled())
+		App->map->Disable();
+	if (App->attackManager->IsEnabled())
+		App->attackManager->Disable();
+	if (App->entityFactory->IsEnabled())
+		App->entityFactory->Disable();
+	if (App->pathfinding->IsEnabled())
+		App->pathfinding->Disable();
+	if (App->audio->IsEnabled())
+		App->audio->Disable();
+	if (App->buff->IsEnabled())
+		App->buff->Disable();
+	if (App->camera2D->IsEnabled())
+		App->camera2D->Disable();
+
 }
 
 void j1Scene::LoadScene(SceneState sceneState)
 {
 	UnLoadScene();
+	if (!App->audio->IsEnabled())
+		App->audio->Enable();
 	switch (sceneState)
 	{
 	case SceneState::STARTMENU:
@@ -816,17 +811,22 @@ void j1Scene::LoadScene(SceneState sceneState)
 	case SceneState::LEVEL1:
 
 		state = SceneState::LEVEL1;
-
-		App->map->Enable();
+		
+		if (!App->attackManager->IsEnabled())
 		App->attackManager->Enable();
+		if (!App->pathfinding->IsEnabled())
 		App->pathfinding->Enable();
+		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
+		if (!App->buff->IsEnabled())
 		App->buff->Enable();
-		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		if (!App->map->IsEnabled())
+		{
+			App->map->active = true;
+			LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		}
+		if (!App->entityFactory->IsEnabled())
 		App->entityFactory->Enable();
-
-		App->camera2D->SetCameraPos({ 2000,0 });
-
 		// create player for testing purposes here
 		break;
 
@@ -835,11 +835,13 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::DEATH:
 		state = SceneState::DEATH;
+		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
+		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
 		break;
 
@@ -851,3 +853,4 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	Start();
 }
+

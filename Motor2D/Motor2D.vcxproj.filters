@@ -296,9 +296,6 @@
     <ClInclude Include="Marche.h">
       <Filter>Development\Modules\Entities\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Development\Modules\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Development\Modules\Tools\PugiXML</Filter>
     </ClInclude>
@@ -379,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="EarthShaker.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development\Modules\Tools\QuadTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

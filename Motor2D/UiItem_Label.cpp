@@ -26,6 +26,11 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 
 }
 
+UiItem_Label::~UiItem_Label()
+{
+	
+}
+
 //bool UiItem_Label::ChangeTextureHover(const std::string * textHover, const SDL_Color * color, const TTF_Font * font)
 //{
 //	return true;
@@ -62,6 +67,15 @@ void UiItem_Label::Draw(const float & dt)
 		App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 	}
 
+}
+
+void UiItem_Label::CleanUp()
+{
+	if (texture != nullptr)
+	{
+		App->tex->UnLoad(texture);
+		texture = nullptr;
+	}
 }
 
 bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* color, const TTF_Font* font)

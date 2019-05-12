@@ -23,13 +23,13 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	// TODO: import from xml
 	spritesheet = runTexTempPtr = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
-
 	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
 	basicAttackTex = basicAttackTexPtr = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
 	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
 	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
 	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
+
 	entityTex = spritesheet;
 
 	// IDLE
@@ -583,34 +583,48 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 Marche::~Marche()
 {
 	App->tex->UnLoad(whirlwindTex);
+	whirlwindTex = nullptr;
+	App->tex->UnLoad(spritesheet);
+	spritesheet = nullptr;
 	App->tex->UnLoad(whirlwindFireTex);
+	whirlwindFireTex = nullptr;
 	App->tex->UnLoad(basicAttackTex);
+	basicAttackTex = nullptr;
 	App->tex->UnLoad(superAttackTex);
+	superAttackTex = nullptr;
 	App->tex->UnLoad(superRunTex);
+	superRunTex = nullptr;
 	App->tex->UnLoad(superTransTex);
+	superTransTex = nullptr;
 	App->tex->UnLoad(runTexTempPtr);
+	runTexTempPtr = nullptr;
 	App->tex->UnLoad(basicAttackTexPtr);
-
+	basicAttackTexPtr = nullptr;
+	App->tex->UnLoad(dash_spritesheet);
+	dash_spritesheet = nullptr;
+	
+	memset(whirlwindAnim, 0, sizeof(whirlwindAnim));
+	memset(superAnimPivots, 0, sizeof(superAnimPivots));
+	memset(superTransAnim, 0, sizeof(superTransAnim));
+	memset(basicAttackPivotOffset, 0, sizeof(basicAttackPivotOffset));
+	memset(basicAttackAnim, 0, sizeof(basicAttackAnim));
+	memset(dashPivotOffset, 0, sizeof(dashPivotOffset));
 
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Marche.special1)
 		{
-			myUIClocks.special1 = nullptr;
+			myUIClocks.special1->to_delete = true;
 		}
 		if (App->gui->spawnedClocks.Marche.special2)
 		{
-			myUIClocks.special2 = nullptr;
+			myUIClocks.special2->to_delete = true;
 		}
 		if (App->gui->spawnedClocks.Marche.ulti)
 		{
-			myUIClocks.ulti = nullptr;
+			myUIClocks.ulti->to_delete = true;
 		}
 	}
-
-
-
-	
 }
 
 bool Marche::Start()

@@ -9,6 +9,7 @@
 #include "j1Window.h"
 //#include "SDL/include/SDL_timer.h"
 
+
 #define MARGIN 20
 
 j1ParticlesClassic::j1ParticlesClassic()
@@ -397,6 +398,11 @@ bool j1ParticlesClassic::CleanUp()
 		windsTex = nullptr;
 	}
 
+	if (arrowTex != nullptr)
+	{
+		App->tex->UnLoad(arrowTex);
+		arrowTex = nullptr;
+	}
 	//removing active particles
 	if (!active.empty())
 	{
@@ -404,10 +410,16 @@ bool j1ParticlesClassic::CleanUp()
 
 		for (; particles != active.end();)
 		{
+			if ((*particles)->texture != nullptr)
+			{
+				App->tex->UnLoad((*particles)->texture);
+				(*particles)->texture = nullptr;
+			}
 			delete (*particles);
 			(*particles) = nullptr;
 			particles = active.erase(particles);
 		}
+		active.clear();
 	}
 
 	//removing particles FX audio
@@ -484,7 +496,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 //void ModuleParticles::AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay, iPoint speed, Uint32 life, char* name)
 void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip, double angle, int pivotx, int pivoty, float scale)
 {
-	Particle* p = new Particle(particle);
+	Particle* p = DBG_NEW Particle(particle);
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;

@@ -319,24 +319,25 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 Shara::~Shara()
 {
 	App->tex->UnLoad(ultiCastTex);
-
+	ultiCastTex = nullptr;
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Shara.special1)
 		{
-			myUIClocks.special1 = nullptr;
+			myUIClocks.special1->to_delete = true;
 		}
 		if (App->gui->spawnedClocks.Shara.special2)
 		{
-			myUIClocks.special2 = nullptr;
+			myUIClocks.special2->to_delete = true;
 		}
 		if (App->gui->spawnedClocks.Shara.ulti)
 		{
-			myUIClocks.ulti = nullptr;
+			myUIClocks.ulti->to_delete = true;
 		}
 	}
 
-
+	memset(ultiCastAnim, 0, sizeof(ultiCastAnim));
+	memset(dashPivotOffset, 0, sizeof(dashPivotOffset));
 }
 
 bool Shara::Start()

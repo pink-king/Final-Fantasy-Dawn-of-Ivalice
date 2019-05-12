@@ -78,6 +78,7 @@ bool j1EntityFactory::Start()
 	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
 
 	// Load SFX
+
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
 	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
@@ -253,15 +254,25 @@ bool j1EntityFactory::CleanUp()
 
 	//unload texture
 	App->tex->UnLoad(texture);
+	texture = nullptr;
 	App->tex->UnLoad(assetsAtlasTex);
+	assetsAtlasTex = nullptr;
 	App->tex->UnLoad(enemyZombieTex);
+	enemyZombieTex = nullptr;
 	App->tex->UnLoad(enemyBombTex);
+	enemyBombTex = nullptr;
 	App->tex->UnLoad(debugsubtileTex);
+	debugsubtileTex = nullptr;
 	App->tex->UnLoad(arrowsTexture);
+	arrowsTexture = nullptr;
 	App->tex->UnLoad(ritzUltimateTex);
+	ritzUltimateTex = nullptr;
 	App->tex->UnLoad(ritzBasicTex);
+	ritzBasicTex = nullptr;
 	App->tex->UnLoad(marcheTornadoTex);
+	marcheTornadoTex = nullptr;
 	App->tex->UnLoad(lootItemsTex); 
+	lootItemsTex = nullptr;
 
 	player = nullptr;
 
@@ -355,11 +366,11 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 	switch (etype)
 	{
 	case EnemyType::BOMB:
-		ret = new EnemyBomb(pos, dummy);
+		ret = DBG_NEW EnemyBomb(pos, dummy);
 		entities.push_back(ret);
 		break;
 	case EnemyType::TEST:
-		ret = new EnemyTest(pos, dummy); 
+		ret = DBG_NEW EnemyTest(pos, dummy);
 		entities.push_back(ret);
 		break; 
 
@@ -472,50 +483,50 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 	switch (type)
 	{
 	case PROJECTILE_TYPE::BASIC_ARROW:
-		ret = new BasicArrow(pos, destination, speed, owner);
+		ret = DBG_NEW BasicArrow(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
 	case PROJECTILE_TYPE::CONTAGIOUS_ARROW:
-		ret = new ContagiousFireArrow(pos, destination, speed, owner);
+		ret = DBG_NEW ContagiousFireArrow(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
 	case PROJECTILE_TYPE::FIRE_ARROW:
-		ret = new FireArrow(pos, destination, speed, owner);
+		ret = DBG_NEW FireArrow(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
 
 	case PROJECTILE_TYPE::MAGIC_BOLT:
-		ret = new MagicBolt(pos, destination, speed, owner); 
+		ret = DBG_NEW MagicBolt(pos, destination, speed, owner);
 		entities.push_back(ret); 
 		break; 
 
 	case PROJECTILE_TYPE::DEATH_CIRCLE:
-		ret = new DeathCircle(pos, owner);
+		ret = DBG_NEW DeathCircle(pos, owner);
 		entities.push_back(ret); 
 		break; 
 
 	case PROJECTILE_TYPE::EMMITER_ARROWS:
-		ret = new EmmiterArrows(pos, destination, speed, owner, lifeTime);
+		ret = DBG_NEW EmmiterArrows(pos, destination, speed, owner, lifeTime);
 		entities.push_back(ret);
 		break;
 
 	case PROJECTILE_TYPE::EMMITER:
-		ret = new Emmiter(pos, owner);
+		ret = DBG_NEW Emmiter(pos, owner);
 		entities.push_back(ret);
 		break;
 
 	case PROJECTILE_TYPE::MEDUSA:
-		ret = new Medusa(pos, owner);
+		ret = DBG_NEW Medusa(pos, owner);
 		entities.push_back(ret);
 		break;
 
 	case PROJECTILE_TYPE::TORNADO:
-		ret = new Tornado(pos, destination, speed, owner);
+		ret = DBG_NEW Tornado(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
 
 	case PROJECTILE_TYPE::EARTH_SHAKER:
-		ret = new EarthShaker(pos, owner);
+		ret = DBG_NEW EarthShaker(pos, owner);
 		entities.push_back(ret);
 		break;
 
@@ -538,13 +549,13 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 	switch (WillDrop())
 	{
 	case LOOT_TYPE::EQUIPABLE:
-		ret = new Equipable(posX, posY);
+		ret = DBG_NEW Equipable(posX, posY);
 			LoadLootData(ret, App->config);
 			entities.push_back(ret);
 			break;
 
 	case LOOT_TYPE::CONSUMABLE:
-		ret = new Consumable(posX, posY);
+		ret = DBG_NEW Consumable(posX, posY);
 		//ret->objectType = OBJECT_TYPE::GOLD;
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
@@ -557,9 +568,9 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
 	LootEntity* ret = nullptr;
-	if (GetRandomValue(1, 4) == 1)
+	if (GetRandomValue(1, 2) == 1)
 	{
-		ret = new Consumable(posX, posY);
+		ret = DBG_NEW Consumable(posX, posY);
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
 	}
@@ -587,7 +598,7 @@ void j1EntityFactory::Debug(j1Entity* ent)
 
 PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 {
-	player = new PlayerEntityManager(position);
+	player = DBG_NEW PlayerEntityManager(position);
 
 	if (player != nullptr)
 	{
@@ -617,7 +628,7 @@ void j1EntityFactory::CreateEntitiesDataMap(int width, int height)
 		RELEASE_ARRAY(entitiesDataMap);
 	}
 
-	entitiesDataMap = new entityDataMap[subtileWidth * subtileHeight];
+	entitiesDataMap = DBG_NEW entityDataMap[subtileWidth * subtileHeight];
 	memset(entitiesDataMap, NULL, subtileWidth*subtileHeight);
 
 	LOG("");
@@ -788,7 +799,7 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 	case EnvironmentAssetsTypes::NO_TYPE:
 		break;
 	case EnvironmentAssetsTypes::WALL:
-		assetEntity = new j1Entity(worldPos, atlasSpriteRect);
+		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
 		entities.push_back(assetEntity);
 		break;
 	case EnvironmentAssetsTypes::WALL1:
@@ -1170,11 +1181,11 @@ j1Entity * j1EntityFactory::CreateLootType(int x, int y)
 	{
 	case LOOT_TYPE::CONSUMABLE:
 
-		ret = new Consumable(x, y);
+		ret = DBG_NEW Consumable(x, y);
 		break;
 
 	case LOOT_TYPE::EQUIPABLE:
-		ret = new Equipable(x, y);
+		ret = DBG_NEW Equipable(x, y);
 		break;
 
 	default:

@@ -8,14 +8,17 @@
 	<scene />
 	<entities>
 		<Entities>
-			<position x="-1030.53223" y="2046.08911" />
-			<Experience level="1" exp="100" />
+			<position x="-1863.88672" y="2160" />
+			<Experience level="1" exp="125" />
 			<life actualLife="100" maxLife="100" />
-			<gold value="265" />
+			<gold value="0" />
 			<equipedObjects>
-				<data name="" characterObject="Ritz" equipableType="rod" elementalType="noElement" objectType="weapon" lootType="equipable" />
+				<data name="" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable" />
 				<buffs>
-					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="15" />
+					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="30" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.910000026" />
 				</buffs>
 			</equipedObjects>
 			<players>
