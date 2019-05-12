@@ -8,42 +8,62 @@
 #include <assert.h>
 
 
-UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent) :UiItem(position, parent)
+UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, bool typewriter) :UiItem(position, parent)
 {
+	if (!typewriter)
+	{
+		texture = App->font->Print(text.data(), color, font);
+		this->guiType = GUI_TYPES::LABEL;
+		this->text = text;
+		this->color = color;
+		this->font = font;
 
-	texture = App->font->Print(text.data(), color, font);
-	this->guiType = GUI_TYPES::LABEL;
-	this->text = text;
-	this->color = color;
-	this->font = font;
 
+		if (texture)
+			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
 
-	if (texture)
-		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+		// the parent
+		this->parent = parent;
+	}
 
-	// the parent
-	this->parent = parent;
+	else
+	{
+		this->guiType = GUI_TYPES::LABEL;
+		typewriter_text = text;
+		this->text = "";
+		this->color = color;
+		this->font = font;
+		texture = App->font->Print(this->text.data(), color, font);
+
+		if (texture)
+			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+
+		// the parent
+		this->parent = parent;
+		spawn_typewriter = true;
+		right_text = true;
+	}
 
 }
 
-UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, bool typewriter, p2Point<int> position, UiItem * const parent) :UiItem(position, parent)
-{
-	this->guiType = GUI_TYPES::LABEL;
-	typewriter_text = text;
-	this->text = "";
-	this->color = color;
-	this->font = font;
-	texture = App->font->Print(this->text.data(), color, font);
-
-	if (texture)
-		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
-
-	// the parent
-	this->parent = parent;
-	spawn_typewriter = true;
-	right_text = true;
-	typewriter_time.Start();
-}
+//UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, bool typewriter, p2Point<int> position, UiItem * const parent) :UiItem(position, parent)
+//{
+//	this->guiType = GUI_TYPES::LABEL;
+//	typewriter_text = text;
+//	this->text = "";
+//	this->color = color;
+//	this->font = font;
+//	texture = App->font->Print(this->text.data(), color, font);
+//
+//	if (texture)
+//		SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
+//
+//	// the parent
+//	this->parent = parent;
+//	spawn_typewriter = true;
+//	right_text = true;
+//	
+//}
 
 
 void UiItem_Label::Draw(const float & dt)
@@ -90,7 +110,7 @@ void UiItem_Label::Draw(const float & dt)
 
 	
 
-	if (typewriter_time.ReadMs() >= 1000.0f && !timer_typewriter && spawn_typewriter)
+	if (!timer_typewriter && spawn_typewriter)
 	{
 		TypeWriter();
 	}
@@ -99,18 +119,7 @@ void UiItem_Label::Draw(const float & dt)
 
 }
 
-//bool UiItem_Label::Update(float dt)
-//{
-//	typewriter_time.Start();
-//
-//	if (typewriter_time.ReadMs() >= 1000.0f && !timer_typewriter)
-//	{
-//		TypeWriter();
-//	}
-//
-//
-//	return true;
-//}
+
 
 bool UiItem_Label::TypeWriter()
 {
