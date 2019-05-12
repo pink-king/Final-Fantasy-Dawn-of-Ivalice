@@ -113,11 +113,10 @@ bool j1AttackManager::CleanUp()
 	if (currentPropagationAttacks.size() > 0)
 	{
 		LOG("TODO");
-		std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin();
-		while (iter != currentPropagationAttacks.end())
+		for (std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin(); iter != currentPropagationAttacks.end();++iter)
 		{
-			iter = currentPropagationAttacks.erase(iter);
 			delete *iter;
+			*iter = nullptr;
 		}	
 		currentPropagationAttacks.clear();
 	}
@@ -173,28 +172,6 @@ attackData::attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, pro
 
 attackData::~attackData()
 {
-	LOG("destroyed attackdata package");
-	while (frontier.size() > 0)
-	{
-		frontier.pop();
-	}
-
-	visited.clear();
-
-	while (subtileQueue.size() > 0)
-	{
-		subtileQueue.pop();
-	}
-
-	while (lastStepSubtiles.size() > 0)
-	{
-		lastStepSubtiles.pop();
-	}
-
-	while (entitiesQueue.size() > 0)
-	{
-		entitiesQueue.pop();
-	}
 }
 
 bool attackData::Start()

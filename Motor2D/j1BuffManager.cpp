@@ -73,8 +73,6 @@ bool j1BuffManager::CleanUp()
 	while (item2 != entitiesTimeDamage.end())
 	{
 		entitiesTimeDamage.remove(*item2);
-		delete *item2;
-		*item2 = nullptr;
 		++item2;
 	}
 	entitiesTimeDamage.clear();
