@@ -5,7 +5,7 @@
     <title>Final Fantasy: Dawn of Ivalice</title>
     <organization>Pink King Games</organization>
   </app>
-	
+
   <renderer>
     <vsync value="true"/>
   </renderer>
@@ -484,8 +484,8 @@
 
       </images>
     </Inventory>
-    
-  <DeathScreen>
+
+    <DeathScreen>
       <images>
         <image name="death_screen">
           <section x="1311" y="1653" w="1280" h="720"/>
@@ -502,8 +502,8 @@
         </button>
       </buttons>
     </DeathScreen>
-    
-  <WinScreen>
+
+    <WinScreen>
       <images>
         <image name="win_screen">
           <section x="1311" y="2374" w="1280" h="720"/>
@@ -533,12 +533,12 @@
   </map>
 
   <loot>
-    
+
     <gold min ="50" max ="300"/>
-   
-    
+
+
     <potions>
-      <health_potion id="1" value ="2"/>  
+      <health_potion id="1" value ="2"/>
     </potions>
 
     <equipable>
@@ -547,25 +547,25 @@
         <equipment id="2" character="marche" name="sword_2" min ="10" max ="25"/>
         <equipment id="3" character="marche" name="legendary_sword" min ="20" max ="30"/>
       </sword>
-      
+
       <armor>
         <equipment id="1" character="marche" name="armor_1"/>
         <equipment id="2" character="marche" name="armor_2"/>
         <equipment id="3" character="marche" name="legendary_armor"/>
       </armor>
-      
+
       <bow>
         <equipment id="1" character="shara" name="bow_1"/>
         <equipment id="2" character="shara" name="bow_2"/>
         <equipment id="3" character="shara" name="legendary_bow"/>
       </bow>
-      
+
       <vest>
         <equipment id="1" character="shara" name="vest_1"/>
         <equipment id="2" character="shara" name="vest_2"/>
         <equipment id="3" character="shara" name="legendary_vest"/>
       </vest>
-      
+
       <rod>
         <equipment id="1" character="ritz" name="stick_1"/>
         <equipment id="2" character="ritz" name="stick_2"/>
@@ -577,5 +577,5 @@
         <equipment id="3" character="ritz" name="legendary_mantle"/>
       </mantle>
     </equipable>
-    </loot>
+  </loot>
 </config>

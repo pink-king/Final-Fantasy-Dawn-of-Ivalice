@@ -567,33 +567,6 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 }
 
-void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
-{
-
-
-	if (!App->entityFactory->player->equipedObjects.empty())
-	{
-		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
-
-		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
-		{
-
-			if ((*iter)->spawnedDescription)
-			{
-				if ((*iter)->MyDescription->spawnedInventoryImage)
-				{
-
-		ent->spawnedDescription = false;
-
-
-
-		LOG("_______________________________________________   Deleted description");
-
-
-	}
-
-
-}
 
 void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 {

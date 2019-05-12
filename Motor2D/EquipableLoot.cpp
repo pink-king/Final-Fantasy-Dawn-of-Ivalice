@@ -73,6 +73,7 @@ EQUIPABLE_TYPE Equipable::ChooseEquipable()
 
 	switch (GetRandomValue(1, 6))
 	{
+		LOG("");
 	case 1:
 		equipableType = EQUIPABLE_TYPE::SWORD;
 		return EQUIPABLE_TYPE::SWORD;
