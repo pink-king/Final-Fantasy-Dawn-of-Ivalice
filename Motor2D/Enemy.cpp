@@ -32,6 +32,14 @@ Enemy::~Enemy()
 // TODO: Loot spawn in all enemies? 
 App->attackManager->DestroyAllMyCurrentAttacks(this);
 
+App->tex->UnLoad(debugSubtile);
+debugSubtile = nullptr;
+
+memset(idle, 0, sizeof(idle));
+memset(run, 0, sizeof(run));
+memset(basicAttack, 0, sizeof(basicAttack));
+
+
 if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 {
 
@@ -318,6 +326,16 @@ void Enemy::DebugPath() const
 
 	/*App->render->DrawQuad({ subTilePos.x, subTilePos.y, 5,5 }, 255, 255, 0, 255, true);
 	App->render->DrawIsoQuad({ subTilePos.x, subTilePos.y, 16, 16});*/
+}
+
+bool Enemy::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool Enemy::Save(pugi::xml_node &) const
+{
+	return true;
 }
 
 

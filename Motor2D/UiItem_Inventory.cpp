@@ -15,6 +15,11 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 126, startingPos.y + 267 }, &tab_image, parent);
 }
 
+UiItem_Inventory::~UiItem_Inventory()
+{
+	
+}
+
 
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped)
@@ -369,6 +374,12 @@ void UiItem_Inventory::Draw(const float & dt)
 
 	}*/
 
+}
+
+void UiItem_Inventory::CleanUp()
+{
+	if(potionLabel != nullptr)
+		potionLabel->to_delete = true;
 }
 
 

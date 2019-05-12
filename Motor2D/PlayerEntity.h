@@ -68,6 +68,8 @@ public:
 	bool PostUpdate();
 	virtual bool CleanUp();
 
+	virtual bool Load(pugi::xml_node&);
+	virtual bool Save(pugi::xml_node&) const;
 	// functionality ------
 	bool InputMovement(float dt);
 	bool InputCombat();

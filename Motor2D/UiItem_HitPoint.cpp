@@ -137,7 +137,10 @@ void UiItem_HitPoint::CleanUp()
 
 
 	if (texture != nullptr)
+	{
 		App->tex->UnLoad(texture);
+		texture = nullptr;
+	}
 }
 
 void UiItem_HitPoint::updateHitPointPositions()

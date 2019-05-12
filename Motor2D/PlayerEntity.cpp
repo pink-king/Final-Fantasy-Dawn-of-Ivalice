@@ -47,7 +47,23 @@ bool PlayerEntity::PostUpdate()
 bool PlayerEntity::CleanUp()
 {
 	App->tex->UnLoad(spritesheet); // TODO: check if this is unloaded
+	spritesheet = nullptr;
 	App->tex->UnLoad(dash_spritesheet);
+	dash_spritesheet = nullptr;
+
+	memset(run, 0, sizeof(run));
+	memset(idle, 0, sizeof(idle));
+	memset(dash, 0, sizeof(dash));
+	return true;
+}
+
+bool PlayerEntity::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool PlayerEntity::Save(pugi::xml_node &) const
+{
 	return true;
 }
 

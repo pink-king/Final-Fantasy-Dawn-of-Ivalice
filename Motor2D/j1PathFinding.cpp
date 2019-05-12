@@ -9,6 +9,7 @@
 #include "j1EntityFactory.h"
 #include "Brofiler/Brofiler.h"
 
+
 j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
 {
 	name = "pathfinding";
@@ -101,6 +102,7 @@ bool j1PathFinding::CleanUp()
 	debug_texture = nullptr;
 
 	last_path.clear();
+	debugPath.clear();
 	RELEASE_ARRAY(map);
 	return true;
 }
@@ -112,7 +114,7 @@ void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 	this->height = height;
 
 	RELEASE_ARRAY(map);
-	map = new uchar[width*height];
+	map = DBG_NEW uchar[width*height];
 	memcpy(map, data, width*height);
 }
 

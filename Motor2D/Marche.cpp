@@ -23,13 +23,13 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	// TODO: import from xml
 	spritesheet = runTexTempPtr = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
-
 	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
 	basicAttackTex = basicAttackTexPtr = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
 	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
 	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
 	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
+
 	entityTex = spritesheet;
 
 	// IDLE
@@ -566,7 +566,6 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	characterBaseSpeed.x /= 1.6f;
 	characterBaseSpeed.y /= 1.6f;
 
-
 	//
 	//previousFrame = 1; // fake previousFrame to enter on first anim state
 
@@ -584,32 +583,51 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 Marche::~Marche()
 {
 	App->tex->UnLoad(whirlwindTex);
+	whirlwindTex = nullptr;
+	App->tex->UnLoad(spritesheet);
+	spritesheet = nullptr;
 	App->tex->UnLoad(whirlwindFireTex);
+	whirlwindFireTex = nullptr;
 	App->tex->UnLoad(basicAttackTex);
+	basicAttackTex = nullptr;
 	App->tex->UnLoad(superAttackTex);
+	superAttackTex = nullptr;
 	App->tex->UnLoad(superRunTex);
+	superRunTex = nullptr;
 	App->tex->UnLoad(superTransTex);
-
+	superTransTex = nullptr;
+	App->tex->UnLoad(runTexTempPtr);
+	runTexTempPtr = nullptr;
+	App->tex->UnLoad(basicAttackTexPtr);
+	basicAttackTexPtr = nullptr;
+	App->tex->UnLoad(dash_spritesheet);
+	dash_spritesheet = nullptr;
+	
+	memset(whirlwindAnim, 0, sizeof(whirlwindAnim));
+	memset(superAnimPivots, 0, sizeof(superAnimPivots));
+	memset(superTransAnim, 0, sizeof(superTransAnim));
+	memset(basicAttackPivotOffset, 0, sizeof(basicAttackPivotOffset));
+	memset(basicAttackAnim, 0, sizeof(basicAttackAnim));
+	memset(dashPivotOffset, 0, sizeof(dashPivotOffset));
 
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Marche.special1)
 		{
 			myUIClocks.special1->to_delete = true;
+			App->gui->spawnedClocks.Marche.special1 = false;
 		}
 		if (App->gui->spawnedClocks.Marche.special2)
 		{
 			myUIClocks.special2->to_delete = true;
+			App->gui->spawnedClocks.Marche.special2 = false;
 		}
 		if (App->gui->spawnedClocks.Marche.ulti)
 		{
 			myUIClocks.ulti->to_delete = true;
+			App->gui->spawnedClocks.Marche.ulti = false;
 		}
 	}
-
-
-
-	
 }
 
 bool Marche::Start()
@@ -1194,5 +1212,23 @@ bool Marche::PostUpdate()
 		}
 	}
 
+	return true;
+}
+
+bool Marche::Load(pugi::xml_node &node)
+{
+	pugi::xml_node nodeSpeed = node.child("Marche");
+
+	position.x = nodeSpeed.attribute("speedx").as_float();
+	position.y = nodeSpeed.attribute("speedy").as_float();
+	return true;
+}
+
+bool Marche::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodeData = node.append_child("Marche");
+
+	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
+	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
 	return true;
 }

@@ -74,6 +74,8 @@ bool EnemyBomb::CleanUp()
 	for (; item != stat.end(); ++item)
 	{
 		stat.remove(*item);
+		delete *item;
+		*item = nullptr;
 	}
 	stat.clear();
 

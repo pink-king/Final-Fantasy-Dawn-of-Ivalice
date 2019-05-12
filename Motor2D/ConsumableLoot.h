@@ -16,7 +16,7 @@ public:
 	~Consumable();
 	bool Start();
 	bool Update(float dt);
-	
+
 	void ChooseConsumable();
 	void SetConsumable();
 	
@@ -26,10 +26,7 @@ public:
 	CONSUMABLE_TYPE  consumableType;
 
 	int chance;
-	
-	
-	
-	bool isUsed = false;
+
 
 
 	//bool repositionDescription = false;

@@ -11,13 +11,14 @@
 #include "UiItem.h"
 #include "UiItem_Label.h"
 
+
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
-	marche = new Marche(position.x,position.y);
-	ritz = new Ritz(position.x, position.y);
-	shara = new Shara(position.x, position.y);
+	marche = DBG_NEW Marche(position.x,position.y);
+	ritz = DBG_NEW Ritz(position.x, position.y);
+	shara = DBG_NEW Shara(position.x, position.y);
 	// crosshair - one for all the characters, its should be improved so if we need
-	crossHair = new Crosshair();
+	crossHair = DBG_NEW Crosshair();
 
 	characters.push_back(marche);
 	characters.push_back(ritz);
@@ -28,9 +29,14 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	// debug normal tile tex
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
-
+	to_delete = false;
 	debug = false;
 	
+	level = 1;
+	exp = 0;
+	maxExpInLevel = 10000;
+
+	Start();
 }
 
 PlayerEntityManager::~PlayerEntityManager()
@@ -39,6 +45,12 @@ PlayerEntityManager::~PlayerEntityManager()
 	delete crossHair;
 
 	// TODO: free characters vector
+	App->tex->UnLoad(debugTileTex);
+	debugTileTex = nullptr;
+	App->tex->UnLoad(debugSubtileTex);
+	debugSubtileTex = nullptr;
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 }
 
 //bool PlayerEntityManager::Awake(pugi::xml_node & node)
@@ -54,9 +66,6 @@ bool PlayerEntityManager::Start()
 	for (; item != characters.end(); ++item)
 		(*item)->Start();
 
-	pivot = selectedCharacterEntity->pivot;
-
-
 	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
@@ -66,6 +75,8 @@ bool PlayerEntityManager::Start()
 
 bool PlayerEntityManager::PreUpdate()
 {
+	pivot = selectedCharacterEntity->pivot;
+
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		debug = !debug;
 
@@ -153,18 +164,6 @@ bool PlayerEntityManager::Update(float dt)
 		consumables.clear();
 	}
 
-	static char title[30];
-	sprintf_s(title, 30, " | life: %f", life);
-	App->win->AddStringToTitle(title);
-
-	/*for (std::vector<LootEntity*>::iterator iter = equipedObjects.begin(); iter != equipedObjects.end(); ++iter)
-	{
-		static char title[30];
-		sprintf_s(title, 30, " | objects: %s", (*iter)->name.data());
-		App->win->AddStringToTitle(title);
-	}*/
-	App->win->ClearTitle();
-
 	if (marche->stat.size() != 0)
 	{
 		if (App->buff->DamageInTime(marche))
@@ -251,8 +250,114 @@ bool PlayerEntityManager::CleanUp()
 		*iter3 = nullptr;
 	}
 	consumables.clear();
+
+	delete crossHair;
+	crossHair = nullptr;
+
+	App->tex->UnLoad(debugTileTex);
+	debugTileTex = nullptr;
+	App->tex->UnLoad(debugSubtileTex);
+	debugSubtileTex = nullptr;
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 	return true;
 }
+
+bool PlayerEntityManager::Load(pugi::xml_node &node)
+{
+
+	level = node.child("Experience").attribute("level").as_uint();
+	exp = node.child("Experience").attribute("exp").as_uint();
+
+	life = node.child("life").attribute("actualLife").as_float();
+	maxLife = node.child("life").attribute("maxLife").as_float();
+
+	gold = node.child("gold").attribute("value").as_uint();
+
+	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
+	{
+		LootEntity* bagObj = DBG_NEW LootEntity();
+		bagObj->Load(nodebagObjects, bagObj);
+		if (bagObj != nullptr)
+			bagObjects.push_back(bagObj);
+	}
+
+	for (pugi::xml_node nodebagObjects = node.child("equipedObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("equipedObjects"))
+	{
+		LootEntity* equipedObj = DBG_NEW LootEntity();
+		equipedObj->Load(nodebagObjects, equipedObj);
+		if (equipedObj != nullptr)
+			equipedObjects.push_back(equipedObj);
+	}
+
+	for (pugi::xml_node nodebagObjects = node.child("consumableObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("consumableObjects"))
+	{
+		LootEntity* cons = DBG_NEW LootEntity();
+		cons->Load(nodebagObjects, cons);
+		if (cons != nullptr)
+			equipedObjects.push_back(cons);
+	}
+
+	pugi::xml_node nodeMarche = node.child("players").child("Marche");
+	marche->Load(nodeMarche);
+	pugi::xml_node nodeRitz = node.child("players").child("Ritz");
+	ritz->Load(nodeRitz);
+	pugi::xml_node nodeShara = node.child("players").child("Shara");
+	shara->Load(nodeShara);
+	return true;
+}
+
+bool PlayerEntityManager::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodepos = node.append_child("position");
+
+	nodepos.append_attribute("x") = position.x;
+	nodepos.append_attribute("y") = position.y;
+
+	pugi::xml_node nodeexperience = node.append_child("Experience");
+	nodeexperience.append_attribute("level") = level;
+	nodeexperience.append_attribute("exp") = exp;
+
+	pugi::xml_node nodelife = node.append_child("life");
+	nodelife.append_attribute("actualLife") = life;
+	nodelife.append_attribute("maxLife") = maxLife;
+
+	pugi::xml_node nodegold = node.append_child("gold");
+	nodegold.append_attribute("value") = gold;
+
+	std::vector<LootEntity*>::const_iterator iter = bagObjects.begin();
+	for (; iter != bagObjects.end(); ++iter)
+	{
+		pugi::xml_node nodebagObjects = node.append_child("bagObjects");
+		(*iter)->Save(nodebagObjects);
+	}
+
+	std::vector<LootEntity*>::const_iterator iter2 = equipedObjects.begin();
+	for (; iter2 != equipedObjects.end(); ++iter2)
+	{
+		pugi::xml_node nodeequipedObjects = node.append_child("equipedObjects");
+		(*iter2)->Save(nodeequipedObjects);
+	}
+
+	
+	std::vector<LootEntity*>::const_iterator iter3 = consumables.begin();
+	for (; iter3 != consumables.end(); ++iter3)
+	{
+		pugi::xml_node nodeconsumableObjects = node.append_child("consumableObjects");
+		(*iter3)->Save(nodeconsumableObjects);
+	}
+
+	
+	std::vector<PlayerEntity*>::const_iterator iterChar = characters.begin();
+	for (; iterChar != characters.end(); ++iterChar)
+	{
+		pugi::xml_node nodePlayer = node.append_child("players");
+		(*iterChar)->Save(nodePlayer);
+	}
+
+	return true;
+}
+
 
 
 bool PlayerEntityManager::SwapInputChecker()
@@ -646,7 +751,13 @@ Crosshair::Crosshair()
 }
 
 Crosshair::~Crosshair()
-{}
+{
+	if (tex != nullptr)
+	{
+		App->tex->UnLoad(tex);
+		tex = nullptr;
+	}
+}
 
 bool Crosshair::Start()
 {
@@ -894,8 +1005,11 @@ bool Crosshair::Reset()
 
 bool Crosshair::CleanUp()
 {
-	if(tex != nullptr)
+	if (tex != nullptr)
+	{
 		App->tex->UnLoad(tex);
+		tex = nullptr;
+	}
 	
 	return true;
 }

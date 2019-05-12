@@ -74,11 +74,16 @@ public:
 	void DebugPath() const;
 	// functionality ------
 
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+
 public:
 	float attackSpeed = 0;
 	float attackPerS = 0; 
 	float lastAnimationSpeed;
 	uint speed = 0;
+
+	uint level;
 protected:
 	std::vector<iPoint> path_to_follow;
 

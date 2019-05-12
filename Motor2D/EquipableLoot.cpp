@@ -105,8 +105,9 @@ EQUIPABLE_TYPE Equipable::ChooseEquipable()
 
 void Equipable::SetEquipable()
 {
-
-	switch (ChooseEquipable())
+	if(equipableType == EQUIPABLE_TYPE::NO_EQUIPABLE)
+		ChooseEquipable();
+	switch (equipableType)
 	{
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;

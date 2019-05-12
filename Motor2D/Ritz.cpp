@@ -482,7 +482,13 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 Ritz::~Ritz()
 {
 	App->tex->UnLoad(attack1Tex);
+	attack1Tex = nullptr;
 	App->tex->UnLoad(teleportTex);
+	teleportTex = nullptr;
+
+	memset(attack1, 0, sizeof(attack1));
+	memset(tpAnim, 0, sizeof(tpAnim));
+	memset(dashPivotOffset, 0, sizeof(dashPivotOffset));
 
 
 	if (!App->cleaningUp)
@@ -490,14 +496,17 @@ Ritz::~Ritz()
 		if (App->gui->spawnedClocks.Ritz.special1)
 		{
 			myUIClocks.special1->to_delete = true;
+			App->gui->spawnedClocks.Ritz.special1 = false;
 		}
 		if (App->gui->spawnedClocks.Ritz.special2)
 		{
 			myUIClocks.special2->to_delete = true;
+			App->gui->spawnedClocks.Ritz.special2 = false;
 		}
 		if (App->gui->spawnedClocks.Ritz.ulti)
 		{
 			myUIClocks.ulti->to_delete = true;
+			App->gui->spawnedClocks.Ritz.ulti = false;
 		}
 	}
 
@@ -817,3 +826,22 @@ fPoint Ritz::GetTeleportPos()
 //{
 //	return true;
 //}
+
+
+bool Ritz::Load(pugi::xml_node &node)
+{
+	pugi::xml_node nodeSpeed = node.child("Ritz");
+
+	position.x = nodeSpeed.attribute("speedx").as_float();
+	position.y = nodeSpeed.attribute("speedy").as_float();
+	return true;
+}
+
+bool Ritz::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodeData = node.append_child("Ritz");
+
+	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
+	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
+	return true;
+}

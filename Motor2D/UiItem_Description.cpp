@@ -264,6 +264,11 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 }
 
+UiItem_Description::~UiItem_Description()
+{
+	
+}
+
 
 void UiItem_Description::Draw(const float& dt)
 {
@@ -771,4 +776,22 @@ void UiItem_Description::DeleteEverything()
 
 	App->gui->destroyElement(this);
 
+}
+
+void UiItem_Description::CleanUp()
+{
+	iconImage->to_delete = true;
+	panelWithButton->to_delete = true;
+	name->to_delete = true;
+	level->to_delete = true;
+	iconImageInventory->to_delete = true;
+
+	attachedCharacter->to_delete = true;
+
+	damageLabel->to_delete = true;
+	resistanceLabel->to_delete = true;
+	effectLabel->to_delete = true;
+
+	HPLabel->to_delete = true;
+	VelocityLabel->to_delete = true;
 }

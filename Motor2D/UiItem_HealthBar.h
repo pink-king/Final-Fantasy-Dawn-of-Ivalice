@@ -32,6 +32,7 @@ class UiItem_HealthBar : public UiItem
 public:
 	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent);
 	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever);
+	~UiItem_HealthBar();
 
 	void Draw(const float& dt);
 
@@ -39,6 +40,7 @@ public:
 	void DamageQuadReset();
 	void UpdatePos();
 
+	void CleanUp();
 
 public:
 	UiItem_Image* dynamicImage = nullptr;

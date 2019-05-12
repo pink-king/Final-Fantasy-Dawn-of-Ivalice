@@ -43,10 +43,12 @@ class UiItem_Inventory : public UiItem
 
 public:
 	UiItem_Inventory(UiItem* const parent);
-
+	~UiItem_Inventory();
 	bool LoadElements(bool onlyEquipped = false);
 	//void DoLogicSelected(LootEntity*, bool);
 	void Draw(const float& dt) override;
+
+	void CleanUp();
 
 	void De_______Equip(LootEntity*);
 

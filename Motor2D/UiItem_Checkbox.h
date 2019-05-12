@@ -27,10 +27,10 @@ protected:
 	void DoLogicClicked(std::string &functionName);   // clicking logic matters the most
 	void DoLogicHovered();
 	void DoLogicAbandoned();
-
+	void CleanUp();
 public:
 	UiItem_Checkbox(iPoint position, std::string &function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
-	~UiItem_Checkbox() {}
+	~UiItem_Checkbox();
 	void Draw(const float& dt);
 
 
