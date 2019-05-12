@@ -762,15 +762,22 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
+	LOG("Start to Unload map");
 	App->map->Disable();
+	LOG("unload map");
 	App->attackManager->Disable();
+	LOG("unload attack");
 	App->entityFactory->Disable();
+	LOG("unload entities");
 	App->pathfinding->Disable();
+	LOG("unload path");
 	App->buff->Disable();
+	LOG("unload buff");
 	App->camera2D->Disable();
+	LOG("unload camera");
 
 	App->audio->UnLoadAudio();
-
+	LOG("unload audio");
 }
 
 void j1Scene::LoadScene(SceneState sceneState)

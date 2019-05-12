@@ -116,8 +116,8 @@ bool j1AttackManager::CleanUp()
 		std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin();
 		while (iter != currentPropagationAttacks.end())
 		{
-			delete *iter;
 			iter = currentPropagationAttacks.erase(iter);
+			delete *iter;
 		}	
 		currentPropagationAttacks.clear();
 	}

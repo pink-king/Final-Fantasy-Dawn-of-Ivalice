@@ -86,17 +86,8 @@ void UiItem::DrawUi(float dt)
 			}
 			else
 			{
-				if ((*iter)->guiType == GUI_TYPES::CLOCK)
-				{
-					delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
-					iter = App->gui->ListItemUI.erase(iter);          // and erase from the list
-					*iter = nullptr;
-				}
-				else
-				{
-					delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
-					iter = App->gui->ListItemUI.erase(iter);          // and erase from the list
-				}
+				delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
+				iter = App->gui->ListItemUI.erase(iter);          // and erase from the list
 			}
 		}
 	}
