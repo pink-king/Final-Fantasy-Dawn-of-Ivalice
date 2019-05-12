@@ -48,7 +48,6 @@ void TileQuadtree::CleanUp()
 			delete nodes[i];
 			nodes[i] = nullptr;
 		}
-		delete[] nodes;
 		divided = false;
 	}
 	if(!divided)

@@ -20,11 +20,6 @@ j1Audio::~j1Audio()
 // Called before render is available
 bool j1Audio::Awake(pugi::xml_node& config)
 {
-	return true;
-}
-
-bool j1Audio::Start()
-{
 	LOG("Loading Audio Mixer");
 	bool ret = true;
 	SDL_Init(0);
@@ -56,6 +51,12 @@ bool j1Audio::Start()
 	}
 
 	return ret;
+
+}
+
+bool j1Audio::Start()
+{
+	return true;
 }
 
 // Called before quitting
@@ -207,12 +208,15 @@ void j1Audio::UnLoadAudio()
 	if (music != NULL)
 	{
 		Mix_FreeMusic(music);
+		music = NULL;
 	}
 
 	std::list<Mix_Chunk*>::iterator item;
 	for (item = fx.begin(); item != fx.end(); ++item)
+	{
 		Mix_FreeChunk(*item);
-
+		*item = nullptr;
+	}
 	fx.clear();
 
 }

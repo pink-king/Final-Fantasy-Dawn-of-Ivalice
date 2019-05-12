@@ -54,18 +54,12 @@ bool j1Scene::Start()
 	if (state == SceneState::LEVEL1)
 	{
 		//AcceptUISFX_logic = false;
-		if (!inGamePanel->enable)
 		inGamePanel->enable = true;
-		if (!uiMarche->enable)
 		uiMarche->enable = true;
-		if (!uiShara->enable)
 		uiShara->enable = true;
-		if (!uiRitz->enable)
 		uiRitz->enable = true;
-		if (settingPanel->enable)
 		settingPanel->enable = false;
-		if (startMenu->enable)
-			startMenu->enable = false;
+		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
@@ -73,7 +67,7 @@ bool j1Scene::Start()
 	if (state == SceneState::STARTMENU)
 	{
 		AcceptUISFX_logic = true;
-		
+
 		if (!LoadedUi)
 		{
 			LoadInGameUi(sceneNode);
@@ -86,25 +80,15 @@ bool j1Scene::Start()
 			LoadWinScreen(sceneNode);
 			LoadedUi = true;
 		}
-		if (!startMenu->enable)
 		startMenu->enable = true;
-		if (uiMarche->enable)
 		uiMarche->enable = false;
-		if (uiShara->enable)
-			uiShara->enable = false;
-		if (uiRitz->enable)
+		uiShara->enable = false;
 		uiRitz->enable = false;
-		if (settingPanel->enable)
 		settingPanel->enable = false;
-		if (inGamePanel->enable)
 		inGamePanel->enable = false;
-		if (pausePanel->enable)
 		pausePanel->enable = false;
-		if (inventory->enable)
 		inventory->enable = false;
-		if (deathPanel->enable)
 		deathPanel->enable = false;
-		if (winPanel->enable)
 		winPanel->enable = false;
 
 		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
@@ -732,9 +716,6 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
 
-
-
-
 	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
 	SharaIcon->parent = inventoryItem;
 	RitzIcon->parent = inventoryItem;
@@ -780,28 +761,21 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
-	if(App->map->IsEnabled())
-		App->map->Disable();
-	if (App->attackManager->IsEnabled())
-		App->attackManager->Disable();
-	if (App->entityFactory->IsEnabled())
-		App->entityFactory->Disable();
-	if (App->pathfinding->IsEnabled())
-		App->pathfinding->Disable();
-	if (App->audio->IsEnabled())
-		App->audio->Disable();
-	if (App->buff->IsEnabled())
-		App->buff->Disable();
-	if (App->camera2D->IsEnabled())
-		App->camera2D->Disable();
+	App->map->Disable();
+	App->attackManager->Disable();
+	App->entityFactory->Disable();
+	App->pathfinding->Disable();
+	App->buff->Disable();
+	App->camera2D->Disable();
+
+	App->audio->UnLoadAudio();
 
 }
 
 void j1Scene::LoadScene(SceneState sceneState)
 {
 	UnLoadScene();
-	if (!App->audio->IsEnabled())
-		App->audio->Enable();
+
 	switch (sceneState)
 	{
 	case SceneState::STARTMENU:
@@ -811,21 +785,12 @@ void j1Scene::LoadScene(SceneState sceneState)
 	case SceneState::LEVEL1:
 
 		state = SceneState::LEVEL1;
-		
-		if (!App->attackManager->IsEnabled())
 		App->attackManager->Enable();
-		if (!App->pathfinding->IsEnabled())
 		App->pathfinding->Enable();
-		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
-		if (!App->buff->IsEnabled())
 		App->buff->Enable();
-		if (!App->map->IsEnabled())
-		{
-			App->map->active = true;
-			LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-		}
-		if (!App->entityFactory->IsEnabled())
+		App->map->active = true;
+		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		break;
