@@ -8,7 +8,7 @@
 #include "Ritz.h"
 #include "Shara.h"
 #include "j1Input.h"
-#include"LootEntity.h"
+#include "Store_Vendor.h"   // already includes loot entity
 #include "j1Audio.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
@@ -95,6 +95,12 @@ public:
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
 
+	void AddItemToTheBag(LootEntity* entityLoot); 
+	void RemoveItemFromBag(LootEntity* entityLoot); 
+
+	void AddItemToConsumables(LootEntity* entityLoot);
+	void RemoveItemFromConsumables(LootEntity* entityLoot);
+
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 public:
 
@@ -114,6 +120,11 @@ public:
 	Crosshair* GetCrosshair()
 	{
 		return crossHair;
+	}
+
+	Vendor*	GetVendor()
+	{
+		return vendor; 
 	}
 
 	uint level;
@@ -142,6 +153,11 @@ private:
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
 	unsigned int pickPotion;
+
+
+	// vendor
+	Vendor* vendor = nullptr; 
+	
 	
 };
 

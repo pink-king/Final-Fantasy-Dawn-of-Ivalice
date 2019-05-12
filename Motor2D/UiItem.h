@@ -48,6 +48,7 @@ public:
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
 	virtual void Draw(const float&) {};
+	//virtual bool Update(float dt){};
 
 	void DrawUi(float dt);
 
@@ -65,6 +66,11 @@ public:
 	iPoint textureDimensions;
 	iPoint prevTextDimension;
 	bool first_hitbox = false;
+	bool isDialog = false; 
+
+	bool changeTexture = false; 
+
+	uint dialogPos = 666; 
 
 	virtual void DoLogicClicked() {};
 	virtual void DoLogicClicked(std::string& functionName) {};

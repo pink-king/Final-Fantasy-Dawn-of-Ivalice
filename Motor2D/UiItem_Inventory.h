@@ -44,9 +44,8 @@ class UiItem_Inventory : public UiItem
 public:
 	UiItem_Inventory(UiItem* const parent);
 	~UiItem_Inventory();
-	bool LoadElements(bool onlyEquipped = false);
+	bool LoadElements(bool onlyEquipped = false, bool isVendor = false);
 	//void DoLogicSelected(LootEntity*, bool);
-	void Draw(const float& dt) override;
 
 	void CleanUp();
 
@@ -56,8 +55,15 @@ public:
 
 	void callDeleteWhenSwitchingCharacters();
 
+	void makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity*);
+
+	void RepositionBagItems(); 
+
+public: 
+
 	bool drawTest = false;
 
+	bool isVendorInventory = false; 
 
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
@@ -68,6 +74,7 @@ private:
 	bool first_potion = false;
 	bool first_label_potion = false;
 	int potion_counter = 1;
+	int vendor_potion_counter = 1; 
 	UiItem_Label* potionLabel = nullptr;
 	potionLabelPositions potion_positions;
 	std::string str_potion;

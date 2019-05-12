@@ -29,7 +29,6 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
 	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
 	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
-
 	entityTex = spritesheet;
 
 	// IDLE

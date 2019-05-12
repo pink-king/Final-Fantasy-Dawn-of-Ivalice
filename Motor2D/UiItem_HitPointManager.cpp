@@ -56,6 +56,7 @@ bool UiItem_HitPointManager::Update(float dt)
 			}
 			else
 			{
+				if((*hitPointIterator)->numerOrText != variant::gold)                    // don't consider gold labels
 				labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
 			}
 
@@ -173,6 +174,18 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 
 	return ret;
 
+}
+
+UiItem_HitPoint * UiItem_HitPointManager::callGoldLabelSpawn(iPoint pos, uint value)
+{
+	valueInfo info = {
+		"GOLD",
+		value,
+	};
+
+	App->gui->AddHitPointLabel(info, {255, 255, 194, 255}, App->font->openSansBold36, pos, nullptr, variant::gold);
+
+	return nullptr;
 }
 
 

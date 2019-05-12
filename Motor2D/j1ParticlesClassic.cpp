@@ -9,7 +9,6 @@
 #include "j1Window.h"
 //#include "SDL/include/SDL_timer.h"
 
-
 #define MARGIN 20
 
 j1ParticlesClassic::j1ParticlesClassic()

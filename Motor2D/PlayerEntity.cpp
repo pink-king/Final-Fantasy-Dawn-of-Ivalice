@@ -400,6 +400,7 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 
 			}
 		}
+		// ----------------------
 	}
 
 	//if (debug)

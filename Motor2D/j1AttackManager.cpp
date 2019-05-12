@@ -9,7 +9,6 @@
 #include "j1ParticlesClassic.h"
 #include "Brofiler/Brofiler.h"
 
-
 // TODO: to improve ---
 // - unlink the speed of the steps from time, do with float increments multiplicative with dt
 

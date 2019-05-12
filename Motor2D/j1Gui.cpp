@@ -500,13 +500,33 @@ void j1Gui::destroyElement(UiItem * elem)
 	}
 }
 
-UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
+void j1Gui::deleteCurrentDialogs()
+{
+	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end();)
+	{
+		if ((*item) && !(*item)->to_delete)
+		{
+			if ((*item)->isDialog)
+			{
+				delete (*item);
+				item = ListItemUI.erase(item);
+			}
+			else
+			{
+				++item; 
+			}
+		}
+	}
+
+}
+
+
+UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, bool type_writer)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = DBG_NEW UiItem_Label(text, color, font, position, parent);
+	newUIItem = DBG_NEW UiItem_Label(text, color, font, position, parent, type_writer);
 	ListItemUI.push_back(newUIItem);
 	return (UiItem_Label*)newUIItem;
-
 }
 
 UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
@@ -713,7 +733,7 @@ UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string i
 	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
-
+	
 
 	return (UiItem_Description*)newUIItem;
 }
@@ -777,4 +797,13 @@ void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
 	App->scene->LoadScene(SceneState::STARTMENU);
+}
+
+void j1Gui::GoBackToStartMenuFromDeathWin()
+{
+	resetHoverSwapping = false;
+	App->scene->deathPanel->enable = false;
+	App->scene->winPanel->enable = false;
+	App->scene->startMenu->enable = true;
+	App->scene->state = SceneState::STARTMENU;
 }

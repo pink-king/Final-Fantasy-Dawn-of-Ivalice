@@ -13,7 +13,19 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 	// TODO: Initialize timer
 	lifeSpan.Start();
 
-	texture = App->font->Print(valueInfo.string.data(), color, font);
+	if (type == variant::gold)
+	{
+		std::string newString(std::to_string((int)valueInfo.number));
+		newString.append(" ");
+		newString.append(valueInfo.string);
+		texture = App->font->Print(newString.data(), color, font);
+	}
+	else if(type == variant::number)
+	{
+		texture = App->font->Print(valueInfo.string.data(), color, font);
+	}
+	
+
 
 	this->numerOrText = type;
 
@@ -64,7 +76,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	if (!App->scene->inventory->enable)
 	{
-		if (this->numerOrText == variant::number)
+		if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 		{
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
 		}
@@ -93,7 +105,7 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	// first considerate the type
 	uint maxLife = 0;
-	if (this->numerOrText == variant::number)
+	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		maxLife = NUMBER_LIFE;
 	}
@@ -130,7 +142,7 @@ lifeState UiItem_HitPoint::returnLifeState() {
 void UiItem_HitPoint::CleanUp()
 {
 
-	if (this->numerOrText == variant::text)
+	if (this->numerOrText == variant::text || this->numerOrText == variant::gold)
 	{
 		App->HPManager->labelsSpawned.totalLabels--;
 	}
@@ -145,7 +157,7 @@ void UiItem_HitPoint::CleanUp()
 
 void UiItem_HitPoint::updateHitPointPositions()
 {
-	if (this->numerOrText == variant::number)
+	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		hitBox.y -= 2;
 
@@ -192,7 +204,7 @@ void UiItem_HitPoint::updateHitPointSizes()
 			break;
 		case Middle:
 
-			if (this->numerOrText == variant::number)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				scaleFactor /= 1.003f;
 			}
@@ -200,7 +212,7 @@ void UiItem_HitPoint::updateHitPointSizes()
 			break;
 		case fadeOut:
 
-			if (this->numerOrText == variant::number)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				scaleFactor /= 1.02f;
 			}
@@ -227,8 +239,8 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			alphaValue *= 3;
 			break;
 		case Middle:
-			if (this->numerOrText == variant::number)
-			{
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
+			{ 
 				alphaValue /= 1.1f;
 			}
 			else
@@ -238,7 +250,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 
 			break;
 		case fadeOut:
-			if (this->numerOrText == variant::number)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				alphaValue /= 1.7f;
 			}

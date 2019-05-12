@@ -179,6 +179,12 @@
     <ClCompile Include="EarthShaker.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="j1DialogSystem.cpp">
+      <Filter>Development\Modules\GUI\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Store_Vendor.cpp">
+      <Filter>Development\Modules\Entities\Vendor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -296,6 +302,9 @@
     <ClInclude Include="Marche.h">
       <Filter>Development\Modules\Entities\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Development\Modules\Tools\PugiXML</Filter>
     </ClInclude>
@@ -377,8 +386,11 @@
     <ClInclude Include="EarthShaker.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Development\Modules\Tools\QuadTree</Filter>
+    <ClInclude Include="j1DialogSystem.h">
+      <Filter>Development\Modules\GUI\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Store_Vendor.h">
+      <Filter>Development\Modules\Entities\Vendor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -454,6 +466,9 @@
     </Filter>
     <Filter Include="P2Help">
       <UniqueIdentifier>{01e0c893-61c8-4dbf-9df4-041713f684a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Vendor">
+      <UniqueIdentifier>{f335e991-b295-4f25-8ffa-55c592026b8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

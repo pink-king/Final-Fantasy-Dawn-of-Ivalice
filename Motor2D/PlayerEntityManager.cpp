@@ -11,7 +11,6 @@
 #include "UiItem.h"
 #include "UiItem_Label.h"
 
-
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
 	marche = DBG_NEW Marche(position.x,position.y);
@@ -19,6 +18,10 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	shara = DBG_NEW Shara(position.x, position.y);
 	// crosshair - one for all the characters, its should be improved so if we need
 	crossHair = DBG_NEW Crosshair();
+
+	// vendor
+	vendor = new Vendor(); 
+
 
 	characters.push_back(marche);
 	characters.push_back(ritz);
@@ -43,6 +46,9 @@ PlayerEntityManager::~PlayerEntityManager()
 {
 	
 	delete crossHair;
+
+	// delete vendor
+	delete vendor; 
 
 	// TODO: free characters vector
 	App->tex->UnLoad(debugTileTex);
@@ -70,6 +76,10 @@ bool PlayerEntityManager::Start()
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
+
+
+	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
+
 	return true;
 }
 
@@ -193,6 +203,35 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
+	if (marche->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(marche))
+		{
+			App->buff->entitiesTimeDamage.remove(marche);
+		}
+	}
+	if (ritz->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(ritz))
+		{
+			App->buff->entitiesTimeDamage.remove(ritz);
+		}
+	}
+	if (shara->stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(shara))
+		{
+			App->buff->entitiesTimeDamage.remove(shara);
+		}
+	}
+	if (stat.size() != 0)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
+
 	return ret;
 }
 
@@ -260,6 +299,10 @@ bool PlayerEntityManager::CleanUp()
 	debugSubtileTex = nullptr;
 	App->tex->UnLoad(texture);
 	texture = nullptr;
+
+	// vendor objects
+	vendor->cleanUp(); 
+
 	return true;
 }
 
@@ -379,7 +422,10 @@ bool PlayerEntityManager::SwapInputChecker()
 
 			if (App->scene->inventory->enable)
 			{
-				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+				}
 
 			}
 
@@ -389,14 +435,21 @@ bool PlayerEntityManager::SwapInputChecker()
 		{
 			if (App->scene->inventory->enable)
 			{
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
+				}
 			}
 
 			SetNextCharacter();
 
 			if (App->scene->inventory->enable)
 			{
-				App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+				}
+			
 
 			}
 
@@ -619,6 +672,11 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 				entityLoot->to_delete = true;
 				str_coin = std::to_string(gold) + " x";
 				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+				// gold label that pops up
+
+				App->HPManager->callGoldLabelSpawn(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true), entityLoot->price);
+
 				//App->tex->UnLoad(entityLoot->entityTex);
 				return false;
 			}
@@ -670,6 +728,66 @@ void PlayerEntityManager::DesequipItem(LootEntity * entityLoot)
 			App->buff->RemoveItemStat(*item);
 			equipedObjects.erase(item);
 			bagObjects.push_back(entityLoot);
+			break;
+		}
+	}
+}
+
+void PlayerEntityManager::AddItemToTheBag(LootEntity * entityLoot)
+{
+
+	if (equipedObjects.size() == 0)
+	{
+		equipedObjects.push_back(entityLoot);
+	}
+	else
+	{
+		for (std::vector<LootEntity*>::iterator item = equipedObjects.begin(); item != equipedObjects.end(); ++item)
+		{
+
+			if (entityLoot->GetObjectType() == (*item)->GetObjectType() && entityLoot->character == (*item)->character)
+			{
+				bagObjects.push_back(*item);
+				equipedObjects.erase(item);
+				break;
+			}
+		}
+		equipedObjects.push_back(entityLoot);
+
+	}
+
+
+}
+
+void PlayerEntityManager::RemoveItemFromBag(LootEntity * entityLoot)
+{
+	for (std::vector<LootEntity*>::iterator item = bagObjects.begin(); item != bagObjects.end(); ++item)
+	{
+		if (entityLoot == *item)
+		{
+			//App->buff->RemoveItemStat(*item);      // don't remove stats, because it goes to vendor  (it needs differentiation)
+			bagObjects.erase(item);
+			break;
+		}
+	}
+
+}
+
+void PlayerEntityManager::AddItemToConsumables(LootEntity * entityLoot)
+{
+	consumables.push_back(entityLoot); 
+
+	int a = 0; 
+}
+
+void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)
+{
+	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
+	{
+		if (entityLoot == *item)
+		{
+			//App->buff->RemoveItemStat(*item);      // don't remove stats, because it goes to vendor  (it needs differentiation)
+			consumables.erase(item);
 			break;
 		}
 	}

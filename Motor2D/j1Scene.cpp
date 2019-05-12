@@ -22,6 +22,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "Projectile.h"
+#include "j1DialogSystem.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -67,7 +68,6 @@ bool j1Scene::Start()
 	if (state == SceneState::STARTMENU)
 	{
 		AcceptUISFX_logic = true;
-
 		if (!LoadedUi)
 		{
 			LoadInGameUi(sceneNode);
@@ -215,11 +215,11 @@ bool j1Scene::Update(float dt)
 	App->tex->textures;
 	// map debug draw grids
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	/*if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");
+		App->SaveGame("save_game.xml");*/
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -233,6 +233,11 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
+	}
+	
 	
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
@@ -327,29 +332,31 @@ bool j1Scene::Update(float dt)
 			}
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
-			if (!pausePanel->enable)
-			{
-				App->pause = !App->pause;
-				if (App->pause && !pausePanel->enable)
-				{
-					inventory->enable = true;
-					App->gui->resetHoverSwapping = false;
-					inventoryItem->LoadElements();
-					App->audio->PlayFx(openInventorySFX, 0);
-				}
-
-				else
-				{
-					App->audio->PlayFx(closeinventorySFX, 0);
-					inventory->enable = false;
-
-				}
-
-			}
+			DoOpenInventory();
 		}
+
 	}
+	 
+	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+	//{
+	//	App->entityFactory->player->life -= 20;
+	//	App->gui->healthBar->damageInform.doDamage = true;
+	//	App->gui->healthBar->damageInform.damageValue = 20;
+	//}
+
+	//if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)    // player uses health potion !!
+	//{
+
+	//	App->entityFactory->player->selectedCharacterEntity->life += 30;
+	//	App->gui->healthBar->damageInform.damageValue = -30;
+	//}
+	//
+
+
+	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->loot->trigger = true;*/
 	if(App->map->active)
 		App->map->Draw();
 
@@ -420,6 +427,18 @@ bool j1Scene::Update(float dt)
 
 	App->win->ClearTitle();
 
+	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+	//	App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+	//}
+	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
+	//{
+	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+	//	App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
+	//}
+
+	
 	return true;
 }
 
@@ -537,8 +556,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string text = uiNode.child("text").attribute("value").as_string();
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
+		const char* path = uiNode.child("path").attribute("p").as_string();
+		uint size = uiNode.child("size").attribute("s").as_int();
+		
 
-		App->gui->AddLabel(text.data(), color, App->font->piecesofEight48, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->Load(path, size), position, parent);
 
 	}
 
@@ -820,3 +842,39 @@ void j1Scene::LoadScene(SceneState sceneState)
 	Start();
 }
 
+
+
+void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
+{
+	
+		if (!pausePanel->enable)
+		{
+			App->pause = !App->pause;
+			if (App->pause && !pausePanel->enable)
+			{
+				if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
+				{
+					inventory->enable = true;
+					App->gui->resetHoverSwapping = false;
+
+					inventoryItem->LoadElements(onlyEquipped, isVendor);
+					App->audio->PlayFx(openInventorySFX, 0);
+				}
+				
+			}
+
+			else
+			{
+				App->audio->PlayFx(closeinventorySFX, 0);
+				inventory->enable = false;
+
+
+				if (App->dialog->isDialogSequenceActive)
+				{
+					App->dialog->spawnDialoguesAfterInventory(); 
+				}
+			}
+
+		}
+
+}

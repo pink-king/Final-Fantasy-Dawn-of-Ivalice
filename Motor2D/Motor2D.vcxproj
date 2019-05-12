@@ -28,7 +28,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -94,6 +94,7 @@
     <ClCompile Include="FireArrow.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
+    <ClCompile Include="j1DialogSystem.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
     <ClCompile Include="Shara.cpp" />
+    <ClCompile Include="Store_Vendor.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="UiItem.cpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
+    <ClInclude Include="j1DialogSystem.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
     <ClInclude Include="Shara.h" />
+    <ClInclude Include="Store_Vendor.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Tornado.h" />
     <ClInclude Include="UiItem.h" />

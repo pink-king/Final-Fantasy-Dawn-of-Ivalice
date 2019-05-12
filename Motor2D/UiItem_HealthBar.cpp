@@ -89,7 +89,6 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 		
 
-
 		if (damageInform.doDamage)
 		{
 			

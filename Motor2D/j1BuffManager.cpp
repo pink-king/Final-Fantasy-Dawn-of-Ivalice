@@ -8,7 +8,6 @@
 #include "j1ParticlesClassic.h"
 #include "Brofiler/Brofiler.h"
 
-
 j1BuffManager::j1BuffManager()
 {
 	name.assign("Buff");
@@ -33,6 +32,7 @@ bool j1BuffManager::Start()
 	poisonedSFX = App->audio->LoadFx("audio/fx/States/poisoned.wav");
 	healingSFX = App->audio->LoadFx("audio/fx/States/Healing.wav");
 	enemyHitbyMarche = App->audio->LoadFx("audio/fx/States/enemyHitbyMarche.wav");
+	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 
 	return true;
 }
@@ -192,6 +192,10 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		{
 			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
 		}
+
+		if (defender->life <= 0)
+			App->audio->PlayFx(playerDeath, 0);
+
 	}
 
 
