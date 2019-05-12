@@ -21,7 +21,7 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
-	
+	timeToBlink = 50;
 	return true;
 }
 
@@ -249,7 +249,38 @@ void PlayerEntity::Draw()
 			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
+		
+		if (App->entityFactory->pushEF)
+		{
+			alphaTimer.Start();
+			SDL_SetTextureAlphaMod(entityTex,200);
+			/*SDL_BlendMode hola;
+			hola = SDL_BLENDMODE_BLEND;
+*/
+			//SDL_SetTextureBlen
+			//https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
+		}
+		if (alphaTimer.Read() > 0 && alphaTimer.Read() <= 3000)
+			Blinker(entityTex, alphaTimer);
+		
 	}
+}
+
+void PlayerEntity::Blinker(SDL_Texture* texture, j1Timer blink)
+{
+	
+		if (blink.Read() <= timeToBlink)
+		{
+			SDL_SetTextureAlphaMod(texture, 255);
+
+		}
+		else  if (blink.Read() > timeToBlink && blink.Read() <= 50 + timeToBlink) //update time to blink (need)
+
+		{
+			SDL_SetTextureAlphaMod(texture, 0);
+		}
+		else timeToBlink += 100;
+		
 }
 
 int PlayerEntity::GetPointingDir(float angle)
