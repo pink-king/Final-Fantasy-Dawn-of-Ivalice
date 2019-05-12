@@ -496,14 +496,17 @@ Ritz::~Ritz()
 		if (App->gui->spawnedClocks.Ritz.special1)
 		{
 			myUIClocks.special1->to_delete = true;
+			App->gui->spawnedClocks.Ritz.special1 = false;
 		}
 		if (App->gui->spawnedClocks.Ritz.special2)
 		{
 			myUIClocks.special2->to_delete = true;
+			App->gui->spawnedClocks.Ritz.special2 = false;
 		}
 		if (App->gui->spawnedClocks.Ritz.ulti)
 		{
 			myUIClocks.ulti->to_delete = true;
+			App->gui->spawnedClocks.Ritz.ulti = false;
 		}
 	}
 
