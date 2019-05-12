@@ -508,19 +508,11 @@ void j1Gui::deleteCurrentDialogs()
 
 }
 
-UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
+
+UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, bool type_writer)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = new UiItem_Label(text, color, font, position, parent);
-	ListItemUI.push_back(newUIItem);
-	return (UiItem_Label*)newUIItem;
-
-}
-
-UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, bool type_writer, p2Point<int> position, UiItem * const parent)
-{
-	UiItem* newUIItem = nullptr;
-	newUIItem = new UiItem_Label(text, color, font, type_writer, position, parent);
+	newUIItem = new UiItem_Label(text, color, font, position, parent, type_writer);
 	ListItemUI.push_back(newUIItem);
 	return (UiItem_Label*)newUIItem;
 }
