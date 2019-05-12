@@ -212,6 +212,7 @@ bool j1Scene::Update(float dt)
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 
+	App->tex->textures;
 	// map debug draw grids
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)

@@ -575,6 +575,8 @@ Particle::~Particle()
 	/*if (collider != nullptr)
 		App->collision->DeleteCollider(collider);*/
 	//App->entityFactory->DeleteEntityFromSubtile(this);
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 }
 
 bool Particle::Update(float dt)

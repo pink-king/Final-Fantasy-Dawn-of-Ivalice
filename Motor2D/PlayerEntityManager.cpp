@@ -45,6 +45,12 @@ PlayerEntityManager::~PlayerEntityManager()
 	delete crossHair;
 
 	// TODO: free characters vector
+	App->tex->UnLoad(debugTileTex);
+	debugTileTex = nullptr;
+	App->tex->UnLoad(debugSubtileTex);
+	debugSubtileTex = nullptr;
+	App->tex->UnLoad(texture);
+	texture = nullptr;
 }
 
 //bool PlayerEntityManager::Awake(pugi::xml_node & node)
@@ -745,7 +751,13 @@ Crosshair::Crosshair()
 }
 
 Crosshair::~Crosshair()
-{}
+{
+	if (tex != nullptr)
+	{
+		App->tex->UnLoad(tex);
+		tex = nullptr;
+	}
+}
 
 bool Crosshair::Start()
 {

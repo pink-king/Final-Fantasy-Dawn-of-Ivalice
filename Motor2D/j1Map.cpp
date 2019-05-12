@@ -320,12 +320,12 @@ bool j1Map::CleanUp()
 	}
 	data.levels.clear();
 
-	// Clean up the pugui tree
-	map_file.reset();
 
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 
+	// Clean up the pugui tree
+	map_file.reset();
 	return true;
 }
 
