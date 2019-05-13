@@ -153,7 +153,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 		if (!isVendorInventory)
 		{
-			if (!App->entityFactory->player->bagObjects.empty())
+			if (!App->entityFactory->player->bagObjects.empty() && !swappedBag)
 			{
 
 				int i = 0;
@@ -209,6 +209,70 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				}
 
 			}
+			if (!App->entityFactory->player->bagObjects.empty() && swappedBag)
+			{
+
+				int i = 0;
+				int j = 0;
+				int k = 0;
+				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+
+				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+				{
+					// first generate description if it does not have it or if it was deleted ingame
+					if (!firstTimeSwappedBag)
+					{
+						De_______GenerateDescription((*iter), false);
+						if (k == 15)
+							firstTimeSwappedBag=true;
+					}
+					if (k >= 15)
+					{
+						
+						De_______GenerateDescription((*iter), true);
+						iPoint position(0, 0);
+
+						if (i == 5)
+						{
+							i = 0;
+							j++;
+						}
+
+						if (i == 0)  // first
+						{
+
+							position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+						}
+						else   // the rest of elements in the row
+						{
+							position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+						}
+
+
+						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+						if (!(*iter)->MyDescription->spawnedInventoryImage)
+						{
+							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+							(*iter)->MyDescription->spawnedInventoryImage = true;
+						}
+						else
+						{
+							(*iter)->MyDescription->HideAllElements(false);
+							(*iter)->MyDescription->iconImageInventory->tabbable = true;
+						}
+
+
+
+						i++;
+					}
+					k++;
+				}
+
+			}
 		}
 		else
 		{
@@ -223,7 +287,6 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 
 					// first generate description if it does not have it or if it was deleted ingame
-
 					De_______GenerateDescription((*iter), true);
 
 

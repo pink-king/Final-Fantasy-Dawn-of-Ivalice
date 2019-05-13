@@ -361,6 +361,8 @@ void UiItem_Description::Draw(const float& dt)
 
 				hasToCompare = true;  // reset comparison label
 			}
+
+			
 		}
 
 

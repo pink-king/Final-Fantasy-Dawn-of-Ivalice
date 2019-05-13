@@ -62,7 +62,8 @@ public:
 	bool drawTest = false;
 
 	bool isVendorInventory = false; 
-
+	bool swappedBag = false;
+	bool firstTimeSwappedBag = false;
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 278, 101 };

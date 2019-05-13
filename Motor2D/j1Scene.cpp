@@ -354,6 +354,20 @@ bool j1Scene::Update(float dt)
 		{
 			DoOpenInventory();
 		}
+		if (inventory->enable &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
+		{
+			inventoryItem->swappedBag = true;
+			
+			inventoryItem->LoadElements();
+		}
+
+		if (inventory->enable && inventoryItem->swappedBag && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
+		{
+			inventoryItem->swappedBag = false;
+			inventoryItem->firstTimeSwappedBag = false;
+			inventoryItem->LoadElements();
+		}
+
 	}
 	 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
