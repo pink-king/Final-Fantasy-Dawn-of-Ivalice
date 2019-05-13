@@ -59,12 +59,20 @@ public:
 
 	bool SearchNewPath();
 	bool SearchNewSubPath(bool ignoringColl = false);
+	bool SearchPathToSubtile(const iPoint& goal);
+
 	int GetRandomValue(const int& min, const int& max) const;
 	bool isInDetectionRange() const;
 	bool isInAttackRange() const;
 	bool isNextPosFree(iPoint futurePos); 
-	bool isOnDestiny() const; 
+	bool CheckFuturePos(float dt) const;
 
+	bool isOnDestiny() const; 
+	void SetNewDirection();
+	void MoveToCurrDestiny(float dt);
+	iPoint SearchNeighbourSubtile() const;
+
+	void FreeMyReservedAdjacents();
 	int GetPointingDir(float angle);
 	void CheckRenderFlip();
 	void SetLookingTo(const fPoint& dir);
@@ -74,11 +82,16 @@ public:
 	void DebugPath() const;
 	// functionality ------
 
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+
 public:
 	float attackSpeed = 0;
 	float attackPerS = 0; 
 	float lastAnimationSpeed;
 	uint speed = 0;
+
+	uint level;
 protected:
 	std::vector<iPoint> path_to_follow;
 

@@ -6,7 +6,32 @@
 	<audio />
 	<map />
 	<scene />
-	<entities />
+	<entities>
+		<Entities>
+			<position x="-1863.88672" y="2160" />
+			<Experience level="1" exp="125" />
+			<life actualLife="100" maxLife="100" />
+			<gold value="0" />
+			<equipedObjects>
+				<data name="" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable" />
+				<buffs>
+					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="30" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.910000026" />
+				</buffs>
+			</equipedObjects>
+			<players>
+				<Marche speedx="1.25" speedy="0.9375" />
+			</players>
+			<players>
+				<Ritz speedx="2" speedy="1.5" />
+			</players>
+			<players>
+				<Shara speedx="2" speedy="1.5" />
+			</players>
+		</Entities>
+	</entities>
 	<AttackManager />
 	<Buff />
 	<ParticlesClassic />

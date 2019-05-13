@@ -264,6 +264,11 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 }
 
+UiItem_Description::~UiItem_Description()
+{
+	
+}
+
 
 void UiItem_Description::Draw(const float& dt)
 {
@@ -782,3 +787,4 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this);
 
 }
+

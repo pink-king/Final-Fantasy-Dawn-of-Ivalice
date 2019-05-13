@@ -46,7 +46,12 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 
 }
 
-//UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, bool typewriter, p2Point<int> position, UiItem * const parent) :UiItem(position, parent)
+UiItem_Label::~UiItem_Label()
+{
+	
+}
+
+//bool UiItem_Label::ChangeTextureHover(const std::string * textHover, const SDL_Color * color, const TTF_Font * font)
 //{
 //	this->guiType = GUI_TYPES::LABEL;
 //	typewriter_text = text;
@@ -116,7 +121,15 @@ void UiItem_Label::Draw(const float & dt)
 	}
 
 
+}
 
+void UiItem_Label::CleanUp()
+{
+	if (texture != nullptr)
+	{
+		App->tex->UnLoad(texture);
+		texture = nullptr;
+	}
 }
 
 
@@ -158,7 +171,8 @@ bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* colo
 	TTF_Font * f = (font != NULL) ? (TTF_Font *)font : this->font;
 
 	SDL_Texture* aux = App->font->Print(textIdle.data(), col, f);
-	assert(aux != nullptr);
+	if(aux != nullptr)
+		assert(aux != nullptr);
 
 	if (this->texture != nullptr)
 	{

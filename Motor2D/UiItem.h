@@ -76,6 +76,7 @@ public:
 	virtual void DoLogicClicked(std::string& functionName) {};
 	virtual void DoLogicHovered() {};
 	virtual void DoLogicAbandoned() {};
+	virtual void CleanUp() {};
 };
 
 #endif

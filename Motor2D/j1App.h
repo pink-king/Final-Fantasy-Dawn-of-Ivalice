@@ -10,6 +10,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "SDL/include/SDL_stdinc.h"
 
+
 // Modules || forward declarations
 class j1Window;
 class j1Input;

@@ -14,6 +14,11 @@ Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 Projectile::~Projectile()
 {
+	if (debugSubtile != nullptr)
+	{
+		App->tex->UnLoad(debugSubtile);
+		debugSubtile = nullptr;
+	}
 }
 
 
@@ -82,6 +87,16 @@ void Projectile::Draw()
 		else
 			App->render->Blit(entityTex, position.x, position.y, &drawAtlasRect, 1.0F, SDL_FLIP_NONE, 1.0F, angle, pivot.x, pivot.y);
 	}
+}
+
+bool Projectile::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool Projectile::Save(pugi::xml_node &) const
+{
+	return true;
 }
 
 

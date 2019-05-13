@@ -4,11 +4,16 @@
 #include "p2Log.h"
 #include "j1App.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
 // This is needed here because SDL redefines main function
 // do not add any other libraries here, instead put them in their modules
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
+
 
 
 #include "Brofiler/Brofiler.h"
@@ -38,7 +43,6 @@ int main(int argc, char* args[])
 	{
 		switch(state)
 		{
-
 			// Allocate the engine --------------------------------------------
 			case CREATE:
 			LOG("CREATION PHASE ===============================");
@@ -112,7 +116,8 @@ int main(int argc, char* args[])
 	}
 
 	LOG("... Bye! :)\n");
-
+	
 	// Dump memory leaks
+	_CrtDumpMemoryLeaks();
 	return result;
 }
