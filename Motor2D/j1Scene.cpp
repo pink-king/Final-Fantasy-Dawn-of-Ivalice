@@ -335,12 +335,25 @@ bool j1Scene::Update(float dt)
 				}
 			}
 		}
+		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN )
+		{
+			App->pause = false;
+			Mix_ResumeMusic();
+			App->gui->resetHoverSwapping = false;
+			App->gui->selected_object->state = IDLE;
+			App->gui->selected_object = nullptr;
+			App->gui->GoBackToGame();
+			AcceptUISFX_logic = false;
+		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
 			DoOpenInventory();
 		}
-
+		if (inventory->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			DoOpenInventory();
+		}
 	}
 	 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
