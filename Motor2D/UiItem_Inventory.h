@@ -43,11 +43,9 @@ class UiItem_Inventory : public UiItem
 
 public:
 	UiItem_Inventory(UiItem* const parent);
-	~UiItem_Inventory();
+
 	bool LoadElements(bool onlyEquipped = false, bool isVendor = false);
 	//void DoLogicSelected(LootEntity*, bool);
-
-	void CleanUp();
 
 	void De_______Equip(LootEntity*);
 

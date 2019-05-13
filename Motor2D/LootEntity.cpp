@@ -56,8 +56,8 @@ bool LootEntity::CleanUp()
 	}
 	stats.clear();
 
-	delete MyDescription;
-	MyDescription = nullptr;
+	/*delete MyDescription;
+	MyDescription = nullptr;*/
 	return true;
 }
 bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)

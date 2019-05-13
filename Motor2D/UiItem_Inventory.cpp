@@ -16,11 +16,6 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 126, startingPos.y + 267 }, &tab_image, parent);
 }
 
-UiItem_Inventory::~UiItem_Inventory()
-{
-	
-}
-
 
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
@@ -59,7 +54,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	}
 	else
 	{
-		App->entityFactory->player->GetVendor()->generateVendorItems();  
+		App->entityFactory->player->GetVendor()->generateVendorItems();
 
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;
@@ -130,7 +125,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				else
 				{
 					(*iter)->MyDescription->HideAllElements(false);
-					(*iter)->MyDescription->iconImageInventory->tabbable = true; 
+					(*iter)->MyDescription->iconImageInventory->tabbable = true;
 				}
 
 
@@ -138,11 +133,11 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 			}
 			/*else
 			{
-				if ((*iter)->MyDescription->spawnedInventoryImage)
-				{
-					(*iter)->MyDescription->HideAllElements(true);
-					(*iter)->MyDescription->iconImageInventory->hide = true;
-				}
+			if ((*iter)->MyDescription->spawnedInventoryImage)
+			{
+			(*iter)->MyDescription->HideAllElements(true);
+			(*iter)->MyDescription->iconImageInventory->hide = true;
+			}
 			}*/
 
 
@@ -167,51 +162,51 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
 				{
-						// first generate description if it does not have it or if it was deleted ingame
+					// first generate description if it does not have it or if it was deleted ingame
 
-						De_______GenerateDescription((*iter), true);
-
-
-						iPoint position(0, 0);
-
-						if (i == 5)
-						{
-							i = 0;
-							j++;
-						}
-
-						if (i == 0)  // first
-						{
-
-							position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+					De_______GenerateDescription((*iter), true);
 
 
-						}
-						else   // the rest of elements in the row
-						{
-							position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
-						}
+					iPoint position(0, 0);
 
+					if (i == 5)
+					{
+						i = 0;
+						j++;
+					}
 
-						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-						if (!(*iter)->MyDescription->spawnedInventoryImage)
-						{
-							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+					if (i == 0)  // first
+					{
 
-							(*iter)->MyDescription->spawnedInventoryImage = true;
-						}
-						else
-						{
-							(*iter)->MyDescription->HideAllElements(false);
-							(*iter)->MyDescription->iconImageInventory->tabbable = true;
-						}
+						position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
 
-					
-
-						i++;
 
 					}
+					else   // the rest of elements in the row
+					{
+						position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+					}
+
+
+					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+					if (!(*iter)->MyDescription->spawnedInventoryImage)
+					{
+						(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+						(*iter)->MyDescription->spawnedInventoryImage = true;
+					}
+					else
+					{
+						(*iter)->MyDescription->HideAllElements(false);
+						(*iter)->MyDescription->iconImageInventory->tabbable = true;
+					}
+
+
+
+					i++;
+
+				}
 
 			}
 		}
@@ -266,7 +261,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						(*iter)->MyDescription->HideAllElements(false);
 						(*iter)->MyDescription->iconImageInventory->tabbable = true;
 					}
-				
+
 
 					i++;
 
@@ -276,7 +271,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 			}
 		}
-		
+
 
 
 		// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
@@ -409,7 +404,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				}
 			}
 		}
-		
+
 
 
 	}
@@ -418,7 +413,6 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 		App->gui->resetHoverSwapping = false;    // when changing characters, the selected object must be reasigned
 	}
 
-		// TODO: Consumables: with dpad consum consumable, already define the icons in xml, just keep a a variable that holds the number of potions of each type
 
 	return true;
 }
@@ -462,13 +456,12 @@ void UiItem_Inventory::RepositionBagItems()
 					(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
 					(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
 				}
-				
+
 				i++;
 
 			}
+
 		}
-
-
 	}
 	else
 	{
@@ -554,19 +547,26 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		{
 			App->gui->selected_object = nullptr;
 
-			if(App->dialog->isDialogSequenceActive)
-			App->gui->resetHoverSwapping = false;    // reset hover swapping if inventory sequence active
+			if (App->dialog->isDialogSequenceActive)
+				App->gui->resetHoverSwapping = false;    // reset hover swapping if inventory sequence active
 		}
 
 		// delete last descr
 		ent->MyDescription->DeleteEverything();
 		ent->MyDescription = nullptr;
 
+
+		ent->spawnedDescription = false;
+
+
+
+		LOG("_______________________________________________   Deleted description");
+
+
 	}
 
 
 }
-
 
 void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 {
@@ -603,20 +603,14 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 {
 
 
-ent->MyDescription->HideAllElements(true, false, true); 
-ent->MyDescription->iconImageInventory->tabbable = false; 
+	ent->MyDescription->HideAllElements(true, false, true);
+	ent->MyDescription->iconImageInventory->tabbable = false;
 
 
-App->gui->selected_object = nullptr;     
-App->gui->resetHoverSwapping = false; 
+	App->gui->selected_object = nullptr;
+	App->gui->resetHoverSwapping = false;
 
 
-}
-
-void UiItem_Inventory::CleanUp()
-{
-	if(potionLabel != nullptr)
-		potionLabel->to_delete = true;
 }
 
 
@@ -627,265 +621,264 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 	BROFILER_CATEGORY("Inventory Equip", Profiler::Color::Olive);
 
-	bool doBagScroll = false; 
+	bool doBagScroll = false;
 
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
-        if (!isVendorInventory)                                                          
+	if (!isVendorInventory)
+	{
+		if (!App->dialog->isDialogSequenceActive)
 		{
-			if (!App->dialog->isDialogSequenceActive) 
+
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
+
+			if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 			{
-
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
-
-				if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+				for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 				{
-				    for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
-				    {
-				
-						if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+
+					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+					{
+						if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
 						{
-							if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
+							if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
 							{
-								if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
-								{
-									//App->entityFactory->player->DesequipItem((*iter));
-									(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
-									(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+								//App->entityFactory->player->DesequipItem((*iter));
+								(*iter)->MyDescription->myLootItemIsEquipped.weapon = false;
+								(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-									// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-									(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-									(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-								}
-								else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.armor)
-								{
-									//App->entityFactory->player->DesequipItem((*iter));
-									(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
-									(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
-
-									// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-									(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-									(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-								}
-								else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.head)
-								{
-									//App->entityFactory->player->DesequipItem((*iter));
-									(*iter)->MyDescription->myLootItemIsEquipped.head = false;
-									(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
-
-									// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
-									(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
-									(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
-								}
+								// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+								(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+								(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
 							}
+							else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.armor)
+							{
+								//App->entityFactory->player->DesequipItem((*iter));
+								(*iter)->MyDescription->myLootItemIsEquipped.armor = false;
+								(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
 
-							
+								// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+								(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+								(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+							}
+							else if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.head)
+							{
+								//App->entityFactory->player->DesequipItem((*iter));
+								(*iter)->MyDescription->myLootItemIsEquipped.head = false;
+								(*iter)->MyDescription->myLootItemIsEquipped.state = INACTIVE;
+
+								// 2) The de-equipped item position will be at the grid, where the new item is (spwapping positions) 
+								(*iter)->MyDescription->iconImageInventory->hitBox.x = callback->MyDescription->iconImageInventory->hitBox.x;
+								(*iter)->MyDescription->iconImageInventory->hitBox.y = callback->MyDescription->iconImageInventory->hitBox.y;
+							}
 						}
-						
+
+
 					}
-					App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
-
-
-					if (!App->entityFactory->player->bagObjects.empty())
-					{
-						doBagScroll = true; 
-					}
-
 
 				}
+				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
 
-				
 
-				//App->gui->resetHoverSwapping = false;
+				if (!App->entityFactory->player->bagObjects.empty())
+				{
+					doBagScroll = true;
+				}
+
+
 			}
-			else
+
+
+
+			//App->gui->resetHoverSwapping = false;
+		}
+		else
+		{
+
+			// delete item desciption so that it is not selected again
+			makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
+
+			// PLAYER TO VENDOR: when the inventory sequence is active: no need to check character
+
+			if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
 			{
+				App->entityFactory->player->RemoveItemFromBag(callback);
 
-				// delete item desciption so that it is not selected again
-				makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
 
-				// PLAYER TO VENDOR: when the inventory sequence is active: no need to check character
-
-				if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
+				if (!App->entityFactory->player->bagObjects.empty())
 				{
-					App->entityFactory->player->RemoveItemFromBag(callback);
+					doBagScroll = true;
+				}
 
 
-					if (!App->entityFactory->player->bagObjects.empty())
+			}
+			else if (callback->GetType() == LOOT_TYPE::CONSUMABLE)
+			{
+				App->entityFactory->player->RemoveItemFromConsumables(callback);
+
+				potion_counter--;
+
+				if (potion_counter > 0)
+				{
+					str_potion = "" + std::to_string(potion_counter);
+					potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+
+				}
+				else
+				{
+					potionLabel->to_delete = true;
+					first_label_potion = false;
+				}
+
+			}
+
+
+			App->entityFactory->player->GetVendor()->EquipVendor(callback, true);
+
+
+
+
+		}
+
+
+
+
+	}
+	else // VENDOR TO PLAYER
+	{
+		if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
+		{
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
+
+			for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+			{
+				if ((*iter) == callback)
+				{
+					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 					{
-						doBagScroll = true;
+
+						// delete item desciption so that it is not selected again
+						makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
+
+
+
+						App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+						App->entityFactory->player->AddItemToTheBag(callback);
+
+
+						if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
+						{
+							doBagScroll = true;
+						}
+
+
+						break;
 					}
 
 
 				}
-				else if(callback->GetType() == LOOT_TYPE::CONSUMABLE)
+
+			}
+
+		}
+		else if (callback->GetType() == LOOT_TYPE::CONSUMABLE) // todo: consumables, don't need to check anything
+		{
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vConsumables.begin();
+
+			for (; iter != App->entityFactory->player->GetVendor()->vConsumables.end(); ++iter)
+			{
+				if ((*iter) == callback)
 				{
-					App->entityFactory->player->RemoveItemFromConsumables(callback); 
 
-					potion_counter--; 
+					// delete item desciption so that it is not selected again
+					makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
 
-					if (potion_counter > 0)
+					App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+					App->entityFactory->player->AddItemToConsumables(callback);
+
+
+					vendor_potion_counter--;
+
+					if (vendor_potion_counter > 0)
 					{
-						str_potion = "" + std::to_string(potion_counter);
+						str_potion = "" + std::to_string(vendor_potion_counter);
 						potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
-
 					}
 					else
 					{
 						potionLabel->to_delete = true;
 						first_label_potion = false;
 					}
-				
+
+
+
+					break;
+
+
 				}
-				
 
-				App->entityFactory->player->GetVendor()->EquipVendor(callback, true); 
-			
-
-
-				
 			}
-
-	
-		   
-
 		}
-		else // VENDOR TO PLAYER
+
+
+
+
+	}
+
+
+
+
+	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+	{
+		switch (callback->GetObjectType())
 		{
-			if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
+		case OBJECT_TYPE::WEAPON_OBJECT:
+
+			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
 			{
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
-
-				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
-				{
-					if ((*iter) == callback)
-					{	
-								if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-								{
-
-									// delete item desciption so that it is not selected again
-									makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
-
-
-
-									App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
-									App->entityFactory->player->AddItemToTheBag(callback);
-
-
-									if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
-									{
-										doBagScroll = true;
-									}
-
-
-									break; 
-								}
-							
-						
-					}
-					
-				}
-
-			}
- 			else if (callback->GetType() == LOOT_TYPE::CONSUMABLE) // todo: consumables, don't need to check anything
-			{
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vConsumables.begin();
-
-				for (; iter != App->entityFactory->player->GetVendor()->vConsumables.end(); ++iter)
-				{
-					if ((*iter) == callback)
-					{
-
-							// delete item desciption so that it is not selected again
-							makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
-
-							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
-							App->entityFactory->player->AddItemToConsumables(callback); 
-
-
-							vendor_potion_counter--;
-
-							if (vendor_potion_counter > 0)
-							{
-								str_potion = "" + std::to_string(vendor_potion_counter);
-								potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
-							}
-							else
-							{
-								potionLabel->to_delete = true;
-								first_label_potion = false;
-							}
-							
-
-
-							break;
-
-
-					}
-
-				}
+				callback->MyDescription->myLootItemIsEquipped.weapon = true;
+				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 			}
 
-				
-		
-			
-		}
-		
+
+			break;
 
 
-		 
-		if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-		{
-			switch (callback->GetObjectType())
+		case OBJECT_TYPE::ARMOR_OBJECT:
+
+			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
 			{
-			case OBJECT_TYPE::WEAPON_OBJECT:
-
-				if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
-				{
-					callback->MyDescription->myLootItemIsEquipped.weapon = true;
-					callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
-					callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
-				}
-
-
-				break;
-
-
-			case OBJECT_TYPE::ARMOR_OBJECT:
-
-				if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
-				{
-					callback->MyDescription->myLootItemIsEquipped.armor = true;
-					callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
-					callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
-				}
-
-				break;
-
-
-			case OBJECT_TYPE::HEAD_OBJECT:
-
-				if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
-				{
-					callback->MyDescription->myLootItemIsEquipped.head = true;
-					callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
-					callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
-				}
-
-				break;
-
+				callback->MyDescription->myLootItemIsEquipped.armor = true;
+				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
 			}
 
-			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
-				callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
+			break;
+
+
+		case OBJECT_TYPE::HEAD_OBJECT:
+
+			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
+			{
+				callback->MyDescription->myLootItemIsEquipped.head = true;
+				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+			}
+
+			break;
 
 		}
-		
 
-	    if(doBagScroll)
-		RepositionBagItems(); 
+		if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
+			callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
+
+	}
+
+
+	if (doBagScroll)
+		RepositionBagItems();
 
 
 
 
 }
-
