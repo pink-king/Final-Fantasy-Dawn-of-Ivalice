@@ -22,14 +22,12 @@ TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint le
 	/*We will only store the tiles in the bottom nodes, 
 	so, if this node will have subnodes, it won't need room for tiles*/
 	if (level != max_levels)
-		tiles =NULL;
+		tiles.clear();
 
 	else
 	{
-		tiles = new TileData[size];
-
 		for (int i = 0; i < size; ++i)
-			tiles[i] = TileData(0, { 0,0 });
+			tiles.push_back(TileData(0, { 0,0 }));
 
 	}
 
@@ -47,21 +45,30 @@ void TileQuadtree::CleanUp()
 		for (int i = 0; i < 4; i++)
 		{
 			nodes[i]->CleanUp();
+			delete nodes[i];
 			nodes[i] = nullptr;
 		}
-
+		divided = false;
 	}
-	RELEASE(tiles);
+	if(!divided)
+	{
+		std::vector<TileData>::iterator iter = tiles.begin();
+		while ( iter != tiles.end())
+		{
+			iter = tiles.erase(iter);
+		}
+		tiles.clear();
+	}
 }
 
 void TileQuadtree::Split()
 {
 	if (level < max_levels && divided == false)
 	{
-		nodes[0] = new TileQuadtree(max_levels, { section.x,section.y, section.w / 2, section.h / 2 }, size/4, level + 1);
-		nodes[1] = new TileQuadtree(max_levels, { section.x + section.w / 2,section.y, section.w / 2,section.h / 2 }, size/ 4, level + 1);
-		nodes[2] = new TileQuadtree(max_levels, { section.x,section.y + section.h / 2 , section.w / 2, section.h / 2 }, size/ 4, level + 1);
-		nodes[3] = new TileQuadtree(max_levels, { section.x + section.w / 2,section.y + section.h / 2, section.w / 2,section.h / 2 }, size/4 , level + 1);
+		nodes[0] = DBG_NEW TileQuadtree(max_levels, { section.x,section.y, section.w / 2, section.h / 2 }, size/4, level + 1);
+		nodes[1] = DBG_NEW TileQuadtree(max_levels, { section.x + section.w / 2,section.y, section.w / 2,section.h / 2 }, size/ 4, level + 1);
+		nodes[2] = DBG_NEW TileQuadtree(max_levels, { section.x,section.y + section.h / 2 , section.w / 2, section.h / 2 }, size/ 4, level + 1);
+		nodes[3] = DBG_NEW TileQuadtree(max_levels, { section.x + section.w / 2,section.y + section.h / 2, section.w / 2,section.h / 2 }, size/4 , level + 1);
 		divided = true;
 	}
 
@@ -180,4 +187,8 @@ void TileQuadtree::DrawQuadtree()
 			}
 		}
 	}
+}
+
+TileData::~TileData()
+{
 }

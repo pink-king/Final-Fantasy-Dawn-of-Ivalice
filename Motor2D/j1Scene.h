@@ -16,7 +16,10 @@ class PlayerEntityManager;
 enum class SceneState
 {
 	STARTMENU,
-	GAME,
+	LEVEL1,
+	LEVEL2,
+	DEATH,
+	WIN,
 	MAX_STATES
 };
 
@@ -68,7 +71,7 @@ public:
 	bool debug = false;
 	bool debugSubtiles = false; 
 	bool debugColl = false;
-	bool hackerMode = false;
+	bool hackerMode = true;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
@@ -78,6 +81,7 @@ public:
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
+	unsigned int playerDeath;
 	bool AcceptUISFX_logic;
 private:
 	SDL_Texture* debug_tex = nullptr;
@@ -88,6 +92,11 @@ private:
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
 	SDL_Rect inventory_transparency = { 0,0,1280,720 };
+public:
+
+	void LoadNewMap(const char* mapName);
+	void UnLoadScene();
+	void LoadScene(SceneState sceneState);
 
 private:
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
@@ -100,11 +109,14 @@ private:
 	bool LoadDeathScreen(pugi::xml_node& nodeScene);
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
 	
-	void LoadMusicFromScene();
 	PlayerEntityManager* player_selected = nullptr;
 
 	bool begin;
 	bool beginGameMus;
+
+
+public: 
+	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
 
 public:
 	UiItem_Image* MarcheIcon = nullptr;

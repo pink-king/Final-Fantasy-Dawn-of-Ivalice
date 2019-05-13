@@ -31,6 +31,7 @@ public:
 
 public: 
 	UiItem_HitPoint* callHPLabelSpawn(iPoint pos, uint damage, ELEMENTAL_TYPE type = ELEMENTAL_TYPE::NO_ELEMENT, bool healing = false, bool playerIsAtacker = false);
+	UiItem_HitPoint* callGoldLabelSpawn(iPoint pos, uint value);
 	void calculatePlayerCombo(); 
 
 

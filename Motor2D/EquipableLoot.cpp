@@ -5,6 +5,7 @@
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
+	this->equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	SetEquipable();
 	originPos.x = position.x;
 	start = true;
@@ -73,6 +74,7 @@ EQUIPABLE_TYPE Equipable::ChooseEquipable()
 
 	switch (GetRandomValue(1, 6))
 	{
+		LOG("");
 	case 1:
 		equipableType = EQUIPABLE_TYPE::SWORD;
 		return EQUIPABLE_TYPE::SWORD;
@@ -105,8 +107,9 @@ EQUIPABLE_TYPE Equipable::ChooseEquipable()
 
 void Equipable::SetEquipable()
 {
-
-	switch (ChooseEquipable())
+	if(equipableType == EQUIPABLE_TYPE::NO_EQUIPABLE)
+		ChooseEquipable();
+	switch (equipableType)
 	{
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;

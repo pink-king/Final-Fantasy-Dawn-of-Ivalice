@@ -68,6 +68,8 @@ public:
 	bool PostUpdate();
 	virtual bool CleanUp();
 
+	virtual bool Load(pugi::xml_node&);
+	virtual bool Save(pugi::xml_node&) const;
 	// functionality ------
 	bool InputMovement(float dt);
 	bool InputCombat();
@@ -122,6 +124,9 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
+	j1Timer alphaTimer;
+	void Blinker(SDL_Texture* entityTex, j1Timer alphaTimer);
+	int timeToBlink;
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/

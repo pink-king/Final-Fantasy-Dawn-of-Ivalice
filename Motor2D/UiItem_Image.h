@@ -16,9 +16,10 @@ public:
 	UiItem_Image(iPoint position, const SDL_Rect* section, UiItem* const parent, bool isPanel = false);
 	UiItem_Image(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	//UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
+	~UiItem_Image();
 	void Draw(const float& dt);
 	SDL_Rect section;
-
+	void CleanUp();
 
 private:
 

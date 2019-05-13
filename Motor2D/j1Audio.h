@@ -22,6 +22,7 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
 
+	bool Start();
 	// Called before quitting
 	bool CleanUp();
 
@@ -40,6 +41,7 @@ public:
 	// Set FX volume
 	void SetFxVolume(float volume);
 
+	void UnLoadAudio();
 private:
 
 	_Mix_Music*			music = nullptr;

@@ -24,7 +24,7 @@ struct Properties
 		std::list<Property*>:: iterator item;
 		item = list.begin();
 
-		while(*item != NULL)
+		while(item != list.end())
 		{
 			list.remove(*item);
 			++item;
@@ -42,6 +42,7 @@ struct Properties
 
 struct PlayerData
 {
+	
 	std::string name;
 	Properties properties;
 	int x, y = 0;

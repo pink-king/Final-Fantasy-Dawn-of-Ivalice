@@ -8,7 +8,7 @@
 #include "Ritz.h"
 #include "Shara.h"
 #include "j1Input.h"
-#include"LootEntity.h"
+#include "Store_Vendor.h"   // already includes loot entity
 #include "j1Audio.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
@@ -44,6 +44,7 @@ public:
 	SDL_Texture* tex = nullptr;
 	Animation startAnim;
 	Animation loopAnim;
+
 private:
 	j1Entity* clampedEntity = nullptr;
 	fPoint sensitivitySpeed = { 5.f,5.f };
@@ -69,6 +70,8 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 	//bool Draw();
 
 	// functionality ------
@@ -92,6 +95,12 @@ public:
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
 
+	void AddItemToTheBag(LootEntity* entityLoot); 
+	void RemoveItemFromBag(LootEntity* entityLoot); 
+
+	void AddItemToConsumables(LootEntity* entityLoot);
+	void RemoveItemFromConsumables(LootEntity* entityLoot);
+
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 public:
 
@@ -112,6 +121,15 @@ public:
 	{
 		return crossHair;
 	}
+
+	Vendor*	GetVendor()
+	{
+		return vendor; 
+	}
+
+	uint level;
+	uint exp;
+	uint maxExpInLevel;
 private:
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
@@ -123,7 +141,7 @@ private:
 
 	std::vector<PlayerEntity*> characters;
 	
-	SDL_Texture*			texture = nullptr;
+	SDL_Texture* texture = nullptr;
 	SDL_Texture* debugTileTex = nullptr;
 	SDL_Texture* debugSubtileTex = nullptr;
 	bool debug = true;
@@ -135,6 +153,11 @@ private:
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
 	unsigned int pickPotion;
+
+
+	// vendor
+	Vendor* vendor = nullptr; 
+	
 	
 };
 

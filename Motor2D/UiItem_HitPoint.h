@@ -26,14 +26,17 @@ enum lifeState {
 
 enum variant {
 	number,
-	text
+	text,
+	gold,
 };
 
 class UiItem_HitPoint : public UiItem
 {
 public:
-	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = number);
-	UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = text);       // for labels like "brutal" etc
+	UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type);   // HP AND GOLD
+	UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type = text);   
+
+
 	void Draw(const float& dt) override;
 	void CleanUp(); 
 public:

@@ -38,6 +38,9 @@ public:
 	bool ReachedDestiny() const; // Needs to take a look to the initial direction (vertical cases)
 	void Draw() override;
 
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+
 protected: 
 
 	Animation anim; 
