@@ -120,7 +120,7 @@ public:
 	SDL_Rect drawAtlasRect; // for static draw from spritesheet
 	bool					to_delete = false;
 	bool					to_die = false; 
-	std::string				name;
+	std::string				name = "\0";
 	fPoint					position;
 	iPoint					size;
 	fPoint					pivot;

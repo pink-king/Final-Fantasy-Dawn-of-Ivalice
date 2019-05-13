@@ -105,7 +105,8 @@ void Consumable::SetConsumable()
 		{
 		case CONSUMABLE_TYPE::POTION:
 			loot_rect = { 60,32,10,12 };
-
+			lootname.assign("potion");
+			name.assign("potion");
 			size.create(10, 12);
 			SetPivot(5, 10);
 			break;

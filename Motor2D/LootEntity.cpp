@@ -66,7 +66,15 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 
 	entityTex = App->entityFactory->lootItemsTex;
 
-	loot->name.assign(nodeData.attribute("name").as_string());
+	pugi::xml_node nodeRect = nodeData.child("rect");
+	loot_rect.x = nodeRect.attribute("x").as_int();
+	loot_rect.y = nodeRect.attribute("y").as_int();
+	loot_rect.w = nodeRect.attribute("w").as_int();
+	loot_rect.h = nodeRect.attribute("h").as_int();
+
+	std::string nameObj = nodeData.attribute("name").as_string();
+	loot->name.assign(nameObj);
+	loot->lootname.assign(loot->name.data());
 
 	std::string charName = nodeData.attribute("characterObject").as_string();
 	if (charName.compare("Marche") == 0)
@@ -114,7 +122,9 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 	else if (charObject.compare("head") == 0)
 		loot->objectType = OBJECT_TYPE::HEAD_OBJECT;
 	else if (charObject.compare("potion") == 0)
+	{
 		loot->objectType = OBJECT_TYPE::POTIONS;
+	}
 	else if (charObject.compare("gold") == 0)
 		loot->objectType = OBJECT_TYPE::GOLD;
 
@@ -122,15 +132,10 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 	if (charType.compare("consumable") == 0)
 	{
 		loot->loot_type = LOOT_TYPE::CONSUMABLE;
-		dynamic_cast<Consumable*>(loot)->SetConsumable();
 	}
 	else if (charType.compare("equipable") == 0)
 	{
 		loot->loot_type = LOOT_TYPE::EQUIPABLE;
-		Equipable* auxloot = dynamic_cast<Equipable*>(loot);
-		auxloot->equipableType = loot->equipableType;
-		auxloot->SetEquipable();
-		loot->loot_rect = auxloot->loot_rect;
 	}
 
 	for (pugi::xml_node nodebuffs = node.child("buffs"); nodebuffs; nodebuffs = nodebuffs.next_sibling("buffs"))
@@ -151,9 +156,16 @@ bool LootEntity::Save(pugi::xml_node &node) const
 {
 	pugi::xml_node nodeData = node.append_child("data");
 
-	nodeData.append_attribute("name") = name.data();
+	nodeData.append_attribute("name") = lootname.data();
 
-	nodeData.append_attribute("characterObject") = character->name.data();
+	pugi::xml_node nodeRect = nodeData.append_child("rect");
+	nodeRect.append_attribute("x") = loot_rect.x;
+	nodeRect.append_attribute("y") = loot_rect.y;
+	nodeRect.append_attribute("w") = loot_rect.w;
+	nodeRect.append_attribute("h") = loot_rect.h;
+
+	if(character != nullptr)
+		nodeData.append_attribute("characterObject") = character->name.data();
 
 	switch (equipableType)
 	{

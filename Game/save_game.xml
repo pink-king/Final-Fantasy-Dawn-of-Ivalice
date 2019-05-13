@@ -8,38 +8,58 @@
 	<scene />
 	<entities>
 		<Entities>
-			<position x="-1863.88672" y="2160" />
 			<Experience level="1" exp="125" />
 			<life actualLife="100" maxLife="100" />
-			<gold value="0" />
+			<gold value="465" />
 			<equipedObjects>
-				<data name="" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable" />
+				<data name="legendary_sword" characterObject="Marche" equipableType="sword" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
 				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="30" />
+					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="9" />
 				</buffs>
 				<buffs>
-					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.910000026" />
+					<data character="Marche" type="multiplicative" elementType="poisonElement" rol="defence" value="0.159999996" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.649999976" />
 				</buffs>
 			</equipedObjects>
 			<players>
-				<Marche speedx="1.25" speedy="0.9375" />
-			</players>
-			<players>
-				<Ritz speedx="2" speedy="1.5" />
-			</players>
-			<players>
-				<Shara speedx="2" speedy="1.5" />
+				<Marche>
+					<speed speedx="1.25" speedy="0.9375" />
+					<pos posx="-1575" posy="2150" />
+				</Marche>
+				<Ritz>
+					<speed speedx="2" speedy="1.5" />
+					<pos posx="-1465.88721" posy="2158.33521" />
+				</Ritz>
+				<Shara>
+					<speed speedx="2" speedy="1.5" />
+					<pos posx="-1575" posy="2150" />
+				</Shara>
 			</players>
 		</Entities>
 	</entities>
 	<AttackManager />
-	<Buff />
+	<Buff>
+		<buffs>
+			<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="9" />
+		</buffs>
+		<buffs>
+			<data character="Marche" type="multiplicative" elementType="poisonElement" rol="defence" value="0.159999996" />
+		</buffs>
+		<buffs>
+			<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.649999976" />
+		</buffs>
+	</Buff>
 	<ParticlesClassic />
 	<pathfinding />
 	<gui />
 	<fonts />
 	<ModuleCamera2D />
 	<HPLabelManager />
+	<:anonymous />
 	<renderer>
 		<camera />
 	</renderer>
