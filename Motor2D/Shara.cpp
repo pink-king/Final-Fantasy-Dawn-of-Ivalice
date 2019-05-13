@@ -319,24 +319,28 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 Shara::~Shara()
 {
 	App->tex->UnLoad(ultiCastTex);
-
+	ultiCastTex = nullptr;
 	if (!App->cleaningUp)
 	{
 		if (App->gui->spawnedClocks.Shara.special1)
 		{
 			myUIClocks.special1->to_delete = true;
+			App->gui->spawnedClocks.Shara.special1 = false;
 		}
 		if (App->gui->spawnedClocks.Shara.special2)
 		{
 			myUIClocks.special2->to_delete = true;
+			App->gui->spawnedClocks.Shara.special2 = false;
 		}
 		if (App->gui->spawnedClocks.Shara.ulti)
 		{
 			myUIClocks.ulti->to_delete = true;
+			App->gui->spawnedClocks.Shara.ulti = false;
 		}
 	}
 
-
+	memset(ultiCastAnim, 0, sizeof(ultiCastAnim));
+	memset(dashPivotOffset, 0, sizeof(dashPivotOffset));
 }
 
 bool Shara::Start()
@@ -398,6 +402,14 @@ bool Shara::Update(float dt)
 		}
 	}
 
+	if (App->entityFactory->pushEF)
+	{
+
+		DoPushback();
+		DoPush = false;
+		App->entityFactory->pushEF = false;
+		LOG("log from shara update()");
+	}
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{
@@ -645,3 +657,21 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 //{
 //	return true;
 //}
+
+bool Shara::Load(pugi::xml_node &node)
+{
+	pugi::xml_node nodeSpeed = node.child("Shara");
+
+	position.x = nodeSpeed.attribute("speedx").as_float();
+	position.y = nodeSpeed.attribute("speedy").as_float();
+	return true;
+}
+
+bool Shara::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node nodeData = node.append_child("Shara");
+
+	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
+	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
+	return true;
+}

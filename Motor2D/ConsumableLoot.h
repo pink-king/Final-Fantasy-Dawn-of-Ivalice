@@ -16,7 +16,7 @@ public:
 	~Consumable();
 	bool Start();
 	bool Update(float dt);
-	
+
 	void ChooseConsumable();
 	void SetConsumable();
 	

@@ -54,8 +54,7 @@ bool EnemyTest::Update(float dt)
 	}*/
 	if (!isParalize)
 	{
-		
-
+	
 		SetState(dt);
 
 		/*if (GetRandomValue(1, 10000) == 900)
@@ -168,16 +167,18 @@ void EnemyTest::SetState(float dt)
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		if(CheckFuturePos(dt) || freePass)
+		if (CheckFuturePos(dt) || freePass)
 		{
-			MoveToCurrDestiny(dt);			
+			MoveToCurrDestiny(dt);
 			state = EnemyState::CHECK;
 		}
 		else
 		{
 			state = EnemyState::WAITING;
 			checkTime.Start();
+			
 		}
+		
 	}
 	break;
 
@@ -193,7 +194,7 @@ void EnemyTest::SetState(float dt)
 				state = EnemyState::IDLE;
 			}
 		}
-		else if (isOnDestiny())								// Got to the center of the destiny tile
+		else if (isOnDestiny())							// Got to the center of the destiny tile
 		{
 			if (path_to_follow.size() == 1 && isSubpathRange)
 			{
@@ -203,10 +204,10 @@ void EnemyTest::SetState(float dt)
 			if (path_to_follow.size() > 0)
 			{
 				path_to_follow.erase(path_to_follow.begin());
-				state = EnemyState::GET_NEXT_TILE;
+				state = EnemyState::GET_NEXT_TILE;                // Keep going to the destiny tile
 			}
 		}
-		else state = EnemyState::GO_NEXT_TILE;				// Keep going to the destiny tile
+		else state = EnemyState::GO_NEXT_TILE;
 
 		if (path_to_follow.size() <= 0)
 		{
@@ -291,14 +292,16 @@ void EnemyTest::SetState(float dt)
 bool EnemyTest::CleanUp()
 {
 	if (path_to_follow.empty() == false)
-		FreeMyReservedAdjacents(); 
-	
+		FreeMyReservedAdjacents();
+
 	path_to_follow.clear();
 
 	std::list<entityStat*>::iterator item = stat.begin();
 	for (; item != stat.end(); ++item)
 	{
 		stat.remove(*item);
+		delete *item;
+		*item = nullptr;
 	}
 	stat.clear();
 

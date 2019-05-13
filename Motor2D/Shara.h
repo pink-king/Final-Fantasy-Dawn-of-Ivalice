@@ -17,7 +17,9 @@ public:
 	bool Update(float dt);
 	//bool PostUpdate();
 	//virtual bool CleanUp();
+	bool Load(pugi::xml_node &);
 
+	bool Save(pugi::xml_node & node) const;
 	// functionality ------
 	bool dodgedtest = false;
 

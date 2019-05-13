@@ -72,6 +72,11 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string &function, const S
 
 }
 
+UiItem_Checkbox::~UiItem_Checkbox()
+{
+
+}
+
 void UiItem_Checkbox::Draw(const float & dt)
 {
 
@@ -102,6 +107,14 @@ void UiItem_Checkbox::DoLogicAbandoned() {
 
 
 	panel->section = this->captureIdleSection;
+}
+
+void UiItem_Checkbox::CleanUp()
+{
+	panel->to_delete = true;
+	box->to_delete = true;
+	label->to_delete = true;
+	tick->to_delete = true;
 }
 
 

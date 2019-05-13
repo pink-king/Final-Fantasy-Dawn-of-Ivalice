@@ -33,7 +33,6 @@ enum class combatState
 	SPECIAL1,
 	SPECIAL2,
 	ULTIMATE,
-	DAMAGED,
 	MAX
 };
 
@@ -69,6 +68,8 @@ public:
 	bool PostUpdate();
 	virtual bool CleanUp();
 
+	virtual bool Load(pugi::xml_node&);
+	virtual bool Save(pugi::xml_node&) const;
 	// functionality ------
 	bool InputMovement(float dt);
 	bool InputCombat();
@@ -81,7 +82,6 @@ public:
 	{
 		return aiming;
 	}
-	void PushBackDamaged();
 private:
 
 	std::vector<SDL_Rect> Collision2D(SDL_Rect& collider);
@@ -96,7 +96,6 @@ public:
 	coolDown coolDownData;
 	float lastAnimationSpeed;
 	bool inputReady = true;
-	
 protected:
 	void DoDash();
 
@@ -105,9 +104,7 @@ protected:
 	fPoint untouchedPos; // stores original position before the dodge animation
 	fPoint transference_pivot = { 0,0 }; // to fake draw position when needed
 	fPoint dashDestinationPos;
-	fPoint PushBackDestinationPos;
-	float PushBakcMaxDistance;
-	
+
 public:
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;
@@ -127,7 +124,6 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-
 	j1Timer alphaTimer;
 	void Blinker(SDL_Texture* entityTex, j1Timer alphaTimer);
 	int timeToBlink;

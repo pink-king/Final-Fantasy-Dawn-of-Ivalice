@@ -58,16 +58,18 @@ bool j1ModuleCamera2D::PostUpdate()
 	fPoint offset{ 640,360 }; // pivot of the "screen" itself at center pos
 	offset.y += 30.0f; // offset for character height compensation
 
-	fPoint playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
+	if (App->entityFactory->player != nullptr)
+	{
+		fPoint playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
 
-	fPoint test;
-	test.x = camera.x;
-	test.y = camera.y;
+		fPoint test;
+		test.x = camera.x;
+		test.y = camera.y;
 
-	test = lerp(test, { -playerPos.x + offset.x, -playerPos.y + offset.y }, 0.016f * smooth);
-	camera.x = test.x;
-	camera.y = test.y;
-
+		test = lerp(test, { -playerPos.x + offset.x, -playerPos.y + offset.y }, 0.016f * smooth);
+		camera.x = test.x;
+		camera.y = test.y;
+	}
 	// shake
 	// if we have current trauma
 	if (trauma > 0)

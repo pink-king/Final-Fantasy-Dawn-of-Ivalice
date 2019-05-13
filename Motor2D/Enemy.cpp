@@ -32,6 +32,14 @@ Enemy::~Enemy()
 // TODO: Loot spawn in all enemies? 
 App->attackManager->DestroyAllMyCurrentAttacks(this);
 
+App->tex->UnLoad(debugSubtile);
+debugSubtile = nullptr;
+
+memset(idle, 0, sizeof(idle));
+memset(run, 0, sizeof(run));
+memset(basicAttack, 0, sizeof(basicAttack));
+
+
 if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 {
 
@@ -49,7 +57,7 @@ bool Enemy::SearchNewPath()
 {
 	bool ret = false;
 	if (path_to_follow.empty() == false)
-		FreeMyReservedAdjacents(); 
+		FreeMyReservedAdjacents();
 
 	path_to_follow.clear();
 
@@ -79,7 +87,7 @@ bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other
 {
 	bool ret = false;
 	if (path_to_follow.empty() == false)
-		FreeMyReservedAdjacents(); 
+		FreeMyReservedAdjacents();
 
 	path_to_follow.clear();
 	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
@@ -123,9 +131,9 @@ bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other
 	return ret;
 }
 
-bool Enemy::SearchPathToSubtile(const iPoint & goal)
+bool Enemy::SearchPathToSubtile(const iPoint& goal)
 {
-	bool ret = false; 
+	bool ret = false;
 
 	if (path_to_follow.empty() == false)
 		FreeMyReservedAdjacents();
@@ -181,7 +189,7 @@ bool Enemy::isNextPosFree(iPoint futurePos)
 bool Enemy::CheckFuturePos(float dt) const
 {
 	fPoint tempPos = GetPivotPos() + velocity * dt * speed;
-	iPoint subtileTemp= App->map->WorldToSubtileMap(tempPos.x, tempPos.y);
+	iPoint subtileTemp = App->map->WorldToSubtileMap(tempPos.x, tempPos.y);
 
 	return !(subtileTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEnemyFree(subtileTemp));
 }
@@ -190,7 +198,6 @@ bool Enemy::isOnDestiny() const
 {
 	return GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5;
 }
-
 void Enemy::FreeMyReservedAdjacents()
 {
 	std::vector<iPoint>::iterator item = path_to_follow.begin();
@@ -225,8 +232,9 @@ iPoint Enemy::SearchNeighbourSubtile() const
 			break;
 		}
 	}
-	
+
 	return iPoint(0, 0);
+
 }
 
 void Enemy::SetNewDirection()
@@ -340,6 +348,16 @@ void Enemy::DebugPath() const
 
 	/*App->render->DrawQuad({ subTilePos.x, subTilePos.y, 5,5 }, 255, 255, 0, 255, true);
 	App->render->DrawIsoQuad({ subTilePos.x, subTilePos.y, 16, 16});*/
+}
+
+bool Enemy::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool Enemy::Save(pugi::xml_node &) const
+{
+	return true;
 }
 
 

@@ -70,6 +70,8 @@ bool EnemyBomb::CleanUp()
 	for (; item != stat.end(); ++item)
 	{
 		stat.remove(*item);
+		delete *item;
+		*item = nullptr;
 	}
 	stat.clear();
 
@@ -142,14 +144,19 @@ void EnemyBomb::SetState(float dt)
 			currentDestiny = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
 			currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F * 0.5F) };
 		}
-		SetNewDirection(); 
 		state = EnemyState::GO_NEXT_TILE;
 	}
 	break;
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		MoveToCurrDestiny(dt); 
+		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
+		velocity.Normalize();
+		position += velocity * dt * speed;
+
+		SetLookingTo(currentDestiny.Return_fPoint());
+		currentAnimation = &run[pointingDir];
+
 		state = EnemyState::CHECK;
 	}
 	break;

@@ -62,6 +62,11 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem* con
 
 }
 
+UiItem_Image::~UiItem_Image()
+{
+	
+}
+
 void UiItem_Image::Draw(const float& dt)
 {
 
@@ -96,5 +101,16 @@ void UiItem_Image::Draw(const float& dt)
 			}
 		}
 
+	}
+}
+
+void UiItem_Image::CleanUp()
+{
+	if(myDescr != nullptr)
+		myDescr->to_delete = true;
+	if (newTex != nullptr)
+	{
+		App->tex->UnLoad(newTex);
+		newTex = nullptr;
 	}
 }

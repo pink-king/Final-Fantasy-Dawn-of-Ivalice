@@ -18,7 +18,6 @@
 class UiItem_HealthBar; 
 class UiItem_Image; 
 
-
 enum ENTITY_TYPE  // todo, pass to class
 	{
 		NO_TYPE,
@@ -79,6 +78,7 @@ class j1Entity
 {
 public:
 	j1Entity(ENTITY_TYPE type, float positionX, float positionY, std::string name);
+	j1Entity() {};
 	// assets constructor ---
 	// static sprite environment asset
 	j1Entity(iPoint position, SDL_Rect spriteAtlasRect);
@@ -92,6 +92,9 @@ public:
 	virtual bool Update(float dt);
 	virtual bool PostUpdate();
 	virtual bool CleanUp();
+
+	virtual bool Load(pugi::xml_node&);
+	virtual bool Save(pugi::xml_node&) const;
 	//----------------------------
 	virtual bool Move(float dt);
 	virtual void Draw();
@@ -154,7 +157,6 @@ public:
 	float					unitariY;
 
 	bool					DoPush = false;
-
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
