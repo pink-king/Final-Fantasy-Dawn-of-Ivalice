@@ -72,7 +72,6 @@ public:
 
 	void DeleteEverything(); 
 
-	void CleanUp();
 public:
 	// - - - - common - - - - // 
 	UiItem_Image* iconImage = nullptr;

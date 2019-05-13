@@ -20,7 +20,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	crossHair = DBG_NEW Crosshair();
 
 	// vendor
-	vendor = new Vendor(); 
+	vendor = DBG_NEW Vendor();
 
 
 	characters.push_back(marche);

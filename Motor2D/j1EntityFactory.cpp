@@ -1459,11 +1459,11 @@ j1Entity * j1EntityFactory::CreateLootType(int x, int y, LOOT_TYPE defined)
     }
 	else if(defined == LOOT_TYPE::EQUIPABLE)
 	{
-		ret = new Equipable(x, y);
+		ret = DBG_NEW Equipable(x, y);
 	}
 	else if (defined == LOOT_TYPE::CONSUMABLE)
 	{
-		ret = new Consumable(x, y);
+		ret = DBG_NEW Consumable(x, y);
 	}
 
 	return ret;

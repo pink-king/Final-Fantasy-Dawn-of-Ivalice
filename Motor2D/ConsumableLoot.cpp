@@ -5,7 +5,6 @@
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
-	consumableType == CONSUMABLE_TYPE::NO_CONSUMABLE;
 	SetConsumable();
 	originPos.x = position.x;
 	start = true;
@@ -87,8 +86,7 @@ void Consumable::ChooseConsumable()
 
 void Consumable::SetConsumable()
 {
-	if(consumableType == CONSUMABLE_TYPE::NO_CONSUMABLE)
-		ChooseConsumable();
+	ChooseConsumable();
 	switch (objectType)
 	{
 	case OBJECT_TYPE::GOLD:

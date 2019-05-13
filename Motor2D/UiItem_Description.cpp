@@ -788,20 +788,3 @@ void UiItem_Description::DeleteEverything()
 
 }
 
-void UiItem_Description::CleanUp()
-{
-	iconImage->to_delete = true;
-	panelWithButton->to_delete = true;
-	name->to_delete = true;
-	level->to_delete = true;
-	iconImageInventory->to_delete = true;
-
-	attachedCharacter->to_delete = true;
-
-	damageLabel->to_delete = true;
-	resistanceLabel->to_delete = true;
-	effectLabel->to_delete = true;
-
-	HPLabel->to_delete = true;
-	VelocityLabel->to_delete = true;
-}
