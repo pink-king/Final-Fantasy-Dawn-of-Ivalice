@@ -415,7 +415,10 @@ bool PlayerEntityManager::SwapInputChecker()
 
 			if (App->scene->inventory->enable)
 			{
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
+				}
 			}
 
 			SetPreviousCharacter();
@@ -450,7 +453,6 @@ bool PlayerEntityManager::SwapInputChecker()
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
 				}
 			
-
 			}
 
 		}
