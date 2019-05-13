@@ -54,12 +54,7 @@ bool EnemyTest::Update(float dt)
 	}*/
 	if (!isParalize)
 	{
-		if (DoPush)
-		{
-			DoPushback();
-			DoPush = false;
-		}
-
+	
 		SetState(dt);
 
 		/*if (GetRandomValue(1, 10000) == 900)
@@ -165,41 +160,32 @@ void EnemyTest::SetState(float dt)
 			currentDestiny = App->map->SubTileMapToWorld(tileToGo.x + 1, tileToGo.y);
 			currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F * 0.5F) };
 		}
+		SetNewDirection();
 		state = EnemyState::GO_NEXT_TILE;
 	}
 	break;
 
 	case EnemyState::GO_NEXT_TILE:
 	{
-		velocity = currentDestiny.Return_fPoint() - GetPivotPos();
-		velocity.Normalize();
-		fPoint tempPos = GetPivotPos() + velocity * dt * speed;
-
-		/*currentAnimation = &idle[(int)GetPointingDir(atan2f(velocity.y, velocity.x))];
-		CheckRenderFlip();*/
-		SetLookingTo(currentDestiny.Return_fPoint());
-		currentAnimation = &run[pointingDir];
-
-		//float current_cycle_frame = currentAnimation->GetCurrentFloatFrame();
-		//currentAnimation->SetCurrentFrame(current_cycle_frame);
-
-		// Collision between them currently not working properly
-		if (!isNextPosFree(tempPos.ReturniPoint()) && !freePass)
+		if (CheckFuturePos(dt) || freePass)
+		{
+			MoveToCurrDestiny(dt);
+			state = EnemyState::CHECK;
+		}
+		else
 		{
 			state = EnemyState::WAITING;
 			checkTime.Start();
-			break;
+			
 		}
-		else position = tempPos - pivot;
-
-		state = EnemyState::CHECK;
+		
 	}
 	break;
 
 	case EnemyState::CHECK:
 	{
 
-		if (App->entityFactory->player->ChangedTile())
+		if (App->entityFactory->player->ChangedTile())		// Repath when player changes tiles (and random values)
 		{
 			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
@@ -208,7 +194,7 @@ void EnemyTest::SetState(float dt)
 				state = EnemyState::IDLE;
 			}
 		}
-		else if (isOnDestiny())
+		else if (isOnDestiny())							// Got to the center of the destiny tile
 		{
 			if (path_to_follow.size() == 1 && isSubpathRange)
 			{
@@ -218,7 +204,7 @@ void EnemyTest::SetState(float dt)
 			if (path_to_follow.size() > 0)
 			{
 				path_to_follow.erase(path_to_follow.begin());
-				state = EnemyState::GET_NEXT_TILE;
+				state = EnemyState::GET_NEXT_TILE;                // Keep going to the destiny tile
 			}
 		}
 		else state = EnemyState::GO_NEXT_TILE;
@@ -305,18 +291,8 @@ void EnemyTest::SetState(float dt)
 
 bool EnemyTest::CleanUp()
 {
-	if (path_to_follow.size() > 0)
-	{
-		std::vector<iPoint>::iterator item = path_to_follow.begin();
-		for (; item != path_to_follow.end(); ++item)
-		{
-			if (App->entityFactory->isThisSubtileReserved(*item))
-			{
-				App->entityFactory->FreeAdjacent(*item);
-				break;
-			}
-		}
-	}
+	if (path_to_follow.empty() == false)
+		FreeMyReservedAdjacents();
 
 	path_to_follow.clear();
 
@@ -324,6 +300,8 @@ bool EnemyTest::CleanUp()
 	for (; item != stat.end(); ++item)
 	{
 		stat.remove(*item);
+		delete *item;
+		*item = nullptr;
 	}
 	stat.clear();
 

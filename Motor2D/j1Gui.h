@@ -89,11 +89,13 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 	void destroyElement(UiItem*);
+	void deleteCurrentDialogs(); 
+
 	// TODO: add destroy element, IMPORTANT!! ---> hitpoint labels are destroyed in hitpoint label manager
 
 	std::list<UiItem*>	ListItemUI;
 	UiItem* canvas = nullptr;
-	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent);
+	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, bool type_writer = false);
 	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool isPanel = false);
 	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem* const parent); // , TypeBar type = VERTICAL);
 	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr);
@@ -104,7 +106,6 @@ public:
 	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
 	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
 
-
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
 	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem* const parent = nullptr);
 
@@ -114,7 +115,6 @@ public:
 	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent = nullptr);
 	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent = nullptr);
 	UiItem_Description* AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent = nullptr);
-
 
 	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	UiItem_Inventory* AddInventory(UiItem* const parent);

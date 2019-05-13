@@ -22,6 +22,7 @@
 #include "UiItem_CooldownClock.h"
 #include "GUI_Definitions.h"
 #include "Projectile.h"
+#include "j1DialogSystem.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -53,16 +54,13 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-
-		App->map->active = true;
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
 		settingPanel->enable = false;
-		if (startMenu->enable)
-			startMenu->enable = false;
+		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
@@ -70,7 +68,6 @@ bool j1Scene::Start()
 	if (state == SceneState::STARTMENU)
 	{
 		AcceptUISFX_logic = true;
-		
 		if (!LoadedUi)
 		{
 			LoadInGameUi(sceneNode);
@@ -83,7 +80,6 @@ bool j1Scene::Start()
 			LoadWinScreen(sceneNode);
 			LoadedUi = true;
 		}
-		App->map->active = false;
 		startMenu->enable = true;
 		uiMarche->enable = false;
 		uiShara->enable = false;
@@ -101,30 +97,30 @@ bool j1Scene::Start()
 
 	if (state == SceneState::DEATH)
 	{
-		App->gui->resetHoverSwapping = false;
+		
 		App->audio->PlayFx(playerDeath, 0);
+		App->gui->resetHoverSwapping = false;
+		if (inGamePanel->enable)
 		inGamePanel->enable = false;
+		if (!deathPanel->enable)
 		deathPanel->enable = true;
 	}
 
 	if (state == SceneState::WIN)
 	{
 		App->gui->resetHoverSwapping = false;
-		inGamePanel->enable = false;
-		winPanel->enable = true;
+		if (inGamePanel->enable)
+			inGamePanel->enable = false;
+		if (!winPanel->enable)
+			winPanel->enable = true;
 	}
 
 	begin = true;
 	
-	if(openInventorySFX == NULL)
 		openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
-	if (closeinventorySFX == NULL)
 		closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
-	if (open_PauseMenuSFX == NULL)
 		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-	if (enterGameSFX == NULL)
 		enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
-	if(playerDeath == NULL)
 		playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 	return true;
 }
@@ -216,13 +212,14 @@ bool j1Scene::Update(float dt)
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 
+	App->tex->textures;
 	// map debug draw grids
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	/*if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");
+		App->SaveGame("save_game.xml");*/
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -236,6 +233,11 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
+	}
+	
 	
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
@@ -264,11 +266,6 @@ bool j1Scene::Update(float dt)
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
-		App->map->active = false;
-		inGamePanel->enable = false;
-		uiMarche->enable = false;
-		uiRitz->enable = false;
-		uiShara->enable = false;
 		//settingPanel->enable = false;
 	}
 	
@@ -283,9 +280,6 @@ bool j1Scene::Update(float dt)
 		else if (!startMenu->enable && !inventory->enable)
 			AcceptUISFX_logic = false;
 
-		App->map->active = true;
-		inGamePanel->enable = true;
-		startMenu->enable = false;
 		//settingPanel->enable = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 		{
@@ -338,30 +332,13 @@ bool j1Scene::Update(float dt)
 			}
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
-			if (!pausePanel->enable)
-			{
-				App->pause = !App->pause;
-				if (App->pause && !pausePanel->enable)
-				{
-					inventory->enable = true;
-					App->gui->resetHoverSwapping = false;
-					inventoryItem->LoadElements();
-					App->audio->PlayFx(openInventorySFX, 0);
-				}
-
-				else
-				{
-					App->audio->PlayFx(closeinventorySFX, 0);
-					inventory->enable = false;
-
-				}
-
-			}
+			DoOpenInventory();
 		}
+
 	}
-	
+	 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	//{
 	//	App->entityFactory->player->life -= 20;
@@ -450,6 +427,18 @@ bool j1Scene::Update(float dt)
 
 	App->win->ClearTitle();
 
+	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+	//	App->buff->CreateBurned(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "burn");
+	//}
+	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)		// Spawn unanimate dummy
+	//{
+	//	Enemy* en = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
+
+	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
+	//	App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
+	//}
+
+	
 	return true;
 }
 
@@ -471,7 +460,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	App->tex->UnLoad(debug_tex); 
-	
+	debug_tex = nullptr;
 	
 	
 	LOG("Freeing scene");
@@ -567,8 +556,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string text = uiNode.child("text").attribute("value").as_string();
 		std::string font = uiNode.child("font").attribute("value").as_string();
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
+		const char* path = uiNode.child("path").attribute("p").as_string();
+		uint size = uiNode.child("size").attribute("s").as_int();
+		
 
-		App->gui->AddLabel(text.data(), color, App->font->piecesofEight48, position, parent);
+		App->gui->AddLabel(text.data(), color, App->font->Load(path, size), position, parent);
 
 	}
 
@@ -747,9 +739,6 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
 
-
-
-
 	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
 	SharaIcon->parent = inventoryItem;
 	RitzIcon->parent = inventoryItem;
@@ -799,14 +788,17 @@ void j1Scene::UnLoadScene()
 	App->attackManager->Disable();
 	App->entityFactory->Disable();
 	App->pathfinding->Disable();
-	App->audio->UnLoadAudio();
 	App->buff->Disable();
 	App->camera2D->Disable();
+
+	App->audio->UnLoadAudio();
+
 }
 
 void j1Scene::LoadScene(SceneState sceneState)
 {
 	UnLoadScene();
+
 	switch (sceneState)
 	{
 	case SceneState::STARTMENU:
@@ -816,18 +808,15 @@ void j1Scene::LoadScene(SceneState sceneState)
 	case SceneState::LEVEL1:
 
 		state = SceneState::LEVEL1;
-
-		App->map->Enable();
 		App->attackManager->Enable();
 		App->pathfinding->Enable();
 		App->camera2D->Enable();
 		App->buff->Enable();
+		App->map->active = true;
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
-
-		App->camera2D->SetCameraPos({ 2000,0 });
-
 		// create player for testing purposes here
+		//App->entityFactory->CreatePlayer({ -1563, 1000 });
 		break;
 
 	case SceneState::LEVEL2:
@@ -835,11 +824,13 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::DEATH:
 		state = SceneState::DEATH;
+		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
+		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
 		break;
 
@@ -850,4 +841,41 @@ void j1Scene::LoadScene(SceneState sceneState)
 	}
 
 	Start();
+}
+
+
+
+void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
+{
+	
+		if (!pausePanel->enable)
+		{
+			App->pause = !App->pause;
+			if (App->pause && !pausePanel->enable)
+			{
+				if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
+				{
+					inventory->enable = true;
+					App->gui->resetHoverSwapping = false;
+
+					inventoryItem->LoadElements(onlyEquipped, isVendor);
+					App->audio->PlayFx(openInventorySFX, 0);
+				}
+				
+			}
+
+			else
+			{
+				App->audio->PlayFx(closeinventorySFX, 0);
+				inventory->enable = false;
+
+
+				if (App->dialog->isDialogSequenceActive)
+				{
+					App->dialog->spawnDialoguesAfterInventory(); 
+				}
+			}
+
+		}
+
 }

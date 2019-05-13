@@ -80,9 +80,8 @@ SDL_Texture* const j1Textures::Load(const char* path)
 // Unload texture
 bool j1Textures::UnLoad(SDL_Texture* texture)
 {
-	SDL_DestroyTexture(texture);
 	textures.remove(texture);
-
+	SDL_DestroyTexture(texture);
 	return false;
 }
 

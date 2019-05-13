@@ -11,6 +11,7 @@
 
 #include <math.h>
 
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.assign("map");
@@ -282,7 +283,12 @@ bool j1Map::CleanUp()
 
 	while(tiles_item != data.tilesets.end())
 	{
-		RELEASE(*tiles_item);
+		if ((*tiles_item) != nullptr && (*tiles_item)->texture != nullptr)
+		{
+			App->tex->UnLoad((*tiles_item)->texture);
+			(*tiles_item)->texture = nullptr;
+		}
+		delete *tiles_item;
 		*tiles_item = nullptr;
 		++tiles_item;
 	}
@@ -297,17 +303,29 @@ bool j1Map::CleanUp()
 		data.layers.remove(*layer_item);
 		(*layer_item)->tileQuadTree->CleanUp();
 		(*layer_item)->tileQuadTree = nullptr;
+		delete *layer_item;
 		*layer_item = nullptr;
 		++layer_item;
 	}
 	data.layers.clear();
 
-	// Clean up the pugui tree
-	map_file.reset();
+	std::list<std::string>::iterator lvl_item;
+	lvl_item = data.levels.begin();
+
+	while (lvl_item != data.levels.end())
+	{
+		data.levels.remove(*lvl_item);
+		*lvl_item = nullptr;
+		++lvl_item;
+	}
+	data.levels.clear();
+
 
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 
+	// Clean up the pugui tree
+	map_file.reset();
 	return true;
 }
 
@@ -336,7 +354,7 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node tileset;
 	for (tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
 	{
-		TileSet* set = new TileSet();
+		TileSet* set = DBG_NEW TileSet();
 
 		if (ret == true)
 		{
@@ -355,7 +373,7 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node layer;
 	for (layer = map_file.child("map").child("layer"); layer && ret; layer = layer.next_sibling("layer"))
 	{
-		MapLayer* lay = new MapLayer();
+		MapLayer* lay = DBG_NEW MapLayer();
 
 		ret = LoadLayer(layer, lay);
 
@@ -747,7 +765,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
 	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
 
-	layer->tileQuadTree = new TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+	layer->tileQuadTree = DBG_NEW TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
 	//TEST
 
 	if (layer_data == NULL)
@@ -758,7 +776,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 	else
 	{
-		layer->data = new uint[layer->width*layer->height];
+		layer->data = DBG_NEW uint[layer->width*layer->height];
 		memset(layer->data, 0, layer->width*layer->height);
 
 		int i = 0;
@@ -790,7 +808,7 @@ bool j1Map::LoadMapColliders(pugi::xml_node& node)//, MapObjects* obj)
 	for (pugi::xml_node objectGroup = node.child("objectgroup"); objectGroup && ret; objectGroup = objectGroup.next_sibling("objectgroup"))
 	{
 		std::string tmp = objectGroup.attribute("name").as_string();
-		MapObjects* newObject = new MapObjects();
+		MapObjects* newObject = DBG_NEW MapObjects();
 
 		newObject->name = tmp.data();
 
@@ -843,7 +861,7 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
 		for (prop = propertiesNode.child("property"); prop; prop = prop.next_sibling("property"))
 		{
-			Properties::Property* p = new Properties::Property();
+			Properties::Property* p = DBG_NEW Properties::Property();
 
 			p->name = prop.attribute("name").as_string();
 			p->value = prop.attribute("value").as_int();
@@ -869,7 +887,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 		if(layer->properties.Get("Navigation", 0) == 0)
 			continue;
 
-		uchar* map = new uchar[layer->width*layer->height];
+		uchar* map = DBG_NEW uchar[layer->width*layer->height];
 		memset(map, 1, layer->width*layer->height);
 
 		for(int y = 0; y < data.height; ++y)

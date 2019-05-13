@@ -71,7 +71,7 @@ public:
 	bool debug = false;
 	bool debugSubtiles = false; 
 	bool debugColl = false;
-	bool hackerMode = false;
+	bool hackerMode = true;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
@@ -113,6 +113,10 @@ private:
 
 	bool begin;
 	bool beginGameMus;
+
+
+public: 
+	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
 
 public:
 	UiItem_Image* MarcheIcon = nullptr;

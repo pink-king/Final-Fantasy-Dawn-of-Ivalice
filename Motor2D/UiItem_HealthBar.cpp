@@ -51,6 +51,11 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 }
 
+UiItem_HealthBar::~UiItem_HealthBar()
+{
+
+}
+
 
 
 void UiItem_HealthBar::Draw(const float& dt)
@@ -83,7 +88,6 @@ void UiItem_HealthBar::Draw(const float& dt)
 			dynamicImage->section.w = value;
 		}
 		
-
 
 		if (damageInform.doDamage)
 		{
@@ -160,6 +164,14 @@ void UiItem_HealthBar::UpdatePos()
 	dynamicImage->hitBox.y = pos.y;
 
 
+}
+
+void UiItem_HealthBar::CleanUp()
+{
+	if(dynamicImage != nullptr)
+		dynamicImage->to_delete = true;
+	if(damageImage != nullptr)
+		damageImage->to_delete = true;
 }
 
 

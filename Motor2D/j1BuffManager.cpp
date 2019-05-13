@@ -32,6 +32,7 @@ bool j1BuffManager::Start()
 	poisonedSFX = App->audio->LoadFx("audio/fx/States/poisoned.wav");
 	healingSFX = App->audio->LoadFx("audio/fx/States/Healing.wav");
 	enemyHitbyMarche = App->audio->LoadFx("audio/fx/States/enemyHitbyMarche.wav");
+	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 
 	return true;
 }
@@ -61,6 +62,7 @@ bool j1BuffManager::CleanUp()
 	while (item != buffs.end())
 	{
 		buffs.remove(*item);
+		delete *item;
 		*item = nullptr;
 		++item;
 	}
@@ -71,7 +73,6 @@ bool j1BuffManager::CleanUp()
 	while (item2 != entitiesTimeDamage.end())
 	{
 		entitiesTimeDamage.remove(*item2);
-		*item2 = nullptr;
 		++item2;
 	}
 	entitiesTimeDamage.clear();
@@ -83,7 +84,7 @@ bool j1BuffManager::CleanUp()
 Buff* j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character, std::string stat, float value)
 {
 
-	Buff* newbuff = new Buff(type, character, stat, elementType, rol, value,nullptr);
+	Buff* newbuff = DBG_NEW Buff(type, character, stat, elementType, rol, value,nullptr);
 	if (rol == ROL::ATTACK_ROL || rol == ROL::DEFENCE_ROL)
 		buffs.push_back(newbuff);
 
@@ -169,14 +170,19 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
 		App->audio->PlayFx(App->entityFactory->goblinAttack, 0);
 
-	if (attacker->type == ENTITY_TYPE::PLAYER)
-		getPlayerandEnemyVec(attacker, defender);
+	/*if (attacker->type == ENTITY_TYPE::PLAYER)
+		getPlayerandEnemyVec(attacker, defender);*/
 
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
+		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
+		
+		App->entityFactory->pushEF = true;
+
+		
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
@@ -191,6 +197,10 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		{
 			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
 		}
+
+		if (defender->life <= 0)
+			App->audio->PlayFx(playerDeath, 0);
+
 	}
 
 
@@ -301,7 +311,7 @@ void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float d
 {
 	if (!defender->isBurned)
 	{
-		entityStat* newStat = new entityStat(STAT_TYPE::BURNED_STAT, totalTime, damageSecond, nullptr, paralize);
+		entityStat* newStat = DBG_NEW entityStat(STAT_TYPE::BURNED_STAT, totalTime, damageSecond, nullptr, paralize);
 		float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::DEFENCE_ROL, stat);
 		if (totalDamage < 0)
 			totalDamage = 1;
@@ -327,7 +337,7 @@ void j1BuffManager::CreatePoision(j1Entity* attacker, j1Entity* defender, float 
 {
 	if (!defender->isPosioned)
 	{
-		entityStat* newStat = new entityStat(STAT_TYPE::POISON_STAT, totalTime, damageSecond, nullptr, paralize);
+		entityStat* newStat = DBG_NEW entityStat(STAT_TYPE::POISON_STAT, totalTime, damageSecond, nullptr, paralize);
 		float totalDamage = CalculateStat(attacker, newStat->secDamage, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, stat);
 		if (totalDamage < 0)
 			totalDamage = 1;
@@ -353,7 +363,7 @@ void j1BuffManager::CreateParalize(j1Entity* attacker, j1Entity* defender, float
 {
 	if (!defender->isFrozen || !defender->to_die)
 	{
-		entityStat* newStat = new entityStat(STAT_TYPE::ICE_STAT, damageSecond, totalTime, nullptr, paralize);
+		entityStat* newStat = DBG_NEW entityStat(STAT_TYPE::ICE_STAT, damageSecond, totalTime, nullptr, paralize);
 		float totalDamage = CalculateStat(attacker, damageSecond, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, ELEMENTAL_TYPE::ICE_ELEMENT, ROL::DEFENCE_ROL, stat);
 		if (totalDamage < 0)
 			totalDamage = 1;
@@ -383,7 +393,7 @@ void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 {
 	if (!entity->isPotionActive)
 	{
-		entityStat* newStat = new entityStat(STAT_TYPE::POTION_STAT, time, lifeSecond);
+		entityStat* newStat = DBG_NEW entityStat(STAT_TYPE::POTION_STAT, time, lifeSecond);
 		newStat->count.Start();
 		entity->stat.push_back(newStat);
 		entity->isPotionActive = true;
@@ -409,22 +419,22 @@ void j1BuffManager::TemporalBuff(j1Entity * entity, BUFF_TYPE type, ELEMENTAL_TY
 	switch (rol)
 	{
 	case ROL::ATTACK_ROL:
-		newStat = new entityStat(STAT_TYPE::ATTACK_BUFF, time, value);
+		newStat = DBG_NEW entityStat(STAT_TYPE::ATTACK_BUFF, time, value);
 		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
 		entity->stat.push_back(newStat);
 		break;
 	case ROL::DEFENCE_ROL:
-		newStat = new entityStat(STAT_TYPE::DEFENCE_BUFF, time, value);
+		newStat = DBG_NEW entityStat(STAT_TYPE::DEFENCE_BUFF, time, value);
 		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
 		entity->stat.push_back(newStat);
 		break;
 	case ROL::VELOCITY:
-		newStat = new entityStat(STAT_TYPE::SPEED_BUFF, time, value, nullptr, false);
+		newStat = DBG_NEW entityStat(STAT_TYPE::SPEED_BUFF, time, value, nullptr, false);
 		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
 		entity->stat.push_back(newStat);
 		break;
 	case ROL::HEALTH:
-		newStat = new entityStat(STAT_TYPE::HEALTH_BUFF, time, value, nullptr, false);
+		newStat = DBG_NEW entityStat(STAT_TYPE::HEALTH_BUFF, time, value, nullptr, false);
 		newStat->temporalBuff = CreateBuff(type, element, rol, entity, "\0", value);
 		entity->stat.push_back(newStat);
 		break;
@@ -1067,8 +1077,9 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 {
 	fPoint vec;
 
-	vec.x = enemy->position.x - player->position.x;
-	vec.y = enemy->position.y - player->position.y;
+	enemy->GetPivotPos();
+	vec.x = player->GetPivotPos().x - enemy->GetPivotPos().x;
+	vec.y = player->GetPivotPos().y - enemy->GetPivotPos().y;
 	LOG("xlabel %f", vec.x);
 	LOG("ylabel %f", vec.y);
 
@@ -1080,58 +1091,15 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 	unitVec.y = vec.y / vecModule;
 	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
 	int xfactor, yfactor;
-	enemy->unitariX = unitVec.x;
-	enemy->unitariY = unitVec.y;
-	enemy->DoPush = true;
 	
+	player->unitariX = unitVec.x;
+	player->unitariY = unitVec.y;
+	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
+	
+	player->DoPush = true;
+	LOG("log from buffmanager getplayerEnemy");
+	return unitVec;
+
 	return vec;
 
-	//if (unitVec.x > 0 && unitVec.y > 0)
-	//{
-	//	xfactor = 1;
-	//	yfactor = 1;
-	//}
-	//else if (unitVec.x > 0 && unitVec.y < 0)
-	//{
-	//	xfactor = 1;
-	//	yfactor = -1;
-	//}
-	//else if (unitVec.x < 0 && unitVec.y > 0)
-	//{
-	//	xfactor = -1;
-	//	yfactor = 1;
-	//}
-	//else if (unitVec.x < 0 && unitVec.y < 0)
-	//{
-	//	xfactor = -1;
-	//	yfactor = -1;
-	//}
-	//else if (unitVec.x == 0 && unitVec.y == 0)
-	//{
-	//	xfactor = 0;
-	//	yfactor = 0;
-	//}
-	//else if (unitVec.x == 0 && unitVec.y < 0)
-	//{
-	//	xfactor = 0;
-	//	yfactor = -1;
-	//}
-	//else if (unitVec.x < 0 && unitVec.y == 0)
-	//{
-	//	xfactor = -1;
-	//	yfactor = 0;
-	//}
-	//else if (unitVec.x > 0 && unitVec.y == 0)
-	//{
-	//	xfactor = 1;
-	//	yfactor = 0;
-	//}
-	//else if (unitVec.x == 0 && unitVec.y > 0)
-	//{
-	//	xfactor = 0;
-	//	yfactor = 1;
-	//}
-
-	/*float cosAngle = xfactor / unitVec.x;
-	float senAngle = yfactor / unitVec.y;*/
 }

@@ -28,18 +28,13 @@ j1Entity::~j1Entity()
 	
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-
 		if (lifeBar != nullptr)
 		{
 			lifeBar->deliever = nullptr;
 			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 			lifeBar->to_delete = true;
 		}
-
-
 	}
-
-
 }
 
 bool j1Entity::Start()
@@ -74,8 +69,6 @@ bool j1Entity::CleanUp()
 		++item;
 	}
 	stat.clear();
-
-	entityTex = nullptr;
 	return true;
 }
 

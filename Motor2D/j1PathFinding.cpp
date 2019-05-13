@@ -100,7 +100,7 @@ bool j1PathFinding::CleanUp()
 	App->tex->UnLoad(debug_texture);
 	debug_texture = nullptr;
 
-	last_path.clear();
+
 	RELEASE_ARRAY(map);
 	return true;
 }
@@ -112,7 +112,7 @@ void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 	this->height = height;
 
 	RELEASE_ARRAY(map);
-	map = new uchar[width*height];
+	map = DBG_NEW uchar[width*height];
 	memcpy(map, data, width*height);
 }
 

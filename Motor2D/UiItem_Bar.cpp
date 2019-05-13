@@ -49,6 +49,11 @@ UiItem_Bar::UiItem_Bar(iPoint position, std::string name, const SDL_Rect* sectio
 	this->parent = parent;
 }
 
+UiItem_Bar::~UiItem_Bar()
+{
+	
+}
+
 void UiItem_Bar::Draw(const float & dt)
 {
 
@@ -96,6 +101,13 @@ void UiItem_Bar::DoLogicAbandoned() {
 	App->audio->PlayFx(App->scene->openInventorySFX, 0);
 	bar->section = this->section;
 	image_bar->section = this->image_idle;
+}
+
+void UiItem_Bar::CleanUp()
+{
+	thumb->to_delete = true;
+	image_bar->to_delete = true;
+	bar->to_delete = true;
 }
 
 

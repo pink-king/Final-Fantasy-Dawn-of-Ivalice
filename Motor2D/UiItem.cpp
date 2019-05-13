@@ -56,6 +56,7 @@ UiItem::UiItem(const iPoint & pos, std::string & function, UiItem * const parent
 UiItem::~UiItem()
 {
 	LOG("destroyed UI item somewhere");
+
 }
 
 void UiItem::DrawUi(float dt)
@@ -67,24 +68,27 @@ void UiItem::DrawUi(float dt)
 
 	for (; iter != App->gui->ListItemUI.end(); )
 	{
-		if (!(*iter)->to_delete)
+		if (*iter != nullptr)
 		{
-			if ((*iter)->parent != App->gui->canvas)
+			if (!(*iter)->to_delete)
 			{
-				if ((*iter)->parent != NULL && (*iter)->parent->enable && (*iter)->parent->parent == App->gui->canvas)
-					(*iter)->Draw(dt);
-				else if ((*iter)->parent->parent != App->gui->canvas)
+				if ((*iter)->parent != App->gui->canvas)
 				{
-					if ((*iter)->parent->parent->enable)
+					if ((*iter)->parent != NULL && (*iter)->parent->enable && (*iter)->parent->parent == App->gui->canvas)
 						(*iter)->Draw(dt);
+					else if ((*iter)->parent->parent != App->gui->canvas)
+					{
+						if ((*iter)->parent->parent->enable)
+							(*iter)->Draw(dt);
+					}
 				}
+				++iter;
 			}
-			++iter;
-		}
-		else
-		{
-			delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
-			iter = App->gui->ListItemUI.erase(iter);          // and erase from the list 
+			else
+			{
+				delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
+				iter = App->gui->ListItemUI.erase(iter);          // and erase from the list
+			}
 		}
 	}
 

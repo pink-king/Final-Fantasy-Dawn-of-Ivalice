@@ -99,7 +99,7 @@ public:
 
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	int GetRandomValue(int min, int max);
-	j1Entity* CreateLootType(int x, int y);
+	j1Entity* CreateLootType(int x, int y, LOOT_TYPE definedType = LOOT_TYPE::NO_LOOT);
 	LOOT_TYPE WillDrop();
 	iPoint GetEnemySubtile(j1Entity* enemy);
 	iPoint SetLootPos(int x, int y);
@@ -109,7 +109,12 @@ public:
 
 	void AddExp(Enemy* enemy);
 	
+	fPoint getplayerDamagevec();
+	void setPlayerDmageVec(fPoint unitari);
+
 public:
+	fPoint					dmg_vec;
+	bool					pushEF = false;
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;

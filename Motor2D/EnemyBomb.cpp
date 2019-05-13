@@ -37,11 +37,7 @@ bool EnemyBomb::PreUpdate()
 }
 bool EnemyBomb::Update(float dt)
 {
-	if (DoPush)
-	{
-		DoPushback();
-		DoPush = false;
-	}
+	
 
 	if(!isParalize)
 		SetState(dt);
@@ -74,6 +70,8 @@ bool EnemyBomb::CleanUp()
 	for (; item != stat.end(); ++item)
 	{
 		stat.remove(*item);
+		delete *item;
+		*item = nullptr;
 	}
 	stat.clear();
 
