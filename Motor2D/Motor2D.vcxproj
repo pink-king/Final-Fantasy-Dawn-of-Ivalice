@@ -14,14 +14,14 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Final_Fantasy-Dawn_of_Ivalice</ProjectName>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -94,6 +94,7 @@
     <ClCompile Include="FireArrow.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
+    <ClCompile Include="j1DialogSystem.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
     <ClCompile Include="Shara.cpp" />
+    <ClCompile Include="Store_Vendor.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="UiItem.cpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
+    <ClInclude Include="j1DialogSystem.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
     <ClInclude Include="Shara.h" />
+    <ClInclude Include="Store_Vendor.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Tornado.h" />
     <ClInclude Include="UiItem.h" />

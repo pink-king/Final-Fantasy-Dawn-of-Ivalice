@@ -13,7 +13,7 @@
 j1Gui::j1Gui() : j1Module()
 {
 	name.assign("gui");
-	canvas = new UiItem({ 0,0 }, NULL);
+	canvas = DBG_NEW UiItem({ 0,0 }, NULL);
 }
 
 
@@ -454,14 +454,26 @@ bool j1Gui::PostUpdate()
 bool j1Gui::CleanUp()
 {
 	if (atlas != nullptr)
+	{
 		App->tex->UnLoad(atlas);
+		atlas = nullptr;
+	}
+	if (lootTexture != nullptr)
+	{
+		App->tex->UnLoad(lootTexture);
+		lootTexture = nullptr;
+	}
 
+	delete canvas;
+	canvas = nullptr;
 	// TODO: Remove items from list, not hitlabels (they are on their own list)
 	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
 	{
 		if ((*item) != nullptr)
 		{
-			delete* item;
+			(*item)->CleanUp();
+			ListItemUI.remove(*item);
+			delete *item;
 			*item = nullptr;
 		}
 	}
@@ -488,13 +500,33 @@ void j1Gui::destroyElement(UiItem * elem)
 	}
 }
 
-UiItem_Label* j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent)
+void j1Gui::deleteCurrentDialogs()
+{
+	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end();)
+	{
+		if ((*item) && !(*item)->to_delete)
+		{
+			if ((*item)->isDialog)
+			{
+				delete (*item);
+				item = ListItemUI.erase(item);
+			}
+			else
+			{
+				++item; 
+			}
+		}
+	}
+
+}
+
+
+UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, bool type_writer)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = new UiItem_Label(text, color, font, position, parent);
+	newUIItem = DBG_NEW UiItem_Label(text, color, font, position, parent, type_writer);
 	ListItemUI.push_back(newUIItem);
 	return (UiItem_Label*)newUIItem;
-
 }
 
 UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
@@ -502,9 +534,9 @@ UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem 
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = new UiItem_Image(position, section, canvas, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, canvas, isPanel);
 	else
-		newUIItem = new UiItem_Image(position, section, parent, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, parent, isPanel);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -528,7 +560,7 @@ UiItem_Image* j1Gui::AddSpecialImage(iPoint position, const SDL_Rect * section, 
 UiItem_Inventory* j1Gui::AddInventory(UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = new UiItem_Inventory(parent);
+	newUIItem = DBG_NEW UiItem_Inventory(parent);
 	ListItemUI.push_back(newUIItem);
 	return (UiItem_Inventory*)newUIItem;
 }
@@ -539,7 +571,7 @@ UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * se
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Bar(position, name, section, thumb_section, image_idle, image_hover, parent);
+	newUIItem = DBG_NEW UiItem_Bar(position, name, section, thumb_section, image_idle, image_hover, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -553,9 +585,9 @@ UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, const SDL
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = new UiItem_Button(position, function, idle, canvas, click, hover);
+		newUIItem = DBG_NEW UiItem_Button(position, function, idle, canvas, click, hover);
 	else
-		newUIItem = new UiItem_Button(position, function, idle, parent, click, hover);
+		newUIItem = DBG_NEW UiItem_Button(position, function, idle, parent, click, hover);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -571,9 +603,9 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 	if (parent == NULL)
-		newUIItem = new UiItem(pos, canvas);
+		newUIItem = DBG_NEW UiItem(pos, canvas);
 	else
-		newUIItem = new UiItem(pos, parent);
+		newUIItem = DBG_NEW UiItem(pos, parent);
 
 	ListItemUI.push_back(newUIItem);
 	return newUIItem;
@@ -583,7 +615,7 @@ UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, con
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Checkbox(position, function, panel_section, box_section, tick_section, labelInfo, parent);
+	newUIItem = DBG_NEW UiItem_Checkbox(position, function, panel_section, box_section, tick_section, labelInfo, parent);
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
@@ -592,7 +624,7 @@ UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, con
 UiItem_HitPoint* j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, variant type)
 {
 	UiItem_HitPoint* newUIItem = nullptr;
-	newUIItem = new UiItem_HitPoint(valueInfo, color, font, position, parent, type);
+	newUIItem = DBG_NEW UiItem_HitPoint(valueInfo, color, font, position, parent, type);
 
 
 
@@ -609,7 +641,7 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, T
 UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, variant type)
 {
 	UiItem_HitPoint* newUIItem = nullptr;
-	newUIItem = new UiItem_HitPoint(text, color, font, position, parent, type);
+	newUIItem = DBG_NEW UiItem_HitPoint(text, color, font, position, parent, type);
 
 
 
@@ -628,7 +660,7 @@ UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicS
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -642,7 +674,7 @@ UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, ty
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_HealthBar(dynamicSection, variant, parent, deliever);
+	newUIItem = DBG_NEW UiItem_HealthBar(dynamicSection, variant, parent, deliever);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -656,7 +688,7 @@ UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_CooldownClock(position, section, type, charName, parent);
+	newUIItem = DBG_NEW UiItem_CooldownClock(position, section, type, charName, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -672,7 +704,7 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -685,7 +717,7 @@ UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string i
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -698,10 +730,10 @@ UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string i
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = new UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
 
 	ListItemUI.push_back(newUIItem);
-
+	
 
 	return (UiItem_Description*)newUIItem;
 }
@@ -720,7 +752,7 @@ SDL_Texture* j1Gui::GetAtlas()
 void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
-	App->scene->state = SceneState::GAME;
+	App->scene->LoadScene(SceneState::LEVEL1);
 }
 
 void j1Gui::ExitGame()
@@ -758,16 +790,13 @@ void j1Gui::GoBackToStartMenu()
 {
 	resetHoverSwapping = false;
 	App->pause = false;
-	App->scene->pausePanel->enable = false;
-	App->scene->startMenu->enable = true;
-	App->scene->state = SceneState::STARTMENU;
+	App->scene->LoadScene(SceneState::STARTMENU);
 }
 
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
-	App->scene->deathPanel->enable = false;
-	App->scene->winPanel->enable = false;
-	App->scene->startMenu->enable = true;
-	App->scene->state = SceneState::STARTMENU;
+	App->scene->LoadScene(SceneState::STARTMENU);
 }
+
+

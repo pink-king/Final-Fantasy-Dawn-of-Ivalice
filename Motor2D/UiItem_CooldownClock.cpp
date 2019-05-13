@@ -160,7 +160,8 @@ void UiItem_CooldownClock::DoLogic()
 
 void UiItem_CooldownClock::Restart()
 {
-	hide = true;
+	if(this != nullptr)
+		hide = true;
 
 
 }

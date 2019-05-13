@@ -28,18 +28,13 @@ j1Entity::~j1Entity()
 	
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-
 		if (lifeBar != nullptr)
 		{
 			lifeBar->deliever = nullptr;
 			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 			lifeBar->to_delete = true;
 		}
-
-
 	}
-
-
 }
 
 bool j1Entity::Start()
@@ -64,6 +59,16 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::CleanUp()
 {
+	std::list<entityStat*>::iterator item;
+	item = stat.begin();
+
+	while (item != stat.end())
+	{
+		RELEASE(*item);
+		*item = nullptr;
+		++item;
+	}
+	stat.clear();
 	return true;
 }
 
@@ -105,6 +110,16 @@ fPoint j1Entity::GetThrowingPos() const
 	center.x = position.x + size.x * 0.5F; 
 	center.y = position.y + size.y * 0.5F;
 	return center;
+}
+
+bool j1Entity::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool j1Entity::Save(pugi::xml_node &) const
+{
+	return true;
 }
 
 bool j1Entity::Move(float dt)

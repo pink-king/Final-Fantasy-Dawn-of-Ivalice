@@ -21,7 +21,8 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
-	
+	timeToBlink = 50;
+
 	return true;
 }
 
@@ -47,7 +48,23 @@ bool PlayerEntity::PostUpdate()
 bool PlayerEntity::CleanUp()
 {
 	App->tex->UnLoad(spritesheet); // TODO: check if this is unloaded
+	spritesheet = nullptr;
 	App->tex->UnLoad(dash_spritesheet);
+	dash_spritesheet = nullptr;
+
+	memset(run, 0, sizeof(run));
+	memset(idle, 0, sizeof(idle));
+	memset(dash, 0, sizeof(dash));
+	return true;
+}
+
+bool PlayerEntity::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool PlayerEntity::Save(pugi::xml_node &) const
+{
 	return true;
 }
 
@@ -242,7 +259,37 @@ void PlayerEntity::Draw()
 			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
+
+		//if (App->entityFactory->pushEF)
+		//{
+		//	alphaTimer.Start();
+		//	SDL_SetTextureAlphaMod(entityTex, 200);
+
+		//	/*SDL_BlendMode hola;
+		//	hola = SDL_BLENDMODE_BLEND;*/ 
+		//	//SDL_SetTextureBlen
+  //          //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
+		//}
+		//if (alphaTimer.Read() > 0 && alphaTimer.Read() <= 3000)
+		//	Blinker(entityTex, alphaTimer);
 	}
+}
+
+void PlayerEntity::Blinker(SDL_Texture* texture, j1Timer blink)
+{
+
+	if (blink.Read() <= timeToBlink)
+	{
+		SDL_SetTextureAlphaMod(texture, 255);
+
+	}
+	else  if (blink.Read() > timeToBlink && blink.Read() <= 50 + timeToBlink) //update time to blink (need)
+
+	{
+		SDL_SetTextureAlphaMod(texture, 0);
+	}
+	else timeToBlink += 100;
+
 }
 
 int PlayerEntity::GetPointingDir(float angle)
@@ -384,6 +431,7 @@ std::vector<SDL_Rect> PlayerEntity::Collision2D(SDL_Rect& collider)
 
 			}
 		}
+		// ----------------------
 	}
 
 	//if (debug)
@@ -581,4 +629,17 @@ void PlayerEntity::DoDash()
 	}
 	else
 		LOG("WARNING: no dash spritesheet defined, dash is not executed");
+}
+
+void j1Entity::DoPushback()
+{
+	fPoint originilaPos = position;
+
+	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 3;
+	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 3;
+	LOG("position.x %f", position.x);
+	LOG("position.y %f", position.y);
+	LOG("displaced Pos X %f", position.x - originilaPos.x);
+	LOG("displaced Pos Y %f", position.y - originilaPos.y);
+
 }

@@ -23,29 +23,41 @@
 #include "j1ModuleCamera2D.h"
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
+#include "j1DialogSystem.h"
 
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
 	PERF_START(ptimer);
 
-	input = new j1Input();
-	win = new j1Window();
-	render = new j1Render();
-	tex = new j1Textures();
-	audio = new j1Audio();
-	scene = new j1Scene();
-	map = new j1Map();
-	gui = new j1Gui();
-	entityFactory = new j1EntityFactory();
-	pathfinding = new j1PathFinding(); 
-	font = new j1Fonts();
-	buff = new j1BuffManager();
-	attackManager = new j1AttackManager();
-	particles = new j1ParticlesClassic();
-	camera2D = new j1ModuleCamera2D();
-	HPManager = new UiItem_HitPointManager();
-
+	input = DBG_NEW j1Input();
+	win = DBG_NEW j1Window();
+	render = DBG_NEW j1Render();
+	tex = DBG_NEW j1Textures();
+	audio = DBG_NEW j1Audio();
+	scene = DBG_NEW j1Scene();
+	map = DBG_NEW j1Map();
+	gui = DBG_NEW j1Gui();
+	entityFactory = DBG_NEW j1EntityFactory();
+	pathfinding = DBG_NEW j1PathFinding();
+	font = DBG_NEW j1Fonts();
+	buff = DBG_NEW j1BuffManager();
+	attackManager = DBG_NEW j1AttackManager();
+	particles = DBG_NEW j1ParticlesClassic();
+	camera2D = DBG_NEW j1ModuleCamera2D();
+	HPManager = DBG_NEW UiItem_HitPointManager();
+	dialog = DBG_NEW j1DialogSystem();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -63,6 +75,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(camera2D);
 	AddModule(HPManager);
+	AddModule(dialog);
 	// render last to swap buffer
 	AddModule(render);
 

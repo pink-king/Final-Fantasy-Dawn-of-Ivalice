@@ -1,0 +1,42 @@
+<dialogue>
+  <dialogtree treeid="0" treeName="VENDOR">
+    <node line="Greetings stranger" id="0">
+      <option line="Hello mister" nextnode="1"/>
+      <option line="...hello?" nextnode="1"/>
+    </node>
+    <node line="Is there anything you need?" id="1">
+      <option line="I want to buy something" nextnode="2"/>
+	  <option line="I want so sell something" nextnode="3"/> 
+    </node>
+    <node line="Then take a look here:" id="2">
+      <option line="Sure" nextnode="4"/>                   <!-- between 2 and 4: in the "sure" option the vendor opens his inventory and player selects item-->
+      <option line="I changed my mind" nextnode="4"/>
+    </node>
+    <node line="What is it, then?" id="3">
+      <option line="I will show you" nextnode="4"/>
+      <option line="I changed my mind" nextnode="4"/>
+    </node>                                                    <!-- between 3 and 4: int the "i will show you" option the player opens inventory and selects item -->
+    <node line="Anything else?" id="4">
+      <option line="I want to buy something" nextnode="2"/>
+      <option line="I want to sell something" nextnode="3"/>
+	  <option line="Farewell" nextnode="6"/>
+    </node>
+	
+  </dialogtree>
+    <dialogtree treeid="1" treeName="BOSS">
+    <node line="You blocked me on facebook" id="0">
+      <option line="Woot" nextnode="1"/>
+      <option line="And?" nextnode="1"/>
+    </node>                                                   
+    <node line="...And now you are going to die" id="1">
+      <option line="shiet" nextnode="666"/>
+      <option line="ok then" nextnode="666"/>
+    </node>
+  </dialogtree>
+  
+  
+  
+  
+  
+  
+</dialogue> 

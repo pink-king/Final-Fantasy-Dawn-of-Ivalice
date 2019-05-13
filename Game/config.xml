@@ -5,7 +5,7 @@
     <title>Final Fantasy: Dawn of Ivalice</title>
     <organization>Pink King Games</organization>
   </app>
-	
+
   <renderer>
     <vsync value="true"/>
   </renderer>
@@ -77,7 +77,7 @@
         </image>
         -->
         <image name="coin">
-          <section x="59" y="519" w="25" h="25"/>
+          <section x="59" y="518" w="26" h="26"/>
           <position x="1121" y="31"/>
         </image>
 
@@ -321,21 +321,21 @@
       </images>
       <buttons>
         <button name="button_ingame" function = "FadeToScene">
-          <idleSec x="856" y="2252" w="216" h="67"/>
-          <hoverSec x="856" y="2320" w="216" h="67" />
-          <clickSec x="856" y="2388" w="216" h="67" />
+          <idleSec x="856" y="2320" w="222" h="67"/>
+          <hoverSec x="856" y="2252" w="222" h="67" />
+          <clickSec x="856" y="2388" w="222" h="67" />
           <position x="101" y="360"/>
         </button>
         <button name="button_settings" function = "SettingsScreen">
-          <idleSec x="1073" y="2252" w="216" h="67"/>
-          <hoverSec x="1073" y="2320" w="216" h="67" />
-          <clickSec x="1073" y="2388" w="216" h="67" />
+          <idleSec  x="1079" y="2320" w="222" h="67"/>
+          <hoverSec x="1079" y="2252" w="222" h="67" />
+          <clickSec x="1079" y="2388" w="222" h="67" />
           <position x="101" y="460"/>
         </button>
         <button name="button_exit" function = "ExitGame">
-          <idleSec x="856" y="2456" w="216" h="67"/>
-          <hoverSec x="856" y="2524" w="216" h="67" />
-          <clickSec x="856" y="2592" w="216" h="67" />
+          <idleSec  x="856" y="2524" w="222" h="67"/>
+          <hoverSec x="856" y="2456" w="222" h="67" />
+          <clickSec x="856" y="2592" w="222" h="67" />
           <position x="101" y="560"/>
         </button>
 
@@ -357,6 +357,8 @@
           <position x="541" y="60"/>
           <color R="255" G="255" B="255" A="255"/>
           <text value="SETTINGS"/>
+          <path p="fonts/Pieces_of_Eight/Pieces of Eight.ttf"/>
+          <size s="48"/>
         </label>
       </labels>
 
@@ -404,9 +406,9 @@
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
-          <idleSec x="1073" y="2456" w="215" h="64"/>
-          <hoverSec x="1073" y="2521" w="215" h="64" />
-          <clickSec x="1073" y="2586" w="215" h="64" />
+          <idleSec  x="1079" y="2524" w="222" h="67"/>
+          <hoverSec x="1079" y="2456" w="222" h="67" />
+          <clickSec x="1079" y="2592" w="222" h="67" />
           <position x="267" y="561"/>
         </button>
       </buttons>
@@ -432,20 +434,22 @@
           <position x="500" y="93"/>
           <color R="0" G="0" B="0" A="255"/>
           <text value="PAUSE MENU"/>
+          <path p="fonts/Pieces_of_Eight/Pieces of Eight.ttf"/>
+          <size s="48"/>
         </label>
       </labels>
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToStartMenu">
-          <idleSec x="856" y="2725" w="215" h="64"/>
-          <hoverSec x="856" y="2660" w="215" h="64" />
-          <clickSec x="1072" y="2651" w="215" h="64" />
+          <idleSec  x="856" y="2728" w="222" h="67"/>
+          <hoverSec x="856" y="2660" w="222" h="67" />
+          <clickSec x="856" y="2796" w="222" h="67" />
           <position x="530" y="440"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
-          <idleSec x="1073" y="2456" w="215" h="64"/>
-          <hoverSec x="1073" y="2521" w="215" h="64" />
-          <clickSec x="1073" y="2586" w="215" h="64" />
+          <idleSec  x="1079" y="2524" w="222" h="67"/>
+          <hoverSec x="1079" y="2456" w="222" h="67" />
+          <clickSec x="1079" y="2592" w="222" h="67" />
           <position x="530" y="551"/>
         </button>
       </buttons>
@@ -480,38 +484,38 @@
 
       </images>
     </Inventory>
-    
-  <DeathScreen>
+
+    <DeathScreen>
       <images>
         <image name="death_screen">
-          <section x="1290" y="1653" w="1280" h="720"/>
+          <section x="1311" y="1653" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
       </images>
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToStartMenuFromDeathWin">
-          <idleSec x="856" y="2725" w="215" h="64"/>
-          <hoverSec x="856" y="2660" w="215" h="64" />
-          <clickSec x="1072" y="2651" w="215" h="64" />
+          <idleSec  x="856" y="2728" w="222" h="67"/>
+          <hoverSec x="856" y="2660" w="222" h="67" />
+          <clickSec x="856" y="2796" w="222" h="67" />
           <position x="540" y="600"/>
         </button>
       </buttons>
     </DeathScreen>
-    
-  <WinScreen>
+
+    <WinScreen>
       <images>
         <image name="win_screen">
-          <section x="1290" y="2374" w="1280" h="720"/>
+          <section x="1311" y="2374" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
       </images>
 
       <buttons>
         <button name="button_backMenuWin" function = "GoBackToStartMenuFromDeathWin">
-          <idleSec x="856" y="2725" w="215" h="64"/>
-          <hoverSec x="856" y="2660" w="215" h="64" />
-          <clickSec x="1072" y="2651" w="215" h="64" />
+          <idleSec  x="856" y="2728" w="222" h="67"/>
+          <hoverSec x="856" y="2660" w="222" h="67" />
+          <clickSec x="856" y="2796" w="222" h="67" />
           <position x="540" y="600"/>
         </button>
       </buttons>
@@ -529,12 +533,12 @@
   </map>
 
   <loot>
-    
+
     <gold min ="50" max ="300"/>
-   
-    
+
+
     <potions>
-      <health_potion id="1" value ="2"/>  
+      <health_potion id="1" value ="2"/>
     </potions>
 
     <equipable>
@@ -543,25 +547,25 @@
         <equipment id="2" character="marche" name="sword_2" min ="10" max ="25"/>
         <equipment id="3" character="marche" name="legendary_sword" min ="20" max ="30"/>
       </sword>
-      
+
       <armor>
         <equipment id="1" character="marche" name="armor_1"/>
         <equipment id="2" character="marche" name="armor_2"/>
         <equipment id="3" character="marche" name="legendary_armor"/>
       </armor>
-      
+
       <bow>
         <equipment id="1" character="shara" name="bow_1"/>
         <equipment id="2" character="shara" name="bow_2"/>
         <equipment id="3" character="shara" name="legendary_bow"/>
       </bow>
-      
+
       <vest>
         <equipment id="1" character="shara" name="vest_1"/>
         <equipment id="2" character="shara" name="vest_2"/>
         <equipment id="3" character="shara" name="legendary_vest"/>
       </vest>
-      
+
       <rod>
         <equipment id="1" character="ritz" name="stick_1"/>
         <equipment id="2" character="ritz" name="stick_2"/>
@@ -573,5 +577,5 @@
         <equipment id="3" character="ritz" name="legendary_mantle"/>
       </mantle>
     </equipable>
-    </loot>
+  </loot>
 </config>

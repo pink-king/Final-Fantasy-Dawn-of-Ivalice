@@ -112,6 +112,28 @@ bool j1AttackManager::CleanUp()
 	if (currentPropagationAttacks.size() > 0)
 	{
 		LOG("TODO");
+		for (std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin(); iter != currentPropagationAttacks.end();++iter)
+		{
+			delete *iter;
+			*iter = nullptr;
+		}	
+		currentPropagationAttacks.clear();
+	}
+
+	if (debugSubtileTex != nullptr)
+	{
+		App->tex->UnLoad(debugSubtileTex);
+		debugSubtileTex = nullptr;
+	}
+	if (debugSubtileTex2 != nullptr)
+	{
+		App->tex->UnLoad(debugSubtileTex2);
+		debugSubtileTex2 = nullptr;
+	}
+	if (debugSubtileTex3 != nullptr)
+	{
+		App->tex->UnLoad(debugSubtileTex3);
+		debugSubtileTex3 = nullptr;
 	}
 
 	return true;
@@ -119,7 +141,7 @@ bool j1AttackManager::CleanUp()
 
 void j1AttackManager::AddPropagationAttack(const j1Entity* fromEntity, iPoint startSubtilePoint, propagationType propagationType, damageType dmgType, ELEMENTAL_TYPE elemType, int baseDamage, int subTileStepRadius, uint32 propagationStepSpeed, bool instantiateParticles, bool paralize)
 {
-	currentPropagationAttacks.push_back(new attackData(fromEntity, startSubtilePoint,propagationType, dmgType, elemType, baseDamage, subTileStepRadius, propagationStepSpeed, instantiateParticles, paralize));
+	currentPropagationAttacks.push_back(DBG_NEW attackData(fromEntity, startSubtilePoint,propagationType, dmgType, elemType, baseDamage, subTileStepRadius, propagationStepSpeed, instantiateParticles, paralize));
 }
 
 //void j1AttackManager::AddPropagationAttack(attackData* data)
@@ -149,7 +171,6 @@ attackData::attackData(const j1Entity* fromEntity, iPoint startSubtilePoint, pro
 
 attackData::~attackData()
 {
-	LOG("destroyed attackdata package");
 }
 
 bool attackData::Start()
