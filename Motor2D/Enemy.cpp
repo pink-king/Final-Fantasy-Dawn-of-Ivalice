@@ -56,20 +56,11 @@ LOG("parent enemy bye");
 bool Enemy::SearchNewPath()
 {
 	bool ret = false;
-	if (path_to_follow.size() > 0)
-	{
-		std::vector<iPoint>::iterator item = path_to_follow.begin();
-		for (; item != path_to_follow.end(); ++item)
-		{
-			if (App->entityFactory->isThisSubtileReserved(*item))
-			{
-				App->entityFactory->FreeAdjacent(*item);
-				break;
-			}
-		}
-	}
+	if (path_to_follow.empty() == false)
+		FreeMyReservedAdjacents();
 
 	path_to_follow.clear();
+
 	iPoint thisTile = App->map->WorldToMap((int)GetPivotPos().x, (int)GetPivotPos().y);
 	iPoint playerTile = App->map->WorldToMap((int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y);
 
@@ -95,18 +86,8 @@ bool Enemy::SearchNewPath()
 bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other enemies
 {
 	bool ret = false;
-	if (path_to_follow.size() > 0)
-	{
-		std::vector<iPoint>::iterator item = path_to_follow.begin();
-		for (; item != path_to_follow.end(); ++item)
-		{
-			if (App->entityFactory->isThisSubtileReserved(*item))
-			{
-				App->entityFactory->FreeAdjacent(*item);
-				break;
-			}
-		}
-	}
+	if (path_to_follow.empty() == false)
+		FreeMyReservedAdjacents();
 
 	path_to_follow.clear();
 	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
@@ -144,58 +125,39 @@ bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other
 				App->entityFactory->ReserveAdjacent(adj);
 				ret = (path_to_follow.size() > 0);
 			}
-	else LOG("Could not create path correctly");
+		else LOG("Could not create path correctly");
 	}
 
 	return ret;
 }
 
-//bool Enemy::SearchNewSubPath(bool ignoringColl)		// Default -> path avoids other enemies
-//{
-//	bool ret = false;
-//	if (path_to_follow.size() > 0)
-//	{
-//		std::vector<iPoint>::iterator item = path_to_follow.begin();
-//		for (; item != path_to_follow.end(); ++item)
-//		{
-//			if (App->entityFactory->isThisSubtileReserved(*item))
-//			{
-//				App->entityFactory->FreeAdjacent(*item);
-//				break;
-//			}
-//		}
-//	}
-//
-//	path_to_follow.clear();
-//	iPoint thisTile = App->map->WorldToSubtileMap((int)GetPivotPos().x, (int)GetPivotPos().y);
-//	iPoint playerTile = App->entityFactory->player->GetSubtilePos();
-//
-//	if (thisTile.DistanceManhattan(playerTile) > 1) // The enemy doesnt collapse with the player
-//	{
-//		if (!ignoringColl)
-//			App->pathfinding->CreateSubtilePath(thisTile, playerTile);
-//		else
-//			App->pathfinding->CreateSubtilePath(thisTile, playerTile, true);
-//
-//		path_to_follow = *App->pathfinding->GetLastPath();
-//		if (path_to_follow.size() > 1)
-//			path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
-//
-//		if (path_to_follow.size() > 1)
-//			path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
-//
-//		iPoint adj = path_to_follow.back();
-//		App->entityFactory->ReserveAdjacent(adj);
-//
-//		if (path_to_follow.size() > 0)
-//			ret = true; 
-//		else
-//			LOG("Could not create path correctly");
-//	}
-//
-//	return ret;
-//}
+bool Enemy::SearchPathToSubtile(const iPoint& goal)
+{
+	bool ret = false;
 
+	if (path_to_follow.empty() == false)
+		FreeMyReservedAdjacents();
+
+	path_to_follow.clear();
+
+	if (imOnSubtile.DistanceManhattan(goal) > 1)
+	{
+		if (App->pathfinding->CreateSubtilePath(imOnSubtile, goal) > 0)
+		{
+			path_to_follow = *App->pathfinding->GetLastPath();
+			//if (path_to_follow.size() > 1)
+			//	path_to_follow.erase(path_to_follow.begin());		// Enemy doesnt go to the center of his initial tile
+
+			//if (path_to_follow.size() > 1)
+			//	path_to_follow.pop_back();							// Enemy doesnt eat the player, stays at 1 tile
+
+			/*iPoint adj = path_to_follow.back();
+			App->entityFactory->ReserveAdjacent(adj);*/
+			ret = (path_to_follow.size() > 0);
+		}
+	}
+	return ret;
+}
 
 int Enemy::GetRandomValue(const int& min, const int& max) const
 {
@@ -224,9 +186,69 @@ bool Enemy::isNextPosFree(iPoint futurePos)
 	return !(onSubtilePosTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEnemyFree(onSubtilePosTemp));
 }
 
+bool Enemy::CheckFuturePos(float dt) const
+{
+	fPoint tempPos = GetPivotPos() + velocity * dt * speed;
+	iPoint subtileTemp = App->map->WorldToSubtileMap(tempPos.x, tempPos.y);
+
+	return !(subtileTemp != previousSubtilePos && !App->entityFactory->isThisSubtileEnemyFree(subtileTemp));
+}
+
 bool Enemy::isOnDestiny() const
 {
 	return GetPivotPos().DistanceTo(currentDestiny.Return_fPoint()) < 5;
+}
+void Enemy::FreeMyReservedAdjacents()
+{
+	std::vector<iPoint>::iterator item = path_to_follow.begin();
+	for (; item != path_to_follow.end(); ++item)
+	{
+		if (App->entityFactory->isThisSubtileReserved(*item))
+		{
+			App->entityFactory->FreeAdjacent(*item);
+			break;
+		}
+	}
+}
+
+iPoint Enemy::SearchNeighbourSubtile() const
+{
+	fPoint goal = position + velocity * speed * App->GetDt();
+	iPoint goalSubtile = App->map->WorldToSubtileMap(goal.ReturniPoint().x, goal.ReturniPoint().y);
+	iPoint neighbours[4];
+	neighbours[0] = goalSubtile + iPoint(1, 0);
+	neighbours[1] = goalSubtile + iPoint(0, 1);
+	neighbours[2] = goalSubtile + iPoint(-1, 0);
+	neighbours[3] = goalSubtile + iPoint(0, -1);
+	uint i = 0;
+	for (i; i <= 3; ++i)
+	{
+		if (App->entityFactory->isThisSubtileEnemyFree(neighbours[i]))
+		{
+			// This is the first free
+
+			return neighbours[i];
+			//SearchPathToSubtile(neighbours[i]);
+			break;
+		}
+	}
+
+	return iPoint(0, 0);
+
+}
+
+void Enemy::SetNewDirection()
+{
+	velocity = currentDestiny.Return_fPoint() - GetPivotPos();
+	velocity.Normalize();
+	SetLookingTo(currentDestiny.Return_fPoint());
+
+	currentAnimation = &run[pointingDir];
+}
+
+void Enemy::MoveToCurrDestiny(float dt)
+{
+	position += velocity * dt * speed;
 }
 
 int Enemy::GetPointingDir(float angle)
@@ -353,9 +375,4 @@ void Enemy::Draw()
 	}	
 }
 
-void j1Entity::DoPushback()
-{
 
-	position.x +=  unitariX*13;
-	position.y +=  unitariY*13;
-}

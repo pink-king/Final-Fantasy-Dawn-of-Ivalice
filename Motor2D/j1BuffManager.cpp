@@ -170,14 +170,19 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
 		App->audio->PlayFx(App->entityFactory->goblinAttack, 0);
 
-	if (attacker->type == ENTITY_TYPE::PLAYER)
-		getPlayerandEnemyVec(attacker, defender);
+	/*if (attacker->type == ENTITY_TYPE::PLAYER)
+		getPlayerandEnemyVec(attacker, defender);*/
 
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
+		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
+		
+		App->entityFactory->pushEF = true;
+
+		
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
@@ -1072,8 +1077,9 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 {
 	fPoint vec;
 
-	vec.x = enemy->position.x - player->position.x;
-	vec.y = enemy->position.y - player->position.y;
+	enemy->GetPivotPos();
+	vec.x = player->GetPivotPos().x - enemy->GetPivotPos().x;
+	vec.y = player->GetPivotPos().y - enemy->GetPivotPos().y;
 	LOG("xlabel %f", vec.x);
 	LOG("ylabel %f", vec.y);
 
@@ -1085,58 +1091,15 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 	unitVec.y = vec.y / vecModule;
 	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
 	int xfactor, yfactor;
-	enemy->unitariX = unitVec.x;
-	enemy->unitariY = unitVec.y;
-	enemy->DoPush = true;
 	
+	player->unitariX = unitVec.x;
+	player->unitariY = unitVec.y;
+	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
+	
+	player->DoPush = true;
+	LOG("log from buffmanager getplayerEnemy");
+	return unitVec;
+
 	return vec;
 
-	//if (unitVec.x > 0 && unitVec.y > 0)
-	//{
-	//	xfactor = 1;
-	//	yfactor = 1;
-	//}
-	//else if (unitVec.x > 0 && unitVec.y < 0)
-	//{
-	//	xfactor = 1;
-	//	yfactor = -1;
-	//}
-	//else if (unitVec.x < 0 && unitVec.y > 0)
-	//{
-	//	xfactor = -1;
-	//	yfactor = 1;
-	//}
-	//else if (unitVec.x < 0 && unitVec.y < 0)
-	//{
-	//	xfactor = -1;
-	//	yfactor = -1;
-	//}
-	//else if (unitVec.x == 0 && unitVec.y == 0)
-	//{
-	//	xfactor = 0;
-	//	yfactor = 0;
-	//}
-	//else if (unitVec.x == 0 && unitVec.y < 0)
-	//{
-	//	xfactor = 0;
-	//	yfactor = -1;
-	//}
-	//else if (unitVec.x < 0 && unitVec.y == 0)
-	//{
-	//	xfactor = -1;
-	//	yfactor = 0;
-	//}
-	//else if (unitVec.x > 0 && unitVec.y == 0)
-	//{
-	//	xfactor = 1;
-	//	yfactor = 0;
-	//}
-	//else if (unitVec.x == 0 && unitVec.y > 0)
-	//{
-	//	xfactor = 0;
-	//	yfactor = 1;
-	//}
-
-	/*float cosAngle = xfactor / unitVec.x;
-	float senAngle = yfactor / unitVec.y;*/
 }

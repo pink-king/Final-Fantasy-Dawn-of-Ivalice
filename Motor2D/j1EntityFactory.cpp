@@ -102,7 +102,7 @@ bool j1EntityFactory::Start()
 	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_Ability2.wav");
 	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_teleport.wav");
 	RitzUltimate = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_ultimateTest2.wav");
-	
+
 
 	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara/Shara_damaged.wav");
 	sharaBasic = App->audio->LoadFx("audio/fx/Player/Shara/sharaBasic.wav");
@@ -1644,4 +1644,14 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 		++player->level;
 		player->exp -= player->maxExpInLevel;
 	}
+}
+
+fPoint j1EntityFactory::getplayerDamagevec()
+{
+	return dmg_vec;
+}
+
+void j1EntityFactory::setPlayerDmageVec(fPoint unitari)
+{
+	dmg_vec = unitari;
 }

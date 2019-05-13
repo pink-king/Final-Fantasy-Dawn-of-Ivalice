@@ -556,6 +556,15 @@ bool Ritz::Update(float dt)
 		}
 	}
 
+	if (App->entityFactory->pushEF)
+	{
+
+		DoPushback();
+		DoPush = false;
+		App->entityFactory->pushEF = false;
+		LOG("log from ritz update()");
+	}
+
 	/*if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, this, "\0", 1000);*/
 	// CHECK COMBAT STATE

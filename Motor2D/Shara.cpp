@@ -402,6 +402,14 @@ bool Shara::Update(float dt)
 		}
 	}
 
+	if (App->entityFactory->pushEF)
+	{
+
+		DoPushback();
+		DoPush = false;
+		App->entityFactory->pushEF = false;
+		LOG("log from shara update()");
+	}
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{

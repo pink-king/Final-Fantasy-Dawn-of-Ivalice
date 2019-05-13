@@ -109,7 +109,12 @@ public:
 
 	void AddExp(Enemy* enemy);
 	
+	fPoint getplayerDamagevec();
+	void setPlayerDmageVec(fPoint unitari);
+
 public:
+	fPoint					dmg_vec;
+	bool					pushEF = false;
 
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;

@@ -691,6 +691,14 @@ bool Marche::Update(float dt)
 		}
 	}
 
+	if (App->entityFactory->pushEF)
+	{
+
+		DoPushback();
+		DoPush = false;
+		App->entityFactory->pushEF = false;
+		LOG("log from marche update()");
+	}
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{
@@ -1231,3 +1239,4 @@ bool Marche::Save(pugi::xml_node &node) const
 	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
 	return true;
 }
+
