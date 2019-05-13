@@ -125,7 +125,7 @@ private:
 
 	EquipmentStatType equipmentLootInfo; 
 	descriptionType descrType; 
-	std::string name_object;
+	bool tabOnConsumable = false;
 };
 
 #endif

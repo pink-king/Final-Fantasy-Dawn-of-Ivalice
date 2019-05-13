@@ -273,7 +273,7 @@ UiItem_Description::~UiItem_Description()
 void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
-
+	
 	if (!App->scene->inventory->enable && spawnedInventoryImage)                       // if inventory is no longer enabled, delete description
 		App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
 
@@ -289,7 +289,31 @@ void UiItem_Description::Draw(const float& dt)
 
 		if (App->scene->inventory->enable)             // shpw description
 		{
+			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+			{
+				if (!tabOnConsumable)
+				{
+					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
+					for (; item != App->gui->ListItemUI.end(); ++item)
+					{
+						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 386)
+						{
+							App->gui->selected_object = (*item);
+						}
+					}
+					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
+					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffsetPotion.y;
+					tabOnConsumable = true;
+				}
+				else
+				{
+					App->gui->resetHoverSwapping = false;
+					tabOnConsumable = false;
+				}
 
+				
+				
+			}
 			if (App->gui->selected_object == iconImageInventory)
 			{
 
