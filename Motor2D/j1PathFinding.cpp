@@ -100,8 +100,7 @@ bool j1PathFinding::CleanUp()
 	App->tex->UnLoad(debug_texture);
 	debug_texture = nullptr;
 
-	last_path.clear();
-	debugPath.clear();
+
 	RELEASE_ARRAY(map);
 	return true;
 }

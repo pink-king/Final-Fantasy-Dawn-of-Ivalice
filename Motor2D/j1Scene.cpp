@@ -816,6 +816,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
+		App->entityFactory->CreatePlayer({ -1563, 1000 });
 		break;
 
 	case SceneState::LEVEL2:
