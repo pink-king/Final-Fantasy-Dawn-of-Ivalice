@@ -274,7 +274,11 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-	
+		result_volume = volume_bar->GetBarValue();
+		App->audio->SetVolume(result_volume);
+		result_fx = fx_bar->GetBarValue();
+		App->audio->SetFxVolume(result_fx); 
+
 		if (startMenu->enable || inventory->enable)
 			AcceptUISFX_logic = true;
 		else if (!startMenu->enable && !inventory->enable)
