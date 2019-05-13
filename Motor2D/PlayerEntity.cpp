@@ -260,18 +260,18 @@ void PlayerEntity::Draw()
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 
-		if (App->entityFactory->pushEF)
-		{
-			alphaTimer.Start();
-			SDL_SetTextureAlphaMod(entityTex, 200);
+		//if (App->entityFactory->pushEF)
+		//{
+		//	alphaTimer.Start();
+		//	SDL_SetTextureAlphaMod(entityTex, 200);
 
-			/*SDL_BlendMode hola;
-			hola = SDL_BLENDMODE_BLEND;*/ 
-			//SDL_SetTextureBlen
-            //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
-		}
-		if (alphaTimer.Read() > 0 && alphaTimer.Read() <= 3000)
-			Blinker(entityTex, alphaTimer);
+		//	/*SDL_BlendMode hola;
+		//	hola = SDL_BLENDMODE_BLEND;*/ 
+		//	//SDL_SetTextureBlen
+  //          //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
+		//}
+		//if (alphaTimer.Read() > 0 && alphaTimer.Read() <= 3000)
+		//	Blinker(entityTex, alphaTimer);
 	}
 }
 
