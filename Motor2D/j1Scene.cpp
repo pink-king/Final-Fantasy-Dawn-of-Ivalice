@@ -361,7 +361,7 @@ bool j1Scene::Update(float dt)
 			inventoryItem->LoadElements();
 		}
 
-		if (inventory->enable && inventoryItem->swappedBag && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
+		if (inventory->enable && inventoryItem->swappedBag && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
 		{
 			inventoryItem->swappedBag = false;
 			inventoryItem->firstTimeSwappedBag = false;
