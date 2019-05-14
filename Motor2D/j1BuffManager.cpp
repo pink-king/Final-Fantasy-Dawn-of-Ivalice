@@ -179,10 +179,11 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
 		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
-		
+		defender->alphaTimer.Start();
 		App->entityFactory->pushEF = true;
-
-		
+		App->input->DoGamePadRumble(200, 100);
+		App->camera2D->AddTrauma(0.5f);
+		App->pause = true;
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
@@ -1092,14 +1093,12 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
 	int xfactor, yfactor;
 	
-	player->unitariX = unitVec.x;
-	player->unitariY = unitVec.y;
+	
 	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
 	
-	player->DoPush = true;
+
 	LOG("log from buffmanager getplayerEnemy");
 	return unitVec;
 
-	return vec;
 
 }

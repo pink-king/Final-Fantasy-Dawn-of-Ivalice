@@ -21,7 +21,7 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
-	timeToBlink = 50;
+	timeToBlink = 200;
 
 	return true;
 }
@@ -260,18 +260,22 @@ void PlayerEntity::Draw()
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 
-		//if (App->entityFactory->pushEF)
-		//{
-		//	alphaTimer.Start();
-		//	SDL_SetTextureAlphaMod(entityTex, 200);
+		if (App->entityFactory->pushEF)
+		{
+			
+			
+			//SDL_SetTextureColorMod(entityTex, 0, 0, 0);
+			/*SDL_BlendMode hola;
+			hola = SDL_BLENDMODE_BLEND;*/ 
+			//SDL_SetTextureBlen
+            //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
+			
 
-		//	/*SDL_BlendMode hola;
-		//	hola = SDL_BLENDMODE_BLEND;*/ 
-		//	//SDL_SetTextureBlen
-  //          //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
-		//}
-		//if (alphaTimer.Read() > 0 && alphaTimer.Read() <= 3000)
-		//	Blinker(entityTex, alphaTimer);
+		}
+		
+
+		else SDL_SetTextureColorMod(entityTex, 255, 255, 255), SDL_SetTextureAlphaMod(entityTex, 255);
+			
 	}
 }
 
@@ -280,15 +284,21 @@ void PlayerEntity::Blinker(SDL_Texture* texture, j1Timer blink)
 
 	if (blink.Read() <= timeToBlink)
 	{
-		SDL_SetTextureAlphaMod(texture, 255);
-
+		
+		SDL_SetTextureAlphaMod(entityTex, 255);
+		SDL_SetTextureColorMod(entityTex, 255 , 0, 0);
+		
+		
 	}
-	else  if (blink.Read() > timeToBlink && blink.Read() <= 50 + timeToBlink) //update time to blink (need)
+	else  if (blink.Read() > timeToBlink && blink.Read() <= 200 + timeToBlink) //update time to blink (need)
 
 	{
-		SDL_SetTextureAlphaMod(texture, 0);
+		SDL_SetTextureAlphaMod(entityTex, 0);
+
+		SDL_SetTextureColorMod(entityTex, 0 , 0, 0);
+		
 	}
-	else timeToBlink += 100;
+	else timeToBlink += 400;
 
 }
 
@@ -633,10 +643,11 @@ void PlayerEntity::DoDash()
 
 void j1Entity::DoPushback()
 {
+	
 	fPoint originilaPos = position;
-
-	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 3;
-	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 3;
+	
+	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 4;
+	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 4;
 	LOG("position.x %f", position.x);
 	LOG("position.y %f", position.y);
 	LOG("displaced Pos X %f", position.x - originilaPos.x);

@@ -124,9 +124,10 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	j1Timer alphaTimer;
+	
 	void Blinker(SDL_Texture* entityTex, j1Timer alphaTimer);
 	int timeToBlink;
+	bool blink = false;
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/
@@ -136,6 +137,7 @@ private:
 
 	bool debug = true;
 	iPoint offset = { 0,0 }; // debug draw offset TODO: change name
+	
 };
 
 #endif

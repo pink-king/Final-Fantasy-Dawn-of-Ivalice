@@ -695,10 +695,26 @@ bool Marche::Update(float dt)
 	{
 
 		DoPushback();
-		DoPush = false;
+		blink = true;
+		alphaTimer.Start();
 		App->entityFactory->pushEF = false;
 		LOG("log from marche update()");
+		App->render->SetTextureColor(entityTex, 255, 0, 0);
+
 	}
+	else App->pause = false;
+
+	//if (blink)
+	//{
+	//	if (alphaTimer.Read() >= alphaTimer.GetStartedAt() && alphaTimer.Read() < 3000 + alphaTimer.GetStartedAt())
+	//		Blinker(entityTex, alphaTimer);
+	//	else /*if (alphaTimer.Read() > 3000 + alphaTimer.GetStartedAt())*/
+	//	{
+	//		blink = false, App->pause = false;
+	//	}
+
+	//	
+	//}
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{

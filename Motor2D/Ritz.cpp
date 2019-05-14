@@ -560,10 +560,14 @@ bool Ritz::Update(float dt)
 	{
 
 		DoPushback();
-		DoPush = false;
+		blink = true;
+		alphaTimer.Start();
 		App->entityFactory->pushEF = false;
-		LOG("log from ritz update()");
+		LOG("log from marche update()");
+		App->render->SetTextureColor(entityTex, 255, 0, 0);
+
 	}
+	else App->pause = false;
 
 	/*if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, this, "\0", 1000);*/

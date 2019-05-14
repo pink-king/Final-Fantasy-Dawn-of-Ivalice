@@ -114,6 +114,11 @@ void j1Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
+void j1Render::SetTextureColor(SDL_Texture* tex, uint r, uint g, uint b)
+{
+	SDL_SetTextureColorMod(tex, r, g, b);
+}
+
 void j1Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);

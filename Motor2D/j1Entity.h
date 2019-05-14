@@ -153,10 +153,10 @@ public:
 	bool					manualCollectable;
 	int						value;
 
-	float					unitariX;
-	float					unitariY;
 
-	bool					DoPush = false;
+
+	fPoint dmgDestinationPos;
+	j1Timer					alphaTimer;
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
