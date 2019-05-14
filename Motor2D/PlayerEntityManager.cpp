@@ -308,7 +308,7 @@ bool PlayerEntityManager::CleanUp()
 
 bool PlayerEntityManager::Load(pugi::xml_node &node)
 {
-
+	
 	level = node.child("Experience").attribute("level").as_uint();
 	exp = node.child("Experience").attribute("exp").as_uint();
 
@@ -325,20 +325,20 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 			bagObjects.push_back(bagObj);
 	}
 
-	for (pugi::xml_node nodebagObjects = node.child("equipedObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("equipedObjects"))
+	for (pugi::xml_node nodeeqipedObjects = node.child("equipedObjects"); nodeeqipedObjects; nodeeqipedObjects = nodeeqipedObjects.next_sibling("equipedObjects"))
 	{
 		LootEntity* equipedObj = DBG_NEW LootEntity();
-		equipedObj->Load(nodebagObjects, equipedObj);
+		equipedObj->Load(nodeeqipedObjects, equipedObj);
 		if (equipedObj != nullptr)
 			equipedObjects.push_back(equipedObj);
 	}
 
-	for (pugi::xml_node nodebagObjects = node.child("consumableObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("consumableObjects"))
+	for (pugi::xml_node nodecons = node.child("consumableObjects"); nodecons; nodecons = nodecons.next_sibling("consumableObjects"))
 	{
 		LootEntity* cons = DBG_NEW LootEntity();
-		cons->Load(nodebagObjects, cons);
+		cons->Load(nodecons, cons);
 		if (cons != nullptr)
-			equipedObjects.push_back(cons);
+			consumables.push_back(cons);
 	}
 
 	pugi::xml_node nodeMarche = node.child("players").child("Marche");
@@ -352,11 +352,6 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 bool PlayerEntityManager::Save(pugi::xml_node &node) const
 {
-	pugi::xml_node nodepos = node.append_child("position");
-
-	nodepos.append_attribute("x") = position.x;
-	nodepos.append_attribute("y") = position.y;
-
 	pugi::xml_node nodeexperience = node.append_child("Experience");
 	nodeexperience.append_attribute("level") = level;
 	nodeexperience.append_attribute("exp") = exp;
@@ -390,11 +385,10 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 		(*iter3)->Save(nodeconsumableObjects);
 	}
 
-	
+	pugi::xml_node nodePlayer = node.append_child("players");
 	std::vector<PlayerEntity*>::const_iterator iterChar = characters.begin();
 	for (; iterChar != characters.end(); ++iterChar)
 	{
-		pugi::xml_node nodePlayer = node.append_child("players");
 		(*iterChar)->Save(nodePlayer);
 	}
 

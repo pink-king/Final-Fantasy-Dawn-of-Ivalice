@@ -915,7 +915,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 				if (id == randID)
 				{
 					lootEntity->lootname = node.attribute("name").as_string();
-
+					lootEntity->name.assign(lootEntity->lootname.data());
 					if (id == 1)
 					{
 						if (lootEntity->level == 1)

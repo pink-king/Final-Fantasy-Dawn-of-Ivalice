@@ -23,6 +23,7 @@
 #include "GUI_Definitions.h"
 #include "Projectile.h"
 #include "j1DialogSystem.h"
+#include "j1TransitionManager.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -49,12 +50,13 @@ bool j1Scene::Start()
 {
 	debug = false;
 
+	App->pause = false;
 	if(debug_tex == nullptr)
 		debug_tex = App->tex->Load("maps/path2.png");
 
 	if (state == SceneState::LEVEL1)
 	{
-		//AcceptUISFX_logic = false;
+		AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
@@ -64,9 +66,16 @@ bool j1Scene::Start()
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+
+		if (ComeToDeath)
+		{
+			App->LoadGame("save_game.xml");
+			ComeToDeath = false;
+		}
 	}
 	if (state == SceneState::STARTMENU)
 	{
+		App->gui->resetHoverSwapping = false;
 		AcceptUISFX_logic = true;
 		if (!LoadedUi)
 		{
@@ -92,18 +101,18 @@ bool j1Scene::Start()
 		winPanel->enable = false;
 
 		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
-		begin = false;
 	}
 
 	if (state == SceneState::DEATH)
 	{
-		
 		App->audio->PlayFx(playerDeath, 0);
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 		inGamePanel->enable = false;
 		if (!deathPanel->enable)
 		deathPanel->enable = true;
+
+		ComeToDeath = true;
 	}
 
 	if (state == SceneState::WIN)
@@ -115,8 +124,6 @@ bool j1Scene::Start()
 			winPanel->enable = true;
 	}
 
-	begin = true;
-	
 		openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
 		closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
 		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
@@ -215,11 +222,11 @@ bool j1Scene::Update(float dt)
 	App->tex->textures;
 	// map debug draw grids
 
-	/*if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");*/
+		App->SaveGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -419,9 +426,10 @@ bool j1Scene::Update(float dt)
 	
 	if (App->entityFactory->player != nullptr && (state == SceneState::LEVEL1 || state == SceneState::LEVEL2))
 	{
-		if (App->entityFactory->player->life <= 0)
+		if (isDeath)
 		{
-			App->scene->LoadScene(SceneState::DEATH);
+			isDeath = false;
+			App->transitionManager->CreateFadeTransition(1.F,true,SceneState::DEATH);
 		}
 	}
 

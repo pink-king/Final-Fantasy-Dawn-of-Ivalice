@@ -102,8 +102,8 @@ public:
 	std::vector<Buff*>	stats;
 
 	uint price = 10;
-	EQUIPABLE_TYPE equipableType;
-	ELEMENTAL_TYPE elemetalType;
+	EQUIPABLE_TYPE equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
+	ELEMENTAL_TYPE elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
 
 	j1Entity* character = nullptr;
 	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;

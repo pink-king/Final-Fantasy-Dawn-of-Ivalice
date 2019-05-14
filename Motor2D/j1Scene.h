@@ -75,7 +75,7 @@ public:
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
-	
+	bool isDeath = false;
 	bool paused;
 	unsigned int openInventorySFX;
 	unsigned int closeinventorySFX;
@@ -111,9 +111,7 @@ private:
 	
 	PlayerEntityManager* player_selected = nullptr;
 
-	bool begin;
-	bool beginGameMus;
-
+	bool ComeToDeath = false;
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 

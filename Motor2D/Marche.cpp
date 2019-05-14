@@ -1238,21 +1238,24 @@ bool Marche::PostUpdate()
 	return true;
 }
 
+
 bool Marche::Load(pugi::xml_node &node)
 {
-	pugi::xml_node nodeSpeed = node.child("Marche");
+	pugi::xml_node nodeSpeed = node.child("speed");
 
-	position.x = nodeSpeed.attribute("speedx").as_float();
-	position.y = nodeSpeed.attribute("speedy").as_float();
+	characterBaseSpeed.x = nodeSpeed.attribute("speedx").as_float();
+	characterBaseSpeed.y = nodeSpeed.attribute("speedy").as_float();
+
 	return true;
 }
 
 bool Marche::Save(pugi::xml_node &node) const
 {
-	pugi::xml_node nodeData = node.append_child("Marche");
+	pugi::xml_node nodeSpeed = node.append_child("Marche").append_child("speed");
 
-	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
+	nodeSpeed.append_attribute("speedx") = characterBaseSpeed.x;
+	nodeSpeed.append_attribute("speedy") = characterBaseSpeed.y;
+
 	return true;
 }
 
