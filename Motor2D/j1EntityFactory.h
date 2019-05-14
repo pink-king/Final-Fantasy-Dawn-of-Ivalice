@@ -67,6 +67,7 @@ public:
 
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
+
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
 
@@ -98,6 +99,8 @@ public:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	void CreateLootStats(LootEntity* lootEntity);
+
 	int GetRandomValue(int min, int max);
 	j1Entity* CreateLootType(int x, int y, LOOT_TYPE definedType = LOOT_TYPE::NO_LOOT);
 	LOOT_TYPE WillDrop();

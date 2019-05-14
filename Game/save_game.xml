@@ -10,7 +10,7 @@
 		<Entities>
 			<Experience level="1" exp="0" />
 			<life actualLife="100" maxLife="100" />
-			<gold value="243" />
+			<gold value="0" />
 			<players>
 				<Marche>
 					<speed speedx="1.25" speedy="0.9375" />

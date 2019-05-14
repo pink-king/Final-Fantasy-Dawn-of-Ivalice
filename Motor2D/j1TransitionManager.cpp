@@ -14,7 +14,6 @@ j1TransitionManager::j1TransitionManager()
 
 j1TransitionManager::~j1TransitionManager()
 {
-	App->pause = false;
 }
 
 bool j1TransitionManager::Awake(pugi::xml_node &)

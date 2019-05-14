@@ -691,7 +691,7 @@ bool Marche::Update(float dt)
 		}
 	}
 
-	if (App->entityFactory->pushEF)
+	/*if (App->entityFactory->pushEF)
 	{
 
 		DoPushback();
@@ -702,7 +702,7 @@ bool Marche::Update(float dt)
 		App->render->SetTextureColor(entityTex, 255, 0, 0);
 
 	}
-	else App->pause = false;
+	else App->pause = false;*/
 
 	//if (blink)
 	//{

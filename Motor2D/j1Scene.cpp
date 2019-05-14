@@ -50,13 +50,14 @@ bool j1Scene::Start()
 {
 	debug = false;
 
-	App->pause = false;
 	if(debug_tex == nullptr)
 		debug_tex = App->tex->Load("maps/path2.png");
 
+	App->pause = false;
+
 	if (state == SceneState::LEVEL1)
 	{
-		AcceptUISFX_logic = false;
+		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
@@ -428,6 +429,9 @@ bool j1Scene::Update(float dt)
 	{
 		if (isDeath)
 		{
+			App->entityFactory->player->exp = 0;
+			App->SaveGame("save_game.xml");
+			App->entityFactory->player->life = App->entityFactory->player->maxLife;
 			isDeath = false;
 			App->transitionManager->CreateFadeTransition(1.F,true,SceneState::DEATH);
 		}

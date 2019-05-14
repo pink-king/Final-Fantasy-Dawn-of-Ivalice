@@ -182,7 +182,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->entityFactory->pushEF = true;
 		App->input->DoGamePadRumble(200, 100);
 		App->camera2D->AddTrauma(0.5f);
-		App->pause = true;
+
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
@@ -283,9 +283,6 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
-		App->entityFactory->player->exp = 0;
-		App->SaveGame("save_game.xml");
-		App->entityFactory->player->life = App->entityFactory->player->maxLife;
 		App->scene->isDeath = true;
 		App->pause = true;
 	}
@@ -1024,9 +1021,6 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	}
 	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER)
 	{
-		App->entityFactory->player->exp = 0;
-		App->SaveGame("save_game.xml");
-		App->entityFactory->player->life = App->entityFactory->player->maxLife;
 		App->scene->isDeath = true;
 		App->pause = true;
 	}

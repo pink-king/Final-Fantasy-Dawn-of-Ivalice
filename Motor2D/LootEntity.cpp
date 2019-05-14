@@ -16,7 +16,7 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	engine.seed(rd());
 	
 	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
-
+	level = 0;
 	
 }
 
@@ -65,6 +65,8 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 	pugi::xml_node nodeData = node.child("data");
 
 	entityTex = App->entityFactory->lootItemsTex;
+
+	level = nodeData.attribute("level").as_int();
 
 	pugi::xml_node nodeRect = nodeData.child("rect");
 	loot_rect.x = nodeRect.attribute("x").as_int();
@@ -157,6 +159,7 @@ bool LootEntity::Save(pugi::xml_node &node) const
 	pugi::xml_node nodeData = node.append_child("data");
 
 	nodeData.append_attribute("name") = lootname.data();
+	nodeData.append_attribute("level") = level;
 
 	pugi::xml_node nodeRect = nodeData.append_child("rect");
 	nodeRect.append_attribute("x") = loot_rect.x;
