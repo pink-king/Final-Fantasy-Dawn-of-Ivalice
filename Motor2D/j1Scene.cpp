@@ -64,6 +64,12 @@ bool j1Scene::Start()
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+
+		if (ComeToDeath)
+		{
+			App->LoadGame("save_game.xml");
+			ComeToDeath = false;
+		}
 	}
 	if (state == SceneState::STARTMENU)
 	{
@@ -92,18 +98,18 @@ bool j1Scene::Start()
 		winPanel->enable = false;
 
 		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
-		begin = false;
 	}
 
 	if (state == SceneState::DEATH)
 	{
-		
 		App->audio->PlayFx(playerDeath, 0);
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 		inGamePanel->enable = false;
 		if (!deathPanel->enable)
 		deathPanel->enable = true;
+
+		ComeToDeath = true;
 	}
 
 	if (state == SceneState::WIN)
@@ -115,8 +121,6 @@ bool j1Scene::Start()
 			winPanel->enable = true;
 	}
 
-	begin = true;
-	
 		openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
 		closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
 		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
@@ -419,9 +423,10 @@ bool j1Scene::Update(float dt)
 	
 	if (App->entityFactory->player != nullptr && (state == SceneState::LEVEL1 || state == SceneState::LEVEL2))
 	{
-		if (App->entityFactory->player->life <= 0)
+		if (isDeath)
 		{
 			App->scene->LoadScene(SceneState::DEATH);
+			isDeath = false;
 		}
 	}
 

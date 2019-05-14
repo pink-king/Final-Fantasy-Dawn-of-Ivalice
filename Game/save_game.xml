@@ -8,31 +8,28 @@
 	<scene />
 	<entities>
 		<Entities>
-			<Experience level="1" exp="125" />
+			<Experience level="1" exp="0" />
 			<life actualLife="100" maxLife="100" />
-			<gold value="465" />
+			<gold value="680" />
 			<equipedObjects>
-				<data name="legendary_sword" characterObject="Marche" equipableType="sword" elementalType="poisonElement" objectType="weapon" lootType="equipable">
-					<rect x="59" y="67" w="16" h="16" />
+				<data name="bow_1" characterObject="Shara" equipableType="bow" elementalType="allElement" objectType="weapon" lootType="equipable">
+					<rect x="93" y="32" w="13" h="13" />
 				</data>
 				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="9" />
+					<data character="Shara" type="additive" elementType="poisonElement" rol="attack" value="14" />
 				</buffs>
 				<buffs>
-					<data character="Marche" type="multiplicative" elementType="poisonElement" rol="defence" value="0.159999996" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.649999976" />
+					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.839999974" />
 				</buffs>
 			</equipedObjects>
 			<players>
 				<Marche>
 					<speed speedx="1.25" speedy="0.9375" />
-					<pos posx="-1575" posy="2150" />
+					<pos posx="-1422.05017" posy="2061.00806" />
 				</Marche>
 				<Ritz>
 					<speed speedx="2" speedy="1.5" />
-					<pos posx="-1465.88721" posy="2158.33521" />
+					<pos posx="-1440.1582" posy="1708.36536" />
 				</Ritz>
 				<Shara>
 					<speed speedx="2" speedy="1.5" />
@@ -44,13 +41,10 @@
 	<AttackManager />
 	<Buff>
 		<buffs>
-			<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="9" />
+			<data character="Shara" type="additive" elementType="poisonElement" rol="attack" value="14" />
 		</buffs>
 		<buffs>
-			<data character="Marche" type="multiplicative" elementType="poisonElement" rol="defence" value="0.159999996" />
-		</buffs>
-		<buffs>
-			<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.649999976" />
+			<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.839999974" />
 		</buffs>
 	</Buff>
 	<ParticlesClassic />

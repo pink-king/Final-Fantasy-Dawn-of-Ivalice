@@ -282,7 +282,10 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
-		defender->life = 0;
+		App->entityFactory->player->exp = 0;
+		App->SaveGame("save_game.xml");
+		App->entityFactory->player->life = App->entityFactory->player->maxLife;
+		App->scene->isDeath = true;
 	}
 
 
@@ -1019,7 +1022,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	}
 	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER)
 	{
-		entity->life = 0;
+		App->entityFactory->player->exp = 0;
+		App->SaveGame("save_game.xml");
+		App->entityFactory->player->life = App->entityFactory->player->maxLife;
+		App->scene->isDeath = true;
 	}
 	if (entity->stat.size() == 0)
 		ret = true;
@@ -1121,10 +1127,13 @@ bool j1BuffManager::Save(pugi::xml_node &node) const
 {
 	for (std::list<Buff*>::const_iterator item = buffs.begin(); item != buffs.end(); ++item)
 	{
-		if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER)
+		if ((*item)->GetCharacter() != nullptr)
 		{
-			pugi::xml_node nodeBuffs = node.append_child("buffs");
-			(*item)->Save(nodeBuffs);
+			if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER)
+			{
+				pugi::xml_node nodeBuffs = node.append_child("buffs");
+				(*item)->Save(nodeBuffs);
+			}
 		}
 	}
 	return true;
