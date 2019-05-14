@@ -286,6 +286,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->SaveGame("save_game.xml");
 		App->entityFactory->player->life = App->entityFactory->player->maxLife;
 		App->scene->isDeath = true;
+		App->pause = true;
 	}
 
 
@@ -1026,6 +1027,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		App->SaveGame("save_game.xml");
 		App->entityFactory->player->life = App->entityFactory->player->maxLife;
 		App->scene->isDeath = true;
+		App->pause = true;
 	}
 	if (entity->stat.size() == 0)
 		ret = true;

@@ -24,6 +24,7 @@
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
 #include "j1DialogSystem.h"
+#include "j1TransitionManager.h"
 
 
 #define _CRTDBG_MAP_ALLOC
@@ -58,6 +59,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	camera2D = DBG_NEW j1ModuleCamera2D();
 	HPManager = DBG_NEW UiItem_HitPointManager();
 	dialog = DBG_NEW j1DialogSystem();
+	transitionManager = DBG_NEW j1TransitionManager();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -76,6 +78,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(camera2D);
 	AddModule(HPManager);
 	AddModule(dialog);
+	AddModule(transitionManager);
 	// render last to swap buffer
 	AddModule(render);
 

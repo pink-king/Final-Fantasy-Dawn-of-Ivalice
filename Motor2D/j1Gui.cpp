@@ -7,6 +7,7 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1Window.h"
+#include "j1TransitionManager.h"
 #include "p2Log.h"
 #include "Brofiler/Brofiler.h"
 
@@ -752,7 +753,7 @@ SDL_Texture* j1Gui::GetAtlas()
 void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
-	App->scene->LoadScene(SceneState::LEVEL1);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::LEVEL1);
 }
 
 void j1Gui::ExitGame()
@@ -790,13 +791,13 @@ void j1Gui::GoBackToStartMenu()
 {
 	resetHoverSwapping = false;
 	App->pause = false;
-	App->scene->LoadScene(SceneState::STARTMENU);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
 
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
-	App->scene->LoadScene(SceneState::STARTMENU);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
 
 

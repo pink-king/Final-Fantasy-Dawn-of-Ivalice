@@ -23,6 +23,7 @@
 #include "GUI_Definitions.h"
 #include "Projectile.h"
 #include "j1DialogSystem.h"
+#include "j1TransitionManager.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -49,12 +50,13 @@ bool j1Scene::Start()
 {
 	debug = false;
 
+	App->pause = false;
 	if(debug_tex == nullptr)
 		debug_tex = App->tex->Load("maps/path2.png");
 
 	if (state == SceneState::LEVEL1)
 	{
-		//AcceptUISFX_logic = false;
+		AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
@@ -73,6 +75,7 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::STARTMENU)
 	{
+		App->gui->resetHoverSwapping = false;
 		AcceptUISFX_logic = true;
 		if (!LoadedUi)
 		{
@@ -425,8 +428,8 @@ bool j1Scene::Update(float dt)
 	{
 		if (isDeath)
 		{
-			App->scene->LoadScene(SceneState::DEATH);
 			isDeath = false;
+			App->transitionManager->CreateFadeTransition(1.F,true,SceneState::DEATH);
 		}
 	}
 

@@ -844,11 +844,6 @@ bool Ritz::Load(pugi::xml_node &node)
 	characterBaseSpeed.x = nodeSpeed.attribute("speedx").as_float();
 	characterBaseSpeed.y = nodeSpeed.attribute("speedy").as_float();
 
-	pugi::xml_node nodePos = node.child("pos");
-
-	position.x = nodePos.attribute("posx").as_int();
-	position.y = nodePos.attribute("posy").as_int();
-
 	return true;
 }
 
@@ -858,11 +853,6 @@ bool Ritz::Save(pugi::xml_node &node) const
 
 	nodeSpeed.append_attribute("speedx") = characterBaseSpeed.x;
 	nodeSpeed.append_attribute("speedy") = characterBaseSpeed.y;
-
-	pugi::xml_node nodePos = node.child("Ritz").append_child("pos");
-
-	nodePos.append_attribute("posx") = position.x;
-	nodePos.append_attribute("posy") = position.y;
 
 	return true;
 }
