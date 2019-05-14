@@ -159,18 +159,26 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				int i = 0;
 				int j = 0;
 				int k = 0;
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
+				
 
-				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
+				if (firstTimeSwappedBagLeft)
 				{
-					if (firstTimeSwappedBagLeft)
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
 						if ((*iter)->MyDescription != nullptr)
 							De_______GenerateDescription((*iter), false);
 					}
-					// first generate description if it does not have it or if it was deleted ingame
-					else
+					firstTimeSwappedBagLeft = false;
+				}
+
+				if (!firstTimeSwappedBagLeft)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
+
+						// TODO // FER QUE DESPRÉS D'AQUEST IF, ENTRI AL ELSE, PQ SURT DEL FOR
+						// first generate description if it does not have it or if it was deleted ingame
+
 						if (k >= 15)
 							break;
 
@@ -216,9 +224,11 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						i++;
 						k++;
+
 					}
+					
 				}
-				firstTimeSwappedBagLeft = false;
+				
 			}
 			if (!App->entityFactory->player->bagObjects.empty() && swappedBag)
 			{
