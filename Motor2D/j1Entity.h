@@ -120,7 +120,7 @@ public:
 	SDL_Rect drawAtlasRect; // for static draw from spritesheet
 	bool					to_delete = false;
 	bool					to_die = false; 
-	std::string				name = "\0";
+	std::string				name;
 	fPoint					position;
 	iPoint					size;
 	fPoint					pivot;
@@ -153,10 +153,10 @@ public:
 	bool					manualCollectable;
 	int						value;
 
+	float					unitariX;
+	float					unitariY;
 
-
-	fPoint dmgDestinationPos;
-	j1Timer					alphaTimer;
+	bool					DoPush = false;
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;
