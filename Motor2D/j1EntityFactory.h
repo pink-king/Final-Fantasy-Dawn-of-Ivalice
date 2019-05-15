@@ -41,6 +41,14 @@ struct entityDataMap
 	}
 };
 
+struct currentLootBuffRanges
+{
+	iPoint mainStat = { -1, -1 };
+	iPoint subStatMajor = { -1, -1 };
+	iPoint subStatMinor = { -1., -1 };
+};
+
+
 class j1EntityFactory : public j1Module
 {
 public:
@@ -197,6 +205,8 @@ private:
 	int goldMin = 0; 
 	int goldMax = 0; 
 	
+	currentLootBuffRanges currentLootEntityBuffRanges; 
+
 };
 
 
