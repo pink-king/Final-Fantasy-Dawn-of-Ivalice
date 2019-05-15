@@ -61,21 +61,23 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	dialog = DBG_NEW j1DialogSystem();
 	transitionManager = DBG_NEW j1TransitionManager();
 	// Ordered for awake / Start / Update
+
+
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
-	AddModule(map);
+	modules.push_back(map);
 	AddModule(scene);
-	AddModule(entityFactory);
-	AddModule(attackManager);
-	AddModule(buff);
+	modules.push_back(entityFactory);
+	modules.push_back(attackManager);
+	modules.push_back(buff);
 	AddModule(particles);
-	AddModule(pathfinding);
+	modules.push_back(pathfinding);
 	AddModule(gui);
 	AddModule(font);
-	AddModule(camera2D);
+	modules.push_back(camera2D);
 	AddModule(HPManager);
 	AddModule(dialog);
 	AddModule(transitionManager);
@@ -87,6 +89,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// wtf
 	// disable modules doesnt want to start at init
 	//entityFactory->active = false;
+
 
 	PERF_PEEK(ptimer);
 }
@@ -164,9 +167,11 @@ bool j1App::Start()
 	std::list<j1Module*>::iterator item;
 	item = modules.begin();
 
-	while(item != modules.end() && ret == true && (*item)->active)
+	while(item != modules.end() && ret == true)
 	{
-		ret = (*item)->Start();
+		if ((*item)->active)
+			ret = (*item)->Start();
+
 		++item;
 	}
 

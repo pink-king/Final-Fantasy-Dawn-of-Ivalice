@@ -37,22 +37,6 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 {
 	bool ret = true;
 
-	pugi::xml_node entity;
-	for (entity = node.child("entities").child("entity"); entity && ret; entity = entity.next_sibling("entity"))
-	{
-		if (node.attribute("type").as_string() == "static")
-			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_STATIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
-
-		else if (node.attribute("type").as_string() == "dinamic")
-			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_DYNAMIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
-	}
-
-	std::vector<j1Entity*>::iterator item = entities.begin();
-	for (; item != entities.end(); ++item)
-	{
-		(*item)->LoadEntitydata(node);
-	}
-
 	return ret;
 }
 
