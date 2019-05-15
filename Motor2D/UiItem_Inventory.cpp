@@ -153,7 +153,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 		if (!isVendorInventory)
 		{
-			if (!App->entityFactory->player->bagObjects.empty() && !swappedBag)
+			if (!App->entityFactory->player->bagObjects.empty() && swappedBag)
 			{
 
 				int i = 0;
@@ -230,7 +230,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				}
 				
 			}
-			if (!App->entityFactory->player->bagObjects.empty() && swappedBag)
+			if (!App->entityFactory->player->bagObjects.empty() && swappedBag2)
 			{
 
 				int i = 0;
@@ -247,6 +247,10 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						if (k == 14)
 							firstTimeSwappedBag=true;
 					}
+
+					if (k >= 30)
+						break;
+
 					if (k >= 15)
 					{
 						
@@ -294,6 +298,86 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				}
 
 			}
+			//////////////////////
+			if (!App->entityFactory->player->bagObjects.empty() && swappedBag3)
+			{
+
+				int i = 0;
+				int j = 0;
+				int k = 0;
+
+
+				if (firstTimeSwappedBagLeft3)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
+					{
+						if ((*iter)->MyDescription != nullptr)
+							De_______GenerateDescription((*iter), false);
+					}
+					firstTimeSwappedBagLeft3 = false;
+				}
+
+				if (!firstTimeSwappedBagLeft3)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
+					{
+
+						// TODO // FER QUE DESPRÉS D'AQUEST IF, ENTRI AL ELSE, PQ SURT DEL FOR
+						// first generate description if it does not have it or if it was deleted ingame
+						if (k >= 45)
+							break;
+
+						if (k >= 30)
+						{
+
+							De_______GenerateDescription((*iter), true);
+							iPoint position(0, 0);
+
+							if (i == 5)
+							{
+								i = 0;
+								j++;
+							}
+
+							if (i == 0)  // first
+							{
+
+								position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+							}
+							else   // the rest of elements in the row
+							{
+								position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+							}
+
+
+							(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+							if (!(*iter)->MyDescription->spawnedInventoryImage)
+							{
+								(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+								(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+								(*iter)->MyDescription->spawnedInventoryImage = true;
+							}
+							else
+							{
+								(*iter)->MyDescription->HideAllElements(false);
+								(*iter)->MyDescription->iconImageInventory->tabbable = true;
+							}
+
+
+
+							i++;
+						}
+						k++;
+
+					}
+
+				}
+
+			}
+			/////////////
 		}
 		else
 		{
@@ -626,27 +710,28 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 	}
 	else   // only when closing inventory, delete the description
 	{
-
-		if (App->gui->selected_object == ent->MyDescription->iconImageInventory)
+		if(ent->MyDescription!=nullptr)
 		{
-			App->gui->selected_object = nullptr;
+			if (App->gui->selected_object == ent->MyDescription->iconImageInventory)
+			{
+				App->gui->selected_object = nullptr;
 
-			if (App->dialog->isDialogSequenceActive)
-				App->gui->resetHoverSwapping = false;    // reset hover swapping if inventory sequence active
+				if (App->dialog->isDialogSequenceActive)
+					App->gui->resetHoverSwapping = false;    // reset hover swapping if inventory sequence active
+			}
+
+			// delete last descr
+			ent->MyDescription->DeleteEverything();
+			ent->MyDescription = nullptr;
+
+
+			ent->spawnedDescription = false;
+
+
+
+			LOG("_______________________________________________   Deleted description");
+
 		}
-
-		// delete last descr
-		ent->MyDescription->DeleteEverything();
-		ent->MyDescription = nullptr;
-
-
-		ent->spawnedDescription = false;
-
-
-
-		LOG("_______________________________________________   Deleted description");
-
-
 	}
 
 

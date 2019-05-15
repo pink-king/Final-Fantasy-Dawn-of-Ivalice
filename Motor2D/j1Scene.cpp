@@ -354,19 +354,54 @@ bool j1Scene::Update(float dt)
 		{
 			DoOpenInventory();
 		}
-		if (inventory->enable &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
+		if (inventory->enable &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBag || inventoryItem->swappedBag2))
 		{
-			inventoryItem->swappedBag = true;
-			inventoryItem->firstTimeSwappedBagLeft = false;
-			inventoryItem->LoadElements();
+			if (!inventoryItem->swappedBag3 && inventoryItem->swappedBag2)
+			{
+				inventoryItem->swappedBag = false;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = true;
+				inventoryItem->firstTimeSwappedBagLeft = false;
+				inventoryItem->firstTimeSwappedBagLeft3 = true;
+				inventoryItem->LoadElements();
+			}
+			if (!inventoryItem->swappedBag2 && inventoryItem->swappedBag)
+			{
+				inventoryItem->swappedBag = false;
+				inventoryItem->swappedBag2 = true;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBagLeft = false;
+				inventoryItem->firstTimeSwappedBagLeft3 = false;
+				inventoryItem->LoadElements();
+			}
+			
 		}
 
-		if (inventory->enable && inventoryItem->swappedBag && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
+		if (inventory->enable && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2 || inventoryItem->swappedBag3))
 		{
-			inventoryItem->swappedBag = false;
-			inventoryItem->firstTimeSwappedBag = false;
-			inventoryItem->firstTimeSwappedBagLeft = true;
-			inventoryItem->LoadElements();
+
+			if (inventoryItem->swappedBag2 && !inventoryItem->swappedBag)
+			{
+				inventoryItem->swappedBag = true;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
+				inventoryItem->firstTimeSwappedBagLeft = true;
+				inventoryItem->firstTimeSwappedBagLeft3 = false;
+				inventoryItem->LoadElements();
+			}
+
+			if (inventoryItem->swappedBag3 && !inventoryItem->swappedBag2)
+			{
+				inventoryItem->swappedBag = false;
+				inventoryItem->swappedBag2 = true;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
+				inventoryItem->firstTimeSwappedBagLeft3 = false;
+				inventoryItem->LoadElements();
+			}
+
+			
 		}
 
 	}
