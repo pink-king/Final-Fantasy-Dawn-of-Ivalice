@@ -73,6 +73,7 @@ public:
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
+	bool isThisSubtilePlayerFree(const iPoint pos) const; 
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 	bool areAllSubtilesReserved() const; 
 

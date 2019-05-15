@@ -17,6 +17,7 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
+#include "EnemyProjectile.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include "j1PathFinding.h"
@@ -538,6 +539,11 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		entities.push_back(ret);
 		break;
 
+	case PROJECTILE_TYPE::ENEMY_ARROW:
+		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
+		entities.push_back(ret); 
+		break; 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -677,6 +683,26 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB) // || other enemy types 
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
+bool j1EntityFactory::isThisSubtilePlayerFree(const iPoint pos) const
+{
+	bool ret = true;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::PLAYER)
 			{
 				ret = false;
 				break;

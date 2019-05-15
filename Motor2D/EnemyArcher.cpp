@@ -2,14 +2,13 @@
 #include "j1EntityFactory.h"
 
 
-EnemyArcher::EnemyArcher(const iPoint & pos, bool dummy) : Enemy(pos, 70, 10, 7, 10, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
+EnemyArcher::EnemyArcher(const iPoint & pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
 {
 	LoadAnims(); 
 }
 
 EnemyArcher::~EnemyArcher()
 {
-
 }
 
 bool EnemyArcher::PreUpdate()
@@ -25,6 +24,9 @@ bool EnemyArcher::Update(float dt)
 
 bool EnemyArcher::PostUpdate()
 {
+	if (to_die)
+		state = EnemyState::DYING;
+
 	return true;
 }
 
@@ -136,7 +138,7 @@ void EnemyArcher::SetState(float dt)
 
 		if (/*checkTime.ReadSec() > attackPerS &&*/ (int)currentAnimation->GetCurrentFloatFrame() == 2 && !attacked)
 		{
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 100, this, PROJECTILE_TYPE::BASIC_ARROW);
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 100, this, PROJECTILE_TYPE::ENEMY_ARROW);
 			attacked = true;
 		}
 		if (currentAnimation->Finished())

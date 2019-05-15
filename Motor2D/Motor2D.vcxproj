@@ -90,6 +90,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
+    <ClCompile Include="EnemyProjectile.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
     <ClCompile Include="FireArrow.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyBomb.h" />
+    <ClInclude Include="EnemyProjectile.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
     <ClInclude Include="FireArrow.h" />
