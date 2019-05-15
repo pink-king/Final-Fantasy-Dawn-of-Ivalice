@@ -112,9 +112,9 @@ public:
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem* const parent = nullptr);
 
 
-	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent = nullptr);
-	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent = nullptr);
-	UiItem_Description* AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent = nullptr);
+	UiItem_Description* AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent = nullptr, uint price = 0);
+	UiItem_Description* AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent = nullptr, uint price = 0);
+	UiItem_Description* AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent = nullptr, uint price = 0);
 
 	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	UiItem_Inventory* AddInventory(UiItem* const parent);

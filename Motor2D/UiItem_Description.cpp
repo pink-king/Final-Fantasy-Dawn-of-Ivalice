@@ -10,7 +10,7 @@
 #include "LootEntity.h"
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
 	this->callback = callback;
 
@@ -121,10 +121,21 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		this->equipmentLootInfo.spawnedVecloty = true;
 	}
 
+
+
+	// price
+
+	if (price > 0)
+	{
+		std::string PriceString("Price: ");
+		PriceString.append(std::to_string((int)price));
+
+		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	}
 }
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
 	this->callback = callback;
 
@@ -223,10 +234,22 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	resistanceComparisonLabel.label->useCamera = false;
 
+
+
+
+	if (price > 0)
+	{
+		std::string PriceString("Price: ");
+		PriceString.append(std::to_string((int)price));
+
+		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	}
+
+	int a = 0; 
 }
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
 	this->callback = callback;
 	this->descrType = descriptionType::POTION;
@@ -262,6 +285,13 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	// the icon image is created after creating description in loot spawning
 
 
+	if (price > 0)
+	{
+		std::string PriceString("Price: ");
+		PriceString.append(std::to_string((int)price));
+
+		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	}
 }
 
 UiItem_Description::~UiItem_Description()
@@ -539,6 +569,7 @@ void UiItem_Description::SwitchCameraUsage()
 	this->name->useCamera = true;
 	this->useCamera = true;
 
+	this->price->useCamera = true; 
 
 	if (spawnedInventoryImage)                 // only when the inventory is closed, the duplicated icon image should be hiden 
 	{
@@ -589,6 +620,8 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 	this->panelWithButton->hide = hide;
 	this->name->hide = hide;
 	this->hide = hide;
+
+	this->price->hide = hide; 
 
 	if (spawnedInventoryImage)
 	{
@@ -646,6 +679,9 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 	this->panelWithButton->hitBox.x = referencePanelPosition.x;
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
+
+	this->price->hitBox.x = referencePanelPosition.x + 90;
+	this->price->hitBox.y = referencePanelPosition.y + 180;
 
 	if (this->descrType != descriptionType::POTION)
 	{
@@ -766,6 +802,8 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this->iconImage);
 	App->gui->destroyElement(this->panelWithButton);
 	App->gui->destroyElement(this->name);
+
+	App->gui->destroyElement(this->price); 
 
 	// TODO: delete the icon image in the inventory only if it exists
 	//this->iconImageInventory->to_delete = true;

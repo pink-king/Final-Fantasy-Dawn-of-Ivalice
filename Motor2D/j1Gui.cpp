@@ -699,12 +699,12 @@ UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::
 
 
 
-UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity * callback, UiItem * const parent)
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity * callback, UiItem * const parent, uint price)
 {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -713,11 +713,11 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, uint level, LootEntity * callback, UiItem * const parent) {
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, uint level, LootEntity * callback, UiItem * const parent, uint price) {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -726,11 +726,11 @@ UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string i
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, LootEntity * callback, UiItem * const parent)
+UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, LootEntity * callback, UiItem * const parent, uint price)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 	

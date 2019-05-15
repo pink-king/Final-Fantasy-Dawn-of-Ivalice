@@ -1342,15 +1342,8 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 
 
-
-
-
-
-
-
-
-
-
+   // temporal price to test label: 
+	item->price = price_With_Availability; 
 
 
 
@@ -1414,10 +1407,10 @@ LOOT_TYPE j1EntityFactory::WillDrop()
 	if (randvalue <= baseItemChance)
 	{
 		if (randvalue <= equipableChance)
-			return  LOOT_TYPE::CONSUMABLE;
+			return  LOOT_TYPE::EQUIPABLE;
 
 		else
-			return  LOOT_TYPE::EQUIPABLE;
+			return  LOOT_TYPE::CONSUMABLE;
 
 		
 	}
@@ -1469,7 +1462,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 			}
 
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
@@ -1508,7 +1501,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			data.HP = HP;
 			data.velocity = velocity;
 
-			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
@@ -1538,7 +1531,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 		}
 
-		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
+		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel, lootItem->price);
 
 		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 

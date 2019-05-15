@@ -58,9 +58,9 @@ class UiItem_Description: public UiItem
 {
 
 public:
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent);   // for equipment
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent);   // for weapons, right now we will print TWO variables
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price);   // for equipment
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent, uint price);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent, uint price);   // for potions
 	~UiItem_Description();
 
     void Draw(const float& dt);   // do we need this?? I bet we don't 
@@ -80,7 +80,6 @@ public:
 	UiItem_Label* level = nullptr;
 	UiItem_Image* iconImageInventory = nullptr; 
 
-	UiItem_Label* price = nullptr;
 
 	// for weapons and armors, but not potions
 
@@ -100,11 +99,14 @@ public:
 	UiItem_Label* HPLabel = nullptr;
 	UiItem_Label* VelocityLabel = nullptr;
 
+	// price
+
+	UiItem_Label* price = nullptr;
+
 	bool hide = false; 
 	bool spawnedInventoryImage = false; 
 	bool switchedCameraUsage = false; 
 
-	bool spawnedInventoryPrice = false; 
 
 	uint offsetFromLoot = 1000; 
 
