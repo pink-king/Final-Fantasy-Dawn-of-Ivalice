@@ -184,8 +184,17 @@ bool PlayerEntity::InputCombat()
 	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN || 
 		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) ==  KEY_REPEAT)
 	{
-		if(App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
+		// aiming function ------
+		if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
+			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
+			character != characterName::MARCHE)
 			aiming = true;
+
+		// double check for marche
+		if (character == characterName::MARCHE && aiming)
+			aiming = false;
+
+		// ---------------------
 
 		// check ultimate trigger
 		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
@@ -198,19 +207,6 @@ bool PlayerEntity::InputCombat()
 		{
 			combat_state = combatState::BASIC;
 			LOG("BASIC");
-		}
-		// check dodge
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
-		{
-			combat_state = combatState::DODGE;
-			if (inputReady)
-			{
-				App->audio->PlayFx(App->entityFactory->dash, 0);
-				LOG("audio played");
-			}
-			DoDash();
-			LOG("DODGE");
-			//DoDash();
 		}
 		
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
@@ -226,7 +222,21 @@ bool PlayerEntity::InputCombat()
 		
 	}
 
-	if (aiming = true)
+	// check dodge
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	{
+		combat_state = combatState::DODGE;
+		if (inputReady)
+		{
+			App->audio->PlayFx(App->entityFactory->dash, 0);
+			LOG("audio played");
+		}
+		DoDash();
+		LOG("DODGE");
+		//DoDash();
+	}
+
+	if (aiming == true)
 	{
 		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP ||
 			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_IDLE)

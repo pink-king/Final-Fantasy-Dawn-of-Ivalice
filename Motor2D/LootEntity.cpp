@@ -483,7 +483,9 @@ void LootEntity::ExplosionMaker(float dt)
 	
 }
 
-
+// TODO: why loot entity asks on every frame ?
+// its not worth, what happen when we have a bunch of loots?
+// solution: only asks the player itself, or the crosshair instead
 
 void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this with player proximity instead of crosshair
 {

@@ -1145,22 +1145,10 @@ j1Entity* Crosshair::GetClampedEntity() const
 {
 	j1Entity* ret = nullptr;
 
-	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-
-	while (entitiesItem != App->entityFactory->entities.end())
+	if (clampedEntity != nullptr)
 	{
-
-		if (!(*entitiesItem)->to_delete)
-		{
-			if ((*entitiesItem) == clampedEntity)
-			{
-
-				ret = (*entitiesItem);
-
-			}
-
-		}
-		++entitiesItem;
+		if (!clampedEntity->to_delete)
+			ret = clampedEntity;
 	}
 
 	return ret;
