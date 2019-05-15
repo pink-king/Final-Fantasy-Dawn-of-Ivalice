@@ -493,6 +493,22 @@
           <section x="336" y="78" w="34" h="34"/>
           <position x="811" y="463"/>
         </image>
+        <image name="RTbutton">
+          <section x="235" y="63" w="36" h="51"/>
+          <position x="982" y="452"/>
+        </image>
+        <image name="LTbutton">
+          <section x="272" y="63" w="36" h="51"/>
+          <position x="333" y="452"/>
+        </image>
+        <image name="leftArrow">
+          <section x="314" y="78" w="21" h="21"/>
+          <position x="309" y="467"/>
+        </image>
+        <image name="leftArrow">
+          <section x="349" y="113" w="21" h="21"/>
+          <position x="1021" y="467"/>
+        </image>
 
       </images>
     </Inventory>
