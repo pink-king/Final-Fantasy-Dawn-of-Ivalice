@@ -28,7 +28,7 @@ struct elementsStartingPositionsOffsets
 };
 struct potionLabelPositions
 {
-	iPoint potion1 = iPoint(928, 405);
+	iPoint potion1 = iPoint(928, 407);
 
 };
 
@@ -62,9 +62,12 @@ public:
 	bool drawTest = false;
 
 	bool isVendorInventory = false; 
-	bool swappedBag = false;
+	bool swappedBag = true;
+	bool swappedBag2 = false;
+	bool swappedBag3 = false;
 	bool firstTimeSwappedBag = false;
 	bool firstTimeSwappedBagLeft = false;
+	bool firstTimeSwappedBagLeft3 = false;
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 278, 101 };
