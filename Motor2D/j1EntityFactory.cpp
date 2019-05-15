@@ -130,6 +130,15 @@ bool j1EntityFactory::Start()
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
+
+
+	// get gold values from the start: needed if loot is equipped before gold
+
+	pugi::xml_node& config = App->config; 
+	goldMin = config.child("loot").child("gold").attribute("min").as_int();
+	goldMax = config.child("loot").child("gold").attribute("max").as_int();
+
+
 	return true;
 }
 
@@ -568,14 +577,18 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
+	uint max = 2; 
+
 	LootEntity* ret = nullptr;
-	if (GetRandomValue(1, 2) == 1)
+	if (GetRandomValue(1, max) == 1)
 	{
 		ret = DBG_NEW Consumable(posX, posY);
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
+
+		goldChance = (1 / max) * 100; 
 	}
-	return nullptr;
+	return nullptr; 
 }
 
 
@@ -1420,8 +1433,151 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		}
 		break;
 	}
+
+	if(lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
+	MagicPriceCalculator(lootEntity); 
+
 	return true;
 }
+
+void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
+{
+
+	// 1: take into account available gold, and the price 
+
+	uint base_average_Gold_Drop_Per_Enemy = (goldMin + goldMax) / 2; 
+	float average_Gold_Drop_Per_Enemy_With_Chance = ((float)goldChance / 100.f) * base_average_Gold_Drop_Per_Enemy;  // avg gold per enemy
+
+	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;  // 2: base item price: enemy kills * gold each enemy
+	uint max_Possible_Base_Price = minKillsToDeserveLoot * goldMax; 
+
+
+	uint baseItemChance = 0; 
+	bool isConsumable = NULL; 
+
+	switch (item->GetType())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+		baseItemChance = equipableChance;          // chances to spawn the item
+		isConsumable = true; 
+		break; 
+	case LOOT_TYPE::EQUIPABLE:
+		baseItemChance = baseItemChance - equipableChance; 
+		isConsumable = false;
+		break; 
+	}
+
+	
+	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(baseItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
+	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor_Price;
+
+	
+	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(baseItemChance / 100.f))) * 1000.f;
+	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
+	
+																										 
+																										 
+    // 4: now take into account item type and stats
+
+	struct {
+		float mainStat = -1.0f; 
+		float subStatMajor = -1.0f; 
+		float subStatMinor = -1.0f; 
+	} itemStats;
+
+
+	
+	if (isConsumable)
+	{
+
+	}
+	else
+	{
+		bool weapon = NULL; 
+
+		switch (item->GetObjectType())
+		{
+		case OBJECT_TYPE::WEAPON_OBJECT:
+			weapon = true; 
+			break;
+		case OBJECT_TYPE::ARMOR_OBJECT:
+			weapon = false;
+			break;
+		}
+		
+
+		std::vector<Buff*>::iterator iter = item->stats.begin();
+
+		for (; iter != item->stats.end(); ++iter)    // capture main stat, and two other optional stats, one less revelant than the other
+		{
+			if (weapon)
+			{
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::ATTACK_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break; 
+
+				case ROL::COOLDOWN:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break; 
+
+				case ROL::DEFENCE_ROL:
+					itemStats.subStatMinor = (*iter)->GetValue(); 
+					break; 
+				}
+				
+			}
+			else
+			{
+
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::DEFENCE_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break;
+
+				case ROL::HEALTH:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break;
+
+				case ROL::VELOCITY:
+					itemStats.subStatMinor = (*iter)->GetValue();
+					break;
+				}
+
+			}
+
+		}
+		
+		
+	}
+
+
+	uint priceRange = max_Price_With_Availability - price_With_Availability;  // from avg (base) to max price
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
 
 int j1EntityFactory::GetRandomValue(int min, int max)
 {
@@ -1473,15 +1629,15 @@ LOOT_TYPE j1EntityFactory::WillDrop()
 {
 	int randvalue = GetRandomValue(1, 100);
 
-	if (randvalue <= 50)
+	if (randvalue <= baseItemChance)
 	{
-		if (randvalue <= 25)
+		if (randvalue <= equipableChance)
 			return  LOOT_TYPE::CONSUMABLE;
 
 		else
 			return  LOOT_TYPE::EQUIPABLE;
 
-
+		
 	}
 
 	else return LOOT_TYPE::NO_LOOT;
