@@ -69,6 +69,14 @@ public:
 	bool firstTimeSwappedBagLeft = false;
 	bool firstTimeSwappedBagLeft3 = false;
 
+	bool swappedBagVendor = true;
+	bool swappedBag2Vendor = false;
+	bool swappedBag3Vendor = false;
+	bool firstTimeSwappedBagVendor = false;
+	bool firstTimeSwappedBagLeftVendor = false;
+	bool firstTimeSwappedBagLeft3Vendor = false;
+
+
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 278, 101 };
 

@@ -381,63 +381,228 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 		}
 		else
 		{
-			if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())
+			if (!App->entityFactory->player->GetVendor()->vBagObjects.empty() && swappedBagVendor)
 			{
 				int i = 0;
 				int j = 0;
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin();
+				int k = 0;
 
-				for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+				if (firstTimeSwappedBagLeftVendor)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+					{
+						if ((*iter)->MyDescription != nullptr)
+							De_______GenerateDescription((*iter), false);
+					}
+					firstTimeSwappedBagLeftVendor = false;
+				}
+
+				if (!firstTimeSwappedBagLeftVendor)
 				{
 
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+					{
 
+
+						// first generate description if it does not have it or if it was deleted ingame
+						if (k >= 15)
+							break;
+
+						De_______GenerateDescription((*iter), true);
+
+
+						iPoint position(0, 0);
+
+						if (i == 5)
+						{
+							i = 0;
+							j++;
+						}
+
+						if (i == 0)  // first
+						{
+
+							position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+						}
+						else   // the rest of elements in the row
+						{
+							position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+						}
+
+
+						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+						if (!(*iter)->MyDescription->spawnedInventoryImage)
+						{
+							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+							(*iter)->MyDescription->spawnedInventoryImage = true;
+						}
+						else
+						{
+							(*iter)->MyDescription->HideAllElements(false);
+							(*iter)->MyDescription->iconImageInventory->tabbable = true;
+						}
+
+
+
+						i++;
+						k++;
+
+					}
+				}
+			}
+			///////////////////
+			if (!App->entityFactory->player->GetVendor()->vBagObjects.empty() && swappedBag2Vendor)
+			{
+
+				int i = 0;
+				int j = 0;
+				int k = 0;
+				
+
+				for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
+				{
 					// first generate description if it does not have it or if it was deleted ingame
-					De_______GenerateDescription((*iter), true);
-
-
-					iPoint position(0, 0);
-
-					if (i == 5)
+					if (!firstTimeSwappedBagVendor)
 					{
-						i = 0;
-						j++;
+						De_______GenerateDescription((*iter), false);
+						if (k == 14)
+							firstTimeSwappedBagVendor = true;
 					}
 
-					if (i == 0)  // first
+					if (k >= 30)
+						break;
+
+					if (k >= 15)
 					{
 
-						position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+						De_______GenerateDescription((*iter), true);
+						iPoint position(0, 0);
+
+						if (i == 5)
+						{
+							i = 0;
+							j++;
+						}
+
+						if (i == 0)  // first
+						{
+
+							position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
 
 
+						}
+						else   // the rest of elements in the row
+						{
+							position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+						}
+
+
+						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+						if (!(*iter)->MyDescription->spawnedInventoryImage)
+						{
+							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+							(*iter)->MyDescription->spawnedInventoryImage = true;
+						}
+						else
+						{
+							(*iter)->MyDescription->HideAllElements(false);
+							(*iter)->MyDescription->iconImageInventory->tabbable = true;
+						}
+
+
+
+						i++;
 					}
-					else   // the rest of elements in the row
+					k++;
+				}
+
+			}
+			/////////////////////////
+			if (!App->entityFactory->player->GetVendor()->vBagObjects.empty() && swappedBag3Vendor)
+			{
+
+				int i = 0;
+				int j = 0;
+				int k = 0;
+
+
+				if (firstTimeSwappedBagLeft3Vendor)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 					{
-						position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+						if ((*iter)->MyDescription != nullptr)
+							De_______GenerateDescription((*iter), false);
 					}
+					firstTimeSwappedBagLeft3Vendor = false;
+				}
 
-
-					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-					if (!(*iter)->MyDescription->spawnedInventoryImage)
+				if (!firstTimeSwappedBagLeft3Vendor)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 					{
-						(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
 
-						(*iter)->MyDescription->spawnedInventoryImage = true;
+						// TODO // FER QUE DESPRÉS D'AQUEST IF, ENTRI AL ELSE, PQ SURT DEL FOR
+						// first generate description if it does not have it or if it was deleted ingame
+						if (k >= 45)
+							break;
+
+						if (k >= 30)
+						{
+
+							De_______GenerateDescription((*iter), true);
+							iPoint position(0, 0);
+
+							if (i == 5)
+							{
+								i = 0;
+								j++;
+							}
+
+							if (i == 0)  // first
+							{
+
+								position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+							}
+							else   // the rest of elements in the row
+							{
+								position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+							}
+
+
+							(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+							if (!(*iter)->MyDescription->spawnedInventoryImage)
+							{
+								(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+								(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+								(*iter)->MyDescription->spawnedInventoryImage = true;
+							}
+							else
+							{
+								(*iter)->MyDescription->HideAllElements(false);
+								(*iter)->MyDescription->iconImageInventory->tabbable = true;
+							}
+
+
+
+							i++;
+						}
+						k++;
+
 					}
-					else
-					{
-						(*iter)->MyDescription->HideAllElements(false);
-						(*iter)->MyDescription->iconImageInventory->tabbable = true;
-					}
-
-
-					i++;
-
-
 
 				}
 
 			}
+			/////////////////////////
 		}
 
 

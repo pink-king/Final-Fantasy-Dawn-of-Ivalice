@@ -354,7 +354,7 @@ bool j1Scene::Update(float dt)
 		{
 			DoOpenInventory();
 		}
-		if (inventory->enable &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBag || inventoryItem->swappedBag2))
+		if (inventory->enable && !inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBag || inventoryItem->swappedBag2))
 		{
 			if (!inventoryItem->swappedBag3 && inventoryItem->swappedBag2)
 			{
@@ -377,7 +377,7 @@ bool j1Scene::Update(float dt)
 			
 		}
 
-		if (inventory->enable && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2 || inventoryItem->swappedBag3))
+		if (inventory->enable && !inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2 || inventoryItem->swappedBag3))
 		{
 
 			if (inventoryItem->swappedBag2 && !inventoryItem->swappedBag)
@@ -403,6 +403,57 @@ bool j1Scene::Update(float dt)
 
 			
 		}
+		///////////
+		if (inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBagVendor || inventoryItem->swappedBag2Vendor))
+		{
+			if (!inventoryItem->swappedBag3Vendor && inventoryItem->swappedBag2Vendor)
+			{
+				inventoryItem->swappedBagVendor = false;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = true;
+				inventoryItem->firstTimeSwappedBagLeftVendor = false;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = true;
+				inventoryItem->LoadElements(false,true);
+			}
+			if (!inventoryItem->swappedBag2Vendor && inventoryItem->swappedBagVendor)
+			{
+				inventoryItem->swappedBagVendor = false;
+				inventoryItem->swappedBag2Vendor = true;
+				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagLeftVendor = false;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
+				inventoryItem->LoadElements(false, true);
+			}
+
+		}
+
+		if (inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2Vendor || inventoryItem->swappedBag3Vendor))
+		{
+
+			if (inventoryItem->swappedBag2Vendor && !inventoryItem->swappedBagVendor)
+			{
+				inventoryItem->swappedBagVendor = true;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
+				inventoryItem->firstTimeSwappedBagLeftVendor = true;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
+				inventoryItem->LoadElements(false, true);
+			}
+
+			if (inventoryItem->swappedBag3Vendor && !inventoryItem->swappedBag2Vendor)
+			{
+				inventoryItem->swappedBagVendor = false;
+				inventoryItem->swappedBag2Vendor = true;
+				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
+				inventoryItem->LoadElements(false, true);
+			}
+
+
+		}
+		////////////
 
 	}
 	 
