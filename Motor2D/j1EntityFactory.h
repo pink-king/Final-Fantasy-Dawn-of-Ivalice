@@ -112,6 +112,8 @@ public:
 	fPoint getplayerDamagevec();
 	void setPlayerDmageVec(fPoint unitari);
 
+	void MagicPriceCalculator(LootEntity*);
+
 public:
 	fPoint					dmg_vec;
 	bool					pushEF = false;
@@ -187,8 +189,14 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
-	int lootChance = 15;
+	int equipableChance = 25;
+	int baseItemChance = 50; 
+	int goldChance = 50; 
 
+	uint minKillsToDeserveLoot = 5;
+	int goldMin = 0; 
+	int goldMax = 0; 
+	
 };
 
 
