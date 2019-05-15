@@ -82,6 +82,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
+	// TODO: search why this breaks the game
+	// entityfactory doesnt need to start on MAIN MENU
+	// wtf
+	// disable modules doesnt want to start at init
+	//entityFactory->active = false;
+
 	PERF_PEEK(ptimer);
 }
 
@@ -158,7 +164,7 @@ bool j1App::Start()
 	std::list<j1Module*>::iterator item;
 	item = modules.begin();
 
-	while(item != modules.end() && ret == true)
+	while(item != modules.end() && ret == true && (*item)->active)
 	{
 		ret = (*item)->Start();
 		++item;
