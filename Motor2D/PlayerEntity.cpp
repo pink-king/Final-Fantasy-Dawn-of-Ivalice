@@ -208,19 +208,6 @@ bool PlayerEntity::InputCombat()
 			combat_state = combatState::BASIC;
 			LOG("BASIC");
 		}
-		// check dodge
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
-		{
-			combat_state = combatState::DODGE;
-			if (inputReady)
-			{
-				App->audio->PlayFx(App->entityFactory->dash, 0);
-				LOG("audio played");
-			}
-			DoDash();
-			LOG("DODGE");
-			//DoDash();
-		}
 		
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 		{
@@ -233,6 +220,20 @@ bool PlayerEntity::InputCombat()
 			LOG("SPECIAL2");
 		}
 		
+	}
+
+	// check dodge
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	{
+		combat_state = combatState::DODGE;
+		if (inputReady)
+		{
+			App->audio->PlayFx(App->entityFactory->dash, 0);
+			LOG("audio played");
+		}
+		DoDash();
+		LOG("DODGE");
+		//DoDash();
 	}
 
 	if (aiming == true)

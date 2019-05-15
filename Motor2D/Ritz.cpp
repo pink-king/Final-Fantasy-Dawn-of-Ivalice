@@ -776,8 +776,8 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 	targetPos.y = targetDirection.y - GetPivotPos().y;
 	targetPos.Normalize();
 	// sets new pointing dir
-	float angle = atan2f(targetPos.y, targetPos.x);
-	pointingDir = GetPointingDir(angle);
+	lastAxisMovAngle = atan2f(targetPos.y, targetPos.x);
+	pointingDir = GetPointingDir(lastAxisMovAngle);
 	// updates renderflip if we need
 	CheckRenderFlip();
 	// links animation and textures
