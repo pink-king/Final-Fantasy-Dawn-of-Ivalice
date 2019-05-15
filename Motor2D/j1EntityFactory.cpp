@@ -1434,6 +1434,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		break;
 	}
 
+	if(lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
 	MagicPriceCalculator(lootEntity); 
 
 	return true;
@@ -1442,33 +1443,124 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 {
 
-	// take into account available gold, and the price 
+	// 1: take into account available gold, and the price 
 
 	uint base_average_Gold_Drop_Per_Enemy = (goldMin + goldMax) / 2; 
 	float average_Gold_Drop_Per_Enemy_With_Chance = ((float)goldChance / 100.f) * base_average_Gold_Drop_Per_Enemy;  // avg gold per enemy
 
-	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;   // base item price: enemy kills * gold each enemy
+	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;  // 2: base item price: enemy kills * gold each enemy
 	uint max_Possible_Base_Price = minKillsToDeserveLoot * goldMax; 
 
 
 	uint baseItemChance = 0; 
+	bool isConsumable = NULL; 
 
 	switch (item->GetType())
 	{
 	case LOOT_TYPE::CONSUMABLE:
 		baseItemChance = equipableChance;          // chances to spawn the item
+		isConsumable = true; 
 		break; 
 	case LOOT_TYPE::EQUIPABLE:
 		baseItemChance = baseItemChance - equipableChance; 
+		isConsumable = false;
 		break; 
 	}
 
 	
-	float Availability_Factor = 1.f / (pow(basePrice, (float)(baseItemChance /100.f))) * 1000.f;  // the less available, the more expensive 
-	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor; 
+	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(baseItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
+	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor_Price;
 
 	
-	int a = 0; 
+	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(baseItemChance / 100.f))) * 1000.f;
+	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
+	
+																										 
+																										 
+    // 4: now take into account item type and stats
+
+	struct {
+		float mainStat = -1.0f; 
+		float subStatMajor = -1.0f; 
+		float subStatMinor = -1.0f; 
+	} itemStats;
+
+
+	
+	if (isConsumable)
+	{
+
+	}
+	else
+	{
+		bool weapon = NULL; 
+
+		switch (item->GetObjectType())
+		{
+		case OBJECT_TYPE::WEAPON_OBJECT:
+			weapon = true; 
+			break;
+		case OBJECT_TYPE::ARMOR_OBJECT:
+			weapon = false;
+			break;
+		}
+		
+
+		std::vector<Buff*>::iterator iter = item->stats.begin();
+
+		for (; iter != item->stats.end(); ++iter)    // capture main stat, and two other optional stats, one less revelant than the other
+		{
+			if (weapon)
+			{
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::ATTACK_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break; 
+
+				case ROL::COOLDOWN:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break; 
+
+				case ROL::DEFENCE_ROL:
+					itemStats.subStatMinor = (*iter)->GetValue(); 
+					break; 
+				}
+				
+			}
+			else
+			{
+
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::DEFENCE_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break;
+
+				case ROL::HEALTH:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break;
+
+				case ROL::VELOCITY:
+					itemStats.subStatMinor = (*iter)->GetValue();
+					break;
+				}
+
+			}
+
+		}
+		
+		
+	}
+
+
+	uint priceRange = max_Price_With_Availability - price_With_Availability;  // from avg (base) to max price
+
+
+
+
 
 
 
