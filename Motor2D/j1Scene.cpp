@@ -49,7 +49,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 bool j1Scene::Start()
 {
 	debug = false;
-
+	
 	if(debug_tex == nullptr)
 		debug_tex = App->tex->Load("maps/path2.png");
 
@@ -205,7 +205,7 @@ bool j1Scene::PreUpdate()
 			true); // if this attack instantate particles of the elemental type while propagating
 		App->camera2D->AddTrauma(0.7f);
 	}
-
+	
 	return true;
 }
 
@@ -219,8 +219,9 @@ bool j1Scene::Update(float dt)
 	//LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
-
+	
 	App->tex->textures;
+	// map debug draw grids
 	// map debug draw grids
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
@@ -282,7 +283,7 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-	
+		
 		if (startMenu->enable || inventory->enable)
 			AcceptUISFX_logic = true;
 		else if (!startMenu->enable && !inventory->enable)
@@ -344,7 +345,7 @@ bool j1Scene::Update(float dt)
 		{
 			DoOpenInventory();
 		}
-
+	
 	}
 	 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -458,7 +459,6 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
-
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
@@ -474,7 +474,7 @@ bool j1Scene::CleanUp()
 	App->tex->UnLoad(debug_tex); 
 	debug_tex = nullptr;
 	
-	
+
 	LOG("Freeing scene");
 	return true;
 }

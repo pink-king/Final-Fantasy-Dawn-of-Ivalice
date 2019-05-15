@@ -35,6 +35,8 @@ bool j1Gui::Start()
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
 	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
+	if (hurt_hud_tex == nullptr)
+		hurt_hud_tex = App->tex->Load("textures/hud dmg/playerhurt.png");
 	return true;
 }
 
@@ -112,7 +114,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 		}
-
+		
 
 	}
 
@@ -415,7 +417,7 @@ bool j1Gui::PostUpdate()
 	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
 
 	// temporal debug 
-
+	App->render->Blit(hurt_hud_tex, 0, 0, 0, 0.0f);
 	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 
@@ -464,7 +466,11 @@ bool j1Gui::CleanUp()
 		App->tex->UnLoad(lootTexture);
 		lootTexture = nullptr;
 	}
-
+	if (hurt_hud_tex != nullptr)
+	{
+		App->tex->UnLoad(hurt_hud_tex);
+		hurt_hud_tex = nullptr;
+	}
 	delete canvas;
 	canvas = nullptr;
 	// TODO: Remove items from list, not hitlabels (they are on their own list)

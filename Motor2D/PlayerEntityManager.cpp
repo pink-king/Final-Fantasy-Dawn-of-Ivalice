@@ -57,6 +57,7 @@ PlayerEntityManager::~PlayerEntityManager()
 	debugSubtileTex = nullptr;
 	App->tex->UnLoad(texture);
 	texture = nullptr;
+	
 }
 
 //bool PlayerEntityManager::Awake(pugi::xml_node & node)
@@ -76,8 +77,8 @@ bool PlayerEntityManager::Start()
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
-
-
+	
+	
 	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
 
 	return true;
@@ -101,7 +102,6 @@ bool PlayerEntityManager::Update(float dt)
 	bool ret = true;
 
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
-
 	selectedCharacterEntity->Update(dt);
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
@@ -250,7 +250,7 @@ bool PlayerEntityManager::PostUpdate()
 		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
 	}
-	
+	SetHudAlphaValue();
 	return true;
 }
 
@@ -806,6 +806,15 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 			break;
 		}
 	}
+}
+
+void PlayerEntityManager::SetHudAlphaValue()
+{
+	float percentlife = 100* App->entityFactory->player->life / maxLife;
+	
+	float alphavalue = (255*((percentlife-100)  * 0.01));
+	alphavalue = sqrt(alphavalue * alphavalue);
+	App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
 }
 
 j1Entity * PlayerEntityManager::GetMarche()

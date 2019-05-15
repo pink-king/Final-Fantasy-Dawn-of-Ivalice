@@ -406,14 +406,13 @@ bool Shara::Update(float dt)
 	{
 
 		DoPushback();
-		blink = true;
-		alphaTimer.Start();
+		/*blink = true;
+		alphaTimer.Start();*/
 		App->entityFactory->pushEF = false;
 		LOG("log from marche update()");
 		App->render->SetTextureColor(entityTex, 255, 0, 0);
 
 	}
-	else App->pause = false;
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{

@@ -691,18 +691,18 @@ bool Marche::Update(float dt)
 		}
 	}
 
-	/*if (App->entityFactory->pushEF)
+	if (App->entityFactory->pushEF)
 	{
 
 		DoPushback();
-		blink = true;
-		alphaTimer.Start();
+		/*blink = true;
+		alphaTimer.Start();*/
 		App->entityFactory->pushEF = false;
 		LOG("log from marche update()");
 		App->render->SetTextureColor(entityTex, 255, 0, 0);
 
 	}
-	else App->pause = false;*/
+	
 
 	//if (blink)
 	//{

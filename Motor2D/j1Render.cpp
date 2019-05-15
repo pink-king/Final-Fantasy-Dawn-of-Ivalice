@@ -119,6 +119,11 @@ void j1Render::SetTextureColor(SDL_Texture* tex, uint r, uint g, uint b)
 	SDL_SetTextureColorMod(tex, r, g, b);
 }
 
+void j1Render::SetTextureAlpha(SDL_Texture* tex, uint alpha)
+{
+	SDL_SetTextureAlphaMod(tex, alpha);
+}
+
 void j1Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
