@@ -185,6 +185,9 @@
     <ClCompile Include="Store_Vendor.cpp">
       <Filter>Development\Modules\Entities\Vendor</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyArcher.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="Store_Vendor.h">
       <Filter>Development\Modules\Entities\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArcher.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

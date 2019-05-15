@@ -88,6 +88,7 @@
     <ClCompile Include="Emmiter.cpp" />
     <ClCompile Include="EmmiterArrows.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Emmiter.h" />
     <ClInclude Include="EmmiterArrows.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyBomb.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />

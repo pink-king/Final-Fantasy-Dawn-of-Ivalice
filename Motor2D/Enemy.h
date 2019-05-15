@@ -41,7 +41,7 @@ enum class EnemyState
 enum class EnemyType
 {
 	MELEE,
-	DISTANCE,
+	ARCHER,
 	TRAP,
 	BOMB,
 	TEST

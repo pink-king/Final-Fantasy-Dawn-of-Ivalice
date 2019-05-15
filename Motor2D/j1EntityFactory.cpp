@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "EnemyTest.h"
 #include "EnemyBomb.h"
+#include "EnemyArcher.h"
 #include "Enemy.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
@@ -379,7 +380,9 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 	case EnemyType::MELEE:
 		break; 
 
-	case EnemyType::DISTANCE:
+	case EnemyType::ARCHER:
+		ret = DBG_NEW EnemyArcher(pos, dummy); 
+		entities.push_back(ret);
 		break; 
 
 	case EnemyType::TRAP:
