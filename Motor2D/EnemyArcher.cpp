@@ -120,14 +120,18 @@ void EnemyArcher::SetState(float dt)
 
 		if (isInAttackRange())
 		{
+			path_to_follow.clear(); 
 			SetLookingTo(App->entityFactory->player->GetPivotPos());
 			//currentAnimation = &idle[pointingDir];
 			state = EnemyState::ATTACK;
 			currentAnimation = &basicAttack[pointingDir];
 			LOG("Attacking!");
 			checkTime.Start();
+			break;
 		}
 
+		if (path_to_follow.empty())
+			state = EnemyState::IDLE;
 
 		break;
 
