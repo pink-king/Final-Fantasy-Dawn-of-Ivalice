@@ -18,6 +18,7 @@
 #include "Tornado.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
 
@@ -412,12 +413,15 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
+			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(spawnPos.x, spawnPos.y)))
+				continue; 
+
 			LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
 
 			switch (*typeIter)
 			{
 			case EnemyType::BOMB:
-				if (CreateRandomBetween(1, 10) <= bombProbs)
+				if (CreateRandomBetween(1, 10) <= bombProbs && cont < numEnemies)
 				{
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
