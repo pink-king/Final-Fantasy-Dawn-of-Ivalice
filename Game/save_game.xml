@@ -10,7 +10,15 @@
 		<Entities>
 			<Experience level="1" exp="0" />
 			<life actualLife="100" maxLife="100" />
-			<gold value="0" />
+			<gold value="380" />
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
 			<players>
 				<Marche>
 					<speed speedx="1.25" speedy="0.9375" />

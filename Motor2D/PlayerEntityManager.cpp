@@ -803,6 +803,8 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 
 			}
 			item = consumables.erase(item);
+			delete *item;
+			*item = nullptr;
 			break;
 		}
 	}
