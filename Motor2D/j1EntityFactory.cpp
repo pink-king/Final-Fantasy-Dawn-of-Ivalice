@@ -585,8 +585,6 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 		ret = DBG_NEW Consumable(posX, posY);
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
-
-		goldChance = (1 / max) * 100; 
 	}
 	return nullptr; 
 }
