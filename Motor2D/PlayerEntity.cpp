@@ -184,8 +184,17 @@ bool PlayerEntity::InputCombat()
 	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN || 
 		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) ==  KEY_REPEAT)
 	{
-		if(App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN)
+		// aiming function ------
+		if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
+			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
+			character != characterName::MARCHE)
 			aiming = true;
+
+		// double check for marche
+		if (character == characterName::MARCHE && aiming)
+			aiming = false;
+
+		// ---------------------
 
 		// check ultimate trigger
 		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
@@ -226,7 +235,7 @@ bool PlayerEntity::InputCombat()
 		
 	}
 
-	if (aiming = true)
+	if (aiming == true)
 	{
 		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP ||
 			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_IDLE)
