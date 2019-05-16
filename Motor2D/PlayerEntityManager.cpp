@@ -870,7 +870,7 @@ Crosshair::Crosshair()
 
 	pivotOffset.create(36, 10);
 
-	maxRadiusDistance = 110.0f; // world coords.
+	maxRadiusDistance = 160.f;//110.0f; // world coords.
 
 
 }
