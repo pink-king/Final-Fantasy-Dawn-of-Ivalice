@@ -116,6 +116,7 @@ bool PlayerEntityManager::Update(float dt)
 		
 	//collect loot
 	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+	{
 		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
 		{
 			if ((*item)->manualCollectable)
@@ -129,7 +130,12 @@ bool PlayerEntityManager::Update(float dt)
 				}
 			}
 		}
-	
+		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::TRIGGER)
+		{
+			dynamic_cast<Trigger*>(*item)->DoTriggerAction();
+			break;
+		}
+	}
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
@@ -807,8 +813,6 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 
 			}
 			item = consumables.erase(item);
-			delete *item;
-			*item = nullptr;
 			break;
 		}
 	}

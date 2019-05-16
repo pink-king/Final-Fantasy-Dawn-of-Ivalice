@@ -203,6 +203,12 @@
     <ClCompile Include="Transition.cpp">
       <Filter>Development\Modules\Transitions</Filter>
     </ClCompile>
+    <ClCompile Include="Trigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -428,6 +434,12 @@
     <ClInclude Include="Transition.h">
       <Filter>Development\Modules\Transitions</Filter>
     </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
@@ -511,6 +523,9 @@
     </Filter>
     <Filter Include="Development\Modules\Transitions">
       <UniqueIdentifier>{14da82e2-ed4e-4ff9-8b0b-9f2669da7f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Triggers">
+      <UniqueIdentifier>{d26668ec-2b1d-46b9-a13f-fd540d32d715}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
+#include "Portal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include <ctime>
@@ -164,7 +165,7 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -635,11 +636,22 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 	return nullptr;
 }
 
-
-
-
-
-
+Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY)
+{
+	Trigger* ret = nullptr;
+	switch (type)
+	{
+	case TRIGGER_TYPE::PORTAL:	
+		ret = new Portal(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::NO_TRIGGER:
+		break;
+	default:
+		break;
+	}
+	return ret;
+}
 
 uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
 {
@@ -769,6 +781,22 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
+void j1EntityFactory::AssignEntityToAdjacentsSubtiles(j1Entity* entity, int num) const
+{
+	iPoint pos = { entity->GetSubtilePos().x,entity->GetSubtilePos().y };
+	for (int i = -num; i >= 1; ++num)
+	{
+		for (int j = -num; j >= 1; ++num)
+		{
+			if (CheckSubtileMapBoundaries({pos.x + i, pos.y + j}))
+				entitiesDataMap[GetSubtileEntityIndexAt({ pos.x + i, pos.y + j})].entities.push_back(entity);
+			else
+				LOG("Trying to assign entity out of boundaries, ignoring");
+		}
+	}
+	
+}
+
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 {
 	bool ret = false;
@@ -789,6 +817,31 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	}
 
 	return ret;
+}
+
+void j1EntityFactory::DeleteEntityToAdjacentsSubtiles(j1Entity* entity, int num) const
+{
+	iPoint pos = { entity->GetSubtilePos().x,entity->GetSubtilePos().y };
+	for (int i = -num; i >= 1; ++num)
+	{
+		for (int j = -num; j >= 1; ++num)
+		{
+			int index = GetSubtileEntityIndexAt(entity->GetPreviousSubtilePos());
+
+			std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+			for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+			{
+				if (*entityIterator == entity)
+				{
+					//LOG("found");
+					entitiesDataMap[index].entities.erase(entityIterator);
+					break;
+				}
+			}
+		}
+	}
+
 }
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const

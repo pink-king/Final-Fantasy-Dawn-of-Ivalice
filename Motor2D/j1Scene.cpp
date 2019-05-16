@@ -171,11 +171,11 @@ bool j1Scene::PreUpdate()
 	}
 	// FAKE KEYS FOR TESTING 
 
-	/*if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
-		App->win->SetScale(2);*/
+	
+
+	//if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
+	//	App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode && App->entityFactory->active)
@@ -257,7 +257,13 @@ bool j1Scene::Update(float dt)
 	{
 		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
 	}
-	
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y);
+	}
 	
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)

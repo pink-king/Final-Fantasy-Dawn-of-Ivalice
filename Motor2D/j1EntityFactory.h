@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "j1Entity.h"
 #include "Enemy.h"
+#include "Trigger.h"
 #include "PlayerEntityManager.h"
 #include <vector>
 
@@ -72,6 +73,8 @@ public:
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY);
+
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
 
@@ -86,7 +89,10 @@ public:
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
+	void AssignEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
+
+	void DeleteEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 
 	// Subyacent subtiles functions
 

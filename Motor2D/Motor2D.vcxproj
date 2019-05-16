@@ -124,6 +124,7 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="PlayerEntityManager.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="Quadtree.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="Transition.cpp" />
+    <ClCompile Include="Trigger.cpp" />
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
@@ -200,6 +202,7 @@
     <ClInclude Include="p2SString.h" />
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="PlayerEntityManager.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
@@ -211,6 +214,7 @@
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Tornado.h" />
     <ClInclude Include="Transition.h" />
+    <ClInclude Include="Trigger.h" />
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />
