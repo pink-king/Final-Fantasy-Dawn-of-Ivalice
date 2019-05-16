@@ -403,10 +403,12 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 	uint numBombs = 0;
 	uint numTests = 0;
+	uint numArchers = 0; 
 	uint cont = 0;
 
 	uint bombProbs = 3;
 	uint testProbs = 8;
+	uint archerProbs = 5;
 
 	while (cont < numEnemies)
 	{
@@ -460,6 +462,26 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
 						numTests++;
+						cont++;
+					}
+				}
+				break;
+
+			case EnemyType::ARCHER:
+				if (CreateRandomBetween(1, 10) <= archerProbs && cont < numEnemies)
+				{
+					// Last paramater is dummy
+					ret = CreateEnemy(EnemyType::ARCHER, spawnPos, false);
+
+					if (App->entityFactory->player != nullptr)
+					{
+						ret->level = App->entityFactory->player->level + enemyLevel;
+					}
+					if (ret != nullptr)
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(5, 10) + 5 * ret->level);
+						numArchers++;
 						cont++;
 					}
 				}

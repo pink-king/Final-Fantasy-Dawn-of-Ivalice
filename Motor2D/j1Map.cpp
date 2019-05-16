@@ -570,6 +570,10 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 				{
 					typesVec.push_back(EnemyType::TEST);
 				}
+				else if (attributeName == "archer")
+				{
+					typesVec.push_back(EnemyType::ARCHER);
+				}
 				else if (attributeName == "minEnemies")
 				{
 					minEnemies = properties.attribute("value").as_int();
