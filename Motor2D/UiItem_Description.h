@@ -107,6 +107,8 @@ public:
 	bool spawnedInventoryImage = false; 
 	bool switchedCameraUsage = false; 
 
+	bool showedPrice = false; 
+
 
 	uint offsetFromLoot = 1000; 
 

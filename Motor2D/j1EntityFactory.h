@@ -202,6 +202,7 @@ private:
 	int goldChance = 50; 
 
 	uint minKillsToDeserveLoot = 5;
+	uint minKillsWithPerfectGoldToDeserveMaxPrice = 15; 
 	int goldMin = 0; 
 	int goldMax = 0; 
 	

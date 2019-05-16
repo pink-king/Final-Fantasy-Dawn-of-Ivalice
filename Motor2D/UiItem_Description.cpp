@@ -8,7 +8,7 @@
 #include "PlayerEntityManager.h"
 #include "j1EntityFactory.h"
 #include "LootEntity.h"
-
+#include "j1DialogSystem.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
@@ -30,7 +30,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name";
 	}
 
-	name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	name->useCamera = false;
 
 
@@ -45,7 +45,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	std::string resString("DEF: ");
 	resString.append(std::to_string((int)Value));
-	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 
 	resistanceLabel->useCamera = false;
 
@@ -105,7 +105,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		HPString.append(std::to_string((int)variableType.HP));
 
 
-		this->HPLabel = App->gui->AddLabel(HPString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->HPLabel = App->gui->AddLabel(HPString,  { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->HPLabel->useCamera = false;
 
 		this->equipmentLootInfo.spawnedHP = true;
@@ -115,7 +115,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		std::string VelocityString("VEL: ");
 		VelocityString.append(std::to_string((int)variableType.velocity));
 
-		this->VelocityLabel = App->gui->AddLabel(VelocityString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->VelocityLabel = App->gui->AddLabel(VelocityString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->VelocityLabel->useCamera = false;
 
 		this->equipmentLootInfo.spawnedVecloty = true;
@@ -131,6 +131,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price->hide = true; 
 	}
 }
 
@@ -155,7 +156,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name";
 	}
 
-	name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	name->useCamera = false;
 
 
@@ -168,13 +169,13 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	// - - - - - - - - - - - - - - - - - - 
 	std::string resString("RES: ");
 	resString.append(std::to_string((int)resistance));
-	resistanceLabel = App->gui->AddLabel(resString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 
 	resistanceLabel->useCamera = false;
 
 	std::string dmgString("DMG: ");
 	dmgString.append(std::to_string((int)Attack));
-	damageLabel = App->gui->AddLabel(dmgString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	damageLabel = App->gui->AddLabel(dmgString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 
 	damageLabel->useCamera = false;
 
@@ -243,9 +244,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price->hide = true;
 	}
 
-	int a = 0; 
 }
 
 
@@ -280,7 +281,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name";
 	}
 
-	name = App->gui->AddLabel(itemName, { 155, 126, 186, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	name->useCamera = false;
 
 	// TODO: effect: 
@@ -305,6 +306,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price->hide = true;
 	}
 }
 
@@ -318,8 +320,12 @@ void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
 	
-	if (!App->scene->inventory->enable && spawnedInventoryImage)                       // if inventory is no longer enabled, delete description
+	if (!App->scene->inventory->enable && spawnedInventoryImage)
+	{
+		// if inventory is no longer enabled, delete description
 		App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
+		showedPrice = false; 
+	}
 
 	if (spawnedInventoryImage)
 	{
@@ -333,6 +339,23 @@ void UiItem_Description::Draw(const float& dt)
 
 		if (App->scene->inventory->enable)             // shpw description
 		{
+			if (!showedPrice)
+			{
+				if (App->scene->inventoryItem->isVendorInventory)
+				{
+					std::string PriceString("Price: ");
+					PriceString.append(std::to_string((int)callback->vendorPrice));
+					this->price->ChangeTextureIdle(PriceString, NULL, NULL);
+				}
+				else
+				{
+					std::string PriceString("Price: ");
+					PriceString.append(std::to_string((int)callback->price));
+					this->price->ChangeTextureIdle(PriceString, NULL, NULL);
+				}
+				showedPrice = true; 
+			}
+
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 			{
 				if (!tabOnConsumable)
@@ -701,8 +724,12 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.x = referencePanelPosition.x;
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
-	this->price->hitBox.x = referencePanelPosition.x + 90;
-	this->price->hitBox.y = referencePanelPosition.y + 180;
+
+
+	int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
+
+	this->price->hitBox.x = destPricePosX;
+	this->price->hitBox.y = referencePanelPosition.y + 190;
 
 	if (this->descrType != descriptionType::POTION)
 	{
@@ -721,10 +748,10 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	if (this->descrType == descriptionType::WEAPON || this->descrType == descriptionType::EQUIPMENT)
 	{
 		this->level->hitBox.x = referencePanelPosition.x + 150;
-		this->level->hitBox.y = referencePanelPosition.y + 180;
+		this->level->hitBox.y = referencePanelPosition.y + 160;
 
 		this->attachedCharacter->hitBox.x = referencePanelPosition.x + 30;
-		this->attachedCharacter->hitBox.y = referencePanelPosition.y + 180;
+		this->attachedCharacter->hitBox.y = referencePanelPosition.y + 160;
 	}
 
 	if (this->descrType == descriptionType::WEAPON)
@@ -797,13 +824,13 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		// TODO: tweak this 
 
 		this->effectLabel->hitBox.x = referencePanelPosition.x + 30;
-		this->effectLabel->hitBox.y = referencePanelPosition.y + 180;
+		this->effectLabel->hitBox.y = referencePanelPosition.y + 160;
 
 
 		int offset = 10;
 		int destIconPosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->iconImage->section.w * this->iconImage->scaleFactor / 2;
 		this->iconImage->hitBox.x = destIconPosX - offset;
-		this->iconImage->hitBox.y = referencePanelPosition.y + 100;
+		this->iconImage->hitBox.y = referencePanelPosition.y + 80;
 	}
 
 
