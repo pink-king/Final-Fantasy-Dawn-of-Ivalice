@@ -110,6 +110,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::NW].PushBack({ 225,300,45,60 });
 	run[(int)facingDirection::NW].speed = 10.0f;
 
+	run->speed = 10.0f;
 	// DASH
 
 	dash[(int)facingDirection::E].PushBack({ 0,0,95,110 });
@@ -1239,23 +1240,5 @@ bool Marche::PostUpdate()
 }
 
 
-bool Marche::Load(pugi::xml_node &node)
-{
-	pugi::xml_node nodeSpeed = node.child("speed");
 
-	characterBaseSpeed.x = nodeSpeed.attribute("speedx").as_float();
-	characterBaseSpeed.y = nodeSpeed.attribute("speedy").as_float();
-
-	return true;
-}
-
-bool Marche::Save(pugi::xml_node &node) const
-{
-	pugi::xml_node nodeSpeed = node.append_child("Marche").append_child("speed");
-
-	nodeSpeed.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeSpeed.append_attribute("speedy") = characterBaseSpeed.y;
-
-	return true;
-}
 

@@ -1106,30 +1106,14 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 
 bool j1BuffManager::Load(pugi::xml_node &node)
 {
-	for (pugi::xml_node nodebuffs = node.child("buffs"); nodebuffs; nodebuffs = nodebuffs.next_sibling("buffs"))
-	{
-		Buff* buf = DBG_NEW Buff();
-		buf = buf->Load(nodebuffs);
-		if (buf != nullptr)
-		{
-			buffs.push_back(buf);
-		}
-	}
+
 	return true;
 }
 
+// TODO: random crash here
+// sometimes when the player dies
 bool j1BuffManager::Save(pugi::xml_node &node) const
 {
-	for (std::list<Buff*>::const_iterator item = buffs.begin(); item != buffs.end(); ++item)
-	{
-		if ((*item)->GetCharacter() != nullptr)
-		{
-			if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER)
-			{
-				pugi::xml_node nodeBuffs = node.append_child("buffs");
-				(*item)->Save(nodeBuffs);
-			}
-		}
-	}
+
 	return true;
 }

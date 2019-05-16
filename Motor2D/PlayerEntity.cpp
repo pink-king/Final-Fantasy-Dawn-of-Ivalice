@@ -180,46 +180,49 @@ bool PlayerEntity::InputCombat()
 {
 	combat_state = combatState::IDLE;
 	
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN || 
-		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) ==  KEY_REPEAT)
+	// aiming function ------
+	if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
+		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
+		character != characterName::MARCHE)
+		aiming = true;
+
+	// double check for marche
+	if (character == characterName::MARCHE && aiming)
+		aiming = false;
+
+	// ---------------------
+
+	// check ultimate trigger - marche without aim
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE)
 	{
-		// aiming function ------
-		if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
-			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
-			character != characterName::MARCHE)
-			aiming = true;
-
-		// double check for marche
-		if (character == characterName::MARCHE && aiming)
-			aiming = false;
-
-		// ---------------------
-
-		// check ultimate trigger
-		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
-		{
-			combat_state = combatState::ULTIMATE;
-			//LOG("ULTIMATE");
-		}
-		// check basic attack
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
-		{
-			combat_state = combatState::BASIC;
-			LOG("BASIC");
-		}
-		
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL1;
-			LOG("SPECIAL1");
-		}
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL2;
-			LOG("SPECIAL2");
-		}
-		
+		combat_state = combatState::ULTIMATE;
+		//LOG("ULTIMATE");
 	}
+	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming)
+		combat_state = combatState::ULTIMATE;
+
+
+	// check basic attack
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	{
+		combat_state = combatState::BASIC;
+		LOG("BASIC");
+	}
+	
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL1;
+		LOG("SPECIAL1");
+	}
+	// special difference for "medusa work in progress cutre version"
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ)
+	{
+		combat_state = combatState::SPECIAL2;
+		LOG("SPECIAL2");
+	}
+	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming)
+		combat_state = combatState::SPECIAL2;
+		
 
 	// check dodge
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
@@ -625,11 +628,22 @@ void PlayerEntity::DoDash()
 		entityTex = dash_spritesheet;
 
 		// search for target position
-		fPoint directionVector = { cos(lastAxisMovAngle), sin(lastAxisMovAngle) };
+		fPoint directionVector = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
 		directionVector.Normalize();
 
-		// TODO: filter with search for this vector positions if not walkable and return last valid pos (tile center)
-		dashDestinationPos = position + directionVector * dashMaxDistance;
+		// search for any walkability obstacles throught this path
+		// TODO: better on tilemap pos
+		fPoint checker;
+		int distMultiplier = 0;
+		for (; distMultiplier < dashMaxDistance; ++distMultiplier)
+		{
+			checker = GetPivotPos() + directionVector * distMultiplier;
+			if(!App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
+				break;
+		}
+		
+		int playerVolumeOffset = 10;
+		dashDestinationPos = position + directionVector * (distMultiplier - playerVolumeOffset);
 
 		// adds trauma and force feedback
 		App->camera2D->AddTrauma(0.09f);
@@ -645,4 +659,19 @@ void j1Entity::DoPushback()
 	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 8;
 	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 8;
 
+}
+
+fPoint PlayerEntity::GetShotDirection()
+{
+	fPoint destination;
+	if (aiming)
+		destination = App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint();
+	else
+	{
+		destination = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+		destination = destination * 640.f; // launch direction vector far far away 
+		destination = GetPivotPos() + destination;
+	}
+
+	return destination;
 }

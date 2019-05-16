@@ -56,6 +56,10 @@ public:
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+
+	bool LoadPortal(pugi::xml_node&);
+	bool SavePortal(pugi::xml_node&) const;
+
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);

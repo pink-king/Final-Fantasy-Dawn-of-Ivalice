@@ -330,7 +330,10 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 		LootEntity* equipedObj = DBG_NEW LootEntity();
 		equipedObj->Load(nodeeqipedObjects, equipedObj);
 		if (equipedObj != nullptr)
+		{
 			equipedObjects.push_back(equipedObj);
+			App->buff->AddItemStats(equipedObj);
+		}
 	}
 
 	for (pugi::xml_node nodecons = node.child("consumableObjects"); nodecons; nodecons = nodecons.next_sibling("consumableObjects"))
@@ -340,13 +343,15 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 		if (cons != nullptr)
 			consumables.push_back(cons);
 	}
+	std::string PlayerAux = node.attribute("player").as_string();
 
-	pugi::xml_node nodeMarche = node.child("players").child("Marche");
-	marche->Load(nodeMarche);
-	pugi::xml_node nodeRitz = node.child("players").child("Ritz");
-	ritz->Load(nodeRitz);
-	pugi::xml_node nodeShara = node.child("players").child("Shara");
-	shara->Load(nodeShara);
+	if ( PlayerAux.compare("marche") == 0)
+		selectedCharacterEntity = marche;
+	else if (PlayerAux.compare("ritz") == 0)
+		selectedCharacterEntity = ritz;
+	else if (PlayerAux.compare("shara") == 0)
+		selectedCharacterEntity = shara;
+
 	return true;
 }
 
@@ -385,13 +390,12 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 		(*iter3)->Save(nodeconsumableObjects);
 	}
 
-	pugi::xml_node nodePlayer = node.append_child("players");
-	std::vector<PlayerEntity*>::const_iterator iterChar = characters.begin();
-	for (; iterChar != characters.end(); ++iterChar)
-	{
-		(*iterChar)->Save(nodePlayer);
-	}
-
+	if (selectedCharacterEntity == marche)
+		node.append_attribute("player") = "marche";
+	else if (selectedCharacterEntity == shara)
+		node.append_attribute("player") = "shara";
+	else if (selectedCharacterEntity == ritz)
+		node.append_attribute("player") = "ritz";
 	return true;
 }
 
@@ -870,7 +874,7 @@ Crosshair::Crosshair()
 
 	pivotOffset.create(36, 10);
 
-	maxRadiusDistance = 110.0f; // world coords.
+	maxRadiusDistance = 160.f;//110.0f; // world coords.
 
 
 }

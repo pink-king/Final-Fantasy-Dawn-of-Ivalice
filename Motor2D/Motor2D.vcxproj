@@ -228,6 +228,9 @@
     <Xml Include="..\Game\config.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="..\Game\Portal.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Game\save_game.xml">
       <SubType>Designer</SubType>
     </Xml>

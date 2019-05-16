@@ -230,6 +230,16 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
+	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+	{
+		App->LoadGame("Portal.xml");
+		ComeToPortal = false;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+	{
+		App->SaveGame("Portal.xml");
+		ComeToPortal = true;
+	}
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
 

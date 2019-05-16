@@ -97,6 +97,7 @@ public:
 	float lastAnimationSpeed;
 	bool inputReady = true;
 protected:
+	fPoint GetShotDirection();
 	void DoDash();
 
 	float dashMaxDistance;
