@@ -450,10 +450,15 @@ bool j1App::LoadGameNow()
 
 		while(item != modules.end() && ret == true)
 		{
-			ret = (*item)->Load(root.child((*item)->name.data()));
+			if (load_game.compare("Portal.xml") == 0)
+			{
+				ret = (*item)->LoadPortal(root.child((*item)->name.data()));
+			}
+			else
+				ret = (*item)->Load(root.child((*item)->name.data()));
+			
 			++item;
 		}
-
 		data.reset();
 		if(ret == true)
 			LOG("...finished loading");
@@ -485,7 +490,13 @@ bool j1App::SavegameNow() const
 	std::list<j1Module*>::const_iterator item = modules.begin();
 	while(item != modules.end() && ret == true)
 	{
-		ret = (*item)->Save(root.append_child((*item)->name.data()));
+		if (save_game.compare("Portal.xml") == 0)
+		{
+			ret = (*item)->SavePortal(root.append_child((*item)->name.data()));
+		}
+		else
+			ret = (*item)->Save(root.append_child((*item)->name.data()));
+		
 		++item;
 	}
 

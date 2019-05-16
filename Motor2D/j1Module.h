@@ -67,7 +67,17 @@ public:
 		return true;
 	}
 
+	virtual bool LoadPortal(pugi::xml_node&)
+	{
+		return true;
+	}
+
 	virtual bool Save(pugi::xml_node&) const
+	{
+		return true;
+	}
+
+	virtual bool SavePortal(pugi::xml_node&) const
 	{
 		return true;
 	}

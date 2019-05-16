@@ -667,22 +667,4 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 //	return true;
 //}
 
-bool Shara::Load(pugi::xml_node &node)
-{
-	pugi::xml_node nodeSpeed = node.child("speed");
 
-	characterBaseSpeed.x = nodeSpeed.attribute("speedx").as_float();
-	characterBaseSpeed.y = nodeSpeed.attribute("speedy").as_float();
-
-	return true;
-}
-
-bool Shara::Save(pugi::xml_node &node) const
-{
-	pugi::xml_node nodeSpeed = node.append_child("Shara").append_child("speed");
-
-	nodeSpeed.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeSpeed.append_attribute("speedy") = characterBaseSpeed.y;
-
-	return true;
-}

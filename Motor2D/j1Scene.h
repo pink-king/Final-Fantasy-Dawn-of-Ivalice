@@ -72,6 +72,7 @@ public:
 	bool debugSubtiles = false; 
 	bool debugColl = false;
 	bool hackerMode = true;
+	bool ComeToPortal = false;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
@@ -113,6 +114,7 @@ private:
 	PlayerEntityManager* player_selected = nullptr;
 
 	bool ComeToDeath = false;
+	
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 

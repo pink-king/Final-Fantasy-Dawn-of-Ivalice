@@ -436,6 +436,9 @@
     <Xml Include="..\Game\save_game.xml">
       <Filter>Development\XML</Filter>
     </Xml>
+    <Xml Include="..\Game\Portal.xml">
+      <Filter>Development\XML</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\maps\iso_walk.tmx">
