@@ -73,6 +73,7 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolem.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
@@ -265,6 +266,8 @@ bool j1EntityFactory::CleanUp()
 	enemyZombieTex = nullptr;
 	App->tex->UnLoad(enemyBombTex);
 	enemyBombTex = nullptr;
+	App->tex->UnLoad(enemyGolemTex);
+	enemyGolemTex = nullptr; 
 	App->tex->UnLoad(debugsubtileTex);
 	debugsubtileTex = nullptr;
 	App->tex->UnLoad(arrowsTexture);
