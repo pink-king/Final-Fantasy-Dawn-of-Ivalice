@@ -254,7 +254,6 @@ bool j1Scene::Update(float dt)
 	
 	App->tex->textures;
 	// map debug draw grids
-	// map debug draw grids
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -436,9 +435,13 @@ bool j1Scene::Update(float dt)
 	{
 		j1Entity* ent;
 		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
-
 	}
 	
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		App->entityFactory->CreateEnemy(EnemyType::ARCHER, { coords.x,coords.y });
+	}
+
 	if (hackerMode)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
@@ -524,7 +527,6 @@ bool j1Scene::CleanUp()
 	App->tex->UnLoad(debug_tex); 
 	debug_tex = nullptr;
 	
-
 	LOG("Freeing scene");
 	return true;
 }

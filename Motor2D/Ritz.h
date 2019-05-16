@@ -16,7 +16,6 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 
-
 	//bool PostUpdate();
 	//virtual bool CleanUp();
 

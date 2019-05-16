@@ -215,6 +215,12 @@
     <ClCompile Include="Boss_Demon.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyArcher.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyProjectile.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -451,6 +457,12 @@
     </ClInclude>
     <ClInclude Include="Boss_Demon.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArcher.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyProjectile.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

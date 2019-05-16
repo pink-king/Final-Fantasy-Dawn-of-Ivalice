@@ -19,6 +19,7 @@ enum class PROJECTILE_TYPE
 	MEDUSA,
 	TORNADO,
 	EARTH_SHAKER,
+	ENEMY_ARROW,
 	NO_ARROW
 };
 
@@ -35,6 +36,7 @@ public:
 	float SetMyAngleRotation(const fPoint& direction);	// Useful for render rotations
 	bool TooFarAway() const;
 	bool OnCollisionWithWall() const;
+	bool OnCollisionWithPlayer() const; 
 	bool ReachedDestiny() const; // Needs to take a look to the initial direction (vertical cases)
 	void Draw() override;
 

@@ -17,7 +17,7 @@ public:
 	bool Update(float dt);
 	//bool PostUpdate();
 	//virtual bool CleanUp();
-
+	
 	// functionality ------
 	bool dodgedtest = false;
 
