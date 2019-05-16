@@ -137,7 +137,7 @@ public:
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
-
+	j1Timer alphaTimer;
 	//----SFX-----//
 	unsigned int lootGroundSFX;
 	unsigned int potionGroundSFX;

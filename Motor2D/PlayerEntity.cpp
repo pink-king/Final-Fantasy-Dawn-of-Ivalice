@@ -21,7 +21,6 @@ PlayerEntity::~PlayerEntity()
 
 bool PlayerEntity::Start()
 {
-	timeToBlink = 200;
 
 	return true;
 }
@@ -279,38 +278,28 @@ void PlayerEntity::Draw()
 			hola = SDL_BLENDMODE_BLEND;*/ 
 			//SDL_SetTextureBlen
             //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
+			App->entityFactory->alphaTimer.Start();
+			blink = true;
 			
-
 		}
-		
+		if (blink)
+		{
+			if(App->entityFactory->alphaTimer.ReadSec() < 0.2f)
+			{
+				App->render->SetTextureColor(entityTex, 255, 0, 0);
+			}
+			else
+			{
+				App->render->SetTextureColor(entityTex, 255, 255, 255);
+				blink = false;
+			}
+		}
 
-		else SDL_SetTextureColorMod(entityTex, 255, 255, 255), SDL_SetTextureAlphaMod(entityTex, 255);
+		//else SDL_SetTextureColorMod(entityTex, 255, 255, 255), SDL_SetTextureAlphaMod(entityTex, 255);
 			
 	}
 }
 
-void PlayerEntity::Blinker(SDL_Texture* texture, j1Timer blink)
-{
-
-	if (blink.Read() <= timeToBlink)
-	{
-		
-		SDL_SetTextureAlphaMod(entityTex, 255);
-		SDL_SetTextureColorMod(entityTex, 255 , 0, 0);
-		
-		
-	}
-	else  if (blink.Read() > timeToBlink && blink.Read() <= 200 + timeToBlink) //update time to blink (need)
-
-	{
-		SDL_SetTextureAlphaMod(entityTex, 0);
-
-		SDL_SetTextureColorMod(entityTex, 0 , 0, 0);
-		
-	}
-	else timeToBlink += 400;
-
-}
 
 int PlayerEntity::GetPointingDir(float angle)
 {
@@ -653,14 +642,7 @@ void PlayerEntity::DoDash()
 
 void j1Entity::DoPushback()
 {
-	
-	fPoint originilaPos = position;
-	
-	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 4;
-	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 4;
-	LOG("position.x %f", position.x);
-	LOG("position.y %f", position.y);
-	LOG("displaced Pos X %f", position.x - originilaPos.x);
-	LOG("displaced Pos Y %f", position.y - originilaPos.y);
+	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 8;
+	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 8;
 
 }
