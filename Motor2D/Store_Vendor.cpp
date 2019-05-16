@@ -8,14 +8,22 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 
 	if (firstTime)
 	{
-		numberOfEquip = 10;
-		numberOfPot = 3;
+		numberOfEquip = baseEquipables;   // beginning
+		numberOfPot = baseCosumables;
 	}
 	
 	if (playerLvlUp)
 	{
-		numberOfEquip = 3;
-		numberOfPot = 3;
+		if (!firstTime)
+		{
+			numberOfEquip = numberItemsLvlUp;   // level up 
+			numberOfPot = baseCosumables;
+		}
+		else
+		{
+			numberOfEquip = baseEquipables + numberItemsLvlUp * (App->entityFactory->player->level-1);     // if he levels up before openning inventory first time
+			numberOfPot = baseCosumables;
+		}
 	}
 
 	if (firstTime || playerLvlUp)

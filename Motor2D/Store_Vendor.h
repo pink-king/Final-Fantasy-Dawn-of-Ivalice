@@ -4,6 +4,9 @@
 
 #include "LootEntity.h"
 
+#define baseEquipables 10
+#define baseCosumables 3
+#define numberItemsLvlUp 3
 
 class Vendor
 {
