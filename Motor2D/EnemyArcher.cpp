@@ -232,7 +232,7 @@ void EnemyArcher::LoadAnims()
 
 	run[(int)facingDirectionEnemy::N].PushBack({ 0, 1113, 64, 64}); //
 	run[(int)facingDirectionEnemy::N].PushBack({ 64, 1113, 64, 64});
-	run[(int)facingDirectionEnemy::N].PushBack({ 128, 1113, 14, 30 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 128, 1113, 64, 64 });
 	run[(int)facingDirectionEnemy::N].PushBack({ 64, 1113, 64, 64 });
 	run[(int)facingDirectionEnemy::N].speed = animSpeed;
 
