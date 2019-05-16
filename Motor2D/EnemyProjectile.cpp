@@ -4,12 +4,18 @@
 
 EnemyProjectile::EnemyProjectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : Projectile(pos, destination, speed, owner, "Enemy_Arrow", PROJECTILE_TYPE::BASIC_ARROW)
 {
-	entityTex = App->entityFactory->arrowsTexture;
-	anim.PushBack({ 15, 20, 26, 7 });
+	// Assigning to the same texture as the enemy, it shouldn't be a problem
+	entityTex = App->entityFactory->enemyGolemTex;
+	anim.PushBack({ 0, 825, 32, 32 });
+	anim.PushBack({ 32, 825, 32, 32 });
+	anim.PushBack({ 96, 825, 32, 32 });
+	anim.speed = 15.F;
+	anim.loop = true; 
+
 	currentAnimation = &anim;
 
-	SetPivot(13, 4);
-	size.create(32, 8);
+	SetPivot(16, 16);
+	size.create(32, 32);
 	// TODO: Add different SFX
 	//App->audio->PlayFx(App->entityFactory->sharaBasic);
 
