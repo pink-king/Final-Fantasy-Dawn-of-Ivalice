@@ -37,7 +37,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	
 	level = 1;
 	exp = 0;
-	maxExpInLevel = 10000;
+	maxExpInLevel = 1000;
 
 	Start();
 }

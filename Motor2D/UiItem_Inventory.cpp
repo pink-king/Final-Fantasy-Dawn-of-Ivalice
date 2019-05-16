@@ -9,6 +9,7 @@
 #include "j1DialogSystem.h"
 #include "Brofiler/Brofiler.h"
 
+
 UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
@@ -54,6 +55,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	}
 	else
 	{
+		if(App->entityFactory->player->GetVendor()->firstTime)
 		App->entityFactory->player->GetVendor()->generateVendorItems();
 
 		App->scene->MarcheIcon->hide = true;
@@ -1297,8 +1299,15 @@ bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
 	}
 	else	// vendor to player
 	{
-		uint actualPlayerMoney = (uint)std::stoi(App->entityFactory->player->str_coin);
+		std::string moneyWithoutCharacters = ""; 
+		for (int i = 0; i < App->entityFactory->player->str_coin.size() - 3; ++i) // skip the null character and the " x"
+		{
 
+		moneyWithoutCharacters += App->entityFactory->player->str_coin.at(i);   // reverse number 
+		
+		}
+		uint actualPlayerMoney = (uint)std::stoi(moneyWithoutCharacters);  // crash because "X" IS NOT A NUMBER
+		
 		if (actualPlayerMoney >= item->price)
 		{
 			App->entityFactory->player->str_coin = std::to_string(actualPlayerMoney - item->price) + " x";

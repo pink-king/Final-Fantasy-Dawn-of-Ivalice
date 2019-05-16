@@ -20,7 +20,7 @@ public:
 	~Vendor() {};
 
 
-	void generateVendorItems();  // todo: every time the player levels up, a new unique item must appear 
+	void generateVendorItems(bool playerLvlUp = false);  // todo: every time the player levels up, a new unique item must appear 
 
 	void EquipVendor(LootEntity* entityLoot, bool fromPlayer = false); 
 
@@ -28,7 +28,10 @@ public:
 
 	void cleanUp(); 
 
+public: 
 
+	uint numberOfEquip; 
+	uint numberOfPot; 
 
 
 };
