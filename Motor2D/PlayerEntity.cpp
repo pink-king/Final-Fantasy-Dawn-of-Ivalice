@@ -639,11 +639,22 @@ void PlayerEntity::DoDash()
 		entityTex = dash_spritesheet;
 
 		// search for target position
-		fPoint directionVector = { cos(lastAxisMovAngle), sin(lastAxisMovAngle) };
+		fPoint directionVector = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
 		directionVector.Normalize();
 
-		// TODO: filter with search for this vector positions if not walkable and return last valid pos (tile center)
-		dashDestinationPos = position + directionVector * dashMaxDistance;
+		// search for any walkability obstacles throught this path
+		// TODO: better on tilemap pos
+		fPoint checker;
+		int distMultiplier = 0;
+		for (; distMultiplier < dashMaxDistance; ++distMultiplier)
+		{
+			checker = GetPivotPos() + directionVector * distMultiplier;
+			if(!App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
+				break;
+		}
+		
+		int playerVolumeOffset = 10;
+		dashDestinationPos = position + directionVector * (distMultiplier - playerVolumeOffset);
 
 		// adds trauma and force feedback
 		App->camera2D->AddTrauma(0.09f);
