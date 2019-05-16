@@ -57,6 +57,8 @@ public:
 
 	void RepositionBagItems(); 
 
+	bool DoPriceCalculations(LootEntity* );
+
 public: 
 
 	bool drawTest = false;

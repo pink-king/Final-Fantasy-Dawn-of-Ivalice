@@ -1079,46 +1079,49 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		else
 		{
 
-			// delete item desciption so that it is not selected again
-			makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
 
-			// PLAYER TO VENDOR: when the inventory sequence is active: no need to check character
-
-			if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
+			if (DoPriceCalculations(callback))
 			{
-				App->entityFactory->player->RemoveItemFromBag(callback);
+				// delete item desciption so that it is not selected again
+				makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
 
+				// PLAYER TO VENDOR: when the inventory sequence is active: no need to check character
 
-				if (!App->entityFactory->player->bagObjects.empty())
+				if (callback->GetType() == LOOT_TYPE::EQUIPABLE)
 				{
-					doBagScroll = true;
+					App->entityFactory->player->RemoveItemFromBag(callback);
+
+
+					if (!App->entityFactory->player->bagObjects.empty())
+					{
+						doBagScroll = true;
+					}
+
+
+				}
+				else if (callback->GetType() == LOOT_TYPE::CONSUMABLE)
+				{
+					App->entityFactory->player->RemoveItemFromConsumables(callback);
+
+					potion_counter--;
+
+					if (potion_counter > 0)
+					{
+						str_potion = "" + std::to_string(potion_counter);
+						potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+
+					}
+					else
+					{
+						potionLabel->to_delete = true;
+						first_label_potion = false;
+					}
+
 				}
 
 
+				App->entityFactory->player->GetVendor()->EquipVendor(callback, true);
 			}
-			else if (callback->GetType() == LOOT_TYPE::CONSUMABLE)
-			{
-				App->entityFactory->player->RemoveItemFromConsumables(callback);
-
-				potion_counter--;
-
-				if (potion_counter > 0)
-				{
-					str_potion = "" + std::to_string(potion_counter);
-					potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
-
-				}
-				else
-				{
-					potionLabel->to_delete = true;
-					first_label_potion = false;
-				}
-
-			}
-
-
-			App->entityFactory->player->GetVendor()->EquipVendor(callback, true);
-
 
 
 
@@ -1141,22 +1144,26 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
 					{
 
-						// delete item desciption so that it is not selected again
-						makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
-
-
-
-						App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
-						App->entityFactory->player->AddItemToTheBag(callback);
-
-
-						if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
+						if (DoPriceCalculations(callback))
 						{
-							doBagScroll = true;
+							// delete item desciption so that it is not selected again
+							makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
+
+
+
+							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+							App->entityFactory->player->AddItemToTheBag(callback);
+
+
+							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
+							{
+								doBagScroll = true;
+							}
+
+
+							break;
 						}
-
-
-						break;
+						
 					}
 
 
@@ -1174,29 +1181,33 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				if ((*iter) == callback)
 				{
 
-					// delete item desciption so that it is not selected again
-					makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
-
-					App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
-					App->entityFactory->player->AddItemToConsumables(callback);
-
-
-					vendor_potion_counter--;
-
-					if (vendor_potion_counter > 0)
+					if (DoPriceCalculations(callback))
 					{
-						str_potion = "" + std::to_string(vendor_potion_counter);
-						potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+
+						// delete item desciption so that it is not selected again
+						makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
+
+						App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+						App->entityFactory->player->AddItemToConsumables(callback);
+
+
+						vendor_potion_counter--;
+
+						if (vendor_potion_counter > 0)
+						{
+							str_potion = "" + std::to_string(vendor_potion_counter);
+							potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+						}
+						else
+						{
+							potionLabel->to_delete = true;
+							first_label_potion = false;
+						}
+
+
+
+						break;
 					}
-					else
-					{
-						potionLabel->to_delete = true;
-						first_label_potion = false;
-					}
-
-
-
-					break;
 
 
 				}
@@ -1266,4 +1277,39 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 
+}
+
+
+bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
+{
+
+	bool ret = false;
+
+
+	// player to vendor 
+
+	if (!App->scene->inventoryItem->isVendorInventory)
+	{
+		App->entityFactory->player->str_coin = std::to_string(item->price) + " x";
+		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+		ret = true; 
+	}
+	else	// vendor to player
+	{
+		uint actualPlayerMoney = (uint)std::stoi(App->entityFactory->player->str_coin);
+
+		if (actualPlayerMoney >= item->price)
+		{
+			App->entityFactory->player->str_coin = std::to_string(actualPlayerMoney - item->price) + " x";
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+			ret = true;
+		}
+
+	}
+
+
+
+	return ret; 
 }
