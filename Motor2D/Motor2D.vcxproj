@@ -114,6 +114,7 @@
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="j1TransitionManager.cpp" />
+    <ClCompile Include="LobbyPortal.cpp" />
     <ClCompile Include="LootEntity.cpp" />
     <ClCompile Include="MagicBolt.cpp" />
     <ClCompile Include="Marche.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Timer.h" />
     <ClInclude Include="j1TransitionManager.h" />
+    <ClInclude Include="LobbyPortal.h" />
     <ClInclude Include="LootEntity.h" />
     <ClInclude Include="MagicBolt.h" />
     <ClInclude Include="Marche.h" />

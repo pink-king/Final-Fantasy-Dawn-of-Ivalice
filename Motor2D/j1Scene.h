@@ -20,6 +20,7 @@ enum class SceneState
 	LEVEL2,
 	DEATH,
 	WIN,
+	LOBBY,
 	MAX_STATES
 };
 
@@ -76,6 +77,7 @@ public:
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
+	SceneState previosState = SceneState::LOBBY;
 	bool isDeath = false;
 	bool paused;
 	unsigned int openInventorySFX;

@@ -7,7 +7,7 @@
 #include "Trigger.h"
 #include "PlayerEntityManager.h"
 #include <vector>
-
+#include "Color.h"
 #include "j1Map.h"
 #include "ConsumableLoot.h"
 #include "EquipableLoot.h"
@@ -73,7 +73,7 @@ public:
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 
-	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY);
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY,SceneState scene, Color color);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
@@ -128,7 +128,7 @@ public:
 public:
 	fPoint					dmg_vec;
 	bool					pushEF = false;
-
+	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 

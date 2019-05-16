@@ -1,8 +1,8 @@
-#include "Portal.h"
+#include "LobbyPortal.h"
 #include "j1TransitionManager.h"
 #include "j1EntityFactory.h"
 
-Portal::Portal(float posx, float posy, SceneState scene, Color color)
+LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 	: Trigger(TRIGGER_TYPE::PORTAL, posx, posy, "portal"), scene(scene), color(color)
 {
 	nSubtiles = 2;
@@ -10,16 +10,15 @@ Portal::Portal(float posx, float posy, SceneState scene, Color color)
 	AssignInSubtiles(nSubtiles);
 }
 
-Portal::~Portal()
+LobbyPortal::~LobbyPortal()
 {
 }
 
-bool Portal::DoTriggerAction()
+bool LobbyPortal::DoTriggerAction()
 {
-	App->SaveGame("Portal.xml");
 	App->scene->ComeToPortal = true;
 	App->pause = true;
-	App->transitionManager->CreateFadeTransition(1.0, true,scene,White);
+	App->transitionManager->CreateFadeTransition(1.0, true, scene, White);
 	App->scene->previosState = App->scene->state;
 	to_delete = true;
 	return true;

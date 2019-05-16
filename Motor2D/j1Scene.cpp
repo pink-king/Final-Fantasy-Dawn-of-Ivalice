@@ -56,8 +56,11 @@ bool j1Scene::Start()
 	App->pause = false;
 	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
 	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
+
 	if (state == SceneState::LEVEL1)
 	{
+		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		App->entityFactory->loadEnemies = true;
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -74,8 +77,36 @@ bool j1Scene::Start()
 			App->LoadGame("save_game.xml");
 			ComeToDeath = false;
 		}
-
+		if (ComeToPortal)
+		{
+			App->LoadGame("Portal.xml");
+			ComeToPortal = false;
+		}
 	}
+
+	if (state == SceneState::LOBBY)
+	{
+		App->entityFactory->CreatePlayer({ -300, 300 });
+		//AcceptUISFX_logic = false;
+		App->entityFactory->loadEnemies = false;
+		inGamePanel->enable = true;
+		uiMarche->enable = true;
+		uiShara->enable = true;
+		uiRitz->enable = true;
+		settingPanel->enable = false;
+		startMenu->enable = false;
+
+		App->audio->PlayFx(enterGameSFX, 0);
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+
+		if (ComeToPortal)
+		{
+			App->LoadGame("Portal.xml");
+			ComeToPortal = false;
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL,-400, 350, previosState,White);
+		}
+	}
+
 	if (state == SceneState::STARTMENU)
 	{
 		App->gui->resetHoverSwapping = false;
@@ -262,7 +293,7 @@ bool j1Scene::Update(float dt)
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y,SceneState::LOBBY,Blue);
 	}
 	
 
@@ -799,7 +830,6 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 		RELEASE_ARRAY(data);
 
-		App->entityFactory->CreatePlayer({ -1575, 2150 }); //  {300,300}
 		// re set entities data map (create or delete/create if we have a previous one)
 		App->entityFactory->CreateEntitiesDataMap(App->map->data.width * 2, App->map->data.height * 2);
 	}
@@ -828,6 +858,16 @@ void j1Scene::LoadScene(SceneState sceneState)
 		state = SceneState::STARTMENU;
 		break;
 
+	case SceneState::LOBBY:
+		state = SceneState::LOBBY;
+		App->attackManager->Enable();
+		App->pathfinding->Enable();
+		App->camera2D->Enable();
+		App->buff->Enable();
+		App->map->active = true;
+		LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		App->entityFactory->Enable();
+		break;
 	case SceneState::LEVEL1:
 
 		state = SceneState::LEVEL1;

@@ -2,15 +2,19 @@
 #define _PORTAL_H_
 
 #include "Trigger.h"
+#include "j1Scene.h"
+#include "Color.h"
 
 class Portal : public Trigger
 {
 public:
-	Portal(float posx, float posy);
+	Portal(float posx, float posy, SceneState scene, Color color);
 	~Portal();
 
-	virtual bool DoTriggerAction();
-
+	bool DoTriggerAction();
+private:
+	SceneState scene;
+	Color color;
 };
 
 

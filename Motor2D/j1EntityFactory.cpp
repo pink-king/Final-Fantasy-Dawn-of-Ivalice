@@ -17,6 +17,7 @@
 #include "Medusa.h"
 #include "Tornado.h"
 #include "Portal.h"
+#include "LobbyPortal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include <ctime>
@@ -297,53 +298,58 @@ bool j1EntityFactory::Save(pugi::xml_node &node) const
 
 bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 {
-	for (pugi::xml_node node2 = node.child("Entities"); node2; node2 = node2.next_sibling("Entities"))
+	if (loadEnemies)
 	{
-		Enemy* ret = nullptr;
-
-		pugi::xml_node nodeSpeed = node2.child("position");
-		iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() };
-
-		std::string retType =node2.attribute("type").as_string();
-		if (retType.compare("enemyBomb") == 0)
+		for (pugi::xml_node node2 = node.child("Entities"); node2; node2 = node2.next_sibling("Entities"))
 		{
-			ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
-			ret->level = node2.attribute("level").as_int();
-			ret->life = node2.attribute("life").as_float();
+			Enemy* ret = nullptr;
 
-			if (ret != nullptr)
+			pugi::xml_node nodeSpeed = node2.child("position");
+			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() };
+
+			std::string retType = node2.attribute("type").as_string();
+			if (retType.compare("enemyBomb") == 0)
 			{
-				App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
-				App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
-			}
-		}
-		
-		if (retType.compare("enemyTest") == 0)
-		{
-			ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
-			ret->level = node2.attribute("level").as_int();
-			ret->life = node2.attribute("life").as_float();
-			if (ret != nullptr)
-			{
-				App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-				App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
-			}
-		}
+				ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
+				ret->level = node2.attribute("level").as_int();
+				ret->life = node2.attribute("life").as_float();
 
-		pugi::xml_node aux = node2.child("players");
-		if (App->entityFactory->player != nullptr && aux)
-		{
-			App->entityFactory->player->Load(node2);
+				if (ret != nullptr)
+				{
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
+				}
+			}
+
+			if (retType.compare("enemyTest") == 0)
+			{
+				ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
+				ret->level = node2.attribute("level").as_int();
+				ret->life = node2.attribute("life").as_float();
+				if (ret != nullptr)
+				{
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
+				}
+			}
 		}
 	}
-
 	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
 	{
-		if (App->entityFactory->player != nullptr )
+		if (App->entityFactory->player != nullptr)
 		{
 			App->entityFactory->player->Load(characterPlayer);
 		}
 	}
+
+	pugi::xml_node pos = node.append_child("position");
+	iPoint posit = { pos.attribute("x").as_int(), pos.attribute("y").as_int() };
+	if (posit.x != 0 && posit.y != 0)
+	{
+		player->position.x = posit.x;
+		player->position.y = posit.y;
+	}
+	//TODO create out portal
 	return true;
 }
 
@@ -361,6 +367,12 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 		if ((*item)->type == ENTITY_TYPE::PLAYER)
 		{
 			pugi::xml_node nodeEntities = node.append_child("Players");
+			(*item)->Save(nodeEntities);
+		}
+
+		if ((*item)->type == ENTITY_TYPE::TRIGGER)
+		{
+			pugi::xml_node nodeEntities = node.append_child("Portal");
 			(*item)->Save(nodeEntities);
 		}
 	}
@@ -636,13 +648,17 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 	return nullptr;
 }
 
-Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY)
+Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color)
 {
 	Trigger* ret = nullptr;
 	switch (type)
 	{
 	case TRIGGER_TYPE::PORTAL:	
-		ret = new Portal(posX, posY);
+		ret = new Portal(posX, posY,scene,color);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::LOBBYPORTAL:
+		ret = new LobbyPortal(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::NO_TRIGGER:

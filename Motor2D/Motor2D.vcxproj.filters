@@ -209,6 +209,9 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="LobbyPortal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -438,6 +441,9 @@
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyPortal.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>

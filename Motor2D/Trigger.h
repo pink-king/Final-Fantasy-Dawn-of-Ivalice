@@ -6,6 +6,7 @@
 enum class TRIGGER_TYPE
 {
 	PORTAL,
+	LOBBYPORTAL,
 	NO_TRIGGER
 };
 
@@ -17,6 +18,7 @@ public:
 
 	bool CleanUp();
 
+	bool Save(pugi::xml_node&) const;
 	virtual bool DoTriggerAction();
 	void AssignInSubtiles(int numbreOfSubtile);
 public:

@@ -16,6 +16,14 @@ bool Trigger::CleanUp()
 	return true;
 }
 
+bool Trigger::Save(pugi::xml_node &node) const
+{
+	pugi::xml_node pos = node.append_child("position");
+	pos.append_attribute("x") = position.x;
+	pos.append_attribute("y") = position.y;
+	return true;
+}
+
 bool Trigger::DoTriggerAction()
 {
 	return true;
