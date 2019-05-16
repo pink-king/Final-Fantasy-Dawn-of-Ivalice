@@ -954,7 +954,6 @@ bool Crosshair::ManageInput(float dt)
 		{
 			//LOG("");
 		}
-		App->scene->AcceptUISFX_logic = false;
 
 			//LOG("DONT SEARCH");
 	}
@@ -973,7 +972,6 @@ bool Crosshair::ManageInput(float dt)
 			{
 				
 				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
-				App->scene->AcceptUISFX_logic = true;
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
@@ -990,7 +988,6 @@ bool Crosshair::ManageInput(float dt)
 						//last detach clamped entity
 						clampedEntity = nullptr;
 						clamped = false;
-						App->scene->AcceptUISFX_logic = false;
 						//LOG("entities size: %i", App->entityFactory->entities.size());
 					}
 					
@@ -999,7 +996,6 @@ bool Crosshair::ManageInput(float dt)
 		}
 		else
 		{
-			App->scene->AcceptUISFX_logic = false;
 			clamped = false; // protection
 			clampedEntity = nullptr;
 		}

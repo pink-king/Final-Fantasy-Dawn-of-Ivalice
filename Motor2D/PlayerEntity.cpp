@@ -287,7 +287,7 @@ void PlayerEntity::Draw()
 		}
 		if (blink)
 		{
-			if(App->entityFactory->alphaTimer.ReadSec() < 0.2f)
+			if (App->entityFactory->alphaTimer.ReadSec() < 0.2f)
 			{
 				App->render->SetTextureColor(entityTex, 255, 0, 0);
 			}
@@ -297,6 +297,7 @@ void PlayerEntity::Draw()
 				blink = false;
 			}
 		}
+		else App->render->SetTextureColor(entityTex, 255, 255, 255);
 
 		//else SDL_SetTextureColorMod(entityTex, 255, 255, 255), SDL_SetTextureAlphaMod(entityTex, 255);
 			

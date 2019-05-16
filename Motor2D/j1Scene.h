@@ -83,7 +83,9 @@ public:
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
 	unsigned int playerDeath;
-	bool AcceptUISFX_logic;
+	unsigned int selectUI;
+	unsigned int acceptUI;
+
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

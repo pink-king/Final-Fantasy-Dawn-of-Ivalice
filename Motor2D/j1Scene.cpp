@@ -54,7 +54,8 @@ bool j1Scene::Start()
 		debug_tex = App->tex->Load("maps/path2.png");
 
 	App->pause = false;
-
+	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
+	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
 	if (state == SceneState::LEVEL1)
 	{
 		//AcceptUISFX_logic = false;
@@ -73,11 +74,11 @@ bool j1Scene::Start()
 			App->LoadGame("save_game.xml");
 			ComeToDeath = false;
 		}
+
 	}
 	if (state == SceneState::STARTMENU)
 	{
 		App->gui->resetHoverSwapping = false;
-		AcceptUISFX_logic = true;
 		if (!LoadedUi)
 		{
 			LoadInGameUi(sceneNode);
@@ -280,7 +281,6 @@ bool j1Scene::Update(float dt)
 	
 	if (state == SceneState::STARTMENU)
 	{
-		AcceptUISFX_logic = true;
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
@@ -294,10 +294,7 @@ bool j1Scene::Update(float dt)
 		//Mix_CloseAudio();
 		//if()
 		
-		if (startMenu->enable || inventory->enable)
-			AcceptUISFX_logic = true;
-		else if (!startMenu->enable && !inventory->enable)
-			AcceptUISFX_logic = false;
+
 
 		//settingPanel->enable = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
@@ -326,7 +323,6 @@ bool j1Scene::Update(float dt)
 		{
 			if (!inventory->enable)
 			{
-				AcceptUISFX_logic = true;
 
 				App->pause = !App->pause;
 				if (App->pause)
@@ -346,7 +342,6 @@ bool j1Scene::Update(float dt)
 					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
 					App->gui->GoBackToGame();
-					AcceptUISFX_logic = false;
 				}
 			}
 		}

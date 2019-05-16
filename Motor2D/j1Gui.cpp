@@ -33,8 +33,7 @@ bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.data());
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
-	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
-	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
+
 	if (hurt_hud_tex == nullptr)
 		hurt_hud_tex = App->tex->Load("textures/hud dmg/playerhurt.png");
 	return true;
@@ -212,7 +211,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the right to a list
 
@@ -261,7 +260,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the left to a list
 
@@ -313,7 +312,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the right to a list
 
@@ -363,7 +362,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the right to a list
 
