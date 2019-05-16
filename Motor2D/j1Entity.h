@@ -28,6 +28,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		PLAYER,
 		ENEMY_BOMB,
 		ENEMY02,
+		DEMONBOSS,
 		//etc
 		LOOT,
 		ENEMY_TEST,
