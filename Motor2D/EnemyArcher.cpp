@@ -1,6 +1,6 @@
 #include "EnemyArcher.h" 
 #include "j1EntityFactory.h"
-#include "j1BuffManager.h"
+
 
 EnemyArcher::EnemyArcher(const iPoint & pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
 {
@@ -18,19 +18,7 @@ bool EnemyArcher::PreUpdate()
 
 bool EnemyArcher::Update(float dt)
 {
-	if (!isParalize)
-	{
-		SetState(dt); 
-	}
-
-	if (stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(this))
-		{
-			App->buff->entitiesTimeDamage.remove(this);
-		}
-	}
-
+	SetState(dt); 
 	return true;
 }
 
