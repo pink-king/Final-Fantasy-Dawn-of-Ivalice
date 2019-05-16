@@ -52,8 +52,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 	if (functionName == "GoBackToStartMenuFromDeathWin")
 		App->gui->GoBackToStartMenuFromDeathWin();
 
-	if(App->scene->AcceptUISFX_logic)
-		App->audio->PlayFx(App->gui->acceptUI, 0);
+	/*if(App->scene->AcceptUISFX_logic)*/
+		App->audio->PlayFx(App->scene->acceptUI, 0);
 
 	if (App->scene->paused && !App->pause)
 	{

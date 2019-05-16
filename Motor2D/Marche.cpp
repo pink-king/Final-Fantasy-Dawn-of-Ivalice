@@ -110,6 +110,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::NW].PushBack({ 225,300,45,60 });
 	run[(int)facingDirection::NW].speed = 10.0f;
 
+	run->speed = 10.0f;
 	// DASH
 
 	dash[(int)facingDirection::E].PushBack({ 0,0,95,110 });
@@ -695,10 +696,26 @@ bool Marche::Update(float dt)
 	{
 
 		DoPushback();
-		DoPush = false;
+		/*blink = true;
+		alphaTimer.Start();*/
 		App->entityFactory->pushEF = false;
 		LOG("log from marche update()");
+		App->render->SetTextureColor(entityTex, 255, 0, 0);
+
 	}
+	
+
+	//if (blink)
+	//{
+	//	if (alphaTimer.Read() >= alphaTimer.GetStartedAt() && alphaTimer.Read() < 3000 + alphaTimer.GetStartedAt())
+	//		Blinker(entityTex, alphaTimer);
+	//	else /*if (alphaTimer.Read() > 3000 + alphaTimer.GetStartedAt())*/
+	//	{
+	//		blink = false, App->pause = false;
+	//	}
+
+	//	
+	//}
 	// CHECK COMBAT STATE
 	switch (combat_state)
 	{
@@ -1222,21 +1239,6 @@ bool Marche::PostUpdate()
 	return true;
 }
 
-bool Marche::Load(pugi::xml_node &node)
-{
-	pugi::xml_node nodeSpeed = node.child("Marche");
 
-	position.x = nodeSpeed.attribute("speedx").as_float();
-	position.y = nodeSpeed.attribute("speedy").as_float();
-	return true;
-}
 
-bool Marche::Save(pugi::xml_node &node) const
-{
-	pugi::xml_node nodeData = node.append_child("Marche");
-
-	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
-	return true;
-}
 

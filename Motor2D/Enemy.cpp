@@ -355,8 +355,20 @@ bool Enemy::Load(pugi::xml_node &)
 	return true;
 }
 
-bool Enemy::Save(pugi::xml_node &) const
+bool Enemy::Save(pugi::xml_node &node) const
 {
+	if(type == ENTITY_TYPE::ENEMY_BOMB)
+		node.append_attribute("type") = "enemyBomb";
+	else if(type == ENTITY_TYPE::ENEMY_TEST)
+		node.append_attribute("type") = "enemyTest";
+
+	node.append_attribute("level") = level;
+	node.append_attribute("life") = life;
+	pugi::xml_node nodeSpeed = node.append_child("position");
+
+	nodeSpeed.append_attribute("x") = position.x;
+	nodeSpeed.append_attribute("y") = position.y;
+
 	return true;
 }
 

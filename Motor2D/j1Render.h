@@ -54,7 +54,8 @@ public:
 
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
-
+	void SetTextureColor(SDL_Texture* tex, uint r, uint g, uint b);
+	void SetTextureAlpha(SDL_Texture* tex, uint alpha);
 public:
 
 	SDL_Renderer*	renderer = nullptr;

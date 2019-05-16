@@ -4,9 +4,10 @@
 #include "j1Module.h"
 #include "j1Entity.h"
 #include "Enemy.h"
+#include "Trigger.h"
 #include "PlayerEntityManager.h"
 #include <vector>
-
+#include "Color.h"
 #include "j1Map.h"
 #include "ConsumableLoot.h"
 #include "EquipableLoot.h"
@@ -56,6 +57,10 @@ public:
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+
+	bool LoadPortal(pugi::xml_node&);
+	bool SavePortal(pugi::xml_node&) const;
+
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
@@ -67,6 +72,9 @@ public:
 
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
+
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY,SceneState scene, Color color);
+
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
 
@@ -81,7 +89,10 @@ public:
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
+	void AssignEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
+
+	void DeleteEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 
 	// Subyacent subtiles functions
 
@@ -98,6 +109,8 @@ public:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	void CreateLootStats(LootEntity* lootEntity);
+
 	int GetRandomValue(int min, int max);
 	j1Entity* CreateLootType(int x, int y, LOOT_TYPE definedType = LOOT_TYPE::NO_LOOT);
 	LOOT_TYPE WillDrop();
@@ -115,7 +128,7 @@ public:
 public:
 	fPoint					dmg_vec;
 	bool					pushEF = false;
-
+	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 
@@ -134,7 +147,7 @@ public:
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
-
+	j1Timer alphaTimer;
 	//----SFX-----//
 	unsigned int lootGroundSFX;
 	unsigned int potionGroundSFX;

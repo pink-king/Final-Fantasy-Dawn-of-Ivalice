@@ -28,10 +28,13 @@ enum ENTITY_TYPE  // todo, pass to class
 		PLAYER,
 		ENEMY_BOMB,
 		ENEMY02,
+		DEMONBOSS,
 		//etc
 		LOOT,
 		ENEMY_TEST,
 		PROJECTILE,
+
+		TRIGGER,
 		// LAST
 		MAX_TYPE
 	};
@@ -120,7 +123,7 @@ public:
 	SDL_Rect drawAtlasRect; // for static draw from spritesheet
 	bool					to_delete = false;
 	bool					to_die = false; 
-	std::string				name;
+	std::string				name = "\0";
 	fPoint					position;
 	iPoint					size;
 	fPoint					pivot;
@@ -153,10 +156,10 @@ public:
 	bool					manualCollectable;
 	int						value;
 
-	float					unitariX;
-	float					unitariY;
 
-	bool					DoPush = false;
+
+	fPoint dmgDestinationPos;
+	j1Timer					alphaTimer;
 protected:
 	iPoint imOnTile;
 	iPoint imOnSubtile;

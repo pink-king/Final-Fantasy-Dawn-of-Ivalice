@@ -79,10 +79,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicArrow.cpp" />
+    <ClCompile Include="Boss_Demon.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
+    <ClCompile Include="Dissolve.cpp" />
     <ClCompile Include="EarthShaker.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Emmiter.cpp" />
@@ -91,6 +94,7 @@
     <ClCompile Include="EnemyBomb.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FireArrow.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
@@ -110,6 +114,8 @@
     <ClCompile Include="j1PerfTimer.cpp" />
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Timer.cpp" />
+    <ClCompile Include="j1TransitionManager.cpp" />
+    <ClCompile Include="LobbyPortal.cpp" />
     <ClCompile Include="LootEntity.cpp" />
     <ClCompile Include="MagicBolt.cpp" />
     <ClCompile Include="Marche.cpp" />
@@ -120,14 +126,18 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="PlayerEntityManager.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
     <ClCompile Include="Shara.cpp" />
+    <ClCompile Include="Squares.cpp" />
     <ClCompile Include="Store_Vendor.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="Tornado.cpp" />
+    <ClCompile Include="Transition.cpp" />
+    <ClCompile Include="Trigger.cpp" />
     <ClCompile Include="UiItem.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Checkbox.cpp" />
@@ -143,10 +153,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicArrow.h" />
+    <ClInclude Include="Boss_Demon.h" />
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
+    <ClInclude Include="Dissolve.h" />
     <ClInclude Include="EarthShaker.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Emmiter.h" />
@@ -155,6 +168,7 @@
     <ClInclude Include="EnemyBomb.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="FireArrow.h" />
     <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
@@ -171,6 +185,8 @@
     <ClInclude Include="j1PerfTimer.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Timer.h" />
+    <ClInclude Include="j1TransitionManager.h" />
+    <ClInclude Include="LobbyPortal.h" />
     <ClInclude Include="LootEntity.h" />
     <ClInclude Include="MagicBolt.h" />
     <ClInclude Include="Marche.h" />
@@ -190,15 +206,19 @@
     <ClInclude Include="p2SString.h" />
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="PlayerEntityManager.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
     <ClInclude Include="Shara.h" />
+    <ClInclude Include="Squares.h" />
     <ClInclude Include="Store_Vendor.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Tornado.h" />
+    <ClInclude Include="Transition.h" />
+    <ClInclude Include="Trigger.h" />
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Checkbox.h" />
@@ -214,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="..\Game\Portal.xml">
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="..\Game\save_game.xml">

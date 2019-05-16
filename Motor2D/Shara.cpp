@@ -406,9 +406,12 @@ bool Shara::Update(float dt)
 	{
 
 		DoPushback();
-		DoPush = false;
+		/*blink = true;
+		alphaTimer.Start();*/
 		App->entityFactory->pushEF = false;
-		LOG("log from shara update()");
+		LOG("log from marche update()");
+		App->render->SetTextureColor(entityTex, 255, 0, 0);
+
 	}
 	// CHECK COMBAT STATE
 	switch (combat_state)
@@ -423,7 +426,8 @@ bool Shara::Update(float dt)
 			//App->audio->PlayFx(App->entityFactory->ritzBasic, 0);
 			LOG("Launch BASIC");
 			coolDownData.basic.timer.Start();
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::BASIC_ARROW);
+
+			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 100, this, PROJECTILE_TYPE::BASIC_ARROW);
 
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -454,7 +458,7 @@ bool Shara::Update(float dt)
 		{
 			coolDownData.special1.timer.Start();
 			App->audio->PlayFx(App->entityFactory->sharaBasic);
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
+			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
 
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
 			//App->camera2D->AddTrauma(20.f / 100.f);
@@ -482,7 +486,7 @@ bool Shara::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			App->audio->PlayFx(App->entityFactory->sharaAbility1);
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 
@@ -602,15 +606,20 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 	bool ret = true;
 
 	inputReady = false; // deactivate user input
+
 	// checks the direction of aiming
-	iPoint targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
-	fPoint targetPos;
-	targetPos.x = targetDirection.x - GetPivotPos().x;
-	targetPos.y = targetDirection.y - GetPivotPos().y;
-	targetPos.Normalize();
-	// sets new pointing dir
-	float angle = atan2f(targetPos.y, targetPos.x);
-	pointingDir = GetPointingDir(angle);
+	if (aiming)
+	{
+		iPoint targetDirection;
+		fPoint targetPos;
+		targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
+		targetPos.x = targetDirection.x - GetPivotPos().x;
+		targetPos.y = targetDirection.y - GetPivotPos().y;
+		targetPos.Normalize();
+		// sets new pointing dir
+		lastAxisMovAngle = atan2f(targetPos.y, targetPos.x);
+	}
+	pointingDir = GetPointingDir(lastAxisMovAngle);
 	// updates renderflip if we need
 	CheckRenderFlip();
 	// links animation and textures
@@ -658,20 +667,4 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 //	return true;
 //}
 
-bool Shara::Load(pugi::xml_node &node)
-{
-	pugi::xml_node nodeSpeed = node.child("Shara");
 
-	position.x = nodeSpeed.attribute("speedx").as_float();
-	position.y = nodeSpeed.attribute("speedy").as_float();
-	return true;
-}
-
-bool Shara::Save(pugi::xml_node &node) const
-{
-	pugi::xml_node nodeData = node.append_child("Shara");
-
-	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
-	return true;
-}

@@ -78,9 +78,16 @@ void Consumable::ChooseConsumable()
 	}
 	else
 	{
-		objectType = OBJECT_TYPE::POTIONS;
-		consumableType = CONSUMABLE_TYPE::POTION;
-
+		int randNum = (GetRandomValue(1, 6));
+		if (randNum == 1)
+		{
+			objectType = OBJECT_TYPE::POTIONS;
+			consumableType = CONSUMABLE_TYPE::POTION;
+		}
+		else if (randNum == 2)
+		{
+			objectType = OBJECT_TYPE::PHOENIX_TAIL;
+		}
 	}
 }
 
@@ -105,13 +112,22 @@ void Consumable::SetConsumable()
 		{
 		case CONSUMABLE_TYPE::POTION:
 			loot_rect = { 60,32,10,12 };
-
+			lootname.assign("potion");
+			name.assign("potion");
 			size.create(10, 12);
 			SetPivot(5, 10);
 			break;
 		default:
 			break;
 		}
+		break;
+
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		loot_rect = { 149,30,13,16 };
+		lootname.assign("phoenixTail");
+		name.assign("phoenixTail");
+		size.create(13, 16);
+		SetPivot(7, 14);
 		break;
 
 	default:

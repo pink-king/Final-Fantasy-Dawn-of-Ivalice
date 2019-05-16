@@ -20,6 +20,7 @@ enum class SceneState
 	LEVEL2,
 	DEATH,
 	WIN,
+	LOBBY,
 	MAX_STATES
 };
 
@@ -72,19 +73,24 @@ public:
 	bool debugSubtiles = false; 
 	bool debugColl = false;
 	bool hackerMode = true;
+	bool ComeToPortal = false;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
-	
+	SceneState previosState = SceneState::LOBBY;
+	bool isDeath = false;
 	bool paused;
 	unsigned int openInventorySFX;
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
 	unsigned int enterGameSFX;
 	unsigned int playerDeath;
-	bool AcceptUISFX_logic;
+	unsigned int selectUI;
+	unsigned int acceptUI;
+
 private:
 	SDL_Texture* debug_tex = nullptr;
+	
 	pugi::xml_node sceneNode;
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;
@@ -111,9 +117,8 @@ private:
 	
 	PlayerEntityManager* player_selected = nullptr;
 
-	bool begin;
-	bool beginGameMus;
-
+	bool ComeToDeath = false;
+	
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 

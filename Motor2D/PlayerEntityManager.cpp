@@ -57,6 +57,7 @@ PlayerEntityManager::~PlayerEntityManager()
 	debugSubtileTex = nullptr;
 	App->tex->UnLoad(texture);
 	texture = nullptr;
+	
 }
 
 //bool PlayerEntityManager::Awake(pugi::xml_node & node)
@@ -76,8 +77,8 @@ bool PlayerEntityManager::Start()
 	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
-
-
+	
+	
 	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
 
 	return true;
@@ -101,7 +102,6 @@ bool PlayerEntityManager::Update(float dt)
 	bool ret = true;
 
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
-
 	selectedCharacterEntity->Update(dt);
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
@@ -116,6 +116,7 @@ bool PlayerEntityManager::Update(float dt)
 		
 	//collect loot
 	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+	{
 		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
 		{
 			if ((*item)->manualCollectable)
@@ -129,7 +130,12 @@ bool PlayerEntityManager::Update(float dt)
 				}
 			}
 		}
-	
+		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::TRIGGER)
+		{
+			dynamic_cast<Trigger*>(*item)->DoTriggerAction();
+			break;
+		}
+	}
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
@@ -250,7 +256,7 @@ bool PlayerEntityManager::PostUpdate()
 		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
 	}
-	
+	SetHudAlphaValue();
 	return true;
 }
 
@@ -308,7 +314,7 @@ bool PlayerEntityManager::CleanUp()
 
 bool PlayerEntityManager::Load(pugi::xml_node &node)
 {
-
+	
 	level = node.child("Experience").attribute("level").as_uint();
 	exp = node.child("Experience").attribute("exp").as_uint();
 
@@ -325,38 +331,38 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 			bagObjects.push_back(bagObj);
 	}
 
-	for (pugi::xml_node nodebagObjects = node.child("equipedObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("equipedObjects"))
+	for (pugi::xml_node nodeeqipedObjects = node.child("equipedObjects"); nodeeqipedObjects; nodeeqipedObjects = nodeeqipedObjects.next_sibling("equipedObjects"))
 	{
 		LootEntity* equipedObj = DBG_NEW LootEntity();
-		equipedObj->Load(nodebagObjects, equipedObj);
+		equipedObj->Load(nodeeqipedObjects, equipedObj);
 		if (equipedObj != nullptr)
+		{
 			equipedObjects.push_back(equipedObj);
+			App->buff->AddItemStats(equipedObj);
+		}
 	}
 
-	for (pugi::xml_node nodebagObjects = node.child("consumableObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("consumableObjects"))
+	for (pugi::xml_node nodecons = node.child("consumableObjects"); nodecons; nodecons = nodecons.next_sibling("consumableObjects"))
 	{
 		LootEntity* cons = DBG_NEW LootEntity();
-		cons->Load(nodebagObjects, cons);
+		cons->Load(nodecons, cons);
 		if (cons != nullptr)
-			equipedObjects.push_back(cons);
+			consumables.push_back(cons);
 	}
+	std::string PlayerAux = node.attribute("player").as_string();
 
-	pugi::xml_node nodeMarche = node.child("players").child("Marche");
-	marche->Load(nodeMarche);
-	pugi::xml_node nodeRitz = node.child("players").child("Ritz");
-	ritz->Load(nodeRitz);
-	pugi::xml_node nodeShara = node.child("players").child("Shara");
-	shara->Load(nodeShara);
+	if ( PlayerAux.compare("marche") == 0)
+		selectedCharacterEntity = marche;
+	else if (PlayerAux.compare("ritz") == 0)
+		selectedCharacterEntity = ritz;
+	else if (PlayerAux.compare("shara") == 0)
+		selectedCharacterEntity = shara;
+
 	return true;
 }
 
 bool PlayerEntityManager::Save(pugi::xml_node &node) const
 {
-	pugi::xml_node nodepos = node.append_child("position");
-
-	nodepos.append_attribute("x") = position.x;
-	nodepos.append_attribute("y") = position.y;
-
 	pugi::xml_node nodeexperience = node.append_child("Experience");
 	nodeexperience.append_attribute("level") = level;
 	nodeexperience.append_attribute("exp") = exp;
@@ -390,14 +396,12 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 		(*iter3)->Save(nodeconsumableObjects);
 	}
 
-	
-	std::vector<PlayerEntity*>::const_iterator iterChar = characters.begin();
-	for (; iterChar != characters.end(); ++iterChar)
-	{
-		pugi::xml_node nodePlayer = node.append_child("players");
-		(*iterChar)->Save(nodePlayer);
-	}
-
+	if (selectedCharacterEntity == marche)
+		node.append_attribute("player") = "marche";
+	else if (selectedCharacterEntity == shara)
+		node.append_attribute("player") = "shara";
+	else if (selectedCharacterEntity == ritz)
+		node.append_attribute("player") = "ritz";
 	return true;
 }
 
@@ -814,6 +818,15 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 	}
 }
 
+void PlayerEntityManager::SetHudAlphaValue()
+{
+	float percentlife = 100* App->entityFactory->player->life / maxLife;
+	
+	float alphavalue = (255*((percentlife-100)  * 0.01));
+	alphavalue = sqrt(alphavalue * alphavalue);
+	App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
+}
+
 j1Entity * PlayerEntityManager::GetMarche()
 {
 	return marche;
@@ -865,7 +878,7 @@ Crosshair::Crosshair()
 
 	pivotOffset.create(36, 10);
 
-	maxRadiusDistance = 110.0f; // world coords.
+	maxRadiusDistance = 160.f;//110.0f; // world coords.
 
 
 }
@@ -945,7 +958,6 @@ bool Crosshair::ManageInput(float dt)
 		{
 			//LOG("");
 		}
-		App->scene->AcceptUISFX_logic = false;
 
 			//LOG("DONT SEARCH");
 	}
@@ -964,7 +976,6 @@ bool Crosshair::ManageInput(float dt)
 			{
 				
 				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
-				App->scene->AcceptUISFX_logic = true;
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
@@ -981,7 +992,6 @@ bool Crosshair::ManageInput(float dt)
 						//last detach clamped entity
 						clampedEntity = nullptr;
 						clamped = false;
-						App->scene->AcceptUISFX_logic = false;
 						//LOG("entities size: %i", App->entityFactory->entities.size());
 					}
 					
@@ -990,7 +1000,6 @@ bool Crosshair::ManageInput(float dt)
 		}
 		else
 		{
-			App->scene->AcceptUISFX_logic = false;
 			clamped = false; // protection
 			clampedEntity = nullptr;
 		}
@@ -1142,22 +1151,10 @@ j1Entity* Crosshair::GetClampedEntity() const
 {
 	j1Entity* ret = nullptr;
 
-	std::vector<j1Entity*>::iterator entitiesItem = App->entityFactory->entities.begin();
-
-	while (entitiesItem != App->entityFactory->entities.end())
+	if (clampedEntity != nullptr)
 	{
-
-		if (!(*entitiesItem)->to_delete)
-		{
-			if ((*entitiesItem) == clampedEntity)
-			{
-
-				ret = (*entitiesItem);
-
-			}
-
-		}
-		++entitiesItem;
+		if (!clampedEntity->to_delete)
+			ret = clampedEntity;
 	}
 
 	return ret;

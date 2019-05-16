@@ -102,6 +102,8 @@ public:
 	void RemoveItemFromConsumables(LootEntity* entityLoot);
 
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
+
+	void SetHudAlphaValue();
 public:
 
 	j1Entity* GetMarche();

@@ -295,7 +295,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 					iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 284) };
 
-					if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+					if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
 					{
 						potion_counter++;
 					}
@@ -358,7 +358,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 					iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 284) };
 
-					if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+					if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
 					{
 						vendor_potion_counter++;
 					}

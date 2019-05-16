@@ -80,7 +80,6 @@ bool j1BuffManager::CleanUp()
 	return true;
 }
 
-
 Buff* j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character, std::string stat, float value)
 {
 
@@ -181,8 +180,9 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
 		
 		App->entityFactory->pushEF = true;
+		App->input->DoGamePadRumble(200, 100);
+		App->camera2D->AddTrauma(0.5f);
 
-		
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
@@ -283,7 +283,8 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
-		defender->life = 0;
+		App->scene->isDeath = true;
+		App->pause = true;
 	}
 
 
@@ -1020,7 +1021,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 	}
 	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER)
 	{
-		entity->life = 0;
+		App->scene->isDeath = true;
+		App->pause = true;
 	}
 	if (entity->stat.size() == 0)
 		ret = true;
@@ -1092,14 +1094,26 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
 	int xfactor, yfactor;
 	
-	player->unitariX = unitVec.x;
-	player->unitariY = unitVec.y;
+	
 	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
 	
-	player->DoPush = true;
+
 	LOG("log from buffmanager getplayerEnemy");
 	return unitVec;
 
-	return vec;
 
+}
+
+bool j1BuffManager::Load(pugi::xml_node &node)
+{
+
+	return true;
+}
+
+// TODO: random crash here
+// sometimes when the player dies
+bool j1BuffManager::Save(pugi::xml_node &node) const
+{
+
+	return true;
 }

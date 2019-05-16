@@ -185,6 +185,36 @@
     <ClCompile Include="Store_Vendor.cpp">
       <Filter>Development\Modules\Entities\Vendor</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="j1TransitionManager.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Dissolve.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Squares.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Trigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyPortal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_Demon.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -392,12 +422,45 @@
     <ClInclude Include="Store_Vendor.h">
       <Filter>Development\Modules\Entities\Vendor</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="j1TransitionManager.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Dissolve.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Squares.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyPortal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Demon.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
       <Filter>Development\XML</Filter>
     </Xml>
     <Xml Include="..\Game\save_game.xml">
+      <Filter>Development\XML</Filter>
+    </Xml>
+    <Xml Include="..\Game\Portal.xml">
       <Filter>Development\XML</Filter>
     </Xml>
   </ItemGroup>
@@ -469,6 +532,12 @@
     </Filter>
     <Filter Include="Development\Modules\Entities\Vendor">
       <UniqueIdentifier>{f335e991-b295-4f25-8ffa-55c592026b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Transitions">
+      <UniqueIdentifier>{14da82e2-ed4e-4ff9-8b0b-9f2669da7f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Triggers">
+      <UniqueIdentifier>{d26668ec-2b1d-46b9-a13f-fd540d32d715}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

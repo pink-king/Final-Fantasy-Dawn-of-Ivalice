@@ -560,9 +560,12 @@ bool Ritz::Update(float dt)
 	{
 
 		DoPushback();
-		DoPush = false;
+		/*blink = true;
+		alphaTimer.Start();*/
 		App->entityFactory->pushEF = false;
-		LOG("log from ritz update()");
+		LOG("log from marche update()");
+		App->render->SetTextureColor(entityTex, 255, 0, 0);
+
 	}
 
 	/*if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
@@ -596,7 +599,7 @@ bool Ritz::Update(float dt)
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 8)
 			{
 				// Launch attack
-				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(),
+				App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
 					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
 
 				// change combat state to idle
@@ -766,14 +769,20 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 
 	inputReady = false; // deactivate user input
 	// checks the direction of aiming
-	iPoint targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
-	fPoint targetPos;
-	targetPos.x = targetDirection.x - GetPivotPos().x;
-	targetPos.y = targetDirection.y - GetPivotPos().y;
-	targetPos.Normalize();
-	// sets new pointing dir
-	float angle = atan2f(targetPos.y, targetPos.x);
-	pointingDir = GetPointingDir(angle);
+	
+	if (aiming)
+	{
+		iPoint targetDirection;
+		fPoint targetPos;
+		targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
+		targetPos.x = targetDirection.x - GetPivotPos().x;
+		targetPos.y = targetDirection.y - GetPivotPos().y;
+		targetPos.Normalize();
+		// sets new pointing dir
+		lastAxisMovAngle = atan2f(targetPos.y, targetPos.x);
+	}
+
+	pointingDir = GetPointingDir(lastAxisMovAngle);
 	// updates renderflip if we need
 	CheckRenderFlip();
 	// links animation and textures
@@ -811,18 +820,11 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 
 fPoint Ritz::GetTeleportPos()
 {
-	fPoint ret;
-	// TODO: rework how to get the heading vector, this calcs are needed previously and do de same
-	// checks the direction of aiming
-	iPoint targetPos = App->entityFactory->player->GetCrossHairPivotPos();
-	fPoint targetDirection;
-	targetDirection.x = targetPos.x - GetPivotPos().x;
-	targetDirection.y = targetPos.y - GetPivotPos().y;
-	targetDirection.Normalize();
-	
-	ret = position + targetDirection * tpMaxDistance;
+	fPoint tpFacingPos;
+	tpFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+	tpFacingPos = position + tpFacingPos * tpMaxDistance;
 
-	return ret;
+	return tpFacingPos;
 }
 
 //bool Ritz::CleanUp()
@@ -837,20 +839,3 @@ fPoint Ritz::GetTeleportPos()
 //}
 
 
-bool Ritz::Load(pugi::xml_node &node)
-{
-	pugi::xml_node nodeSpeed = node.child("Ritz");
-
-	position.x = nodeSpeed.attribute("speedx").as_float();
-	position.y = nodeSpeed.attribute("speedy").as_float();
-	return true;
-}
-
-bool Ritz::Save(pugi::xml_node &node) const
-{
-	pugi::xml_node nodeData = node.append_child("Ritz");
-
-	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
-	return true;
-}
