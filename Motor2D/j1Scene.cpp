@@ -404,7 +404,7 @@ bool j1Scene::Update(float dt)
 			App->gui->resetHoverSwapping = false;
 		}
 		///////////
-		if (inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBagVendor || inventoryItem->swappedBag2Vendor))
+		if (inventory->enable && inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBagVendor || inventoryItem->swappedBag2Vendor))
 		{
 			if (!inventoryItem->swappedBag3Vendor && inventoryItem->swappedBag2Vendor)
 			{
@@ -427,7 +427,7 @@ bool j1Scene::Update(float dt)
 			App->gui->resetHoverSwapping = false;
 		}
 
-		if (inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2Vendor || inventoryItem->swappedBag3Vendor))
+		if (inventory->enable && inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2Vendor || inventoryItem->swappedBag3Vendor))
 		{
 
 			if (inventoryItem->swappedBag2Vendor && !inventoryItem->swappedBagVendor)
@@ -996,6 +996,12 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 			{
 				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
+				inventoryItem->swappedBag = true;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->swappedBagVendor = true;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = false;
 
 
 				if (App->dialog->isDialogSequenceActive)
