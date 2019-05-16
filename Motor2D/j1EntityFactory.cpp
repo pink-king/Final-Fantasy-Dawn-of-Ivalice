@@ -22,6 +22,7 @@
 #include "EarthShaker.h"
 #include <ctime>
 #include <algorithm>
+#include "Boss_Demon.h"
 
 
 
@@ -423,6 +424,10 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		
 		LOG("From factory Loot Entity");
 		break;
+
+	case DEMONBOSS:
+		ret = DBG_NEW DemonBossEntity({ positionX, positionY });
+		entities.push_back(ret);
 	default:
 		break;
 	}
@@ -453,7 +458,7 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 
 	case EnemyType::TRAP:
 		break;
-	
+
 	default:
 		break;
 	}

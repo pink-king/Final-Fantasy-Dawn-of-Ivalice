@@ -295,6 +295,14 @@ bool j1Scene::Update(float dt)
 		iPoint p = App->render->ScreenToWorld(x, y);
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y,SceneState::LOBBY,Blue);
 	}
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		App->entityFactory->CreateEntity(DEMONBOSS, p.x, p.y, "demonboss");
+	}
+
 	
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
