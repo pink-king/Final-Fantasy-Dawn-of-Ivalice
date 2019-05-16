@@ -256,7 +256,21 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->descrType = descriptionType::POTION;
 	this->parent = parent;
 	this->guiType = GUI_TYPES::DESCRIPTION;
-	this->name_object = "potion_1";
+	
+
+
+	
+	if (callback->objectType == OBJECT_TYPE::POTIONS)
+	{
+		this->name_object = "potion_1";
+	}
+
+	//Descomment when fenix tail is created
+	/*if (callback->objectType == OBJECT_TYPE::FENIX)
+	{
+		this->name_object = "fenix_tail";
+	}*/
+	
 
 	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
