@@ -986,6 +986,12 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 			{
 				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
+				inventoryItem->swappedBag = true;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->swappedBagVendor = true;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = false;
 
 
 				if (App->dialog->isDialogSequenceActive)
