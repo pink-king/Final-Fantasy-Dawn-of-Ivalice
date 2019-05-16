@@ -1587,7 +1587,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 {
 	uint expToAdd = 100;
 	uint bonusLevel = (enemy->level - player->level) * 25;
-	player->exp = expToAdd + bonusLevel;
+	player->exp += expToAdd + bonusLevel;
 
 	if (player->exp > player->maxExpInLevel)
 	{
