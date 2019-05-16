@@ -713,11 +713,11 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, uint level, LootEntity * callback, UiItem * const parent, uint price) {
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, float cooldown, uint level, LootEntity * callback, UiItem * const parent, uint price) {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent, price);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, cooldown, level, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 

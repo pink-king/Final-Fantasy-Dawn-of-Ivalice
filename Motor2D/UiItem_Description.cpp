@@ -136,7 +136,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 }
 
 
-UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
+UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, float cooldown, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
 	this->callback = callback;
 
@@ -167,18 +167,25 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->level->useCamera = false;
 
 	// - - - - - - - - - - - - - - - - - - 
-	std::string resString("RES: ");
-	resString.append(std::to_string((int)resistance));
-	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
-
-	resistanceLabel->useCamera = false;
-
 	std::string dmgString("DMG: ");
 	dmgString.append(std::to_string((int)Attack));
 	damageLabel = App->gui->AddLabel(dmgString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 
 	damageLabel->useCamera = false;
 
+
+	std::string resString("RES: ");
+	resString.append(std::to_string((int)resistance));
+	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+
+	resistanceLabel->useCamera = false;
+
+
+	std::string coolString("COOL: "); 
+	coolString.append(std::to_string((int)cooldown));
+	cooldownLabel = App->gui->AddLabel(coolString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+
+	cooldownLabel->useCamera = false;
 
 	// the icon image is created after creating description in loot spawning
 
@@ -198,6 +205,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		resistanceComparisonLabel.character = "Marche";
 		resistanceComparisonLabel.type = "sword";
 
+		cooldownComparisonLabel.character = "Marche"; 
+		cooldownComparisonLabel.type = "sword"; 
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
 	{
@@ -208,6 +217,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		resistanceComparisonLabel.character = "Ritz";
 		resistanceComparisonLabel.type = "rod";
+
+		cooldownComparisonLabel.character = "Ritz";
+		cooldownComparisonLabel.type = "rod";
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
 	{
@@ -218,6 +230,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		resistanceComparisonLabel.character = "Shara";
 		resistanceComparisonLabel.type = "bow";
+
+		cooldownComparisonLabel.character = "Shara";
+		cooldownComparisonLabel.type = "bow";
 	}
 
 	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
@@ -235,6 +250,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	resistanceComparisonLabel.label->useCamera = false;
 
+
+	cooldownComparisonLabel.text = " ";
+	cooldownComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	cooldownComparisonLabel.label->useCamera = false;
 
 
 
@@ -540,6 +559,9 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
 
+							// todo: compare cooldown
+
+
 						}
 						else
 						{
@@ -559,6 +581,10 @@ bool UiItem_Description::ChangeComparisonLabels()
 								}
 
 							}
+
+							// TODO: compare health and velocity
+
+
 						}
 
 						// they both have resistance 
@@ -634,10 +660,12 @@ void UiItem_Description::SwitchCameraUsage()
 		this->level->useCamera = true;
 		this->damageLabel->useCamera = true;
 		this->resistanceLabel->useCamera = true;
+		this->cooldownLabel->useCamera = true; 
 		this->attachedCharacter->useCamera = true;
 
 		this->damageComparisonLabel.label->useCamera = true;
 		this->resistanceComparisonLabel.label->useCamera = true;
+		this->cooldownComparisonLabel.label->useCamera = true; 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
@@ -693,10 +721,12 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 		this->level->hide = hide;
 		this->damageLabel->hide = hide;
 		this->resistanceLabel->hide = hide;
+		this->cooldownLabel->hide = hide; 
 		this->attachedCharacter->hide = hide;
 
 		this->damageComparisonLabel.label->hide = hide;
 		this->resistanceComparisonLabel.label->hide = hide;
+		this->cooldownComparisonLabel.label->hide = hide; 
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
@@ -771,6 +801,10 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		this->resistanceLabel->hitBox.x = referencePanelPosition.x + 90;
 		this->resistanceLabel->hitBox.y = referencePanelPosition.y + 100;
 
+		this->cooldownLabel->hitBox.x = referencePanelPosition.x + 90;
+		this->cooldownLabel->hitBox.y = referencePanelPosition.y + 130;
+
+
 
 		if (App->scene->inventory->enable)
 		{
@@ -778,6 +812,8 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
 			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
+			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
+			this->cooldownComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 		else
 		{
@@ -785,6 +821,8 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
 			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
+			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 195;
+			this->cooldownComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 
 
@@ -875,10 +913,12 @@ void UiItem_Description::DeleteEverything()
 		App->gui->destroyElement(this->level);
 		App->gui->destroyElement(this->damageLabel);
 		App->gui->destroyElement(this->resistanceLabel);
+		App->gui->destroyElement(this->cooldownLabel);
 		App->gui->destroyElement(this->attachedCharacter);
 
 		App->gui->destroyElement(this->damageComparisonLabel.label);
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);
+		App->gui->destroyElement(this->cooldownComparisonLabelf.label);
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{

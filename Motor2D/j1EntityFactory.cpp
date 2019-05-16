@@ -1462,8 +1462,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		{
 
 
-			float attack, resistance;
-			attack = resistance = 0.0f;
+			float attack, resistance, cooldown;
+			attack = resistance = cooldown = -666.f;
 
 
 
@@ -1478,10 +1478,14 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 				{
 					resistance = (*iter)->GetValue();
 				}
+				else if ((*iter)->GetRol() == ROL::COOLDOWN)
+				{
+					cooldown = (*iter)->GetValue();
+				}
 
 			}
 
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, cooldown, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
