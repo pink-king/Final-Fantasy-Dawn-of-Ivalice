@@ -1118,6 +1118,8 @@ bool j1BuffManager::Load(pugi::xml_node &node)
 	return true;
 }
 
+// TODO: random crash here
+// sometimes when the player dies
 bool j1BuffManager::Save(pugi::xml_node &node) const
 {
 	for (std::list<Buff*>::const_iterator item = buffs.begin(); item != buffs.end(); ++item)

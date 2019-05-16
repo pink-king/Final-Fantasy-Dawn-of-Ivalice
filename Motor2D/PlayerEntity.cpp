@@ -181,46 +181,49 @@ bool PlayerEntity::InputCombat()
 {
 	combat_state = combatState::IDLE;
 	
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN || 
-		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) ==  KEY_REPEAT)
+	// aiming function ------
+	if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
+		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
+		character != characterName::MARCHE)
+		aiming = true;
+
+	// double check for marche
+	if (character == characterName::MARCHE && aiming)
+		aiming = false;
+
+	// ---------------------
+
+	// check ultimate trigger - marche without aim
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE)
 	{
-		// aiming function ------
-		if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
-			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
-			character != characterName::MARCHE)
-			aiming = true;
-
-		// double check for marche
-		if (character == characterName::MARCHE && aiming)
-			aiming = false;
-
-		// ---------------------
-
-		// check ultimate trigger
-		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN)
-		{
-			combat_state = combatState::ULTIMATE;
-			//LOG("ULTIMATE");
-		}
-		// check basic attack
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
-		{
-			combat_state = combatState::BASIC;
-			LOG("BASIC");
-		}
-		
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL1;
-			LOG("SPECIAL1");
-		}
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN)
-		{
-			combat_state = combatState::SPECIAL2;
-			LOG("SPECIAL2");
-		}
-		
+		combat_state = combatState::ULTIMATE;
+		//LOG("ULTIMATE");
 	}
+	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming)
+		combat_state = combatState::ULTIMATE;
+
+
+	// check basic attack
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	{
+		combat_state = combatState::BASIC;
+		LOG("BASIC");
+	}
+	
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	{
+		combat_state = combatState::SPECIAL1;
+		LOG("SPECIAL1");
+	}
+	// special difference for "medusa work in progress cutre version"
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ)
+	{
+		combat_state = combatState::SPECIAL2;
+		LOG("SPECIAL2");
+	}
+	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming)
+		combat_state = combatState::SPECIAL2;
+		
 
 	// check dodge
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
@@ -663,4 +666,19 @@ void j1Entity::DoPushback()
 	LOG("displaced Pos X %f", position.x - originilaPos.x);
 	LOG("displaced Pos Y %f", position.y - originilaPos.y);
 
+}
+
+fPoint PlayerEntity::GetShotDirection()
+{
+	fPoint destination;
+	if (aiming)
+		destination = App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint();
+	else
+	{
+		destination = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+		destination = destination * 640.f; // launch direction vector far far away 
+		destination = GetPivotPos() + destination;
+	}
+
+	return destination;
 }
