@@ -3,6 +3,7 @@
 
 #include "j1App.h"
 #include "j1Fonts.h"
+#include "j1Scene.h"
 #include "j1Textures.h"
 #include "j1Render.h"
 #include <assert.h>
@@ -90,10 +91,14 @@ void UiItem_Label::Draw(const float & dt)
 				if (!first_hitbox)
 				{
 					hitBox.x -= 28;
+					App->scene->coins_label_inventory->hitBox.x -= 0;
 					first_hitbox = true;
 				}
 				else
+				{
 					hitBox.x -= 14;
+					App->scene->coins_label_inventory->hitBox.x -= 0;
+				}
 			}
 
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);

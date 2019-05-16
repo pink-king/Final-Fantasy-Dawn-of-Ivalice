@@ -63,6 +63,7 @@ public:
 	UiItem* deathPanel = nullptr;
 	UiItem* winPanel = nullptr;
 	UiItem_Label* coins_label = nullptr;
+	UiItem_Label* coins_label_inventory = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;

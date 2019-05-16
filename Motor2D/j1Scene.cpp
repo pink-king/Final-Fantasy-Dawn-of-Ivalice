@@ -562,6 +562,7 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->player->gold += 100000;
 		App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
 		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+		App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
 	}
 
@@ -866,6 +867,7 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
+	coins_label_inventory = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inventory);
 
 	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
 	SharaIcon->parent = inventoryItem;

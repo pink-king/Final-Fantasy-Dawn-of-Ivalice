@@ -509,6 +509,10 @@
           <section x="349" y="113" w="21" h="21"/>
           <position x="1021" y="467"/>
         </image>
+        <image name="coin">
+          <section x="59" y="518" w="26" h="26"/>
+          <position x="1121" y="31"/>
+        </image>
 
       </images>
     </Inventory>
