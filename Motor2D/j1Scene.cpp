@@ -337,7 +337,10 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		
+		result_volume = volume_bar->GetBarValue();
+		App->audio->SetVolume(result_volume);
+		result_fx = fx_bar->GetBarValue();
+		App->audio->SetFxVolume(result_fx); 
 
 
 		//settingPanel->enable = false;
@@ -389,12 +392,126 @@ bool j1Scene::Update(float dt)
 				}
 			}
 		}
+		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN )
+		{
+			App->pause = false;
+			Mix_ResumeMusic();
+			App->gui->resetHoverSwapping = false;
+			App->gui->selected_object->state = IDLE;
+			App->gui->selected_object = nullptr;
+			App->gui->GoBackToGame();
+			
+		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
 			DoOpenInventory();
 		}
-	
+		if (inventory->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			DoOpenInventory();
+		}
+		if (inventory->enable && !inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBag || inventoryItem->swappedBag2))
+		{
+			if (!inventoryItem->swappedBag3 && inventoryItem->swappedBag2)
+			{
+				inventoryItem->swappedBag = false;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = true;
+				inventoryItem->firstTimeSwappedBagLeft = false;
+				inventoryItem->firstTimeSwappedBagLeft3 = true;
+				inventoryItem->LoadElements();
+			}
+			if (!inventoryItem->swappedBag2 && inventoryItem->swappedBag)
+			{
+				inventoryItem->swappedBag = false;
+				inventoryItem->swappedBag2 = true;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBagLeft = false;
+				inventoryItem->firstTimeSwappedBagLeft3 = false;
+				inventoryItem->LoadElements();
+			}
+			App->gui->resetHoverSwapping = false;
+		}
+
+		if (inventory->enable && !inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2 || inventoryItem->swappedBag3))
+		{
+
+			if (inventoryItem->swappedBag2 && !inventoryItem->swappedBag)
+			{
+				inventoryItem->swappedBag = true;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
+				inventoryItem->firstTimeSwappedBagLeft = true;
+				inventoryItem->firstTimeSwappedBagLeft3 = false;
+				inventoryItem->LoadElements();
+			}
+
+			if (inventoryItem->swappedBag3 && !inventoryItem->swappedBag2)
+			{
+				inventoryItem->swappedBag = false;
+				inventoryItem->swappedBag2 = true;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
+				inventoryItem->firstTimeSwappedBagLeft3 = false;
+				inventoryItem->LoadElements();
+			}
+
+			App->gui->resetHoverSwapping = false;
+		}
+		///////////
+		if (inventory->enable && inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBagVendor || inventoryItem->swappedBag2Vendor))
+		{
+			if (!inventoryItem->swappedBag3Vendor && inventoryItem->swappedBag2Vendor)
+			{
+				inventoryItem->swappedBagVendor = false;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = true;
+				inventoryItem->firstTimeSwappedBagLeftVendor = false;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = true;
+				inventoryItem->LoadElements(false,true);
+			}
+			if (!inventoryItem->swappedBag2Vendor && inventoryItem->swappedBagVendor)
+			{
+				inventoryItem->swappedBagVendor = false;
+				inventoryItem->swappedBag2Vendor = true;
+				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagLeftVendor = false;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
+				inventoryItem->LoadElements(false, true);
+			}
+			App->gui->resetHoverSwapping = false;
+		}
+
+		if (inventory->enable && inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2Vendor || inventoryItem->swappedBag3Vendor))
+		{
+
+			if (inventoryItem->swappedBag2Vendor && !inventoryItem->swappedBagVendor)
+			{
+				inventoryItem->swappedBagVendor = true;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
+				inventoryItem->firstTimeSwappedBagLeftVendor = true;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
+				inventoryItem->LoadElements(false, true);
+			}
+
+			if (inventoryItem->swappedBag3Vendor && !inventoryItem->swappedBag2Vendor)
+			{
+				inventoryItem->swappedBagVendor = false;
+				inventoryItem->swappedBag2Vendor = true;
+				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
+				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
+				inventoryItem->LoadElements(false, true);
+			}
+
+			App->gui->resetHoverSwapping = false;
+		}
+		////////////
+
 	}
 	 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -503,6 +620,17 @@ bool j1Scene::Update(float dt)
 	//	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::DEFENCE_ROL, en, "\0", 21);
 	//	App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
 	//}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN)
+	{
+		App->entityFactory->player->gold += 100000;
+		App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+		App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+	}
+
 
 	
 	return true;
@@ -802,6 +930,7 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	inventory = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inventory, inventoryNode);
 	inventoryItem = App->gui->AddInventory(inventory);
+	coins_label_inventory = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inventory);
 
 	MarcheIcon->parent = inventoryItem;     // now assign the parent to the inventory icon
 	SharaIcon->parent = inventoryItem;
@@ -941,6 +1070,12 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 			{
 				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
+				inventoryItem->swappedBag = true;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->swappedBagVendor = true;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = false;
 
 
 				if (App->dialog->isDialogSequenceActive)

@@ -4,6 +4,9 @@
 
 #include "LootEntity.h"
 
+#define baseEquipables 10
+#define baseCosumables 3
+#define numberItemsLvlUp 3
 
 class Vendor
 {
@@ -20,7 +23,7 @@ public:
 	~Vendor() {};
 
 
-	void generateVendorItems();  // todo: every time the player levels up, a new unique item must appear 
+	void generateVendorItems(bool playerLvlUp = false);  // todo: every time the player levels up, a new unique item must appear 
 
 	void EquipVendor(LootEntity* entityLoot, bool fromPlayer = false); 
 
@@ -28,7 +31,10 @@ public:
 
 	void cleanUp(); 
 
+public: 
 
+	uint numberOfEquip; 
+	uint numberOfPot; 
 
 
 };

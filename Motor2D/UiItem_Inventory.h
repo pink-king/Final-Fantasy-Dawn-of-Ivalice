@@ -7,7 +7,7 @@
 #include <string.h>
 #include <cstdint>
 
-#define MAX_Weapons_plus_Equipment 15 
+#define MAX_Bag_Capacity 45 
 #define MAX_Potions 3
 #define MAX_Equipped 3
 
@@ -26,10 +26,10 @@ struct elementsStartingPositionsOffsets
 
 	iPoint potions = iPoint(100, 100);
 };
-struct potionLabelPositions
+struct consumableLabelPositions
 {
-	iPoint potion1 = iPoint(928, 405);
-
+	iPoint potion1 = iPoint(928, 407);
+	iPoint fenix_tail = iPoint(928, 457);
 };
 
 
@@ -57,11 +57,28 @@ public:
 
 	void RepositionBagItems(); 
 
+	bool DoPriceCalculations(LootEntity*);
+
+	bool CheckMaxItems(); // use when buying and selling
+
 public: 
 
 	bool drawTest = false;
 
 	bool isVendorInventory = false; 
+	bool swappedBag = true;
+	bool swappedBag2 = false;
+	bool swappedBag3 = false;
+	bool firstTimeSwappedBag = false;
+	bool firstTimeSwappedBagLeft = false;
+	bool firstTimeSwappedBagLeft3 = false;
+
+	bool swappedBagVendor = true;
+	bool swappedBag2Vendor = false;
+	bool swappedBag3Vendor = false;
+	bool firstTimeSwappedBagVendor = false;
+	bool firstTimeSwappedBagLeftVendor = false;
+	bool firstTimeSwappedBagLeft3Vendor = false;
 
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
@@ -71,11 +88,15 @@ private:
 	SDL_Rect tab_image = { 726,1,69,70 };
 	bool first_potion = false;
 	bool first_label_potion = false;
+	bool first_label_fenix = false;
 	int potion_counter = 1;
+	int fenix_counter = 1;
 	int vendor_potion_counter = 1; 
 	UiItem_Label* potionLabel = nullptr;
-	potionLabelPositions potion_positions;
+	UiItem_Label* fenixLabel = nullptr;
+	consumableLabelPositions consumable_positions;
 	std::string str_potion;
+	std::string str_fenix_tail;
 
 
 

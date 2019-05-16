@@ -3,23 +3,40 @@
 #include "j1BuffManager.h"
 
 
-void Vendor::generateVendorItems()
+void Vendor::generateVendorItems(bool playerLvlUp)
 {
 
 	if (firstTime)
 	{
-		for (int i = 1; i <= 10; ++i)
+		numberOfEquip = baseEquipables;   // beginning
+		numberOfPot = baseCosumables;
+	}
+	
+	if (playerLvlUp)
+	{
+		if (!firstTime)
+		{
+			numberOfEquip = numberItemsLvlUp;   // level up 
+			numberOfPot = baseCosumables;
+		}
+		else
+		{
+			numberOfEquip = baseEquipables + numberItemsLvlUp * (App->entityFactory->player->level-1);     // if he levels up before openning inventory first time
+			numberOfPot = baseCosumables;
+		}
+	}
+
+	if (firstTime || playerLvlUp)
+	{
+		for (int i = 1; i <= numberOfEquip; ++i)
 		{
 			j1Entity* equipable = App->entityFactory->CreateLootType(0, 0, LOOT_TYPE::EQUIPABLE);
 			App->entityFactory->LoadLootData((LootEntity*)equipable, App->config);
-		    
-			dynamic_cast<LootEntity*>(equipable)->level = 1; 
-
 			EquipVendor((LootEntity*)equipable);
 
 		}
 
-		for (int i = 1; i <= 3; ++i)
+		for (int i = 1; i <= numberOfPot; ++i)
 		{
 			j1Entity* consumable = App->entityFactory->CreateLootType(0, 0, LOOT_TYPE::CONSUMABLE);
 			App->entityFactory->LoadLootData((LootEntity*)consumable, App->config);
@@ -27,12 +44,11 @@ void Vendor::generateVendorItems()
 
 		}
 
+		if(firstTime)
 		firstTime = false;
 	}
-	else                     // don't generate any more if player hasn't leveled up
-	{
 
-	}
+
 
 
 }
@@ -43,11 +59,8 @@ void Vendor::EquipVendor(LootEntity* entityLoot, bool fromPlayer)
 	
 		if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 		{
-
-			if (vBagObjects.size() < 15)
-			{
-				vBagObjects.push_back(entityLoot);
-			}
+			vBagObjects.push_back(entityLoot);
+			
 		}
 		else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 		{

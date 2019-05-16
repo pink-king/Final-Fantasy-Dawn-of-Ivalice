@@ -481,6 +481,38 @@
           <position x="543" y="133"/>
           <charFlag value = "Shara"/>
         </image>
+         <image name="leftArrow">
+          <section x="314" y="78" w="21" h="21"/>
+          <position x="787" y="470"/>
+        </image>
+        <image name="RightArrow">
+          <section x="349" y="113" w="21" h="21"/>
+          <position x="849" y="470"/>
+        </image>
+         <image name="Ybutton">
+          <section x="336" y="78" w="34" h="34"/>
+          <position x="811" y="463"/>
+        </image>
+        <image name="RTbutton">
+          <section x="235" y="63" w="36" h="51"/>
+          <position x="982" y="452"/>
+        </image>
+        <image name="LTbutton">
+          <section x="272" y="63" w="36" h="51"/>
+          <position x="333" y="452"/>
+        </image>
+        <image name="leftArrow">
+          <section x="314" y="78" w="21" h="21"/>
+          <position x="309" y="467"/>
+        </image>
+        <image name="leftArrow">
+          <section x="349" y="113" w="21" h="21"/>
+          <position x="1021" y="467"/>
+        </image>
+        <image name="coin">
+          <section x="59" y="518" w="26" h="26"/>
+          <position x="1121" y="31"/>
+        </image>
 
       </images>
     </Inventory>
@@ -534,14 +566,14 @@
 
   <loot>
 
-    <gold min ="50" max ="300"/>
-
+    <gold min ="50" max ="300" chance = "50"/>
+ 
 
     <potions>
-      <health_potion id="1" value ="2"/>
+      <health_potion id="1" value ="2"  chance = "25"/> 
     </potions>
 
-    <equipable>
+    <equipable  chance = "25">
       <sword>
         <equipment id="1" character="marche" name="sword_1" min ="5" max ="20" />
         <equipment id="2" character="marche" name="sword_2" min ="10" max ="25"/>

@@ -680,6 +680,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 				entityLoot->to_delete = true;
 				str_coin = std::to_string(gold) + " x";
 				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+				App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
 				// gold label that pops up
 

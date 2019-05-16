@@ -121,6 +121,15 @@ bool j1EntityFactory::Start()
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
+
+
+	// get gold values from the start: needed if loot is equipped before gold
+
+	pugi::xml_node& config = App->config; 
+	goldMin = config.child("loot").child("gold").attribute("min").as_int();
+	goldMax = config.child("loot").child("gold").attribute("max").as_int();
+
+
 	return true;
 }
 
@@ -680,14 +689,16 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
+	uint max = 2; 
+
 	LootEntity* ret = nullptr;
-	if (GetRandomValue(1, 2) == 1)
+	if (GetRandomValue(1, max) == 1)
 	{
 		ret = DBG_NEW Consumable(posX, posY);
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
 	}
-	return nullptr;
+	return nullptr; 
 }
 
 Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color)
@@ -1036,7 +1047,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		switch (GetRandomValue(1, 12))
 		{
 		case 1:
-			if(lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
 				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
 			if (lootEntity->level == 0)
 				lootEntity->level = App->entityFactory->player->level;
@@ -1291,9 +1302,6 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		if (lootEntity->level < 1)
 			lootEntity->level = 1;
 
-		if (lootEntity->level < 1)
-			lootEntity->level = 1;
-
 		switch (lootEntity->GetEquipable())
 		{
 		case EQUIPABLE_TYPE::ARMOR:
@@ -1396,8 +1404,164 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		}
 		break;
 	}
+	
+	if (lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
+		MagicPriceCalculator(lootEntity);
+
 	return true;
 }
+
+
+void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
+{
+
+	// 1: take into account available gold, and the price 
+
+	uint base_average_Gold_Drop_Per_Enemy = (goldMin + goldMax) / 2; 
+	float average_Gold_Drop_Per_Enemy_With_Chance = ((float)goldChance / 100.f) * base_average_Gold_Drop_Per_Enemy;  // avg gold per enemy
+
+	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;  // 2: base item price: enemy kills * gold each enemy
+	uint max_Possible_Base_Price = minKillsWithPerfectGoldToDeserveMaxPrice * goldMax;
+
+
+	uint ItemChance = 0; 
+	bool isConsumable = NULL; 
+
+	switch (item->GetType())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+		ItemChance = equipableChance;          // chances to spawn the item
+		isConsumable = true; 
+		break; 
+	case LOOT_TYPE::EQUIPABLE:
+		ItemChance = baseItemChance - equipableChance;
+		isConsumable = false;
+		break; 
+	}
+
+	
+	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(ItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
+	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor_Price;
+
+	
+	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
+	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
+	
+																										 
+																										 
+    // 4: now take into account item type and stats
+
+	struct {
+		float mainStat = -1.f; 
+		float subStatMajor = -1.f; 
+		float subStatMinor = -1.f; 
+	} itemStats;
+
+
+	
+	if (isConsumable)
+	{
+
+	}
+	else
+	{
+		bool weapon = NULL; 
+
+		switch (item->GetObjectType())
+		{
+		case OBJECT_TYPE::WEAPON_OBJECT:
+			weapon = true; 
+			break;
+		case OBJECT_TYPE::ARMOR_OBJECT:
+			weapon = false;
+			break;
+		}
+		
+
+		std::vector<Buff*>::iterator iter = item->stats.begin();
+
+		for (; iter != item->stats.end(); ++iter)    // capture main stat, and two other optional stats, one less revelant than the other
+		{
+			if (weapon)
+			{
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::ATTACK_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break; 
+
+				case ROL::COOLDOWN:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break; 
+
+				case ROL::DEFENCE_ROL:
+					itemStats.subStatMinor = (*iter)->GetValue(); 
+					break; 
+				}
+				
+			}
+			else
+			{
+
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::DEFENCE_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break;
+
+				case ROL::HEALTH:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break;
+
+				case ROL::VELOCITY:
+					itemStats.subStatMinor = (*iter)->GetValue();
+					break;
+				}
+
+			}
+
+		}
+		
+		
+	}
+
+
+	uint priceRange = max_Price_With_Availability - price_With_Availability;  // from avg (base) to max price
+	
+	float itemStatValue = 0.f; 
+
+	if (itemStats.subStatMajor == -1.f)
+	{
+		itemStatValue = 0.65f * itemStats.mainStat + 0.1f * itemStats.subStatMinor; 
+	}
+	else if (itemStats.subStatMinor == -1.f)
+	{
+		itemStatValue = 0.65f * itemStats.mainStat + 0.25f * itemStats.subStatMajor;
+	}
+	else
+	{
+		itemStatValue = 0.65f * itemStats.mainStat + 0.25f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
+	}
+
+	
+	// 5: exponentially increase from base price according to stats
+	uint baseFinalPrice = price_With_Availability + (uint)(int)pow(itemStatValue, 2);
+
+
+	// 6: downwards deduction for player, and increase for vendor 
+
+	item->price = baseFinalPrice * 0.85f;
+	item->vendorPrice = baseFinalPrice * 1.15f; 
+
+
+
+
+}
+
+
+
 
 int j1EntityFactory::GetRandomValue(int min, int max)
 {
@@ -1449,15 +1613,15 @@ LOOT_TYPE j1EntityFactory::WillDrop()
 {
 	int randvalue = GetRandomValue(1, 100);
 
-	if (randvalue <= 50)
+	if (randvalue <= baseItemChance)
 	{
-		if (randvalue <= 25)
-			return  LOOT_TYPE::CONSUMABLE;
-
-		else
+		if (randvalue <= equipableChance)
 			return  LOOT_TYPE::EQUIPABLE;
 
+		else
+			return  LOOT_TYPE::CONSUMABLE;
 
+		
 	}
 
 	else return LOOT_TYPE::NO_LOOT;
@@ -1488,8 +1652,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		{
 
 
-			float attack, resistance;
-			attack = resistance = 0.0f;
+			float attack, resistance, cooldown;
+			attack = resistance = cooldown = -666.f;
 
 
 
@@ -1504,10 +1668,14 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 				{
 					resistance = (*iter)->GetValue();
 				}
+				else if ((*iter)->GetRol() == ROL::COOLDOWN)
+				{
+					cooldown = (*iter)->GetValue();
+				}
 
 			}
 
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, cooldown, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
@@ -1546,7 +1714,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			data.HP = HP;
 			data.velocity = velocity;
 
-			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
@@ -1576,7 +1744,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 		}
 
-		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
+		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel, lootItem->price);
 
 		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
@@ -1613,12 +1781,15 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 {
 	uint expToAdd = 100;
 	uint bonusLevel = (enemy->level - player->level) * 25;
-	player->exp = expToAdd + bonusLevel;
+	player->exp += expToAdd + bonusLevel;
 
 	if (player->exp > player->maxExpInLevel)
 	{
 		++player->level;
 		player->exp -= player->maxExpInLevel;
+
+
+		player->GetVendor()->generateVendorItems(true); 
 	}
 }
 
