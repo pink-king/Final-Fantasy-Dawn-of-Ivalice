@@ -26,12 +26,13 @@ enum ENTITY_TYPE  // todo, pass to class
 		ENTITY_DYNAMIC,
 		//---------------
 		PLAYER,
+		ENEMY_TEST,
 		ENEMY_BOMB,
 		ENEMY02,
 		DEMONBOSS,
+		ENEMY_ARCHER,
 		//etc
 		LOOT,
-		ENEMY_TEST,
 		PROJECTILE,
 
 		TRIGGER,

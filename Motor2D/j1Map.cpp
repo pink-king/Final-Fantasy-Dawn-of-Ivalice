@@ -551,7 +551,6 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 		{
 			int minEnemies = 0;
 			int maxEnemies = 0;
-			//SDL_Rect spawnRect = { 0,0,0,0 };
 			spawnRect.x = object.attribute("x").as_int();
 			spawnRect.y = object.attribute("y").as_int();
 			spawnRect.w = object.attribute("width").as_int();
@@ -559,7 +558,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 
 			for (pugi::xml_node properties = object.child("properties").child("property"); properties; properties = properties.next_sibling("property"))
 			{
-				if (properties.attribute("type").as_string() == "bool" && properties.attribute("value").as_bool() == false)
+				if (std::strcmp(properties.attribute("type").as_string(), "bool") == 0 && properties.attribute("value").as_bool() == false)
 					continue;
 
 				std::string attributeName = properties.attribute("name").as_string();
@@ -570,6 +569,10 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 				else if (attributeName == "test")
 				{
 					typesVec.push_back(EnemyType::TEST);
+				}
+				else if (attributeName == "archer")
+				{
+					typesVec.push_back(EnemyType::ARCHER);
 				}
 				else if (attributeName == "minEnemies")
 				{

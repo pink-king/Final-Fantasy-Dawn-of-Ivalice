@@ -407,6 +407,8 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 
 
 
+
+
 bool PlayerEntityManager::SwapInputChecker()
 {
 	bool ret = true;

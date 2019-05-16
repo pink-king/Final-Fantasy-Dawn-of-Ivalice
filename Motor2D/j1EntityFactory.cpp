@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "EnemyTest.h"
 #include "EnemyBomb.h"
+#include "EnemyArcher.h"
 #include "Enemy.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
@@ -18,8 +19,10 @@
 #include "Tornado.h"
 #include "Portal.h"
 #include "LobbyPortal.h"
+#include "EnemyProjectile.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Demon.h"
@@ -57,6 +60,7 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolem.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
@@ -249,6 +253,8 @@ bool j1EntityFactory::CleanUp()
 	enemyZombieTex = nullptr;
 	App->tex->UnLoad(enemyBombTex);
 	enemyBombTex = nullptr;
+	App->tex->UnLoad(enemyGolemTex);
+	enemyGolemTex = nullptr; 
 	App->tex->UnLoad(debugsubtileTex);
 	debugsubtileTex = nullptr;
 	App->tex->UnLoad(arrowsTexture);
@@ -272,7 +278,6 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 
 	for (pugi::xml_node nodeEntities = node.child("Entities"); nodeEntities; nodeEntities = nodeEntities.next_sibling("Entities"))
 	{
-
 		if (App->entityFactory->player != nullptr)
 		{
 			App->entityFactory->player->Load(nodeEntities);
@@ -453,7 +458,9 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 	case EnemyType::MELEE:
 		break; 
 
-	case EnemyType::DISTANCE:
+	case EnemyType::ARCHER:
+		ret = DBG_NEW EnemyArcher(pos, dummy); 
+		entities.push_back(ret);
 		break; 
 
 	case EnemyType::TRAP:
@@ -473,10 +480,12 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 	uint numBombs = 0;
 	uint numTests = 0;
+	uint numArchers = 0; 
 	uint cont = 0;
 
 	uint bombProbs = 3;
 	uint testProbs = 8;
+	uint archerProbs = 5;
 
 	while (cont < numEnemies)
 	{
@@ -487,12 +496,15 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
+			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(spawnPos.x, spawnPos.y)))
+				continue; 
+
 			LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
 
 			switch (*typeIter)
 			{
 			case EnemyType::BOMB:
-				if (CreateRandomBetween(1, 10) <= bombProbs)
+				if (CreateRandomBetween(1, 10) <= bombProbs && cont < numEnemies)
 				{
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
@@ -527,6 +539,26 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
 						numTests++;
+						cont++;
+					}
+				}
+				break;
+
+			case EnemyType::ARCHER:
+				if (CreateRandomBetween(1, 10) <= archerProbs && cont < numEnemies)
+				{
+					// Last paramater is dummy
+					ret = CreateEnemy(EnemyType::ARCHER, spawnPos, false);
+
+					if (App->entityFactory->player != nullptr)
+					{
+						ret->level = App->entityFactory->player->level + enemyLevel;
+					}
+					if (ret != nullptr)
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(5, 10) + 5 * ret->level);
+						numArchers++;
 						cont++;
 					}
 				}
@@ -605,6 +637,11 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW EarthShaker(pos, owner);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::ENEMY_ARROW:
+		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
+		entities.push_back(ret); 
+		break; 
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
@@ -759,7 +796,27 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
-			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB) // || other enemy types 
+			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER) // || other enemy types 
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
+bool j1EntityFactory::isThisSubtilePlayerFree(const iPoint pos) const
+{
+	bool ret = true;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::PLAYER)
 			{
 				ret = false;
 				break;
@@ -1231,6 +1288,9 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		default:
 			break;
 		}
+		if (lootEntity->level < 1)
+			lootEntity->level = 1;
+
 		if (lootEntity->level < 1)
 			lootEntity->level = 1;
 

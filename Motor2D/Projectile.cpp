@@ -14,11 +14,12 @@ Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 Projectile::~Projectile()
 {
-	if (debugSubtile != nullptr)
+	// It belongs to the factory
+	/*if (debugSubtile != nullptr)
 	{
 		App->tex->UnLoad(debugSubtile);
 		debugSubtile = nullptr;
-	}
+	}*/
 }
 
 
@@ -64,6 +65,11 @@ bool Projectile::TooFarAway() const
 bool Projectile::OnCollisionWithWall() const
 {
 	return (!App->pathfinding->IsWalkable(GetTilePos()));
+}
+
+bool Projectile::OnCollisionWithPlayer() const
+{
+	return (!App->entityFactory->isThisSubtilePlayerFree(GetSubtilePos()));
 }
 
 bool Projectile::ReachedDestiny() const

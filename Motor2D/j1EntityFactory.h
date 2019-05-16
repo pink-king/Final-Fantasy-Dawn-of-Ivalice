@@ -81,6 +81,7 @@ public:
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
+	bool isThisSubtilePlayerFree(const iPoint pos) const; 
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 	bool areAllSubtilesReserved() const; 
 
@@ -137,13 +138,13 @@ public:
 	// TO DO Atlas of enemies
 	SDL_Texture*			enemyZombieTex = nullptr; 
 	SDL_Texture*			enemyBombTex = nullptr; 
+	SDL_Texture*			enemyGolemTex = nullptr;
 	SDL_Texture*			debugsubtileTex = nullptr; 
 	SDL_Texture*			arrowsTexture = nullptr; 
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
 	SDL_Texture*			marcheTornadoTex = nullptr;
 	SDL_Texture*			lootItemsTex = nullptr; 
-
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;

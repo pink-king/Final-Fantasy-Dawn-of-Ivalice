@@ -667,4 +667,3 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 //	return true;
 //}
 
-

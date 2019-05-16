@@ -19,15 +19,22 @@ j1AttackManager::j1AttackManager()
 	matrix[PLAYER][PLAYER] = false;
 	matrix[PLAYER][ENEMY_BOMB] = true;
 	matrix[PLAYER][ENEMY_TEST] = true;
+	matrix[PLAYER][ENEMY_ARCHER] = true;
 
 	matrix[ENEMY_BOMB][ENEMY_BOMB] = false;
 	matrix[ENEMY_BOMB][PLAYER] = true;
 	matrix[ENEMY_BOMB][ENEMY_TEST] = false;
+	matrix[ENEMY_BOMB][ENEMY_ARCHER] = false;
 
 	matrix[ENEMY_TEST][PLAYER] = true;
 	matrix[ENEMY_TEST][ENEMY_BOMB] = false;
 	matrix[ENEMY_TEST][ENEMY_TEST] = false;
+	matrix[ENEMY_TEST][ENEMY_ARCHER] = false;
 
+	matrix[ENEMY_ARCHER][PLAYER] = true;
+	matrix[ENEMY_ARCHER][ENEMY_BOMB] = false;
+	matrix[ENEMY_ARCHER][ENEMY_TEST] = false;
+	matrix[ENEMY_ARCHER][ENEMY_ARCHER] = false;
 
 }
 
