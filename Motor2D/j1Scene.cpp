@@ -374,7 +374,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagLeft3 = false;
 				inventoryItem->LoadElements();
 			}
-			
+			App->gui->resetHoverSwapping = false;
 		}
 
 		if (inventory->enable && !inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2 || inventoryItem->swappedBag3))
@@ -401,7 +401,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->LoadElements();
 			}
 
-			
+			App->gui->resetHoverSwapping = false;
 		}
 		///////////
 		if (inventoryItem->isVendorInventory &&  App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && (inventoryItem->swappedBagVendor || inventoryItem->swappedBag2Vendor))
@@ -424,7 +424,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
 			}
-
+			App->gui->resetHoverSwapping = false;
 		}
 
 		if (inventoryItem->isVendorInventory && App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN && (inventoryItem->swappedBag2Vendor || inventoryItem->swappedBag3Vendor))
@@ -451,7 +451,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->LoadElements(false, true);
 			}
 
-
+			App->gui->resetHoverSwapping = false;
 		}
 		////////////
 

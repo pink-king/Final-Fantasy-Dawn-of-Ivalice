@@ -617,54 +617,99 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 			{
 				first_potion = false;
 				potion_counter = 0;
+				fenix_counter = 0;
 				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
 				for (; iter != App->entityFactory->player->consumables.end(); ++iter)
 				{
-
-					// first generate description if it does not have it or if it was deleted ingame
-
-					De_______GenerateDescription((*iter), true);
-
-
-					iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 285) };
-
-					if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
+					// Potions
+					if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
 					{
+						// first generate description if it does not have it or if it was deleted ingame
+
+						De_______GenerateDescription((*iter), true);
+
+						iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 285) };
+
 						potion_counter++;
+						
+
+
+
+						if (!(*iter)->MyDescription->spawnedInventoryImage)
+						{
+							(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+							(*iter)->MyDescription->spawnedInventoryImage = true;
+
+						}
+						else
+						{
+							(*iter)->MyDescription->HideAllElements(false);
+							(*iter)->MyDescription->iconImageInventory->tabbable = true;
+						}
+
+
+
+
+						if (!first_label_potion)
+						{
+							potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.potion1, this);
+							first_label_potion = true;
+						}
+						else
+						{
+							str_potion = "" + std::to_string(potion_counter);
+							potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+						}
 					}
 
+					//DESCOMMENT WHEN FENIX TAIL IS CREATED
+					// Fenix tails
+					//if ((*iter)->objectType == OBJECT_TYPE::FENIX_TAIL)
+					//{
+					//	// first generate description if it does not have it or if it was deleted ingame
 
+					//	De_______GenerateDescription((*iter), true);
 
-					if (!(*iter)->MyDescription->spawnedInventoryImage)
-					{
-						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-						(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-						(*iter)->MyDescription->spawnedInventoryImage = true;
+					//	iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 361) };
 
-					}
-					else
-					{
-						(*iter)->MyDescription->HideAllElements(false);
-						(*iter)->MyDescription->iconImageInventory->tabbable = true;
-					}
+					//	fenix_counter++;
 
 
 
 
-					if (!first_label_potion)
-					{
-						potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
-						first_label_potion = true;
-					}
-					else
-					{
-						str_potion = "" + std::to_string(potion_counter);
-						potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
-					}
+					//	if (!(*iter)->MyDescription->spawnedInventoryImage)
+					//	{
+					//		(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+					//		(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					//		(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+					//		(*iter)->MyDescription->spawnedInventoryImage = true;
 
+					//	}
+					//	else
+					//	{
+					//		(*iter)->MyDescription->HideAllElements(false);
+					//		(*iter)->MyDescription->iconImageInventory->tabbable = true;
+					//	}
+
+
+
+
+					//	if (!first_label_fenix)
+					//	{
+					//		fenixLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.fenix_tail, this);
+					//		first_label_fenix = true;
+					//	}
+					//	else
+					//	{
+					//		str_fenix_tail = "" + std::to_string(fenix_counter);
+					//		fenixLabel->ChangeTextureIdle(str_fenix_tail, NULL, NULL);
+					//	}
+					//}
 				}
 			}
+
 			else
 			{
 				if (first_label_potion)
@@ -672,8 +717,14 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					potionLabel->to_delete = true;
 					first_label_potion = false;
 				}
+				if (first_label_fenix)
+				{
+					fenixLabel->to_delete = true;
+					first_label_fenix = false;
+				}
 			}
 		}
+
 		else
 		{
 			if (!App->entityFactory->player->GetVendor()->vConsumables.empty())
@@ -717,7 +768,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 					if (!first_label_potion)
 					{
-						potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, potion_positions.potion1, this);
+						potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.potion1, this);
 						first_label_potion = true;
 					}
 					else
