@@ -485,7 +485,9 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					player->coolDownData.ultimate.cooldownTime -= value;
 				}
 			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST || 
+				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
+				entity->type == ENTITY_TYPE::ENEMY_ARCHER)
 			{
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 					enemy->attackSpeed *= value;
@@ -508,7 +510,9 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					player->characterBaseSpeed.y += value;
 				}
 			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST ||
+				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
+				entity->type == ENTITY_TYPE::ENEMY_ARCHER)
 			{
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
@@ -535,7 +539,9 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					App->entityFactory->player->life += value;
 				}
 			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST ||
+				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
+				entity->type == ENTITY_TYPE::ENEMY_ARCHER)
 			{
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
@@ -582,7 +588,9 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->coolDownData.ultimate.cooldownTime += buff->GetValue();
 			}
 		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_ARCHER)
 		{
 			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
 				enemy->attackSpeed /= buff->GetValue();
@@ -605,7 +613,9 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->characterBaseSpeed.y -= buff->GetValue();
 			}
 		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_ARCHER)
 		{
 			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
 			{
@@ -632,7 +642,9 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				App->entityFactory->player->life -= buff->GetValue();
 			}
 		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_ARCHER)
 		{
 			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
 			{
@@ -1045,7 +1057,7 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 		break;
 	}
 	
-	case ENTITY_TYPE::ENEMY_TEST:
+	case ENTITY_TYPE::ENEMY_TEST || ENTITY_TYPE::ENEMY_BOMB || ENTITY_TYPE::ENEMY_ARCHER:
 	{
 		if (!entity->isParalize && entity->currentAnimation->speed != 0.f)
 		{
@@ -1057,17 +1069,6 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 		break;
 	}
 
-	case ENTITY_TYPE::ENEMY_BOMB:
-	{
-		if (!entity->isParalize && entity->currentAnimation->speed != 0.f)
-		{
-			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
-			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = 0.f;
-		}
-		else
-			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = dynamic_cast<Enemy*>(entity)->lastAnimationSpeed;
-		break;
-	}
 	default:
 		break;
 	}
