@@ -2,6 +2,7 @@
 #define __DEMON_BOSS_H__
 
 #include "j1Entity.h"
+#include "PlayerEntity.h"
 
 class DemonBossEntity : public j1Entity
 {
@@ -17,14 +18,20 @@ public:
 	bool CleanUp();
 	void Draw();
 
-public:
+private:
+	int GetPointingDir(float angle);
+
+	void FollowPlayer(float dt);
+
+private:
 	SDL_Texture* boss_spritesheet = nullptr;
 	// animations
-	Animation walkCycleAnim[8];
-	Animation attackAnim[8];
-	Animation blockAnim[8];
-	Animation teleportAnim[8];
+	Animation walkCycleAnim[(int)facingDirection::MAX];
+	Animation attackAnim[(int)facingDirection::MAX];
+	Animation blockAnim[(int)facingDirection::MAX];
+	Animation teleportAnim[(int)facingDirection::MAX];
 
+	int pointingDir = 0;
 
 };
 

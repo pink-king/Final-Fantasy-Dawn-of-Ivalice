@@ -61,6 +61,7 @@ bool j1Scene::Start()
 	{
 		App->entityFactory->CreatePlayer({ -1575, 2150 });
 		App->entityFactory->loadEnemies = true;
+		App->camera2D->SetCameraPos({-(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y});
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
