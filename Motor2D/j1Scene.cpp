@@ -556,6 +556,16 @@ bool j1Scene::Update(float dt)
 	//	App->buff->CreatePoision(App->entityFactory->player->selectedCharacterEntity, en, 21, 10, "poison");
 	//}
 
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN)
+	{
+		App->entityFactory->player->gold += 100000;
+		App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+	}
+
+
 	
 	return true;
 }

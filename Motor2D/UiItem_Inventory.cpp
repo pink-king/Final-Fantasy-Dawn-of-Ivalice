@@ -1292,25 +1292,18 @@ bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
 
 	if (!App->scene->inventoryItem->isVendorInventory)
 	{
-		App->entityFactory->player->str_coin = std::to_string(item->price) + " x";
+		App->entityFactory->player->gold += item->price; 
+		App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
 		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
 		ret = true; 
 	}
 	else	// vendor to player
 	{
-		std::string moneyWithoutCharacters = ""; 
-		for (int i = 0; i < App->entityFactory->player->str_coin.size() - 3; ++i) // skip the null character and the " x"
+		if (App->entityFactory->player->gold >= item->vendorPrice)
 		{
-
-		moneyWithoutCharacters += App->entityFactory->player->str_coin.at(i);   // reverse number 
-		
-		}
-		uint actualPlayerMoney = (uint)std::stoi(moneyWithoutCharacters);  // crash because "X" IS NOT A NUMBER
-		
-		if (actualPlayerMoney >= item->price)
-		{
-			App->entityFactory->player->str_coin = std::to_string(actualPlayerMoney - item->price) + " x";
+			App->entityFactory->player->gold -= item->vendorPrice;
+			App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
 			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
 			ret = true;
