@@ -1231,30 +1231,30 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 	float average_Gold_Drop_Per_Enemy_With_Chance = ((float)goldChance / 100.f) * base_average_Gold_Drop_Per_Enemy;  // avg gold per enemy
 
 	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;  // 2: base item price: enemy kills * gold each enemy
-	uint max_Possible_Base_Price = minKillsToDeserveLoot * goldMax; 
+	uint max_Possible_Base_Price = minKillsWithPerfectGoldToDeserveMaxPrice * goldMax;
 
 
-	uint baseItemChance = 0; 
+	uint ItemChance = 0; 
 	bool isConsumable = NULL; 
 
 	switch (item->GetType())
 	{
 	case LOOT_TYPE::CONSUMABLE:
-		baseItemChance = equipableChance;          // chances to spawn the item
+		ItemChance = equipableChance;          // chances to spawn the item
 		isConsumable = true; 
 		break; 
 	case LOOT_TYPE::EQUIPABLE:
-		baseItemChance = baseItemChance - equipableChance; 
+		ItemChance = baseItemChance - equipableChance;
 		isConsumable = false;
 		break; 
 	}
 
 	
-	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(baseItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
+	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(ItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
 	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor_Price;
 
 	
-	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(baseItemChance / 100.f))) * 1000.f;
+	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
 	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
 	
 																										 
@@ -1262,9 +1262,9 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
     // 4: now take into account item type and stats
 
 	struct {
-		float mainStat = -1.0f; 
-		float subStatMajor = -1.0f; 
-		float subStatMinor = -1.0f; 
+		float mainStat = -1.f; 
+		float subStatMajor = -1.f; 
+		float subStatMinor = -1.f; 
 	} itemStats;
 
 
@@ -1339,12 +1339,31 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 
 	uint priceRange = max_Price_With_Availability - price_With_Availability;  // from avg (base) to max price
+	
+	float itemStatValue = 0.f; 
+
+	if (itemStats.subStatMajor == -1.f)
+	{
+		itemStatValue = 0.65f * itemStats.mainStat + 0.1f * itemStats.subStatMinor; 
+	}
+	else if (itemStats.subStatMinor == -1.f)
+	{
+		itemStatValue = 0.65f * itemStats.mainStat + 0.25f * itemStats.subStatMajor;
+	}
+	else
+	{
+		itemStatValue = 0.65f * itemStats.mainStat + 0.25f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
+	}
+
+	
+	// 5: exponentially increase from base price according to stats
+	uint baseFinalPrice = price_With_Availability + (uint)(int)pow(itemStatValue, 2);
 
 
+	// 6: downwards deduction for player, and increase for vendor 
 
-   // temporal price to test label: 
-	item->price = price_With_Availability; 
-
+	item->price = baseFinalPrice * 0.85f;
+	item->vendorPrice = baseFinalPrice * 1.15f; 
 
 
 

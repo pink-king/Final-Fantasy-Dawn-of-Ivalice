@@ -8,7 +8,7 @@
 #include "PlayerEntityManager.h"
 #include "j1EntityFactory.h"
 #include "LootEntity.h"
-
+#include "j1DialogSystem.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
@@ -131,6 +131,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price->hide = true; 
 	}
 }
 
@@ -243,9 +244,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price->hide = true;
 	}
 
-	int a = 0; 
 }
 
 
@@ -291,6 +292,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price->hide = true;
 	}
 }
 
@@ -304,8 +306,12 @@ void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
 	
-	if (!App->scene->inventory->enable && spawnedInventoryImage)                       // if inventory is no longer enabled, delete description
+	if (!App->scene->inventory->enable && spawnedInventoryImage)
+	{
+		// if inventory is no longer enabled, delete description
 		App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
+		showedPrice = false; 
+	}
 
 	if (spawnedInventoryImage)
 	{
@@ -319,6 +325,23 @@ void UiItem_Description::Draw(const float& dt)
 
 		if (App->scene->inventory->enable)             // shpw description
 		{
+			if (!showedPrice)
+			{
+				if (App->scene->inventoryItem->isVendorInventory)
+				{
+					std::string PriceString("Price: ");
+					PriceString.append(std::to_string((int)callback->vendorPrice));
+					this->price->ChangeTextureIdle(PriceString, NULL, NULL);
+				}
+				else
+				{
+					std::string PriceString("Price: ");
+					PriceString.append(std::to_string((int)callback->price));
+					this->price->ChangeTextureIdle(PriceString, NULL, NULL);
+				}
+				showedPrice = true; 
+			}
+
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 			{
 				if (!tabOnConsumable)
