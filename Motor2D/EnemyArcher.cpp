@@ -307,10 +307,17 @@ void EnemyArcher::LoadAnims()
 	basicAttack[(int)facingDirectionEnemy::W].loop = false;
 	basicAttack[(int)facingDirectionEnemy::W].speed = attackSpeedAnim;
 
-	dyingAnim.PushBack({ 12, 129, 18, 29 });
-	dyingAnim.PushBack({ 40, 129, 18, 29 });
-	dyingAnim.PushBack({ 68, 130, 18, 29 });
-	dyingAnim.PushBack({ 94, 130, 19, 29 });
+
+
+	// Hardcode mode 
+	dyingAnim.PushBack({ 0, 313, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 313, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 313, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 313, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 441, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 441, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 441, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 441, 64, 64 }); 
 	dyingAnim.loop = false;
 	dyingAnim.speed = 5.F;
 
