@@ -360,17 +360,25 @@ void UiItem_Description::Draw(const float& dt)
 			{
 				if (!tabOnConsumable)
 				{
+					bool isAnyItemRemaining = false; 
+
 					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
 					for (; item != App->gui->ListItemUI.end(); ++item)
 					{
 						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 386)
 						{
 							App->gui->selected_object = (*item);
+
+							isAnyItemRemaining = true; 
 						}
 					}
-					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
-					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffsetPotion.y;
-					tabOnConsumable = true;
+					if (isAnyItemRemaining)
+					{
+						App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
+						App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffsetPotion.y;
+						tabOnConsumable = true;
+					}
+					
 				}
 				else
 				{

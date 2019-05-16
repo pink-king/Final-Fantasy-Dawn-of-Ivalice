@@ -1288,30 +1288,57 @@ bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
 	bool ret = false;
 
 
-	// player to vendor 
-
-	if (!App->scene->inventoryItem->isVendorInventory)
+	if (CheckMaxItems())
 	{
-		App->entityFactory->player->gold += item->price; 
-		App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
-		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+		// player to vendor 
 
-		ret = true; 
-	}
-	else	// vendor to player
-	{
-		if (App->entityFactory->player->gold >= item->vendorPrice)
+		if (!App->scene->inventoryItem->isVendorInventory)
 		{
-			App->entityFactory->player->gold -= item->vendorPrice;
+			App->entityFactory->player->gold += item->price;
 			App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
 			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
 			ret = true;
 		}
+		else	// vendor to player
+		{
+			if (App->entityFactory->player->gold >= item->vendorPrice)
+			{
+				App->entityFactory->player->gold -= item->vendorPrice;
+				App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+				App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+				ret = true;
+			}
+
+		}
 
 	}
 
 
+
+	return ret; 
+}
+
+
+bool UiItem_Inventory::CheckMaxItems()
+{
+	bool ret = false; 
+
+	if (isVendorInventory)
+	{
+		if (App->entityFactory->player->bagObjects.size() < MAX_Bag_Capacity)  // check destinatiuon player bag
+		{
+			ret = true; 
+		}
+	}
+	else
+	{
+		if (App->entityFactory->player->GetVendor()->vBagObjects.size() < MAX_Bag_Capacity)  // check destination vendor bag
+		{
+			ret = true;
+		}
+	}
 
 	return ret; 
 }

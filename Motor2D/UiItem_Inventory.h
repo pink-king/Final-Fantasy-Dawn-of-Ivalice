@@ -7,7 +7,7 @@
 #include <string.h>
 #include <cstdint>
 
-#define MAX_Weapons_plus_Equipment 15 
+#define MAX_Bag_Capacity 45 
 #define MAX_Potions 3
 #define MAX_Equipped 3
 
@@ -57,7 +57,9 @@ public:
 
 	void RepositionBagItems(); 
 
-	bool DoPriceCalculations(LootEntity* );
+	bool DoPriceCalculations(LootEntity*);
+
+	bool CheckMaxItems(); // use when buying and selling
 
 public: 
 
