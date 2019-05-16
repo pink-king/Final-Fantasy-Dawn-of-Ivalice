@@ -740,7 +740,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					De_______GenerateDescription((*iter), true);
 
 
-					iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 284) };
+					iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 285) };
 
 					if (dynamic_cast<Consumable*>(*iter)->consumableType == CONSUMABLE_TYPE::POTION)
 					{
