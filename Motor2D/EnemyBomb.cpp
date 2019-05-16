@@ -12,7 +12,7 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 }
 
 // Standard stats
-EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 30, 1.F, dummy, ENTITY_TYPE::ENEMY_BOMB, "Bomb")
+EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 10, 1.F, dummy, ENTITY_TYPE::ENEMY_BOMB, "Bomb")
 {
 	LoadAnims(); 
 }
