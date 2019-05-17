@@ -9,44 +9,8 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="125" maxLife="125" />
-			<gold value="508" />
-			<bagObjects>
-				<data name="armor_1" level="1" characterObject="Marche" equipableType="armor" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="93" y="69" w="15" h="15" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="20" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="health" value="24" />
-				</buffs>
-			</bagObjects>
-			<equipedObjects>
-				<data name="legendary_vest" level="2" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="123" y="32" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="26" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.300000012" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="health" value="25" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="armor_2" level="1" characterObject="Marche" equipableType="armor" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="93" y="69" w="15" h="15" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="25" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.219999999" />
-				</buffs>
-			</equipedObjects>
+			<life actualLife="100" maxLife="100" />
+			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />

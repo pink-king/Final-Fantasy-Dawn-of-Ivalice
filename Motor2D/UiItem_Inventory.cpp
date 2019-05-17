@@ -178,7 +178,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
 
-						// TODO // FER QUE DESPRÉS D'AQUEST IF, ENTRI AL ELSE, PQ SURT DEL FOR
+						
 						// first generate description if it does not have it or if it was deleted ingame
 
 						if (k >= 15)
@@ -324,7 +324,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
 
-						// TODO // FER QUE DESPRÉS D'AQUEST IF, ENTRI AL ELSE, PQ SURT DEL FOR
+						
 						// first generate description if it does not have it or if it was deleted ingame
 						if (k >= 45)
 							break;
@@ -549,7 +549,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 					{
 
-						// TODO // FER QUE DESPRÉS D'AQUEST IF, ENTRI AL ELSE, PQ SURT DEL FOR
+						
 						// first generate description if it does not have it or if it was deleted ingame
 						if (k >= 45)
 							break;
@@ -666,49 +666,49 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						}
 					}
 
-					//DESCOMMENT WHEN FENIX TAIL IS CREATED
+					
 					// Fenix tails
-					//if ((*iter)->objectType == OBJECT_TYPE::FENIX_TAIL)
-					//{
-					//	// first generate description if it does not have it or if it was deleted ingame
+					if ((*iter)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+					{
+						// first generate description if it does not have it or if it was deleted ingame
 
-					//	De_______GenerateDescription((*iter), true);
+						De_______GenerateDescription((*iter), true);
 
-					//	iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 361) };
+						iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 361) };
 
-					//	fenix_counter++;
-
-
-
-
-					//	if (!(*iter)->MyDescription->spawnedInventoryImage)
-					//	{
-					//		(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-					//		(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-					//		(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-					//		(*iter)->MyDescription->spawnedInventoryImage = true;
-
-					//	}
-					//	else
-					//	{
-					//		(*iter)->MyDescription->HideAllElements(false);
-					//		(*iter)->MyDescription->iconImageInventory->tabbable = true;
-					//	}
+						fenix_counter++;
 
 
 
 
-					//	if (!first_label_fenix)
-					//	{
-					//		fenixLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.fenix_tail, this);
-					//		first_label_fenix = true;
-					//	}
-					//	else
-					//	{
-					//		str_fenix_tail = "" + std::to_string(fenix_counter);
-					//		fenixLabel->ChangeTextureIdle(str_fenix_tail, NULL, NULL);
-					//	}
-					//}
+						if (!(*iter)->MyDescription->spawnedInventoryImage)
+						{
+							(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position_1, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+							(*iter)->MyDescription->spawnedInventoryImage = true;
+
+						}
+						else
+						{
+							(*iter)->MyDescription->HideAllElements(false);
+							(*iter)->MyDescription->iconImageInventory->tabbable = true;
+						}
+
+
+
+
+						if (!first_label_fenix)
+						{
+							fenixLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.fenix_tail, this);
+							first_label_fenix = true;
+						}
+						else
+						{
+							str_fenix_tail = "" + std::to_string(fenix_counter);
+							fenixLabel->ChangeTextureIdle(str_fenix_tail, NULL, NULL);
+						}
+					}
 				}
 			}
 

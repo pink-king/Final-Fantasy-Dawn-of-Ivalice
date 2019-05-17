@@ -91,13 +91,13 @@ void UiItem_Label::Draw(const float & dt)
 				if (!first_hitbox)
 				{
 					hitBox.x -= 28;
-					App->scene->coins_label_inventory->hitBox.x -= 0;
+					App->scene->coins_label_inventory->hitBox.x -= 1;
 					first_hitbox = true;
 				}
 				else
 				{
 					hitBox.x -= 14;
-					App->scene->coins_label_inventory->hitBox.x -= 0;
+					App->scene->coins_label_inventory->hitBox.x -= 1;
 				}
 			}
 

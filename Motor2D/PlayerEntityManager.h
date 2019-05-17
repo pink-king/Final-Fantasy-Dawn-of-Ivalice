@@ -150,6 +150,8 @@ private:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	bool deleteObj = false;
+	bool consumPotion = false;
+	bool consumPhoenix = false;
 
 	unsigned int pickLoot;
 	unsigned int pickGold;

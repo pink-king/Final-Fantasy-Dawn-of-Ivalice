@@ -285,10 +285,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	}
 
 	//Descomment when fenix tail is created
-	/*if (callback->objectType == OBJECT_TYPE::FENIX)
+	if (callback->objectType == OBJECT_TYPE::PHOENIX_TAIL)
 	{
 		this->name_object = "fenix_tail";
-	}*/
+	}
 	
 
 	// common 

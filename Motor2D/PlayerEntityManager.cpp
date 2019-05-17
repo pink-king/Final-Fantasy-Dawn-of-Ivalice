@@ -134,9 +134,17 @@ bool PlayerEntityManager::Update(float dt)
 	}
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
-		if (item != App->entityFactory->player->consumables.end())
-			App->entityFactory->player->ConsumConsumable(*item, this);
+		for (std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin(); item != consumables.end(); item++)
+		{
+			if ((*item)->objectType == OBJECT_TYPE::POTIONS)
+			{
+				App->entityFactory->player->ConsumConsumable(*item, this);
+				break;
+			}
+		}
+		
+		
+			
 	}
 	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 	{
@@ -673,6 +681,12 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 				consumables.push_back(entityLoot);
 			}
 
+			else if (entityLoot->GetObjectType() == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				App->audio->PlayFx(pickPotion, 0);
+				consumables.push_back(entityLoot);
+			}
+
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 			{
 				App->audio->PlayFx(pickGold, 0);
@@ -804,21 +818,23 @@ void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)
 
 void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * entity)
 {
-	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
-	{
-		if (consumable == *item)
+	
+		for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
 		{
-			if (consumable->objectType == OBJECT_TYPE::POTIONS)
-				App->audio->PlayFx(consumHealPotion, 0);
-			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
+			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS)
 			{
-				App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);
+				App->audio->PlayFx(consumHealPotion, 0);
+				for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
+				{
+					App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);
 
+				}
+				item = consumables.erase(item);
+				break;
 			}
-			item = consumables.erase(item);
-			break;
 		}
-	}
+		
+	
 }
 
 void PlayerEntityManager::SetHudAlphaValue()
