@@ -16,12 +16,11 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
+	SetConsumable(CONSUMABLE_TYPE::POTION);
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;
-	objectType = objectT;
-	consumableType = consumableT;
 }
 
 
@@ -81,7 +80,7 @@ bool Consumable::Update(float dt)
 
 
 
-void Consumable::ChooseConsumable()
+void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 {
 	
 	if (App->entityFactory->justGold)
@@ -105,9 +104,18 @@ void Consumable::ChooseConsumable()
 	
 }
 
-void Consumable::SetConsumable()
+void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 {
-	ChooseConsumable();
+	if (type == CONSUMABLE_TYPE::POTION)
+	{
+		objectType = OBJECT_TYPE::POTIONS;
+		consumableType = CONSUMABLE_TYPE::POTION;
+	}
+	else
+	{
+		ChooseConsumable();
+	}
+
 	switch (objectType)
 	{
 	case OBJECT_TYPE::GOLD:

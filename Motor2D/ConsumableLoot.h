@@ -18,8 +18,8 @@ public:
 	bool Start();
 	bool Update(float dt);
 
-	void ChooseConsumable();
-	void SetConsumable();
+	void ChooseConsumable(CONSUMABLE_TYPE type = CONSUMABLE_TYPE::NO_CONSUMABLE);
+	void SetConsumable(CONSUMABLE_TYPE type = CONSUMABLE_TYPE::NO_CONSUMABLE);
 	
 
 	//void ConstructConsumable();
