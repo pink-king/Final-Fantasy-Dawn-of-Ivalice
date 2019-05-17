@@ -27,6 +27,7 @@ enum class EnvironmentAssetsTypes
 {
 	NO_TYPE,
 	WALL,
+	TRIGGERWALL,
 	WALL1,
 	// ---
 	MAX
@@ -83,6 +84,8 @@ public:
 	bool isThisSubtileEnemyFree(const iPoint pos) const;
 	j1Entity * isThisSubtileTriggerFree(const iPoint pos) const;
 
+	j1Entity * isThisSubtileLootFree(const iPoint pos) const;
+
 	bool BoolisThisSubtileTriggerFree(const iPoint pos) const;
 
 	bool isThisSubtilePlayerFree(const iPoint pos) const; 
@@ -95,7 +98,6 @@ public:
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
 	void AssignEntityToSubtilePos(j1Entity * entity, iPoint subtile);
-	void AssignEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
 	// Subyacent subtiles functions
@@ -108,7 +110,7 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	void CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 

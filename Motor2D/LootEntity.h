@@ -118,6 +118,7 @@ public:
 	bool spawnedDescription = false;
 	void CheckClampedCrossHairToSpawnDescription();
 
+
 protected:
 
 	int dmg;

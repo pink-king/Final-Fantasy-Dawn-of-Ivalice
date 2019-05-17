@@ -507,7 +507,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this  && !this->MyDescription->hide)
 	{
 
 		// delete last descr

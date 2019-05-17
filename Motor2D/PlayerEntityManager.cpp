@@ -119,22 +119,46 @@ bool PlayerEntityManager::Update(float dt)
 		crossHair->Reset();
 		
 	//collect loot
-	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
-		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
+		j1Entity* item = App->entityFactory->isThisSubtileLootFree(GetSubtilePos());
+		if (item->manualCollectable)
 		{
-			if ((*item)->manualCollectable)
+			if (CollectLoot((LootEntity*)item))
 			{
-				if (CollectLoot((LootEntity*)(*item)))
-				{
-
-					App->entityFactory->DeleteEntityFromSubtile(*item);
-					item = App->entityFactory->entities.erase(item);
-					break;
-				}
+				App->entityFactory->DeleteEntityFromSubtile(item);
+				
+				App->entityFactory->entities.erase(
+					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+		
 			}
 		}
+		if (!item->manualCollectable)
+		{
+			//TODO: description
+			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			{
+				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+
+				if (App->entityFactory->player->CollectLoot((LootEntity*)(item), true))
+				{
+					// then delete loot from subtile and factory 
+					App->entityFactory->DeleteEntityFromSubtile((j1Entity*)item);
+					//LOG("entities size: %i", App->entityFactory->entities.size());
+					// erase - remove idiom.
+					App->entityFactory->entities.erase(
+						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+
+					//last detach clamped entity
+					item = nullptr;
+					//LOG("entities size: %i", App->entityFactory->entities.size());
+				}
+
+			}
+		}
+
 	}
+	
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
@@ -142,9 +166,11 @@ bool PlayerEntityManager::Update(float dt)
 			App->entityFactory->player->ConsumConsumable(*item, this);
 	}
 
+	//check triggers
 	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 	{
 		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
+		delete App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos());
 	}
 	// WARNING: search other way to do this
 	////provisional function to life
@@ -213,35 +239,7 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
-	if (marche->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(marche))
-		{
-			App->buff->entitiesTimeDamage.remove(marche);
-		}
-	}
-	if (ritz->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(ritz))
-		{
-			App->buff->entitiesTimeDamage.remove(ritz);
-		}
-	}
-	if (shara->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(shara))
-		{
-			App->buff->entitiesTimeDamage.remove(shara);
-		}
-	}
-	if (stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(this))
-		{
-			App->buff->entitiesTimeDamage.remove(this);
-		}
-	}
-
+	
 	return ret;
 }
 
@@ -980,7 +978,6 @@ bool Crosshair::ManageInput(float dt)
 
 			if (clampedEntity->type == ENTITY_TYPE::LOOT)  // TODO:  add condition so that potions do not enter this 
 			{
-				
 				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{

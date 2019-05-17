@@ -79,21 +79,26 @@ void Consumable::ChooseConsumable()
 	else
 	{
 		int randNum = (GetRandomValue(1, 6));
+
 		if (randNum == 1)
 		{
 			objectType = OBJECT_TYPE::POTIONS;
-			consumableType = CONSUMABLE_TYPE::POTION;
 		}
 		else if (randNum == 2)
 		{
 			objectType = OBJECT_TYPE::PHOENIX_TAIL;
+		}
+		else
+		{
+			to_delete = true;
 		}
 	}
 }
 
 void Consumable::SetConsumable()
 {
-	ChooseConsumable();
+	if(objectType == OBJECT_TYPE::NO_OBJECT)
+		ChooseConsumable();
 	switch (objectType)
 	{
 	case OBJECT_TYPE::GOLD:
@@ -108,18 +113,11 @@ void Consumable::SetConsumable()
 
 	case OBJECT_TYPE::POTIONS:
 
-		switch (consumableType)
-		{
-		case CONSUMABLE_TYPE::POTION:
-			loot_rect = { 60,32,10,12 };
-			lootname.assign("potion");
-			name.assign("potion");
-			size.create(10, 12);
-			SetPivot(5, 10);
-			break;
-		default:
-			break;
-		}
+		loot_rect = { 60,32,10,12 };
+		lootname.assign("potion");
+		name.assign("potion");
+		size.create(10, 12);
+		SetPivot(5, 10);
 		break;
 
 	case OBJECT_TYPE::PHOENIX_TAIL:

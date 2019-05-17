@@ -7,6 +7,18 @@
 #include "Color.h"
 #include <vector>
 
+enum class DOOR
+{
+	Exit,
+	entry,
+};
+
+struct wall
+{
+	DOOR doorType;
+	j1Entity* entity = nullptr;
+};
+
 class NoWalkableTrigger : public Trigger
 {
 public:
@@ -14,9 +26,11 @@ public:
 	~NoWalkableTrigger();
 
 	bool DoTriggerAction();
-	void CreateWall(iPoint pos);
+	void CreateExitWall(iPoint pos);
+	void CreateEntryWall(iPoint pos);
 private:
-	std::vector<j1Entity*> walls;
+	std::vector<wall*> walls;
+	bool isActived = false;
 };
 
 

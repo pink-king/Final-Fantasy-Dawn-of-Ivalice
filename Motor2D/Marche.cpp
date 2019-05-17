@@ -1085,94 +1085,19 @@ bool Marche::Update(float dt)
 		break;
 	}
 
-
-	
-	//test buff
-	/*j1Entity* j1 = nullptr;
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == 1 || App->input->GetKey(SDL_SCANCODE_Q) == 1)
-	{
-		
-		App->buff->DirectAttack(this, this, 10, ELEMENTAL_TYPE::NORMAL_ELEMENT);
-		
-	}
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == 1 || App->input->GetKey(SDL_SCANCODE_W) == 1)
-	{
-		App->buff->DirectAttack(this, this, 15, ELEMENTAL_TYPE::POISON_ELEMENT);
-	}
-	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == 1 || App->input->GetKey(SDL_SCANCODE_E) == 1)
-		&& !isBurned)
-	{
-		App->buff->CreateBurned(this, this,5,2);
-	}
-	if ((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == 1 || App->input->GetKey(SDL_SCANCODE_R) == 1)
-		&& !isParalize)
-	{
-		App->buff->CreateParalize(this, this, 10);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_2) == 1)
-	{
-		App->itemsManager->CreateItem("superSword", OBJECT_TYPE::WEAPON_OBJECT, this);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == 1)
-	{
-		App->itemsManager->RemoveItem(this,"superSword");
-	}
-	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
-	{
-		std::vector<items*>::iterator item = equipedObjects.begin();
-		App->itemsManager->DesequipItem(this, *item);
-	}*/
-	/*if (App->input->GetKey(SDL_SCANCODE_3) == 1)
-	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->bagObjects.begin();
-		if(item != App->entityFactory->player->bagObjects.end())
-			App->entityFactory->player->EquipItem(*item);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_4) == 1)
-	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->equipedObjects.begin();
-		if (item != App->entityFactory->player->equipedObjects.end())
-			App->entityFactory->player->DesequipItem(*item);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == 1)
-	{
-		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player->GetMarche(), "\0", 100);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_B) == 1)
-	{
-		App->buff->CreatePoision(this, this, 5, 5, "a", false);
-	}*/
-
-	/*if (App->input->GetKey(SDL_SCANCODE_6) == 1)
-	{
-		App->itemsManager->CreateItem("sword2", OBJECT_TYPE::WEAPON_OBJECT, this);
-	}*/
-	//if (App->input->GetKey(SDL_SCANCODE_3) == 1)
-	//{
-	//	
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_4) == 1)
-	//{
-	//	
-	//}
-
-	
 	return true;
 }
 
 void Marche::UlitMarche()
 {
 
-	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 10, superTransMaxTimeSec);
+	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 2, superTransMaxTimeSec);
 	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
 	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
-	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 10, superTransMaxTimeSec);
+	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 2, superTransMaxTimeSec);
 	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
 	App->buff->TemporalBuff(App->entityFactory->player->GetShara(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
-	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 10, superTransMaxTimeSec);
+	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 2, superTransMaxTimeSec);
 	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
 	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
 }

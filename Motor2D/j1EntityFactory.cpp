@@ -21,6 +21,7 @@
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
 #include "WinTrigger.h"
+#include "NoWalkableTrigger.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include "j1PathFinding.h"
@@ -695,6 +696,10 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new WinTrigger(posX, posY,scene,color);
 		entities.push_back(ret);
 		break;
+	case TRIGGER_TYPE::NOWALKABLE:
+		ret = new NoWalkableTrigger(posX, posY);
+		entities.push_back(ret);
+		break;
 	case TRIGGER_TYPE::NO_TRIGGER:
 		break;
 	default:
@@ -818,6 +823,26 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 
 					return ret;
 				}
+			}
+		}
+	}
+	return nullptr;
+}
+
+j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
+{
+
+	j1Entity* ret = nullptr;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::LOOT)
+			{
+				ret = *entityIterator;
+				return ret;
 			}
 		}
 	}
@@ -991,7 +1016,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1005,11 +1030,15 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 		break;
 	case EnvironmentAssetsTypes::WALL1:
 		break;
+	case EnvironmentAssetsTypes::TRIGGERWALL:
+		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
+		break;
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
 		break;
 	}
+	return assetEntity;
 }
 
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)

@@ -24,6 +24,7 @@
 #include "Projectile.h"
 #include "j1DialogSystem.h"
 #include "j1TransitionManager.h"
+#include "NoWalkableTrigger.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -268,7 +269,9 @@ bool j1Scene::Update(float dt)
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y, SceneState::LOBBY, Blue);
+		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, p.x, p.y, SceneState::LOBBY, Blue);
+		dynamic_cast<NoWalkableTrigger*>(trigger)->CreateExitWall({ -1575, 2150 });
+
 	}
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -840,11 +843,17 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
+	if(App->map->IsEnabled())
 	App->map->Disable();
+	if (App->attackManager->IsEnabled())
 	App->attackManager->Disable();
+	if (App->entityFactory->IsEnabled())
 	App->entityFactory->Disable();
+	if (App->pathfinding->IsEnabled())
 	App->pathfinding->Disable();
+	if (App->buff->IsEnabled())
 	App->buff->Disable();
+	if (App->camera2D->IsEnabled())
 	App->camera2D->Disable();
 
 	App->audio->UnLoadAudio();
@@ -863,12 +872,20 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
+		if (!App->attackManager->IsEnabled())
 		App->attackManager->Enable();
+		if (!App->pathfinding->IsEnabled())
 		App->pathfinding->Enable();
+		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
+		if (!App->buff->IsEnabled())
 		App->buff->Enable();
-		App->map->active = true;
-		LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		if (!App->map->IsEnabled())
+		{
+			App->map->active = true;
+			LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		}
+		if (!App->entityFactory->IsEnabled())
 		App->entityFactory->Enable();
 		break;
 	case SceneState::LEVEL1:
