@@ -29,11 +29,12 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 Enemy::~Enemy()
 {
-// TODO: Loot spawn in all enemies? 
 App->attackManager->DestroyAllMyCurrentAttacks(this);
 
-App->tex->UnLoad(debugSubtile);
-debugSubtile = nullptr;
+if (inWave)
+{
+	// Delete myself from wave vect
+}
 
 memset(idle, 0, sizeof(idle));
 memset(run, 0, sizeof(run));
@@ -43,12 +44,13 @@ memset(basicAttack, 0, sizeof(basicAttack));
 if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 {
 
-	if (lifeBar != nullptr)
-	{
-		lifeBar->deliever = nullptr;
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->to_delete = true;
-	}
+		if (lifeBar != nullptr)
+		{
+			lifeBar->deliever = nullptr;
+			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->to_delete = true;
+		}
+	
 }
 LOG("parent enemy bye");
 }

@@ -67,11 +67,12 @@ bool EnemyBomb::CleanUp()
 	
 
 	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end(); ++item)
+	for (; item != stat.end(); )
 	{
-		stat.remove(*item);
 		delete *item;
 		*item = nullptr;
+		item = stat.erase(item);
+
 	}
 	stat.clear();
 
@@ -236,8 +237,18 @@ void EnemyBomb::SetState(float dt)
 
 	case EnemyState::DYING:
 		currentAnimation = &dyingAnim;
-		if (currentAnimation->Finished()) {
+		if (!exploded)
+		{
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
+			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
+
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
+
+			exploded = true;
+		}
+
+		if (currentAnimation->Finished()) {
 			to_delete = true;
 		}
 		break;

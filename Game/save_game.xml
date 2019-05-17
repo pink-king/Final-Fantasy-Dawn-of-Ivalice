@@ -7,38 +7,63 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
+		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="138" maxLife="138" />
-			<gold value="1233" />
+			<life actualLife="251" maxLife="251" />
+			<gold value="2128" />
 			<bagObjects>
-				<data name="legendary_stick" level="2" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="44" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.879999995" />
-				</buffs>
-			</bagObjects>
-			<equipedObjects>
-				<data name="vest_1" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
+				<data name="vest_1" level="1" characterObject="Shara" equipableType="vest" elementalType="allElement" objectType="armor" lootType="equipable">
 					<rect x="123" y="32" w="14" h="14" />
 				</data>
 				<buffs>
-					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="25" />
+					<data character="Shara" type="additive" elementType="allElement" rol="defence" value="22" />
 				</buffs>
 				<buffs>
 					<data character="Shara" type="additive" elementType="noElement" rol="health" value="19" />
 				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="stick_1" level="2" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
+			</bagObjects>
+			<bagObjects>
+				<data name="armor_1" level="1" characterObject="Marche" equipableType="armor" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="93" y="69" w="15" h="15" />
 				</data>
 				<buffs>
-					<data character="Ritz" type="additive" elementType="fireElement" rol="attack" value="42" />
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="17" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="health" value="20" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="vest_1" level="2" characterObject="Ritz" equipableType="mantle" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="iceElement" rol="defence" value="36" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="19" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="123" y="32" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="22.5" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="armor_1" level="2" characterObject="Marche" equipableType="armor" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="93" y="69" w="15" h="15" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="24" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="health" value="33" />
 				</buffs>
 			</equipedObjects>
 			<equipedObjects>
@@ -53,6 +78,31 @@
 				</buffs>
 				<buffs>
 					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.140000001" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="sword_2" level="2" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="iceElement" rol="attack" value="0.389999986" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="18" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="legendary_vest" level="1" characterObject="Ritz" equipableType="mantle" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="fireElement" rol="defence" value="30" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.150000006" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="18" />
 				</buffs>
 			</equipedObjects>
 		</Entities>

@@ -29,7 +29,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		ENEMY_TEST,
 		ENEMY_BOMB,
 		ENEMY02,
-		DEMONBOSS,
+		FLOWERBOSS,
 		ENEMY_ARCHER,
 		//etc
 		LOOT,
