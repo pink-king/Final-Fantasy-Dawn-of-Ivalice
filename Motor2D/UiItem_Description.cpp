@@ -918,7 +918,7 @@ void UiItem_Description::DeleteEverything()
 
 		App->gui->destroyElement(this->damageComparisonLabel.label);
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);
-		App->gui->destroyElement(this->cooldownComparisonLabelf.label);
+		App->gui->destroyElement(this->cooldownComparisonLabel.label);
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{

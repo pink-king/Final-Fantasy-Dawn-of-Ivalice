@@ -106,8 +106,10 @@ void UiItem_Image::Draw(const float& dt)
 
 void UiItem_Image::CleanUp()
 {
-	if(myDescr != nullptr)
-		myDescr->to_delete = true;
+	/*if(myDescr != nullptr)
+		myDescr->to_delete = true;*/
+
+
 	if (newTex != nullptr)
 	{
 		App->tex->UnLoad(newTex);

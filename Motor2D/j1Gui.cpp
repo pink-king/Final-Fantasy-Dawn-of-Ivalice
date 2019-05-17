@@ -464,8 +464,8 @@ bool j1Gui::CleanUp()
 		lootTexture = nullptr;
 	}
 
-	delete canvas;
-	canvas = nullptr;
+	/*delete canvas;
+	canvas = nullptr;*/
 	// TODO: Remove items from list, not hitlabels (they are on their own list)
 	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
 	{
