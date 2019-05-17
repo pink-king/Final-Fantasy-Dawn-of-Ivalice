@@ -141,11 +141,21 @@ bool PlayerEntityManager::Update(float dt)
 				App->entityFactory->player->ConsumConsumable(*item, this);
 				break;
 			}
-		}
-		
-		
-			
+		}	
 	}
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		for (std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin(); item != consumables.end(); item++)
+		{
+			if ((*item)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				App->entityFactory->player->ConsumConsumable(*item, this);
+				break;
+			}
+		}
+	}
+
 	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 	{
 		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
@@ -832,6 +842,12 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 				item = consumables.erase(item);
 				break;
 			}
+
+			//TODO for the coders, make whatever phoenix tail does inside this else if below xD
+			/*else if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+
+			}*/
 		}
 		
 	
