@@ -1,5 +1,7 @@
 #include "ConsumableLoot.h"
+#include "j1App.h"
 #include "j1Entity.h"
+#include "j1Scene.h"
 #include "easing.h"
 #include "j1EntityFactory.h"
 
@@ -10,6 +12,16 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;
+}
+
+Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
+{
+	originPos.x = position.x;
+	start = true;
+	checkgrounded = true;
+	manualCollectable = true;
+	objectType = objectT;
+	consumableType = consumableT;
 }
 
 
@@ -71,6 +83,7 @@ bool Consumable::Update(float dt)
 
 void Consumable::ChooseConsumable()
 {
+	
 	if (App->entityFactory->justGold)
 	{
 		objectType = OBJECT_TYPE::GOLD;
@@ -89,6 +102,7 @@ void Consumable::ChooseConsumable()
 			objectType = OBJECT_TYPE::PHOENIX_TAIL;
 		}
 	}
+	
 }
 
 void Consumable::SetConsumable()

@@ -13,6 +13,7 @@ class Consumable : public LootEntity
 
 public:
 	Consumable(int posX, int posY);
+	Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT);
 	~Consumable();
 	bool Start();
 	bool Update(float dt);
