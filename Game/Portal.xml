@@ -173,7 +173,13 @@
 			<position x="-1114" y="1852" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-1080" y="1911" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
 			<position x="-1136" y="1880" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-1198" y="1904" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
 			<position x="-144" y="1186" />
@@ -347,43 +353,21 @@
 			<position x="-1334" y="1747" />
 		</Entities>
 		<Players player="marche">
-			<Experience level="1" exp="525" />
-			<life actualLife="119" maxLife="119" />
-			<gold value="442" />
-			<bagObjects>
-				<data name="legendary_stick" level="2" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="44" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.879999995" />
-				</buffs>
-			</bagObjects>
+			<Experience level="1" exp="300" />
+			<life actualLife="58" maxLife="100" />
+			<gold value="0" />
 			<equipedObjects>
-				<data name="vest_1" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
+				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
 					<rect x="123" y="32" w="14" h="14" />
 				</data>
 				<buffs>
-					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="25" />
+					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="22.5" />
 				</buffs>
 				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="health" value="19" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="stick_1" level="2" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="fireElement" rol="attack" value="42" />
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
 				</buffs>
 			</equipedObjects>
 		</Players>
-		<Portal>
-			<position x="-1299" y="1990" />
-		</Portal>
 	</entities>
 	<AttackManager />
 	<Buff />

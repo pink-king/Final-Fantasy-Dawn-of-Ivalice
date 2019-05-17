@@ -89,6 +89,9 @@ public:
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
+	j1Entity* isThisSubtileTriggerFree(const iPoint pos) const;
+
+	bool BoolisThisSubtileTriggerFree(const iPoint pos) const;
 	bool isThisSubtilePlayerFree(const iPoint pos) const; 
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 	bool areAllSubtilesReserved() const; 
@@ -98,10 +101,10 @@ public:
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
+	void AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile);
 	void AssignEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
-	void DeleteEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 
 	// Subyacent subtiles functions
 

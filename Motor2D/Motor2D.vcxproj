@@ -79,7 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicArrow.cpp" />
-    <ClCompile Include="Boss_Demon.cpp" />
+    <ClCompile Include="Boss_Flower.cpp" />
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
@@ -152,10 +152,12 @@
     <ClCompile Include="UiItem_Inventory.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
+    <ClCompile Include="WaveManager.cpp" />
+    <ClCompile Include="WinTrigger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicArrow.h" />
-    <ClInclude Include="Boss_Demon.h" />
+    <ClInclude Include="Boss_Flower.h" />
     <ClInclude Include="Buff.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />
@@ -235,6 +237,8 @@
     <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+    <ClInclude Include="WaveManager.h" />
+    <ClInclude Include="WinTrigger.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

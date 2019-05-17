@@ -75,10 +75,12 @@ public:
 	bool debugColl = false;
 	bool hackerMode = true;
 	bool ComeToPortal = false;
+	bool ComeToDeath = false;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	SceneState previosState = SceneState::LOBBY;
+	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;
 	unsigned int openInventorySFX;
@@ -118,7 +120,6 @@ private:
 	
 	PlayerEntityManager* player_selected = nullptr;
 
-	bool ComeToDeath = false;
 	
 
 public: 

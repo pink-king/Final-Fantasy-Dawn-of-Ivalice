@@ -61,6 +61,7 @@ bool j1Scene::Start()
 	{
 		App->entityFactory->CreatePlayer({ -1575, 2150 });
 		App->entityFactory->loadEnemies = true;
+		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -80,6 +81,7 @@ bool j1Scene::Start()
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
+			App->entityFactory->player->GetMarche()->position = portalPos;
 			ComeToPortal = false;
 		}
 	}
@@ -103,7 +105,7 @@ bool j1Scene::Start()
 		{
 			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL,-400, 350, previosState,White);
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, -450, 350, previosState, White);
 		}
 	}
 
@@ -261,15 +263,13 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
-	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-	{
-		App->LoadGame("Portal.xml");
-		ComeToPortal = false;
-	}
+	
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		App->SaveGame("Portal.xml");
-		ComeToPortal = true;
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y, SceneState::LOBBY, Blue);
 	}
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -287,19 +287,13 @@ bool j1Scene::Update(float dt)
 	{
 		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y,SceneState::LOBBY,Blue);
-	}
+	
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
 	{
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateEntity(DEMONBOSS, p.x, p.y, "demonboss");
+		App->entityFactory->CreateEntity(FLOWERBOSS, p.x, p.y, "flower_boss");
 	}
 
 	
@@ -1019,9 +1013,21 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
+
 		break;
 
 	case SceneState::LEVEL2:
+		state = SceneState::LEVEL1;
+		App->attackManager->Enable();
+		App->pathfinding->Enable();
+		App->camera2D->Enable();
+		App->buff->Enable();
+		App->map->active = true;
+		LoadNewMap("maps/Level2_Started.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		App->entityFactory->Enable();
+		// create player for testing purposes here
+		App->entityFactory->CreatePlayer({ 0, 0 });
 		break;
 
 	case SceneState::DEATH:
