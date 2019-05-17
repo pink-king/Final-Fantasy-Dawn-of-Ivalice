@@ -170,8 +170,8 @@ void UiItem_HealthBar::CleanUp()
 {
 	/*if(dynamicImage != nullptr)
 		dynamicImage->to_delete = true;*/
-	if(damageImage != nullptr)
-		damageImage->to_delete = true;
+	/*if(damageImage != nullptr)
+		damageImage->to_delete = true;*/
 }
 
 

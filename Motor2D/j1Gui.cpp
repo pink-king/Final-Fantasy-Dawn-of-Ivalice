@@ -470,8 +470,10 @@ bool j1Gui::CleanUp()
 		App->tex->UnLoad(hurt_hud_tex);
 		hurt_hud_tex = nullptr;
 	}
-	delete canvas;
-	canvas = nullptr;
+
+	/*delete canvas;
+	canvas = nullptr;*/
+
 	// TODO: Remove items from list, not hitlabels (they are on their own list)
 	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
 	{
