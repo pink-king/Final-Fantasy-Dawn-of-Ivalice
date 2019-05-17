@@ -104,6 +104,7 @@ public:
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
 
 	void SetHudAlphaValue();
+
 public:
 
 	j1Entity* GetMarche();
