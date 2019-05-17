@@ -2,6 +2,7 @@
 #include "j1Render.h"
 #include "j1ModuleCamera2D.h"
 #include "j1EntityFactory.h"
+#include "j1PathFinding.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -111,7 +112,6 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	attackAnim[(int)facingDirection::N].loop = false;
 
 	// jump
-
 	jumpAnim[(int)facingDirection::S].PushBack({ 0,832,64,64 });
 	jumpAnim[(int)facingDirection::S].PushBack({ 64,832,64,64 });
 	jumpAnim[(int)facingDirection::S].PushBack({ 128,832,64,64 });
@@ -119,6 +119,19 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::S].PushBack({ 256,832,64,64 });
 	jumpAnim[(int)facingDirection::S].speed = animSpeed;
 	jumpAnim[(int)facingDirection::S].loop = false;
+
+
+	// precomputed adjacent tile neighbours pattern
+	// for enemy spawn at player position
+	// and to switch walkability values around boss (for phase 2,3,4)
+	adjacentTileNeighboursPattern[0] = { 0,-1 }; // N
+	adjacentTileNeighboursPattern[1] = { 0, 1 }; // S
+	adjacentTileNeighboursPattern[2] = { -1,0 }; // W
+	adjacentTileNeighboursPattern[3] = { 1,0 }; // E
+	adjacentTileNeighboursPattern[4] = { 1,-1 }; // NE
+	adjacentTileNeighboursPattern[5] = { -1,-1 }; // NW
+	adjacentTileNeighboursPattern[6] = { 1, 1 }; // SE
+	adjacentTileNeighboursPattern[7] = { -1,1 }; // SW
 
 
 	// define values ------
@@ -137,6 +150,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	phase_control_timers.phase4.time = 10000;
 	// attack cadence
 	fireball_timer_data.time = 1600; // fireball cadence
+	spawnEnemies_timer_data.time = 2000;
 
 	myState = Boss1State::PHASE1;
 }
@@ -157,6 +171,13 @@ bool FlowerBossEntity::Update(float dt)
 {
 
 	PhaseManager(dt);
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		Phase3Logic();
+	}
+
+	//LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
 
 	return true;
 }
@@ -180,6 +201,28 @@ void FlowerBossEntity::PhaseManager(float dt)
 		{
 			// changes phase
 			LOG("phase change");
+
+			if (patternsCounter % 2 == 0)
+			{
+				myState = Boss1State::PHASE2;
+				LOG("phase2");
+				phase_control_timers.phase2.timer.Start();
+			}
+			else
+			{
+				myState = Boss1State::PHASE3;
+				LOG("phase3");
+				phase_control_timers.phase3.timer.Start();
+			}
+
+			if (life <= maxLife * 0.5f)
+			{
+				myState = Boss1State::PHASE4;
+				phase_control_timers.phase4.timer.Start();
+			}
+
+			++patternsCounter;
+			break; // exit case
 		}
 
 		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack)
@@ -199,6 +242,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			LOG("attack");
 			launchedBall = true;
 
+			// TODO: get the direction vector from the boss last axis (current angle), instead of the realtime player pivot
 			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
 			App->camera2D->AddTrauma(0.2f);
 		}
@@ -211,15 +255,91 @@ void FlowerBossEntity::PhaseManager(float dt)
 			launchedBall = false;
 			fireball_timer_data.timer.Start();
 		}
+
+		// TODO: improve how the cadence and the evasion probability are calculated
+		if (life <= maxLife * 0.5f)
+		{
+
+		}
 		
 		break;
 	}
 	case Boss1State::PHASE2:
+	{
+		if (phase_control_timers.phase2.timer.Read() >= phase_control_timers.phase2.time)
+		{
+			myState = Boss1State::PHASE1;
+			LOG("returning from phase2 to phase1");
+			phase_control_timers.phase1.timer.Start();
+			fireball_timer_data.timer.Start();
+
+			// erase shield walkability
+			DesactiveShield();
+
+			break;
+		}
+
+		// instantiate shield
+		if (!shieldActive)
+			ActiveShield();
+
+		Phase2Logic();
+
+		LookToPlayer(idleAnim);
+
 		break;
+	}
 	case Boss1State::PHASE3:
+	{
+		if (phase_control_timers.phase3.timer.Read() >= phase_control_timers.phase3.time)
+		{
+			myState = Boss1State::PHASE1;
+			LOG("returning from phase3 to phase1");
+			phase_control_timers.phase1.timer.Start();
+			fireball_timer_data.timer.Start();
+
+			// erase shield walkability
+			DesactiveShield();
+
+			break;
+		}
+
+		// instantiate shield
+		if (!shieldActive)
+			ActiveShield();
+
+		Phase3Logic();
+
+		LookToPlayer(idleAnim);
+
 		break;
+	}
 	case Boss1State::PHASE4:
+	{
+		if (phase_control_timers.phase4.timer.Read() >= phase_control_timers.phase4.time)
+		{
+			myState = Boss1State::PHASE1;
+			LOG("returning from phase4 to phase1");
+			phase_control_timers.phase1.timer.Start();
+			fireball_timer_data.timer.Start();
+
+			// erase shield walkability
+			DesactiveShield();
+
+			break;
+		}
+
+		// instantiate shield
+		if (!shieldActive)
+			ActiveShield();
+
+		Phase2Logic();
+		Phase3Logic();
+
+		LookToPlayer(idleAnim);
+
 		break;
+	}
 	case Boss1State::DEATH:
 		break;
 	case Boss1State::MAX:
@@ -233,9 +353,61 @@ void FlowerBossEntity::PhaseManager(float dt)
 
 }
 
-void FlowerBossEntity::UpdatesCurrentAnimFrame()
+void FlowerBossEntity::Phase2Logic() // spawn poison rain
 {
+	
+}
 
+void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour positions
+{
+	if (spawnEnemies_timer_data.timer.Read() >= spawnEnemies_timer_data.time)
+	{
+		// if the enemy life is less than x, spawn archer too
+		// TODO: test 
+		std::vector<EnemyType> enemyTypesVec;
+		enemyTypesVec.push_back(EnemyType::TEST);
+
+		for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
+		{
+			iPoint  tilePos = App->entityFactory->player->GetTilePos() + adjacentTileNeighboursPattern[i];
+
+			if (!App->pathfinding->IsWalkable(tilePos))
+				continue;
+
+			iPoint tileSize = { 32,32 };
+			SDL_Rect spawnTileRect = { tilePos.x * tileSize.x, tilePos.y * tileSize.y, tileSize.x, tileSize.y };
+			
+			App->entityFactory->CreateEnemiesGroup(enemyTypesVec, spawnTileRect, 1, 1);
+		}
+
+		// restart timer
+		spawnEnemies_timer_data.timer.Start();
+	}
+
+}
+
+void FlowerBossEntity::ActiveShield()
+{
+	for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
+	{
+		iPoint tileToBlock = imOnTile + adjacentTileNeighboursPattern[i];
+		App->pathfinding->ActivateTile(tileToBlock);
+		LOG("Blocking Tile: %i,%i", tileToBlock.x, tileToBlock.y);
+	}
+
+	shieldActive = true;
+}
+
+void FlowerBossEntity::DesactiveShield()
+{
+	for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
+	{
+		iPoint tileToBlock = imOnTile + adjacentTileNeighboursPattern[i];
+		App->pathfinding->DeactivateTile(tileToBlock);
+		LOG("Unblocking Tile: %i,%i", tileToBlock.x, tileToBlock.y);
+	}
+
+	shieldActive = false;
 }
 
 void FlowerBossEntity::LookToPlayer(Animation* desiredAnim) // looks to player and updates current animation frame correctly

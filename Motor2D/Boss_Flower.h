@@ -4,6 +4,8 @@
 #include "j1Entity.h"
 #include "PlayerEntity.h"
 
+#define NUM_NEIGH_PATTERN 8
+
 enum class Boss1State
 {
 	// phase2,3 and 4 increases patternCounter counter, decide what phase is the next "round" , 
@@ -62,18 +64,25 @@ private:
 
 	float lerpAngle(float a1, float a2, float t);
 	void CheckRenderFlip();
-	void UpdatesCurrentAnimFrame();
 	void PhaseManager(float dt);
 	//void FollowPlayer(float dt);
 
+	void ActiveShield();
+	void DesactiveShield();
+	void Phase2Logic(); // independent logic, phase 4 call this two
+	void Phase3Logic();
+
 private:
 	Boss1State myState = Boss1State::NOTHING;
+	bool shieldActive = false;
 	SDL_Texture* boss_spritesheet = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
 	Animation attackAnim[(int)facingDirection::MAX];
 	Animation jumpAnim[(int)facingDirection::MAX];
 	Animation deathAnim[2];
+
+	iPoint adjacentTileNeighboursPattern[NUM_NEIGH_PATTERN];
 
 	int pointingDir = 0;
 	float lastAngle;
@@ -88,6 +97,7 @@ private:
 	BossPhaseTimers phase_control_timers;
 	BossPhaseTimer fireball_timer_data;
 	bool doingAttack = false;
+	BossPhaseTimer spawnEnemies_timer_data;
 
 };
 
