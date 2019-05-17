@@ -81,7 +81,7 @@ bool j1Scene::Start()
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
-			ComeToPortal = false;
+			App->entityFactory->player->GetMarche()->position = portalPos;
 		}
 	}
 
@@ -104,7 +104,7 @@ bool j1Scene::Start()
 		{
 			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL,-400, 350, previosState,White);
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL,-450, 350, previosState,White);
 		}
 	}
 
@@ -262,15 +262,12 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
-	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-	{
-		App->LoadGame("Portal.xml");
-		ComeToPortal = false;
-	}
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		App->SaveGame("Portal.xml");
-		ComeToPortal = true;
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y, SceneState::LOBBY, Blue);
 	}
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -288,13 +285,7 @@ bool j1Scene::Update(float dt)
 	{
 		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y,SceneState::LOBBY,Blue);
-	}
+
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
 	{
 		int x, y;

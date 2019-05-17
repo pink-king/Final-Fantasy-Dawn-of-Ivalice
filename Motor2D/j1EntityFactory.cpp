@@ -347,14 +347,6 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			App->entityFactory->player->Load(characterPlayer);
 		}
 	}
-
-	pugi::xml_node pos = node.append_child("position");
-	iPoint posit = { pos.attribute("x").as_int(), pos.attribute("y").as_int() };
-	if (posit.x != 0 && posit.y != 0)
-	{
-		player->position.x = posit.x;
-		player->position.y = posit.y;
-	}
 	//TODO create out portal
 	return true;
 }
@@ -376,11 +368,6 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 			(*item)->Save(nodeEntities);
 		}
 
-		if ((*item)->type == ENTITY_TYPE::TRIGGER)
-		{
-			pugi::xml_node nodeEntities = node.append_child("Portal");
-			(*item)->Save(nodeEntities);
-		}
 	}
 
 	return true;

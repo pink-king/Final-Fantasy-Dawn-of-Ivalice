@@ -78,6 +78,7 @@ public:
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	SceneState previosState = SceneState::LOBBY;
+	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;
 	unsigned int openInventorySFX;
