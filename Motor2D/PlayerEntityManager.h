@@ -101,9 +101,11 @@ public:
 	void AddItemToConsumables(LootEntity* entityLoot);
 	void RemoveItemFromConsumables(LootEntity* entityLoot);
 
-	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
+	void ConsumConsumable(OBJECT_TYPE consumable, j1Entity* entity);
 
 	void SetHudAlphaValue();
+
+	void SetPosition(fPoint pos);
 public:
 
 	j1Entity* GetMarche();

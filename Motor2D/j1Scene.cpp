@@ -82,7 +82,8 @@ bool j1Scene::Start()
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
-			App->entityFactory->player->GetMarche()->position = portalPos;
+			App->entityFactory->player->selectedCharacterEntity->position = portalPos;
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
 	}
@@ -266,12 +267,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, p.x, p.y, SceneState::LOBBY, Blue);
-		dynamic_cast<NoWalkableTrigger*>(trigger)->CreateExitWall({ -1575, 2150 });
-
+		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
 	}
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;

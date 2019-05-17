@@ -1,9 +1,9 @@
-#include "LobbyPortal.h"
+#include "ExitPortal.h"
 #include "j1TransitionManager.h"
 #include "j1EntityFactory.h"
 
-LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
-	: Trigger(TRIGGER_TYPE::PORTAL, posx, posy, "portal"), scene(scene), color(color)
+ExitPortal::ExitPortal(float posx, float posy)
+	: Trigger(TRIGGER_TYPE::PORTAL, posx, posy, "Exitportal")
 {
 	entityTex = App->entityFactory->portalTex;
 
@@ -36,34 +36,27 @@ LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 
 }
 
-LobbyPortal::~LobbyPortal()
+ExitPortal::~ExitPortal()
 {
-
+	
 }
 
-bool LobbyPortal::Update(float dt)
+bool ExitPortal::Update(float dt)
 {
-	if (currentAnim == &idle)
-		doit = true;
+	if (idle.Finished())
+		currentAnim = &close;
+	if (close.Finished())
+		to_delete = true;
 	return true;
 }
 
-void LobbyPortal::Draw()
+void ExitPortal::Draw()
 {
 	if (currentAnim != nullptr)
 		App->render->Blit(entityTex, position.x - size.x / 2, position.y - size.y, &currentAnim->GetCurrentFrame(), 1.0F);
 }
 
-bool LobbyPortal::DoTriggerAction()
+bool ExitPortal::DoTriggerAction()
 {
-	if (doit)
-	{
-		App->entityFactory->player->to_delete = true;
-		currentAnim = &close;
-		App->scene->ComeToPortal = true;
-		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
-		App->scene->previosState = App->scene->state;
-		doit = false;
-	}
 	return true;
 }

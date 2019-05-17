@@ -5,6 +5,7 @@
 #include "j1Map.h"
 #include "j1BuffManager.h"
 #include "j1EntityFactory.h"
+#include "j1PathFinding.h"
 //buff test
 #include "j1Window.h"
 #include "j1Scene.h"
@@ -161,16 +162,20 @@ bool PlayerEntityManager::Update(float dt)
 	
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
-		if (item != App->entityFactory->player->consumables.end())
-			App->entityFactory->player->ConsumConsumable(*item, this);
+		if (consumables.size() > 0)
+			ConsumConsumable(OBJECT_TYPE::POTIONS, this);
+	}
+
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		if (consumables.size() > 0)
+			ConsumConsumable(OBJECT_TYPE::PHOENIX_TAIL, this);
 	}
 
 	//check triggers
 	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 	{
 		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
-		delete App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos());
 	}
 	// WARNING: search other way to do this
 	////provisional function to life
@@ -669,7 +674,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	{
 		if (!fromCrosshair)
 		{
-			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
+			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS || entityLoot->GetObjectType() == OBJECT_TYPE::PHOENIX_TAIL)
 			{
 				App->audio->PlayFx(pickPotion, 0);
 				consumables.push_back(entityLoot);
@@ -803,21 +808,34 @@ void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)
 	}
 }
 
-void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * entity)
+void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * entity)
 {
 	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
 	{
-		if (consumable == *item)
+		if (consumable == (*item)->objectType)
 		{
-			if (consumable->objectType == OBJECT_TYPE::POTIONS)
-				App->audio->PlayFx(consumHealPotion, 0);
-			for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
+			if (consumable == OBJECT_TYPE::POTIONS)
 			{
-				App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);
+				App->audio->PlayFx(consumHealPotion, 0);
+				for (std::vector<Buff*>::iterator iter = (*item)->stats.begin(); iter != (*item)->stats.end(); ++iter)
+				{
+					App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);
 
+				}
+				item = consumables.erase(item);
+				break;
 			}
-			item = consumables.erase(item);
-			break;
+			if (consumable == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				//App->audio->PlayFx(consumHealPotion, 0);
+				if (App->pathfinding->IsWalkable({ (int)position.x + 10, (int)position.y + 10 }))
+				{
+					App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, position.x + 10, position.y + 10, SceneState::LOBBY, Blue);
+					item = consumables.erase(item);
+					break;
+				}
+				
+			}
 		}
 	}
 }
@@ -829,6 +847,11 @@ void PlayerEntityManager::SetHudAlphaValue()
 	float alphavalue = (255*((percentlife-100)  * 0.01));
 	alphavalue = sqrt(alphavalue * alphavalue);
 	App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
+}
+
+void PlayerEntityManager::SetPosition(fPoint pos)
+{
+	position = pos;
 }
 
 j1Entity * PlayerEntityManager::GetMarche()

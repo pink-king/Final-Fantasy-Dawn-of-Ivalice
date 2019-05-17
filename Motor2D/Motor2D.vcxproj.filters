@@ -230,6 +230,9 @@
     <ClCompile Include="NoWalkableTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="ExitPortal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -480,6 +483,9 @@
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
     <ClInclude Include="NoWalkableTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitPortal.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>

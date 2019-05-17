@@ -22,6 +22,7 @@
 #include "EnemyProjectile.h"
 #include "WinTrigger.h"
 #include "NoWalkableTrigger.h"
+#include "ExitPortal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include "j1PathFinding.h"
@@ -69,6 +70,7 @@ bool j1EntityFactory::Start()
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
+	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -269,6 +271,8 @@ bool j1EntityFactory::CleanUp()
 	marcheTornadoTex = nullptr;
 	App->tex->UnLoad(lootItemsTex); 
 	lootItemsTex = nullptr;
+	App->tex->UnLoad(portalTex);
+	portalTex = nullptr;
 
 	player = nullptr;
 
@@ -698,6 +702,10 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		break;
 	case TRIGGER_TYPE::NOWALKABLE:
 		ret = new NoWalkableTrigger(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::EXITPORTAL:
+		ret = new ExitPortal(posX, posY);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::NO_TRIGGER:

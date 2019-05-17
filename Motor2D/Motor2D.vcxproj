@@ -96,6 +96,7 @@
     <ClCompile Include="EnemyProjectile.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
+    <ClCompile Include="ExitPortal.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FireArrow.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="EnemyProjectile.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
+    <ClInclude Include="ExitPortal.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FireArrow.h" />
     <ClInclude Include="GUI_Definitions.h" />
