@@ -857,9 +857,12 @@ void PlayerEntityManager::SetHudAlphaValue()
 {
 	float percentlife = 100* App->entityFactory->player->life / maxLife;
 	
-	float alphavalue = (255*((percentlife-100)  * 0.01));
-	alphavalue = sqrt(alphavalue * alphavalue);
-	App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
+	if (percentlife <= 35)
+	{
+		float alphavalue = (255 * ((percentlife - 100) * 0.01));
+		alphavalue = sqrt(alphavalue * alphavalue);
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
+	}
 }
 
 j1Entity * PlayerEntityManager::GetMarche()

@@ -262,7 +262,25 @@ void PlayerEntity::CheckRenderFlip()
 	else
 		flip = SDL_FLIP_NONE;
 }
-
+//void PlayerEntity::AlphaPulsation(float alphavalue, bool isIncreasing)
+//{
+//	if (alphavalue >= 255) isIncreasing = false;
+//
+//	if (alphavalue < 255 && isIncreasing)
+//	{
+//		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
+//		alphavalue += 2;
+//	}
+//	else if (alphavalue > 0 && !isIncreasing)
+//	{
+//
+//		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
+//		alphavalue -= 1;
+//	}
+//
+//	else pulsation = false;
+//	
+//}
 void PlayerEntity::Draw()
 {
 	if (entityTex != nullptr)
@@ -274,33 +292,46 @@ void PlayerEntity::Draw()
 
 		if (App->entityFactory->pushEF)
 		{
-			
-			
-			//SDL_SetTextureColorMod(entityTex, 0, 0, 0);
-			/*SDL_BlendMode hola;
-			hola = SDL_BLENDMODE_BLEND;*/ 
-			//SDL_SetTextureBlen
-            //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
 			App->entityFactory->alphaTimer.Start();
 			blink = true;
-			
+			pulsation = true;
+			hudAlphavalue = 0;
 		}
+		if (pulsation)
+		{
+		   // bool isIncreasing = true;
+		//	AlphaPulsation(hudAlphavalue, isIncreasing);
+			if (App->entityFactory->alphaTimer.ReadSec() < 0.3f)
+			{
+				App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue);
+				hudAlphavalue += 13;
+				LOG("alphavalue inc %f", hudAlphavalue);
+			}
+			else if (App->entityFactory->alphaTimer.ReadSec() > 0.3f && App->entityFactory->alphaTimer.ReadSec() < 4.0f)
+			{
+				App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue);
+				hudAlphavalue -= 1.1;
+				LOG("alphavalue dec %f", hudAlphavalue);
+			}
+			else hudAlphavalue = 0, pulsation = false;
+		}
+
+		else App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 0);
+
 		if (blink)
 		{
-			if (App->entityFactory->alphaTimer.ReadSec() < 0.2f)
+
+			if (App->entityFactory->alphaTimer.ReadSec() < 0.25f)
 			{
 				App->render->SetTextureColor(entityTex, 255, 0, 0);
+				//	App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
+				
 			}
-			else
-			{
-				App->render->SetTextureColor(entityTex, 255, 255, 255);
-				blink = false;
-			}
+			else blink = false;
 		}
+
 		else App->render->SetTextureColor(entityTex, 255, 255, 255);
 
-		//else SDL_SetTextureColorMod(entityTex, 255, 255, 255), SDL_SetTextureAlphaMod(entityTex, 255);
-			
 	}
 }
 

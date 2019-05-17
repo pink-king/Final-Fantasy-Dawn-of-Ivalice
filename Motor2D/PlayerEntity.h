@@ -100,6 +100,8 @@ protected:
 	fPoint GetShotDirection();
 	void DoDash();
 
+	void AlphaPulsation(float alphavalue, bool isIncreasing);
+
 	float dashMaxDistance;
 	int previousFrame; // to swap position with displaced sprites
 	fPoint untouchedPos; // stores original position before the dodge animation
@@ -129,6 +131,7 @@ public:
 	
 
 	bool blink = false;
+	bool pulsation = false;
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/
@@ -138,7 +141,7 @@ private:
 
 	bool debug = true;
 	iPoint offset = { 0,0 }; // debug draw offset TODO: change name
-	
+	float hudAlphavalue = 0;
 };
 
 #endif
