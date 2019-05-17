@@ -4,6 +4,43 @@
 #include "j1Entity.h"
 #include "PlayerEntity.h"
 
+enum class Boss1State
+{
+	// phase2,3 and 4 increases patternCounter counter, decide what phase is the next "round" , 
+	// phase 2 and 3 are switched until boss life decreases to 50% or less, instead always the loop is phase 1 - phase 4
+	// boss loop:
+	// - 50% to 100% life:
+	//   - phase1 - phase2 - phase1 - phase 3
+	// - 50% to 0% life:
+	//   - phase1 - phase4
+	// extra notes:
+	// between 100% to 50% of life the evasion probability are fixed on X value
+	// between 50% to 0% the evasion probability increases between x to around 50% chance
+
+	NOTHING,
+	PHASE1, // normal basic fireball pattern state
+	PHASE2, // shield + poison rain
+	PHASE3, // shield + spawn enemies
+	PHASE4, // phase 2 + phase 3 (when the enemy life is 50% or less)
+	//
+	DEATH,
+	MAX
+};
+
+struct BossPhaseTimer
+{
+	j1Timer timer;
+	uint32 time;
+};
+
+struct BossPhaseTimers
+{
+	BossPhaseTimer phase1;
+	BossPhaseTimer phase2;
+	BossPhaseTimer phase3;
+	BossPhaseTimer phase4;
+};
+
 class FlowerBossEntity : public j1Entity
 {
 public:
@@ -21,14 +58,16 @@ public:
 private:
 	int GetPointingDir(float angle);
 
-	void LookToPlayer(float dt);
+	void LookToPlayer(Animation* desiredAnim);
 
 	float lerpAngle(float a1, float a2, float t);
 	void CheckRenderFlip();
 	void UpdatesCurrentAnimFrame();
+	void PhaseManager(float dt);
 	//void FollowPlayer(float dt);
 
 private:
+	Boss1State myState = Boss1State::NOTHING;
 	SDL_Texture* boss_spritesheet = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
@@ -39,6 +78,16 @@ private:
 	int pointingDir = 0;
 	float lastAngle;
 	float currentAngle;
+
+	//
+	float dodgeProbability = 0.f; // dodge probability only affects on phase1, and increases probability between 50% to 0% of life
+	int patternsCounter = 0; // decide what phase is the next
+
+	// needed timers ----
+	// phase timer switchers
+	BossPhaseTimers phase_control_timers;
+	BossPhaseTimer fireball_timer_data;
+	bool doingAttack = false;
 
 };
 

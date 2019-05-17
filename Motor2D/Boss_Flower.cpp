@@ -10,39 +10,47 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	// animations --------
 	float animSpeed = 10.f;
 	float animSpeedIdle = 5.f;
-
+	float animAttackSpeed = 10.f;
 	// idle
 	idleAnim[(int)facingDirection::S].PushBack({ 0,320,64,64 });
 	idleAnim[(int)facingDirection::S].PushBack({ 64,320,64,64 });
 	idleAnim[(int)facingDirection::S].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::S].loop = true;
 
 	idleAnim[(int)facingDirection::SW].PushBack({ 0,384,64,64 });
 	idleAnim[(int)facingDirection::SW].PushBack({ 64,384,64,64 });
 	idleAnim[(int)facingDirection::SW].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::SW].loop = true;
 
 	idleAnim[(int)facingDirection::SE].PushBack({ 0,384,64,64 }); // same as SW but flipped
 	idleAnim[(int)facingDirection::SE].PushBack({ 64,384,64,64 });
 	idleAnim[(int)facingDirection::SE].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::SE].loop = true;
 
 	idleAnim[(int)facingDirection::W].PushBack({ 0,448,64,64 });
 	idleAnim[(int)facingDirection::W].PushBack({ 64,448,64,64 });
 	idleAnim[(int)facingDirection::W].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::W].loop = true;
 
 	idleAnim[(int)facingDirection::E].PushBack({ 0,448,64,64 }); // same as W but flipped
 	idleAnim[(int)facingDirection::E].PushBack({ 64,448,64,64 });
 	idleAnim[(int)facingDirection::E].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::E].loop = true;
 
 	idleAnim[(int)facingDirection::NW].PushBack({ 0,512,64,64 });
 	idleAnim[(int)facingDirection::NW].PushBack({ 64,512,64,64 });
 	idleAnim[(int)facingDirection::NW].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::NW].loop = true;
 
 	idleAnim[(int)facingDirection::NE].PushBack({ 0,512,64,64 }); // same as NW but flipped
 	idleAnim[(int)facingDirection::NE].PushBack({ 64,512,64,64 });
 	idleAnim[(int)facingDirection::NE].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::NE].loop = true;
 
 	idleAnim[(int)facingDirection::N].PushBack({ 0,576,64,64 });
 	idleAnim[(int)facingDirection::N].PushBack({ 64,576,64,64 });
 	idleAnim[(int)facingDirection::N].speed = animSpeedIdle;
+	idleAnim[(int)facingDirection::N].loop = true;
 
 
 	// attack
@@ -50,41 +58,57 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	attackAnim[(int)facingDirection::S].PushBack({ 64,0,64,64 });
 	attackAnim[(int)facingDirection::S].PushBack({ 128,0,64,64 });
 	attackAnim[(int)facingDirection::S].PushBack({ 192,0,64,64 });
+	attackAnim[(int)facingDirection::S].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::S].loop = false;
 
 	attackAnim[(int)facingDirection::SW].PushBack({ 0,64,64,64 });
 	attackAnim[(int)facingDirection::SW].PushBack({ 64,64,64,64 });
 	attackAnim[(int)facingDirection::SW].PushBack({ 128,64,64,64 });
 	attackAnim[(int)facingDirection::SW].PushBack({ 192,64,64,64 });
+	attackAnim[(int)facingDirection::SW].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::SW].loop = false;
 
 	attackAnim[(int)facingDirection::SE].PushBack({ 0,64,64,64 }); // same as SW but flipped
 	attackAnim[(int)facingDirection::SE].PushBack({ 64,64,64,64 });
 	attackAnim[(int)facingDirection::SE].PushBack({ 128,64,64,64 });
 	attackAnim[(int)facingDirection::SE].PushBack({ 192,64,64,64 });
+	attackAnim[(int)facingDirection::SE].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::SE].loop = false;
 
 	attackAnim[(int)facingDirection::W].PushBack({ 0,128,64,64 });
 	attackAnim[(int)facingDirection::W].PushBack({ 64,128,64,64 });
 	attackAnim[(int)facingDirection::W].PushBack({ 128,128,64,64 });
 	attackAnim[(int)facingDirection::W].PushBack({ 192,128,64,64 });
+	attackAnim[(int)facingDirection::W].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::W].loop = false;
 
 	attackAnim[(int)facingDirection::E].PushBack({ 0,128,64,64 }); // same as W but flipped
 	attackAnim[(int)facingDirection::E].PushBack({ 64,128,64,64 });
 	attackAnim[(int)facingDirection::E].PushBack({ 128,128,64,64 });
 	attackAnim[(int)facingDirection::E].PushBack({ 192,128,64,64 });
+	attackAnim[(int)facingDirection::E].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::E].loop = false;
 
 	attackAnim[(int)facingDirection::NW].PushBack({ 0,192,64,64 });
 	attackAnim[(int)facingDirection::NW].PushBack({ 64,192,64,64 });
 	attackAnim[(int)facingDirection::NW].PushBack({ 128,192,64,64 });
 	attackAnim[(int)facingDirection::NW].PushBack({ 192,192,64,64 });
+	attackAnim[(int)facingDirection::NW].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::NW].loop = false;
 
 	attackAnim[(int)facingDirection::NE].PushBack({ 0,192,64,64 }); // same as NW but flipped
 	attackAnim[(int)facingDirection::NE].PushBack({ 64,192,64,64 });
 	attackAnim[(int)facingDirection::NE].PushBack({ 128,192,64,64 });
 	attackAnim[(int)facingDirection::NE].PushBack({ 192,192,64,64 });
+	attackAnim[(int)facingDirection::NE].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::NE].loop = false;
 
 	attackAnim[(int)facingDirection::N].PushBack({ 0,256,64,64 });
 	attackAnim[(int)facingDirection::N].PushBack({ 64,256,64,64 });
 	attackAnim[(int)facingDirection::N].PushBack({ 128,256,64,64 });
 	attackAnim[(int)facingDirection::N].PushBack({ 192,256,64,64 });
+	attackAnim[(int)facingDirection::N].speed = animAttackSpeed;
+	attackAnim[(int)facingDirection::N].loop = false;
 
 	// jump
 
@@ -97,13 +121,24 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::S].loop = false;
 
 
-
 	// define values ------
 	entityTex = boss_spritesheet;
 	currentAnimation = &idleAnim[(int)facingDirection::S];
 	SetPivot(32, 56);
 	size.create(64, 64);
 	this->position -= pivot;
+
+	// timers ----------------
+	// phases time
+	phase_control_timers.phase1.timer.Start(); // phase1 is the first, start timer here for now
+	phase_control_timers.phase1.time = 8000;
+	phase_control_timers.phase2.time = 15000;
+	phase_control_timers.phase3.time = 7500;
+	phase_control_timers.phase4.time = 10000;
+	// attack cadence
+	fireball_timer_data.time = 1600; // fireball cadence
+
+	myState = Boss1State::PHASE1;
 }
 
 FlowerBossEntity::~FlowerBossEntity() {}
@@ -120,18 +155,82 @@ bool FlowerBossEntity::PreUpdate()
 
 bool FlowerBossEntity::Update(float dt)
 {
-	LookToPlayer(dt);
-	CheckRenderFlip();
 
-
-	currentAnimation = &idleAnim[pointingDir];
-
-	/*if (currentAnimation->Finished())
-	{
-		currentAnimation = &idleAnim[pointingDir];
-	}*/
+	PhaseManager(dt);
 
 	return true;
+}
+
+void FlowerBossEntity::PhaseManager(float dt)
+{
+	
+	switch (myState)
+	{
+	case Boss1State::NOTHING:
+	{
+		LookToPlayer(idleAnim);
+		break;
+	}
+	case Boss1State::PHASE1: // normal basic fireball pattern state
+	{
+		static bool launchedBall = false;
+
+		// checks timer and attack
+		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack)
+		{
+			// changes phase
+			LOG("phase change");
+		}
+
+		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack)
+		{
+			// changes animation to attack one and set the flag attacking
+			doingAttack = true;
+			LookToPlayer(attackAnim);
+		}
+		else if(!doingAttack)
+		{
+			LookToPlayer(idleAnim);
+		}
+
+		// checks if the attack animation finishes and do logic
+		if (currentAnimation->GetCurrentFloatFrame() >= 2.f && !launchedBall)
+		{
+			LOG("attack");
+			launchedBall = true;
+
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
+			App->camera2D->AddTrauma(0.2f);
+		}
+
+		if (currentAnimation->Finished() && launchedBall)
+		{
+			for (int i = 0; i < 8; ++i)
+				attackAnim[i].Reset();
+			doingAttack = false;
+			launchedBall = false;
+			fireball_timer_data.timer.Start();
+		}
+		
+		break;
+	}
+	case Boss1State::PHASE2:
+		break;
+	case Boss1State::PHASE3:
+		break;
+	case Boss1State::PHASE4:
+		break;
+	case Boss1State::DEATH:
+		break;
+	case Boss1State::MAX:
+		break;
+	default:
+		break;
+	}
+
+	
+	CheckRenderFlip();
+
 }
 
 void FlowerBossEntity::UpdatesCurrentAnimFrame()
@@ -139,7 +238,7 @@ void FlowerBossEntity::UpdatesCurrentAnimFrame()
 
 }
 
-void FlowerBossEntity::LookToPlayer(float dt) // looks to player and updates current animation frame correctly
+void FlowerBossEntity::LookToPlayer(Animation* desiredAnim) // looks to player and updates current animation frame correctly
 {
 	fPoint dirVec = (App->entityFactory->player->GetPivotPos() - pivot) - position;
 	dirVec.Normalize();
@@ -161,24 +260,20 @@ void FlowerBossEntity::LookToPlayer(float dt) // looks to player and updates cur
 
 	lastAngle = angle;
 
-	// constant smoot speed
+	// constant smooth speed
 	/*const float RotationBlendFactor = 0.2f;
 	currentAngle = angle * RotationBlendFactor + currentAngle * (1.0f - RotationBlendFactor);*/
 
 	float lerpFactor = 2.6f;
 	// lerped speed
-	currentAngle = lerpAngle(currentAngle, angle, dt * lerpFactor);
+	currentAngle = lerpAngle(currentAngle, angle, App->GetDt() * lerpFactor);
 
 	// updates current animation
-	int previousPointingDir = pointingDir;
 	pointingDir = GetPointingDir(currentAngle);
 
-	if (previousPointingDir != pointingDir)
-	{
-		float prevFrame = currentAnimation->GetCurrentFloatFrame();
-		currentAnimation = &currentAnimation[pointingDir];
-		currentAnimation->SetCurrentFrame(prevFrame);
-	}
+	float prevFrame = currentAnimation->GetCurrentFloatFrame();
+	currentAnimation = &desiredAnim[pointingDir];
+	currentAnimation->SetCurrentFrame(prevFrame);
 
 	/*LOG("current angle: %f", currentAngle);
 	LOG("last angle: %f", lastAngle);
