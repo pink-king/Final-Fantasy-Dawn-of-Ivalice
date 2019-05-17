@@ -173,6 +173,12 @@ void UiItem_HealthBar::CleanUp()
 		dynamicImage->to_delete = true;
 	if(damageImage != nullptr)
 		damageImage->to_delete = true;*/
+
+	if (this->variantType == type::player)
+	{
+		if (damageImage != nullptr)
+			damageImage->to_delete = true;
+	}
 }
 
 
