@@ -710,6 +710,16 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						}
 					}
 				}
+				if (potion_counter == 0 && first_label_potion)
+				{
+					potionLabel->to_delete = true;
+					first_label_potion = false;
+				}
+				if (fenix_counter == 0 && first_label_fenix)
+				{
+					fenixLabel->to_delete = true;
+					first_label_fenix = false;
+				}
 			}
 
 			else
