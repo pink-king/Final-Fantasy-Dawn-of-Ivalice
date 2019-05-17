@@ -47,7 +47,6 @@ Enemy::~Enemy()
 		{
 			lifeBar->deliever = nullptr;
 			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-			lifeBar->damageImage->to_delete = true;
 			lifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");
