@@ -7,6 +7,7 @@ enum class TRIGGER_TYPE
 {
 	PORTAL,
 	LOBBYPORTAL,
+	WIN,
 	NO_TRIGGER
 };
 
@@ -22,7 +23,7 @@ public:
 	virtual bool DoTriggerAction();
 	void AssignInSubtiles(int numbreOfSubtile);
 public:
-	TRIGGER_TYPE type = TRIGGER_TYPE::NO_TRIGGER;
+	TRIGGER_TYPE triggerType = TRIGGER_TYPE::NO_TRIGGER;
 	SDL_Rect rect;
 
 protected:

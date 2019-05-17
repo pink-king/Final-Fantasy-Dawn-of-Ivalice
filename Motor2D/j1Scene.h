@@ -74,6 +74,7 @@ public:
 	bool debugColl = false;
 	bool hackerMode = true;
 	bool ComeToPortal = false;
+	bool ComeToDeath = false;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
@@ -117,8 +118,6 @@ private:
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
 	
 	PlayerEntityManager* player_selected = nullptr;
-
-	bool ComeToDeath = false;
 	
 
 public: 

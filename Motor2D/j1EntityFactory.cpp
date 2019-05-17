@@ -20,6 +20,7 @@
 #include "Portal.h"
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
+#include "WinTrigger.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include "j1PathFinding.h"
@@ -690,6 +691,10 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new LobbyPortal(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
+	case TRIGGER_TYPE::WIN:
+		ret = new WinTrigger(posX, posY,scene,color);
+		entities.push_back(ret);
+		break;
 	case TRIGGER_TYPE::NO_TRIGGER:
 		break;
 	default:
@@ -794,6 +799,51 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 	return ret;
 }
 
+j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
+{
+
+	j1Entity* ret = nullptr;
+
+	if (!isThisSubtileReserved(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGER)
+			{
+				ret = *entityIterator;
+				if (ret != nullptr)
+				{
+					App->entityFactory->DeleteEntityFromSubtile(ret);
+
+					return ret;
+				}
+			}
+		}
+	}
+	return nullptr;
+}
+
+bool j1EntityFactory::BoolisThisSubtileTriggerFree(const iPoint pos) const
+{
+
+	bool ret = false;
+
+	if (!isThisSubtileReserved(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGER && (*entityIterator)->to_delete == false)
+			{
+				ret = true;
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
 bool j1EntityFactory::isThisSubtilePlayerFree(const iPoint pos) const
 {
 	bool ret = true;
@@ -846,20 +896,13 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
-void j1EntityFactory::AssignEntityToAdjacentsSubtiles(j1Entity* entity, int num) const
+void j1EntityFactory::AssignEntityToSubtilePos(j1Entity * entity, iPoint subtile)
 {
-	iPoint pos = { entity->GetSubtilePos().x,entity->GetSubtilePos().y };
-	for (int i = -num; i >= 1; ++num)
-	{
-		for (int j = -num; j >= 1; ++num)
-		{
-			if (CheckSubtileMapBoundaries({pos.x + i, pos.y + j}))
-				entitiesDataMap[GetSubtileEntityIndexAt({ pos.x + i, pos.y + j})].entities.push_back(entity);
-			else
-				LOG("Trying to assign entity out of boundaries, ignoring");
-		}
-	}
-	
+	if (CheckSubtileMapBoundaries(subtile))
+		entitiesDataMap[GetSubtileEntityIndexAt(subtile)].entities.push_back(entity);
+
+	else
+		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
@@ -884,30 +927,6 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	return ret;
 }
 
-void j1EntityFactory::DeleteEntityToAdjacentsSubtiles(j1Entity* entity, int num) const
-{
-	iPoint pos = { entity->GetSubtilePos().x,entity->GetSubtilePos().y };
-	for (int i = -num; i >= 1; ++num)
-	{
-		for (int j = -num; j >= 1; ++num)
-		{
-			int index = GetSubtileEntityIndexAt(entity->GetPreviousSubtilePos());
-
-			std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
-
-			for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
-			{
-				if (*entityIterator == entity)
-				{
-					//LOG("found");
-					entitiesDataMap[index].entities.erase(entityIterator);
-					break;
-				}
-			}
-		}
-	}
-
-}
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
 {

@@ -82,6 +82,7 @@ bool j1Scene::Start()
 		{
 			App->LoadGame("Portal.xml");
 			App->entityFactory->player->GetMarche()->position = portalPos;
+			ComeToPortal = false;
 		}
 	}
 
@@ -882,9 +883,22 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
+
 		break;
 
 	case SceneState::LEVEL2:
+		state = SceneState::LEVEL1;
+		App->attackManager->Enable();
+		App->pathfinding->Enable();
+		App->camera2D->Enable();
+		App->buff->Enable();
+		App->map->active = true;
+		LoadNewMap("maps/Level2_Started.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		App->entityFactory->Enable();
+		// create player for testing purposes here
+		App->entityFactory->CreatePlayer({ 0, 0 });
 		break;
 
 	case SceneState::DEATH:

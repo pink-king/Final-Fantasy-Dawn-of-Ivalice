@@ -170,7 +170,7 @@
 			<position x="-916" y="1452" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1362.40894" y="2147.20483" />
+			<position x="-1196.05847" y="2064.00244" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
 			<position x="-1114" y="1852" />
@@ -185,13 +185,13 @@
 			<position x="-1198" y="1904" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1262.00952" y="2097.00488" />
+			<position x="-1131.31458" y="2027.80994" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1435.31604" y="2159.39795" />
+			<position x="-1256.02991" y="2094.01465" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1263.38" y="2097.69019" />
+			<position x="-1114.70081" y="1991.35059" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
 			<position x="-144" y="1186" />

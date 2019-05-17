@@ -224,6 +224,9 @@
     <ClCompile Include="Boss_Flower.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="WinTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="Boss_Flower.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="WinTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
