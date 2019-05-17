@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1BuffManager.h"
 
-WaveManager::WaveManager(const SDL_Rect & zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::ENEMY02, zone.x, zone.y, "WaveManager") 
+WaveManager::WaveManager(const SDL_Rect & zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager") 
 {
 }
 
@@ -44,10 +44,11 @@ bool WaveManager::Update(float dt)
 {
 	if (toCreateNextWave)  
 	{
-		if (timer.ReadSec() < CreateRandomBetween(4, 6)) // Some delay to give the player time to breathe before next wave
+		//if (timer.ReadSec() > CreateRandomBetween(4, 6)) // Some delay to give the player time to breathe before next wave
 		{
 			CreateNextWave(nextWaveData); 
 			toCreateNextWave = false; 
+			actualWave++;
 		}
 	}
 
@@ -70,6 +71,15 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	WaveData data; 
 	switch (waveNumber)
 	{
+	case 0:
+		data.enemiesNumber = 5;
+		data.types.push_back(EnemyType::TEST);
+
+		data.bombChances = 0;
+		data.golemChances = 0;
+		data.zombieChances = 10;
+		break;
+
 	case 1: 
 		data.enemiesNumber = 10;
 		data.types.push_back(EnemyType::TEST);

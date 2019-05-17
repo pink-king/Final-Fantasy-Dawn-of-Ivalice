@@ -25,6 +25,7 @@
 #include "ExitPortal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "WaveManager.h"
 #include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
@@ -175,7 +176,9 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT 
+					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER 
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -487,6 +490,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			Enemy* ret = nullptr;
 			int enemyLevel = CreateRandomBetween(0, 2);
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
+			
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
 			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(spawnPos.x, spawnPos.y)))
@@ -746,6 +750,20 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	}
 	
 	LOG("Failed to create player system");
+	return nullptr;
+}
+
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves)
+{
+	waveManager = DBG_NEW WaveManager(zone, 5); 
+
+	if (waveManager != nullptr)
+	{
+		entities.push_back(waveManager); 
+		return waveManager; 
+	}
+
+	LOG("Failed to create Wave Manager");
 	return nullptr;
 }
 

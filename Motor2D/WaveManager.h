@@ -45,10 +45,11 @@ public:
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) const override;
 
+	std::vector<Enemy*> alive; // Vector that stores the enemies of the wave
+
 private: 
 
 	uint CreateRandomBetween(uint min, uint max); 
-
 
 private: 
 
@@ -58,7 +59,6 @@ private:
 
 	j1Timer timer;  
 
-	std::vector<Enemy*> alive; // Vector that stores the enemies of the wave
 	
 	bool to_finish = false;
 	bool toCreateNextWave = false;

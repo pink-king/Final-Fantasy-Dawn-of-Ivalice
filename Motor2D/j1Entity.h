@@ -28,7 +28,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		PLAYER,
 		ENEMY_TEST,
 		ENEMY_BOMB,
-		ENEMY02,
+		WAVE_MANAGER,
 		FLOWERBOSS,
 		ENEMY_ARCHER,
 		//etc

@@ -5,6 +5,7 @@
 #include "j1PathFinding.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "WaveManager.h"
 #include <ctime>
 #include <random>
 
@@ -39,6 +40,17 @@ Enemy::~Enemy()
 	if (inWave)
 	{
 		// Delete myself from wave vect
+		std::vector<Enemy*>::iterator iter = App->entityFactory->waveManager->alive.begin(); 
+
+		for (iter; iter != App->entityFactory->waveManager->alive.end(); iter++)
+		{
+			if ((*iter) == this)
+			{
+				break; 
+			}
+		}
+		
+		App->entityFactory->waveManager->alive.erase(iter); 
 	}
 
 	memset(idle, 0, sizeof(idle));

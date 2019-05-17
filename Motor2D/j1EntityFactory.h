@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "Trigger.h"
 #include "PlayerEntityManager.h"
+#include "WaveManager.h"
 #include <vector>
 #include "Color.h"
 #include "j1Map.h"
@@ -13,6 +14,7 @@
 #include "EquipableLoot.h"
 
 #include "Projectile.h"
+
 struct GroupInfo {
 	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies)
 		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies) {}
@@ -64,6 +66,7 @@ public:
 
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
+	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves); 
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
@@ -137,6 +140,7 @@ public:
 	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
+	WaveManager*			waveManager = nullptr;
 
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;

@@ -434,6 +434,12 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateEnemy(EnemyType::ARCHER, { coords.x,coords.y });
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		SDL_Rect zone = { coords.x, coords.y, 30, 30 };
+		App->entityFactory->CreateWave(zone, 4);
+	}
+
 	if (hackerMode)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
