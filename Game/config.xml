@@ -31,11 +31,11 @@
       <images>
 
         <image name="loot_item_panel">
-          <section x="640" y="222" w="244" h="257"/>
+          <section x="1" y="64" w="225" h="239"/>
           <flag  value="loot" />
         </image>
         <image name="loot_item_panel_no_button">
-          <section x="922" y="222" w="238" h="243"/>
+          <section x="274" y="209" w="225" h="239"/>
           <flag  value="lootNoButton" />
         </image>
         <image name="life_bar">
@@ -69,6 +69,10 @@
         <image name="potion">
           <section x="580" y="105" w="26" h="32"/>
           <position x="1232" y="625"/>
+        </image>
+        <image name="phoenix_tail">
+          <section x="607" y="105" w="29" h="37"/>
+          <position x="1142" y="622"/>
         </image>
         <!--
         <image name="level_box">
