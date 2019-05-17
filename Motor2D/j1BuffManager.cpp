@@ -160,7 +160,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
-		lifeToSubstract  = 1;
+		lifeToSubstract = 14;
 	}
 	else
 		defender->life -= lifeToSubstract;

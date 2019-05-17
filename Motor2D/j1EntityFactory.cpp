@@ -320,7 +320,7 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			Enemy* ret = nullptr;
 
 			pugi::xml_node nodeSpeed = node2.child("position");
-			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() };
+			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() + 16 };
 
 			std::string retType = node2.attribute("type").as_string();
 			if (retType.compare("enemyBomb") == 0)

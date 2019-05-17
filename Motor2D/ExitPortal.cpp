@@ -46,7 +46,9 @@ bool ExitPortal::Update(float dt)
 	if (idle.Finished())
 		currentAnim = &close;
 	if (close.Finished())
+	{
 		to_delete = true;
+	}
 	return true;
 }
 
