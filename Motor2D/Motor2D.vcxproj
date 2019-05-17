@@ -122,6 +122,7 @@
     <ClCompile Include="MagicBolt.cpp" />
     <ClCompile Include="Marche.cpp" />
     <ClCompile Include="Medusa.cpp" />
+    <ClCompile Include="NoWalkableTrigger.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1Render.cpp" />
     <ClCompile Include="j1Textures.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="MagicBolt.h" />
     <ClInclude Include="Marche.h" />
     <ClInclude Include="Medusa.h" />
+    <ClInclude Include="NoWalkableTrigger.h" />
     <ClInclude Include="p2DynArray.h" />
     <ClInclude Include="j1Audio.h" />
     <ClInclude Include="j1Input.h" />

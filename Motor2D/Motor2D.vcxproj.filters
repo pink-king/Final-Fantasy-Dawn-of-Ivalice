@@ -227,6 +227,9 @@
     <ClCompile Include="WinTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="NoWalkableTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -474,6 +477,9 @@
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="WinTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="NoWalkableTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>
