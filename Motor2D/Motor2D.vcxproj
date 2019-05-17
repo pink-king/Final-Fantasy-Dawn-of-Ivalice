@@ -152,6 +152,7 @@
     <ClCompile Include="UiItem_Inventory.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
+    <ClCompile Include="WaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicArrow.h" />
@@ -235,6 +236,7 @@
     <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+    <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

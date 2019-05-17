@@ -221,6 +221,9 @@
     <ClCompile Include="EnemyProjectile.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="WaveManager.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="EnemyProjectile.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveManager.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

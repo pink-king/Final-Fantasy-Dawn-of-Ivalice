@@ -7,6 +7,7 @@
 #include "j1Scene.h"
 #include <ctime>
 #include <random>
+
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name) 
  	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
@@ -29,28 +30,33 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 Enemy::~Enemy()
 {
-// TODO: Loot spawn in all enemies? 
-App->attackManager->DestroyAllMyCurrentAttacks(this);
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
 
-App->tex->UnLoad(debugSubtile);
-debugSubtile = nullptr;
+	// This texture does not only belong to the enemies, and either way, it should not be deleted when one of them dies
+	/*App->tex->UnLoad(debugSubtile);
+	debugSubtile = nullptr;*/
 
-memset(idle, 0, sizeof(idle));
-memset(run, 0, sizeof(run));
-memset(basicAttack, 0, sizeof(basicAttack));
-
-
-if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
-{
-
-	if (lifeBar != nullptr)
+	if (inWave)
 	{
-		lifeBar->deliever = nullptr;
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->to_delete = true;
+		// Delete myself from wave vect
 	}
-}
-LOG("parent enemy bye");
+
+	memset(idle, 0, sizeof(idle));
+	memset(run, 0, sizeof(run));
+	memset(basicAttack, 0, sizeof(basicAttack));
+
+
+	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+	{
+
+		if (lifeBar != nullptr)
+		{
+			lifeBar->deliever = nullptr;
+			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->to_delete = true;
+		}
+	}
+	LOG("parent enemybye");
 }
 
 bool Enemy::SearchNewPath()
