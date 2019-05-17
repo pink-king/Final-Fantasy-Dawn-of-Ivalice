@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="29" nextobjectid="12">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="29" nextobjectid="396">
  <tileset firstgid="1" name="tileset_dungeon_lvl1_old" tilewidth="64" tileheight="64" tilecount="64" columns="8">
   <image source="tileset_dungeon_lvl1_old.png" width="512" height="512"/>
  </tileset>
@@ -36422,6 +36422,343 @@
    </layer>
    <objectgroup id="28" name="walls">
     <object id="3" x="2368" y="3392"/>
+    <object id="12" name="out2" x="3456" y="4064" width="32" height="32"/>
+    <object id="14" name="out2" x="3456" y="4032" width="32" height="32"/>
+    <object id="15" name="out2" x="3456" y="4000" width="32" height="32"/>
+    <object id="16" name="out2" x="3456" y="3968" width="32" height="32"/>
+    <object id="17" name="out2" x="3456" y="3936" width="32" height="32"/>
+    <object id="18" name="out2" x="3456" y="3904" width="32" height="32"/>
+    <object id="19" name="out2" x="3456" y="3872" width="32" height="32"/>
+    <object id="20" name="out2" x="3328" y="3808" width="32" height="32"/>
+    <object id="21" name="out2" x="3328" y="3776" width="32" height="32"/>
+    <object id="22" name="out2" x="3328" y="3744" width="32" height="32"/>
+    <object id="23" name="out2" x="3328" y="3712" width="32" height="32"/>
+    <object id="24" name="out2" x="3328" y="3680" width="32" height="32"/>
+    <object id="25" name="out2" x="3328" y="3648" width="32" height="32"/>
+    <object id="26" name="out2" x="3328" y="3616" width="32" height="32"/>
+    <object id="27" name="out2" x="3328" y="3584" width="32" height="32"/>
+    <object id="28" name="out2" x="3328" y="3552" width="32" height="32"/>
+    <object id="29" name="out2" x="3328" y="3520" width="32" height="32"/>
+    <object id="30" name="out2" x="3328" y="3488" width="32" height="32"/>
+    <object id="33" x="3456" y="3392"/>
+    <object id="34" name="out2" x="3424" y="3360" width="32" height="32"/>
+    <object id="36" name="out2" x="3456" y="3296" width="32" height="32"/>
+    <object id="37" name="out2" x="3456" y="3264" width="32" height="32"/>
+    <object id="38" name="out2" x="3456" y="3232" width="32" height="32"/>
+    <object id="39" name="out2" x="3456" y="3200" width="32" height="32"/>
+    <object id="40" name="out2" x="3456" y="3168" width="32" height="32"/>
+    <object id="41" name="out2" x="3456" y="3136" width="32" height="32"/>
+    <object id="42" name="out2" x="3456" y="3104" width="32" height="32"/>
+    <object id="43" x="3488" y="3104"/>
+    <object id="44" name="out2" x="3456" y="3072" width="32" height="32"/>
+    <object id="45" name="out2" x="3456" y="3040" width="32" height="32"/>
+    <object id="46" name="out2" x="3456" y="3008" width="32" height="32"/>
+    <object id="47" name="out2" x="3456" y="2976" width="32" height="32"/>
+    <object id="48" name="out2" x="3456" y="2944" width="32" height="32"/>
+    <object id="49" name="out2" x="3456" y="2912" width="32" height="32"/>
+    <object id="50" name="out2" x="3456" y="2880" width="32" height="32"/>
+    <object id="51" name="out2" x="3456" y="2848" width="32" height="32"/>
+    <object id="52" name="out2" x="3456" y="2816" width="32" height="32"/>
+    <object id="53" name="out2" x="3456" y="2784" width="32" height="32"/>
+    <object id="54" name="out2" x="3456" y="2752" width="32" height="32"/>
+    <object id="55" name="out2" x="3456" y="2720" width="32" height="32"/>
+    <object id="56" name="out2" x="3328" y="3456" width="32" height="32"/>
+    <object id="57" name="out2" x="3360" y="3424" width="32" height="32"/>
+    <object id="58" name="out2" x="3392" y="3392" width="32" height="32"/>
+    <object id="59" name="out2" x="3424" y="3328" width="32" height="32"/>
+    <object id="60" name="out2" x="3456" y="3840" width="32" height="32"/>
+    <object id="61" name="out2" x="3872" y="2656" width="32" height="32"/>
+    <object id="62" name="out2" x="3872" y="2624" width="32" height="32"/>
+    <object id="63" name="out2" x="3872" y="2592" width="32" height="32"/>
+    <object id="64" name="out2" x="3872" y="2560" width="32" height="32"/>
+    <object id="65" name="out2" x="3872" y="2528" width="32" height="32"/>
+    <object id="66" name="out2" x="3872" y="2496" width="32" height="32"/>
+    <object id="67" name="out2" x="3872" y="2464" width="32" height="32"/>
+    <object id="68" name="out2" x="3872" y="2432" width="32" height="32"/>
+    <object id="69" name="out2" x="3872" y="2400" width="32" height="32"/>
+    <object id="70" name="out2" x="3872" y="2368" width="32" height="32"/>
+    <object id="71" name="out2" x="3872" y="2336" width="32" height="32"/>
+    <object id="72" name="out2" x="3872" y="2304" width="32" height="32"/>
+    <object id="73" name="out2" x="3872" y="2272" width="32" height="32"/>
+    <object id="74" name="out2" x="3872" y="2240" width="32" height="32"/>
+    <object id="75" name="out2" x="3872" y="2208" width="32" height="32"/>
+    <object id="78" name="out2" x="3840" y="2176" width="32" height="32"/>
+    <object id="79" name="out2" x="3808" y="2144" width="32" height="32"/>
+    <object id="80" name="out2" x="3776" y="2112" width="32" height="32"/>
+    <object id="81" name="out2" x="3744" y="2080" width="32" height="32"/>
+    <object id="82" name="out2" x="3712" y="2048" width="32" height="32"/>
+    <object id="83" name="out2" x="3680" y="2016" width="32" height="32"/>
+    <object id="84" name="out2" x="3648" y="1984" width="32" height="32"/>
+    <object id="85" name="out2" x="3616" y="1952" width="32" height="32"/>
+    <object id="86" name="out2" x="3584" y="1920" width="32" height="32"/>
+    <object id="87" name="out2" x="3552" y="1888" width="32" height="32"/>
+    <object id="89" name="out2" x="3552" y="1856" width="32" height="32"/>
+    <object id="90" name="out2" x="3552" y="1824" width="32" height="32"/>
+    <object id="91" name="out2" x="3456" y="1792" width="32" height="32"/>
+    <object id="92" name="out2" x="3456" y="1760" width="32" height="32"/>
+    <object id="93" name="out2" x="3456" y="1728" width="32" height="32"/>
+    <object id="94" name="out2" x="3456" y="1696" width="32" height="32"/>
+    <object id="95" name="out2" x="3456" y="1664" width="32" height="32"/>
+    <object id="96" name="out2" x="3456" y="1632" width="32" height="32"/>
+    <object id="97" name="out2" x="3456" y="1600" width="32" height="32"/>
+    <object id="98" name="out2" x="3456" y="1568" width="32" height="32"/>
+    <object id="99" name="out2" x="3456" y="1536" width="32" height="32"/>
+    <object id="100" name="out2" x="3456" y="1504" width="32" height="32"/>
+    <object id="101" name="out2" x="3456" y="1472" width="32" height="32"/>
+    <object id="102" name="out2" x="3648" y="1408" width="32" height="32"/>
+    <object id="105" name="out2" x="3648" y="1376" width="32" height="32"/>
+    <object id="106" name="out2" x="3648" y="1344" width="32" height="32"/>
+    <object id="107" name="out2" x="3648" y="1312" width="32" height="32"/>
+    <object id="108" name="out2" x="3648" y="1280" width="32" height="32"/>
+    <object id="109" name="out2" x="3648" y="1248" width="32" height="32"/>
+    <object id="110" name="out2" x="3648" y="1216" width="32" height="32"/>
+    <object id="111" name="out2" x="3648" y="1184" width="32" height="32"/>
+    <object id="112" name="out2" x="3648" y="1152" width="32" height="32"/>
+    <object id="113" name="out2" x="3648" y="1120" width="32" height="32"/>
+    <object id="114" name="out2" x="3648" y="1088" width="32" height="32"/>
+    <object id="115" name="out2 " x="3648" y="1056" width="32" height="32"/>
+    <object id="116" name="out2" x="3648" y="1024" width="32" height="32"/>
+    <object id="117" name="out2" x="3648" y="992" width="32" height="32"/>
+    <object id="118" name="out2" x="3648" y="960" width="32" height="32"/>
+    <object id="120" name="out2" x="3040" y="928" width="32" height="32"/>
+    <object id="121" name="out2" x="3040" y="896" width="32" height="32"/>
+    <object id="122" x="3066.5" y="877.5"/>
+    <object id="125" name="out2" x="3040" y="864" width="32" height="32"/>
+    <object id="126" name="out2" x="3040" y="832" width="32" height="32"/>
+    <object id="127" name="out2" x="3040" y="800" width="32" height="32"/>
+    <object id="128" name="out2" x="3040" y="768" width="32" height="32"/>
+    <object id="129" name="out2" x="3040" y="736" width="32" height="32"/>
+    <object id="130" name="out2" x="3040" y="704" width="32" height="32"/>
+    <object id="131" name="out2" x="3040" y="672" width="32" height="32"/>
+    <object id="132" name="out2" x="3040" y="640" width="32" height="32"/>
+    <object id="133" name="out2" x="3040" y="608" width="32" height="32"/>
+    <object id="134" name="out2" x="3040" y="576" width="32" height="32"/>
+    <object id="135" name="out2" x="3040" y="544" width="32" height="32"/>
+    <object id="136" name="out2 " x="3040" y="512" width="32" height="32"/>
+    <object id="137" name="out2" x="3040" y="480" width="32" height="32"/>
+    <object id="138" name="out2" x="3040" y="448" width="32" height="32"/>
+    <object id="139" name="out2" x="3040" y="416" width="32" height="32"/>
+    <object id="140" name="out2" x="3040" y="384" width="32" height="32"/>
+    <object id="141" name="out2" x="3040" y="352" width="32" height="32"/>
+    <object id="142" name="out2 " x="3040" y="320" width="32" height="32"/>
+    <object id="143" name="out2" x="3040" y="288" width="32" height="32"/>
+    <object id="144" name="out2" x="3040" y="256" width="32" height="32"/>
+    <object id="145" name="out2" x="3040" y="224" width="32" height="32"/>
+    <object id="146" name="out2" x="3040" y="192" width="32" height="32"/>
+    <object id="147" name="out2" x="3040" y="160" width="32" height="32"/>
+    <object id="148" name="out2" x="2976" y="3776" width="32" height="32"/>
+    <object id="149" name="out2 " x="2976" y="3744" width="32" height="32"/>
+    <object id="154" name="out2" x="1120" y="800" width="32" height="32"/>
+    <object id="155" name="out2" x="1088" y="768" width="32" height="32"/>
+    <object id="156" name="out2" x="1152" y="832" width="32" height="32"/>
+    <object id="157" name="out2" x="1152" y="864" width="32" height="32"/>
+    <object id="158" name="out2" x="1152" y="896" width="32" height="32"/>
+    <object id="159" name="out2" x="1152" y="928" width="32" height="32"/>
+    <object id="160" name="out2 " x="1152" y="960" width="32" height="32"/>
+    <object id="161" name="out2" x="1152" y="992" width="32" height="32"/>
+    <object id="162" name="out2" x="1152" y="1024" width="32" height="32"/>
+    <object id="163" name="out2" x="1152" y="1056" width="32" height="32"/>
+    <object id="164" name="out2" x="1152" y="1088" width="32" height="32"/>
+    <object id="165" name="out2" x="1152" y="1120" width="32" height="32"/>
+    <object id="166" name="out2 " x="1152" y="1152" width="32" height="32"/>
+    <object id="167" name="out2" x="1152" y="1184" width="32" height="32"/>
+    <object id="168" name="out2" x="1152" y="1216" width="32" height="32"/>
+    <object id="169" name="out2 " x="1152" y="1248" width="32" height="32"/>
+    <object id="170" name="out2" x="1120" y="1280" width="32" height="32"/>
+    <object id="171" name="out2" x="1088" y="1312" width="32" height="32"/>
+    <object id="172" name="out2 " x="1056" y="1344" width="32" height="32"/>
+    <object id="173" name="out2" x="1024" y="1376" width="32" height="32"/>
+    <object id="174" name="out2" x="992" y="1408" width="32" height="32"/>
+    <object id="175" name="out2 " x="960" y="1440" width="32" height="32"/>
+    <object id="176" name="out2" x="736" y="1504" width="32" height="32"/>
+    <object id="185" name="out2" x="1216" y="2144" width="32" height="32"/>
+    <object id="186" name="out2" x="1184" y="2112" width="32" height="32"/>
+    <object id="187" name="out2" x="1152" y="2080" width="32" height="32"/>
+    <object id="188" name="out2" x="1120" y="2048" width="32" height="32"/>
+    <object id="189" name="out2" x="1088" y="2016" width="32" height="32"/>
+    <object id="190" name="out2" x="1056" y="1984" width="32" height="32"/>
+    <object id="191" name="out2" x="1024" y="1952" width="32" height="32"/>
+    <object id="192" name="out2" x="992" y="1920" width="32" height="32"/>
+    <object id="193" name="out2" x="960" y="1888" width="32" height="32"/>
+    <object id="194" name="out2 " x="928" y="1856" width="32" height="32"/>
+    <object id="195" name="out2 " x="896" y="1824" width="32" height="32"/>
+    <object id="196" name="out2" x="864" y="1792" width="32" height="32"/>
+    <object id="197" name="out2" x="832" y="1760" width="32" height="32"/>
+    <object id="198" name="out2" x="800" y="1728" width="32" height="32"/>
+    <object id="199" name="out2" x="768" y="1696" width="32" height="32"/>
+    <object id="200" name="out2" x="736" y="1664" width="32" height="32"/>
+    <object id="201" name="out2" x="736" y="1632" width="32" height="32"/>
+    <object id="202" name="out2" x="736" y="1600" width="32" height="32"/>
+    <object id="203" name="out2" x="736" y="1568" width="32" height="32"/>
+    <object id="204" name="out2" x="736" y="1536" width="32" height="32"/>
+    <object id="205" name="out2" x="1216" y="2176" width="32" height="32"/>
+    <object id="206" name="out2 " x="1216" y="2208" width="32" height="32"/>
+    <object id="207" name="out2" x="1216" y="2240" width="32" height="32"/>
+    <object id="208" name="out2" x="1216" y="2272" width="32" height="32"/>
+    <object id="209" name="out2" x="1216" y="2304" width="32" height="32"/>
+    <object id="210" name="out2" x="1216" y="2336" width="32" height="32"/>
+    <object id="211" x="1216" y="2368"/>
+    <object id="212" name="out2" x="1216" y="2368" width="32" height="32"/>
+    <object id="213" name="out2" x="1216" y="2400" width="32" height="32"/>
+    <object id="214" name="out2 " x="1216" y="2432" width="32" height="32"/>
+    <object id="215" name="out2" x="1216" y="2464" width="32" height="32"/>
+    <object id="216" name="out2 " x="1216" y="2496" width="32" height="32"/>
+    <object id="217" name="out2" x="1216" y="2528" width="32" height="32"/>
+    <object id="218" name="out2" x="1216" y="2560" width="32" height="32"/>
+    <object id="224" name="out2" x="1216" y="2592" width="32" height="32"/>
+    <object id="225" name="out2" x="1216" y="2624" width="32" height="32"/>
+    <object id="226" name="out2" x="1216" y="2656" width="32" height="32"/>
+    <object id="227" name="out2" x="1216" y="2688" width="32" height="32"/>
+    <object id="228" name="out2" x="1216" y="2720" width="32" height="32"/>
+    <object id="229" name="out2" x="1216" y="2752" width="32" height="32"/>
+    <object id="230" name="out2" x="1216" y="2784" width="32" height="32"/>
+    <object id="231" name="out2 " x="1216" y="2816" width="32" height="32"/>
+    <object id="232" name="out2" x="1216" y="2848" width="32" height="32"/>
+    <object id="233" name="out2" x="1216" y="2880" width="32" height="32"/>
+    <object id="234" name="out2" x="1216" y="2912" width="32" height="32"/>
+    <object id="235" name="out2" x="1216" y="2944" width="32" height="32"/>
+    <object id="236" name="out2" x="1216" y="2976" width="32" height="32"/>
+    <object id="237" name="out2" x="1792" y="3008" width="32" height="32"/>
+    <object id="238" name="out2" x="1792" y="3040" width="32" height="32"/>
+    <object id="240" name="out2 " x="1792" y="3072" width="32" height="32"/>
+    <object id="241" name="out2" x="1792" y="3104" width="32" height="32"/>
+    <object id="242" name="out2" x="1792" y="3136" width="32" height="32"/>
+    <object id="243" name="out2" x="1792" y="3168" width="32" height="32"/>
+    <object id="244" name="out2" x="1792" y="3200" width="32" height="32"/>
+    <object id="245" name="out2" x="1792" y="3232" width="32" height="32"/>
+    <object id="246" name="out2" x="1792" y="3264" width="32" height="32"/>
+    <object id="247" name="out2" x="1792" y="3296" width="32" height="32"/>
+    <object id="248" name="out2" x="1792" y="3328" width="32" height="32"/>
+    <object id="249" name="out2" x="1792" y="3360" width="32" height="32"/>
+    <object id="250" name="out2 " x="1792" y="3392" width="32" height="32"/>
+    <object id="251" name="out2" x="1792" y="3424" width="32" height="32"/>
+    <object id="252" name="out2" x="1792" y="3456" width="32" height="32"/>
+    <object id="253" x="1824" y="3520"/>
+    <object id="254" name="out2" x="1792" y="3488" width="32" height="32"/>
+    <object id="255" name="out2" x="1792" y="3520" width="32" height="32"/>
+    <object id="256" name="out2" x="1792" y="3552" width="32" height="32"/>
+    <object id="257" name="out2" x="1792" y="3584" width="32" height="32"/>
+    <object id="258" name="out2 " x="1792" y="3616" width="32" height="32"/>
+    <object id="259" name="out2" x="1792" y="3648" width="32" height="32"/>
+    <object id="260" name="out2" x="1792" y="3680" width="32" height="32"/>
+    <object id="261" x="1805" y="3731"/>
+    <object id="262" x="1824" y="3744"/>
+    <object id="263" name="out2" x="1792" y="3712" width="32" height="32"/>
+    <object id="264" name="out2" x="1792" y="3744" width="32" height="32"/>
+    <object id="265" name="out2" x="1792" y="3776" width="32" height="32"/>
+    <object id="266" name="out2" x="1792" y="3808" width="32" height="32"/>
+    <object id="267" name="out2" x="1792" y="3840" width="32" height="32"/>
+    <object id="268" name="out2" x="1792" y="3872" width="32" height="32"/>
+    <object id="269" name="out2" x="1792" y="3904" width="32" height="32"/>
+    <object id="270" name="out2" x="1792" y="3936" width="32" height="32"/>
+    <object id="271" name="out2" x="1792" y="3968" width="32" height="32"/>
+    <object id="272" name="out2" x="3040" y="1472" width="32" height="32"/>
+    <object id="273" x="3072" y="1536"/>
+    <object id="274" name="out2" x="3040" y="1504" width="32" height="32"/>
+    <object id="275" name="out2" x="3040" y="1536" width="32" height="32"/>
+    <object id="276" name="out2" x="3040" y="1568" width="32" height="32"/>
+    <object id="278" name="out2" x="3040" y="1600" width="32" height="32"/>
+    <object id="279" name="out2 " x="3040" y="1632" width="32" height="32"/>
+    <object id="282" name="out2out2" x="3040" y="1792" width="32" height="32"/>
+    <object id="283" name="out2out2" x="2976" y="1728" width="32" height="32"/>
+    <object id="286" name="out2" x="2816" y="2464" width="32" height="32"/>
+    <object id="287" name="out2" x="2816" y="2432" width="32" height="32"/>
+    <object id="288" name="out2" x="2816" y="2400" width="32" height="32"/>
+    <object id="289" name="out2" x="2816" y="2368" width="32" height="32"/>
+    <object id="290" name="out2" x="2816" y="2336" width="32" height="32"/>
+    <object id="291" x="2827" y="2313"/>
+    <object id="292" name="out2" x="2816" y="2304" width="32" height="32"/>
+    <object id="293" name="out2" x="2816" y="2272" width="32" height="32"/>
+    <object id="294" name="out2 " x="2816" y="2240" width="32" height="32"/>
+    <object id="295" name="out2" x="2816" y="2208" width="32" height="32"/>
+    <object id="296" name="out2" x="2816" y="2176" width="32" height="32"/>
+    <object id="297" name="out2" x="2816" y="2144" width="32" height="32"/>
+    <object id="298" name="out2" x="2816" y="2112" width="32" height="32"/>
+    <object id="299" name="out2" x="2816" y="2080" width="32" height="32"/>
+    <object id="300" name="out2" x="2816" y="2048" width="32" height="32"/>
+    <object id="301" name="out2" x="2816" y="2016" width="32" height="32"/>
+    <object id="302" name="out2" x="2816" y="1984" width="32" height="32"/>
+    <object id="303" name="out2" x="2816" y="1952" width="32" height="32"/>
+    <object id="304" name="out2" x="2816" y="1920" width="32" height="32"/>
+    <object id="305" name="out2" x="2816" y="1888" width="32" height="32"/>
+    <object id="306" name="out2" x="2816" y="1856" width="32" height="32"/>
+    <object id="314" name="out2" x="2944" y="2688" width="32" height="32"/>
+    <object id="315" name="out2" x="2944" y="2720" width="32" height="32"/>
+    <object id="316" name="out2" x="2944" y="2752" width="32" height="32"/>
+    <object id="317" name="out2" x="2944" y="2784" width="32" height="32"/>
+    <object id="318" name="out2" x="2848" y="3200" width="32" height="32"/>
+    <object id="319" name="out2" x="2848" y="3232" width="32" height="32"/>
+    <object id="320" name="out2" x="2848" y="3264" width="32" height="32"/>
+    <object id="321" name="out2" x="2848" y="3296" width="32" height="32"/>
+    <object id="322" name="out2" x="2848" y="3328" width="32" height="32"/>
+    <object id="323" name="out2" x="2848" y="3360" width="32" height="32"/>
+    <object id="324" name="out2" x="2848" y="3392" width="32" height="32"/>
+    <object id="325" name="out2" x="2944" y="2944" width="32" height="32"/>
+    <object id="326" x="2944" y="2976"/>
+    <object id="327" name="out2" x="2944" y="2976" width="32" height="32"/>
+    <object id="328" name="out2" x="2944" y="3008" width="32" height="32"/>
+    <object id="329" name="out2" x="2944" y="3040" width="32" height="32"/>
+    <object id="330" name="out2" x="2944" y="3072" width="32" height="32"/>
+    <object id="332" name="out2" x="2944" y="3104" width="32" height="32"/>
+    <object id="333" name="out2" x="2944" y="3136" width="32" height="32"/>
+    <object id="334" name="out2" x="2176" y="2240" width="32" height="32"/>
+    <object id="335" name="out2" x="2176" y="2272" width="32" height="32"/>
+    <object id="336" name="out2" x="2176" y="2304" width="32" height="32"/>
+    <object id="337" name="out2" x="2176" y="2336" width="32" height="32"/>
+    <object id="338" name="out2" x="2176" y="2368" width="32" height="32"/>
+    <object id="339" name="out2 " x="2176" y="2400" width="32" height="32"/>
+    <object id="340" name="out2" x="2464" y="2464" width="32" height="32"/>
+    <object id="341" name="out2" x="2464" y="2624" width="32" height="32"/>
+    <object id="342" name="out2 " x="2464" y="2656" width="32" height="32"/>
+    <object id="343" name="out2" x="2464" y="2688" width="32" height="32"/>
+    <object id="344" name="out2 " x="2464" y="2720" width="32" height="32"/>
+    <object id="345" name="out2" x="2464" y="2752" width="32" height="32"/>
+    <object id="346" name="out2" x="2464" y="2784" width="32" height="32"/>
+    <object id="347" name="out2" x="2464" y="2816" width="32" height="32"/>
+    <object id="348" name="out2" x="2464" y="2848" width="32" height="32"/>
+    <object id="349" name="out2" x="2464" y="2880" width="32" height="32"/>
+    <object id="350" name="out2" x="2464" y="2912" width="32" height="32"/>
+    <object id="351" name="out2" x="2464" y="2944" width="32" height="32"/>
+    <object id="352" name="out2" x="2464" y="2976" width="32" height="32"/>
+    <object id="353" name="out2" x="2464" y="3008" width="32" height="32"/>
+    <object id="354" name="out2" x="2464" y="3040" width="32" height="32"/>
+    <object id="355" name="out2" x="2464" y="3072" width="32" height="32"/>
+    <object id="356" name="out2" x="2464" y="3104" width="32" height="32"/>
+    <object id="357" name="out2 " x="2464" y="3136" width="32" height="32"/>
+    <object id="359" name="out2" x="2464" y="3168" width="32" height="32"/>
+    <object id="360" name="out2" x="2464" y="3200" width="32" height="32"/>
+    <object id="361" name="out2 " x="2464" y="3232" width="32" height="32"/>
+    <object id="362" name="out2" x="2464" y="3264" width="32" height="32"/>
+    <object id="363" name="out2 " x="2496" y="3328" width="32" height="32"/>
+    <object id="364" name="out2" x="2528" y="3360" width="32" height="32"/>
+    <object id="365" name="out2" x="2560" y="3392" width="32" height="32"/>
+    <object id="366" name="out2" x="2592" y="3424" width="32" height="32"/>
+    <object id="367" name="out2" x="1632" y="416" width="32" height="32"/>
+    <object id="368" name="out2" x="1632" y="448" width="32" height="32"/>
+    <object id="369" name="out2" x="1632" y="480" width="32" height="32"/>
+    <object id="370" name="out2" x="1632" y="512" width="32" height="32"/>
+    <object id="371" name="out2" x="1632" y="544" width="32" height="32"/>
+    <object id="372" x="1664" y="608"/>
+    <object id="373" name="out2 " x="1632" y="576" width="32" height="32"/>
+    <object id="374" name="out2" x="2240" y="416" width="32" height="32"/>
+    <object id="375" name="out2" x="2240" y="448" width="32" height="32"/>
+    <object id="376" name="out2" x="2240" y="480" width="32" height="32"/>
+    <object id="377" name="out2" x="2240" y="512" width="32" height="32"/>
+    <object id="378" name="out2" x="2240" y="544" width="32" height="32"/>
+    <object id="379" name="out2 " x="2240" y="576" width="32" height="32"/>
+    <object id="380" name="out2 " x="2272" y="800" width="32" height="32"/>
+    <object id="381" name="out2" x="2240" y="832" width="32" height="32"/>
+    <object id="382" name="out2 " x="2208" y="864" width="32" height="32"/>
+    <object id="383" name="out2" x="2176" y="896" width="32" height="32"/>
+    <object id="384" name="out2 " x="2144" y="928" width="32" height="32"/>
+    <object id="385" name="out2" x="2112" y="928" width="32" height="32"/>
+    <object id="388" name="out2" x="2112" y="960" width="32" height="32"/>
+    <object id="389" name="out2" x="1920" y="1024" width="32" height="32"/>
+    <object id="390" name="out2" x="1952" y="1056" width="32" height="32"/>
+    <object id="391" name="out2" x="1984" y="1088" width="32" height="32"/>
+    <object id="392" name="out2" x="2016" y="1120" width="32" height="32"/>
+    <object id="393" name="out2" x="2048" y="1152" width="32" height="32"/>
+    <object id="394" name="out2" x="2080" y="1184" width="32" height="32"/>
    </objectgroup>
   </group>
  </group>
@@ -50150,7 +50487,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="29"/>
    <tile gid="29"/>
    <tile/>
    <tile/>
