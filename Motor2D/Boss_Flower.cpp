@@ -151,6 +151,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	// attack cadence
 	fireball_timer_data.time = 1600; // fireball cadence
 	spawnEnemies_timer_data.time = 2000;
+	shieldFire_timer_data.time = 800;
 
 	myState = Boss1State::PHASE1;
 }
@@ -274,15 +275,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 			fireball_timer_data.timer.Start();
 
 			// erase shield walkability
-			DesactiveShield();
+			//DesactiveShield();
 
 			break;
 		}
 
-		// instantiate shield
-		if (!shieldActive)
-			ActiveShield();
-
+		DoShieldLogic();
 		Phase2Logic();
 
 		LookToPlayer(idleAnim);
@@ -299,15 +297,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 			fireball_timer_data.timer.Start();
 
 			// erase shield walkability
-			DesactiveShield();
+			//DesactiveShield();
 
 			break;
 		}
 
-		// instantiate shield
-		if (!shieldActive)
-			ActiveShield();
-
+		DoShieldLogic();
 		Phase3Logic();
 
 		LookToPlayer(idleAnim);
@@ -324,15 +319,13 @@ void FlowerBossEntity::PhaseManager(float dt)
 			fireball_timer_data.timer.Start();
 
 			// erase shield walkability
-			DesactiveShield();
+			//DesactiveShield();
 
 			break;
 		}
 
-		// instantiate shield
-		if (!shieldActive)
-			ActiveShield();
-
+		
+		DoShieldLogic();
 		Phase2Logic();
 		Phase3Logic();
 
@@ -351,6 +344,39 @@ void FlowerBossEntity::PhaseManager(float dt)
 	
 	CheckRenderFlip();
 
+}
+
+void FlowerBossEntity::ShieldLogic()
+{
+	// instantiate shield
+	/*if (!shieldActive)
+		ActiveShield();
+	else*/
+		//DoShieldLogic();
+}
+
+void FlowerBossEntity::DoShieldLogic()
+{
+	if (shieldFire_timer_data.timer.Read() >= shieldFire_timer_data.time)
+	{
+		/*App->attackManager->AddPropagationAttack(this, GetPreviousSubtilePos(), propagationType::BFS,
+			damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 45, 10, 100, true);*/
+
+		App->attackManager->AddPropagationAttack(
+			this, // from entity
+			{ GetSubtilePos().x,GetSubtilePos().y }, // impact position, (on subtilemap units)
+			propagationType::BFS, // propagation expansion type
+			damageType::DIRECT,	// damage type: direct/in time
+			ELEMENTAL_TYPE::FIRE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
+			100, // base attack damage
+			7, // radius (on subtile units)
+			60, // propagation speed, in ms (time between steps)
+			true); // if this attack instantate particles of the elemental type while propagation
+
+		App->camera2D->AddTrauma(0.2f);
+
+		shieldFire_timer_data.timer.Start();
+	}
 }
 
 void FlowerBossEntity::Phase2Logic() // spawn poison rain

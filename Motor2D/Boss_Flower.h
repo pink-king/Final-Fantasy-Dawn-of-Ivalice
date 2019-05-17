@@ -71,6 +71,8 @@ private:
 	void DesactiveShield();
 	void Phase2Logic(); // independent logic, phase 4 call this two
 	void Phase3Logic();
+	void DoShieldLogic();
+	void ShieldLogic();
 
 private:
 	Boss1State myState = Boss1State::NOTHING;
@@ -98,6 +100,7 @@ private:
 	BossPhaseTimer fireball_timer_data;
 	bool doingAttack = false;
 	BossPhaseTimer spawnEnemies_timer_data;
+	BossPhaseTimer shieldFire_timer_data;
 
 };
 
