@@ -62,9 +62,9 @@ void Portal::Draw()
 bool Portal::DoTriggerAction()
 {
 	
+	App->scene->portalPos = { position.x,position.y + 16};
 	if (doit)
 	{
-		App->scene->portalPos = App->entityFactory->player->position;
 		App->entityFactory->player->to_delete = true;
 		App->SaveGame("Portal.xml");
 		App->scene->ComeToPortal = true;

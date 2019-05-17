@@ -82,7 +82,10 @@ bool j1Scene::Start()
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
-			App->entityFactory->player->selectedCharacterEntity->position = portalPos;
+			App->entityFactory->player->GetMarche()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
+
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}

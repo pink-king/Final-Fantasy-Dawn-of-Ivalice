@@ -303,9 +303,6 @@ bool PlayerEntityManager::CleanUp()
 	}
 	consumables.clear();
 
-	delete crossHair;
-	crossHair = nullptr;
-
 	App->tex->UnLoad(debugTileTex);
 	debugTileTex = nullptr;
 	App->tex->UnLoad(debugSubtileTex);
@@ -627,9 +624,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	{
 		App->audio->PlayFx(pickLoot, 0);
 		// when a loot item is collected, the description should be hiden
-		
-
-		
+			
 		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
 
 		if (entityLoot->spawnedDescription)                 // only destroy description if it has been spawned( when collecting with the crosshair)
@@ -830,7 +825,7 @@ void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * en
 				//App->audio->PlayFx(consumHealPotion, 0);
 				if (App->pathfinding->IsWalkable({ (int)position.x + 10, (int)position.y + 10 }))
 				{
-					App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, position.x + 10, position.y + 10, SceneState::LOBBY, Blue);
+					App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, position.x + 10, position.y + 10, SceneState::LOBBY, White);
 					item = consumables.erase(item);
 					break;
 				}
