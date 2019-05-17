@@ -151,7 +151,9 @@ void WaveManager::CreateNextWave(WaveData waveData)
 		for (std::vector<EnemyType>::iterator typeIter = waveData.types.begin(); typeIter != waveData.types.end(); typeIter++)
 		{
 			Enemy* enemy = nullptr;
-			iPoint spawnPos = { spawnZone.x + (int)CreateRandomBetween(0, spawnZone.w), spawnZone.y + (int)CreateRandomBetween(0,spawnZone.h) };
+			iPoint spawnPos = { spawnZone.x + (int)CreateRandomBetween(0, spawnZone.w), spawnZone.y + (int)CreateRandomBetween(0,spawnZone.h) }; 
+			// No need to check for valid spawn pos since its assumed the rect will be in valid place
+
 			switch (*typeIter)
 			{
 

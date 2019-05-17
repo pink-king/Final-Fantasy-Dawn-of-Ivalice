@@ -6,9 +6,9 @@ EnemyProjectile::EnemyProjectile(fPoint pos, fPoint destination, uint speed, con
 {
 	// Assigning to the same texture as the enemy, it shouldn't be a problem
 	entityTex = App->entityFactory->enemyGolemTex;
-	anim.PushBack({ 0, 825, 32, 32 });
-	anim.PushBack({ 32, 825, 32, 32 });
-	anim.PushBack({ 96, 825, 32, 32 });
+	anim.PushBack({ 0, 832, 32, 32 });
+	anim.PushBack({ 32, 832, 32, 32 });
+	anim.PushBack({ 96, 832, 32, 32 });
 	anim.speed = 15.F;
 	anim.loop = true; 
 
