@@ -29,40 +29,29 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 Enemy::~Enemy()
 {
-App->attackManager->DestroyAllMyCurrentAttacks(this);
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
 
-if (inWave)
-{
-	// Delete myself from wave vect
-}
-
-memset(idle, 0, sizeof(idle));
-memset(run, 0, sizeof(run));
-memset(basicAttack, 0, sizeof(basicAttack));
-
-
-if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
-{
-
-<<<<<<< HEAD
-	if (lifeBar != nullptr)
+	if (inWave)
 	{
-		lifeBar->deliever = nullptr;
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->damageImage->to_delete = true; 
-		lifeBar->to_delete = true;
+		// Delete myself from wave vect
 	}
-=======
+
+	memset(idle, 0, sizeof(idle));
+	memset(run, 0, sizeof(run));
+	memset(basicAttack, 0, sizeof(basicAttack));
+
+
+	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+	{
 		if (lifeBar != nullptr)
 		{
 			lifeBar->deliever = nullptr;
 			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->damageImage->to_delete = true;
 			lifeBar->to_delete = true;
 		}
-	
->>>>>>> 5f098f94791f7b80f62e9684b9bcb44f1e8e0bae
-}
-LOG("parent enemy bye");
+		LOG("parent enemy bye");
+	}
 }
 
 bool Enemy::SearchNewPath()
