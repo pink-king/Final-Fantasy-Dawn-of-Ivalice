@@ -300,7 +300,7 @@ bool j1Scene::Update(float dt)
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateEntity(DEMONBOSS, p.x, p.y, "demonboss");
+		App->entityFactory->CreateEntity(FLOWERBOSS, p.x, p.y, "flower_boss");
 	}
 
 	

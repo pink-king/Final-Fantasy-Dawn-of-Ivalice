@@ -25,7 +25,7 @@
 #include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
-#include "Boss_Demon.h"
+#include "Boss_Flower.h"
 
 
 
@@ -430,8 +430,8 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		LOG("From factory Loot Entity");
 		break;
 
-	case DEMONBOSS:
-		ret = DBG_NEW DemonBossEntity({ positionX, positionY });
+	case FLOWERBOSS:
+		ret = DBG_NEW FlowerBossEntity({ positionX, positionY });
 		entities.push_back(ret);
 	default:
 		break;

@@ -212,9 +212,6 @@
     <ClCompile Include="LobbyPortal.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
-    <ClCompile Include="Boss_Demon.cpp">
-      <Filter>Development\Modules\Entities\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyArcher.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
@@ -222,6 +219,9 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="WaveManager.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_Flower.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -458,9 +458,6 @@
     <ClInclude Include="LobbyPortal.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
-    <ClInclude Include="Boss_Demon.h">
-      <Filter>Development\Modules\Entities\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyArcher.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
@@ -468,6 +465,9 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="WaveManager.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Flower.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

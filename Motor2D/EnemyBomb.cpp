@@ -60,14 +60,12 @@ bool EnemyBomb::CleanUp()
 {
 	path_to_follow.clear();
 
-	
-
 	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end(); ++item)
+	for (; item != stat.end();)
 	{
-		stat.remove(*item);
 		delete *item;
 		*item = nullptr;
+		item = stat.erase(item);
 	}
 	stat.clear();
 
