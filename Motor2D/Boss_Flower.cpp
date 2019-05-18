@@ -529,7 +529,7 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 			GetPivotPos(), // projected position
 			radius, // radius, world coords
 			spawnRatio, // spawn ratio, ms
-			App->entityFactory->player, // owner
+			this, // owner
 			phase_control_timers.phase2.time); // duration, ms
 	}
 }
