@@ -570,7 +570,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 				{
 					typesVec.push_back(EnemyType::TEST);
 				}
-				else if (attributeName == "archer")
+				else if (attributeName == "golem")
 				{
 					typesVec.push_back(EnemyType::ARCHER);
 				}

@@ -483,7 +483,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 	uint bombProbs = 3;
 	uint testProbs = 8;
-	uint archerProbs = 5;
+	uint archerProbs = 3;
 
 	while (cont < numEnemies)
 	{
