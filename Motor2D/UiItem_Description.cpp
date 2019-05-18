@@ -367,8 +367,8 @@ bool UiItem_Description::ChangeComparisonLabels()
 				float attack = 0.0f;
 				float resistance = 0.0f;
 
-				float HP = 666.0f;
-				float velocity = 666.0f;
+				float HP = 0.0f;
+				float velocity = 0.0f;
 
 
 				SDL_Color destColor = { 0, 0, 0, 255 };
