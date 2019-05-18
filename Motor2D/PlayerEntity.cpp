@@ -6,6 +6,7 @@
 #include "j1PathFinding.h"
 #include "j1EntityFactory.h"
 #include "j1Window.h"
+#include "j1BuffManager.h"
 #include <math.h>
 
 
@@ -135,7 +136,7 @@ bool PlayerEntity::InputMovement(float dt)
 	}
 	// Check collisions and do behaviour ------------
 	std::vector<SDL_Rect> resultant_intersections = Collision2D(collider);
-	if (!resultant_intersections.empty())
+	if (!resultant_intersections.empty() && !App->buff->godMode)
 	{
 		//LOG("COLLISIONS: %i", resultant_intersections.size());
 		position = GetCollisionsBehaviourNewPos(collider,resultant_intersections);
