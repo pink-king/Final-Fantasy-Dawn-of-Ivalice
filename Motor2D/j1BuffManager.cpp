@@ -41,17 +41,8 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	/*if (entitiesTimeDamage.size() != 0)
-	{
-		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
-		for (; item != entitiesTimeDamage.end() && ret; ++item)
-		{
-			if (DamageInTime(*item))
-			{
-				entitiesTimeDamage.remove(*item);
-			}
-		}
-	}*/
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		godMode = !godMode;
 	return ret;
 }
 
@@ -153,9 +144,12 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 }
 
 
-void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
+bool j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
 	BROFILER_CATEGORY("Direct Attack", Profiler::Color::ForestGreen);
+
+	if (godMode && defender == App->entityFactory->player)
+		return true;
 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
@@ -305,7 +299,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		drawRectified -= bloodPivot;
 		App->particles->AddParticle(App->particles->blood02, drawRectified.x, drawRectified.y - defender->pivot.y, { 0,0 }, 0u, renderFlip);
 	}
-	
+	return true;
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize)
@@ -727,6 +721,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 { 
 
 	BROFILER_CATEGORY("Damage in Time", Profiler::Color::ForestGreen);
+
+	if (godMode && entity == App->entityFactory->player)
+		return true;
 
 	bool ret = false;
 	iPoint drawRectified;
