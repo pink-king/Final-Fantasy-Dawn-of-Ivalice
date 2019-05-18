@@ -145,13 +145,14 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	// phases time
 	phase_control_timers.phase1.timer.Start(); // phase1 is the first, start timer here for now
 	phase_control_timers.phase1.time = 8000;
-	phase_control_timers.phase2.time = 15000;
+	phase_control_timers.phase2.time = 15000; // this time should be +/- the duration of the emitter of rain
 	phase_control_timers.phase3.time = 7500;
 	phase_control_timers.phase4.time = 10000;
 	// attack cadence
 	fireball_timer_data.time = 1600; // fireball cadence
 	spawnEnemies_timer_data.time = 2000;
 	shieldFire_timer_data.time = 800;
+	//poisonRain_timer_data.time = 2000;
 
 	myState = Boss1State::PHASE1;
 }
@@ -173,12 +174,15 @@ bool FlowerBossEntity::Update(float dt)
 
 	PhaseManager(dt);
 
+	bool test = IsAttackOnTilePerimeter();
+
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		Phase3Logic();
 	}
 
 	//LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
+	LOG("life:%f", life);
 
 	return true;
 }
@@ -198,33 +202,33 @@ void FlowerBossEntity::PhaseManager(float dt)
 		static bool launchedBall = false;
 
 		// checks timer and attack
-		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack)
-		{
-			// changes phase
-			LOG("phase change");
+		//if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack)
+		//{
+		//	// changes phase
+		//	LOG("phase change");
 
-			if (patternsCounter % 2 == 0)
-			{
-				myState = Boss1State::PHASE2;
-				LOG("phase2");
-				phase_control_timers.phase2.timer.Start();
-			}
-			else
-			{
-				myState = Boss1State::PHASE3;
-				LOG("phase3");
-				phase_control_timers.phase3.timer.Start();
-			}
+		//	if (patternsCounter % 2 == 0)
+		//	{
+		//		myState = Boss1State::PHASE2;
+		//		LOG("phase2");
+		//		phase_control_timers.phase2.timer.Start();
+		//	}
+		//	else
+		//	{
+		//		myState = Boss1State::PHASE3;
+		//		LOG("phase3");
+		//		phase_control_timers.phase3.timer.Start();
+		//	}
 
-			if (life <= maxLife * 0.5f)
-			{
-				myState = Boss1State::PHASE4;
-				phase_control_timers.phase4.timer.Start();
-			}
+		//	if (life <= maxLife * 0.5f)
+		//	{
+		//		myState = Boss1State::PHASE4;
+		//		phase_control_timers.phase4.timer.Start();
+		//	}
 
-			++patternsCounter;
-			break; // exit case
-		}
+		//	++patternsCounter;
+		//	break; // exit case
+		//}
 
 		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack)
 		{
@@ -275,12 +279,15 @@ void FlowerBossEntity::PhaseManager(float dt)
 			fireball_timer_data.timer.Start();
 
 			// erase shield walkability
-			//DesactiveShield();
+			DesactiveShield();
+
+			// reset shooted emitter
+			shootedPoisonRainEmitter = false;
 
 			break;
 		}
 
-		DoShieldLogic();
+		ShieldLogic();
 		Phase2Logic();
 
 		LookToPlayer(idleAnim);
@@ -297,12 +304,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 			fireball_timer_data.timer.Start();
 
 			// erase shield walkability
-			//DesactiveShield();
+			DesactiveShield();
 
 			break;
 		}
 
-		DoShieldLogic();
+		ShieldLogic();
 		Phase3Logic();
 
 		LookToPlayer(idleAnim);
@@ -319,13 +326,13 @@ void FlowerBossEntity::PhaseManager(float dt)
 			fireball_timer_data.timer.Start();
 
 			// erase shield walkability
-			//DesactiveShield();
+			DesactiveShield();
 
 			break;
 		}
 
 		
-		DoShieldLogic();
+		ShieldLogic();
 		Phase2Logic();
 		Phase3Logic();
 
@@ -349,26 +356,23 @@ void FlowerBossEntity::PhaseManager(float dt)
 void FlowerBossEntity::ShieldLogic()
 {
 	// instantiate shield
-	/*if (!shieldActive)
+	if (!shieldActive)
 		ActiveShield();
-	else*/
-		//DoShieldLogic();
+	else
+		DoShieldLogic();
 }
 
 void FlowerBossEntity::DoShieldLogic()
 {
 	if (shieldFire_timer_data.timer.Read() >= shieldFire_timer_data.time)
 	{
-		/*App->attackManager->AddPropagationAttack(this, GetPreviousSubtilePos(), propagationType::BFS,
-			damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 45, 10, 100, true);*/
-
 		App->attackManager->AddPropagationAttack(
 			this, // from entity
 			{ GetSubtilePos().x,GetSubtilePos().y }, // impact position, (on subtilemap units)
 			propagationType::BFS, // propagation expansion type
 			damageType::DIRECT,	// damage type: direct/in time
 			ELEMENTAL_TYPE::FIRE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
-			100, // base attack damage
+			10, // base attack damage
 			7, // radius (on subtile units)
 			60, // propagation speed, in ms (time between steps)
 			true); // if this attack instantate particles of the elemental type while propagation
@@ -381,7 +385,14 @@ void FlowerBossEntity::DoShieldLogic()
 
 void FlowerBossEntity::Phase2Logic() // spawn poison rain
 {
-	
+	if (!shootedPoisonRainEmitter)
+	{
+		// TODO: shoot emitter
+		LOG("shooting emitter");
+		shootedPoisonRainEmitter = true;
+		// SHOOT
+
+	}
 }
 
 void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour positions
@@ -414,24 +425,27 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 
 void FlowerBossEntity::ActiveShield()
 {
-	for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
+	/*for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
 	{
 		iPoint tileToBlock = imOnTile + adjacentTileNeighboursPattern[i];
 		App->pathfinding->ActivateTile(tileToBlock);
 		LOG("Blocking Tile: %i,%i", tileToBlock.x, tileToBlock.y);
-	}
+	}*/
+
+	App->pathfinding->ActivateTile(imOnTile);
 
 	shieldActive = true;
 }
 
 void FlowerBossEntity::DesactiveShield()
 {
-	for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
+	/*for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
 	{
 		iPoint tileToBlock = imOnTile + adjacentTileNeighboursPattern[i];
 		App->pathfinding->DeactivateTile(tileToBlock);
 		LOG("Unblocking Tile: %i,%i", tileToBlock.x, tileToBlock.y);
-	}
+	}*/
+	App->pathfinding->DeactivateTile(imOnTile);
 
 	shieldActive = false;
 }
@@ -561,4 +575,65 @@ int FlowerBossEntity::GetPointingDir(float angle)
 	//LOG("portion: %i", pointingDir);
 
 	return pointingDir;
+}
+
+bool FlowerBossEntity::IsAttackOnTilePerimeter()
+{
+	bool ret = false;
+
+	iPoint subtileNeighbours[4];
+	subtileNeighbours[0] = { 0,0 };
+	subtileNeighbours[1] = { 1,0 };
+	subtileNeighbours[2] = { 0,1 };
+	subtileNeighbours[3] = { 1,1 };
+
+	// check every neighbour subtile for attack
+	for (int i = 0; i < NUM_NEIGH_PATTERN; ++i && !ret)
+	{
+		iPoint tileToExplore = adjacentTileNeighboursPattern[i] + imOnTile;
+
+		iPoint firstSubtileDivision = tileToExplore * 2; // subtiles are two times the size of the tile
+
+		for (int n = 0; n < 4; ++n && !ret)
+		{
+			iPoint subtileCheck = { firstSubtileDivision.x + subtileNeighbours[n].x, firstSubtileDivision.y + subtileNeighbours[n].y };
+
+			if (!App->entityFactory->isThisSubtileEmpty(subtileCheck))
+			{
+				std::vector<j1Entity*>* checkVector = App->entityFactory->GetSubtileEntityVectorAt(subtileCheck);
+
+				std::vector<j1Entity*>::iterator iter;
+
+				if (checkVector != nullptr)
+					iter = checkVector->begin();
+				else
+					continue;
+
+				for (; iter != checkVector->end(); ++iter)
+				{
+					if ((*iter)->type == ENTITY_TYPE::PROJECTILE)
+					{
+						const j1Entity* linkedEntity = dynamic_cast<Projectile*>(*iter)->GetOwnerEntity();
+
+						if (linkedEntity != nullptr)
+						{
+							if (linkedEntity->type == ENTITY_TYPE::PLAYER)
+							{
+								LOG("detected player attack on perimeter");
+								LOG("pertaints to tile area: %i,%i", tileToExplore.x, tileToExplore.y);
+								LOG("subtile: %i, %i", subtileCheck.x, subtileCheck.y);
+
+								ret = true;
+
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	return ret;
 }

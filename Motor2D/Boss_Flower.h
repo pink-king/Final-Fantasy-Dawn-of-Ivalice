@@ -24,6 +24,7 @@ enum class Boss1State
 	PHASE2, // shield + poison rain
 	PHASE3, // shield + spawn enemies
 	PHASE4, // phase 2 + phase 3 (when the enemy life is 50% or less)
+	PHASE5, // circle of death, if life <= 10% spawn replicas rotation around it with phase1 only
 	//
 	DEATH,
 	MAX
@@ -73,6 +74,7 @@ private:
 	void Phase3Logic();
 	void DoShieldLogic();
 	void ShieldLogic();
+	bool IsAttackOnTilePerimeter();
 
 private:
 	Boss1State myState = Boss1State::NOTHING;
@@ -101,6 +103,8 @@ private:
 	bool doingAttack = false;
 	BossPhaseTimer spawnEnemies_timer_data;
 	BossPhaseTimer shieldFire_timer_data;
+	//BossPhaseTimer poisonRain_timer_data;
+	bool shootedPoisonRainEmitter = false;
 
 };
 
