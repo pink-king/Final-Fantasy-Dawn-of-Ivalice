@@ -11,6 +11,10 @@
 
 #define NUMBER_LIFE 1300
 #define TEXT_LIFE 2300
+#define WAVE_LIFE 8000
+
+#define middlelifewave 5000
+#define middeLife 1000
 
 struct valueInfo {
 	std::string string; 
