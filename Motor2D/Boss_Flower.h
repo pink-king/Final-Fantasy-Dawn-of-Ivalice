@@ -113,6 +113,9 @@ private:
 	// prelife
 	float previousLife = 0;
 
+	// 
+	j1Entity* rainEmitter = nullptr;
+
 };
 
 #endif // !__FLOWER_BOSS_H__

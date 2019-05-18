@@ -7,15 +7,10 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="marche">
+		<Entities player="shara">
 			<Experience level="1" exp="0" />
-			<life actualLife="120" />
-			<gold value="150" />
-			<consumableObjects>
-				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
-					<rect x="149" y="30" w="13" h="16" />
-				</data>
-			</consumableObjects>
+			<life actualLife="0" />
+			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />
