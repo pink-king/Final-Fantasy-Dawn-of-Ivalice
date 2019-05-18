@@ -42,7 +42,10 @@ bool j1BuffManager::Update(float dt)
 	bool ret = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
 		godMode = !godMode;
+		godMode ? App->scene->god_label->hide = false : App->scene->god_label->hide = true;
+	}
 	return ret;
 }
 

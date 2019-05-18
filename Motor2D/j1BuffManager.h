@@ -62,14 +62,13 @@ public:
 	unsigned int healingSFX;
 	unsigned int enemyHitbyMarche;
 	unsigned int playerDeath;
+
+	bool godMode = false;
+
 private:
 	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
-	bool godMode = false;
-
-	
-
 	
 public:
 	float powerAttack = 5;
