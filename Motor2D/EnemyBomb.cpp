@@ -19,7 +19,7 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 
 EnemyBomb::~EnemyBomb()
 {
-	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
+//	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
 	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
 
 
@@ -28,6 +28,7 @@ EnemyBomb::~EnemyBomb()
 
 bool EnemyBomb::Start()
 {
+	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
 	return true;
 }
 bool EnemyBomb::PreUpdate()

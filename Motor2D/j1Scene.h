@@ -77,6 +77,7 @@ public:
 	bool hackerMode = true;
 	bool ComeToPortal = false;
 	bool ComeToDeath = false;
+	bool ComeToWin = false;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;

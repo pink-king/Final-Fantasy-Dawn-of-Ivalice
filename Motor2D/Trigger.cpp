@@ -9,6 +9,14 @@ Trigger::~Trigger()
 {
 	
 }
+bool Trigger::Update(float dt)
+{
+	return true;
+}
+
+void Trigger::Draw()
+{
+}
 
 bool Trigger::CleanUp()
 {
@@ -18,9 +26,7 @@ bool Trigger::CleanUp()
 
 bool Trigger::Save(pugi::xml_node &node) const
 {
-	pugi::xml_node pos = node.append_child("position");
-	pos.append_attribute("x") = position.x;
-	pos.append_attribute("y") = position.y;
+	
 	return true;
 }
 

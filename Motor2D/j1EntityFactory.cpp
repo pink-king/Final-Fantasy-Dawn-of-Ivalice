@@ -21,8 +21,12 @@
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
 #include "WinTrigger.h"
+#include "NoWalkableTrigger.h"
+#include "ExitPortal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "WaveManager.h"
+#include "GolemProjectile.h"
 #include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
@@ -61,13 +65,14 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
-	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolem.png");
+	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolemv2.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
+	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -181,7 +186,9 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
+					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER) 
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -277,6 +284,8 @@ bool j1EntityFactory::CleanUp()
 	marcheTornadoTex = nullptr;
 	App->tex->UnLoad(lootItemsTex); 
 	lootItemsTex = nullptr;
+	App->tex->UnLoad(portalTex);
+	portalTex = nullptr;
 
 	player = nullptr;
 
@@ -294,6 +303,8 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 		}
 			
 	}
+	App->scene->ComeToDeath = false;
+
 	return true;
 }
 
@@ -321,7 +332,7 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			Enemy* ret = nullptr;
 
 			pugi::xml_node nodeSpeed = node2.child("position");
-			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() };
+			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() + 16 };
 
 			std::string retType = node2.attribute("type").as_string();
 			if (retType.compare("enemyBomb") == 0)
@@ -515,7 +526,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
 						numBombs++;
 						cont++;
@@ -536,7 +547,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{	
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
 						numTests++;
 						cont++;
@@ -642,7 +653,10 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
-
+	case PROJECTILE_TYPE::GOLEM_ARROW:
+		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -711,6 +725,14 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new WinTrigger(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
+	case TRIGGER_TYPE::NOWALKABLE:
+		ret = new NoWalkableTrigger(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::EXITPORTAL:
+		ret = new ExitPortal(posX, posY);
+		entities.push_back(ret);
+		break;
 	default:
 		break;
 	}
@@ -750,7 +772,19 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
+WaveManager* j1EntityFactory::CreateWave(const SDL_Rect& zone, uint numWaves)
+{
+	waveManager = DBG_NEW WaveManager(zone, 5);
 
+	if (waveManager != nullptr)
+	{
+		entities.push_back(waveManager);
+		return waveManager;
+	}
+
+	LOG("Failed to create Wave Manager");
+	return nullptr;
+}
 
 bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * entity2)
 {
@@ -832,6 +866,26 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 
 					return ret;
 				}
+			}
+		}
+	}
+	return nullptr;
+}
+
+j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
+{
+
+	j1Entity* ret = nullptr;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::LOOT)
+			{
+				ret = *entityIterator;
+				return ret;
 			}
 		}
 	}
@@ -1007,7 +1061,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1021,11 +1075,16 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 		break;
 	case EnvironmentAssetsTypes::WALL1:
 		break;
+	case EnvironmentAssetsTypes::TRIGGERWALL:
+		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
+		break;
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
 		break;
 	}
+
+	return assetEntity;
 }
 
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)

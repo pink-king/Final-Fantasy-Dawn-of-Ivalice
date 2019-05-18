@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1BuffManager.h"
 
-WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::ENEMY02, zone.x, zone.y, "WaveManager")
+WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
 {
 }
 
@@ -27,6 +27,7 @@ bool WaveManager::PreUpdate()
 {
 	if (isWaveOver())
 	{
+		// Add sfx of wave over
 		if (actualWave <= maxWaves)
 		{
 			toCreateNextWave = true;
@@ -44,10 +45,13 @@ bool WaveManager::Update(float dt)
 {
 	if (toCreateNextWave)
 	{
-		if (timer.ReadSec() < CreateRandomBetween(4, 6)) // Some delay to give the player time to breathe before next wave
+		if (timer.ReadSec() > 3) // Some delay to give the player time to breathe before next wave
 		{
+			// TODO: Add sfx and labels
 			CreateNextWave(nextWaveData);
 			toCreateNextWave = false;
+			actualWave++;
+
 		}
 	}
 
@@ -70,6 +74,14 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	WaveData data;
 	switch (waveNumber)
 	{
+	case 0:
+		data.enemiesNumber = 5;
+		data.types.push_back(EnemyType::TEST);
+
+		data.bombChances = 0;
+		data.golemChances = 0;
+		data.zombieChances = 10;
+		break;
 	case 1:
 		data.enemiesNumber = 10;
 		data.types.push_back(EnemyType::TEST);
@@ -152,6 +164,7 @@ void WaveManager::CreateNextWave(WaveData waveData)
 		{
 			Enemy* enemy = nullptr;
 			iPoint spawnPos = { spawnZone.x + (int)CreateRandomBetween(0, spawnZone.w), spawnZone.y + (int)CreateRandomBetween(0,spawnZone.h) };
+			// No need to check for valid spawn pos since its assumed the rect will be in valid place
 			switch (*typeIter)
 			{
 

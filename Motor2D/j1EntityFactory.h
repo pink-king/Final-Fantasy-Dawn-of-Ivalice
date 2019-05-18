@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "Trigger.h"
 #include "PlayerEntityManager.h"
+#include "WaveManager.h"
 #include <vector>
 #include "Color.h"
 #include "j1Map.h"
@@ -27,6 +28,7 @@ enum class EnvironmentAssetsTypes
 {
 	NO_TYPE,
 	WALL,
+	TRIGGERWALL,
 	WALL1,
 	// ---
 	MAX
@@ -71,6 +73,7 @@ public:
 
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
+	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
@@ -81,7 +84,7 @@ public:
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 
-	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY,SceneState scene, Color color);
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
@@ -90,6 +93,7 @@ public:
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
 	j1Entity* isThisSubtileTriggerFree(const iPoint pos) const;
+	j1Entity* isThisSubtileLootFree(const iPoint pos) const;
 
 	bool BoolisThisSubtileTriggerFree(const iPoint pos) const;
 	bool isThisSubtilePlayerFree(const iPoint pos) const; 
@@ -102,7 +106,6 @@ public:
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
 	void AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile);
-	void AssignEntityToAdjacentsSubtiles(j1Entity * entity, int num) const;
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
 
@@ -116,7 +119,7 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	void CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
@@ -146,6 +149,7 @@ public:
 	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
+	WaveManager* waveManager = nullptr;
 
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
@@ -159,6 +163,8 @@ public:
 	SDL_Texture*			ritzBasicTex = nullptr; 
 	SDL_Texture*			marcheTornadoTex = nullptr;
 	SDL_Texture*			lootItemsTex = nullptr; 
+	SDL_Texture*			portalTex = nullptr;
+
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;

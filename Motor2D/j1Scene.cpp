@@ -24,6 +24,7 @@
 #include "Projectile.h"
 #include "j1DialogSystem.h"
 #include "j1TransitionManager.h"
+#include "NoWalkableTrigger.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -82,7 +83,10 @@ bool j1Scene::Start()
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
-			App->entityFactory->player->GetMarche()->position = portalPos;
+			App->entityFactory->player->GetMarche()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
 	}
@@ -153,6 +157,11 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
+		if (ComeToDeath)
+		{
+			ComeToDeath = false;
+		}
+
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 			inGamePanel->enable = false;
@@ -268,10 +277,8 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, p.x, p.y, SceneState::LOBBY, Blue);
+		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
+
 	}
 	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -557,6 +564,12 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateEnemy(EnemyType::ARCHER, { coords.x,coords.y });
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		SDL_Rect zone = { coords.x, coords.y, 30, 30 };
+		App->entityFactory->CreateWave(zone, 4);
+	}
+
 	if (hackerMode)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
@@ -600,8 +613,8 @@ bool j1Scene::Update(float dt)
 		{
 			App->entityFactory->player->exp = 0;
 			App->SaveGame("save_game.xml");
-			App->entityFactory->player->life = App->entityFactory->player->maxLife;
 			isDeath = false;
+			ComeToDeath = true;
 			App->transitionManager->CreateFadeTransition(1.F,true,SceneState::DEATH);
 		}
 	}
@@ -974,12 +987,18 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
-	App->map->Disable();
-	App->attackManager->Disable();
-	App->entityFactory->Disable();
-	App->pathfinding->Disable();
-	App->buff->Disable();
-	App->camera2D->Disable();
+	if (App->map->IsEnabled())
+		App->map->Disable();
+	if (App->attackManager->IsEnabled())
+		App->attackManager->Disable();
+	if (App->entityFactory->IsEnabled())
+		App->entityFactory->Disable();
+	if (App->pathfinding->IsEnabled())
+		App->pathfinding->Disable();
+	if (App->buff->IsEnabled())
+		App->buff->Disable();
+	if (App->camera2D->IsEnabled())
+		App->camera2D->Disable();
 
 	App->audio->UnLoadAudio();
 
@@ -997,12 +1016,19 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
-		App->attackManager->Enable();
-		App->pathfinding->Enable();
-		App->camera2D->Enable();
-		App->buff->Enable();
-		App->map->active = true;
-		LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		if (!App->attackManager->IsEnabled())
+			App->attackManager->Enable();
+		if (!App->pathfinding->IsEnabled())
+			App->pathfinding->Enable();
+		if (!App->camera2D->IsEnabled())
+			App->camera2D->Enable();
+		if (!App->buff->IsEnabled())
+			App->buff->Enable();
+		if (!App->map->IsEnabled())
+		{
+			App->map->active = true;
+			LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		}
 		App->entityFactory->Enable();
 		break;
 	case SceneState::LEVEL1:
@@ -1045,6 +1071,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		state = SceneState::WIN;
 		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
+		ComeToWin = true;
+
 		break;
 
 	case SceneState::MAX_STATES:

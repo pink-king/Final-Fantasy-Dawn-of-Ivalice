@@ -5,6 +5,7 @@
 #include "j1Map.h"
 #include "j1BuffManager.h"
 #include "j1EntityFactory.h"
+#include "j1PathFinding.h"
 //buff test
 #include "j1Window.h"
 #include "j1Scene.h"
@@ -38,6 +39,10 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	level = 1;
 	exp = 0;
 	maxExpInLevel = 10000;
+
+	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, marche, " ", 12);
+	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ritz, " ", 12);
+	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, shara, " ", 12);
 
 	Start();
 }
@@ -115,19 +120,42 @@ bool PlayerEntityManager::Update(float dt)
 		crossHair->Reset();
 		
 	//collect loot
-	for (std::vector<j1Entity*>::iterator item = App->entityFactory->entities.begin(); item != App->entityFactory->entities.end(); ++item)
+	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
-		if (App->entityFactory->player->GetSubtilePos() == (*item)->GetSubtilePos() && (*item)->type == ENTITY_TYPE::LOOT)
+		j1Entity* item = App->entityFactory->isThisSubtileLootFree(GetSubtilePos());
+		if (item->manualCollectable) 
 		{
-			if ((*item)->manualCollectable)
+			if (CollectLoot((LootEntity*)item))
 			{
-				if (CollectLoot((LootEntity*)(*item)))
-				{
+				App->entityFactory->DeleteEntityFromSubtile(item);
 
-					App->entityFactory->DeleteEntityFromSubtile(*item);
-					item = App->entityFactory->entities.erase(item);
-					break;
+				App->entityFactory->entities.erase(
+					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+
+			}
+			
+		}
+		if (!item->manualCollectable)
+		{
+			//TODO: description
+			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			{
+				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+
+				if (App->entityFactory->player->CollectLoot((LootEntity*)(item), true))
+				{
+					// then delete loot from subtile and factory 
+					App->entityFactory->DeleteEntityFromSubtile((j1Entity*)item);
+					//LOG("entities size: %i", App->entityFactory->entities.size());
+					// erase - remove idiom.
+					App->entityFactory->entities.erase(
+						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+
+					//last detach clamped entity
+					item = nullptr;
+					//LOG("entities size: %i", App->entityFactory->entities.size());
 				}
+
 			}
 		}
 	
@@ -156,9 +184,11 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
+	//check triggers
 	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 	{
 		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
+
 	}
 	// WARNING: search other way to do this
 	////provisional function to life
@@ -227,34 +257,7 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
-	if (marche->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(marche))
-		{
-			App->buff->entitiesTimeDamage.remove(marche);
-		}
-	}
-	if (ritz->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(ritz))
-		{
-			App->buff->entitiesTimeDamage.remove(ritz);
-		}
-	}
-	if (shara->stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(shara))
-		{
-			App->buff->entitiesTimeDamage.remove(shara);
-		}
-	}
-	if (stat.size() != 0)
-	{
-		if (App->buff->DamageInTime(this))
-		{
-			App->buff->entitiesTimeDamage.remove(this);
-		}
-	}
+	
 
 	return ret;
 }
@@ -314,8 +317,8 @@ bool PlayerEntityManager::CleanUp()
 	}
 	consumables.clear();
 
-	delete crossHair;
-	crossHair = nullptr;
+	/*delete crossHair;
+	crossHair = nullptr;*/
 
 	App->tex->UnLoad(debugTileTex);
 	debugTileTex = nullptr;
@@ -336,9 +339,15 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	level = node.child("Experience").attribute("level").as_uint();
 	exp = node.child("Experience").attribute("exp").as_uint();
 
-	life = node.child("life").attribute("actualLife").as_float();
-	maxLife = node.child("life").attribute("maxLife").as_float();
-
+	if (!App->scene->ComeToDeath)
+	{
+		life = node.child("life").attribute("actualLife").as_float();
+		maxLife = 100;
+	}
+	else
+	{
+		life = maxLife = 100;
+	}
 	gold = node.child("gold").attribute("value").as_uint();
 
 	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
@@ -843,6 +852,33 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 				break;
 			}
 
+			if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				int portalMaxDistance = 10;
+				fPoint destination;
+				destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
+				destination.Normalize();
+
+				fPoint checker;
+				int distMultiplier = 0;
+				for (; distMultiplier < portalMaxDistance; ++distMultiplier)
+				{
+					checker = GetPivotPos() + destination * distMultiplier;
+					if (!App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
+						break;
+				}
+
+				int playerVolumeOffset = 10;
+				fPoint PortalDestinationPos = position + destination * (distMultiplier - playerVolumeOffset);
+
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, PortalDestinationPos.x, PortalDestinationPos.y, SceneState::LOBBY, White);
+				delete * item;
+				*item = nullptr;
+				consumables.erase(item);
+				break;
+
+			}
+
 			//TODO for the coders, make whatever phoenix tail does inside this else if below xD
 			/*else if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL)
 			{
@@ -863,6 +899,12 @@ void PlayerEntityManager::SetHudAlphaValue()
 		
 		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
 	}
+}
+
+void PlayerEntityManager::SetPosition(fPoint pos)
+{
+	position = pos;
+
 }
 
 j1Entity * PlayerEntityManager::GetMarche()
