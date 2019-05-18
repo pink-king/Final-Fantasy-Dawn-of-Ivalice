@@ -550,9 +550,9 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
 	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
-	coolDownData.special1.cooldownTime = 500;
-	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 3000;
+	coolDownData.special1.cooldownTime = 5500;
+	coolDownData.special2.cooldownTime = 5500;
+	coolDownData.ultimate.cooldownTime = 10000;
 	// starts timers
 	coolDownData.basic.timer.Start();
 	coolDownData.dodge.timer.Start();

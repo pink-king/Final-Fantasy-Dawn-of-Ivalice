@@ -309,8 +309,8 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.basic.cooldownTime = 0;
 	coolDownData.dodge.cooldownTime = 0;
 	coolDownData.special1.cooldownTime = 500;
-	coolDownData.special2.cooldownTime = 1000;
-	coolDownData.ultimate.cooldownTime = 3000;
+	coolDownData.special2.cooldownTime = 1500;
+	coolDownData.ultimate.cooldownTime = 10000;
 	maxEmitterDelayTime = 1000;
 
 	previousPos = position;
