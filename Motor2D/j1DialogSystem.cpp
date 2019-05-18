@@ -56,6 +56,8 @@ bool j1DialogSystem::Update(float dt)
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
+			
+			
 			//App->pause = true; 
 		}
 		
@@ -318,6 +320,9 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			{
 				isDialogSequenceActive = false; 
 				spawnDialogSequence = false;
+				
+				
+				
 				//App->pause = false; 
 			}
 			
@@ -338,7 +343,7 @@ void j1DialogSystem::BlitDialog()
 	int space = 500;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
 	{
-		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 0, 255, 0, 255 }, App->font->openSansBold18, iPoint(500, space += 50), App->scene->inGamePanel);
+		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 34, 200, 43, 255 }, App->font->openSansBold18, iPoint(500, space += 50), App->scene->inGamePanel);
 		
 		
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)

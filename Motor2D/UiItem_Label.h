@@ -21,6 +21,13 @@ public:
 	void CleanUp();
 	//bool Update(float dt) override;
 	bool TypeWriter();
+
+
+	void DoLogicHovered();
+	void DoLogicAbandoned();
+
+
+
 protected:
 	std::string text;
 	std::string typewriter_text;

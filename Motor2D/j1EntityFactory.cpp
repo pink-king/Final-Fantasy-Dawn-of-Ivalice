@@ -1736,7 +1736,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 
 			float attack, resistance, cooldown;
-			attack = resistance = cooldown = -666.f;
+			attack = resistance = cooldown = 0.0f;
 
 
 
