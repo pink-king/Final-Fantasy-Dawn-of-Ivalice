@@ -118,14 +118,18 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	// first considerate the type
 	uint maxLife = 0;
-	if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		maxLife = NUMBER_LIFE;
 	}
-	else
+	else if(this->numerOrText != variant::wave)
 	{
 		maxLife = TEXT_LIFE;
 
+	}
+	else
+	{
+		maxLife = WAVE_LIFE;
 	}
 
 	if (lifeMoment < 300)
@@ -193,7 +197,11 @@ void UiItem_HitPoint::updateHitPointSizes()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			scaleFactor *= 1.03f;
+			if(this->numerOrText != variant::wave)
+				scaleFactor *= 1.03f;
+			else
+				scaleFactor *= 1.05f;
+			
 			break;
 		case Middle:
 
@@ -232,7 +240,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			alphaValue *= 3;
 			break;
 		case Middle:
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{ 
 				alphaValue /= 1.1f;
 			}
@@ -243,13 +251,17 @@ void UiItem_HitPoint::updateHitPointOpacities()
 
 			break;
 		case fadeOut:
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				alphaValue /= 1.7f;
 			}
-			else
+			else if(this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.1f;
+			}
+			else
+			{
+				alphaValue /= 1.02f;
 			}
 			break;
 		}

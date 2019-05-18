@@ -11,6 +11,7 @@
 
 #define NUMBER_LIFE 1300
 #define TEXT_LIFE 2300
+#define WAVE_LIFE 6000
 
 struct valueInfo {
 	std::string string; 
