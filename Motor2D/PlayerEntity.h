@@ -82,6 +82,8 @@ public:
 	{
 		return aiming;
 	}
+
+	void UsePhoenixTail(std::vector<LootEntity*>::iterator & item, int & retflag);
 private:
 
 	std::vector<SDL_Rect> Collision2D(SDL_Rect& collider);
@@ -98,6 +100,7 @@ public:
 	bool inputReady = true;
 protected:
 	fPoint GetShotDirection();
+	
 	void DoDash();
 
 	float dashMaxDistance;
