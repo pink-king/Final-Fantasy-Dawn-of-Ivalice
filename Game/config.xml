@@ -325,16 +325,16 @@
       </images>
       <buttons>
         <button name="button_ingame" function = "FadeToScene">
-          <idleSec x="1079" y="2728" w="222" h="67"/>
-          <hoverSec x="1079" y="2660" w="222" h="67" />
-          <clickSec x="1079" y="2796" w="222" h="67" />
+           <idleSec x="856" y="2320" w="222" h="67"/>
+          <hoverSec x="856" y="2252" w="222" h="67" />
+          <clickSec x="856" y="2388" w="222" h="67" />
           <position x="101" y="280"/>
         </button>
 
         <button name="button_loadGame" function = "LoadGame">
-          <idleSec x="856" y="2320" w="222" h="67"/>
-          <hoverSec x="856" y="2252" w="222" h="67" />
-          <clickSec x="856" y="2388" w="222" h="67" />
+          <idleSec x="1079" y="2728" w="222" h="67"/>
+          <hoverSec x="1079" y="2660" w="222" h="67" />
+          <clickSec x="1079" y="2796" w="222" h="67" />
           <position x="101" y="380"/>
         </button>
 
