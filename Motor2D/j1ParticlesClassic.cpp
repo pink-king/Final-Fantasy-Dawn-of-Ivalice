@@ -59,7 +59,7 @@ bool j1ParticlesClassic::Start()
 	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
 	windsTex = App->tex->Load("textures/particles/windsTexture.png");
 	arrowTex = App->entityFactory->arrowsTexture; 
-	bossArrowsEmmiter = App->tex->Load("textures/spells/Boss_Spells./poisonRain.png");
+	bossArrowsEmmiter = App->tex->Load("textures/particles/positonRain.png");
 
 	explosion01.anim.PushBack({ 0,354,32,32 });
 	explosion01.anim.PushBack({ 0,386,32,32 });
@@ -337,13 +337,17 @@ bool j1ParticlesClassic::Start()
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
 	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 170, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 340, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 510, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 680, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 850, 0, 170, 398 });
-	PoisonBlast.anim.PushBack({ 0, 429, 170, 398 });
-	PoisonBlast.anim.PushBack({ 170, 429, 170, 398 });
+	PoisonBlast.anim.PushBack({ 1020, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 1190, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 1360, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 1530, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 1700, 0, 170, 398 });
 	PoisonBlast.anim.speed = 10.5f;
 	PoisonBlast.anim.loop = false;
 	PoisonBlast.texture = bossArrowsEmmiter;
