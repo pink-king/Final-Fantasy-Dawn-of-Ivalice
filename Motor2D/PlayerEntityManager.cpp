@@ -829,24 +829,13 @@ void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * en
 			if (consumable == OBJECT_TYPE::PHOENIX_TAIL)
 			{
 				//App->audio->PlayFx(consumHealPotion, 0);
-				int portalMaxDistance = 10;
-				fPoint destination;
-				destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
+				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
 				destination.Normalize();
-
-				fPoint checker;
-				int distMultiplier = 0;
-				for (; distMultiplier < portalMaxDistance; ++distMultiplier)
-				{
-					checker = GetPivotPos() + destination * distMultiplier;
-					if (!App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
-						break;
-				}
-
-				int playerVolumeOffset = 10;
-				fPoint PortalDestinationPos = position + destination * (distMultiplier - playerVolumeOffset);
+				destination = { position.x + destination.x,position.y + destination.y };
+				if (!App->pathfinding->IsWalkable(App->map->WorldToMap(destination.x, destination.y)))
+					break;
 				
-				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, PortalDestinationPos.x, PortalDestinationPos.y, SceneState::LOBBY, White);
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, destination.x, destination.y, SceneState::LOBBY, White);
 				delete *item;
 				*item = nullptr;
 				consumables.erase(item);
