@@ -328,8 +328,8 @@ void FlowerBossEntity::PhaseManager(float dt)
 			launchedBall = true;
 
 			// TODO: get the direction vector from the boss last axis (current angle), instead of the realtime player pivot
-		/*	App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
-			App->camera2D->AddTrauma(0.2f);*/
+			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
+			App->camera2D->AddTrauma(0.2f);
 		}
 
 		if (currentAnimation->Finished() && launchedBall && !evading)
@@ -360,7 +360,6 @@ void FlowerBossEntity::PhaseManager(float dt)
 				LOG("evading");
 			}
 
-			
 		}
 
 		if (evading)
