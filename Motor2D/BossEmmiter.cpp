@@ -1,8 +1,8 @@
-#include "Emmiter.h"
+#include "BossEmmiter.h"
 #include "j1EntityFactory.h"
 #include "j1Render.h"
 
-Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
+BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER)
 {
 	SetPivot(150, 112);
@@ -20,7 +20,7 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	rang.x = 100;
 	rang.y = 40;
 
-	lifeTime = 4u;
+	lifeTime = timeLife;
 	createArrowsSpeed = 75u;
 	dieTime = 6u;
 
@@ -28,12 +28,12 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	/*App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);*/
 }
 
-Emmiter::~Emmiter()
+BossEmmiter::~BossEmmiter()
 {
 
 }
 
-bool Emmiter::PreUpdate()
+bool BossEmmiter::PreUpdate()
 {
 	if (lifeTimer.ReadSec() > lifeTime)
 	{
@@ -43,7 +43,7 @@ bool Emmiter::PreUpdate()
 	return true;
 }
 
-bool Emmiter::Update(float dt)
+bool BossEmmiter::Update(float dt)
 {
 	if (!to_explode)
 	{
@@ -56,7 +56,7 @@ bool Emmiter::Update(float dt)
 	return true;
 }
 
-bool Emmiter::PostUpdate()
+bool BossEmmiter::PostUpdate()
 {
 	if (to_explode)
 	{
@@ -64,12 +64,12 @@ bool Emmiter::PostUpdate()
 		{
 			to_delete = true;
 		}
-		
+
 	}
 	return true;
 }
 
-void Emmiter::CreateArrow() 
+void BossEmmiter::CreateArrow()
 {
 	float posY = RandomValue(-rang.y, rang.y);
 	posY += position.y + size.y / 2;
@@ -82,7 +82,7 @@ void Emmiter::CreateArrow()
 
 }
 
-float Emmiter::RandomValue(int min, int max)
+float BossEmmiter::RandomValue(int min, int max)
 {
 	std::uniform_int_distribution<int> range(min, max);
 	return range(rd);

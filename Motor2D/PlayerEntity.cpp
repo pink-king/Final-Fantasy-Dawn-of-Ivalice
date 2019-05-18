@@ -164,7 +164,7 @@ bool PlayerEntity::InputMovement(float dt)
 	}
 	else
 	{
-		currentAnimation = &idle[pointingDir];
+		currentAnimation = &idle[(int)GetPointingDir(lastAxisMovAngle)];
 		startMove = true;
 	}
 

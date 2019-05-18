@@ -35,8 +35,7 @@ private:
 	uint explosionRange = 0; 
 	uint explosionDelay = 0;
 	bool freePass = false;		// Needs a re-planing
-	bool exploded = false;
-
+	bool exploded = false; 
 };
 
 

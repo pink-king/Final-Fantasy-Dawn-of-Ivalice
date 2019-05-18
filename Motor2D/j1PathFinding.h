@@ -43,6 +43,12 @@ public:
 	int CreatePath(const iPoint& origin, const iPoint& destination);
 	int CreateSubtilePath(const iPoint& origin, const iPoint& destination, bool ignoringCollisions = false);
 
+	uint GetIndexAt(const iPoint & pos) const;
+
+	void ActivateTile(const iPoint & tile);
+
+	void DeactivateTile(const iPoint & tile);
+
 	// To request all tiles involved in the last generated path
 	const std::vector<iPoint>* GetLastPath() const;
 

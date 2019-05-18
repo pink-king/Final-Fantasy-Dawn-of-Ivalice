@@ -42,6 +42,8 @@ bool EnemyTest::Start()
 
 bool EnemyTest::PreUpdate()
 {
+	if (!isInDetectionRange())
+		state = EnemyState::IDLE;
 
 	return true;
 }
@@ -116,6 +118,7 @@ void EnemyTest::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
+		path_to_follow.clear();
 		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
@@ -189,7 +192,6 @@ void EnemyTest::SetState(float dt)
 
 		if (App->entityFactory->player->ChangedTile())		// Repath when player changes tiles (and random values)
 		{
-			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
 			{
 				path_to_follow.clear();
@@ -276,7 +278,7 @@ void EnemyTest::SetState(float dt)
 		{
 			freePass = true;
 			cont = 0;
-			LOG("Gave a free pass!");
+			//LOG("Gave a free pass!");
 		}
 		break;
 	}

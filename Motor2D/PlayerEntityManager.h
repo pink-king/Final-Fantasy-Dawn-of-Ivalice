@@ -51,7 +51,7 @@ private:
 	bool clamped = false; // following a enemy entity
 	float maxRadiusDistance;
 
-	
+
 };
 
 
@@ -82,7 +82,7 @@ public:
 	void SetNextCharacter();
 	void SetCurrentAnimation();
 	iPoint GetCrossHairSubtile();
-	iPoint GetCrossHairPivotPos(); 
+	iPoint GetCrossHairPivotPos();
 	void Draw();
 
 public:
@@ -95,15 +95,20 @@ public:
 	void EquipItem(LootEntity* entityLoot);
 	void DesequipItem(LootEntity* entityLoot);
 
-	void AddItemToTheBag(LootEntity* entityLoot); 
-	void RemoveItemFromBag(LootEntity* entityLoot); 
+	void AddItemToTheBag(LootEntity* entityLoot);
+	void RemoveItemFromBag(LootEntity* entityLoot);
 
 	void AddItemToConsumables(LootEntity* entityLoot);
 	void RemoveItemFromConsumables(LootEntity* entityLoot);
 
-	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
+	void ConsumConsumable(OBJECT_TYPE consumable, j1Entity* entity);
 
 	void SetHudAlphaValue();
+
+	void SetPosition(fPoint pos);
+
+
+	void PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEntity* entity);
 
 public:
 
@@ -125,9 +130,9 @@ public:
 		return crossHair;
 	}
 
-	Vendor*	GetVendor()
+	Vendor* GetVendor()
 	{
-		return vendor; 
+		return vendor;
 	}
 
 	uint level;
@@ -143,7 +148,7 @@ private:
 	Crosshair* crossHair = nullptr;
 
 	std::vector<PlayerEntity*> characters;
-	
+
 	SDL_Texture* texture = nullptr;
 	SDL_Texture* debugTileTex = nullptr;
 	SDL_Texture* debugSubtileTex = nullptr;
@@ -151,8 +156,6 @@ private:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	bool deleteObj = false;
-	bool consumPotion = false;
-	bool consumPhoenix = false;
 
 	unsigned int pickLoot;
 	unsigned int pickGold;
@@ -161,9 +164,11 @@ private:
 
 
 	// vendor
-	Vendor* vendor = nullptr; 
-	
-	
+	Vendor* vendor = nullptr;
+
+
+	LootEntity* lastHoveredLootItem = nullptr;
+
 };
 
 #endif

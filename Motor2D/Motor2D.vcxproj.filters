@@ -227,6 +227,18 @@
     <ClCompile Include="WinTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="NoWalkableTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitPortal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemProjectile.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEmmiter.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -343,9 +355,6 @@
     </ClInclude>
     <ClInclude Include="Marche.h">
       <Filter>Development\Modules\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Development\Modules\Tools</Filter>
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Development\Modules\Tools\PugiXML</Filter>
@@ -475,6 +484,21 @@
     </ClInclude>
     <ClInclude Include="WinTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="NoWalkableTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitPortal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemProjectile.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEmmiter.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

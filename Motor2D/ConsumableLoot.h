@@ -8,6 +8,7 @@ enum class CONSUMABLE_TYPE
 	POTION,
 	NO_CONSUMABLE
 };
+
 class Consumable : public LootEntity
 {
 
@@ -25,7 +26,6 @@ public:
 	//void ConstructConsumable();
 public:
 	CONSUMABLE_TYPE  consumableType;
-
 	int chance;
 	
 	

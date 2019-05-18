@@ -169,18 +169,6 @@
 		<Entities type="enemyTest" level="0" life="100">
 			<position x="-916" y="1452" />
 		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1114" y="1852" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1080" y="1911" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1136" y="1880" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1198" y="1904" />
-		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
 			<position x="-144" y="1186" />
 		</Entities>
@@ -344,27 +332,38 @@
 			<position x="112" y="292" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1440" y="1718" />
+			<position x="-1430.64587" y="1721.50623" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
 			<position x="-1454" y="1668" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1334" y="1747" />
+			<position x="-1085.13025" y="1958.74512" />
 		</Entities>
-		<Players player="marche">
-			<Experience level="1" exp="300" />
-			<life actualLife="58" maxLife="100" />
-			<gold value="0" />
-			<equipedObjects>
-				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="123" y="32" w="14" h="14" />
+		<Players player="ritz">
+			<Experience level="1" exp="600" />
+			<life actualLife="0" />
+			<gold value="586" />
+			<bagObjects>
+				<data name="sword_1" level="1" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
 				</data>
 				<buffs>
-					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="22.5" />
+					<data character="Marche" type="additive" elementType="iceElement" rol="attack" value="22" />
 				</buffs>
 				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="-4.11000013" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="sword_1" level="1" characterObject="Marche" equipableType="sword" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="25" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="-4.05000019" />
 				</buffs>
 			</equipedObjects>
 		</Players>

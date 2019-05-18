@@ -1,15 +1,15 @@
-#ifndef _LOBBYPORTAL_H_
-#define _LOBBYPORTAL_H_
+#ifndef _EXITPORTAL_H_
+#define _EXITPORTAL_H_
 
 #include "Trigger.h"
 #include "j1Scene.h"
 #include "Color.h"
 
-class LobbyPortal : public Trigger
+class ExitPortal : public Trigger
 {
 public:
-	LobbyPortal(float posx, float posy, SceneState scene, Color color);
-	~LobbyPortal();
+	ExitPortal(float posx, float posy);
+	~ExitPortal();
 
 	bool Update(float dt);
 
@@ -17,14 +17,14 @@ public:
 
 	virtual bool DoTriggerAction();
 private:
-	SceneState scene;
-	Color color;
 
 	Animation close;
 	Animation idle;
 
 	Animation*	currentAnim = nullptr;
 	bool doit = false;
+
+	j1Timer timer;
 };
 
 

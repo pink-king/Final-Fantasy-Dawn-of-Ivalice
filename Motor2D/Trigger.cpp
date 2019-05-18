@@ -1,7 +1,7 @@
 #include "Trigger.h"
 #include "j1EntityFactory.h"
 
-Trigger::Trigger(TRIGGER_TYPE type, float posx, float posy, std::string name) : j1Entity(ENTITY_TYPE::TRIGGER, posx, posy, name), triggerType(type)
+Trigger::Trigger(TRIGGER_TYPE type,float posx, float posy, std::string name) : j1Entity(ENTITY_TYPE::TRIGGER,posx,posy, name), triggerType(type)
 {
 }
 
@@ -10,17 +10,24 @@ Trigger::~Trigger()
 	
 }
 
+bool Trigger::Update(float dt)
+{
+	return true;
+}
+
+void Trigger::Draw()
+{
+}
+
 bool Trigger::CleanUp()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
+
 	return true;
 }
 
 bool Trigger::Save(pugi::xml_node &node) const
 {
-	pugi::xml_node pos = node.append_child("position");
-	pos.append_attribute("x") = position.x;
-	pos.append_attribute("y") = position.y;
 	return true;
 }
 

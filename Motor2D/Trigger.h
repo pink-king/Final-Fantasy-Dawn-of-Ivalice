@@ -8,6 +8,8 @@ enum class TRIGGER_TYPE
 	PORTAL,
 	LOBBYPORTAL,
 	WIN,
+	NOWALKABLE,
+	EXITPORTAL,
 	NO_TRIGGER
 };
 
@@ -16,6 +18,10 @@ class Trigger : public j1Entity
 public:
 	Trigger(TRIGGER_TYPE type, float posx, float posy,std::string name);
 	~Trigger();
+
+	virtual bool Update(float dt);
+
+	virtual void Draw();
 
 	bool CleanUp();
 

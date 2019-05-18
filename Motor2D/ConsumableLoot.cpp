@@ -51,8 +51,8 @@ bool Consumable::Update(float dt)
 		if (displacementTime.ReadMs() <= 280)
 		{
 			ExplosionMaker(dt);
-			LOG("displaced %i",position.x - originPos.x);
-			LOG("actual time %f", timeTest);
+			/*LOG("displaced %i",position.x - originPos.x);
+			LOG("actual time %f", timeTest);*/
 		}
 		else
 		{
@@ -99,6 +99,10 @@ void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 		else if (randNum == 2)
 		{
 			objectType = OBJECT_TYPE::PHOENIX_TAIL;
+		}
+		else
+		{
+			to_delete = true;
 		}
 	}
 	

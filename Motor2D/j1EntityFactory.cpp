@@ -21,8 +21,12 @@
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
 #include "WinTrigger.h"
+#include "NoWalkableTrigger.h"
+#include "ExitPortal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "WaveManager.h"
+#include "GolemProjectile.h"
 #include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
@@ -61,13 +65,14 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
-	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolem.png");
+	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolemv2.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
+	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -181,7 +186,9 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT 
+					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER 
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -277,6 +284,8 @@ bool j1EntityFactory::CleanUp()
 	marcheTornadoTex = nullptr;
 	App->tex->UnLoad(lootItemsTex); 
 	lootItemsTex = nullptr;
+	App->tex->UnLoad(portalTex);
+	portalTex = nullptr;
 
 	player = nullptr;
 
@@ -294,6 +303,7 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 		}
 			
 	}
+	App->scene->ComeToDeath = false;
 	return true;
 }
 
@@ -321,7 +331,7 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			Enemy* ret = nullptr;
 
 			pugi::xml_node nodeSpeed = node2.child("position");
-			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() };
+			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() + 16 };
 
 			std::string retType = node2.attribute("type").as_string();
 			if (retType.compare("enemyBomb") == 0)
@@ -357,8 +367,6 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			App->entityFactory->player->Load(characterPlayer);
 		}
 	}
-
-
 	//TODO create out portal
 	return true;
 }
@@ -380,7 +388,6 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 			(*item)->Save(nodeEntities);
 		}
 
-		
 	}
 
 	return true;
@@ -494,6 +501,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			Enemy* ret = nullptr;
 			int enemyLevel = CreateRandomBetween(0, 2);
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
+			
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
 			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(spawnPos.x, spawnPos.y)))
@@ -515,7 +523,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
 						numBombs++;
 						cont++;
@@ -536,7 +544,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{	
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
 						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
 						numTests++;
 						cont++;
@@ -643,6 +651,11 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		entities.push_back(ret); 
 		break; 
 
+	case PROJECTILE_TYPE::GOLEM_ARROW:
+		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner); 
+		entities.push_back(ret); 
+		break; 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -692,6 +705,8 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 	return nullptr; 
 }
 
+
+
 Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color)
 {
 	Trigger* ret = nullptr;
@@ -705,11 +720,19 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new LobbyPortal(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
-	case TRIGGER_TYPE::NO_TRIGGER:
-		break;
 	case TRIGGER_TYPE::WIN:
-		ret = new WinTrigger(posX, posY, scene, color);
+		ret = new WinTrigger(posX, posY,scene,color);
 		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::NOWALKABLE:
+		ret = new NoWalkableTrigger(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::EXITPORTAL:
+		ret = new ExitPortal(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::NO_TRIGGER:
 		break;
 	default:
 		break;
@@ -747,6 +770,20 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	}
 	
 	LOG("Failed to create player system");
+	return nullptr;
+}
+
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves)
+{
+	waveManager = DBG_NEW WaveManager(zone, 5); 
+
+	if (waveManager != nullptr)
+	{
+		entities.push_back(waveManager); 
+		return waveManager; 
+	}
+
+	LOG("Failed to create Wave Manager");
 	return nullptr;
 }
 
@@ -802,7 +839,8 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
-			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER) // || other enemy types 
+			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
+			(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS)
 			{
 				ret = false;
 				break;
@@ -832,6 +870,26 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 
 					return ret;
 				}
+			}
+		}
+	}
+	return nullptr;
+}
+
+j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
+{
+
+	j1Entity* ret = nullptr;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::LOOT)
+			{
+				ret = *entityIterator;
+				return ret;
 			}
 		}
 	}
@@ -910,14 +968,13 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
-void j1EntityFactory::AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile)
+void j1EntityFactory::AssignEntityToSubtilePos(j1Entity * entity, iPoint subtile)
 {
 	if (CheckSubtileMapBoundaries(subtile))
 		entitiesDataMap[GetSubtileEntityIndexAt(subtile)].entities.push_back(entity);
 
 	else
 		LOG("Trying to assign entity out of boundaries, ignoring");
-	
 }
 
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
@@ -941,7 +998,6 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 
 	return ret;
 }
-
 
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
@@ -998,7 +1054,7 @@ void j1EntityFactory::ReleaseAllReservedSubtiles()
 	{
 		reservedAdjacentSubtiles[i] = false; 
 	}
-	LOG("RELEASED ALL RESERVED SUBTILES");
+	//LOG("RELEASED ALL RESERVED SUBTILES");
 }
 
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
@@ -1007,7 +1063,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1021,11 +1077,15 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 		break;
 	case EnvironmentAssetsTypes::WALL1:
 		break;
+	case EnvironmentAssetsTypes::TRIGGERWALL:
+		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
+		break;
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
 		break;
 	}
+	return assetEntity;
 }
 
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
@@ -1058,7 +1118,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		switch (GetRandomValue(1, 12))
 		{
 		case 1:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+			if(lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
 				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
 			if (lootEntity->level == 0)
 				lootEntity->level = App->entityFactory->player->level;

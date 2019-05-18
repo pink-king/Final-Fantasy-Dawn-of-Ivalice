@@ -10,12 +10,12 @@ struct Enemy;
 struct WaveData
 {
 	// Number of enemies the wave will have
-	uint enemiesNumber = 0;
+	uint enemiesNumber = 0; 
 
 	// Percentage of spawning - by default, if the type is added, 100% chance to spawn
-	uint zombieChances = 10;
-	uint golemChances = 10;
-	uint bombChances = 10;
+	uint zombieChances = 10; 
+	uint golemChances = 10; 
+	uint bombChances = 10; 
 
 	// Vector with the type of enemies the wave can spawn
 	std::vector<EnemyType> types;
@@ -23,7 +23,7 @@ struct WaveData
 
 class WaveManager : public j1Entity
 {
-public:
+public: 
 
 	WaveManager(const SDL_Rect& zone, uint numWaves);
 	~WaveManager();
@@ -35,38 +35,38 @@ public:
 	bool PreUpdate() override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
-
+	
 	WaveData LoadNextWaveData(uint waveNumber); // Loads next wave data depending on the present wave
 	void CreateNextWave(WaveData waveData);	// Spawns the next wave depending on the wave data
-	bool isWaveOver() const;
+	bool isWaveOver() const; 
 
-	void Finish();
+	void Finish(); 
 
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) const override;
 
-private:
-
-	uint CreateRandomBetween(uint min, uint max);
-
-
-private:
-
-	uint maxWaves = 0;
-	uint actualWave = 0;
-	SDL_Rect spawnZone;
-
-	j1Timer timer;
-
 	std::vector<Enemy*> alive; // Vector that stores the enemies of the wave
 
+private: 
+
+	uint CreateRandomBetween(uint min, uint max); 
+
+private: 
+
+	uint maxWaves = 0;
+	uint currentWave = 0;
+	SDL_Rect spawnZone;
+
+	j1Timer timer;  
+
+	
 	bool to_finish = false;
 	bool toCreateNextWave = false;
 
-	WaveData nextWaveData;
+	WaveData nextWaveData; 
 
-	std::random_device rd;
-	std::mt19937 gen;
+	std::random_device rd;  
+	std::mt19937 gen; 
 };
 
 

@@ -588,13 +588,6 @@ bool Shara::Update(float dt)
 		break;
 	}
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
-	{
-		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
-		if (item != App->entityFactory->player->consumables.end())
-			App->entityFactory->player->ConsumConsumable(*item, this);
-	}
-
 	return true;
 }
 

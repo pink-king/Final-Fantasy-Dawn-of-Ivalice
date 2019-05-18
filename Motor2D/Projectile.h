@@ -20,6 +20,7 @@ enum class PROJECTILE_TYPE
 	TORNADO,
 	EARTH_SHAKER,
 	ENEMY_ARROW,
+	GOLEM_ARROW,
 	NO_ARROW
 };
 
@@ -42,6 +43,8 @@ public:
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+
+	const j1Entity* GetOwnerEntity() const;
 
 protected: 
 
