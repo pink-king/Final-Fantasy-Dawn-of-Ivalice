@@ -77,6 +77,7 @@ public:
 	float GetLastHeadingAngle() const;
 	void CheckRenderFlip(); // animation relative
 	void Draw();
+	
 
 	bool IsAiming()
 	{
@@ -132,6 +133,7 @@ public:
 
 	bool blink = false;
 	bool pulsation = false;
+	bool vanish = false;
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/

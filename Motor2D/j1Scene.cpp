@@ -207,6 +207,7 @@ bool j1Scene::PreUpdate()
 
 	
 
+
 	//if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
 	//	App->win->SetScale(2);
 

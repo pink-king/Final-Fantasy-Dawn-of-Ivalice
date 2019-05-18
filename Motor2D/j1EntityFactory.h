@@ -142,6 +142,7 @@ public:
 public:
 	fPoint					dmg_vec;
 	bool					pushEF = false;
+	bool					dmgInTimeFdbck = false;
 	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;

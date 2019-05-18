@@ -773,6 +773,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
+
 						}
 						else
 						{
@@ -846,6 +849,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
+
 						}
 						else
 						{
@@ -879,6 +885,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
 						}
 						else
 						{

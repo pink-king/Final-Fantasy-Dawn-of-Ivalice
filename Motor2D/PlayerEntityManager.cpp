@@ -274,7 +274,7 @@ bool PlayerEntityManager::PostUpdate()
 		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
 		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
 	}
-	SetHudAlphaValue();
+//	SetHudAlphaValue();
 	return true;
 }
 
@@ -856,11 +856,11 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 void PlayerEntityManager::SetHudAlphaValue()
 {
 	float percentlife = 100* App->entityFactory->player->life / maxLife;
-	
+	float alphavalue = (255 * ((percentlife - 100) * 0.01));
+	alphavalue = sqrt(alphavalue * alphavalue);
 	if (percentlife <= 35)
 	{
-		float alphavalue = (255 * ((percentlife - 100) * 0.01));
-		alphavalue = sqrt(alphavalue * alphavalue);
+		
 		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
 	}
 }

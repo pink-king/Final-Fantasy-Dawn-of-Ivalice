@@ -290,27 +290,33 @@ void PlayerEntity::Draw()
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 
-		if (App->entityFactory->pushEF)
+		if (App->entityFactory->pushEF|| App->entityFactory->dmgInTimeFdbck)
 		{
+			App->entityFactory->dmgInTimeFdbck = false;
 			App->entityFactory->alphaTimer.Start();
 			blink = true;
 			pulsation = true;
 			hudAlphavalue = 0;
+			vanish = true;
 		}
 		if (pulsation)
 		{
 		   // bool isIncreasing = true;
 		//	AlphaPulsation(hudAlphavalue, isIncreasing);
-			if (App->entityFactory->alphaTimer.ReadSec() < 0.3f)
+			if (hudAlphavalue < 255 && vanish)
 			{
 				App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue);
-				hudAlphavalue += 13;
+				hudAlphavalue += 10;
 				LOG("alphavalue inc %f", hudAlphavalue);
 			}
-			else if (App->entityFactory->alphaTimer.ReadSec() > 0.3f && App->entityFactory->alphaTimer.ReadSec() < 4.0f)
+			else if (hudAlphavalue >= 255 && vanish)
+			{
+				vanish = false;
+			}
+			else if ((hudAlphavalue <=255 || hudAlphavalue >255) && !vanish && hudAlphavalue >0)
 			{
 				App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue);
-				hudAlphavalue -= 1.1;
+				hudAlphavalue -= 3;
 				LOG("alphavalue dec %f", hudAlphavalue);
 			}
 			else hudAlphavalue = 0, pulsation = false;
@@ -688,8 +694,8 @@ void PlayerEntity::DoDash()
 
 void j1Entity::DoPushback()
 {
-	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 8;
-	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 8;
+	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 5;
+	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 5;
 
 }
 
