@@ -99,6 +99,7 @@
     <ClCompile Include="ExitPortal.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FireArrow.cpp" />
+    <ClCompile Include="GolemProjectile.cpp" />
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1DialogSystem.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="ExitPortal.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FireArrow.h" />
+    <ClInclude Include="GolemProjectile.h" />
     <ClInclude Include="GUI_Definitions.h" />
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />

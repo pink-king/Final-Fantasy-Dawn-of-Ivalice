@@ -79,7 +79,6 @@ void Consumable::ChooseConsumable()
 	else
 	{
 		int randNum = (GetRandomValue(1, 6));
-
 		if (randNum == 1)
 		{
 			objectType = OBJECT_TYPE::POTIONS;

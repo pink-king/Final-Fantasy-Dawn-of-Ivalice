@@ -74,10 +74,15 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		if (ComeToDeath)
+		if (ComeToDeath|| ComeToWin)
 		{
 			App->LoadGame("save_game.xml");
+			
+		}
+		if (ComeToWin)
+		{
 			ComeToDeath = false;
+			ComeToWin = false;
 		}
 		if (ComeToPortal)
 		{
@@ -157,6 +162,10 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
+		if (ComeToDeath)
+		{
+			ComeToDeath = false;
+		}
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 			inGamePanel->enable = false;
@@ -486,8 +495,8 @@ bool j1Scene::Update(float dt)
 		{
 			App->entityFactory->player->exp = 0;
 			App->SaveGame("save_game.xml");
-			App->entityFactory->player->life = App->entityFactory->player->maxLife;
 			isDeath = false;
+			ComeToDeath = true;
 			App->transitionManager->CreateFadeTransition(1.F,true,SceneState::DEATH);
 		}
 	}
@@ -933,6 +942,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		state = SceneState::WIN;
 		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
+		ComeToWin = true;
 		break;
 
 	case SceneState::MAX_STATES:

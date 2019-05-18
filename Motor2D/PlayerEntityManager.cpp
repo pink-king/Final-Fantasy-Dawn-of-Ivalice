@@ -322,9 +322,15 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	level = node.child("Experience").attribute("level").as_uint();
 	exp = node.child("Experience").attribute("exp").as_uint();
 
-	life = node.child("life").attribute("actualLife").as_float();
-	maxLife = node.child("life").attribute("maxLife").as_float();
-
+	if (!App->scene->ComeToDeath)
+	{
+		life = node.child("life").attribute("actualLife").as_float();
+		maxLife = 100;
+	}
+	else
+	{
+		life = maxLife = 100;
+	}
 	gold = node.child("gold").attribute("value").as_uint();
 
 	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
@@ -805,7 +811,7 @@ void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)
 
 void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * entity)
 {
-	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
+	for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end() && *item; ++item)
 	{
 		if (consumable == (*item)->objectType)
 		{
@@ -823,13 +829,17 @@ void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * en
 			if (consumable == OBJECT_TYPE::PHOENIX_TAIL)
 			{
 				//App->audio->PlayFx(consumHealPotion, 0);
-				if (App->pathfinding->IsWalkable({ (int)position.x + 10, (int)position.y + 10 }))
-				{
-					App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, position.x + 10, position.y + 10, SceneState::LOBBY, White);
-					item = consumables.erase(item);
+				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
+				destination.Normalize();
+				destination = { position.x + destination.x,position.y + destination.y };
+				if (!App->pathfinding->IsWalkable(App->map->WorldToMap(destination.x, destination.y)))
 					break;
-				}
 				
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, destination.x, destination.y, SceneState::LOBBY, White);
+				delete *item;
+				*item = nullptr;
+				consumables.erase(item);
+				break;
 			}
 		}
 	}
