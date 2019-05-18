@@ -116,8 +116,8 @@ public:
 	int pointingDir = 0; // relative to facing direction enum order
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
-	fPoint characterBaseSpeed = { 2.0f,1.5f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
-	fPoint characterBaseSpeedKey = { 2.0f, 1.0f };
+	fPoint characterBaseSpeed = { 1.6f,1.2f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
+	fPoint characterBaseSpeedKey = { 1.7f, 0.85f };
 	SDL_Texture* spritesheet = nullptr;
 	SDL_Texture* dash_spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];

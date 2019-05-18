@@ -7,10 +7,26 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="marche">
-			<Experience level="1" exp="75" />
-			<life actualLife="36" />
-			<gold value="5420" />
+		<Entities player="ritz">
+			<Experience level="1" exp="0" />
+			<life actualLife="122" />
+			<gold value="316" />
+			<equipedObjects>
+				<data name="stick_2" level="2" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="12" y="67" w="11" h="16" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="attack" value="23" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="1.07000005" />
+				</buffs>
+			</equipedObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="149" y="30" w="13" h="16" />
+				</data>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />
