@@ -129,6 +129,8 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 	}
 	else if (charObject.compare("gold") == 0)
 		loot->objectType = OBJECT_TYPE::GOLD;
+	else if (charObject.compare("phoenixTail") == 0)
+		loot->objectType = OBJECT_TYPE::PHOENIX_TAIL;
 
 	std::string charType = nodeData.attribute("lootType").as_string();
 	if (charType.compare("consumable") == 0)
@@ -241,6 +243,9 @@ bool LootEntity::Save(pugi::xml_node &node) const
 		break;
 	case OBJECT_TYPE::GOLD:
 		nodeData.append_attribute("objectType") = "gold";
+		break;
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		nodeData.append_attribute("objectType") = "phoenixTail";
 		break;
 	case OBJECT_TYPE::NO_OBJECT:
 		break;

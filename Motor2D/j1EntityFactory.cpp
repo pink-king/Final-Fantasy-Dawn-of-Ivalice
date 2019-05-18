@@ -294,6 +294,7 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 		}
 			
 	}
+	App->scene->ComeToDeath = false;
 	return true;
 }
 
