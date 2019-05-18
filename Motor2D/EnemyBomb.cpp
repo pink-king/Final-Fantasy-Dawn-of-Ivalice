@@ -27,6 +27,8 @@ bool EnemyBomb::Start()
 }
 bool EnemyBomb::PreUpdate()
 {
+	if (!isInDetectionRange())
+		state = EnemyState::IDLE; 
 
 	return true;
 }
@@ -92,6 +94,7 @@ void EnemyBomb::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
+		path_to_follow.clear();
 		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
@@ -99,7 +102,6 @@ void EnemyBomb::SetState(float dt)
 			state = EnemyState::SEARCHPATH;
 		}
 		// else go back to spawn point?
-
 	}
 	break;
 	case EnemyState::SEARCHPATH:
@@ -159,7 +161,6 @@ void EnemyBomb::SetState(float dt)
 
 		if (App->entityFactory->player->ChangedTile())
 		{
-			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
 			{
 				path_to_follow.clear();

@@ -244,6 +244,8 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
+	if (changedTile)
+		App->entityFactory->ReleaseAllReservedSubtiles(); 
 	
 	return ret;
 }

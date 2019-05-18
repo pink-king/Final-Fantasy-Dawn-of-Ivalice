@@ -1041,7 +1041,7 @@ void j1EntityFactory::ReleaseAllReservedSubtiles()
 	{
 		reservedAdjacentSubtiles[i] = false; 
 	}
-	LOG("RELEASED ALL RESERVED SUBTILES");
+	//LOG("RELEASED ALL RESERVED SUBTILES");
 }
 
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
