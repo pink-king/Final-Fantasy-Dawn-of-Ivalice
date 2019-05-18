@@ -676,3 +676,25 @@ fPoint PlayerEntity::GetShotDirection()
 
 	return destination;
 }
+void PlayerEntity::UsePhoenixTail(std::vector<LootEntity *>::iterator &item, int &retflag)
+{
+	retflag = 1;
+	int distMax = 50;
+	iPoint distNow = { 100,100 };
+	//App->audio->PlayFx(consumHealPotion, 0);
+	fPoint PortalFacingPos;
+
+	PortalFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+	PortalFacingPos = GetPivotPos() + PortalFacingPos * 100;
+
+	if (!App->pathfinding->IsWalkable(App->map->WorldToMap(PortalFacingPos.x, PortalFacingPos.y)))
+	{
+		retflag = 2; return;
+	};
+
+	App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, PortalFacingPos.x, PortalFacingPos.y, SceneState::LOBBY, White);
+	delete *item;
+	*item = nullptr;
+	App->entityFactory->player->consumables.erase(item);
+	{ retflag = 2; return; };
+}

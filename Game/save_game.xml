@@ -7,10 +7,10 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
-			<Experience level="1" exp="0" />
-			<life actualLife="104" />
-			<gold value="181" />
+		<Entities player="marche">
+			<Experience level="1" exp="75" />
+			<life actualLife="36" />
+			<gold value="5420" />
 		</Entities>
 	</entities>
 	<AttackManager />
