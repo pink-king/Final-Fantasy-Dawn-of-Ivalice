@@ -2,6 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include "j1BuffManager.h"
 #include "Brofiler/Brofiler.h"
 
 j1ModuleCamera2D::j1ModuleCamera2D()
@@ -30,6 +31,7 @@ bool j1ModuleCamera2D::PreUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 		debug = !debug; 
+
 	return true;
 }
 
@@ -58,7 +60,7 @@ bool j1ModuleCamera2D::PostUpdate()
 	fPoint offset{ 640,360 }; // pivot of the "screen" itself at center pos
 	offset.y += 30.0f; // offset for character height compensation
 
-	if (App->entityFactory->player != nullptr)
+	if (App->entityFactory->player != nullptr && !debug)
 	{
 		fPoint playerPos = App->entityFactory->player->GetPivotPos() * App->win->GetScale();
 
