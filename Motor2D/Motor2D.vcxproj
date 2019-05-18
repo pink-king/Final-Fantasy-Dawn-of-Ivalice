@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicArrow.cpp" />
+    <ClCompile Include="BossEmmiter.cpp" />
     <ClCompile Include="Boss_Flower.cpp" />
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicArrow.h" />
+    <ClInclude Include="BossEmmiter.h" />
     <ClInclude Include="Boss_Flower.h" />
     <ClInclude Include="Buff.h" />
     <ClInclude Include="Color.h" />

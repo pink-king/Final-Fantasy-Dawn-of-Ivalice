@@ -8,7 +8,7 @@
 	<scene />
 	<entities>
 		<Players player="marche">
-			<Experience level="1" exp="75" />
+			<Experience level="1" exp="0" />
 			<life actualLife="100" maxLife="100" />
 			<gold value="0" />
 		</Players>
@@ -175,22 +175,28 @@
 			<position x="-924" y="1442" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-1070" y="1920" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
 			<position x="-1122" y="1850" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1195.84705" y="2050.4585" />
+			<position x="-1088" y="1909" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1152.94409" y="1882.47205" />
+			<position x="-1144" y="1878" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1220.94824" y="1915.28735" />
+			<position x="-1206" y="1902" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1110.85034" y="1957.08264" />
+			<position x="-1008" y="1893" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1044.76306" y="1956.10327" />
+			<position x="-1092" y="1985" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-962" y="1913" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
 			<position x="-152" y="1176" />

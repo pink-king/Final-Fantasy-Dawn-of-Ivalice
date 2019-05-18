@@ -326,7 +326,7 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 	if (!App->scene->ComeToDeath)
 	{
-		life = node.child("life").attribute("actualLife").as_float();
+		life = 100 - node.child("life").attribute("actualLife").as_float();
 		maxLife = 100;
 	}
 	else
@@ -380,8 +380,8 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 	nodeexperience.append_attribute("exp") = exp;
 
 	pugi::xml_node nodelife = node.append_child("life");
-	nodelife.append_attribute("actualLife") = life;
-	nodelife.append_attribute("maxLife") = maxLife;
+	nodelife.append_attribute("actualLife") = maxLife - life;
+
 
 	pugi::xml_node nodegold = node.append_child("gold");
 	nodegold.append_attribute("value") = gold;
@@ -828,12 +828,12 @@ void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * en
 				item = consumables.erase(item);
 				break;
 			}
-			if (consumable == OBJECT_TYPE::PHOENIX_TAIL)
+			if (consumable == OBJECT_TYPE::PHOENIX_TAIL && (App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2))
 			{
 				//App->audio->PlayFx(consumHealPotion, 0);
 				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
 				destination.Normalize();
-				destination = { position.x + destination.x,position.y + destination.y };
+				destination = { position.x * destination.x,position.y * destination.y };
 				if (!App->pathfinding->IsWalkable(App->map->WorldToMap(destination.x, destination.y)))
 					break;
 				

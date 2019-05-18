@@ -101,12 +101,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreatePlayer({ -300, 300 });
 		//AcceptUISFX_logic = false;
 		App->entityFactory->loadEnemies = false;
-		inGamePanel->enable = true;
-		uiMarche->enable = true;
-		uiShara->enable = true;
-		uiRitz->enable = true;
-		settingPanel->enable = false;
-		startMenu->enable = false;
+
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
@@ -158,6 +153,7 @@ bool j1Scene::Start()
 		deathPanel->enable = true;
 
 		ComeToDeath = true;
+		isDeath = false;
 	}
 
 	if (state == SceneState::WIN)
@@ -495,6 +491,7 @@ bool j1Scene::Update(float dt)
 		if (isDeath)
 		{
 			App->entityFactory->player->exp = 0;
+			App->entityFactory->player->gold *= 0.5;
 			App->SaveGame("save_game.xml");
 			isDeath = false;
 			ComeToDeath = true;
