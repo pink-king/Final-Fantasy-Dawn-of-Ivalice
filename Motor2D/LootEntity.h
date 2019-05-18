@@ -117,6 +117,9 @@ public:
 	UiItem_Description* MyDescription = nullptr; 
 	bool spawnedDescription = false;
 	void CheckClampedCrossHairToSpawnDescription();
+	
+
+	bool clampedByCrosshair = false; 
 
 
 protected:

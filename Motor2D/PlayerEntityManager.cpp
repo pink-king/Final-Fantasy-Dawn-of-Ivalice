@@ -136,9 +136,22 @@ bool PlayerEntityManager::Update(float dt)
 		}
 		if (!item->manualCollectable)
 		{
-			//TODO: description
+			//TODO: description         dynamic_cast<LootEntity*>(equipable)
+
+			
+			if (item->type == ENTITY_TYPE::LOOT)
+			{
+				if (!dynamic_cast<LootEntity*>(item)->spawnedDescription)
+					PlayerOnTopOfLootToSpawnDescription(true, (LootEntity*)item);
+			}
+		
+		
+
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
+
+				PlayerOnTopOfLootToSpawnDescription(false, (LootEntity*)item);
+
 				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 
 				if (App->entityFactory->player->CollectLoot((LootEntity*)(item), true))
@@ -159,6 +172,7 @@ bool PlayerEntityManager::Update(float dt)
 		}
 
 	}
+
 	
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
@@ -418,6 +432,33 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 }
 
 
+void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEntity* entity)
+{
+
+	if (onTop && !entity->spawnedDescription)
+	{
+
+		// create a new one
+		App->entityFactory->GenerateDescriptionForLootItem(entity);
+		iPoint offset(-100, -entity->MyDescription->panelWithButton->section.y - 40);
+		entity->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
+		entity->MyDescription->HideAllElements(false);
+
+		entity->spawnedDescription = true;
+	}
+
+	// if description is showing, but crosshair stops focusing item 
+
+	if (!onTop && entity->spawnedDescription)
+	{
+		// delete last descr
+		entity->MyDescription->DeleteEverything();
+		entity->MyDescription = nullptr;
+		entity->spawnedDescription = false;
+	}
+
+
+}
 
 
 
@@ -1033,6 +1074,13 @@ bool Crosshair::ManageInput(float dt)
 		}
 		else
 		{
+
+			if (clampedEntity->type == ENTITY_TYPE::LOOT)  
+			{
+				if(!dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)    // deleted by crosshair already in check crosshair function
+					App->entityFactory->player->PlayerOnTopOfLootToSpawnDescription(false, (LootEntity*)clampedEntity);
+			}
+
 			clamped = false; // protection
 			clampedEntity = nullptr;
 		}

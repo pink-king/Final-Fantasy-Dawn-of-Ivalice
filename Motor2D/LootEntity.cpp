@@ -499,7 +499,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
 	{
 
-
+		clampedByCrosshair = true; 
 		
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
@@ -528,4 +528,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 
 }
+
+
+
 
