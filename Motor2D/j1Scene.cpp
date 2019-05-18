@@ -59,7 +59,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		//App->entityFactory->CreatePlayer({ -1575, 2150 });
+		App->entityFactory->CreatePlayer({ -300, 2900 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
 		//AcceptUISFX_logic = false;
@@ -363,7 +364,7 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
-			if (!inventory->enable)
+			if (!inventory->enable && !App->dialog->isDialogSequenceActive)
 			{
 
 				App->pause = !App->pause;
@@ -422,6 +423,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBag = false;
 				inventoryItem->swappedBag2 = true;
 				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
 				inventoryItem->firstTimeSwappedBagLeft = false;
 				inventoryItem->firstTimeSwappedBagLeft3 = false;
 				inventoryItem->LoadElements();
@@ -472,6 +474,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBagVendor = false;
 				inventoryItem->swappedBag2Vendor = true;
 				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
@@ -1010,7 +1013,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		//LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
+		LoadNewMap("maps/copia.tmx");
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
@@ -1025,7 +1029,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		LoadNewMap("maps/Level2_Started.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		LoadNewMap("maps/copia.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		App->entityFactory->CreatePlayer({ 0, 0 });
@@ -1059,38 +1063,39 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 	
 		if (!pausePanel->enable)
 		{
-			App->pause = !App->pause;
-			if (App->pause && !pausePanel->enable)
+			if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
 			{
-				if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
+				App->pause = !App->pause;
+				if (App->pause && !pausePanel->enable)
 				{
+
 					inventory->enable = true;
 					App->gui->resetHoverSwapping = false;
 
 					inventoryItem->LoadElements(onlyEquipped, isVendor);
 					App->audio->PlayFx(openInventorySFX, 0);
+
+
 				}
-				
-			}
 
-			else
-			{
-				App->audio->PlayFx(closeinventorySFX, 0);
-				inventory->enable = false;
-				inventoryItem->swappedBag = true;
-				inventoryItem->swappedBag2 = false;
-				inventoryItem->swappedBag3 = false;
-				inventoryItem->swappedBagVendor = true;
-				inventoryItem->swappedBag2Vendor = false;
-				inventoryItem->swappedBag3Vendor = false;
-
-
-				if (App->dialog->isDialogSequenceActive)
+				else
 				{
-					App->dialog->spawnDialoguesAfterInventory(); 
+					App->audio->PlayFx(closeinventorySFX, 0);
+					inventory->enable = false;
+					inventoryItem->swappedBag = true;
+					inventoryItem->swappedBag2 = false;
+					inventoryItem->swappedBag3 = false;
+					inventoryItem->swappedBagVendor = true;
+					inventoryItem->swappedBag2Vendor = false;
+					inventoryItem->swappedBag3Vendor = false;
+
+
+					if (App->dialog->isDialogSequenceActive)
+					{
+						App->dialog->spawnDialoguesAfterInventory();
+					}
 				}
 			}
-
 		}
 
 }

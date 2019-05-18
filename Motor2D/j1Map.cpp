@@ -518,6 +518,38 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							destRect = { 0,256,64,64 };
 						}
 
+						// level 2 
+
+					    if (wallTypeName == "out1")
+						{
+							destRect = { 64,873,64,64 };
+						}
+						else if (wallTypeName == "out2")
+						{
+							destRect = { 0,873,64,64 };
+						}
+						else if (wallTypeName == "corner")   // the temporal outside wall that joins the two types
+						{
+							destRect = { 0,937,64,64 };
+						}
+						else if (wallTypeName == "ins1")
+						{
+							destRect = { 64,745,64,64 };
+						}
+						else if (wallTypeName == "ins2")
+						{
+							destRect = { 0,745,64,64 };
+						}
+						else if (wallTypeName == "diago1")
+						{
+							destRect = { 64,809,64,64 };
+						}
+						else if (wallTypeName == "diago2")
+						{
+							destRect = { 0,809,64,64 };
+						}
+
+
 						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
 
 
