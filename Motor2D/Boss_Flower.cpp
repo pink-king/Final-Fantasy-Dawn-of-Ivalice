@@ -230,7 +230,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	fireball_timer_data.time = 1600; // fireball cadence
 	spawnEnemies_timer_data.time = 2000;
 	shieldFire_timer_data.time = 800;
-	maxEvasion_timer_data.time = 500;
+	maxEvasion_timer_data.time = 800;
 	//poisonRain_timer_data.time = 2000;
 
 	myState = Boss1State::PHASE1;
