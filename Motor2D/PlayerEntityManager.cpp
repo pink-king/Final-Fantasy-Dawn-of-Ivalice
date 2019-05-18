@@ -673,7 +673,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			}
 		}
 	}
-	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+	if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
 		if (!fromCrosshair)
 		{
