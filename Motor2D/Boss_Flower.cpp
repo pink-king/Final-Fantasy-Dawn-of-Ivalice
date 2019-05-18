@@ -18,43 +18,34 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	idleAnim[(int)facingDirection::S].PushBack({ 0,320,64,64 });
 	idleAnim[(int)facingDirection::S].PushBack({ 64,320,64,64 });
 	idleAnim[(int)facingDirection::S].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::S].loop = true;
 
 	idleAnim[(int)facingDirection::SW].PushBack({ 0,384,64,64 });
 	idleAnim[(int)facingDirection::SW].PushBack({ 64,384,64,64 });
 	idleAnim[(int)facingDirection::SW].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::SW].loop = true;
 
 	idleAnim[(int)facingDirection::SE].PushBack({ 0,384,64,64 }); // same as SW but flipped
 	idleAnim[(int)facingDirection::SE].PushBack({ 64,384,64,64 });
 	idleAnim[(int)facingDirection::SE].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::SE].loop = true;
 
 	idleAnim[(int)facingDirection::W].PushBack({ 0,448,64,64 });
 	idleAnim[(int)facingDirection::W].PushBack({ 64,448,64,64 });
 	idleAnim[(int)facingDirection::W].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::W].loop = true;
 
 	idleAnim[(int)facingDirection::E].PushBack({ 0,448,64,64 }); // same as W but flipped
 	idleAnim[(int)facingDirection::E].PushBack({ 64,448,64,64 });
 	idleAnim[(int)facingDirection::E].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::E].loop = true;
 
 	idleAnim[(int)facingDirection::NW].PushBack({ 0,512,64,64 });
 	idleAnim[(int)facingDirection::NW].PushBack({ 64,512,64,64 });
 	idleAnim[(int)facingDirection::NW].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::NW].loop = true;
 
 	idleAnim[(int)facingDirection::NE].PushBack({ 0,512,64,64 }); // same as NW but flipped
 	idleAnim[(int)facingDirection::NE].PushBack({ 64,512,64,64 });
 	idleAnim[(int)facingDirection::NE].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::NE].loop = true;
 
 	idleAnim[(int)facingDirection::N].PushBack({ 0,576,64,64 });
 	idleAnim[(int)facingDirection::N].PushBack({ 64,576,64,64 });
 	idleAnim[(int)facingDirection::N].speed = animSpeedIdle;
-	//idleAnim[(int)facingDirection::N].loop = true;
-
 
 	// attack
 	attackAnim[(int)facingDirection::S].PushBack({ 0,0,64,64 });
@@ -118,8 +109,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::S].PushBack({ 64,832,64,64 });
 	jumpAnim[(int)facingDirection::S].PushBack({ 128,832,64,64 });
 	jumpAnim[(int)facingDirection::S].PushBack({ 192,832,64,64 });
-	//for(int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::S].PushBack({ 256,832,64,64 });
+	jumpAnim[(int)facingDirection::S].PushBack({ 256,832,64,64 });
 	jumpAnim[(int)facingDirection::S].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::S].loop = false;
 
@@ -127,8 +117,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::N].PushBack({ 64,1088,64,64 });
 	jumpAnim[(int)facingDirection::N].PushBack({ 128,1088,64,64 });
 	jumpAnim[(int)facingDirection::N].PushBack({ 192,1088,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::N].PushBack({ 256,1088,64,64 });
+	jumpAnim[(int)facingDirection::N].PushBack({ 256,1088,64,64 });
 	jumpAnim[(int)facingDirection::N].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::N].loop = false;
 
@@ -136,8 +125,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::W].PushBack({ 64,960,64,64 });
 	jumpAnim[(int)facingDirection::W].PushBack({ 128,960,64,64 });
 	jumpAnim[(int)facingDirection::W].PushBack({ 192,960,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::W].PushBack({ 256,960,64,64 });
+	jumpAnim[(int)facingDirection::W].PushBack({ 256,960,64,64 });
 	jumpAnim[(int)facingDirection::W].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::W].loop = false;
 
@@ -145,8 +133,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::E].PushBack({ 64,960,64,64 });
 	jumpAnim[(int)facingDirection::E].PushBack({ 128,960,64,64 });
 	jumpAnim[(int)facingDirection::E].PushBack({ 192,960,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::E].PushBack({ 256,960,64,64 });
+	jumpAnim[(int)facingDirection::E].PushBack({ 256,960,64,64 });
 	jumpAnim[(int)facingDirection::E].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::E].loop = false;
 
@@ -154,8 +141,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::SW].PushBack({ 64,896,64,64 });
 	jumpAnim[(int)facingDirection::SW].PushBack({ 128,896,64,64 });
 	jumpAnim[(int)facingDirection::SW].PushBack({ 192,896,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::SW].PushBack({ 256,896,64,64 });
+	jumpAnim[(int)facingDirection::SW].PushBack({ 256,896,64,64 });
 	jumpAnim[(int)facingDirection::SW].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::SW].loop = false;
 
@@ -163,8 +149,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::SE].PushBack({ 64,896,64,64 });
 	jumpAnim[(int)facingDirection::SE].PushBack({ 128,896,64,64 });
 	jumpAnim[(int)facingDirection::SE].PushBack({ 192,896,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::SE].PushBack({ 256,896,64,64 });
+	jumpAnim[(int)facingDirection::SE].PushBack({ 256,896,64,64 });
 	jumpAnim[(int)facingDirection::SE].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::SE].loop = false;
 
@@ -172,8 +157,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::NW].PushBack({ 64,1024,64,64 });
 	jumpAnim[(int)facingDirection::NW].PushBack({ 128,1024,64,64 });
 	jumpAnim[(int)facingDirection::NW].PushBack({ 192,1024,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::NW].PushBack({ 256,1024,64,64 });
+	jumpAnim[(int)facingDirection::NW].PushBack({ 256,1024,64,64 });
 	jumpAnim[(int)facingDirection::NW].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::NW].loop = false;
 
@@ -181,8 +165,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::NE].PushBack({ 64,1024,64,64 });
 	jumpAnim[(int)facingDirection::NE].PushBack({ 128,1024,64,64 });
 	jumpAnim[(int)facingDirection::NE].PushBack({ 192,1024,64,64 });
-	//for (int i = 0; i < 8; ++i)
-		jumpAnim[(int)facingDirection::NE].PushBack({ 256,1024,64,64 });
+	jumpAnim[(int)facingDirection::NE].PushBack({ 256,1024,64,64 });
 	jumpAnim[(int)facingDirection::NE].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::NE].loop = false;
 
@@ -232,7 +215,6 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	spawnEnemies_timer_data.time = 2000;
 	shieldFire_timer_data.time = 800;
 	maxEvasion_timer_data.time = 400;
-	//poisonRain_timer_data.time = 2000;
 
 	myState = Boss1State::PHASE1;
 }
@@ -240,12 +222,12 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity() 
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
+	if (rainEmitter != nullptr)
+		rainEmitter->to_delete = true;
+
+	DesactiveShield();
 }
 
-//bool DemonBossEntity::Start()
-//{
-//	return true;
-//}
 
 bool FlowerBossEntity::PreUpdate()
 {
@@ -425,6 +407,9 @@ void FlowerBossEntity::PhaseManager(float dt)
 			// reset shooted emitter
 			shootedPoisonRainEmitter = false;
 
+			// unlink emitter
+			rainEmitter = nullptr;
+
 			break;
 		}
 
@@ -540,7 +525,7 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		uint spawnRatio = uint(life * 2.5f);
 		uint radius = 200u;
 		// SHOOT
-		App->entityFactory->CreateBossEmitter(
+		rainEmitter = App->entityFactory->CreateBossEmitter(
 			GetPivotPos(), // projected position
 			radius, // radius, world coords
 			spawnRatio, // spawn ratio, ms
@@ -560,17 +545,20 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		if (patternsCounter <= 2)
 		{
 			enemyTypesVec.push_back(EnemyType::TEST);
+			LOG("only basic enemy");
 		}
 		else if (patternsCounter <= 4)
 		{
 			enemyTypesVec.push_back(EnemyType::TEST);
 			enemyTypesVec.push_back(EnemyType::ARCHER);
+			LOG("spawn basic enemy and archer");
 		}
 		else
 		{
 			enemyTypesVec.push_back(EnemyType::ARCHER);
-			enemyTypesVec.push_back(EnemyType::TEST);
 			enemyTypesVec.push_back(EnemyType::BOMB);
+			enemyTypesVec.push_back(EnemyType::TEST);
+			LOG("spawn archer,basic and bomb");
 		}
 		
 
@@ -800,9 +788,9 @@ bool FlowerBossEntity::IsAttackOnTilePerimeter()
 						{
 							if (linkedEntity->type == ENTITY_TYPE::PLAYER)
 							{
-								LOG("detected player attack on perimeter");
+								/*LOG("detected player attack on perimeter");
 								LOG("pertaints to tile area: %i,%i", tileToExplore.x, tileToExplore.y);
-								LOG("subtile: %i, %i", subtileCheck.x, subtileCheck.y);
+								LOG("subtile: %i, %i", subtileCheck.x, subtileCheck.y);*/
 
 								ret = true;
 

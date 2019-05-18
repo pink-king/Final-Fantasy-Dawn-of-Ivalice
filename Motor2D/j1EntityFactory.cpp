@@ -674,10 +674,11 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 j1Entity * j1EntityFactory::CreateBossEmitter(fPoint pos, uint radius, uint spawnRatio, const j1Entity * owner, uint lifeTime)
 {
 	j1Entity* ret = nullptr; 
+
 	ret = DBG_NEW BossEmmiter(pos, radius, spawnRatio, owner, lifeTime);
 	entities.push_back(ret);
 
-	return nullptr;
+	return ret;
 }
 
 LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)

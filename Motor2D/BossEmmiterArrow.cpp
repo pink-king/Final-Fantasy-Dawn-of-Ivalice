@@ -43,7 +43,7 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 
 BossEmmiterArrow::~BossEmmiterArrow()
 {
-	LOG("Bye arrow!");
+	//LOG("Bye arrow!");
 }
 
 bool BossEmmiterArrow::PreUpdate()
