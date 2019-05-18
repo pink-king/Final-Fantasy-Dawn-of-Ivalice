@@ -268,6 +268,11 @@ bool FlowerBossEntity::Update(float dt)
 	{
 		life = 40.f;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+	{
+		shootedPoisonRainEmitter = false;
+		Phase2Logic();
+	}
 
 	//LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
 	//LOG("life:%f", life);
@@ -527,10 +532,16 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 {
 	if (!shootedPoisonRainEmitter)
 	{
-		// TODO: shoot emitter
 		LOG("shooting emitter");
 		shootedPoisonRainEmitter = true;
 		// SHOOT
+		App->entityFactory->CreateArrow(
+			{ 0,0 },
+			{ 0,0 },
+			100, 
+			this, 
+			PROJECTILE_TYPE::BOSS_EMMITER, 
+			10u);
 
 	}
 }
@@ -542,6 +553,8 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		// if the enemy life is less than x, spawn archer too
 		// TODO: test 
 		std::vector<EnemyType> enemyTypesVec;
+
+		//if(patternsCounter >= )
 		enemyTypesVec.push_back(EnemyType::TEST);
 
 		for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
