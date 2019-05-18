@@ -324,19 +324,27 @@
           <idleSec x="856" y="2320" w="222" h="67"/>
           <hoverSec x="856" y="2252" w="222" h="67" />
           <clickSec x="856" y="2388" w="222" h="67" />
-          <position x="101" y="360"/>
+          <position x="101" y="280"/>
         </button>
+        
+        <button name="button_loadGame" function = "LoadGame">
+          <idleSec x="856" y="2320" w="222" h="67"/>
+          <hoverSec x="856" y="2252" w="222" h="67" />
+          <clickSec x="856" y="2388" w="222" h="67" />
+          <position x="101" y="380"/>
+        </button>
+        
         <button name="button_settings" function = "SettingsScreen">
           <idleSec  x="1079" y="2320" w="222" h="67"/>
           <hoverSec x="1079" y="2252" w="222" h="67" />
           <clickSec x="1079" y="2388" w="222" h="67" />
-          <position x="101" y="460"/>
+          <position x="101" y="480"/>
         </button>
         <button name="button_exit" function = "ExitGame">
           <idleSec  x="856" y="2524" w="222" h="67"/>
           <hoverSec x="856" y="2456" w="222" h="67" />
           <clickSec x="856" y="2592" w="222" h="67" />
-          <position x="101" y="560"/>
+          <position x="101" y="580"/>
         </button>
 
       </buttons>

@@ -51,6 +51,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToStartMenu();
 	if (functionName == "GoBackToStartMenuFromDeathWin")
 		App->gui->GoBackToStartMenuFromDeathWin();
+	if(functionName=="LoadGame")
+		App->LoadGame("save_game.xml");
 
 	/*if(App->scene->AcceptUISFX_logic)*/
 		App->audio->PlayFx(App->scene->acceptUI, 0);
