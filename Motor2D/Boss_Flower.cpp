@@ -553,6 +553,9 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		// TODO: test 
 		std::vector<EnemyType> enemyTypesVec;
 
+		if (life <= maxLife * 0.5f && patternsCounter <= 3) // accelerates types of enemies
+			patternsCounter = 4;
+
 		if (patternsCounter <= 2)
 		{
 			enemyTypesVec.push_back(EnemyType::TEST);
