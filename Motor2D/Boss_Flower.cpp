@@ -237,7 +237,10 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	myState = Boss1State::PHASE1;
 }
 
-FlowerBossEntity::~FlowerBossEntity() {}
+FlowerBossEntity::~FlowerBossEntity() 
+{
+	App->entityFactory->DeleteEntityFromSubtile(this);
+}
 
 //bool DemonBossEntity::Start()
 //{
@@ -295,32 +298,32 @@ void FlowerBossEntity::PhaseManager(float dt)
 		static bool launchedBall = false;
 
 		// checks timer and attack
-		//if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack && !evading)
-		//{
-		//	// changes phase
-		//	LOG("phase change");
+		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack && !evading)
+		{
+			// changes phase
+			LOG("phase change");
 
-		//	if (life <= maxLife * 0.5f)
-		//	{
-		//		myState = Boss1State::PHASE4;
-		//		phase_control_timers.phase4.timer.Start();
-		//	}
-		//	else if (patternsCounter % 2 == 0)
-		//	{
-		//		myState = Boss1State::PHASE2;
-		//		LOG("phase2");
-		//		phase_control_timers.phase2.timer.Start();
-		//	}
-		//	else
-		//	{
-		//		myState = Boss1State::PHASE3;
-		//		LOG("phase3");
-		//		phase_control_timers.phase3.timer.Start();
-		//	}
+			if (life <= maxLife * 0.5f)
+			{
+				myState = Boss1State::PHASE4;
+				phase_control_timers.phase4.timer.Start();
+			}
+			else if (patternsCounter % 2 == 0)
+			{
+				myState = Boss1State::PHASE2;
+				LOG("phase2");
+				phase_control_timers.phase2.timer.Start();
+			}
+			else
+			{
+				myState = Boss1State::PHASE3;
+				LOG("phase3");
+				phase_control_timers.phase3.timer.Start();
+			}
 
-		//	++patternsCounter;
-		//	break; // exit case
-		//}
+			++patternsCounter;
+			break; // exit case
+		}
 
 		// --------------------------------------------------------
 
@@ -534,15 +537,15 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 	{
 		LOG("shooting emitter");
 		shootedPoisonRainEmitter = true;
+		uint spawnRatio = uint(life * 2.5f);
+		uint radius = 200u;
 		// SHOOT
-		App->entityFactory->CreateArrow(
-			{ 0,0 },
-			{ 0,0 },
-			100, 
-			this, 
-			PROJECTILE_TYPE::BOSS_EMMITER, 
-			10u);
-
+		App->entityFactory->CreateBossEmitter(
+			GetPivotPos(), // projected position
+			radius, // radius, world coords
+			spawnRatio, // spawn ratio, ms
+			App->entityFactory->player, // owner
+			phase_control_timers.phase2.time); // duration, ms
 	}
 }
 
@@ -554,8 +557,11 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		// TODO: test 
 		std::vector<EnemyType> enemyTypesVec;
 
-		//if(patternsCounter >= )
-		enemyTypesVec.push_back(EnemyType::TEST);
+		if (patternsCounter <= 2)
+		{
+			enemyTypesVec.push_back(EnemyType::TEST);
+			enemyTypesVec.push_back(EnemyType::ARCHER);
+		}
 
 		for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
 		{
