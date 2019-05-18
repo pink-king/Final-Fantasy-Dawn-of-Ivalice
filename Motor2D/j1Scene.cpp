@@ -59,7 +59,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		//App->entityFactory->CreatePlayer({ -1575, 2150 });
+		App->entityFactory->CreatePlayer({ -300, 2900 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
 		//AcceptUISFX_logic = false;
@@ -1009,7 +1010,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		//LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
+		LoadNewMap("maps/Level2.tmx");
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
