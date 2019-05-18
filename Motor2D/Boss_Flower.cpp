@@ -245,6 +245,8 @@ FlowerBossEntity::~FlowerBossEntity() {}
 
 bool FlowerBossEntity::PreUpdate()
 {
+	previousLife = life;
+
 	return true;
 }
 
@@ -261,8 +263,13 @@ bool FlowerBossEntity::Update(float dt)
 		Phase3Logic();
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
+	{
+		life = 40.f;
+	}
+
 	//LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
-	LOG("life:%f", life);
+	//LOG("life:%f", life);
 
 	return true;
 }
@@ -282,33 +289,34 @@ void FlowerBossEntity::PhaseManager(float dt)
 		static bool launchedBall = false;
 
 		// checks timer and attack
-		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack && !evading)
-		{
-			// changes phase
-			LOG("phase change");
+		//if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack && !evading)
+		//{
+		//	// changes phase
+		//	LOG("phase change");
 
-			if (patternsCounter % 2 == 0)
-			{
-				myState = Boss1State::PHASE2;
-				LOG("phase2");
-				phase_control_timers.phase2.timer.Start();
-			}
-			else
-			{
-				myState = Boss1State::PHASE3;
-				LOG("phase3");
-				phase_control_timers.phase3.timer.Start();
-			}
+		//	if (life <= maxLife * 0.5f)
+		//	{
+		//		myState = Boss1State::PHASE4;
+		//		phase_control_timers.phase4.timer.Start();
+		//	}
+		//	else if (patternsCounter % 2 == 0)
+		//	{
+		//		myState = Boss1State::PHASE2;
+		//		LOG("phase2");
+		//		phase_control_timers.phase2.timer.Start();
+		//	}
+		//	else
+		//	{
+		//		myState = Boss1State::PHASE3;
+		//		LOG("phase3");
+		//		phase_control_timers.phase3.timer.Start();
+		//	}
 
-			if (life <= maxLife * 0.5f)
-			{
-				myState = Boss1State::PHASE4;
-				phase_control_timers.phase4.timer.Start();
-			}
+		//	++patternsCounter;
+		//	break; // exit case
+		//}
 
-			++patternsCounter;
-			break; // exit case
-		}
+		// --------------------------------------------------------
 
 		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack && !evading)
 		{
@@ -322,7 +330,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 		}
 
 		// checks if the attack animation finishes and do logic
-		if (currentAnimation->GetCurrentFloatFrame() >= 2.f && !launchedBall && !evading)
+		if (currentAnimation->GetCurrentFloatFrame() >= 2.f && !launchedBall && !evading && doingAttack)
 		{
 			LOG("attack");
 			launchedBall = true;
@@ -332,7 +340,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			App->camera2D->AddTrauma(0.2f);
 		}
 
-		if (currentAnimation->Finished() && launchedBall && !evading)
+		if (currentAnimation->Finished() && launchedBall && !evading && doingAttack)
 		{
 			for (int i = 0; i < 8; ++i)
 				attackAnim[i].Reset();
@@ -358,14 +366,20 @@ void FlowerBossEntity::PhaseManager(float dt)
 				evading = true;
 				currentAnimation = &jumpAnim[pointingDir];
 				LOG("evading");
+				if (App->entityFactory->DeleteEntityFromSubtile(this))
+				{
+					LOG("del true");
+				}
+				else
+					LOG("del false");
 			}
 
 		}
 
 		if (evading)
 		{
-			App->entityFactory->DeleteEntityFromSubtile(this);
-			if (currentAnimation->Finished() && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time)
+			
+			if (currentAnimation->Finished())// && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time)
 			{
 				currentAnimation->Reset();
 				evading = false;
@@ -373,7 +387,9 @@ void FlowerBossEntity::PhaseManager(float dt)
 				//phase_control_timers.phase1.timer.Start();
 				fireball_timer_data.timer.Start();
 				App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
-				maxEvasion_timer_data.timer.Start();
+				//maxEvasion_timer_data.timer.Start();
+
+				LOG("finished anim evasion");
 			}
 		}
 		
@@ -630,6 +646,9 @@ void FlowerBossEntity::CheckRenderFlip()
 
 bool FlowerBossEntity::PostUpdate()
 {
+	if(previousLife != life)
+		LOG("life:%f", life);
+
 	return true;
 }
 

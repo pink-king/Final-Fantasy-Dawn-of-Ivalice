@@ -99,7 +99,7 @@ bool j1AttackManager::Update(float dt)
 		}
 		else
 		{
-			LOG("Involved %i entities", (*attacksDataIterator)->combo);
+			//LOG("Involved %i entities", (*attacksDataIterator)->combo);
 			delete(*attacksDataIterator);
 			(*attacksDataIterator) = nullptr;
 			attacksDataIterator = currentPropagationAttacks.erase(attacksDataIterator);
@@ -128,7 +128,6 @@ bool j1AttackManager::CleanUp()
 {
 	if (currentPropagationAttacks.size() > 0)
 	{
-		LOG("TODO");
 		for (std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin(); iter != currentPropagationAttacks.end();++iter)
 		{
 			delete *iter;
@@ -467,7 +466,7 @@ std::vector<j1Entity*>* attackData::GetInvolvedEntitiesFromSubtile(const iPoint 
 	{
 		if (temp->size() > 0)
 		{
-			LOG("vector with: %i entity/ies", temp->size());
+			//LOG("vector with: %i entity/ies", temp->size());
 			return temp;
 		}
 	}
@@ -491,7 +490,7 @@ void attackData::CheckEntitiesFromSubtileStep()
 			std::vector<j1Entity*>::iterator invoterator = involvedEntities->begin();
 			for (; invoterator != involvedEntities->end(); ++invoterator)
 			{
-				LOG("Entity name %s", (*invoterator)->name.begin());
+				//LOG("Entity name %s", (*invoterator)->name.begin());
 
 				// filter an add the target entities to final queue
 				AddEntityToQueueFiltered((*invoterator));
@@ -523,8 +522,8 @@ bool attackData::DoDirectAttack()
 		// pass the type etc of the attack, for now pass a direct attack
 		j1Entity* defender = entitiesQueue.front();
 		entitiesQueue.pop();
-		if (fromEntity == nullptr)
-			LOG("");
+		/*if (fromEntity == nullptr)
+			LOG("");*/
 		App->buff->DirectAttack((j1Entity*)fromEntity, defender, baseDamage, elemType,"obsolete?");
 
 		// updates combo counter
@@ -548,7 +547,7 @@ bool attackData::DoInTimeAttack()
 		switch (elemType)
 		{
 		case ELEMENTAL_TYPE::NO_ELEMENT:
-			LOG("wtf, if no element, no party");
+			//LOG("wtf, if no element, no party");
 			break;
 		case ELEMENTAL_TYPE::FIRE_ELEMENT:
 			App->buff->CreateBurned((j1Entity*)fromEntity, defender, (float)baseDamage, propagationStepSpeed * totalTimeMultiplier, "fuckYouState", paralize);
@@ -666,7 +665,7 @@ bool j1AttackManager::DestroyAllMyCurrentAttacks(const j1Entity* me) const // on
 		}
 	}
 
-	LOG("unliked %i attacks", numCurrentAttacks);
+	//LOG("unlinked %i attacks", numCurrentAttacks);
 
 	return ret;
 }
