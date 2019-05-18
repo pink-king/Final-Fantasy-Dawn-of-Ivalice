@@ -492,6 +492,8 @@ bool j1Scene::Update(float dt)
 		{
 			App->entityFactory->player->exp = 0;
 			App->entityFactory->player->gold *= 0.5;
+			App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 			App->SaveGame("save_game.xml");
 			isDeath = false;
 			ComeToDeath = true;

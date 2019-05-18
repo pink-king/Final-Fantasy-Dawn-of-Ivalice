@@ -833,7 +833,7 @@ void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * en
 				//App->audio->PlayFx(consumHealPotion, 0);
 				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
 				destination.Normalize();
-				destination = { position.x * destination.x,position.y * destination.y };
+				destination = { position.x + destination.x,position.y + destination.y };
 				if (!App->pathfinding->IsWalkable(App->map->WorldToMap(destination.x, destination.y)))
 					break;
 				
