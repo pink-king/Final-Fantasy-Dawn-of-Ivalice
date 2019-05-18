@@ -62,7 +62,7 @@ bool EnemyProjectile::Move(float dt)
 bool EnemyProjectile::Contact()
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 5, 1, 20, false);
+		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 5, 3, 20, true);
 
 	// Rumble when player gets hurt? 
 	/*App->camera2D->AddTrauma(35.f / 100.f);
