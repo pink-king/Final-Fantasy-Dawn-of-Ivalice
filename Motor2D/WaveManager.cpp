@@ -6,12 +6,12 @@
 
 WaveManager::WaveManager(const SDL_Rect & zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager") 
 {
-	App->scene->wave_label->enable = true;
+	App->scene->wave_label->hide=false;
 }
 
 WaveManager::~WaveManager()
 {
-	App->scene->wave_label->enable = false;
+	App->scene->wave_label->hide = true;
 }
 
 bool WaveManager::Start()

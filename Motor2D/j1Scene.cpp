@@ -777,7 +777,9 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	LoadUiElement(inGamePanel, inGameNode);
 	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
 	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1155,107 }, inGamePanel);
-	wave_label->enable = false;
+	wave_label->hide = true;
+	
+	
 	return true;
 }
 
