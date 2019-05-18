@@ -86,19 +86,37 @@ void UiItem_Label::Draw(const float & dt)
 				speed = 1.0f;
 
 			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
-			if (textureDimensions.x > prevTextDimension.x)
+			if (textureDimensions.x != prevTextDimension.x)
 			{
-				if (!first_hitbox)
+				if (textureDimensions.x == 33)
 				{
-					hitBox.x -= 28;
-					App->scene->coins_label_inventory->hitBox.x -= 1;
-					first_hitbox = true;
+					hitBox.x = 1080;
+					App->scene->coins_label_inventory->hitBox.x = 1080;
 				}
-				else
+				if (textureDimensions.x == 47)
 				{
-					hitBox.x -= 14;
-					App->scene->coins_label_inventory->hitBox.x -= 1;
+					hitBox.x = 1066;
+					App->scene->coins_label_inventory->hitBox.x = 1066;
 				}
+				
+				if (textureDimensions.x == 61)
+				{
+					hitBox.x = 1052;
+					App->scene->coins_label_inventory->hitBox.x = 1052;
+				}
+				if (textureDimensions.x == 75)
+				{
+					hitBox.x = 1038;
+					App->scene->coins_label_inventory->hitBox.x = 1038;
+				}
+				if (textureDimensions.x == 89)
+				{
+					hitBox.x = 1024;
+					App->scene->coins_label_inventory->hitBox.x = 1024;
+				}
+					
+					
+				
 			}
 
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
