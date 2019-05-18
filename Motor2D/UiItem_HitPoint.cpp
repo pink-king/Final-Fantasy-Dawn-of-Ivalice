@@ -118,29 +118,38 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	// first considerate the type
 	uint maxLife = 0;
-	if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+	uint middlelife = 0; 
+
+	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		maxLife = NUMBER_LIFE;
+		middlelife = middeLife; 
+	}
+	else if(this->numerOrText == variant::wave)
+	{
+		maxLife = WAVE_LIFE;
+		middlelife = middlelifewave;
 	}
 	else
 	{
 		maxLife = TEXT_LIFE;
-
+		middlelife = middeLife;
 	}
 
 	if (lifeMoment < 300)
 	{
 		ret = fadeIn;
 	}
-	else if (lifeMoment >= 300 && lifeMoment <= 1000)
+	else if (lifeMoment >= 300 && lifeMoment <= middlelife)
 	{
 		ret = Middle;
 	}
-	else if (lifeMoment > 1000 && lifeMoment <= maxLife)
+	else if (lifeMoment > middlelife && lifeMoment <= maxLife)
 	{
+
 		ret = fadeOut;
 	}
-	else
+	else if(lifeMoment > maxLife )
 	{
 		ret = dead;
 		//CleanUp(); 
@@ -193,14 +202,19 @@ void UiItem_HitPoint::updateHitPointSizes()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			scaleFactor *= 1.03f;
+			if(this->numerOrText != variant::wave)
+				scaleFactor *= 1.03f;
+			else
+				scaleFactor *= 1.05f;
+			
 			break;
 		case Middle:
 
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				scaleFactor /= 1.003f;
 			}
+
 
 			break;
 		case fadeOut:
@@ -229,27 +243,40 @@ void UiItem_HitPoint::updateHitPointOpacities()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			alphaValue *= 3;
+			if (this->numerOrText != variant::wave)
+			{
+				alphaValue *= 3;
+			}
+			else
+			{
+				alphaValue *= 3.4f;
+			}
+			
 			break;
 		case Middle:
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{ 
 				alphaValue /= 1.1f;
 			}
-			else
+			else if(this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.01f;
 			}
+		
 
 			break;
 		case fadeOut:
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				alphaValue /= 1.7f;
 			}
-			else
+			else if(this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.1f;
+			}
+			else
+			{
+				alphaValue /= 1.03f;
 			}
 			break;
 		}

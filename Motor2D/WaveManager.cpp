@@ -3,7 +3,6 @@
 #include "Enemy.h"
 #include "j1App.h"
 #include "j1BuffManager.h"
-#include "j1Window.h"
 
 WaveManager::WaveManager(const SDL_Rect & zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager") 
 {
@@ -160,7 +159,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 	uint enemyCount = 0; 
 	uint maxEnemies = waveData.enemiesNumber;
 
-	iPoint targetLabelPos = App->render->WorldToScreen(300, 100, true);
+	iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+		App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true); 
 
 	App->HPManager->callWaveLabelSpawn(targetLabelPos, currentWave);
 
