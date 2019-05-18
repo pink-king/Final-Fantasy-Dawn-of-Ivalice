@@ -120,8 +120,6 @@ public:
 	bool spawnedDescription = false;
 	void CheckClampedCrossHairToSpawnDescription();
 
-	bool clampedByCrosshair = false;
-
 protected:
 
 	int dmg;
@@ -134,7 +132,6 @@ protected:
 	bool start;
 	bool grounded;
 	bool checkgrounded;
-
 protected:
 	iPoint originPos;
 	float timeTest;

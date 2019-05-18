@@ -11,20 +11,10 @@ public:
 	LobbyPortal(float posx, float posy, SceneState scene, Color color);
 	~LobbyPortal();
 
-	bool Update(float dt);
-
-	void Draw();
-
 	virtual bool DoTriggerAction();
 private:
 	SceneState scene;
 	Color color;
-
-	Animation close;
-	Animation idle;
-
-	Animation*	currentAnim = nullptr;
-	bool doit = false;
 };
 
 

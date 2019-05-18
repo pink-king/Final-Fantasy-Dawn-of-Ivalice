@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1BuffManager.h"
 
-WaveManager::WaveManager(const SDL_Rect & zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager") 
+WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::ENEMY02, zone.x, zone.y, "WaveManager")
 {
 }
 
@@ -25,18 +25,16 @@ bool WaveManager::CleanUp()
 
 bool WaveManager::PreUpdate()
 {
-
 	if (isWaveOver())
 	{
-		// Add sfx of wave over
-		if (currentWave <= maxWaves)
+		if (actualWave <= maxWaves)
 		{
 			toCreateNextWave = true;
-			nextWaveData = LoadNextWaveData(currentWave); 
-			timer.Start(); 
+			nextWaveData = LoadNextWaveData(actualWave);
+			timer.Start();
 		}
 		else
-			to_finish = true; 
+			to_finish = true;
 	}
 
 	return true;
@@ -44,15 +42,12 @@ bool WaveManager::PreUpdate()
 
 bool WaveManager::Update(float dt)
 {
-	if (toCreateNextWave)  
+	if (toCreateNextWave)
 	{
-		//if (timer.ReadSec() > 3) // Some delay to give the player time to breathe before next wave
+		if (timer.ReadSec() < CreateRandomBetween(4, 6)) // Some delay to give the player time to breathe before next wave
 		{
-			// TODO: Add sfx and labels
-			LOG("Current Wave: %i/%i", currentWave + 1, maxWaves + 1); 
-			CreateNextWave(nextWaveData); 
-			toCreateNextWave = false; 
-			currentWave++;
+			CreateNextWave(nextWaveData);
+			toCreateNextWave = false;
 		}
 	}
 
@@ -63,8 +58,8 @@ bool WaveManager::PostUpdate()
 {
 	if (to_finish)
 	{
-		Finish(); 
-		to_delete = true; 
+		Finish();
+		to_delete = true;
 	}
 
 	return true;
@@ -72,11 +67,11 @@ bool WaveManager::PostUpdate()
 
 WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 {
-	WaveData data; 
+	WaveData data;
 	switch (waveNumber)
 	{
-	case 0:
-		data.enemiesNumber = 5;
+	case 1:
+		data.enemiesNumber = 10;
 		data.types.push_back(EnemyType::TEST);
 
 		data.bombChances = 0;
@@ -84,16 +79,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		data.zombieChances = 10;
 		break;
 
-	case 1: 
-		data.enemiesNumber = 10;
-		data.types.push_back(EnemyType::TEST);
-
-		data.bombChances = 0;
-		data.golemChances = 0;
-		data.zombieChances = 10;
-		break; 
-
-	case 2: 
+	case 2:
 		data.enemiesNumber = 15;
 		data.types.push_back(EnemyType::TEST);
 		data.types.push_back(EnemyType::BOMB);
@@ -111,7 +97,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 
 		data.bombChances = 5;
 		data.golemChances = 1;
-		data.zombieChances = 4;		
+		data.zombieChances = 4;
 		break;
 
 	case 4:
@@ -121,7 +107,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 
 		data.bombChances = 5;
 		data.golemChances = 5;
-		data.zombieChances = 0;	
+		data.zombieChances = 0;
 		break;
 
 	case 5:
@@ -132,7 +118,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 
 		data.bombChances = 2;
 		data.golemChances = 1;
-		data.zombieChances = 5;		
+		data.zombieChances = 5;
 		break;
 
 	case 6:
@@ -148,15 +134,15 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 
 		// Add some more if we'd like
 	default:
-		break; 
+		break;
 	}
 
-	return data; 
+	return data;
 }
 
 void WaveManager::CreateNextWave(WaveData waveData)
 {
-	uint enemyCount = 0; 
+	uint enemyCount = 0;
 	uint maxEnemies = waveData.enemiesNumber;
 
 
@@ -165,9 +151,7 @@ void WaveManager::CreateNextWave(WaveData waveData)
 		for (std::vector<EnemyType>::iterator typeIter = waveData.types.begin(); typeIter != waveData.types.end(); typeIter++)
 		{
 			Enemy* enemy = nullptr;
-			iPoint spawnPos = { spawnZone.x + (int)CreateRandomBetween(0, spawnZone.w), spawnZone.y + (int)CreateRandomBetween(0,spawnZone.h) }; 
-			// No need to check for valid spawn pos since its assumed the rect will be in valid place
-
+			iPoint spawnPos = { spawnZone.x + (int)CreateRandomBetween(0, spawnZone.w), spawnZone.y + (int)CreateRandomBetween(0,spawnZone.h) };
 			switch (*typeIter)
 			{
 
@@ -175,7 +159,7 @@ void WaveManager::CreateNextWave(WaveData waveData)
 				if (CreateRandomBetween(1, 10) <= waveData.zombieChances && enemyCount < maxEnemies)
 				{
 					enemy = App->entityFactory->CreateEnemy(EnemyType::TEST, spawnPos);
-					enemy->inWave = true; 
+					enemy->inWave = true;
 
 					alive.push_back(enemy);	// Add it to the wave enemy vector
 					if (App->entityFactory->player != nullptr)
@@ -189,7 +173,7 @@ void WaveManager::CreateNextWave(WaveData waveData)
 						enemyCount++;
 					}
 				}
-				break; 
+				break;
 
 			case EnemyType::BOMB:
 				if (CreateRandomBetween(1, 10) <= waveData.bombChances && enemyCount < maxEnemies)
@@ -234,8 +218,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 				}
 				break;
 
-			default: 
-				break; 
+			default:
+				break;
 			}
 		}
 	}
@@ -253,12 +237,12 @@ void WaveManager::Finish()
 	// What happens when the waves are completed - i. e. open doors, spawn legendary loot etc...
 }
 
-bool WaveManager::Load(pugi::xml_node &)
+bool WaveManager::Load(pugi::xml_node&)
 {
 	return true;
 }
 
-bool WaveManager::Save(pugi::xml_node &) const
+bool WaveManager::Save(pugi::xml_node&) const
 {
 	return true;
 }

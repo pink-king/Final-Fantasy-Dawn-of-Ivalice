@@ -19,6 +19,11 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 
 EnemyBomb::~EnemyBomb()
 {
+	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
+	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
+
+
+
 }
 
 bool EnemyBomb::Start()
@@ -27,8 +32,6 @@ bool EnemyBomb::Start()
 }
 bool EnemyBomb::PreUpdate()
 {
-	if (!isInDetectionRange())
-		state = EnemyState::IDLE; 
 
 	return true;
 }
@@ -61,12 +64,15 @@ bool EnemyBomb::CleanUp()
 {
 	path_to_follow.clear();
 
+	
+
 	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end();)
+	for (; item != stat.end(); )
 	{
 		delete *item;
 		*item = nullptr;
 		item = stat.erase(item);
+
 	}
 	stat.clear();
 
@@ -94,7 +100,6 @@ void EnemyBomb::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
-		path_to_follow.clear();
 		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
@@ -102,6 +107,7 @@ void EnemyBomb::SetState(float dt)
 			state = EnemyState::SEARCHPATH;
 		}
 		// else go back to spawn point?
+
 	}
 	break;
 	case EnemyState::SEARCHPATH:
@@ -161,6 +167,7 @@ void EnemyBomb::SetState(float dt)
 
 		if (App->entityFactory->player->ChangedTile())
 		{
+			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
 			{
 				path_to_follow.clear();
@@ -224,8 +231,6 @@ void EnemyBomb::SetState(float dt)
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);			
 			to_die = true;
-			App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
-
 		}
 	}
 	break;
@@ -240,7 +245,7 @@ void EnemyBomb::SetState(float dt)
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
 
-			exploded = true; 
+			exploded = true;
 		}
 
 		if (currentAnimation->Finished()) {

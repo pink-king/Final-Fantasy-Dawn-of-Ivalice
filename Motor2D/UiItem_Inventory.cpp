@@ -55,8 +55,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	}
 	else
 	{
-		if (App->entityFactory->player->GetVendor()->firstTime)
-			App->entityFactory->player->GetVendor()->generateVendorItems();
+		if(App->entityFactory->player->GetVendor()->firstTime)
+		App->entityFactory->player->GetVendor()->generateVendorItems();
 
 		App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;
@@ -161,7 +161,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				int i = 0;
 				int j = 0;
 				int k = 0;
-
+				
 
 				if (firstTimeSwappedBagLeft)
 				{
@@ -178,7 +178,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
 
-
+						
 						// first generate description if it does not have it or if it was deleted ingame
 
 						if (k >= 15)
@@ -228,9 +228,9 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						k++;
 
 					}
-
+					
 				}
-
+				
 			}
 			if (!App->entityFactory->player->bagObjects.empty() && swappedBag2)
 			{
@@ -238,8 +238,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				int i = 0;
 				int j = 0;
 				int k = 0;
-
-				// first generate description if it does not have it or if it was deleted ingame
+				
+					// first generate description if it does not have it or if it was deleted ingame
 				if (!firstTimeSwappedBag)
 				{
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
@@ -249,7 +249,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					}
 					firstTimeSwappedBagLeft = true;
 				}
-				//
+					//
 				if (firstTimeSwappedBagLeft)
 				{
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
@@ -331,7 +331,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
 
-
+						
 						// first generate description if it does not have it or if it was deleted ingame
 						if (k >= 45)
 							break;
@@ -470,7 +470,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				int i = 0;
 				int j = 0;
 				int k = 0;
-
+				
 
 				for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 				{
@@ -556,7 +556,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->GetVendor()->vBagObjects.begin(); iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 					{
 
-
+						
 						// first generate description if it does not have it or if it was deleted ingame
 						if (k >= 45)
 							break;
@@ -640,7 +640,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 285) };
 
 						potion_counter++;
-
+						
 
 
 
@@ -673,7 +673,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 						}
 					}
 
-
+					
 					// Fenix tails
 					if ((*iter)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
 					{
@@ -947,7 +947,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 	}
 	else   // only when closing inventory, delete the description
 	{
-		if (ent->MyDescription != nullptr)
+		if(ent->MyDescription!=nullptr)
 		{
 			if (App->gui->selected_object == ent->MyDescription->iconImageInventory)
 			{
@@ -1005,7 +1005,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 }
 
-void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity * ent)
+void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity* ent)
 {
 
 
@@ -1021,7 +1021,7 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 
 
 
-void UiItem_Inventory::De_______Equip(LootEntity * callback)
+void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
 
@@ -1184,7 +1184,7 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 
 							break;
 						}
-
+						
 					}
 
 
@@ -1301,7 +1301,7 @@ void UiItem_Inventory::De_______Equip(LootEntity * callback)
 }
 
 
-bool UiItem_Inventory::DoPriceCalculations(LootEntity * item)
+bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
 {
 
 	bool ret = false;
@@ -1338,19 +1338,19 @@ bool UiItem_Inventory::DoPriceCalculations(LootEntity * item)
 
 
 
-	return ret;
+	return ret; 
 }
 
 
 bool UiItem_Inventory::CheckMaxItems()
 {
-	bool ret = false;
+	bool ret = false; 
 
 	if (isVendorInventory)
 	{
 		if (App->entityFactory->player->bagObjects.size() < MAX_Bag_Capacity)  // check destinatiuon player bag
 		{
-			ret = true;
+			ret = true; 
 		}
 	}
 	else
@@ -1361,5 +1361,5 @@ bool UiItem_Inventory::CheckMaxItems()
 		}
 	}
 
-	return ret;
+	return ret; 
 }

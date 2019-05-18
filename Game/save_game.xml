@@ -9,8 +9,8 @@
 	<entities>
 		<Entities player="ritz">
 			<Experience level="1" exp="0" />
-			<life actualLife="104" />
-			<gold value="181" />
+			<life actualLife="100" maxLife="100" />
+			<gold value="551" />
 		</Entities>
 	</entities>
 	<AttackManager />

@@ -3,7 +3,12 @@
 
 #include "j1Module.h"
 
+struct Hud_Damage
+{
+	SDL_Rect rect;
+	int id;
 
+};
 struct SDL_Texture;
 
 class UiItem_Image;
@@ -77,7 +82,6 @@ public:
 	bool hackerMode = true;
 	bool ComeToPortal = false;
 	bool ComeToDeath = false;
-	bool ComeToWin = false;
 
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
@@ -93,7 +97,7 @@ public:
 	unsigned int selectUI;
 	unsigned int acceptUI;
 
-	
+	std::vector<Hud_Damage*> hud_list;
 private:
 	SDL_Texture* debug_tex = nullptr;
 	
@@ -122,6 +126,7 @@ private:
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
 	
 	PlayerEntityManager* player_selected = nullptr;
+
 	
 
 public: 

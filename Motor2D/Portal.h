@@ -10,20 +10,11 @@ class Portal : public Trigger
 public:
 	Portal(float posx, float posy, SceneState scene, Color color);
 	~Portal();
-	bool Update(float dt);
-	void Draw();
 
 	bool DoTriggerAction();
 private:
 	SceneState scene;
 	Color color;
-
-	Animation open;
-	Animation idle;
-
-	Animation*	currentAnim = nullptr;
-	bool doit = false;
-
 };
 
 

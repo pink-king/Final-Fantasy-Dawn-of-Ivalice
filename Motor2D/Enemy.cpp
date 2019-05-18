@@ -5,10 +5,8 @@
 #include "j1PathFinding.h"
 #include "j1Map.h"
 #include "j1Scene.h"
-#include "WaveManager.h"
 #include <ctime>
 #include <random>
-
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name) 
  	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
@@ -33,26 +31,9 @@ Enemy::~Enemy()
 {
 	App->attackManager->DestroyAllMyCurrentAttacks(this);
 
-	// This texture does not only belong to the enemies, and either way, it should not be deleted when one of them dies
-	/*App->tex->UnLoad(debugSubtile);
-	debugSubtile = nullptr;*/
-
 	if (inWave)
 	{
 		// Delete myself from wave vect
-		std::vector<Enemy*>::iterator iter = App->entityFactory->waveManager->alive.begin(); 
-
-		for (iter; iter != App->entityFactory->waveManager->alive.end(); iter++)
-		{
-			if ((*iter) == this)
-			{
-				break; 
-			}
-		}
-		App->entityFactory->waveManager->alive.erase(iter); 
-
-		// Probably here will change the label of remaining enemies in the wave? 
-		LOG("Enemies remaining: %i", App->entityFactory->waveManager->alive.size());
 	}
 
 	memset(idle, 0, sizeof(idle));
@@ -62,15 +43,14 @@ Enemy::~Enemy()
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-
 		if (lifeBar != nullptr)
 		{
 			lifeBar->deliever = nullptr;
 			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 			lifeBar->to_delete = true;
 		}
+		LOG("parent enemy bye");
 	}
-	LOG("parent enemybye");
 }
 
 bool Enemy::SearchNewPath()

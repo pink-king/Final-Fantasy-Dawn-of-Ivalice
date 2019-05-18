@@ -1,1 +1,0 @@
-grid rects: 48 x 48 px

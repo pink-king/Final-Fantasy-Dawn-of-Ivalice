@@ -129,8 +129,6 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 	}
 	else if (charObject.compare("gold") == 0)
 		loot->objectType = OBJECT_TYPE::GOLD;
-	else if (charObject.compare("phoenixTail") == 0)
-		loot->objectType = OBJECT_TYPE::PHOENIX_TAIL;
 
 	std::string charType = nodeData.attribute("lootType").as_string();
 	if (charType.compare("consumable") == 0)
@@ -243,9 +241,6 @@ bool LootEntity::Save(pugi::xml_node &node) const
 		break;
 	case OBJECT_TYPE::GOLD:
 		nodeData.append_attribute("objectType") = "gold";
-		break;
-	case OBJECT_TYPE::PHOENIX_TAIL:
-		nodeData.append_attribute("objectType") = "phoenixTail";
 		break;
 	case OBJECT_TYPE::NO_OBJECT:
 		break;
@@ -500,8 +495,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 	{
 
 
-		clampedByCrosshair = true;
-
+		
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
 		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 40);
@@ -513,7 +507,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this  && !this->MyDescription->hide)
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
 	{
 
 		// delete last descr

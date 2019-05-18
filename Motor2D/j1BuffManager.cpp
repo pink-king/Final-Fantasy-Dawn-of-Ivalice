@@ -160,7 +160,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
-		lifeToSubstract = 14;
+		lifeToSubstract  = 1;
 	}
 	else
 		defender->life -= lifeToSubstract;
@@ -281,7 +281,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			}
 		}
 	}
-	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath)
+	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
 		App->scene->isDeath = true;
 		App->pause = true;
@@ -1039,7 +1039,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		entity->to_die = true;
 		return true;
 	}
-	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath)
+	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER)
 	{
 		App->scene->isDeath = true;
 		App->pause = true;
