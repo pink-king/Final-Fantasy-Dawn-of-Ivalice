@@ -2,8 +2,33 @@
 #include "j1EntityFactory.h"
 #include "j1Render.h"
 
-BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
-	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER)
+//BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
+//	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER)
+//{
+//	SetPivot(450, 250);
+//	size.create(900, 500);
+//
+//	position -= pivot;
+//
+//	engine.seed(rd());
+//
+//	lifeTimer.Start();
+//	createArrowsTimer.Start();
+//	dieTimer.Start();
+//	//currentAnimation = &anim;
+//
+//	rang.x = 250;
+//	rang.y = 250;
+//
+//	lifeTime = timeLife;
+//	createArrowsSpeed = 500u;
+//	dieTime = 1u;
+//
+//	constantHeigth = App->render->camera->h;
+//	/*App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);*/
+//}
+
+BossEmmiter::BossEmmiter(fPoint pos, uint radius, uint spawnRatio, const j1Entity * owner, uint timeLife) : Projectile(pos, { 0.F,0.F }, 0u, owner, "BossEmmiter", PROJECTILE_TYPE::BOSS_EMMITER)
 {
 	SetPivot(450, 250);
 	size.create(900, 500);
@@ -17,11 +42,11 @@ BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 	dieTimer.Start();
 	//currentAnimation = &anim;
 
-	rang.x = 250;
-	rang.y = 250;
+	rang.x = radius;
+	rang.y = radius * 0.5F;
 
 	lifeTime = timeLife;
-	createArrowsSpeed = 500u;
+	createArrowsSpeed =spawnRatio;
 	dieTime = 1u;
 
 	constantHeigth = App->render->camera->h;
