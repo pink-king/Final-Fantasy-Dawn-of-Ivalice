@@ -449,6 +449,17 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateWave(zone, 4);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
+	{
+		/*std::vector<EnemyType> typeVec;
+		typeVec.reserve(2);
+		typeVec.push_back(EnemyType::BOMB);
+		typeVec.push_back(EnemyType::TEST);
+		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::BOSS_EMMITER,10u);
+
+	}
+
 	if (hackerMode)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)

@@ -239,6 +239,9 @@
     <ClCompile Include="BossEmmiter.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="BossEmmiterArrow.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -498,6 +501,9 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="BossEmmiter.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEmmiterArrow.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>

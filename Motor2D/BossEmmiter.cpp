@@ -21,7 +21,7 @@ BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 	rang.y = 500;
 
 	lifeTime = timeLife;
-	createArrowsSpeed = 10u;
+	createArrowsSpeed = 100u;
 	dieTime = 10u;
 
 	constantHeigth = App->render->camera->h;
@@ -78,7 +78,7 @@ void BossEmmiter::CreateArrow()
 	posX += (position.x + size.x / 2);
 
 
-	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS, 2);
+	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::BOSS_EMMITER_ARROWS, 2);
 
 }
 
