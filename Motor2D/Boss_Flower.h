@@ -84,7 +84,7 @@ private:
 	Animation idleAnim[(int)facingDirection::MAX];
 	Animation attackAnim[(int)facingDirection::MAX];
 	Animation jumpAnim[(int)facingDirection::MAX];
-	Animation deathAnim[2];
+	Animation deathAnim;
 
 	iPoint adjacentTileNeighboursPattern[NUM_NEIGH_PATTERN];
 

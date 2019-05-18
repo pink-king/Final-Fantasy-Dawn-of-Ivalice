@@ -16,42 +16,42 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	idleAnim[(int)facingDirection::S].PushBack({ 0,320,64,64 });
 	idleAnim[(int)facingDirection::S].PushBack({ 64,320,64,64 });
 	idleAnim[(int)facingDirection::S].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::S].loop = true;
+	//idleAnim[(int)facingDirection::S].loop = true;
 
 	idleAnim[(int)facingDirection::SW].PushBack({ 0,384,64,64 });
 	idleAnim[(int)facingDirection::SW].PushBack({ 64,384,64,64 });
 	idleAnim[(int)facingDirection::SW].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::SW].loop = true;
+	//idleAnim[(int)facingDirection::SW].loop = true;
 
 	idleAnim[(int)facingDirection::SE].PushBack({ 0,384,64,64 }); // same as SW but flipped
 	idleAnim[(int)facingDirection::SE].PushBack({ 64,384,64,64 });
 	idleAnim[(int)facingDirection::SE].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::SE].loop = true;
+	//idleAnim[(int)facingDirection::SE].loop = true;
 
 	idleAnim[(int)facingDirection::W].PushBack({ 0,448,64,64 });
 	idleAnim[(int)facingDirection::W].PushBack({ 64,448,64,64 });
 	idleAnim[(int)facingDirection::W].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::W].loop = true;
+	//idleAnim[(int)facingDirection::W].loop = true;
 
 	idleAnim[(int)facingDirection::E].PushBack({ 0,448,64,64 }); // same as W but flipped
 	idleAnim[(int)facingDirection::E].PushBack({ 64,448,64,64 });
 	idleAnim[(int)facingDirection::E].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::E].loop = true;
+	//idleAnim[(int)facingDirection::E].loop = true;
 
 	idleAnim[(int)facingDirection::NW].PushBack({ 0,512,64,64 });
 	idleAnim[(int)facingDirection::NW].PushBack({ 64,512,64,64 });
 	idleAnim[(int)facingDirection::NW].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::NW].loop = true;
+	//idleAnim[(int)facingDirection::NW].loop = true;
 
 	idleAnim[(int)facingDirection::NE].PushBack({ 0,512,64,64 }); // same as NW but flipped
 	idleAnim[(int)facingDirection::NE].PushBack({ 64,512,64,64 });
 	idleAnim[(int)facingDirection::NE].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::NE].loop = true;
+	//idleAnim[(int)facingDirection::NE].loop = true;
 
 	idleAnim[(int)facingDirection::N].PushBack({ 0,576,64,64 });
 	idleAnim[(int)facingDirection::N].PushBack({ 64,576,64,64 });
 	idleAnim[(int)facingDirection::N].speed = animSpeedIdle;
-	idleAnim[(int)facingDirection::N].loop = true;
+	//idleAnim[(int)facingDirection::N].loop = true;
 
 
 	// attack
@@ -120,6 +120,18 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::S].speed = animSpeed;
 	jumpAnim[(int)facingDirection::S].loop = false;
 
+	// death animation
+	deathAnim.PushBack({ 0,640,64,64 });
+	deathAnim.PushBack({ 0,704,64,64 });
+	deathAnim.PushBack({ 0,768,64,64 });
+	deathAnim.PushBack({ 0,768,64,64 });
+	deathAnim.PushBack({ 0,768,64,64 });
+	deathAnim.PushBack({ 0,768,64,64 });
+	deathAnim.PushBack({ 0,768,64,64 });
+	deathAnim.PushBack({ 0,768,64,64 });
+	deathAnim.speed = 10.f;
+	deathAnim.loop = false;
+
 
 	// precomputed adjacent tile neighbours pattern
 	// for enemy spawn at player position
@@ -174,6 +186,9 @@ bool FlowerBossEntity::Update(float dt)
 
 	PhaseManager(dt);
 
+	if (to_die)
+		myState = Boss1State::DEATH;
+
 	bool test = IsAttackOnTilePerimeter();
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -202,33 +217,33 @@ void FlowerBossEntity::PhaseManager(float dt)
 		static bool launchedBall = false;
 
 		// checks timer and attack
-		//if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack)
-		//{
-		//	// changes phase
-		//	LOG("phase change");
+		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack)
+		{
+			// changes phase
+			LOG("phase change");
 
-		//	if (patternsCounter % 2 == 0)
-		//	{
-		//		myState = Boss1State::PHASE2;
-		//		LOG("phase2");
-		//		phase_control_timers.phase2.timer.Start();
-		//	}
-		//	else
-		//	{
-		//		myState = Boss1State::PHASE3;
-		//		LOG("phase3");
-		//		phase_control_timers.phase3.timer.Start();
-		//	}
+			if (patternsCounter % 2 == 0)
+			{
+				myState = Boss1State::PHASE2;
+				LOG("phase2");
+				phase_control_timers.phase2.timer.Start();
+			}
+			else
+			{
+				myState = Boss1State::PHASE3;
+				LOG("phase3");
+				phase_control_timers.phase3.timer.Start();
+			}
 
-		//	if (life <= maxLife * 0.5f)
-		//	{
-		//		myState = Boss1State::PHASE4;
-		//		phase_control_timers.phase4.timer.Start();
-		//	}
+			if (life <= maxLife * 0.5f)
+			{
+				myState = Boss1State::PHASE4;
+				phase_control_timers.phase4.timer.Start();
+			}
 
-		//	++patternsCounter;
-		//	break; // exit case
-		//}
+			++patternsCounter;
+			break; // exit case
+		}
 
 		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack)
 		{
@@ -341,7 +356,14 @@ void FlowerBossEntity::PhaseManager(float dt)
 		break;
 	}
 	case Boss1State::DEATH:
+	{
+		currentAnimation = &deathAnim;
+
+		if (currentAnimation->Finished())
+			to_delete = true;
+
 		break;
+	}
 	case Boss1State::MAX:
 		break;
 	default:
