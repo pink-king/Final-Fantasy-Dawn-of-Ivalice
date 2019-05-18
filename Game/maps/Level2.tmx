@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="29" nextobjectid="1772">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="29" nextobjectid="1773">
  <tileset firstgid="1" name="tileset_dungeon_lvl1_old" tilewidth="64" tileheight="64" tilecount="64" columns="8">
   <image source="tileset_dungeon_lvl1_old.png" width="512" height="512"/>
  </tileset>
@@ -18215,7 +18215,7 @@
  </layer>
  <group id="5" name="Assets">
   <group id="26" name="walls">
-   <layer id="27" name="TiledVisual" width="130" height="140" visible="0" locked="1">
+   <layer id="27" name="TiledVisual" width="130" height="140" locked="1">
     <data>
      <tile/>
      <tile/>
@@ -37978,6 +37978,7 @@
     <object id="1749" name="diago1" x="3648" y="1952" width="32" height="32"/>
     <object id="1750" name="diago1" x="3616" y="1920" width="32" height="32"/>
     <object id="1751" name="diago1" x="3584" y="1888" width="32" height="32"/>
+    <object id="1772" name="out1" x="2464" y="2592" width="32" height="32"/>
    </objectgroup>
   </group>
  </group>
@@ -45810,7 +45811,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="29"/>
+   <tile gid="5"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -52923,7 +52924,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="29"/>
+   <tile gid="5"/>
    <tile/>
    <tile/>
    <tile/>
@@ -53166,7 +53167,6 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -53186,6 +53186,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
+   <tile gid="5"/>
    <tile/>
    <tile/>
    <tile/>
@@ -53447,7 +53448,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="29"/>
+   <tile gid="5"/>
    <tile/>
    <tile/>
    <tile/>
@@ -53462,8 +53463,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile gid="29"/>
+   <tile gid="5"/>
+   <tile gid="5"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
