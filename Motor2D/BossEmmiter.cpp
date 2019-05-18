@@ -103,7 +103,7 @@ void BossEmmiter::CreateArrow()
 	posX += (position.x + size.x / 2);
 
 
-	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::BOSS_EMMITER_ARROWS, 2);
+	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, owner, PROJECTILE_TYPE::BOSS_EMMITER_ARROWS, 2);
 
 }
 
