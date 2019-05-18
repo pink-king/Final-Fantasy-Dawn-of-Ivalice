@@ -82,6 +82,7 @@ private:
 	bool shieldActive = false;
 	bool evading = false;
 	SDL_Texture* boss_spritesheet = nullptr;
+	SDL_Texture* debugSubtileTex = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
 	Animation attackAnim[(int)facingDirection::MAX];

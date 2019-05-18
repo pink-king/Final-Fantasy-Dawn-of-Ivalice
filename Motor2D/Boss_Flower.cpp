@@ -7,6 +7,7 @@
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
 	boss_spritesheet = App->tex->Load("textures/enemies/enemyFlower_Boss.png");
+	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 
 	// animations --------
 	float animSpeed = 10.f;
@@ -372,6 +373,8 @@ void FlowerBossEntity::PhaseManager(float dt)
 				}
 				else
 					LOG("del false");
+
+				maxEvasion_timer_data.timer.Start();
 			}
 
 		}
@@ -379,15 +382,13 @@ void FlowerBossEntity::PhaseManager(float dt)
 		if (evading)
 		{
 			
-			if (currentAnimation->Finished())// && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time)
+			if (currentAnimation->Finished() && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time)
 			{
 				currentAnimation->Reset();
 				evading = false;
 				// resets timers
-				//phase_control_timers.phase1.timer.Start();
 				fireball_timer_data.timer.Start();
 				App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
-				//maxEvasion_timer_data.timer.Start();
 
 				LOG("finished anim evasion");
 			}
@@ -648,6 +649,14 @@ bool FlowerBossEntity::PostUpdate()
 {
 	if(previousLife != life)
 		LOG("life:%f", life);
+
+	if (!evading)
+	{
+		// subtiles
+		iPoint subTilePos = GetSubtilePos();
+		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
+	}
 
 	return true;
 }
