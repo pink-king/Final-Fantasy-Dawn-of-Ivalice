@@ -36991,7 +36991,7 @@
     <object id="672" name="out1" x="3008" y="2368" width="32" height="32"/>
     <object id="673" name="out1" x="3040" y="2400" width="32" height="32"/>
     <object id="674" name="out1" x="3072" y="2432" width="32" height="32"/>
-    <object id="675" name="out1" x="3136" y="2496" width="32" height="32" rotation="180"/>
+    <object id="675" name="out1" x="3136" y="2496" width="32" height="32"/>
     <object id="678" name="out1" x="3072" y="1440" width="32" height="32"/>
     <object id="679" name="out1" x="3104" y="1440" width="32" height="32"/>
     <object id="682" name="out1" x="3136" y="1440" width="32" height="32"/>
@@ -37980,7 +37980,7 @@
     <object id="1751" name="diago1" x="3584" y="1888" width="32" height="32"/>
     <object id="1772" name="out1" x="2464" y="2592" width="32" height="32"/>
     <object id="1777" name="diago2" x="1888" y="2880" width="32" height="32"/>
-    <object id="1778" name="diago2 " x="1856" y="2848" width="32" height="32"/>
+    <object id="1778" name="diago2" x="1856" y="2848" width="32" height="32"/>
     <object id="1779" name="diago2" x="1824" y="2816" width="32" height="32"/>
     <object id="1780" name="diago2" x="1792" y="2784" width="32" height="32"/>
    </objectgroup>
