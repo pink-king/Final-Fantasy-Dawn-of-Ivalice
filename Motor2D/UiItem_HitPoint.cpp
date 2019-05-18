@@ -249,7 +249,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			}
 			else
 			{
-				alphaValue *= 3.4f;
+				alphaValue *= 5;
 			}
 			
 			break;
@@ -261,6 +261,10 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			else if(this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.01f;
+			}
+			else
+			{
+				alphaValue /= 1.003f;
 			}
 		
 
@@ -276,7 +280,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			}
 			else
 			{
-				alphaValue /= 1.03f;
+				alphaValue /= 1.02f;
 			}
 			break;
 		}
