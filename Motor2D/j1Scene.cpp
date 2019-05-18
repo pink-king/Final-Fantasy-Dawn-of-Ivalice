@@ -362,7 +362,7 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
-			if (!inventory->enable)
+			if (!inventory->enable && !App->dialog->isDialogInScreen)
 			{
 
 				App->pause = !App->pause;
