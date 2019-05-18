@@ -309,13 +309,17 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
-						selected_object->tabbed = false;
-						selected_object->state = IDLE;               // deselect current object
-						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(App->scene->selectUI, 0);
+						if ((*item)->tabbable)
+						{
+							selected_object->tabbed = false;
+							selected_object->state = IDLE;               // deselect current object
+							selected_object->DoLogicAbandoned();
+							App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the right to a list
+							candidates.push_back(*item);       // add objects on the right to a list
 
+						}
+					
 					}
 				}
 			}
