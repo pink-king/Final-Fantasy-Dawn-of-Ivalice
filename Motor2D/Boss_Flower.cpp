@@ -560,8 +560,19 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		if (patternsCounter <= 2)
 		{
 			enemyTypesVec.push_back(EnemyType::TEST);
+		}
+		else if (patternsCounter <= 4)
+		{
+			enemyTypesVec.push_back(EnemyType::TEST);
 			enemyTypesVec.push_back(EnemyType::ARCHER);
 		}
+		else
+		{
+			enemyTypesVec.push_back(EnemyType::ARCHER);
+			enemyTypesVec.push_back(EnemyType::TEST);
+			enemyTypesVec.push_back(EnemyType::BOMB);
+		}
+		
 
 		for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
 		{
