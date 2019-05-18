@@ -59,6 +59,7 @@ bool j1ParticlesClassic::Start()
 	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
 	windsTex = App->tex->Load("textures/particles/windsTexture.png");
 	arrowTex = App->entityFactory->arrowsTexture; 
+	bossArrowsEmmiter = App->tex->Load("textures/spells/Boss_Spells./poisonRain.png");
 
 	explosion01.anim.PushBack({ 0,354,32,32 });
 	explosion01.anim.PushBack({ 0,386,32,32 });
@@ -335,7 +336,18 @@ bool j1ParticlesClassic::Start()
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
-	
+	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 170, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 340, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 510, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 680, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 850, 0, 170, 398 });
+	PoisonBlast.anim.PushBack({ 0, 429, 170, 398 });
+	PoisonBlast.anim.PushBack({ 170, 429, 170, 398 });
+	PoisonBlast.anim.speed = 10.5f;
+	PoisonBlast.anim.loop = false;
+	PoisonBlast.texture = bossArrowsEmmiter;
+
 	arrow.anim.PushBack({ 0,48,64,16 });
 	arrow.anim.PushBack({ 64,48,64,16 });
 	arrow.anim.PushBack({ 128,48,64,16 });
@@ -401,6 +413,12 @@ bool j1ParticlesClassic::CleanUp()
 	{
 		App->tex->UnLoad(arrowTex);
 		arrowTex = nullptr;
+	}
+
+	if (bossArrowsEmmiter != nullptr)
+	{
+		App->tex->UnLoad(bossArrowsEmmiter);
+		bossArrowsEmmiter = nullptr;
 	}
 	//removing active particles
 	if (!active.empty())

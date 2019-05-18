@@ -13,20 +13,9 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 {
 	// TODO SFX arrow throwing
 
-	entityTex = App->entityFactory->bossArrowsEmmiter;
-
-	anim.PushBack({ 0,48,64,16 });
-	anim.PushBack({ 64,48,64,16 });
-	anim.PushBack({ 128,48,64,16 });
-	anim.PushBack({ 192,48,64,16 });
-	anim.PushBack({ 256,48,64,16 });
-	anim.PushBack({ 320,48,64,16 });
-	anim.PushBack({ 384,48,64,16 });
-	anim.PushBack({ 448,48,64,16 });
-	anim.PushBack({ 0,64,64,16 });
-	anim.PushBack({ 64,64,64,16 });
-	anim.speed = 10.F;
-
+	entityTex = App->entityFactory->arrowsTexture;
+	anim.PushBack({ 15, 20, 26, 7 });
+	
 	currentAnimation = &anim;
 
 	SetPivot(132, 12);
@@ -73,10 +62,14 @@ bool BossEmmiterArrow::Move(float dt)
 		if (timeLifeTimer.Read() > 60)
 		{
 			
-			iPoint newDest = App->map->WorldToSubtileMap(destination.x, destination.y - 120);
-			
-			App->attackManager->AddPropagationAttack(owner, newDest, propagationType::BFS,
-				damageType::NO, ELEMENTAL_TYPE::DUST, 0, 2, 100, true);
+			iPoint newDest = App->map->WorldToSubtileMap(destination.x , destination.y - 120);
+			SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+			if (rand() % 2 == 0)
+			{
+				renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+			}
+			App->particles->AddParticle(App->particles->powder01, destination.x - 20, destination.y - 130, { 0,0 }, 0u, renderFlip);
 			timeLifeTimer.Start();
 		}
 	}
@@ -92,14 +85,14 @@ bool BossEmmiterArrow::Move(float dt)
 		{
 			iPoint newCords = App->map->SubTileMapToWorld(GetSubtilePos().x, GetSubtilePos().y);
 			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 2, 120, false);
+				damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 2, 120, false);
 			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
-				damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 30, 4, 200, true);
+				damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 4, 200, false);
 			timeLifeTimer.Start();
 			damage = false;
 
 			iPoint drawRectified;
-			drawRectified.x = newCords.x;
+			drawRectified.x = newCords.x + 20;
 			drawRectified.y = newCords.y - 90;
 
 			// flip particles pseudo randomly
@@ -112,7 +105,7 @@ bool BossEmmiterArrow::Move(float dt)
 
 			iPoint fireBlastPivot = { 85, 390 };
 			drawRectified -= fireBlastPivot;
-			App->particles->AddParticle(App->particles->fireBlast, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+			App->particles->AddParticle(App->particles->PoisonBlast, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 
 			App->camera2D->AddTrauma(6.5f / 100.f);
 			App->input->DoGamePadRumble(0.2f, 100);

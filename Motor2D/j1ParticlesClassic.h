@@ -72,6 +72,8 @@ private:
 	SDL_Texture* explosionsTex = nullptr;
 	SDL_Texture* windsTex = nullptr;
 	SDL_Texture* arrowTex = nullptr; 
+	SDL_Texture* bossArrowsEmmiter = nullptr;
+
 	std::list<Particle*> active;
 	pugi::xml_node particleNode;
 
@@ -88,6 +90,7 @@ public:
 	Particle fire02;
 	Particle fire03;
 	Particle fireBlast;
+	Particle PoisonBlast;
 	Particle strike; 
 	Particle ice01;
 	Particle ice02;

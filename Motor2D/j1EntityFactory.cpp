@@ -75,7 +75,7 @@ bool j1EntityFactory::Start()
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
 	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
-	bossArrowsEmmiter = App->tex->Load("textures/spells/Boss_Spells./poisonRain.png");
+
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
 	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
@@ -279,8 +279,7 @@ bool j1EntityFactory::CleanUp()
 	lootItemsTex = nullptr;
 	App->tex->UnLoad(portalTex);
 	portalTex = nullptr;
-	App->tex->UnLoad(bossArrowsEmmiter);
-	bossArrowsEmmiter = nullptr;
+
 
 	player = nullptr;
 

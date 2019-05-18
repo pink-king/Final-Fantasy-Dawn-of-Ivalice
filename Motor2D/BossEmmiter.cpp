@@ -22,7 +22,7 @@ BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 
 	lifeTime = timeLife;
 	createArrowsSpeed = 100u;
-	dieTime = 10u;
+	dieTime = 1u;
 
 	constantHeigth = App->render->camera->h;
 	/*App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);*/
