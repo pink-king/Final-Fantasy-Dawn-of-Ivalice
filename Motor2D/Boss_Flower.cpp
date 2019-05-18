@@ -12,6 +12,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	float animSpeed = 10.f;
 	float animSpeedIdle = 5.f;
 	float animAttackSpeed = 10.f;
+	float animJumpSpeed = 40.0f;
 	// idle
 	idleAnim[(int)facingDirection::S].PushBack({ 0,320,64,64 });
 	idleAnim[(int)facingDirection::S].PushBack({ 64,320,64,64 });
@@ -116,9 +117,74 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	jumpAnim[(int)facingDirection::S].PushBack({ 64,832,64,64 });
 	jumpAnim[(int)facingDirection::S].PushBack({ 128,832,64,64 });
 	jumpAnim[(int)facingDirection::S].PushBack({ 192,832,64,64 });
-	jumpAnim[(int)facingDirection::S].PushBack({ 256,832,64,64 });
-	jumpAnim[(int)facingDirection::S].speed = animSpeed;
+	//for(int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::S].PushBack({ 256,832,64,64 });
+	jumpAnim[(int)facingDirection::S].speed = animJumpSpeed;
 	jumpAnim[(int)facingDirection::S].loop = false;
+
+	jumpAnim[(int)facingDirection::N].PushBack({ 0,1088,64,64 });
+	jumpAnim[(int)facingDirection::N].PushBack({ 64,1088,64,64 });
+	jumpAnim[(int)facingDirection::N].PushBack({ 128,1088,64,64 });
+	jumpAnim[(int)facingDirection::N].PushBack({ 192,1088,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::N].PushBack({ 256,1088,64,64 });
+	jumpAnim[(int)facingDirection::N].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::N].loop = false;
+
+	jumpAnim[(int)facingDirection::W].PushBack({ 0,960,64,64 });
+	jumpAnim[(int)facingDirection::W].PushBack({ 64,960,64,64 });
+	jumpAnim[(int)facingDirection::W].PushBack({ 128,960,64,64 });
+	jumpAnim[(int)facingDirection::W].PushBack({ 192,960,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::W].PushBack({ 256,960,64,64 });
+	jumpAnim[(int)facingDirection::W].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::W].loop = false;
+
+	jumpAnim[(int)facingDirection::E].PushBack({ 0,960,64,64 }); // same as W but flipped
+	jumpAnim[(int)facingDirection::E].PushBack({ 64,960,64,64 });
+	jumpAnim[(int)facingDirection::E].PushBack({ 128,960,64,64 });
+	jumpAnim[(int)facingDirection::E].PushBack({ 192,960,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::E].PushBack({ 256,960,64,64 });
+	jumpAnim[(int)facingDirection::E].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::E].loop = false;
+
+	jumpAnim[(int)facingDirection::SW].PushBack({ 0,896,64,64 });
+	jumpAnim[(int)facingDirection::SW].PushBack({ 64,896,64,64 });
+	jumpAnim[(int)facingDirection::SW].PushBack({ 128,896,64,64 });
+	jumpAnim[(int)facingDirection::SW].PushBack({ 192,896,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::SW].PushBack({ 256,896,64,64 });
+	jumpAnim[(int)facingDirection::SW].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::SW].loop = false;
+
+	jumpAnim[(int)facingDirection::SE].PushBack({ 0,896,64,64 }); // same as SW but flipped
+	jumpAnim[(int)facingDirection::SE].PushBack({ 64,896,64,64 });
+	jumpAnim[(int)facingDirection::SE].PushBack({ 128,896,64,64 });
+	jumpAnim[(int)facingDirection::SE].PushBack({ 192,896,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::SE].PushBack({ 256,896,64,64 });
+	jumpAnim[(int)facingDirection::SE].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::SE].loop = false;
+
+	jumpAnim[(int)facingDirection::NW].PushBack({ 0,1024,64,64 });
+	jumpAnim[(int)facingDirection::NW].PushBack({ 64,1024,64,64 });
+	jumpAnim[(int)facingDirection::NW].PushBack({ 128,1024,64,64 });
+	jumpAnim[(int)facingDirection::NW].PushBack({ 192,1024,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::NW].PushBack({ 256,1024,64,64 });
+	jumpAnim[(int)facingDirection::NW].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::NW].loop = false;
+
+	jumpAnim[(int)facingDirection::NE].PushBack({ 0,1024,64,64 }); // same as NW but flipped
+	jumpAnim[(int)facingDirection::NE].PushBack({ 64,1024,64,64 });
+	jumpAnim[(int)facingDirection::NE].PushBack({ 128,1024,64,64 });
+	jumpAnim[(int)facingDirection::NE].PushBack({ 192,1024,64,64 });
+	//for (int i = 0; i < 8; ++i)
+		jumpAnim[(int)facingDirection::NE].PushBack({ 256,1024,64,64 });
+	jumpAnim[(int)facingDirection::NE].speed = animJumpSpeed;
+	jumpAnim[(int)facingDirection::NE].loop = false;
+
 
 	// death animation
 	deathAnim.PushBack({ 0,640,64,64 });
@@ -129,7 +195,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	deathAnim.PushBack({ 0,768,64,64 });
 	deathAnim.PushBack({ 0,768,64,64 });
 	deathAnim.PushBack({ 0,768,64,64 });
-	deathAnim.speed = 10.f;
+	deathAnim.speed = 2.f;
 	deathAnim.loop = false;
 
 
@@ -164,6 +230,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	fireball_timer_data.time = 1600; // fireball cadence
 	spawnEnemies_timer_data.time = 2000;
 	shieldFire_timer_data.time = 800;
+	maxEvasion_timer_data.time = 500;
 	//poisonRain_timer_data.time = 2000;
 
 	myState = Boss1State::PHASE1;
@@ -188,8 +255,6 @@ bool FlowerBossEntity::Update(float dt)
 
 	if (to_die)
 		myState = Boss1State::DEATH;
-
-	bool test = IsAttackOnTilePerimeter();
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
@@ -217,7 +282,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 		static bool launchedBall = false;
 
 		// checks timer and attack
-		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack)
+		if (phase_control_timers.phase1.timer.Read() >= phase_control_timers.phase1.time && !doingAttack && !evading)
 		{
 			// changes phase
 			LOG("phase change");
@@ -245,29 +310,29 @@ void FlowerBossEntity::PhaseManager(float dt)
 			break; // exit case
 		}
 
-		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack)
+		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack && !evading)
 		{
 			// changes animation to attack one and set the flag attacking
 			doingAttack = true;
 			LookToPlayer(attackAnim);
 		}
-		else if(!doingAttack)
+		else if(!doingAttack && !evading)
 		{
 			LookToPlayer(idleAnim);
 		}
 
 		// checks if the attack animation finishes and do logic
-		if (currentAnimation->GetCurrentFloatFrame() >= 2.f && !launchedBall)
+		if (currentAnimation->GetCurrentFloatFrame() >= 2.f && !launchedBall && !evading)
 		{
 			LOG("attack");
 			launchedBall = true;
 
 			// TODO: get the direction vector from the boss last axis (current angle), instead of the realtime player pivot
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
-			App->camera2D->AddTrauma(0.2f);
+		/*	App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
+			App->camera2D->AddTrauma(0.2f);*/
 		}
 
-		if (currentAnimation->Finished() && launchedBall)
+		if (currentAnimation->Finished() && launchedBall && !evading)
 		{
 			for (int i = 0; i < 8; ++i)
 				attackAnim[i].Reset();
@@ -280,6 +345,37 @@ void FlowerBossEntity::PhaseManager(float dt)
 		if (life <= maxLife * 0.5f)
 		{
 
+		}
+
+		// evasion of perimeter attacks
+		// while not on doingAttack "state"
+		if (!doingAttack && !evading)
+		{
+			bool isProjectileOnPerimeter = IsAttackOnTilePerimeter();
+			
+			if (isProjectileOnPerimeter)
+			{
+				evading = true;
+				currentAnimation = &jumpAnim[pointingDir];
+				LOG("evading");
+			}
+
+			
+		}
+
+		if (evading)
+		{
+			App->entityFactory->DeleteEntityFromSubtile(this);
+			if (currentAnimation->Finished() && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time)
+			{
+				currentAnimation->Reset();
+				evading = false;
+				// resets timers
+				//phase_control_timers.phase1.timer.Start();
+				fireball_timer_data.timer.Start();
+				App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
+				maxEvasion_timer_data.timer.Start();
+			}
 		}
 		
 		break;

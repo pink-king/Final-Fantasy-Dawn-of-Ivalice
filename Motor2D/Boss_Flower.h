@@ -75,10 +75,12 @@ private:
 	void DoShieldLogic();
 	void ShieldLogic();
 	bool IsAttackOnTilePerimeter();
+	//void CheckFor
 
 private:
 	Boss1State myState = Boss1State::NOTHING;
 	bool shieldActive = false;
+	bool evading = false;
 	SDL_Texture* boss_spritesheet = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
@@ -105,6 +107,7 @@ private:
 	BossPhaseTimer shieldFire_timer_data;
 	//BossPhaseTimer poisonRain_timer_data;
 	bool shootedPoisonRainEmitter = false;
+	BossPhaseTimer maxEvasion_timer_data;
 
 };
 
