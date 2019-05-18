@@ -144,7 +144,7 @@ bool PlayerEntityManager::Update(float dt)
 		}	
 	}
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
 		for (std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin(); item != consumables.end(); item++)
 		{

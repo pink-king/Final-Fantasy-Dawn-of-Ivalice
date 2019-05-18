@@ -363,7 +363,7 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
-			if (!inventory->enable)
+			if (!inventory->enable && !App->dialog->isDialogSequenceActive)
 			{
 
 				App->pause = !App->pause;
@@ -422,6 +422,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBag = false;
 				inventoryItem->swappedBag2 = true;
 				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
 				inventoryItem->firstTimeSwappedBagLeft = false;
 				inventoryItem->firstTimeSwappedBagLeft3 = false;
 				inventoryItem->LoadElements();
@@ -472,6 +473,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBagVendor = false;
 				inventoryItem->swappedBag2Vendor = true;
 				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
@@ -1060,38 +1062,39 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 	
 		if (!pausePanel->enable)
 		{
-			App->pause = !App->pause;
-			if (App->pause && !pausePanel->enable)
+			if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
 			{
-				if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
+				App->pause = !App->pause;
+				if (App->pause && !pausePanel->enable)
 				{
+
 					inventory->enable = true;
 					App->gui->resetHoverSwapping = false;
 
 					inventoryItem->LoadElements(onlyEquipped, isVendor);
 					App->audio->PlayFx(openInventorySFX, 0);
+
+
 				}
-				
-			}
 
-			else
-			{
-				App->audio->PlayFx(closeinventorySFX, 0);
-				inventory->enable = false;
-				inventoryItem->swappedBag = true;
-				inventoryItem->swappedBag2 = false;
-				inventoryItem->swappedBag3 = false;
-				inventoryItem->swappedBagVendor = true;
-				inventoryItem->swappedBag2Vendor = false;
-				inventoryItem->swappedBag3Vendor = false;
-
-
-				if (App->dialog->isDialogSequenceActive)
+				else
 				{
-					App->dialog->spawnDialoguesAfterInventory(); 
+					App->audio->PlayFx(closeinventorySFX, 0);
+					inventory->enable = false;
+					inventoryItem->swappedBag = true;
+					inventoryItem->swappedBag2 = false;
+					inventoryItem->swappedBag3 = false;
+					inventoryItem->swappedBagVendor = true;
+					inventoryItem->swappedBag2Vendor = false;
+					inventoryItem->swappedBag3Vendor = false;
+
+
+					if (App->dialog->isDialogSequenceActive)
+					{
+						App->dialog->spawnDialoguesAfterInventory();
+					}
 				}
 			}
-
 		}
 
 }
