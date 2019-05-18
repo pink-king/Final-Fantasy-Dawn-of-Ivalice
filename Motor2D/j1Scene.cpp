@@ -1013,7 +1013,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->buff->Enable();
 		App->map->active = true;
 		//LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
-		LoadNewMap("maps/Level2.tmx");
+		LoadNewMap("maps/copia.tmx");
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
@@ -1028,7 +1028,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		LoadNewMap("maps/Level2_Started.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		LoadNewMap("maps/copia.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		App->entityFactory->CreatePlayer({ 0, 0 });
