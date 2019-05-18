@@ -58,7 +58,7 @@ bool Equipable::Update(float dt)
 		checkgrounded = false;
 		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 	}
-	if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
+	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
 		CheckClampedCrossHairToSpawnDescription();
 
 	return true;
