@@ -56,6 +56,7 @@ private:
 	uint maxWaves = 0;
 	uint currentWave = 0;
 	SDL_Rect spawnZone;
+	std::string str_wave;
 
 	j1Timer timer;  
 

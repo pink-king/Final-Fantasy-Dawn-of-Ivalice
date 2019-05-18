@@ -6,10 +6,12 @@
 
 WaveManager::WaveManager(const SDL_Rect & zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager") 
 {
+	App->scene->wave_label->enable = true;
 }
 
 WaveManager::~WaveManager()
 {
+	App->scene->wave_label->enable = false;
 }
 
 bool WaveManager::Start()
@@ -53,6 +55,9 @@ bool WaveManager::Update(float dt)
 			CreateNextWave(nextWaveData); 
 			toCreateNextWave = false; 
 			currentWave++;
+
+			str_wave = "wave " + std::to_string(currentWave) + "/" + std::to_string(maxWaves+1);
+			App->scene->wave_label->ChangeTextureIdle(str_wave, NULL, NULL);
 		}
 	}
 
