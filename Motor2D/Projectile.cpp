@@ -107,3 +107,7 @@ bool Projectile::Save(pugi::xml_node &) const
 
 
 
+const j1Entity* Projectile::GetOwnerEntity() const
+{
+	return owner;
+}

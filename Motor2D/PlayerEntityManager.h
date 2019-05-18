@@ -106,6 +106,8 @@ public:
 	void SetHudAlphaValue();
 	void SetPosition(fPoint pos);
 
+	void PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEntity* entity);
+
 public:
 
 	j1Entity* GetMarche();
@@ -163,7 +165,8 @@ private:
 
 	// vendor
 	Vendor* vendor = nullptr; 
-	
+	LootEntity* lastHoveredLootItem = nullptr;
+
 	
 };
 

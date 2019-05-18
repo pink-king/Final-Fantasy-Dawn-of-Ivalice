@@ -500,7 +500,8 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 	{
 
 
-		
+		clampedByCrosshair = true;
+
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
 		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 40);

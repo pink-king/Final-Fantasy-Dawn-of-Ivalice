@@ -51,8 +51,7 @@ bool Consumable::Update(float dt)
 		if (displacementTime.ReadMs() <= 280)
 		{
 			ExplosionMaker(dt);
-			LOG("displaced %i",position.x - originPos.x);
-			LOG("actual time %f", timeTest);
+			
 		}
 		else
 		{
@@ -90,7 +89,7 @@ void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 	}
 	else
 	{
-		int randNum = 2;
+		int randNum = (GetRandomValue(1, 6));
 		if (randNum == 1)
 		{
 			objectType = OBJECT_TYPE::POTIONS;

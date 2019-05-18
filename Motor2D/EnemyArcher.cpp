@@ -13,6 +13,8 @@ EnemyArcher::~EnemyArcher()
 
 bool EnemyArcher::PreUpdate()
 {
+	if (!isInDetectionRange())
+		state = EnemyState::IDLE;
 	return true;
 }
 
@@ -53,6 +55,7 @@ void EnemyArcher::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
+		path_to_follow.clear();
 		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
@@ -108,7 +111,6 @@ void EnemyArcher::SetState(float dt)
 
 		if (App->entityFactory->player->ChangedTile())		// Repath when player changes tiles (and random values)
 		{
-			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
 			{
 				path_to_follow.clear();

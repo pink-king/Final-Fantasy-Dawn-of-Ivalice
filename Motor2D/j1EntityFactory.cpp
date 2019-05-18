@@ -28,6 +28,8 @@
 #include "WaveManager.h"
 #include "GolemProjectile.h"
 #include "j1PathFinding.h"
+#include "BossEmmiter.h"
+#include "BossEmmiterArrow.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -122,8 +124,7 @@ bool j1EntityFactory::Start()
 	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
 	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
 
-	if(!App->scene->ComeToPortal)
-		LoadSpawnGroups();
+	LoadSpawnGroups();
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -188,7 +189,7 @@ bool j1EntityFactory::Update(float dt)
 				//if entit is diffetent to player create loot
 				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
 					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
-					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER) 
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS) 
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -286,6 +287,7 @@ bool j1EntityFactory::CleanUp()
 	lootItemsTex = nullptr;
 	App->tex->UnLoad(portalTex);
 	portalTex = nullptr;
+	
 
 	player = nullptr;
 
@@ -496,7 +498,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 	uint bombProbs = 3;
 	uint testProbs = 8;
-	uint archerProbs = 5;
+	uint archerProbs = 3;
 
 	while (cont < numEnemies)
 	{
@@ -590,8 +592,10 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 void j1EntityFactory::LoadSpawnGroups()
 {
-	for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++){
-		CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+	if (!App->scene->ComeToPortal) {
+		for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++) {
+			CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+		}
 	}
 	spawngroups.clear();
 }
@@ -655,6 +659,14 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		break; 
 	case PROJECTILE_TYPE::GOLEM_ARROW:
 		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
+	case PROJECTILE_TYPE::BOSS_EMMITER:
+		ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
+		entities.push_back(ret);
+		break;
+	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
+		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
 		entities.push_back(ret);
 		break;
 	case PROJECTILE_TYPE::NO_ARROW:
@@ -836,7 +848,8 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
-			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER) // || other enemy types 
+			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS) 
 			{
 				ret = false;
 				break;
@@ -1052,7 +1065,7 @@ void j1EntityFactory::ReleaseAllReservedSubtiles()
 	{
 		reservedAdjacentSubtiles[i] = false; 
 	}
-	LOG("RELEASED ALL RESERVED SUBTILES");
+	//LOG("RELEASED ALL RESERVED SUBTILES");
 }
 
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const

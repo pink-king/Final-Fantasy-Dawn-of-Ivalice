@@ -1,12 +1,12 @@
-#include "Emmiter.h"
+#include "BossEmmiter.h"
 #include "j1EntityFactory.h"
 #include "j1Render.h"
 
-Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
+BossEmmiter::BossEmmiter(fPoint pos, const j1Entity* owner, uint timeLife)
 	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER)
 {
-	SetPivot(150, 112);
-	size.create(300, 225);
+	SetPivot(450, 250);
+	size.create(900, 500);
 
 	position -= pivot;
 
@@ -17,25 +17,25 @@ Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
 	dieTimer.Start();
 	//currentAnimation = &anim;
 
-	rang.x = 100;
-	rang.y = 40;
+	rang.x = 250;
+	rang.y = 250;
 
-	lifeTime = 4u;
-	createArrowsSpeed = 75u;
-	dieTime = 6u;
+	lifeTime = timeLife;
+	createArrowsSpeed = 500u;
+	dieTime = 1u;
 
 	constantHeigth = App->render->camera->h;
 	/*App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);*/
 }
 
-Emmiter::~Emmiter()
+BossEmmiter::~BossEmmiter()
 {
 
 }
 
-bool Emmiter::PreUpdate()
+bool BossEmmiter::PreUpdate()
 {
-	if (lifeTimer.ReadSec() > lifeTime)
+	if (lifeTimer.Read() > lifeTime)
 	{
 		to_explode = true;
 	}
@@ -43,7 +43,7 @@ bool Emmiter::PreUpdate()
 	return true;
 }
 
-bool Emmiter::Update(float dt)
+bool BossEmmiter::Update(float dt)
 {
 	if (!to_explode)
 	{
@@ -56,7 +56,7 @@ bool Emmiter::Update(float dt)
 	return true;
 }
 
-bool Emmiter::PostUpdate()
+bool BossEmmiter::PostUpdate()
 {
 	if (to_explode)
 	{
@@ -64,25 +64,25 @@ bool Emmiter::PostUpdate()
 		{
 			to_delete = true;
 		}
-		
+
 	}
 	return true;
 }
 
-void Emmiter::CreateArrow() 
+void BossEmmiter::CreateArrow()
 {
 	float posY = RandomValue(-rang.y, rang.y);
-	posY += position.y + size.y / 2;
+	posY += (position.y + size.y / 2);
 
 	float posX = RandomValue(-rang.x, rang.x);
-	posX += position.x + size.x / 2;
+	posX += (position.x + size.x / 2);
 
 
-	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS, 2);
+	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::BOSS_EMMITER_ARROWS, 2);
 
 }
 
-float Emmiter::RandomValue(int min, int max)
+float BossEmmiter::RandomValue(int min, int max)
 {
 	std::uniform_int_distribution<int> range(min, max);
 	return range(rd);

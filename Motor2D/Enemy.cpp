@@ -45,6 +45,8 @@ Enemy::~Enemy()
 		}
 
 		App->entityFactory->waveManager->alive.erase(iter);
+		// Probably here will change the label of remaining enemies in the wave? 
+		LOG("Enemies remaining: %i", App->entityFactory->waveManager->alive.size());
 	}
 
 	memset(idle, 0, sizeof(idle));

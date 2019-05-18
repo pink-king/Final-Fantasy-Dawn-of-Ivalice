@@ -120,39 +120,58 @@ bool PlayerEntityManager::Update(float dt)
 		crossHair->Reset();
 		
 	//collect loot
+	if (lastHoveredLootItem != nullptr)
+	{
+		if (lastHoveredLootItem != App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) && dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
+		{
+			if (lastHoveredLootItem != nullptr)
+			{
+				PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);
+			}
+		}
+	}
+
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
-		j1Entity* item = App->entityFactory->isThisSubtileLootFree(GetSubtilePos());
-		if (item->manualCollectable) 
+		lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+		if (lastHoveredLootItem->manualCollectable)
 		{
-			if (CollectLoot((LootEntity*)item))
+			if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
 			{
-				App->entityFactory->DeleteEntityFromSubtile(item);
+				App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
 
 				App->entityFactory->entities.erase(
-					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 
 			}
 			
 		}
-		if (!item->manualCollectable)
+		if (!lastHoveredLootItem->manualCollectable)
 		{
-			//TODO: description
+			//TODO: description         dynamic_cast<LootEntity*>(equipable)
+
+			if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+			{
+				if (!lastHoveredLootItem->spawnedDescription)
+					PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
+			}
+
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+				//PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
 
-				if (App->entityFactory->player->CollectLoot((LootEntity*)(item), true))
+				if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
 				{
 					// then delete loot from subtile and factory 
-					App->entityFactory->DeleteEntityFromSubtile((j1Entity*)item);
+					App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
 					//LOG("entities size: %i", App->entityFactory->entities.size());
 					// erase - remove idiom.
 					App->entityFactory->entities.erase(
-						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 
 					//last detach clamped entity
-					item = nullptr;
+					lastHoveredLootItem = nullptr;
 					//LOG("entities size: %i", App->entityFactory->entities.size());
 				}
 
@@ -160,6 +179,9 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	
 	}
+
+	
+
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
 		for (std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin(); item != consumables.end(); item++)
@@ -258,7 +280,8 @@ bool PlayerEntityManager::Update(float dt)
 	}
 
 	
-
+	if (changedTile)
+		App->entityFactory->ReleaseAllReservedSubtiles();
 	return ret;
 }
 
@@ -341,7 +364,7 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 	if (!App->scene->ComeToDeath)
 	{
-		life = node.child("life").attribute("actualLife").as_float();
+		life = 100 - node.child("life").attribute("actualLife").as_float();
 		maxLife = 100;
 	}
 	else
@@ -395,8 +418,7 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 	nodeexperience.append_attribute("exp") = exp;
 
 	pugi::xml_node nodelife = node.append_child("life");
-	nodelife.append_attribute("actualLife") = life;
-	nodelife.append_attribute("maxLife") = maxLife;
+	nodelife.append_attribute("actualLife") = maxLife - life;
 
 	pugi::xml_node nodegold = node.append_child("gold");
 	nodegold.append_attribute("value") = gold;
@@ -690,7 +712,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			}
 		}
 	}
-	else if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
+	if (entityLoot->GetType() == LOOT_TYPE::CONSUMABLE)
 	{
 		if (!fromCrosshair)
 		{
@@ -852,26 +874,19 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 				break;
 			}
 
-			if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL && (App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2))
 			{
-				int portalMaxDistance = 10;
-				fPoint destination;
-				destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
+				//App->audio->PlayFx(consumHealPotion, 0);
+				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
 				destination.Normalize();
 
-				fPoint checker;
-				int distMultiplier = 0;
-				for (; distMultiplier < portalMaxDistance; ++distMultiplier)
-				{
-					checker = GetPivotPos() + destination * distMultiplier;
-					if (!App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
-						break;
-				}
+			
 
-				int playerVolumeOffset = 10;
-				fPoint PortalDestinationPos = position + destination * (distMultiplier - playerVolumeOffset);
+				destination = { position.x + destination.x,position.y + destination.y };
+				if (!App->pathfinding->IsWalkable(App->map->WorldToMap(destination.x, destination.y)))
+					break;
 
-				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, PortalDestinationPos.x, PortalDestinationPos.y, SceneState::LOBBY, White);
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, destination.x, destination.y, SceneState::LOBBY, White);
 				delete * item;
 				*item = nullptr;
 				consumables.erase(item);
@@ -904,6 +919,36 @@ void PlayerEntityManager::SetHudAlphaValue()
 void PlayerEntityManager::SetPosition(fPoint pos)
 {
 	position = pos;
+
+}
+
+void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEntity* entity)
+{
+	if (onTop && !entity->spawnedDescription)   // player hover loot item
+	{
+
+		// create a new one
+		App->entityFactory->GenerateDescriptionForLootItem(entity);
+		iPoint offset(-100, -entity->MyDescription->panelWithButton->section.y - 40);
+		entity->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
+		entity->MyDescription->HideAllElements(false);
+
+		entity->spawnedDescription = true;
+		lastHoveredLootItem = entity;
+
+	}
+
+	// if description is showing, but player goes away
+
+	if (!onTop && entity->spawnedDescription)
+	{
+		// delete last descr
+		entity->MyDescription->DeleteEverything();
+		entity->MyDescription = nullptr;
+		entity->spawnedDescription = false;
+		lastHoveredLootItem = nullptr;
+
+	}
 
 }
 
@@ -1080,6 +1125,12 @@ bool Crosshair::ManageInput(float dt)
 		}
 		else
 		{
+			if (clampedEntity->type == ENTITY_TYPE::LOOT)
+			{
+				if (!dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)    // deleted by crosshair already in check crosshair function
+					App->entityFactory->player->PlayerOnTopOfLootToSpawnDescription(false, (LootEntity*)clampedEntity);
+			}
+
 			clamped = false; // protection
 			clampedEntity = nullptr;
 		}
