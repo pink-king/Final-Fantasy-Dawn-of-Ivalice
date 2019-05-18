@@ -6,6 +6,7 @@
 #include "p2Point.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include "j1TransitionManager.h"
 #include <assert.h>
 #include "j1Audio.h"
 
@@ -51,6 +52,12 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToStartMenu();
 	if (functionName == "GoBackToStartMenuFromDeathWin")
 		App->gui->GoBackToStartMenuFromDeathWin();
+	if (functionName == "LoadGame")
+	{
+		App->scene->ComeToWin = true;
+		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LEVEL1, White);
+	}
+		
 
 	/*if(App->scene->AcceptUISFX_logic)*/
 		App->audio->PlayFx(App->scene->acceptUI, 0);

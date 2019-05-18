@@ -17,11 +17,11 @@ BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 	dieTimer.Start();
 	//currentAnimation = &anim;
 
-	rang.x = 500;
-	rang.y = 500;
+	rang.x = 250;
+	rang.y = 250;
 
 	lifeTime = timeLife;
-	createArrowsSpeed = 100u;
+	createArrowsSpeed = 500u;
 	dieTime = 1u;
 
 	constantHeigth = App->render->camera->h;

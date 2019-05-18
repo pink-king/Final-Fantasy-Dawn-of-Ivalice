@@ -34,6 +34,8 @@ public:
 
 	bool PreUpdate() override;
 	bool Update(float dt) override;
+	void SpawnCurrentWaveLabel();
+	void ChangeStaticLabel();
 	bool PostUpdate() override;
 	
 	WaveData LoadNextWaveData(uint waveNumber); // Loads next wave data depending on the present wave
