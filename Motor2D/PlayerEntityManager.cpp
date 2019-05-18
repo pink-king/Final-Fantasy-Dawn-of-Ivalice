@@ -143,10 +143,12 @@ bool PlayerEntityManager::Update(float dt)
 			{
 				if (!dynamic_cast<LootEntity*>(item)->spawnedDescription)
 					PlayerOnTopOfLootToSpawnDescription(true, (LootEntity*)item);
+
+				
+
 			}
 		
-		
-
+		    
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 
@@ -172,6 +174,16 @@ bool PlayerEntityManager::Update(float dt)
 		}
 
 	}
+		else if (changedSubtile)      // when changing subtile, reset description if there was a loot entity in last subtile
+		{
+		if (lastHoveredLootItem != nullptr)
+		{
+			if (lastHoveredLootItem->spawnedDescription)
+				PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);
+		}
+				
+		}
+
 
 	
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
@@ -435,7 +447,7 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEntity* entity)
 {
 
-	if (onTop && !entity->spawnedDescription)
+	if (onTop && !entity->spawnedDescription)   // player hover loot item
 	{
 
 		// create a new one
@@ -445,9 +457,12 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 		entity->MyDescription->HideAllElements(false);
 
 		entity->spawnedDescription = true;
+
+
+		lastHoveredLootItem = entity; 
 	}
 
-	// if description is showing, but crosshair stops focusing item 
+	// if description is showing, but player goes away
 
 	if (!onTop && entity->spawnedDescription)
 	{
@@ -455,6 +470,9 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 		entity->MyDescription->DeleteEverything();
 		entity->MyDescription = nullptr;
 		entity->spawnedDescription = false;
+
+
+		lastHoveredLootItem = nullptr; 
 	}
 
 
