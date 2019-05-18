@@ -421,6 +421,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBag = false;
 				inventoryItem->swappedBag2 = true;
 				inventoryItem->swappedBag3 = false;
+				inventoryItem->firstTimeSwappedBag = false;
 				inventoryItem->firstTimeSwappedBagLeft = false;
 				inventoryItem->firstTimeSwappedBagLeft3 = false;
 				inventoryItem->LoadElements();
@@ -471,6 +472,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBagVendor = false;
 				inventoryItem->swappedBag2Vendor = true;
 				inventoryItem->swappedBag3Vendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = false;
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);

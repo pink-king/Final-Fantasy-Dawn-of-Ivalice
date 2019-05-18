@@ -238,67 +238,74 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 				int i = 0;
 				int j = 0;
 				int k = 0;
-				std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin();
-
-				for (; iter != App->entityFactory->player->bagObjects.end(); ++iter)
-				{
+				
 					// first generate description if it does not have it or if it was deleted ingame
-					if (!firstTimeSwappedBag)
+				if (!firstTimeSwappedBag)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
 					{
-						De_______GenerateDescription((*iter), false);
-						if (k == 14)
-							firstTimeSwappedBag=true;
+						if ((*iter)->MyDescription != nullptr)
+							De_______GenerateDescription((*iter), false);
 					}
-
-					if (k >= 30)
-						break;
-
-					if (k >= 15)
-					{
-						
-						De_______GenerateDescription((*iter), true);
-						iPoint position(0, 0);
-
-						if (i == 5)
-						{
-							i = 0;
-							j++;
-						}
-
-						if (i == 0)  // first
-						{
-
-							position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
-
-
-						}
-						else   // the rest of elements in the row
-						{
-							position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
-						}
-
-
-						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-						if (!(*iter)->MyDescription->spawnedInventoryImage)
-						{
-							(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-							(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-
-							(*iter)->MyDescription->spawnedInventoryImage = true;
-						}
-						else
-						{
-							(*iter)->MyDescription->HideAllElements(false);
-							(*iter)->MyDescription->iconImageInventory->tabbable = true;
-						}
-
-
-
-						i++;
-					}
-					k++;
+					firstTimeSwappedBagLeft = true;
 				}
+					//
+				if (firstTimeSwappedBagLeft)
+				{
+					for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->bagObjects.begin(); iter != App->entityFactory->player->bagObjects.end(); ++iter)
+					{
 
+
+						if (k >= 30)
+							break;
+
+						if (k >= 15)
+						{
+
+							De_______GenerateDescription((*iter), true);
+							iPoint position(0, 0);
+
+							if (i == 5)
+							{
+								i = 0;
+								j++;
+							}
+
+							if (i == 0)  // first
+							{
+
+								position = { (startingPos.x + 140), (startingPos.y + 284 + j * boxSeparation.y) };
+
+
+							}
+							else   // the rest of elements in the row
+							{
+								position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
+							}
+
+
+							(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+							if (!(*iter)->MyDescription->spawnedInventoryImage)
+							{
+								(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(position, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+								(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+
+								(*iter)->MyDescription->spawnedInventoryImage = true;
+							}
+							else
+							{
+								(*iter)->MyDescription->HideAllElements(false);
+								(*iter)->MyDescription->iconImageInventory->tabbable = true;
+							}
+
+
+
+							i++;
+						}
+						k++;
+					}
+
+				}
 			}
 			//////////////////////
 			if (!App->entityFactory->player->bagObjects.empty() && swappedBag3)
@@ -847,12 +854,14 @@ void UiItem_Inventory::RepositionBagItems()
 					position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
 				}
 
-				if ((*iter)->MyDescription->iconImageInventory->tabbable)
+				if ((*iter)->MyDescription != nullptr)
 				{
-					(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
-					(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+					if ((*iter)->MyDescription->iconImageInventory->tabbable)
+					{
+						(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
+						(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+					}
 				}
-
 				i++;
 
 			}
