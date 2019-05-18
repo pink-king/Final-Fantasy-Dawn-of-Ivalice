@@ -40,8 +40,8 @@ bool Consumable::Update(float dt)
 		if (displacementTime.ReadMs() <= 280)
 		{
 			ExplosionMaker(dt);
-			LOG("displaced %i",position.x - originPos.x);
-			LOG("actual time %f", timeTest);
+			/*LOG("displaced %i",position.x - originPos.x);
+			LOG("actual time %f", timeTest);*/
 		}
 		else
 		{

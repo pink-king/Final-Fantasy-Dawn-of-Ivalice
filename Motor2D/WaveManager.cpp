@@ -25,13 +25,14 @@ bool WaveManager::CleanUp()
 
 bool WaveManager::PreUpdate()
 {
+
 	if (isWaveOver())
 	{
 		// Add sfx of wave over
-		if (actualWave <= maxWaves)
+		if (currentWave <= maxWaves)
 		{
 			toCreateNextWave = true;
-			nextWaveData = LoadNextWaveData(actualWave); 
+			nextWaveData = LoadNextWaveData(currentWave); 
 			timer.Start(); 
 		}
 		else
@@ -45,12 +46,13 @@ bool WaveManager::Update(float dt)
 {
 	if (toCreateNextWave)  
 	{
-		if (timer.ReadSec() > 3) // Some delay to give the player time to breathe before next wave
+		//if (timer.ReadSec() > 3) // Some delay to give the player time to breathe before next wave
 		{
 			// TODO: Add sfx and labels
+			LOG("Current Wave: %i/%i", currentWave + 1, maxWaves + 1); 
 			CreateNextWave(nextWaveData); 
 			toCreateNextWave = false; 
-			actualWave++;
+			currentWave++;
 		}
 	}
 

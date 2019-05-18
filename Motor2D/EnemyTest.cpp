@@ -276,7 +276,7 @@ void EnemyTest::SetState(float dt)
 		{
 			freePass = true;
 			cont = 0;
-			LOG("Gave a free pass!");
+			//LOG("Gave a free pass!");
 		}
 		break;
 	}

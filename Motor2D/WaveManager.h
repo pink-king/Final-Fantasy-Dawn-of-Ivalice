@@ -54,7 +54,7 @@ private:
 private: 
 
 	uint maxWaves = 0;
-	uint actualWave = 0;
+	uint currentWave = 0;
 	SDL_Rect spawnZone;
 
 	j1Timer timer;  
