@@ -114,6 +114,11 @@ void UiItem_Label::Draw(const float & dt)
 					hitBox.x = 1024;
 					App->scene->coins_label_inventory->hitBox.x = 1024;
 				}
+				if (textureDimensions.x == 103)
+				{
+					hitBox.x = 1010;
+					App->scene->coins_label_inventory->hitBox.x = 1010;
+				}
 					
 					
 				
