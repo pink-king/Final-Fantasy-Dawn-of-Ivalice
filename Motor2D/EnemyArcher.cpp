@@ -162,9 +162,14 @@ void EnemyArcher::SetState(float dt)
 		if ((int)currentAnimation->GetCurrentFloatFrame() == 2 && !attacked)
 		{
 			if (!toAttackMelee)
-				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 100, this, PROJECTILE_TYPE::ENEMY_ARROW);
+				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 100, this, PROJECTILE_TYPE::GOLEM_ARROW);
 			else
+			{
 				App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, baseDamage, 4, 60, true);
+				// TODO: Add sfx
+				App->camera2D->AddTrauma(0.2F);
+				App->input->DoGamePadRumble(0.3F, 200);
+			}
 			attacked = true;
 		}
 		if (currentAnimation->Finished())

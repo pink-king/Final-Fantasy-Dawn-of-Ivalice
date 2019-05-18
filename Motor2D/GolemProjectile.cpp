@@ -1,8 +1,8 @@
-#include "EnemyProjectile.h"
+#include "GolemProjectile.h"
 #include "j1EntityFactory.h"
 #include "j1ParticlesClassic.h"
 
-EnemyProjectile::EnemyProjectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : Projectile(pos, destination, speed, owner, "Enemy_Arrow", PROJECTILE_TYPE::ENEMY_ARROW)
+GolemProjectile::GolemProjectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : Projectile(pos, destination, speed, owner, "Golem_Arrow", PROJECTILE_TYPE::BASIC_ARROW)
 {
 	// Assigning to the same texture as the enemy, it shouldn't be a problem
 	entityTex = App->entityFactory->enemyGolemTex;
@@ -10,7 +10,7 @@ EnemyProjectile::EnemyProjectile(fPoint pos, fPoint destination, uint speed, con
 	anim.PushBack({ 32, 832, 32, 32 });
 	anim.PushBack({ 96, 832, 32, 32 });
 	anim.speed = 15.F;
-	anim.loop = true; 
+	anim.loop = true;
 
 	currentAnimation = &anim;
 
@@ -23,11 +23,11 @@ EnemyProjectile::EnemyProjectile(fPoint pos, fPoint destination, uint speed, con
 	SetInitially();
 }
 
-EnemyProjectile::~EnemyProjectile()
-{	
+GolemProjectile::~GolemProjectile()
+{
 }
 
-bool EnemyProjectile::PreUpdate()
+bool GolemProjectile::PreUpdate()
 {
 	if (OnCollisionWithPlayer()) {
 		to_explode = true;
@@ -43,7 +43,7 @@ bool EnemyProjectile::PreUpdate()
 	return true;
 }
 
-bool EnemyProjectile::Update(float dt)
+bool GolemProjectile::Update(float dt)
 {
 	if (!to_explode) {
 		Move(dt);
@@ -53,16 +53,16 @@ bool EnemyProjectile::Update(float dt)
 	return true;
 }
 
-bool EnemyProjectile::Move(float dt)
+bool GolemProjectile::Move(float dt)
 {
 	position += direction * speed * dt;
 	return true;
 }
 
-bool EnemyProjectile::Contact()
+bool GolemProjectile::Contact()
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 5, 1, 20, false);
+		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 15, 1, 20, false);
 
 	// Rumble when player gets hurt? 
 	/*App->camera2D->AddTrauma(35.f / 100.f);
