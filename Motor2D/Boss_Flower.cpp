@@ -231,7 +231,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	fireball_timer_data.time = 1600; // fireball cadence
 	spawnEnemies_timer_data.time = 2000;
 	shieldFire_timer_data.time = 800;
-	maxEvasion_timer_data.time = 800;
+	maxEvasion_timer_data.time = 400;
 	//poisonRain_timer_data.time = 2000;
 
 	myState = Boss1State::PHASE1;
@@ -381,8 +381,9 @@ void FlowerBossEntity::PhaseManager(float dt)
 
 		if (evading)
 		{
-			
-			if (currentAnimation->Finished() && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time)
+			bool isAttackOnPerimeter = IsAttackOnTilePerimeter();
+
+			if (currentAnimation->Finished() && maxEvasion_timer_data.timer.Read() >= maxEvasion_timer_data.time && !isAttackOnPerimeter)
 			{
 				currentAnimation->Reset();
 				evading = false;
@@ -391,6 +392,11 @@ void FlowerBossEntity::PhaseManager(float dt)
 				App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
 
 				LOG("finished anim evasion");
+			}
+			else if (isAttackOnPerimeter)
+			{
+				LookToPlayer(jumpAnim);
+				maxEvasion_timer_data.timer.Start();
 			}
 		}
 		
