@@ -488,6 +488,10 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 	uint testProbs = 8;
 	uint archerProbs = 3;
 
+	if (enemyTypes.empty())
+		return; 
+
+
 	while (cont < numEnemies)
 	{
 		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
