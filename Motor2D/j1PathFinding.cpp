@@ -775,8 +775,11 @@ void j1PathFinding::ActivateTile(const iPoint& tile)
 	if (CheckBoundaries(tile))
 	{
 		int id = GetIndexAt(tile);
-		if (map[id] != 0)
-			map[id] = 0;
+		if (map != NULL)
+		{
+			if (map[id] != 0)
+				map[id] = 0;
+		}
 	}
 }
 
@@ -785,7 +788,10 @@ void j1PathFinding::DeactivateTile(const iPoint& tile)
 	if (CheckBoundaries(tile))
 	{
 		int id = GetIndexAt(tile);
-		if (map[id] == 0)
-			map[id] = 1;
+		if (map != NULL)
+		{
+			if (map[id] == 0)
+				map[id] = 1;
+		}
 	}
 }
