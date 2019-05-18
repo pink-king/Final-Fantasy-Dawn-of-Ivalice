@@ -890,17 +890,10 @@ void PlayerEntityManager::ConsumConsumable(OBJECT_TYPE consumable, j1Entity * en
 			if (consumable == OBJECT_TYPE::PHOENIX_TAIL && (App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2))
 			{
 				//App->audio->PlayFx(consumHealPotion, 0);
-				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
-				destination.Normalize();
-				destination = { position.x + destination.x,position.y + destination.y };
-				if (!App->pathfinding->IsWalkable(App->map->WorldToMap(destination.x, destination.y)))
-					break;
-				
-				App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, destination.x, destination.y, SceneState::LOBBY, White);
-				delete *item;
-				*item = nullptr;
-				consumables.erase(item);
-				break;
+				int retflag;
+				selectedCharacterEntity->UsePhoenixTail(item, retflag);
+				if (retflag == 2) break;
+
 			}
 		}
 	}

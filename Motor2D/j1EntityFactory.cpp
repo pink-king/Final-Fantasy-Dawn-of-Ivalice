@@ -17,6 +17,7 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
+#include "BossEmmiter.h"
 #include "Portal.h"
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
@@ -648,6 +649,10 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
+	case PROJECTILE_TYPE::BOSS_EMMITER:
+		ret = DBG_NEW BossEmmiter(pos, owner,lifeTime);
+		entities.push_back(ret);
+		break;
 
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;

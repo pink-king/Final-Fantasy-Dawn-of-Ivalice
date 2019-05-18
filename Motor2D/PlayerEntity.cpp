@@ -679,9 +679,6 @@ fPoint PlayerEntity::GetShotDirection()
 void PlayerEntity::UsePhoenixTail(std::vector<LootEntity *>::iterator &item, int &retflag)
 {
 	retflag = 1;
-	int distMax = 50;
-	iPoint distNow = { 100,100 };
-	//App->audio->PlayFx(consumHealPotion, 0);
 	fPoint PortalFacingPos;
 
 	PortalFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };

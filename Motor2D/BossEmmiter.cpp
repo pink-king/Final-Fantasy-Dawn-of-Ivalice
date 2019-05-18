@@ -5,8 +5,8 @@
 BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER)
 {
-	SetPivot(150, 112);
-	size.create(300, 225);
+	SetPivot(450, 250);
+	size.create(900, 500);
 
 	position -= pivot;
 
@@ -17,12 +17,12 @@ BossEmmiter::BossEmmiter(fPoint pos, const j1Entity * owner, uint timeLife)
 	dieTimer.Start();
 	//currentAnimation = &anim;
 
-	rang.x = 100;
-	rang.y = 40;
+	rang.x = 500;
+	rang.y = 500;
 
 	lifeTime = timeLife;
-	createArrowsSpeed = 75u;
-	dieTime = 6u;
+	createArrowsSpeed = 10u;
+	dieTime = 10u;
 
 	constantHeigth = App->render->camera->h;
 	/*App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);*/
@@ -72,10 +72,10 @@ bool BossEmmiter::PostUpdate()
 void BossEmmiter::CreateArrow()
 {
 	float posY = RandomValue(-rang.y, rang.y);
-	posY += position.y + size.y / 2;
-
+	posY += (position.y + size.y / 2);
+	
 	float posX = RandomValue(-rang.x, rang.x);
-	posX += position.x + size.x / 2;
+	posX += (position.x + size.x / 2);
 
 
 	App->entityFactory->CreateArrow({ posX, posY - 350 }, { posX, posY + 100 }, 200, App->entityFactory->player->GetShara(), PROJECTILE_TYPE::EMMITER_ARROWS, 2);
