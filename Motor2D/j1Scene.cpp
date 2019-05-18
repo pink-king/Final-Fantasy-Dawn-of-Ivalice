@@ -99,7 +99,7 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-		App->entityFactory->CreatePlayer({ -300, 300 });
+		App->entityFactory->CreatePlayer({ 0, 0 });
 		//AcceptUISFX_logic = false;
 		App->entityFactory->loadEnemies = false;
 
@@ -189,11 +189,11 @@ bool j1Scene::PreUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 
-	/*if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->win->SetScale(2);*/
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+		App->win->SetScale(2);
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -911,7 +911,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		if (!App->map->IsEnabled())
 		{
 			App->map->active = true;
-			LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+			LoadNewMap("maps/mainhall.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		}
 		if (!App->entityFactory->IsEnabled())
 		App->entityFactory->Enable();
