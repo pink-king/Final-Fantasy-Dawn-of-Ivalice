@@ -3,12 +3,7 @@
 
 #include "j1Module.h"
 
-struct Hud_Damage
-{
-	SDL_Rect rect;
-	int id;
 
-};
 struct SDL_Texture;
 
 class UiItem_Image;
@@ -97,7 +92,7 @@ public:
 	unsigned int selectUI;
 	unsigned int acceptUI;
 
-	std::vector<Hud_Damage*> hud_list;
+	
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

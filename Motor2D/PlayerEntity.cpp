@@ -308,6 +308,8 @@ void PlayerEntity::Draw()
 				App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue);
 				hudAlphavalue += 10;
 				LOG("alphavalue inc %f", hudAlphavalue);
+				if (hudAlphavalue > 255)
+					hudAlphavalue = 255;
 			}
 			else if (hudAlphavalue >= 255 && vanish)
 			{
