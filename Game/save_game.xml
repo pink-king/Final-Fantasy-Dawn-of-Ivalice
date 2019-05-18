@@ -7,35 +7,15 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
-			<Experience level="1" exp="75" />
-			<life actualLife="35" />
-			<gold value="445" />
-			<equipedObjects>
-				<data name="legendary_bow" level="2" characterObject="Shara" equipableType="bow" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="93" y="32" w="13" h="13" />
+		<Entities player="marche">
+			<Experience level="1" exp="0" />
+			<life actualLife="120" />
+			<gold value="150" />
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="149" y="30" w="13" h="16" />
 				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="fireElement" rol="attack" value="33" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.790000021" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.239999995" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="legendary_stick" level="1" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="fireElement" rol="attack" value="27" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.800000012" />
-				</buffs>
-			</equipedObjects>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

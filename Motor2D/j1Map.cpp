@@ -801,7 +801,11 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
 	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
 
-	layer->tileQuadTree = DBG_NEW TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+	if(App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2)
+		layer->tileQuadTree = DBG_NEW TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+
+	else
+		layer->tileQuadTree = DBG_NEW TileQuadtree(2, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height * 4);
 	//TEST
 
 	if (layer_data == NULL)

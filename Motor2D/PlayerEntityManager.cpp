@@ -120,29 +120,40 @@ bool PlayerEntityManager::Update(float dt)
 		crossHair->Reset();
 		
 	//collect loot
+	if (lastHoveredLootItem != nullptr)
+	{
+		if (lastHoveredLootItem != App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) && dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
+		{
+			if (lastHoveredLootItem != nullptr)
+			{
+				PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);
+			}
+		}
+	}
+
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
-		j1Entity* item = App->entityFactory->isThisSubtileLootFree(GetSubtilePos());
-		if (item->manualCollectable)
+		lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+		if (lastHoveredLootItem->manualCollectable)
 		{
-			if (CollectLoot((LootEntity*)item))
+			if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
 			{
-				App->entityFactory->DeleteEntityFromSubtile(item);
+				App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
 				
 				App->entityFactory->entities.erase(
-					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 		
 			}
 		}
-		if (!item->manualCollectable)
+		if (!lastHoveredLootItem->manualCollectable)
 		{
 			//TODO: description         dynamic_cast<LootEntity*>(equipable)
 
 			
-			if (item->type == ENTITY_TYPE::LOOT)
+			if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
 			{
-				if (!dynamic_cast<LootEntity*>(item)->spawnedDescription)
-					PlayerOnTopOfLootToSpawnDescription(true, (LootEntity*)item);
+				if (!lastHoveredLootItem->spawnedDescription)
+					PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
 
 				
 
@@ -152,21 +163,21 @@ bool PlayerEntityManager::Update(float dt)
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 
-				PlayerOnTopOfLootToSpawnDescription(false, (LootEntity*)item);
+				//PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
 
 				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 
-				if (App->entityFactory->player->CollectLoot((LootEntity*)(item), true))
+				if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
 				{
 					// then delete loot from subtile and factory 
-					App->entityFactory->DeleteEntityFromSubtile((j1Entity*)item);
+					App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
 					//LOG("entities size: %i", App->entityFactory->entities.size());
 					// erase - remove idiom.
 					App->entityFactory->entities.erase(
-						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), item), App->entityFactory->entities.end());
+						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 
 					//last detach clamped entity
-					item = nullptr;
+					lastHoveredLootItem = nullptr;
 					//LOG("entities size: %i", App->entityFactory->entities.size());
 				}
 
@@ -174,15 +185,7 @@ bool PlayerEntityManager::Update(float dt)
 		}
 
 	}
-		else if (changedSubtile)      // when changing subtile, reset description if there was a loot entity in last subtile
-		{
-		if (lastHoveredLootItem != nullptr)
-		{
-			if (lastHoveredLootItem->spawnedDescription)
-				PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);
-		}
-				
-		}
+	
 
 
 	
