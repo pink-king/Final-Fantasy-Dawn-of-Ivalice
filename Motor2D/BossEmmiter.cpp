@@ -35,7 +35,7 @@ BossEmmiter::~BossEmmiter()
 
 bool BossEmmiter::PreUpdate()
 {
-	if (lifeTimer.ReadSec() > lifeTime)
+	if (lifeTimer.Read() > lifeTime)
 	{
 		to_explode = true;
 	}
