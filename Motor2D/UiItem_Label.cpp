@@ -9,6 +9,10 @@
 #include <assert.h>
 
 
+#include "j1EntityFactory.h"
+
+
+
 UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, bool typewriter) :UiItem(position, parent)
 {
 	if (!typewriter)
@@ -214,3 +218,24 @@ bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* colo
 
 
 }
+
+void UiItem_Label::DoLogicHovered()
+{
+	if (this->isDialog)
+	{
+		const SDL_Color c = { 180, 200, 22, 200 };
+		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
+	}
+}
+
+
+
+void UiItem_Label::DoLogicAbandoned()
+{
+	if (this->isDialog)
+	{
+		const SDL_Color c = { 34, 200, 43, 255 };
+		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
+	}
+}
+
