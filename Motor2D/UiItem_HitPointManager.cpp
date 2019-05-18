@@ -56,7 +56,7 @@ bool UiItem_HitPointManager::Update(float dt)
 			}
 			else
 			{
-				if((*hitPointIterator)->numerOrText != variant::gold)                    // don't consider gold labels
+				if((*hitPointIterator)->numerOrText != variant::gold && (*hitPointIterator)->numerOrText != variant::wave)                    // don't consider gold labels
 				labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
 			}
 
@@ -187,6 +187,20 @@ UiItem_HitPoint * UiItem_HitPointManager::callGoldLabelSpawn(iPoint pos, uint va
 
 	return nullptr;
 }
+
+
+UiItem_HitPoint * UiItem_HitPointManager::callWaveLabelSpawn(iPoint pos, uint value)
+{
+	valueInfo info = {
+		"WAVE",
+		value,
+	};
+
+	App->gui->AddHitPointLabel(info, { 255, 0, 54, 255 }, App->font->piecesofEight48, pos, nullptr, variant::wave);
+
+	return nullptr;
+}
+
 
 
 void UiItem_HitPointManager::calculatePlayerCombo()

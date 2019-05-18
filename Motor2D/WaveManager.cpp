@@ -159,6 +159,11 @@ void WaveManager::CreateNextWave(WaveData waveData)
 	uint enemyCount = 0; 
 	uint maxEnemies = waveData.enemiesNumber;
 
+	iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x,
+		App->entityFactory->player->selectedCharacterEntity->GetPosition().y); 
+
+	App->HPManager->callWaveLabelSpawn(targetLabelPos, currentWave);
+
 
 	while (enemyCount < maxEnemies)
 	{

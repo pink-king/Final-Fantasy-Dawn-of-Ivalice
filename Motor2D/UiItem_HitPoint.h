@@ -28,6 +28,7 @@ enum variant {
 	number,
 	text,
 	gold,
+	wave
 };
 
 class UiItem_HitPoint : public UiItem

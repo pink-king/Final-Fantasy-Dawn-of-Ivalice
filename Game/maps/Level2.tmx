@@ -38081,8 +38081,8 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
-    <property name="maxEnemies" type="int" value="6"/>
-    <property name="minEnemies" type="int" value="6"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
@@ -38126,8 +38126,8 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
-    <property name="maxEnemies" type="int" value="6"/>
-    <property name="minEnemies" type="int" value="6"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
@@ -38171,8 +38171,8 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
-    <property name="maxEnemies" type="int" value="6"/>
-    <property name="minEnemies" type="int" value="6"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
