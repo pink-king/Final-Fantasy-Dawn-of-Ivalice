@@ -34,15 +34,18 @@ ExitPortal::ExitPortal(float posx, float posy)
 
 	currentAnim = &idle;
 
+	App->pause = true;
+	timer.Start();
 }
 
 ExitPortal::~ExitPortal()
 {
-	
 }
 
 bool ExitPortal::Update(float dt)
 {
+	if (timer.Read() > 500)
+		App->pause = false;
 	if (idle.Finished())
 		currentAnim = &close;
 	if (close.Finished())

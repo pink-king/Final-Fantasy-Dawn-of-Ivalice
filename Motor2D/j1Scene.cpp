@@ -343,30 +343,31 @@ bool j1Scene::Update(float dt)
 		//if()
 		
 
-
-		//settingPanel->enable = false;
-		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
+		if (App->entityFactory->player != nullptr)
 		{
-			//LOG("marche");
-			uiMarche->enable = true;
-			uiRitz->enable = false;
-			uiShara->enable = false;
+			//settingPanel->enable = false;
+			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
+			{
+				//LOG("marche");
+				uiMarche->enable = true;
+				uiRitz->enable = false;
+				uiShara->enable = false;
+			}
+			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
+			{
+				//LOG("marche");
+				uiMarche->enable = false;
+				uiRitz->enable = true;
+				uiShara->enable = false;
+			}
+			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
+			{
+				//LOG("marche");
+				uiMarche->enable = false;
+				uiRitz->enable = false;
+				uiShara->enable = true;
+			}
 		}
-		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
-		{
-			//LOG("marche");
-			uiMarche->enable = false;
-			uiRitz->enable = true;
-			uiShara->enable = false;
-		}
-		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
-		{
-			//LOG("marche");
-			uiMarche->enable = false;
-			uiRitz->enable = false;
-			uiShara->enable = true;
-		}
-
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
 			if (!inventory->enable)

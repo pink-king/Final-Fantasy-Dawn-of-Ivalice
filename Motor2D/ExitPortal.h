@@ -23,6 +23,8 @@ private:
 
 	Animation*	currentAnim = nullptr;
 	bool doit = false;
+
+	j1Timer timer;
 };
 
 
