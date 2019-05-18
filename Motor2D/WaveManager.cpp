@@ -27,6 +27,7 @@ bool WaveManager::PreUpdate()
 {
 	if (isWaveOver())
 	{
+		// Add sfx of wave over
 		if (actualWave <= maxWaves)
 		{
 			toCreateNextWave = true;
@@ -44,8 +45,9 @@ bool WaveManager::Update(float dt)
 {
 	if (toCreateNextWave)  
 	{
-		//if (timer.ReadSec() > CreateRandomBetween(4, 6)) // Some delay to give the player time to breathe before next wave
+		if (timer.ReadSec() > 3) // Some delay to give the player time to breathe before next wave
 		{
+			// TODO: Add sfx and labels
 			CreateNextWave(nextWaveData); 
 			toCreateNextWave = false; 
 			actualWave++;

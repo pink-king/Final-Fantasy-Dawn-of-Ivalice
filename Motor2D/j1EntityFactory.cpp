@@ -26,6 +26,7 @@
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
 #include "WaveManager.h"
+#include "GolemProjectile.h"
 #include "j1PathFinding.h"
 #include <ctime>
 #include <algorithm>
@@ -638,6 +639,11 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 
 	case PROJECTILE_TYPE::ENEMY_ARROW:
 		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
+		entities.push_back(ret); 
+		break; 
+
+	case PROJECTILE_TYPE::GOLEM_ARROW:
+		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
 
