@@ -34,6 +34,8 @@ public:
 
 	bool PreUpdate() override;
 	bool Update(float dt) override;
+	void SpawnCurrentWaveLabel();
+	void ChangeStaticLabel();
 	bool PostUpdate() override;
 	
 	WaveData LoadNextWaveData(uint waveNumber); // Loads next wave data depending on the present wave
@@ -56,6 +58,7 @@ private:
 	uint maxWaves = 0;
 	uint currentWave = 0;
 	SDL_Rect spawnZone;
+	std::string str_wave;
 
 	j1Timer timer;  
 

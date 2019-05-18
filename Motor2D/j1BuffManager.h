@@ -33,7 +33,7 @@ public:
 	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, ROL rol, std::string stat);
 
 	//combat functions
-	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat);
+	bool DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat);
 	bool DamageInTime(j1Entity* entity);
 	//functions to create damage in time
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize = false);
@@ -66,6 +66,7 @@ private:
 	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;
 	pugi::xml_node					buffNode;
+	bool godMode = false;
 
 	
 

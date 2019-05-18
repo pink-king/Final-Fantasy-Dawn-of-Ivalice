@@ -12,9 +12,6 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 	: Projectile(pos, destination, speed, owner, "Arrow", PROJECTILE_TYPE::EMMITER_ARROWS), timeLife(timeLife)
 {
 	// TODO SFX arrow throwing
-
-	
-
 	SetPivot(132, 12);
 	size.create(64, 16);
 
@@ -23,7 +20,25 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 	// Important for aiming offset
 	SetInitially();
 	
+	this->speed += 200;
 
+	iPoint newDest = App->map->WorldToSubtileMap(destination.x, destination.y);
+	newDest = App->map->SubTileMapToWorld(newDest.x, newDest.y);
+	iPoint drawRectified;
+	drawRectified.x = newDest.x + 20;
+	drawRectified.y = newDest.y - 90;
+
+	// flip particles pseudo randomly
+	SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
+
+	if (rand() % 2 == 0)
+	{
+		renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+	}
+
+	iPoint fireBlastPivot = { 85, 390 };
+	drawRectified -= fireBlastPivot;
+	App->particles->AddParticle(App->particles->PoisonBlast, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 }
 
 BossEmmiterArrow::~BossEmmiterArrow()
@@ -56,19 +71,6 @@ bool BossEmmiterArrow::Move(float dt)
 	{
 		position += direction * speed * dt;
 		willExplode = true;
-		if (timeLifeTimer.Read() > 60)
-		{
-			
-			iPoint newDest = App->map->WorldToSubtileMap(destination.x , destination.y - 120);
-			SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
-
-			if (rand() % 2 == 0)
-			{
-				renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-			}
-			App->particles->AddParticle(App->particles->powder01, destination.x - 20, destination.y - 130, { 0,0 }, 0u, renderFlip);
-			timeLifeTimer.Start();
-		}
 	}
 	else
 	{
@@ -82,27 +84,12 @@ bool BossEmmiterArrow::Move(float dt)
 		{
 			iPoint newCords = App->map->SubTileMapToWorld(GetSubtilePos().x, GetSubtilePos().y);
 			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 2, 120, false);
+				damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 6, 120, false);
 			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
-				damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 4, 200, false);
+				damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 6, 200, false);
 			timeLifeTimer.Start();
 			damage = false;
 
-			iPoint drawRectified;
-			drawRectified.x = newCords.x + 20;
-			drawRectified.y = newCords.y - 90;
-
-			// flip particles pseudo randomly
-			SDL_RendererFlip renderFlip = SDL_RendererFlip::SDL_FLIP_NONE;
-
-			if (rand() % 2 == 0)
-			{
-				renderFlip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-			}
-
-			iPoint fireBlastPivot = { 85, 390 };
-			drawRectified -= fireBlastPivot;
-			App->particles->AddParticle(App->particles->PoisonBlast, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
 
 			App->camera2D->AddTrauma(6.5f / 100.f);
 			App->input->DoGamePadRumble(0.2f, 100);

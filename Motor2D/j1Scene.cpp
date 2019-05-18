@@ -61,7 +61,7 @@ bool j1Scene::Start()
 	if (state == SceneState::LEVEL1)
 	{
 		//App->entityFactory->CreatePlayer({ -300, 2500 });
-		App->entityFactory->CreatePlayer({ 0, 0 });
+		App->entityFactory->CreatePlayer({ -300, 2800 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({-(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y});
 		//AcceptUISFX_logic = false;
@@ -99,7 +99,7 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-		App->entityFactory->CreatePlayer({ -300, 300 });
+		App->entityFactory->CreatePlayer({ 0, 0 });
 		//AcceptUISFX_logic = false;
 		App->entityFactory->loadEnemies = false;
 
@@ -189,11 +189,11 @@ bool j1Scene::PreUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 
-	/*if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->win->SetScale(2);*/
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+		App->win->SetScale(2);
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -338,7 +338,10 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		
+		result_volume = volume_bar->GetBarValue();
+		App->audio->SetVolume(result_volume);
+		result_fx = fx_bar->GetBarValue();
+		App->audio->SetFxVolume(result_fx);
 
 		if (App->entityFactory->player != nullptr)
 		{
@@ -452,12 +455,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
 	{
-		/*std::vector<EnemyType> typeVec;
-		typeVec.reserve(2);
-		typeVec.push_back(EnemyType::BOMB);
-		typeVec.push_back(EnemyType::TEST);
-		App->entityFactory->CreateEnemiesGroup(typeVec, SDL_Rect{ coords.x, coords.y, 150, 150}, 2, 6);*/
-		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::BOSS_EMMITER,10u);
+		App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->position, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::BOSS_EMMITER, 10u);
 
 	}
 
@@ -773,7 +771,10 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
 	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
-	wave_label = App->gui->AddLabel("wave 1/5", { 255,255,255,255 }, App->font->piecesofEight36, { 1138,107 }, inGamePanel);
+	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1155,107 }, inGamePanel);
+	wave_label->hide = true;
+	
+	
 	return true;
 }
 
@@ -910,7 +911,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		if (!App->map->IsEnabled())
 		{
 			App->map->active = true;
-			LoadNewMap("maps/test_ordering.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+			LoadNewMap("maps/mainhall.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		}
 		if (!App->entityFactory->IsEnabled())
 		App->entityFactory->Enable();
@@ -923,7 +924,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		LoadNewMap("maps/Level2_test.tmx");//maps/empty_battlefield.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		LoadNewMap("maps/Level2.tmx");//maps/empty_battlefield.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });

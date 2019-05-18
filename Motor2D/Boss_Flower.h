@@ -109,6 +109,9 @@ private:
 	bool shootedPoisonRainEmitter = false;
 	BossPhaseTimer maxEvasion_timer_data;
 
+	// prelife
+	float previousLife = 0;
+
 };
 
 #endif // !__FLOWER_BOSS_H__
