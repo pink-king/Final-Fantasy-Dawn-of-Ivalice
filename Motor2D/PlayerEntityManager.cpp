@@ -119,7 +119,7 @@ bool PlayerEntityManager::Update(float dt)
 	else if (!crossHair->isReseted)
 		crossHair->Reset();
 		
-	//collect loot
+	/*//collect loot
 	if (lastHoveredLootItem != nullptr)
 	{
 		if (lastHoveredLootItem != App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) && dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
@@ -129,7 +129,7 @@ bool PlayerEntityManager::Update(float dt)
 				PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);
 			}
 		}
-	}
+	}*/
 
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
@@ -150,11 +150,11 @@ bool PlayerEntityManager::Update(float dt)
 		{
 			//TODO: description         dynamic_cast<LootEntity*>(equipable)
 
-			if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+		/*	if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
 			{
 				if (!lastHoveredLootItem->spawnedDescription)
 					PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
-			}
+			}*/
 
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
@@ -1125,11 +1125,6 @@ bool Crosshair::ManageInput(float dt)
 		}
 		else
 		{
-			if (clampedEntity->type == ENTITY_TYPE::LOOT)
-			{
-				if (!dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)    // deleted by crosshair already in check crosshair function
-					App->entityFactory->player->PlayerOnTopOfLootToSpawnDescription(false, (LootEntity*)clampedEntity);
-			}
 
 			clamped = false; // protection
 			clampedEntity = nullptr;
