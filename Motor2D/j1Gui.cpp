@@ -305,12 +305,11 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide && !(*item)->isNPCLabel)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
-						if ((*item)->tabbable)
-						{
+						
 							selected_object->tabbed = false;
 							selected_object->state = IDLE;               // deselect current object
 							selected_object->DoLogicAbandoned();
@@ -318,7 +317,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 							candidates.push_back(*item);       // add objects on the right to a list
 
-						}
+						
 					
 					}
 				}
