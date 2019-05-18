@@ -13,10 +13,7 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 {
 	// TODO SFX arrow throwing
 
-	entityTex = App->entityFactory->arrowsTexture;
-	anim.PushBack({ 15, 20, 26, 7 });
 	
-	currentAnimation = &anim;
 
 	SetPivot(132, 12);
 	size.create(64, 16);
