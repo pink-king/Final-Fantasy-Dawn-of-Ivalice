@@ -1163,8 +1163,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 			{
 				if ((*iter) == callback)
 				{
-					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-					{
+					/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+					{*/
 
 						if (DoPriceCalculations(callback))
 						{
@@ -1183,11 +1183,10 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 								doBagScroll = true;
 							}
 
-
 							break;
 						}
 						
-					}
+				//	}
 
 
 				}
