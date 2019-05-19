@@ -222,7 +222,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity() 
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	if (rainEmitter != nullptr)
+	if (shootedPoisonRainEmitter && rainEmitter != nullptr)
 		rainEmitter->to_delete = true;
 
 	DesactiveShield();
@@ -454,6 +454,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 			// erase shield walkability
 			DesactiveShield();
 
+			// reset shooted emitter
+			shootedPoisonRainEmitter = false;
+
+			// unlink emitter
+			rainEmitter = nullptr;
+
 			break;
 		}
 
@@ -524,13 +530,18 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		shootedPoisonRainEmitter = true;
 		uint spawnRatio = uint(life * 2.5f);
 		uint radius = 200u;
+		uint duration = 0;
+		if (myState == Boss1State::PHASE2)
+			duration = phase_control_timers.phase2.time;
+		else
+			duration = phase_control_timers.phase4.time;
 		// SHOOT
 		rainEmitter = App->entityFactory->CreateBossEmitter(
 			GetPivotPos(), // projected position
 			radius, // radius, world coords
 			spawnRatio, // spawn ratio, ms
 			this, // owner
-			phase_control_timers.phase2.time); // duration, ms
+			duration); // duration, ms
 	}
 }
 
@@ -541,6 +552,9 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		// if the enemy life is less than x, spawn archer too
 		// TODO: test 
 		std::vector<EnemyType> enemyTypesVec;
+
+		if (life <= maxLife * 0.5f && patternsCounter <= 3) // accelerates types of enemies
+			patternsCounter = 4;
 
 		if (patternsCounter <= 2)
 		{
