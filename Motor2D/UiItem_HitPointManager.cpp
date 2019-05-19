@@ -138,7 +138,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break;
 
 	default:
-		c = { 30, 30, 30, 255 };
+		c = { 200, 170, 170, 255 };
 		break;
 	}
 
