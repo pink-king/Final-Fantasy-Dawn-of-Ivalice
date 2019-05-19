@@ -165,6 +165,7 @@ bool j1Scene::Start()
 
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
+		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
@@ -988,7 +989,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
 	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
-	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1155,107 }, inGamePanel);
+	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1150,107 }, inGamePanel);
 	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->openSansBold18, { 1185, 695 }, inGamePanel);
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
