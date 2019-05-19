@@ -16,7 +16,7 @@ SaveTrigger::SaveTrigger(float posx, float posy) :Trigger(TRIGGER_TYPE::SAVE, po
 	idle.speed = 10.F;
 	idle.loop = true;
 
-	nSubtiles = 0;
+	nSubtiles = 1;
 	SetPivot(24, 42);
 	size.create(48, 48);
 	AssignInSubtiles(nSubtiles);
