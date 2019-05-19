@@ -35,25 +35,23 @@ bool WaveTrigger::DoTriggerAction()
 {
 	if (!isActivated)
 	{
-
+		CreateWalls();
 	}
-	CreateWalls();
+	
 	isActivated = true;
 	return true;
 }
 
 void WaveTrigger::CreateWalls()
 {
-	std::vector<wall*>::iterator item = wallsvec.begin();
-	while (item != wallsvec.end() && !isActivated)
+	std::list<iPoint>::iterator iter = wall_map_positions.begin();
+
+	for (; iter != wall_map_positions.end(); ++iter) 
 	{
-		iPoint pos = App->map->WorldToMap((int)(*item)->entity->position.x, (int)(*item)->entity->position.y);
-		pos.x += 2;
-		pos.y += 1;
-		App->pathfinding->ActivateTile({ pos.x, pos.y });
-		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, pos, { 64,384,64,64 });
-		App->entityFactory->entities.push_back((*item)->entity);
-		++item;
+		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
+		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y );
+		wallPoint.y -= 16; // sprite offset
+		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
 	}
 }
 
@@ -72,12 +70,5 @@ void WaveTrigger::CreateExitWall(iPoint pos)
 
 void WaveTrigger::CreateEntryWall(iPoint pos)
 {
-	iPoint positionOnWorld = pos; // x and y are on iso coords, needs conversion
-	SDL_Rect destRect = { 64,384,64,64 };
-
-	wall* newWall = new wall();
-	newWall->doorType == DOOR::Entry;
-
-	newWall->entity = App->entityFactory->CreateAsset(EnvironmentAssetsTypes::TRIGGERWALL, positionOnWorld, destRect);
-	wallsvec.push_back(newWall);
+	wall_map_positions.push_back(pos);
 }

@@ -25,6 +25,8 @@ private:
 	bool isActivated = false;
 
 	uint level = 1; 
+
+	std::list<iPoint> wall_map_positions;
 };
 
 

@@ -64,8 +64,8 @@ bool j1Scene::Start()
 	{
 		//WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-160, 598), 1); 
 		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), 1); 
-		waveTrigg->CreateEntryWall(iPoint(-186,600)); 
-		waveTrigg->CreateEntryWall(iPoint(-196, 590));
+		waveTrigg->CreateEntryWall(iPoint(16, 22));
+		waveTrigg->CreateEntryWall(iPoint(17, 22));
 		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
 		App->entityFactory->CreatePlayer({ -209, 650 });
 		//App->entityFactory->CreatePlayer({ 0, 0 });
