@@ -165,6 +165,7 @@ bool j1Scene::Start()
 
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
+		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
@@ -500,7 +501,7 @@ bool j1Scene::Update(float dt)
 
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) //|| App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
 			DoOpenInventory();
 		}

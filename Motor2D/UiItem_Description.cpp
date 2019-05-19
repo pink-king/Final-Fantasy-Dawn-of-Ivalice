@@ -314,14 +314,14 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		hpString.append(std::to_string((int)HPandTime.y));
 		hpString.append(" sec");
 
-		effectLabel = App->gui->AddLabel(hpString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		effectLabel->useCamera = false;
 
 	}
 	else if(callback->objectType == OBJECT_TYPE::PHOENIX_TAIL)
     {
-		std::string hpString("Level & Hall Teleport");
-		effectLabel = App->gui->AddLabel(hpString, { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		std::string hpString("Go to hall / level");
+		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		effectLabel->useCamera = false;
 
 	}
@@ -465,7 +465,7 @@ void UiItem_Description::Draw(const float& dt)
 
 				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 20));
 
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 					if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
 					{
@@ -900,7 +900,7 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		// TODO: tweak this 
 
 		this->effectLabel->hitBox.x = referencePanelPosition.x + 30;
-		this->effectLabel->hitBox.y = referencePanelPosition.y + 160;
+		this->effectLabel->hitBox.y = referencePanelPosition.y + 165;
 
 
 		int offset = 10;

@@ -1,6 +1,7 @@
 #include "Trigger.h"
 #include "j1EntityFactory.h"
-
+#include "j1Map.h"
+#include "j1PathFinding.h"
 Trigger::Trigger(TRIGGER_TYPE type, float posx, float posy, std::string name) : j1Entity(ENTITY_TYPE::TRIGGER, posx, posy, name), triggerType(type)
 {
 }
@@ -37,28 +38,50 @@ bool Trigger::DoTriggerAction()
 
 void Trigger::AssignInSubtiles(int numbreOfSubtile)
 {
-	for (int i = -numbreOfSubtile; i < numbreOfSubtile; ++i)
+	if (numbreOfSubtile != 0)
 	{
-		for (int j = -numbreOfSubtile; j < numbreOfSubtile; ++j)
+		for (int i = -numbreOfSubtile; i < numbreOfSubtile; ++i)
 		{
-			iPoint p = App->map->WorldToSubtileMap((int)position.x, (int)position.y);
-			p.x += i;
-			p.y += j;
-			App->entityFactory->AssignEntityToSubtilePos(this, p);
+			for (int j = -numbreOfSubtile; j < numbreOfSubtile; ++j)
+			{
+				iPoint p;
+				p.x += App->map->MapToWorld(position.x, position.y).x + i;
+				p.y += App->map->MapToWorld(position.x, position.y).y + j;
+				App->entityFactory->AssignEntityToSubtilePos(this, p);
+			}
 		}
+	}
+	else
+	{
+		iPoint p;
+		p.x += App->map->MapToWorld(position.x, position.y).x;
+		p.y += App->map->MapToWorld(position.x, position.y).y;
+		App->entityFactory->AssignEntityToSubtilePos(this, p);
 	}
 }
 
 void Trigger::DeleteFromSubtiles(int numberOfSubtile)
 {
-	for (int i = -numberOfSubtile; i < numberOfSubtile; ++i)
+	if (numberOfSubtile)
 	{
-		for (int j = -numberOfSubtile; j < numberOfSubtile; ++j)
+		for (int i = -numberOfSubtile; i < numberOfSubtile; ++i)
 		{
-			iPoint p = App->map->WorldToSubtileMap((int)position.x, (int)position.y);
-			p.x += i;
-			p.y += j;
-			App->entityFactory->DeleteEntityFromSubtilePos(this, p);
+			for (int j = -numberOfSubtile; j < numberOfSubtile; ++j)
+			{
+				iPoint p;
+				p.x += App->map->MapToWorld(position.x, position.y).x + i;
+				p.y += App->map->MapToWorld(position.x, position.y).y + j;
+				if(App->entityFactory->isThisSubtileEmpty(p))
+					App->entityFactory->DeleteEntityFromSubtilePos(this, p);
+			}
 		}
+	}
+	else
+	{
+		iPoint p;
+		p.x += App->map->MapToWorld(position.x, position.y).x;
+		p.y += App->map->MapToWorld(position.x, position.y).y;
+		if (App->entityFactory->isThisSubtileEmpty(p))
+			App->entityFactory->AssignEntityToSubtilePos(this, p);
 	}
 }

@@ -1091,7 +1091,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="288"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1678,7 +1678,7 @@
    </layer>
   </group>
  </group>
- <layer id="32" name="Collisions" width="18" height="18" visible="0">
+ <layer id="32" name="Collisions" width="18" height="18">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="Nodraw" type="int" value="0"/>
@@ -1762,7 +1762,7 @@
    <tile gid="245"/>
    <tile gid="245"/>
    <tile gid="245"/>
-   <tile/>
+   <tile gid="245"/>
    <tile/>
    <tile/>
    <tile/>

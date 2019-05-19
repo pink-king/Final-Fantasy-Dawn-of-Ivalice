@@ -50,6 +50,11 @@ bool j1DialogSystem::Update(float dt)
 			SetCurrentDialog("SAVEGAME");
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		{
+			SetCurrentDialog("STRANGER");
+		}
+
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
@@ -77,7 +82,7 @@ bool j1DialogSystem::Update(float dt)
 					checkIfNPCFinishedTalking(); 
 
 				}
-				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 
 					doDialogTypeLogic();
@@ -208,7 +213,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "SAVEGAME")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -402,6 +407,8 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	}
 	else
 		LOG("XML was loaded succesfully!");
+	
+	uint treeCount = 0; 
 
 	for (pugi::xml_node t = tree_file.child("dialogue").child("dialogtree"); t != NULL; t = t.next_sibling("dialogtree"))
 	{
@@ -411,6 +418,7 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	//	tr->karma = t.attribute("karma").as_int();
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
+		treeCount++; 
 	}
 	return ret;
 }

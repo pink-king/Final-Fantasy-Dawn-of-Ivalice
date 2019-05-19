@@ -590,8 +590,8 @@ bool Ritz::Update(float dt)
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
-			App->camera2D->AddTrauma(10.0f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			/*App->camera2D->AddTrauma(10.0f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);*/
 
 		}
 		if (!inputReady)
@@ -605,8 +605,8 @@ bool Ritz::Update(float dt)
 
 				// change combat state to idle
 				combat_state = combatState::IDLE;
-				App->camera2D->AddTrauma(40.0f / 100.f);
-				App->input->DoGamePadRumble(0.4f, 100);
+			/*	App->camera2D->AddTrauma(40.0f / 100.f);
+				App->input->DoGamePadRumble(0.4f, 100);*/
 				// restart timer
 				coolDownData.basic.timer.Start();
 			}
