@@ -162,11 +162,11 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
-		/*inGamePanel->enable = true;
+	
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
-		settingPanel->enable = false;*/
+		settingPanel->enable = false;
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
@@ -406,14 +406,14 @@ bool j1Scene::Update(float dt)
 	}
 	
 	
-	if (state == SceneState::LEVEL1)
+	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
 	{
 		//Mix_CloseAudio();
 		//if()
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
-		App->audio->SetFxVolume(result_fx); 
+		App->audio->SetFxVolume(result_fx);
 
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
@@ -468,7 +468,7 @@ bool j1Scene::Update(float dt)
 				}
 			}
 		}
-		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN )
+		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			App->pause = false;
 			Mix_ResumeMusic();
@@ -476,7 +476,7 @@ bool j1Scene::Update(float dt)
 			App->gui->selected_object->state = IDLE;
 			App->gui->selected_object = nullptr;
 			App->gui->GoBackToGame();
-			
+
 		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
@@ -549,7 +549,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBag3Vendor = true;
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = true;
-				inventoryItem->LoadElements(false,true);
+				inventoryItem->LoadElements(false, true);
 				App->audio->PlayFx(switch_page, 0);
 			}
 			if (!inventoryItem->swappedBag2Vendor && inventoryItem->swappedBagVendor)
