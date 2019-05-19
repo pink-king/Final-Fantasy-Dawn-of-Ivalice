@@ -45,7 +45,7 @@ bool BasicArrow::PreUpdate()
 		
 		to_delete = true; 
 		App->camera2D->AddTrauma(5.F / 100.F);
-		App->input->DoGamePadRumble(0.2f, 80);
+		App->input->DoGamePadRumble(0.1f, 80);
 		App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
 		wallCol = true;
 	}
@@ -76,8 +76,8 @@ bool BasicArrow::Contact()
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 		damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 30, 1, 20, false);		
 
-	App->camera2D->AddTrauma(10.F / 100.F);
-	App->input->DoGamePadRumble(0.2f, 80);
+	App->camera2D->AddTrauma(0.5F / 100.F);
+	App->input->DoGamePadRumble(0.4f, 50);
 
 	
 
