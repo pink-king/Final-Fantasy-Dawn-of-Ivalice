@@ -313,7 +313,7 @@ bool j1Scene::PreUpdate()
 	//	App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN /*&& hackerMode*/ && App->entityFactory->active)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
 		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
 		iPoint clickedTile = entitySubTilePoint;
@@ -672,21 +672,22 @@ bool j1Scene::Update(float dt)
 		App->entityFactory->CreateEnemy(EnemyType::ARCHER, { coords.x,coords.y });
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-	{
-		SDL_Rect zone = { coords.x, coords.y, 30, 30 };
-		App->entityFactory->CreateWave(zone, 4, WAVE_TYPE::LEVEL_1);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
-	{
-		//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->position, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::BOSS_EMMITER, 10000u);
-		App->entityFactory->CreateBossEmitter(coords.Return_fPoint(), 400u, 200u, App->entityFactory->player, 5000u);
 	
-	}
-
 	if (hackerMode)
 	{
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			SDL_Rect zone = { coords.x, coords.y, 30, 30 };
+			App->entityFactory->CreateWave(zone, 4, WAVE_TYPE::LEVEL_1);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
+		{
+			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->position, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::BOSS_EMMITER, 10000u);
+			App->entityFactory->CreateBossEmitter(coords.Return_fPoint(), 400u, 200u, App->entityFactory->player, 5000u);
+
+		}
+
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 		{
 		

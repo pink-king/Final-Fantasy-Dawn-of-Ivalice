@@ -79,7 +79,7 @@ public:
 	bool debug = false;
 	bool debugSubtiles = false; 
 	bool debugColl = false;
-	bool hackerMode = true;
+	bool hackerMode = false;
 	bool ComeToPortal = false;
 	bool ComeToDeath = false;
 	bool ComeToWin = false;
