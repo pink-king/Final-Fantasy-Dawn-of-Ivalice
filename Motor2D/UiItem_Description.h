@@ -145,6 +145,7 @@ private:
 	WeaponStatType weaponLootInfo; 
 	descriptionType descrType; 
 	bool tabOnConsumable = false;
+	bool foundPoti = false;
 };
 
 #endif

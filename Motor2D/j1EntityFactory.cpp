@@ -597,8 +597,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(5, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 6) + 3 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(20, 25) + 3 * ret->level);
 						numArchers++;
 						cont++;
 					}
@@ -1715,6 +1715,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 
 	// 6: downwards deduction for player, and increase for vendor 
+
+
+	if (isConsumable)
+	{
+		if (item->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+		{
+			baseFinalPrice = 3000;
+		}
+	}
 
 	item->price = baseFinalPrice * 0.85f;
 	item->vendorPrice = baseFinalPrice * 1.15f; 

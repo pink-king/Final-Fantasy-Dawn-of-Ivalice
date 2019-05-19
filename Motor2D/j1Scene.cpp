@@ -65,7 +65,6 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		//WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-160, 598), 1); 
 		iPoint tileSize = { 32,32 };
 		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
 		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1); 
@@ -73,6 +72,9 @@ bool j1Scene::Start()
 		waveTrigg->CreateEntryWall(iPoint(17, 22));
 		waveTrigg->CreateExitWall({ 13,3 });
 		waveTrigg->CreateExitWall({ 14,3 });
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
+
 		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
 		App->entityFactory->CreatePlayer({ -209, 650 });
 		//App->entityFactory->CreatePlayer({ 0, 0 });
@@ -303,7 +305,7 @@ bool j1Scene::PreUpdate()
 	//	App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN /*&& hackerMode*/ && App->entityFactory->active)
 	{
 		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
 		iPoint clickedTile = entitySubTilePoint;
