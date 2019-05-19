@@ -3,6 +3,7 @@
 #include "j1ModuleCamera2D.h"
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
+#include "j1TransitionManager.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -230,6 +231,16 @@ FlowerBossEntity::~FlowerBossEntity()
 	App->entityFactory->DeleteEntityFromSubtile(this);
 	/*if (shootedPoisonRainEmitter && rainEmitter != nullptr)
 		rainEmitter->to_delete = true;*/
+
+	// ---------- Win State Hardcoded when boss dies ------------------
+	App->SaveGame("save_game.xml");
+	App->scene->ComeToDeath = true;
+	App->scene->ComeToPortal = false;
+	App->scene->ComeToWin = true;
+	App->pause = true;
+	App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, White);
+	App->scene->previosState = App->scene->state;
+	// -----------------------------------------------------------------
 
 	DesactiveShield();
 }
