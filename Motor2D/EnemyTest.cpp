@@ -44,10 +44,6 @@ bool EnemyTest::PreUpdate()
 {
 	if (!isInDetectionRange())
 		state = EnemyState::IDLE;
-
-	if (to_die)
-		state = EnemyState::DYING;
-
 	return true;
 }
 
@@ -108,7 +104,8 @@ bool EnemyTest::Update(float dt)
 
 bool EnemyTest::PostUpdate()
 {
-	
+	if (to_die)
+		state = EnemyState::DYING;
 
 	return true;
 }
