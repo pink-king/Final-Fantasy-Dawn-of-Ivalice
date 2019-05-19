@@ -97,7 +97,7 @@ void UiItem_Image::Draw(const float& dt)
 			}
 			else if (this->parent->guiType == GUI_TYPES::INVENTORY)  // INVENTORY image
 			{
-				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0f, 2.5f);
+				App->render->BlitGui(newTex, hitBox.x, hitBox.y, &this->section, 0.0f, 1.4f);
 			}
 		}
 
