@@ -111,6 +111,8 @@ protected:
 
 public:
 	float AlphaPulsation(float alphavalue, bool isIncreasing, bool pulsation,int counter);
+	float AlphaDecrease(float alphavalue, int counter);
+	float AlphaIncrease(float alphavalue, int counter);
 	bool DecideTexToPulse();
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;

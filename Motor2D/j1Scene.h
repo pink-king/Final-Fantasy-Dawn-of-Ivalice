@@ -96,6 +96,7 @@ public:
 	unsigned int acceptUI;
 
 	int hit_counter;
+	bool decreaseAlpha = false;
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

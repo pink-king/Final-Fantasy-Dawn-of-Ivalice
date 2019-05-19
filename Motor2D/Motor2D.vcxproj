@@ -138,6 +138,7 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
+    <ClCompile Include="SaveTrigger.cpp" />
     <ClCompile Include="Shara.cpp" />
     <ClCompile Include="Squares.cpp" />
     <ClCompile Include="Store_Vendor.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
+    <ClInclude Include="SaveTrigger.h" />
     <ClInclude Include="Shara.h" />
     <ClInclude Include="Squares.h" />
     <ClInclude Include="Store_Vendor.h" />
