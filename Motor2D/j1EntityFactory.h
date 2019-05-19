@@ -227,7 +227,6 @@ public:
 	unsigned int boss_flower_basic;
 	unsigned int boss_flower_BasicImpWall;
 	unsigned int boss_flower_death; //looking for this SFX
-
 	unsigned int portal_appear;
 	unsigned int portal_mantain;
 	unsigned int portal_vanish;

@@ -256,7 +256,7 @@ FlowerBossEntity::~FlowerBossEntity()
 
 	DesactiveShield();
 
-
+	App->audio->PlayFx(App->entityFactory->boss_flower_death, 0);
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
@@ -620,7 +620,7 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		LOG("shooting emitter");
 		shootedPoisonRainEmitter = true;
 		uint spawnRatio = uint(life * 2.5f);
-		uint radius = 200u;
+		uint radius = 260u;
 		uint duration = 0;
 		if (myState == Boss1State::PHASE2)
 			duration = phase_control_timers.phase2.time;
@@ -827,16 +827,16 @@ void FlowerBossEntity::CheckRenderFlip()
 
 bool FlowerBossEntity::PostUpdate()
 {
-	if (previousLife != life)
-		LOG("life:%f", life);
+	//if (previousLife != life)
+	//	LOG("life:%f", life);
 
-	if (!evading)
-	{
-		// subtiles
-		iPoint subTilePos = GetSubtilePos();
-		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
-		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
-	}
+	//if (!evading)
+	//{
+	//	// subtiles
+	//	iPoint subTilePos = GetSubtilePos();
+	//	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+	//	App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
+	//}
 
 	return true;
 }
