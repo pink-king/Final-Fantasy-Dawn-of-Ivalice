@@ -231,6 +231,11 @@ void j1DialogSystem::doDialogTypeLogic()
 				{
 
 					PerformDialogue(treeid);
+
+					if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos) 
+					{
+						App->SaveGame("save_game.xml");
+					}
 				}
 
 			}
