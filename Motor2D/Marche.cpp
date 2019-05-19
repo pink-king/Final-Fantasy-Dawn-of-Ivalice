@@ -675,6 +675,7 @@ bool Marche::Update(float dt)
 		if (inputReady)
 		{
 			InputMovement(dt);
+			if(App->scene->state != SceneState::LOBBY)
 			InputCombat();
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
