@@ -76,9 +76,10 @@ bool j1EntityFactory::Start()
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
-	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
+	consumableTex = App->tex->Load("textures/loot/loot_items.png");
 	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
 	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
+	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");

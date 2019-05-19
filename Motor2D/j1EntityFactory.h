@@ -169,6 +169,8 @@ public:
 	SDL_Texture*			lootItemsTex = nullptr; 
 	SDL_Texture*			portalTex = nullptr;
 	SDL_Texture*			campFireTex = nullptr;
+	SDL_Texture*			consumableTex = nullptr;
+
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;

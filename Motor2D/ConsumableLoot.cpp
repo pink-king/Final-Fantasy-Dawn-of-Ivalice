@@ -12,6 +12,8 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;
+
+	entityTex = App->entityFactory->consumableTex;
 }
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
@@ -102,6 +104,10 @@ void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 		else if(randNum == 1)
 		{
 			objectType = OBJECT_TYPE::PHOENIX_TAIL;
+		}
+		else
+		{
+			to_delete = true;
 		}
 	}
 	

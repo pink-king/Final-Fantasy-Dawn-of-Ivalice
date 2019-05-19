@@ -9,7 +9,7 @@
 
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
-	entityTex = App->entityFactory->lootItemsTex;
+	
 	//ChooseEntity();
 	lootSubtile.x = posX;
 	lootSubtile.y = posY;
