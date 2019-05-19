@@ -27,6 +27,7 @@ NoWalkableTrigger::~NoWalkableTrigger()
 	}
 	walls.clear();
 
+	DeleteFromSubtiles(4);
 }
 
 bool NoWalkableTrigger::DoTriggerAction()

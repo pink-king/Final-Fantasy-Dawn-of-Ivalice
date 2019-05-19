@@ -107,6 +107,7 @@ public:
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
 	void AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile);
+	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
 
