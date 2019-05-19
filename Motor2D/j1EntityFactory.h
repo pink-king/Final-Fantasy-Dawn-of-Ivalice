@@ -86,7 +86,7 @@ public:
 	LootEntity* CreateGold(int posX, int posY);
 
 	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
-	Trigger* CreateWaveTrigger(iPoint pos, uint level); 
+	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
 	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
 
 	uint CreateRandomBetween(uint min, uint max); 
