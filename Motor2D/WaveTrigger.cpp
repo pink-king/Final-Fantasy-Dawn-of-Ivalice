@@ -24,7 +24,7 @@ WaveTrigger::~WaveTrigger()
 		App->pathfinding->DeactivateTile({ (*exitWallPositionsIter).x, (*exitWallPositionsIter).y });
 
 	// check this
-	DeleteFromSubtiles(4);
+	DeleteFromSubtiles(11);
 }
 
 bool WaveTrigger::DoTriggerAction()

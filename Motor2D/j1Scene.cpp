@@ -118,6 +118,13 @@ bool j1Scene::Start()
 		waveTrigg->CreateExitWall({ 21, 46 });
 		waveTrigg->CreateExitWall({ 22, 46 });
 
+		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
+		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y);
+		bossTrigger->CreateEntryWall(iPoint(37, 94));
+		bossTrigger->CreateEntryWall(iPoint(36, 94));
+		bossTrigger->CreateEntryWall(iPoint(35, 94));
+		bossTrigger->CreateEntryWall(iPoint(34, 94));
+
 		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
