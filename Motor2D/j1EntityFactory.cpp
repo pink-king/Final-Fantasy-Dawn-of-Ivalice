@@ -17,6 +17,7 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
+#include "DialogTrigger.h"
 #include "Portal.h"
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
@@ -748,6 +749,15 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 	default:
 		break;
 	}
+	return ret;
+}
+
+Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger)
+{
+	Trigger* ret = nullptr;
+	ret = new DialogTrigger(posX, posY, Dtrigger);
+	entities.push_back(ret);
+
 	return ret;
 }
 

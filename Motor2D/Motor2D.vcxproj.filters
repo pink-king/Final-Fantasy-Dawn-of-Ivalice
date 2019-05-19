@@ -242,6 +242,9 @@
     <ClCompile Include="BossEmmiterArrow.cpp">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="DialogTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -390,7 +393,7 @@
       <Filter>Development\Modules\GUI\basic</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Definitions.h">
-      <Filter>Development\Modules\GUI\help</Filter>
+      <Filter>Development\Modules\GUI\core\help</Filter>
     </ClInclude>
     <ClInclude Include="j1Gui.h">
       <Filter>Development\Modules\GUI\core</Filter>
@@ -506,6 +509,9 @@
     <ClInclude Include="BossEmmiterArrow.h">
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
+    <ClInclude Include="DialogTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
@@ -566,9 +572,6 @@
     <Filter Include="Development\Modules\GUI\basic">
       <UniqueIdentifier>{40f12a01-103f-4357-9fa5-4ee8de132031}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Development\Modules\GUI\help">
-      <UniqueIdentifier>{255d0b44-1a0c-4411-bddc-faa78dfb7121}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Development\Modules\GUI\managers">
       <UniqueIdentifier>{c7f538e3-e352-46f7-aa85-1cf7aa79d1e6}</UniqueIdentifier>
     </Filter>
@@ -592,6 +595,9 @@
     </Filter>
     <Filter Include="Development\Modules\Entities\Triggers">
       <UniqueIdentifier>{d26668ec-2b1d-46b9-a13f-fd540d32d715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\core\help">
+      <UniqueIdentifier>{255d0b44-1a0c-4411-bddc-faa78dfb7121}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

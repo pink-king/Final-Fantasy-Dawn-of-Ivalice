@@ -85,6 +85,7 @@ public:
 	LootEntity* CreateGold(int posX, int posY);
 
 	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
+	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
@@ -149,7 +150,7 @@ public:
 	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
-	WaveManager* waveManager = nullptr;
+	WaveManager*			waveManager = nullptr;
 
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;

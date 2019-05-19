@@ -157,6 +157,7 @@
     <ClCompile Include="UiItem_Inventory.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
+    <ClCompile Include="DialogTrigger.cpp" />
     <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WinTrigger.cpp" />
   </ItemGroup>
@@ -247,6 +248,7 @@
     <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+    <ClInclude Include="DialogTrigger.h" />
     <ClInclude Include="WaveManager.h" />
     <ClInclude Include="WinTrigger.h" />
   </ItemGroup>
