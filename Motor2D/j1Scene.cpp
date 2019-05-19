@@ -75,9 +75,8 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
 
-		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
-		App->entityFactory->CreatePlayer({ -209, 650 });
-		//App->entityFactory->CreatePlayer({ 0, 0 });
+		App->entityFactory->CreatePlayer({ -1575, 2150 });   //Proper Start of the level
+		//App->entityFactory->CreatePlayer({ -209, 650 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
 		//AcceptUISFX_logic = false;
@@ -359,7 +358,7 @@ bool j1Scene::Update(float dt)
 		App->SaveGame("save_game.xml");
 
 	
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
 		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
 
