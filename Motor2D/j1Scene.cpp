@@ -803,11 +803,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else if (charFlag == "Shara")
 		{
-			dialogueBox = App->gui->AddImage(position, &section, nullptr);
+			SharaIcon = App->gui->AddImage(position, &section, nullptr);
 		}
-		else if (charFlag == "bialogueBox")
+		else if (charFlag == "dialogueBox")
 		{
-
+			dialogueBox = App->gui->AddImage(position, &section, nullptr);
 		}
 		else
 		{                                  // this is useless now
