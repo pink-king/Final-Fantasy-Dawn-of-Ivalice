@@ -41,6 +41,7 @@ bool EnemyProjectile::PreUpdate()
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 5, 3, 20, true);
 		//App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
+		App->particles->AddParticle(App->particles->fire02, GetPivotPos().x - 45, GetPivotPos().y - 65, { 0,0 }, 200);
 
 		// TODO:: Add different sfx
 		App->audio->PlayFx(App->entityFactory->sharaBasic_ImpactsWall, 0);
@@ -72,6 +73,7 @@ bool EnemyProjectile::Contact()
 	// Rumble when player gets hurt? 
 	/*App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);*/
+	App->particles->AddParticle(App->particles->fire02, GetPivotPos().x - 45, GetPivotPos().y - 65, { 0,0 }, 200);
 
 	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
 	App->audio->PlayFx(App->entityFactory->basicBodyImp, 0);

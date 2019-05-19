@@ -3,6 +3,9 @@
 
 #include "j1Entity.h"
 #include "PlayerEntity.h"
+//#include <vector>
+//#include <list>
+#include "Enemy.h"
 
 #define NUM_NEIGH_PATTERN 8
 
@@ -75,7 +78,16 @@ private:
 	void DoShieldLogic();
 	void ShieldLogic();
 	bool IsAttackOnTilePerimeter();
+	std::list<iPoint> GetSpawnTilePoints();
+	void UpdateEnemyTypesVector();
+	void InstantiateEnemiesAroundPlayer();
 	//void CheckFor
+
+public:
+	std::vector<EnemyType> enemyTypesVec;
+	std::list<iPoint> spawnTilePoints;
+	iPoint firstSpawnTilePos;
+	bool spawnDataReady = false;
 
 private:
 	Boss1State myState = Boss1State::NOTHING;
@@ -83,12 +95,13 @@ private:
 	bool evading = false;
 	SDL_Texture* boss_spritesheet = nullptr;
 	SDL_Texture* debugSubtileTex = nullptr;
-
+	SDL_Texture* spawnCircleTex = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
 	Animation attackAnim[(int)facingDirection::MAX];
 	Animation jumpAnim[(int)facingDirection::MAX];
 	Animation deathAnim;
+	Animation spawnCircleAnim;
 
 	iPoint adjacentTileNeighboursPattern[NUM_NEIGH_PATTERN];
 
@@ -110,8 +123,14 @@ private:
 	//BossPhaseTimer poisonRain_timer_data;
 	bool shootedPoisonRainEmitter = false;
 	BossPhaseTimer maxEvasion_timer_data;
+
 	// prelife
 	float previousLife = 0;
+
+	// 
+	j1Entity* rainEmitter = nullptr;
+
+
 };
 
 #endif // !__FLOWER_BOSS_H__
