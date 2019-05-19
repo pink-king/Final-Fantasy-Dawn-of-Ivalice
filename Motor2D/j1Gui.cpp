@@ -36,6 +36,12 @@ bool j1Gui::Start()
 
 	if (hurt_hud_tex == nullptr)
 		hurt_hud_tex = App->tex->Load("textures/hud dmg/playerhurt.png");
+
+	if (hurt_hud_tex2 == nullptr)
+		hurt_hud_tex2 = App->tex->Load("textures/hud dmg/hurt2.png");
+
+	if (hurt_hud_tex3 == nullptr)
+		hurt_hud_tex3 = App->tex->Load("textures/hud dmg/hurt3.png");
 	return true;
 }
 
@@ -419,8 +425,13 @@ bool j1Gui::PostUpdate()
 
 	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
 
-	// temporal debug 
+	App->render->Blit(hurt_hud_tex3, 0, 0, 0, 0.0f);
+	App->render->Blit(hurt_hud_tex2, 0, 0, 0, 0.0f);
 	App->render->Blit(hurt_hud_tex, 0, 0, 0, 0.0f);
+
+	// temporal debug 
+	
+	
 	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 
@@ -475,6 +486,17 @@ bool j1Gui::CleanUp()
 		hurt_hud_tex = nullptr;
 	}
 
+	if (hurt_hud_tex2 != nullptr)
+	{
+		App->tex->UnLoad(hurt_hud_tex2);
+		hurt_hud_tex = nullptr;
+	}
+
+	if (hurt_hud_tex3 != nullptr)
+	{
+		App->tex->UnLoad(hurt_hud_tex3);
+		hurt_hud_tex3 = nullptr;
+	}
 	/*delete canvas;
 	canvas = nullptr;*/
 

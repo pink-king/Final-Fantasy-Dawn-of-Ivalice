@@ -143,6 +143,7 @@ public:
 	void MagicPriceCalculator(LootEntity*);
 
 public:
+	float					hudAlphavalue = 0;
 	fPoint					dmg_vec;
 	bool					pushEF = false;
 	bool					dmgInTimeFdbck = false;

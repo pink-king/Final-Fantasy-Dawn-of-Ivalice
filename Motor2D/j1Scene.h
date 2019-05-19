@@ -95,7 +95,7 @@ public:
 	unsigned int selectUI;
 	unsigned int acceptUI;
 
-	
+	int hit_counter;
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

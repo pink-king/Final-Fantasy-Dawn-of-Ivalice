@@ -54,6 +54,7 @@ bool j1Scene::Start()
 	if(debug_tex == nullptr)
 		debug_tex = App->tex->Load("maps/path2.png");
 
+	hit_counter = 0;
 	App->pause = false;
 	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
 	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");

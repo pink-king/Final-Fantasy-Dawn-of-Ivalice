@@ -9,6 +9,7 @@
 #include "j1ModuleCamera2D.h"
 
 #define PI 3.14159265359f
+#define MAX_ALPHA 255
 
 struct SDL_Texture;
 
@@ -101,8 +102,7 @@ protected:
 	fPoint GetShotDirection();
 	void DoDash();
 
-	void AlphaPulsation(float alphavalue, bool isIncreasing);
-
+	
 	float dashMaxDistance;
 	int previousFrame; // to swap position with displaced sprites
 	fPoint untouchedPos; // stores original position before the dodge animation
@@ -110,6 +110,8 @@ protected:
 	fPoint dashDestinationPos;
 
 public:
+	float AlphaPulsation(float alphavalue, bool isIncreasing, bool pulsation,int counter);
+	bool DecideTexToPulse();
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;
 	fPoint previousPos;
@@ -143,7 +145,7 @@ private:
 
 	bool debug = true;
 	iPoint offset = { 0,0 }; // debug draw offset TODO: change name
-	float hudAlphavalue = 0;
+	float hudAlphavalue[3];
 };
 
 #endif
