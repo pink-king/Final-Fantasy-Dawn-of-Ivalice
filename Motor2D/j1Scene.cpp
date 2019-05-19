@@ -917,7 +917,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
+		//App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
 
 		break;
 

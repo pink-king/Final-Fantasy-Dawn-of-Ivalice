@@ -8,6 +8,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 {
 	boss_spritesheet = App->tex->Load("textures/enemies/enemyFlower_Boss.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
+	spawnCircleTex = App->tex->Load("textures/enemies/boss_primitive_circle.png");
 
 	// animations --------
 	float animSpeed = 10.f;
@@ -182,6 +183,10 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	deathAnim.speed = 2.f;
 	deathAnim.loop = false;
 
+	// spawn circle animation
+	spawnCircleAnim.PushBack({ 0,0,218,148 });
+	spawnCircleAnim.speed = 1.f;
+	spawnCircleAnim.loop = false;
 
 	// precomputed adjacent tile neighbours pattern
 	// for enemy spawn at player position
@@ -215,6 +220,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	spawnEnemies_timer_data.time = 2000;
 	shieldFire_timer_data.time = 800;
 	maxEvasion_timer_data.time = 400;
+	
 
 	myState = Boss1State::PHASE1;
 }
@@ -244,10 +250,11 @@ bool FlowerBossEntity::Update(float dt)
 	if (to_die)
 		myState = Boss1State::DEATH;
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		Phase3Logic();
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	//{
+	//	//myState = Boss1State::PHASE3;
+	//	Phase3Logic();
+	//}
 
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
 	{
@@ -422,7 +429,8 @@ void FlowerBossEntity::PhaseManager(float dt)
 	}
 	case Boss1State::PHASE3:
 	{
-		if (phase_control_timers.phase3.timer.Read() >= phase_control_timers.phase3.time)
+		// always that circle spawn animation finishes and instantiate "queued" enemies
+		if (phase_control_timers.phase3.timer.Read() >= phase_control_timers.phase3.time && !spawnDataReady)
 		{
 			myState = Boss1State::PHASE1;
 			LOG("returning from phase3 to phase1");
@@ -444,7 +452,8 @@ void FlowerBossEntity::PhaseManager(float dt)
 	}
 	case Boss1State::PHASE4:
 	{
-		if (phase_control_timers.phase4.timer.Read() >= phase_control_timers.phase4.time)
+		// always that circle spawn animation finishes and instantiate "queued" enemies
+		if (phase_control_timers.phase4.timer.Read() >= phase_control_timers.phase4.time && !spawnDataReady)
 		{
 			myState = Boss1State::PHASE1;
 			LOG("returning from phase4 to phase1");
@@ -543,56 +552,105 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 			this, // owner
 			duration); // duration, ms
 	}
+
+}
+
+std::list<iPoint> FlowerBossEntity::GetSpawnTilePoints()
+{
+	spawnTilePoints.clear();
+
+	for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
+	{
+		iPoint  tilePos = App->entityFactory->player->GetTilePos() + adjacentTileNeighboursPattern[i];
+
+		if (!App->pathfinding->IsWalkable(tilePos))
+			continue;
+
+		// save this tile positions to instantiate when circle animation finishes
+		spawnTilePoints.push_back(tilePos);
+	}
+
+	return spawnTilePoints;
+}
+
+void FlowerBossEntity::UpdateEnemyTypesVector()
+{
+
+	enemyTypesVec.clear();
+
+	if (life <= maxLife * 0.5f && patternsCounter <= 3) // accelerates types of enemies
+		patternsCounter = 4;
+
+	if (patternsCounter <= 2)
+	{
+		enemyTypesVec.push_back(EnemyType::TEST);
+		LOG("only basic enemy");
+	}
+	else if (patternsCounter <= 4)
+	{
+		enemyTypesVec.push_back(EnemyType::ARCHER);
+		enemyTypesVec.push_back(EnemyType::TEST);
+		LOG("spawn basic enemy and archer");
+	}
+	else
+	{
+		enemyTypesVec.push_back(EnemyType::ARCHER);
+		enemyTypesVec.push_back(EnemyType::BOMB);
+		enemyTypesVec.push_back(EnemyType::TEST);
+		LOG("spawn archer,basic and bomb");
+	}
+
 }
 
 void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour positions
 {
-	if (spawnEnemies_timer_data.timer.Read() >= spawnEnemies_timer_data.time)
+	// get new spawn data when timer say
+	if (spawnEnemies_timer_data.timer.Read() >= spawnEnemies_timer_data.time && !spawnDataReady)
 	{
-		// if the enemy life is less than x, spawn archer too
-		// TODO: test 
-		std::vector<EnemyType> enemyTypesVec;
+		UpdateEnemyTypesVector();
+		GetSpawnTilePoints();
 
-		if (life <= maxLife * 0.5f && patternsCounter <= 3) // accelerates types of enemies
-			patternsCounter = 4;
-
-		if (patternsCounter <= 2)
-		{
-			enemyTypesVec.push_back(EnemyType::TEST);
-			LOG("only basic enemy");
-		}
-		else if (patternsCounter <= 4)
-		{
-			enemyTypesVec.push_back(EnemyType::ARCHER);
-			enemyTypesVec.push_back(EnemyType::TEST);
-			LOG("spawn basic enemy and archer");
-		}
-		else
-		{
-			enemyTypesVec.push_back(EnemyType::ARCHER);
-			enemyTypesVec.push_back(EnemyType::BOMB);
-			enemyTypesVec.push_back(EnemyType::TEST);
-			LOG("spawn archer,basic and bomb");
-		}
+		spawnDataReady = true;
 		
-
-		for (int i = 0; i < NUM_NEIGH_PATTERN; ++i)
-		{
-			iPoint  tilePos = App->entityFactory->player->GetTilePos() + adjacentTileNeighboursPattern[i];
-
-			if (!App->pathfinding->IsWalkable(tilePos))
-				continue;
-
-			iPoint tileSize = { 32,32 };
-			SDL_Rect spawnTileRect = { tilePos.x * tileSize.x, tilePos.y * tileSize.y, tileSize.x, tileSize.y };
-			
-			App->entityFactory->CreateEnemiesGroup(enemyTypesVec, spawnTileRect, 1, 1);
-		}
-
-		// restart timer
-		spawnEnemies_timer_data.timer.Start();
+		//// restart timer
+		//spawnEnemies_timer_data.timer.Start();
+		//enemyTypesVec.clear();
 	}
 
+	if (!spawnCircleAnim.Finished() && spawnDataReady)
+	{
+		iPoint drawPos = spawnTilePoints.front();
+		drawPos = App->map->MapToWorld(drawPos.x, drawPos.y);
+
+		int half_graphic_width = 109;
+		int offset_y = 25;
+
+		App->render->Blit(spawnCircleTex, drawPos.x - half_graphic_width, drawPos.y - offset_y, &spawnCircleAnim.GetCurrentFrame());
+	}
+	else if (spawnCircleAnim.Finished())
+	{
+		LOG("finished spawn anim");
+		// instantiate enemies
+		InstantiateEnemiesAroundPlayer();
+		// reset anim
+		spawnCircleAnim.Reset();
+		// restart timer
+		spawnEnemies_timer_data.timer.Start();
+		// return condition
+		spawnDataReady = false;
+	}
+}
+
+void FlowerBossEntity::InstantiateEnemiesAroundPlayer()
+{
+	for(std::list<iPoint>::iterator iter = spawnTilePoints.begin(); iter != spawnTilePoints.end(); ++iter)
+	{
+		iPoint tileSize = { 32,32 };
+		SDL_Rect spawnTileRect = { (*iter).x * tileSize.x, (*iter).y * tileSize.y, tileSize.x, tileSize.y };
+
+		App->entityFactory->CreateEnemiesGroup(enemyTypesVec, spawnTileRect, 1, 1);
+	}
+		
 }
 
 void FlowerBossEntity::ActiveShield()
@@ -701,6 +759,10 @@ bool FlowerBossEntity::PostUpdate()
 
 bool FlowerBossEntity::CleanUp()
 {
+	App->tex->UnLoad(boss_spritesheet);
+	App->tex->UnLoad(debugSubtileTex);
+	App->tex->UnLoad(spawnCircleTex);
+
 	return true;
 }
 
