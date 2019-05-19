@@ -212,7 +212,8 @@ bool j1EntityFactory::Update(float dt)
 				//if entit is diffetent to player create loot
 				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
 					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
-					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS) 
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS 
+					&& (*item)->type != ENTITY_TYPE::PARTICLE && (*item)->type != ENTITY_TYPE::NO_TYPE)
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
