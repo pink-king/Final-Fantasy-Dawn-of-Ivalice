@@ -67,7 +67,7 @@ void NoWalkableTrigger::CreateWalls()
 		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
 		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y);
 		wallPoint.y -= 16; // sprite offset
-		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
 	}
 
 	// exit walls
@@ -77,7 +77,7 @@ void NoWalkableTrigger::CreateWalls()
 		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
 		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y);
 		wallPoint.y -= 16; // sprite offset
-		exit_wall_entities.push_back(App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 }));
+		exit_wall_entities.push_back(App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 }));
 	}
 
 }

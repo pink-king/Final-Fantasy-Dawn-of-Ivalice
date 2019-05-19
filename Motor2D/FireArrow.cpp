@@ -95,7 +95,7 @@ void FireArrow::Pierce()
 	// Add FX
 	// TODO Add particles of blood and fire dmg
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 35, 1, 40, true);
+		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 50, 1, 40, true);
 	App->camera2D->AddTrauma(0.2F);
 	App->input->DoGamePadRumble(0.3F, 30);
 	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
@@ -107,9 +107,9 @@ void FireArrow::Explode()
 	// Add FX
 	// TODO Add fire dmg
 	App->attackManager->AddPropagationAttack(owner, GetPreviousSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 45, 1, 50, true);
+		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 65, 1, 50, true);
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-			damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 20, 7, 80, true);
+			damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 40, 7, 80, true);
 
 	if (!hitwall) {
 		App->particles->AddParticle(App->particles->blood01, GetPivotPos().x - 20, GetPivotPos().y - 30);

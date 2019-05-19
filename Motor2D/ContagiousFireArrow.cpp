@@ -84,9 +84,9 @@ bool ContagiousFireArrow::Move(float dt)
 bool ContagiousFireArrow::Explode()
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 10, 1, 60, false);		
+		damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 40, 1, 60, false);		
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 10, 5, 60, true);
+		damageType::INTIME, ELEMENTAL_TYPE::FIRE_ELEMENT, 40, 5, 60, true);
 
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);

@@ -27,7 +27,7 @@ private:
 	bool isActivated = false;
 
 	uint level = 1; 
-
+	SDL_Rect rect;
 	j1Entity* waveEntity = nullptr; 
 
 	SDL_Rect waveZone; 
