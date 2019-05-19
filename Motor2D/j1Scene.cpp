@@ -94,8 +94,7 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL2)
 	{
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
-		//App->entityFactory->CreatePlayer({ 0, 0 });
+		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
 		//AcceptUISFX_logic = false;
@@ -1098,7 +1097,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		break;
 
 	case SceneState::LEVEL2:
-		state = SceneState::LEVEL1;
+		state = SceneState::LEVEL2;
 		App->attackManager->Enable();
 		App->pathfinding->Enable();
 		App->camera2D->Enable();
@@ -1107,7 +1106,6 @@ void j1Scene::LoadScene(SceneState sceneState)
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
-		App->entityFactory->CreatePlayer({ 0, 0 });
 		break;
 
 	case SceneState::DEATH:
