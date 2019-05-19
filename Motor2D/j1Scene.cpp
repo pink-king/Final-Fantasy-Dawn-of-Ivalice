@@ -804,9 +804,10 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			SharaIcon = App->gui->AddImage(position, &section, nullptr);
 		}
-		else if (charFlag == "dialogueBox")
+		else if (lootFlag == "dialogueBox")
 		{
-			dialogueBox = App->gui->AddImage(position, &section, nullptr);
+			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, inGamePanel);
+			dialogueBox->hide = true; 
 		}
 		else
 		{                                  // this is useless now

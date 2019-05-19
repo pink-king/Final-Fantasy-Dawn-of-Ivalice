@@ -7,8 +7,8 @@
 MagicBolt::MagicBolt(fPoint pos, fPoint destination, uint speed, const j1Entity* owner)
 	: Projectile(pos, destination, speed, owner, "MagicBolt", PROJECTILE_TYPE::MAGIC_BOLT)
 {
-	/*App->camera2D->AddTrauma(20.F / 100.f);
-	App->input->DoGamePadRumble(0.2F, 100);*/
+	App->camera2D->AddTrauma(5.F / 100.f);
+	App->input->DoGamePadRumble(0.2F, 100);
 
 	entityTex = App->entityFactory->ritzBasicTex;
 
@@ -52,7 +52,6 @@ MagicBolt::MagicBolt(fPoint pos, fPoint destination, uint speed, const j1Entity*
 	size.create(64, 64);
 
 	currentAnimation = &anim;	
-
 
 	// Important for aiming offset
 	SetInitially();
