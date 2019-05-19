@@ -56,12 +56,9 @@ bool j1BuffManager::CleanUp()
 
 	while (item != buffs.end())
 	{
-		if (*item != nullptr)
-		{
-			buffs.remove(*item);
-			delete *item;
-			*item = nullptr;
-		}
+		buffs.remove(*item);
+		delete *item;
+		*item = nullptr;
 		++item;
 	}
 	buffs.clear();
@@ -475,20 +472,10 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
-					if(player->coolDownData.basic.cooldownTime == 0)
-						player->coolDownData.basic.cooldownTime = 0;
 					player->coolDownData.dodge.cooldownTime *= value;
-					if (player->coolDownData.dodge.cooldownTime <= 0)
-						player->coolDownData.dodge.cooldownTime = 0;
 					player->coolDownData.special1.cooldownTime *= value;
-					if (player->coolDownData.special1.cooldownTime <= 0)
-						player->coolDownData.special1.cooldownTime = 0;
 					player->coolDownData.special2.cooldownTime *= value;
-					if (player->coolDownData.special2.cooldownTime <= 0)
-						player->coolDownData.special2.cooldownTime = 0;
 					player->coolDownData.ultimate.cooldownTime *= value;
-					if (player->coolDownData.ultimate.cooldownTime <= 0)
-						player->coolDownData.ultimate.cooldownTime = 0;
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{

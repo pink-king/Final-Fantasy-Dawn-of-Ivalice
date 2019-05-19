@@ -233,17 +233,13 @@ FlowerBossEntity::~FlowerBossEntity()
 		rainEmitter->to_delete = true;*/
 
 	// ---------- Win State Hardcoded when boss dies ------------------
-	if (!App->scene->ComeToDeath)
-	{
-		App->SaveGame("save_game.xml");
-		App->scene->ComeToDeath = true;
-		App->scene->ComeToPortal = false;
-		App->scene->ComeToWin = true;
-		App->pause = true;
-		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
-		App->scene->previosState = App->scene->state;
-		to_delete = true;
-	}
+	App->SaveGame("save_game.xml");
+	App->scene->ComeToDeath = true;
+	App->scene->ComeToPortal = false;
+	App->scene->ComeToWin = true;
+	App->pause = true;
+	App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, White);
+	App->scene->previosState = App->scene->state;
 	// -----------------------------------------------------------------
 
 	DesactiveShield();

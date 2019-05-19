@@ -29,11 +29,7 @@
   <scene>
     <InGameUi>
       <images>
-  <image name="dialogue_box">
-          <section x="452" y="297" w="458" h="109"/>
-          <flag  value="dialogueBox" />
-        </image>
-		
+
         <image name="loot_item_panel">
           <section x="1" y="64" w="225" h="239"/>
           <flag  value="loot" />

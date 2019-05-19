@@ -335,15 +335,6 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 		attack1[i].speed = 50.f;
 		attack1[i].loop = false;
 	}
-	// basic attack pivot offsets
-	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
-	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 50.f };
-	attackPivotOffset[(int)facingDirection::S] = { 22.f, 50.f };
-	attackPivotOffset[(int)facingDirection::N] = { 22.f, 50.f };
-	attackPivotOffset[(int)facingDirection::E] = { 9.f, 50.f };
-	attackPivotOffset[(int)facingDirection::W] = { 37.f, 50.f };
-	attackPivotOffset[(int)facingDirection::NE] = { 18.f, 51.f };
-	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };
 
 	// TELEPORT
 	// -------------------------------------------------------------
@@ -619,11 +610,6 @@ bool Ritz::Update(float dt)
 				// restart timer
 				coolDownData.basic.timer.Start();
 			}
-
-			// pivots
-			//reposition pos
-			transference_pivot = attackPivotOffset[pointingDir];
-			transference_pivot -= pivot;
 		}
 		break;
 	}
