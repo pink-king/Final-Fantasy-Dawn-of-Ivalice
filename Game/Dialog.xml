@@ -35,8 +35,8 @@
   
     <dialogtree treeid="2" treeName="STRANGER">
     <node line="Hello fellow warrior" id="0">
-      <option line="Who are you" nextnode="1"/>
-      <option line="Where am I?" nextnode="2"/>
+      <option line="Hello" nextnode="1"/>
+      <option line="What are you doing here?" nextnode="2"/>
     </node>  
  <node line="I have come to tell you something" id="1">
       <option line="Who are you?" nextnode="3"/>
