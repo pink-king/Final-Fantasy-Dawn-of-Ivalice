@@ -32,10 +32,15 @@ bool WaveTrigger::DoTriggerAction()
 	if (!isActivated)
 	{
 		if (level == 1)
+		{
 			waveEntity = App->entityFactory->CreateWave(waveZone, 5, WAVE_TYPE::LEVEL_1, this);
+			rect = { 0,384,64,64 };
+		}
 		else if (level == 2)
+		{
 			waveEntity = App->entityFactory->CreateWave(waveZone, 6, WAVE_TYPE::LEVEL_2, this);
-
+			rect = { 0,873,64,64 };
+		}
 		CreateWalls();
 		isActivated = true;
 	}
@@ -52,7 +57,7 @@ void WaveTrigger::CreateWalls()
 		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
 		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y );
 		wallPoint.y -= 16; // sprite offset
-		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, rect);
 	}
 
 	// exit walls
@@ -62,7 +67,7 @@ void WaveTrigger::CreateWalls()
 		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
 		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y);
 		wallPoint.y -= 16; // sprite offset
-		exit_wall_entities.push_back(App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 }));
+		exit_wall_entities.push_back(App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, rect));
 	}
 
 }
