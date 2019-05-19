@@ -160,6 +160,7 @@
     <ClCompile Include="UiItem_Bar.cpp" />
     <ClCompile Include="DialogTrigger.cpp" />
     <ClCompile Include="WaveManager.cpp" />
+    <ClCompile Include="WaveTrigger.cpp" />
     <ClCompile Include="WinTrigger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -252,6 +253,7 @@
     <ClInclude Include="UiItem_Bar.h" />
     <ClInclude Include="DialogTrigger.h" />
     <ClInclude Include="WaveManager.h" />
+    <ClInclude Include="WaveTrigger.h" />
     <ClInclude Include="WinTrigger.h" />
   </ItemGroup>
   <ItemGroup>

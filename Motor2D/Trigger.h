@@ -12,6 +12,7 @@ enum class TRIGGER_TYPE
 	EXITPORTAL,
 	DIALOG,
 	SAVE,
+	WAVE,
 	NO_TRIGGER
 };
 

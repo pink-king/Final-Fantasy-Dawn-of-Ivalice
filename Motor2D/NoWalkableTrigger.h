@@ -10,7 +10,7 @@
 enum class DOOR
 {
 	Exit,
-	entry,
+	Entry,
 };
 
 struct wall
