@@ -3,7 +3,7 @@
 #include "j1EntityFactory.h"
 #include "NoWalkableTrigger.h"
 
-WaveTrigger::WaveTrigger(float posx, float posy, uint level) : level(level), Trigger(TRIGGER_TYPE::WAVE, posx, posy, "Wave")
+WaveTrigger::WaveTrigger(float posx, float posy, const SDL_Rect& zone, uint level) : waveZone(zone), level(level), Trigger(TRIGGER_TYPE::WAVE, posx, posy, "Wave")
 {
 	AssignInSubtiles(11); 
 }
@@ -31,10 +31,10 @@ bool WaveTrigger::DoTriggerAction()
 {
 	if (!isActivated)
 	{
-		iPoint tileSize = { 32,32 };
-		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
-
-		App->entityFactory->CreateWave(waveZone, 5, WAVE_TYPE::LEVEL_1);
+		if (level == 1)
+			waveEntity = App->entityFactory->CreateWave(waveZone, 5, WAVE_TYPE::LEVEL_1);
+		else if (level == 2)
+			waveEntity = App->entityFactory->CreateWave(waveZone, 6, WAVE_TYPE::LEVEL_2);
 
 		CreateWalls();
 		isActivated = true;
@@ -65,6 +65,14 @@ void WaveTrigger::CreateWalls()
 		exit_wall_entities.push_back(App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 }));
 	}
 
+}
+
+bool WaveTrigger::Update(float dt)
+{
+	if (waveEntity == nullptr && isActivated)
+		to_delete = true; 
+
+	return true;
 }
 
 void WaveTrigger::CreateExitWall(iPoint pos)

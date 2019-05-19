@@ -773,10 +773,10 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 	return ret;
 }
 
-Trigger * j1EntityFactory::CreateWaveTrigger(iPoint pos, uint level)
+Trigger * j1EntityFactory::CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level)
 {
 	Trigger* ret = nullptr; 
-	ret = DBG_NEW WaveTrigger(pos.x, pos.y, level); 
+	ret = DBG_NEW WaveTrigger(pos.x, pos.y, zone, level); 
 	entities.push_back(ret);
 
 	return ret;

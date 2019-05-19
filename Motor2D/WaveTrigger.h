@@ -11,7 +11,7 @@
 class WaveTrigger : public Trigger
 {
 public:
-	WaveTrigger(float posx, float posy, uint level);
+	WaveTrigger(float posx, float posy, const SDL_Rect& zone, uint level);
 	~WaveTrigger();
 
 	bool DoTriggerAction();
@@ -20,11 +20,17 @@ public:
 
 	void CreateWalls();
 
+	bool Update(float dt) override; 
+
 private:
 	std::vector<wall*> wallsvec;
 	bool isActivated = false;
 
 	uint level = 1; 
+
+	j1Entity* waveEntity = nullptr; 
+
+	SDL_Rect waveZone; 
 
 	std::list<iPoint> entry_wall_map_positions;
 	std::list<iPoint> exit_wall_map_positions;
