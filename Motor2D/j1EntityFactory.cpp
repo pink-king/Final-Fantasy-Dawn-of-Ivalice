@@ -843,9 +843,9 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
-WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave)
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger)
 {
-	waveManager = DBG_NEW WaveManager(zone, numWaves, wave);
+	waveManager = DBG_NEW WaveManager(zone, numWaves, wave, linkedTrigger);
 
 	if (waveManager != nullptr)
 	{
@@ -1943,17 +1943,21 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 
 void j1EntityFactory::AddExp(Enemy * enemy)
 {
-	uint expToAdd = 100;
-	uint bonusLevel = (enemy->level - player->level) * 25;
-	player->exp += expToAdd + bonusLevel;
-
-	if (player->exp > player->maxExpInLevel)
+	// TODO: CHECK WTF IS THIS
+	if (enemy != nullptr)
 	{
-		++player->level;
-		player->exp -= player->maxExpInLevel;
+		uint expToAdd = 100;
+		uint bonusLevel = (enemy->level - player->level) * 25;
+		player->exp += expToAdd + bonusLevel;
+
+		if (player->exp > player->maxExpInLevel)
+		{
+			++player->level;
+			player->exp -= player->maxExpInLevel;
 
 
-		player->GetVendor()->generateVendorItems(true); 
+			player->GetVendor()->generateVendorItems(true);
+		}
 	}
 }
 

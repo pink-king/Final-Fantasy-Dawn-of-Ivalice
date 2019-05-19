@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1BuffManager.h"
 
-WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type) : spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
+WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1Entity* associatedTrigger) : associatedTrigger(associatedTrigger),spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
 {
 	App->scene->wave_label->hide = false;
 	//Add SFX spawn
@@ -15,6 +15,10 @@ WaveManager::~WaveManager()
 {
 	App->scene->wave_label->hide = true;
 	App->audio->PlayFx(App->entityFactory->wave_end, 0);
+
+	// associate trigger delete
+	if (associatedTrigger != nullptr)
+		associatedTrigger->to_delete = true;
 }
 
 bool WaveManager::Start()
@@ -50,6 +54,12 @@ bool WaveManager::PreUpdate()
 
 bool WaveManager::Update(float dt)
 {
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		to_delete = true;
+	}
+
 	if (toCreateNextWave)
 	{
 		SpawnCurrentWaveLabel();

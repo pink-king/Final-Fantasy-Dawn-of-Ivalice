@@ -29,6 +29,7 @@ private:
 	std::list<iPoint> entry_wall_map_positions;
 	std::list<iPoint> exit_wall_map_positions;
 	std::list<j1Entity*> exit_wall_entities;
+
 };
 
 

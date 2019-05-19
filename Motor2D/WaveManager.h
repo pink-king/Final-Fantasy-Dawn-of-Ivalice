@@ -33,7 +33,7 @@ class WaveManager : public j1Entity
 {
 public:
 
-	WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type);
+	WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1Entity* associatedTrigger = nullptr);
 	~WaveManager();
 
 
@@ -77,6 +77,9 @@ private:
 	bool toCreateNextWave = false;
 
 	WaveData nextWaveData;
+
+	// linked trigger
+	j1Entity* associatedTrigger = nullptr;
 
 	std::random_device rd;
 	std::mt19937 gen;

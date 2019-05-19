@@ -73,7 +73,7 @@ public:
 
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
-	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave);
+	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger = nullptr);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
