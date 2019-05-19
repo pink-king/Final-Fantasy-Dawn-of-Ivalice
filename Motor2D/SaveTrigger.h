@@ -21,6 +21,8 @@ public:
 private:
 	Animation idle;
 	Animation* currentAnim = nullptr;
+
+	bool isActive = false;
 };
 
 
