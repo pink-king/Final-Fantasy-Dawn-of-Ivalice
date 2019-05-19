@@ -95,6 +95,9 @@ public:
 	unsigned int playerDeath;
 	unsigned int selectUI;
 	unsigned int acceptUI;
+	unsigned int sell;
+	unsigned int purchase;
+	unsigned int switch_page;
 
 
 private:

@@ -36,6 +36,7 @@ ExitPortal::ExitPortal(float posx, float posy)
 	currentAnim = &idle;
 	App->pause = true;
 	timer.Start();
+	App->audio->PlayFx(App->entityFactory->portal_vanish, 0);
 }
 
 ExitPortal::~ExitPortal()

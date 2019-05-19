@@ -808,7 +808,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						{
 							iPoint stonePivot = { 8, 48 };
 							drawRectified -= stonePivot;
-							// TODO Add SFX
+							// TODO Add SFX ?
 							//App->audio->PlayFx(healingSFX, 0);
 							App->particles->AddParticle(App->particles->stone01, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						}

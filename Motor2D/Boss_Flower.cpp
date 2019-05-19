@@ -674,6 +674,7 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 	}
 	else if (spawnCircleAnim.Finished())
 	{
+		App->audio->PlayFx(App->entityFactory->boss_flower_deathCirc, 0);
 		LOG("finished spawn anim");
 		// instantiate enemies
 		InstantiateEnemiesAroundPlayer();
