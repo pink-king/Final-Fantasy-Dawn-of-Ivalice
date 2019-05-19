@@ -1716,6 +1716,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 	// 6: downwards deduction for player, and increase for vendor 
 
+
+	if (isConsumable)
+	{
+		if (item->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+		{
+			baseFinalPrice = 3000;
+		}
+	}
+
 	item->price = baseFinalPrice * 0.85f;
 	item->vendorPrice = baseFinalPrice * 1.15f; 
 
