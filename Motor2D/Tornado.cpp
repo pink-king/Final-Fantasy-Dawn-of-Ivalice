@@ -77,8 +77,8 @@ bool Tornado::PreUpdate()
 	if (finishAnim.Finished() == true)
 	{
 		to_delete = true;
-		App->camera2D->AddTrauma(35.f / 100.f);
-		App->input->DoGamePadRumble(0.35f, 100);
+		App->camera2D->AddTrauma(10.f / 100.f);
+		App->input->DoGamePadRumble(0.25f, 100);
 	}
 	
 	return true;
@@ -114,13 +114,13 @@ bool Tornado::Attack()
 {
 	if (AttackTimer.Read() > AttackTime)
 	{
-		App->camera2D->AddTrauma(0.2F);
-		App->input->DoGamePadRumble(0.3F, 30);
+		App->camera2D->AddTrauma(0.05F);
+		App->input->DoGamePadRumble(0.3F, 10);
 
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-			damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 15, 3, 20, false);
+			damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 15, 5, 20, false);
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-			damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 3, 200, true);
+			damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 5, 200, true);
 		AttackTimer.Start();
 	}
 	return true;

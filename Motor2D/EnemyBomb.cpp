@@ -251,7 +251,7 @@ void EnemyBomb::SetState(float dt)
 
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
-
+			App->audio->PlayFx(App->entityFactory->bombExplodeSFX, 0);
 			exploded = true;
 		}
 
