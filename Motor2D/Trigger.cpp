@@ -48,3 +48,17 @@ void Trigger::AssignInSubtiles(int numbreOfSubtile)
 		}
 	}
 }
+
+void Trigger::DeleteFromSubtiles(int numberOfSubtile)
+{
+	for (int i = -numberOfSubtile; i < numberOfSubtile; ++i)
+	{
+		for (int j = -numberOfSubtile; j < numberOfSubtile; ++j)
+		{
+			iPoint p = App->map->WorldToSubtileMap((int)position.x, (int)position.y);
+			p.x += i;
+			p.y += j;
+			App->entityFactory->DeleteEntityFromSubtilePos(this, p);
+		}
+	}
+}

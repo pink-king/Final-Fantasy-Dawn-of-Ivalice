@@ -12,6 +12,7 @@ WinTrigger::WinTrigger(float posx, float posy, SceneState scene, Color color)
 
 WinTrigger::~WinTrigger()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool WinTrigger::DoTriggerAction()

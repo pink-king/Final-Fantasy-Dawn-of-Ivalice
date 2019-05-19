@@ -25,6 +25,7 @@ SaveTrigger::SaveTrigger(float posx, float posy) :Trigger(TRIGGER_TYPE::SAVE, po
 
 SaveTrigger::~SaveTrigger()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool SaveTrigger::Update(float dt)

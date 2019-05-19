@@ -40,6 +40,7 @@ Portal::Portal(float posx, float posy, SceneState scene, Color color)
 
 Portal::~Portal()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool Portal::Update(float dt)

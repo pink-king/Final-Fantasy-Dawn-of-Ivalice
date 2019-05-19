@@ -29,7 +29,9 @@ public:
 
 	bool Save(pugi::xml_node&) const;
 	virtual bool DoTriggerAction();
+
 	void AssignInSubtiles(int numbreOfSubtile);
+	void DeleteFromSubtiles(int numberOfSubtile); 
 public:
 	TRIGGER_TYPE triggerType = TRIGGER_TYPE::NO_TRIGGER;
 	SDL_Rect rect;
