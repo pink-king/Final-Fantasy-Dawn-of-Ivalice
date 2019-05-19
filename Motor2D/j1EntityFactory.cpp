@@ -1698,15 +1698,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 	if (itemStats.subStatMajor == -1.f)
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.1f * itemStats.subStatMinor; 
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMinor; 
 	}
 	else if (itemStats.subStatMinor == -1.f)
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.25f * itemStats.subStatMajor;
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMajor;
 	}
 	else
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.25f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
 	}
 
 	

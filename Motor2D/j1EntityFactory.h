@@ -246,10 +246,10 @@ private:
 	int subtileHeight = 0;
 	int equipableChance = 10;
 	int baseItemChance = 80; 
-	int goldChance = 50; 
+	int goldChance = 16; 
 
-	uint minKillsToDeserveLoot = 5;
-	uint minKillsWithPerfectGoldToDeserveMaxPrice = 15; 
+	uint minKillsToDeserveLoot = 10;
+	uint minKillsWithPerfectGoldToDeserveMaxPrice = 20; 
 	int goldMin = 0; 
 	int goldMax = 0; 
 	

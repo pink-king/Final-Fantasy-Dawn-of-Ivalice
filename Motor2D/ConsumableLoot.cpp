@@ -97,7 +97,7 @@ void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 				consumableType = CONSUMABLE_TYPE::POTION; 
 		
 		}
-		else if (randNum == 8)
+		else 
 		{
 			objectType = OBJECT_TYPE::PHOENIX_TAIL;
 		}
