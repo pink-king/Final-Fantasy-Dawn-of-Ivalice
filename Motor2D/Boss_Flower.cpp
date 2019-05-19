@@ -320,10 +320,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 		{
 			// changes animation to attack one and set the flag attacking
 			doingAttack = true;
-			attackAnim->Reset();
 			LookToPlayer(attackAnim);
-			/*Uint8 r, g, b;
-			SDL_GetTextureColorMod(boss_spritesheet, &r, &g, &b);*/
 			SDL_SetTextureColorMod(boss_spritesheet, 255, 100, 100);
 			LOG("");
 		}
@@ -338,8 +335,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 			LOG("attack");
 			launchedBall = true;
 
-			// TODO: get the direction vector from the boss last axis (current angle), instead of the realtime player pivot
-			App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
+			// get the direction vector from the boss last axis (current angle), instead of the realtime player pivot
+			fPoint destination = { cosf(lastAngle), sinf(lastAngle) };
+			destination = destination * 640.f; // random multiplier
+			destination += GetPivotPos();
+
+			App->entityFactory->CreateArrow(GetThrowingPos(), destination, 130, this, PROJECTILE_TYPE::ENEMY_ARROW);
 			App->camera2D->AddTrauma(0.2f);
 		}
 
