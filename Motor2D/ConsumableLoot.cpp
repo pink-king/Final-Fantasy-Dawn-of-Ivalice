@@ -13,7 +13,7 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	checkgrounded = true;
 	manualCollectable = true;
 
-	entityTex = App->entityFactory->consumableTex;
+	entityTex = App->entityFactory->lootItemsTex;
 }
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
@@ -130,10 +130,10 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 	case OBJECT_TYPE::GOLD:
 
 
-		loot_rect = { 13,27,22,23 };
-		size.create(22, 23);
+		loot_rect = { 420,1611,32,32 };
+		size.create(32, 32);
 
-		SetPivot(12, 17);
+		SetPivot(16, 28);
 
 		break;
 
@@ -142,11 +142,11 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		switch (consumableType)
 		{
 		case CONSUMABLE_TYPE::POTION:
-			loot_rect = { 60,32,10,12 };
+			loot_rect = { 416,1569,32,32 };
 			lootname.assign("potion");
 			name.assign("potion");
-			size.create(10, 12);
-			SetPivot(5, 10);
+			size.create(32, 32);
+			SetPivot(16, 16);
 			break;
 		default:
 			break;
