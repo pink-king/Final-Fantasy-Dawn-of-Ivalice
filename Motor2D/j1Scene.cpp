@@ -107,6 +107,17 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL2)
 	{
+		iPoint tileSize = { 32,32 };
+		SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
+		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25,26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
+		waveTrigg->CreateEntryWall(iPoint(33, 22));
+		waveTrigg->CreateEntryWall(iPoint(33, 21));
+		waveTrigg->CreateEntryWall(iPoint(33, 20));
+		waveTrigg->CreateExitWall({ 19, 46 });
+		waveTrigg->CreateExitWall({ 20, 46 });
+		waveTrigg->CreateExitWall({ 21, 46 });
+		waveTrigg->CreateExitWall({ 22, 46 });
+
 		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
