@@ -590,8 +590,8 @@ bool Ritz::Update(float dt)
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
-			/*App->camera2D->AddTrauma(10.0f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);*/
+			App->camera2D->AddTrauma(25.0f / 100.f);
+			App->input->DoGamePadRumble(0.2f, 200);
 
 		}
 		if (!inputReady)
