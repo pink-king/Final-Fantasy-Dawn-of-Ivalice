@@ -83,10 +83,12 @@ bool BossEmmiterArrow::Move(float dt)
 		if (damage)
 		{
 			iPoint newCords = App->map->SubTileMapToWorld(GetSubtilePos().x, GetSubtilePos().y);
-			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 6, 120, false);
-			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
-				damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 6, 200, false);
+			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x + 25, newCords.y - 90), propagationType::BFS,
+				damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 20, 4, 60, false);
+			App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x + 25, newCords.y - 90), propagationType::BFS,
+				damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 20, 4, 60, false);
+			/*App->attackManager->AddPropagationAttack(owner, App->map->WorldToSubtileMap(newCords.x, newCords.y - 90), propagationType::BFS,
+				damageType::INTIME, ELEMENTAL_TYPE::POISON_ELEMENT, 30, 4, 200, false);*/
 			timeLifeTimer.Start();
 			damage = false;
 

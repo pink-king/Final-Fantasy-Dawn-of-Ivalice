@@ -2,7 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1ParticlesClassic.h"
 
-GolemProjectile::GolemProjectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : Projectile(pos, destination, speed, owner, "Golem_Arrow", PROJECTILE_TYPE::BASIC_ARROW)
+GolemProjectile::GolemProjectile(fPoint pos, fPoint destination, uint speed, const j1Entity* owner) : Projectile(pos, destination, speed, owner, "Golem_Arrow", PROJECTILE_TYPE::GOLEM_ARROW)
 {
 	// Assigning to the same texture as the enemy, it shouldn't be a problem
 	entityTex = App->entityFactory->enemyGolemTex;

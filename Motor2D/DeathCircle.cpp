@@ -8,7 +8,7 @@
 
 
 DeathCircle::DeathCircle(fPoint pos, const j1Entity* owner)
-	: Projectile(pos, { 0.F,0.F }, 0u, owner, "DeathCircle", PROJECTILE_TYPE::BASIC_ARROW)
+	: Projectile(pos, { 0.F,0.F }, 0u, owner, "DeathCircle", PROJECTILE_TYPE::DEATH_CIRCLE)
 {
 	entityTex = App->entityFactory->ritzUltimateTex; 
 
