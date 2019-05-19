@@ -157,16 +157,18 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
+
 		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
 		App->entityFactory->CreatePlayer({ 115, 240 });
+
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
 
-		//if(ComeToWin)
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		if(ComeToWin)
+			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 	
@@ -181,11 +183,13 @@ bool j1Scene::Start()
 
 		if (ComeToPortal)
 		{
+			
 			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 
 		}
+		
 	}
 
 	if (state == SceneState::STARTMENU)
@@ -412,6 +416,14 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 	}
 	
+	if (state == SceneState::LOBBY)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
+		{
+			if(door == nullptr)
+				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		}
+	}
 	
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
 	{

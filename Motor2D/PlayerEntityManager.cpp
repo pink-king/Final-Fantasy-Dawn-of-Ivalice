@@ -130,7 +130,8 @@ bool PlayerEntityManager::Update(float dt)
 			}
 		}
 	}*/
-
+	if (life > maxLife)
+		life = maxLife;
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
 		lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
