@@ -342,8 +342,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 					}
 					if (enemy != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(4, 6) + 3 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(20, 25) + 3 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(4, 6) + 3 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(20, 25) + 3 * enemy->level);
 						enemyCount++;
 					}
 				}
