@@ -228,8 +228,8 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity() 
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	if (shootedPoisonRainEmitter && rainEmitter != nullptr)
-		rainEmitter->to_delete = true;
+	//if (shootedPoisonRainEmitter && rainEmitter != nullptr)
+	//	rainEmitter->to_delete = true;
 
 	DesactiveShield();
 }
@@ -457,7 +457,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			shootedPoisonRainEmitter = false;
 
 			// unlink emitter
-			rainEmitter = nullptr;
+			//rainEmitter = nullptr;
 
 			break;
 		}
@@ -509,7 +509,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			shootedPoisonRainEmitter = false;
 
 			// unlink emitter
-			rainEmitter = nullptr;
+			//rainEmitter = nullptr;
 
 			break;
 		}
@@ -587,7 +587,8 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		else
 			duration = phase_control_timers.phase4.time;
 		// SHOOT
-		rainEmitter = App->entityFactory->CreateBossEmitter(
+		//rainEmitter = 
+		App->entityFactory->CreateBossEmitter(
 			GetPivotPos(), // projected position
 			radius, // radius, world coords
 			spawnRatio, // spawn ratio, ms
