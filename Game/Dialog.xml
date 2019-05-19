@@ -50,9 +50,9 @@
       <option line="I am listening" nextnode="4"/>
 	  <option line= "Thanks, but I am on my way" nextnode="666"/>
     </node>  
-	<node line="First, you must visit the left one. The other one holds terror and disdain" id="4">
-      <option line="I will take the first one then, farewell" nextnode="666"/>
-	  <option line= "I have survived to the first room and I am prepared for evil to come" nextnode="666"/>
+	<node line="Take the left one first. The other holds terror" id="4">
+      <option line="I will take the first one then" nextnode="666"/>
+	  <option line= "I am prepared for evil to come" nextnode="666"/>
     </node>  
    	
   </dialogtree>
