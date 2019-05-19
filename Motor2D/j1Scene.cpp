@@ -805,6 +805,10 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			SharaIcon = App->gui->AddImage(position, &section, nullptr);
 		}
+		else if (charFlag == "dialogueBox")
+		{
+			dialogueBox = App->gui->AddImage(position, &section, nullptr);
+		}
 		else
 		{                                  // this is useless now
 			if (isPanel != 1)
@@ -989,7 +993,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	inGamePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(inGamePanel, inGameNode);
 	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
-	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1155,107 }, inGamePanel);
+	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1150,107 }, inGamePanel);
 	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->openSansBold18, { 1185, 695 }, inGamePanel);
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
@@ -1159,6 +1163,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
+		App->audio->PlayMusic("audio/music/level2.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
