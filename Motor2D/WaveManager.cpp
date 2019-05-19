@@ -299,8 +299,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 					}
 					if (enemy != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(5, 15) + 5 * enemy->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(7, 17) + 5 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(2, 3) + 2 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(4, 8) + 2 * enemy->level);
 						enemyCount++;
 					}
 				}
@@ -320,15 +320,13 @@ void WaveManager::CreateNextWave(WaveData waveData)
 					}
 					if (enemy != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(5, 15) + 5 * enemy->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(7, 17) + 5 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(3, 5) + 2 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(4, 8) + 2 * enemy->level);
 						enemyCount++;
 					}
 				}
 				break;
-
-			case EnemyType::ARCHER:
-				if (CreateRandomBetween(1, 10) <= waveData.golemChances && enemyCount < maxEnemies)
+      
 				{
 					// Last paramater is dummy
 					enemy = App->entityFactory->CreateEnemy(EnemyType::ARCHER, spawnPos, false);
