@@ -743,7 +743,7 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
-	uint max = 2; 
+	uint max = 6; 
 
 	LootEntity* ret = nullptr;
 	if (GetRandomValue(1, max) == 1)
