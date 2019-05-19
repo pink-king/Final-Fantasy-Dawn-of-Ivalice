@@ -48,6 +48,9 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	piecesofEight36 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 36);
 	piecesofEight48 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 48);
 
+	piecesofEight24= Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 24);
+	piecesofEight18 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 18);
+
 
 	return ret;
 }
