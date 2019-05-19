@@ -244,8 +244,8 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
-	int equipableChance = 35;
-	int baseItemChance = 50; 
+	int equipableChance = 10;
+	int baseItemChance = 80; 
 	int goldChance = 50; 
 
 	uint minKillsToDeserveLoot = 5;

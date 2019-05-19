@@ -5,6 +5,7 @@
 #include "j1Input.h"
 #include "j1Scene.h"
 #include "j1EntityFactory.h"
+#include "j1TransitionManager.h"
 
 j1DialogSystem::j1DialogSystem()
 {
