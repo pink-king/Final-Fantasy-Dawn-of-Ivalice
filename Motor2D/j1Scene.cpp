@@ -78,7 +78,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreatePlayer({ -1575, 2150 });   //Proper Start of the level
 		//App->entityFactory->CreatePlayer({ -209, 650 });
 		App->entityFactory->loadEnemies = true;
-		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
+		App->camera2D->SetCameraPos({ 3575, -3150 });
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -108,6 +108,10 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL2)
 	{
+		App->entityFactory->CreatePlayer({ -820,3300 });
+		App->entityFactory->loadEnemies = true;
+		App->camera2D->SetCameraPos(1800, -5000);
+
 		iPoint tileSize = { 32,32 };
 		SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
 		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25,26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
@@ -126,9 +130,7 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
-		App->entityFactory->CreatePlayer({ -820,3300 });
-		App->entityFactory->loadEnemies = true;
-		App->camera2D->SetCameraPos({ (int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y + 10 });
+		
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -154,7 +156,6 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
-		App->camera2D->SetCameraPos({ (int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y + 10 });
 	}
 
 	if (state == SceneState::LOBBY)
@@ -197,7 +198,7 @@ bool j1Scene::Start()
 
 		}
 
-		App->camera2D->SetCameraPos({ (int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y + 10 });
+		App->camera2D->SetCameraPos({(int)App->entityFactory->player->position.x + App->camera2D->camera.w/4, (int)App->entityFactory->player->position.y - App->camera2D->camera.h/2});
 		
 	}
 
