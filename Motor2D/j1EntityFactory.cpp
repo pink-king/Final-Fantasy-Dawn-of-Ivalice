@@ -505,6 +505,9 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 	uint testProbs = 8;
 	uint archerProbs = 3;
 
+	if (enemyTypes.empty())
+		return;
+
 	while (cont < numEnemies)
 	{
 		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
@@ -667,8 +670,8 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		entities.push_back(ret);
 		break;
 	case PROJECTILE_TYPE::BOSS_EMMITER:
-		ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
-		entities.push_back(ret);
+		/*ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
+		entities.push_back(ret);*/
 		break;
 	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
 		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
@@ -681,6 +684,15 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		break;
 	}
 	
+
+	return ret;
+}
+
+j1Entity* j1EntityFactory::CreateBossEmitter(fPoint pos, uint radius, uint spawnRatio, const j1Entity* owner, uint lifeTime)
+{
+	j1Entity* ret = nullptr;
+	ret = DBG_NEW BossEmmiter(pos, radius, spawnRatio, owner, lifeTime);
+	entities.push_back(ret);
 
 	return ret;
 }

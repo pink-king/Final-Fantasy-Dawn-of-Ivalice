@@ -10,7 +10,7 @@
 class BossEmmiter : public Projectile
 {
 public:
-	BossEmmiter(fPoint pos, const j1Entity* owner, uint timeLife);
+	BossEmmiter(fPoint pos, uint radius, uint spawnRatio, const j1Entity* owner, uint timeLife);
 	~BossEmmiter();
 
 	bool PreUpdate() override;
