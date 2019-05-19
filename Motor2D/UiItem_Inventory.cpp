@@ -1112,7 +1112,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				{
 					App->entityFactory->player->RemoveItemFromBag(callback);
 
-
+					App->audio->PlayFx(App->scene->sell, 0);
 					if (!App->entityFactory->player->bagObjects.empty())
 					{
 						doBagScroll = true;
@@ -1125,6 +1125,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 					App->entityFactory->player->RemoveItemFromConsumables(callback);
 
 					potion_counter--;
+					App->audio->PlayFx(App->scene->sell, 0);
 
 					if (potion_counter > 0)
 					{
@@ -1173,6 +1174,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+							App->audio->PlayFx(App->scene->purchase, 0);
 							App->entityFactory->player->AddItemToTheBag(callback);
 
 
@@ -1207,7 +1209,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 						// delete item desciption so that it is not selected again
 						makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
-
+						App->audio->PlayFx(App->scene->purchase, 0);
 						App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 						App->entityFactory->player->AddItemToConsumables(callback);
 

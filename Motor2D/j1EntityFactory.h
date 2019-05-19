@@ -214,7 +214,7 @@ public:
 	unsigned int sharaAbility2_ImpactsWall;
 	unsigned int BombDeathSFX;
 	unsigned int bombgetHitSFX;
-
+	unsigned int bombExplodeSFX;
 	unsigned int golem_deathSFX;
 	unsigned int golem_impactWallSFX;
 	unsigned int golem_spawnSFX;

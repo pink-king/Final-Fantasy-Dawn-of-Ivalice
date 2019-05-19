@@ -127,7 +127,7 @@ bool j1EntityFactory::Start()
 
 	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
 	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
-
+	bombExplodeSFX = App->audio->LoadFx("audio/fx/Enemies/bomb_explode.wav");
 
 	golem_deathSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_death.wav");
 	golem_impactWallSFX =App->audio->LoadFx("audio/fx/Enemies/golem/golem_impactWall.wav");
@@ -934,8 +934,6 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 				ret = *entityIterator;
 				if (ret != nullptr)
 				{
-					App->entityFactory->DeleteEntityFromSubtile(ret);
-
 					return ret;
 				}
 			}
