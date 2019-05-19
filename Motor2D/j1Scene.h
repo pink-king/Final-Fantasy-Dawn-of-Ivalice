@@ -2,7 +2,8 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
-
+#include "j1Timer.h"
+#define MAX_ALPHA 255
 
 struct SDL_Texture;
 
@@ -95,8 +96,7 @@ public:
 	unsigned int selectUI;
 	unsigned int acceptUI;
 
-	int hit_counter;
-	bool decreaseAlpha = false;
+
 private:
 	SDL_Texture* debug_tex = nullptr;
 	
@@ -131,9 +131,16 @@ private:
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
 
-
+	float AlphaDecrease(float alphavalue, int counter);
+	float AlphaIncrease(float alphavalue, int counter);
+	bool DecideTexToPulse();
 
 public:
+	float hudAlphavalue[3];
+	int hit_counter;
+	int previous_counter;
+	bool decreaseAlpha = false;
+	j1Timer timeindmg;
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;
 	UiItem_Image* RitzIcon = nullptr;

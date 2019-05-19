@@ -262,168 +262,11 @@ void PlayerEntity::CheckRenderFlip()
 	else
 		flip = SDL_FLIP_NONE;
 }
-//void PlayerEntity::AlphaPulsation(float alphavalue, bool isIncreasing)
-//{
-//	if (alphavalue >= 255) isIncreasing = false;
-//
-//	if (alphavalue < 255 && isIncreasing)
-//	{
-//		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
-//		alphavalue += 2;
-//	}
-//	else if (alphavalue > 0 && !isIncreasing)
-//	{
-//
-//		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, alphavalue);
-//		alphavalue -= 1;
-//	}
-//
-//	else pulsation = false;
-//	
-//}
 
-//float PlayerEntity::AlphaPulsation(float alphavalue, bool vanishT, bool pulse, int counter)
-//{
-//	
-//	if (alphavalue < MAX_ALPHA&& vanishT)
-//	{
-//		//App->render->SetTextureAlpha(tex, alphavalue);
-//		alphavalue += 20;
-//		LOG("alphavalue inc %f", alphavalue);
-//		if (alphavalue > MAX_ALPHA)
-//			alphavalue = MAX_ALPHA;
-//	}
-//
-//	else if (alphavalue >= MAX_ALPHA && vanishT)
-//		vanishT = false;
-//
-//	else if ((alphavalue <= MAX_ALPHA || alphavalue > MAX_ALPHA) && !vanish && alphavalue > 0)
-//	{
-//	//	App->render->SetTextureAlpha(tex, alphavalue);
-//		alphavalue -= 3;
-//		LOG("alphavalue dec %f", alphavalue);
-//	}
-//
-//	else
-//	{
-//		if(App->scene->hit_counter > 0)
-//			App->scene->hit_counter -= 1;
-//
-//		alphavalue = 0;
-//		pulse = false;
-//	}
-//	vanish = vanishT;
-//	hudAlphavalue[counter] = alphavalue;
-//	return hudAlphavalue[counter];
-//}
-float PlayerEntity::AlphaIncrease(float alphavalue, int counter)
-{
-	if (alphavalue < MAX_ALPHA)
-	{
-		alphavalue += 10;
-		if (alphavalue > MAX_ALPHA)
-			alphavalue = MAX_ALPHA;
-	}
 
-	else if (alphavalue >= MAX_ALPHA)
-	{
-		App->scene->decreaseAlpha = true;
-	}
 
-	hudAlphavalue[counter] = alphavalue;
-	return hudAlphavalue[counter];
-}
-float PlayerEntity::AlphaDecrease(float alphavalue, int counter)
-{
 
-	if (alphavalue > 0)
-	{
-		alphavalue -= 3;
-		if (alphavalue < 0)
-			alphavalue = 0;
-	}
 
-	else if (alphavalue <= 0)
-		App->scene->hit_counter -= 1;
-
-	hudAlphavalue[counter] = alphavalue;
-
-	return hudAlphavalue[counter];
-}
-
-bool PlayerEntity::DecideTexToPulse()
-{
-	switch (App->scene->hit_counter)
-	{
-	case 0:
-		
-		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 0);
-		App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 0);
-		App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
-		break;
-
-	case 1:
-		if (!App->scene->decreaseAlpha)
-		{
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaIncrease(hudAlphavalue[0], 0));
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 0);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
-		}
-
-		else
-		{
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaDecrease(hudAlphavalue[0], 0));
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 0);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
-		}
-		break;
-
-	case 2:
-		if (!App->scene->decreaseAlpha)
-		{
-			hudAlphavalue[0] = 255;
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue[0]);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, AlphaIncrease(hudAlphavalue[1], 1));
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
-		}
-		else
-		{
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, AlphaDecrease(hudAlphavalue[1], 1));
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
-		}
-		break;
-
-	case 3:
-		if (!App->scene->decreaseAlpha)
-		{
-			hudAlphavalue[0] = hudAlphavalue[1] =255;
-
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue[0]);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, hudAlphavalue[1]);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, AlphaIncrease(hudAlphavalue[2], 2));
-		}
-
-		else
-		{
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 255);
-			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, AlphaDecrease(hudAlphavalue[2], 2));
-		}
-		break;
-
-	
-	default:
-		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
-		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
-		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
-		App->scene->hit_counter -= 1;
-		App->scene->decreaseAlpha = true;
-		//App->entityFactory->alphaTimer.Start();
-		break;
-	}
-	return true;
-}
 void PlayerEntity::Draw()
 {
 	if (entityTex != nullptr)
@@ -439,13 +282,10 @@ void PlayerEntity::Draw()
 			App->entityFactory->alphaTimer.Start();
 			blink = true;
 			//pulsation = true;
-			hudAlphavalue[1] = 0;
+			//hudAlphavalue[1] = 0;
 			//vanish = true;
 		}
-		DecideTexToPulse();
-		
 
-		
 		if (blink)
 		{
 

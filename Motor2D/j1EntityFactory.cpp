@@ -802,9 +802,9 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
-WaveManager* j1EntityFactory::CreateWave(const SDL_Rect& zone, uint numWaves)
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave)
 {
-	waveManager = DBG_NEW WaveManager(zone, 5);
+	waveManager = DBG_NEW WaveManager(zone, numWaves, wave);
 
 	if (waveManager != nullptr)
 	{

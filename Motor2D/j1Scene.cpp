@@ -578,7 +578,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
 		SDL_Rect zone = { coords.x, coords.y, 30, 30 };
-		App->entityFactory->CreateWave(zone, 4);
+		App->entityFactory->CreateWave(zone, 4, WAVE_TYPE::LEVEL_1);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
@@ -658,6 +658,7 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+	DecideTexToPulse();
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
@@ -1137,4 +1138,122 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 			}
 		}
 
+}
+
+
+
+float j1Scene::AlphaIncrease(float alphavalue, int counter)
+{
+	if (alphavalue < MAX_ALPHA)
+	{
+		alphavalue += 10;
+		if (alphavalue > MAX_ALPHA)
+			alphavalue = MAX_ALPHA;
+	}
+
+	else if (alphavalue >= MAX_ALPHA)
+	{
+		decreaseAlpha = true;
+	}
+
+	hudAlphavalue[counter] = alphavalue;
+	return hudAlphavalue[counter];
+}
+float j1Scene::AlphaDecrease(float alphavalue, int counter)
+{
+
+	if (alphavalue > 0)
+	{
+		if (previous_counter > counter && counter == 0)
+			alphavalue -= 8;
+		else if (counter == 1 && previous_counter > counter)
+			alphavalue -= 5;
+
+		else alphavalue -= 3;
+
+		if (alphavalue < 0)
+			alphavalue = 0;
+	}
+
+	else if (alphavalue <= 0)
+		hit_counter -= 1;
+
+	hudAlphavalue[counter] = alphavalue;
+
+	return hudAlphavalue[counter];
+}
+
+bool j1Scene::DecideTexToPulse()
+{
+	switch (App->scene->hit_counter)
+	{
+	case 0:
+
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 0);
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 0);
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
+		break;
+
+	case 1:
+		if (!App->scene->decreaseAlpha)
+		{
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaIncrease(hudAlphavalue[0], 0));
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 0);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
+		}
+
+		else
+		{
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaDecrease(hudAlphavalue[0], 0));
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 0);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
+		}
+		break;
+
+	case 2:
+		if (!App->scene->decreaseAlpha)
+		{
+			hudAlphavalue[0] = 255;
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue[0]);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, AlphaIncrease(hudAlphavalue[1], 1));
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
+		}
+		else
+		{
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, AlphaDecrease(hudAlphavalue[1], 1));
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
+		}
+		break;
+
+	case 3:
+		if (!App->scene->decreaseAlpha)
+		{
+			hudAlphavalue[0] = hudAlphavalue[1] = 255;
+
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, hudAlphavalue[0]);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, hudAlphavalue[1]);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, AlphaIncrease(hudAlphavalue[2], 2));
+		}
+
+		else
+		{
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 255);
+			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, AlphaDecrease(hudAlphavalue[2], 2));
+		}
+		break;
+
+
+	default:
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 255);
+		App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 255);
+		if(timeindmg.Read() > 3000)
+			hit_counter -= 1;
+		decreaseAlpha = true;
+		//App->entityFactory->alphaTimer.Start();
+		break;
+	}
+	return true;
 }

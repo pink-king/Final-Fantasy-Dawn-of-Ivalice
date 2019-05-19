@@ -9,7 +9,6 @@
 #include "j1ModuleCamera2D.h"
 
 #define PI 3.14159265359f
-#define MAX_ALPHA 255
 
 struct SDL_Texture;
 
@@ -110,10 +109,7 @@ protected:
 	fPoint dashDestinationPos;
 
 public:
-	float AlphaPulsation(float alphavalue, bool isIncreasing, bool pulsation,int counter);
-	float AlphaDecrease(float alphavalue, int counter);
-	float AlphaIncrease(float alphavalue, int counter);
-	bool DecideTexToPulse();
+	
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;
 	fPoint previousPos;
@@ -136,8 +132,7 @@ public:
 	
 
 	bool blink = false;
-	bool pulsation = false;
-	bool vanish = false;
+	
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/
@@ -147,7 +142,6 @@ private:
 
 	bool debug = true;
 	iPoint offset = { 0,0 }; // debug draw offset TODO: change name
-	float hudAlphavalue[3];
 };
 
 #endif
