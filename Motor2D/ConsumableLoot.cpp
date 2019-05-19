@@ -157,8 +157,8 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		loot_rect = { 149,30,13,16 };
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
-		size.create(13, 16);
-		SetPivot(7, 14);
+		size.create(32, 32);
+		SetPivot(16, 30);
 		break;
 
 	default:
