@@ -1,33 +1,37 @@
-golem projectile hit wall golemprojectile ->toput
-golem spawn ->toput
-golem death ->toput
-EnemyArcher (golem attack sound)
+golem projectile hit wall golemprojectile ->toput DONE
+golem spawn ->toput DONE
+golem death ->toput DONE
+EnemyArcher (golem attack sound) ->toput DONE 
 
-wave respawn(al update) ->toput
-wave start (constructor)
-wave over (preUpdate)
+wave respawn(al update) ->toput DONE
+wave start (constructor) ->toput DONE
+wave over (preUpdate) ->toput DONE
 
 medusa rework (secondary)
 
 buffmanager player petrified & burned?
 
-cubrir totes les abilitats del boss flower
+cubrir totes les abilitats del boss flower (inprogress)
 
-boss flower death circle ->toput
-boss flower basic ->toput
-boss flower basicImpwall ->toput
+boss flower death circle ->toput DONE
+boss flower basic ->toput DONE
+boss flower basicImpwall ->toput DONE
+boss flower dead
 
-win scene mus
+win scene mus ->toput DONE
 
-music lvl 2
+death scene mus ->toput ?¿ have it , but necessary?
 
-music hall
+music lvl 2 ->toput
 
-vendor->purchase ->toput
+music hall ->toput DONE 
+
+vendor purchase ->toput DONE/half 
+vendor sell ->toput DONE /half
 
 portal appear ->toput
 portal vanish ->toput
 portal mantain ->toput
 portal travel ->toput
 
-switch page ->toput
+switch pag		e ->toput
