@@ -41,7 +41,7 @@ bool EnemyProjectile::PreUpdate()
 		to_delete = true;
 		App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 			damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 5, 3, 20, true);
-		App->particles->AddParticle(App->particles->fire02, GetPivotPos().x - 45, GetPivotPos().y - 65);
+		App->particles->AddParticle(App->particles->fire02, GetPivotPos().x - 45, GetPivotPos().y - 65, { 0,0 }, 200);
 		//App->particles->AddParticle(App->particles->strike, GetPivotPos().x - 14, GetPivotPos().y - 12);
 		// TODO:: Add sfx different from this one
 		//App->audio->PlayFx(App->entityFactory->sharaBasic_ImpactsWall, 0);
