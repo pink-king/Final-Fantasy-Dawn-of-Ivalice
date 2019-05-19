@@ -4,7 +4,7 @@
 #include "j1DialogSystem.h"
 #include "j1Input.h"
 #include "j1Scene.h"
-
+#include "j1EntityFactory.h"
 
 j1DialogSystem::j1DialogSystem()
 {
@@ -57,13 +57,15 @@ bool j1DialogSystem::Update(float dt)
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
 			
-			
-			//App->pause = true; 
+			App->entityFactory->player->selectedCharacterEntity->isParalize = true;
+			App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir];
 		}
 		
 
 		if (isDialogSequenceActive)   // capture input only in this case
 		{
+			//App->entityFactory->player->selectedCharacterEntity->isParalize = true; 
+			//App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir]; 
 
 			if (isDialogInScreen)    // if dialog sequence is active AND inventory is NOT openned
 			{
@@ -84,6 +86,10 @@ bool j1DialogSystem::Update(float dt)
 			}
 
 
+		}
+		else
+		{
+			//App->entityFactory->player->Update(0); 
 		}
 
 
@@ -322,7 +328,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				spawnDialogSequence = false;
 				
 				
-				
+				App->entityFactory->player->selectedCharacterEntity->isParalize = false;
 				//App->pause = false; 
 			}
 			
