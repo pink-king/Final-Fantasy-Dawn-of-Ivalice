@@ -19,6 +19,17 @@ WaveManager::~WaveManager()
 	// associate trigger delete
 	if (associatedTrigger != nullptr)
 		associatedTrigger->to_delete = true;
+
+	// deletes any enemy
+
+	for (std::vector<Enemy*>::iterator iter = alive.begin(); iter != alive.end(); ++iter)
+	{
+		(*iter)->inWave = false;
+		dynamic_cast<j1Entity*>(*iter)->to_delete = true;
+	}
+
+	alive.clear();
+
 }
 
 bool WaveManager::Start()
