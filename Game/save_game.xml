@@ -12,6 +12,11 @@
 			<life actualLife="0" />
 			<gold value="0" />
 		</Entities>
+		<Entities player="marche">
+			<Experience level="1" exp="0" />
+			<life actualLife="0" />
+			<gold value="0" />
+		</Entities>
 	</entities>
 	<AttackManager />
 	<Buff />
