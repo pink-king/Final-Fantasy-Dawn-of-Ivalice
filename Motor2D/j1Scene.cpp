@@ -97,6 +97,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreatePlayer({ -300, 300 });
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-250, 250, "VENDOR");
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, -250, 350);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 		/*inGamePanel->enable = true;
@@ -350,7 +351,7 @@ bool j1Scene::Update(float dt)
 		App->audio->SetFxVolume(result_fx); 
 
 
-		if (App->entityFactory->player != nullptr)
+		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
 		{
 			//settingPanel->enable = false;
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
@@ -574,7 +575,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
 		SDL_Rect zone = { coords.x, coords.y, 30, 30 };
-		App->entityFactory->CreateWave(zone, 4);
+		App->entityFactory->CreateWave(zone, 4, WAVE_TYPE::LEVEL_1);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)

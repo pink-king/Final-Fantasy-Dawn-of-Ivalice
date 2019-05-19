@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1BuffManager.h"
 
-WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves) : spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
+WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type) : spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
 {
 	App->scene->wave_label->hide = false;
 }
@@ -109,6 +109,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		data.golemChances = 0;
 		data.zombieChances = 10;
 		break;
+
 	case 2:
 		data.enemiesNumber = 10;
 		data.types.push_back(EnemyType::TEST);
@@ -119,62 +120,125 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		break;
 
 	case 3:
-		data.enemiesNumber = 15;
-		data.types.push_back(EnemyType::TEST);
-		data.types.push_back(EnemyType::BOMB);
+		{
+		if (type == WAVE_TYPE::LEVEL_1)
+		{
+			data.enemiesNumber = 15;
+			data.types.push_back(EnemyType::BOMB);
 
-		data.bombChances = 2;
-		data.golemChances = 0;
-		data.zombieChances = 8;
+			data.bombChances = 10;
+			data.golemChances = 0;
+			data.zombieChances = 0;
+		}
+		else
+		{
+			data.enemiesNumber = 15;
+			data.types.push_back(EnemyType::TEST);
+			data.types.push_back(EnemyType::BOMB);
+
+			data.bombChances = 2;
+			data.golemChances = 0;
+			data.zombieChances = 8;
+		}
+		}
 		break;
 
 	case 4:
-		data.enemiesNumber = 20;
-		data.types.push_back(EnemyType::TEST);
-		data.types.push_back(EnemyType::BOMB);
-		data.types.push_back(EnemyType::ARCHER);
+		if (type == WAVE_TYPE::LEVEL_1)
+		{
+			data.enemiesNumber = 20;
+			data.types.push_back(EnemyType::TEST);
+			data.types.push_back(EnemyType::BOMB);
 
-		data.bombChances = 5;
-		data.golemChances = 1;
-		data.zombieChances = 4;
+			data.bombChances = 2;
+			data.golemChances = 1;
+			data.zombieChances = 8;
+		}
+		else
+		{
+			data.enemiesNumber = 20;
+			data.types.push_back(EnemyType::TEST);
+			data.types.push_back(EnemyType::BOMB);
+			data.types.push_back(EnemyType::ARCHER);
+
+			data.bombChances = 5;
+			data.golemChances = 1;
+			data.zombieChances = 4;
+		}
 		break;
 
 	case 5:
-		data.enemiesNumber = 20;
-		data.types.push_back(EnemyType::BOMB);
-		data.types.push_back(EnemyType::ARCHER);
+		if (type == WAVE_TYPE::LEVEL_1)
+		{
+			data.enemiesNumber = 20;
+			data.types.push_back(EnemyType::BOMB);
 
-		data.bombChances = 5;
-		data.golemChances = 5;
-		data.zombieChances = 0;
+			data.bombChances = 10;
+			data.golemChances = 0;
+			data.zombieChances = 0;
+		}
+		else
+		{
+			data.enemiesNumber = 20;
+			data.types.push_back(EnemyType::BOMB);
+			data.types.push_back(EnemyType::ARCHER);
+
+			data.bombChances = 5;
+			data.golemChances = 5;
+			data.zombieChances = 0;
+		}
 		break;
 
 	case 6:
-		data.enemiesNumber = 25;
-		data.types.push_back(EnemyType::TEST);
-		data.types.push_back(EnemyType::BOMB);
-		data.types.push_back(EnemyType::ARCHER);
+		if (type == WAVE_TYPE::LEVEL_1)
+		{
+			data.enemiesNumber = 25;
+			data.types.push_back(EnemyType::TEST);
 
-		data.bombChances = 2;
-		data.golemChances = 1;
-		data.zombieChances = 5;
+			data.bombChances = 0;
+			data.golemChances = 0;
+			data.zombieChances = 10;
+		}
+		else
+		{
+			data.enemiesNumber = 25;
+			data.types.push_back(EnemyType::TEST);
+			data.types.push_back(EnemyType::BOMB);
+			data.types.push_back(EnemyType::ARCHER);
+
+			data.bombChances = 2;
+			data.golemChances = 1;
+			data.zombieChances = 5;
+		}
 		break;
 
 	case 7:
-		data.enemiesNumber = 25;
-		data.types.push_back(EnemyType::TEST);
-		data.types.push_back(EnemyType::BOMB);
-		data.types.push_back(EnemyType::ARCHER);
+		{
+		if (type == WAVE_TYPE::LEVEL_1)
+		{
+			data.enemiesNumber = 30;
+			data.types.push_back(EnemyType::TEST);
+			data.types.push_back(EnemyType::BOMB);
 
-		data.bombChances = 2;
-		data.golemChances = 6;
-		data.zombieChances = 2;
+			data.bombChances = 5;
+			data.golemChances = 0;
+			data.zombieChances = 5;
+		}
+		else
+		{
+			data.enemiesNumber = 30;
+			data.types.push_back(EnemyType::TEST);
+			data.types.push_back(EnemyType::BOMB);
+			data.types.push_back(EnemyType::ARCHER);
+
+			data.bombChances = 2;
+			data.golemChances = 6;
+			data.zombieChances = 2;
+		}
+		}
 		break;
 		// Add some more if we'd like
-	default:
-		break;
 	}
-
 	return data;
 }
 
