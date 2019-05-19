@@ -130,7 +130,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 	case OBJECT_TYPE::GOLD:
 
 
-		loot_rect = { 420,1611,32,32 };
+		loot_rect = { 448,1568,32,32 };
 		size.create(32, 32);
 
 		SetPivot(16, 28);
@@ -142,7 +142,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		switch (consumableType)
 		{
 		case CONSUMABLE_TYPE::POTION:
-			loot_rect = { 416,1569,32,32 };
+			loot_rect = { 384,1568,32,32 };
 			lootname.assign("potion");
 			name.assign("potion");
 			size.create(32, 32);
@@ -154,7 +154,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		break;
 
 	case OBJECT_TYPE::PHOENIX_TAIL:
-		loot_rect = { 448,1570,32,32 };
+		loot_rect = { 416,1568,32,32 };
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
 		size.create(32, 32);
