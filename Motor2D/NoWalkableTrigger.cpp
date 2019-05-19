@@ -33,8 +33,8 @@ bool NoWalkableTrigger::DoTriggerAction()
 		iPoint instantiationPoint = App->map->MapToWorld( 42,109 );
 		instantiationPoint.x -= 34;
 		instantiationPoint.x -= 38;
-		App->entityFactory->CreateEntity(FLOWERBOSS, 
-			instantiationPoint.x, instantiationPoint.y, "flower_boss");
+		App->entityFactory->CreateEntity(FLOWERBOSS, instantiationPoint.x, instantiationPoint.y, "flower_boss");
+		App->audio->PlayMusic("audio/music/bossmusic.ogg", -1);
 
 		CreateWalls();
 		isActivated = true;
