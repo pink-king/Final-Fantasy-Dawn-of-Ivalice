@@ -7,6 +7,14 @@
 #include <random>
 struct Enemy;
 
+enum class WAVE_TYPE
+{
+	LEVEL_1,
+	LEVEL_2,
+	MAX
+};
+
+
 struct WaveData
 {
 	// Number of enemies the wave will have
@@ -25,7 +33,7 @@ class WaveManager : public j1Entity
 {
 public:
 
-	WaveManager(const SDL_Rect& zone, uint numWaves);
+	WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type);
 	~WaveManager();
 
 
@@ -63,6 +71,7 @@ private:
 
 	j1Timer timer;
 
+	WAVE_TYPE type; 
 
 	bool to_finish = false;
 	bool toCreateNextWave = false;

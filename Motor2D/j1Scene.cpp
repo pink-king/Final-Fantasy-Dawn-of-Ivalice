@@ -574,7 +574,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
 		SDL_Rect zone = { coords.x, coords.y, 30, 30 };
-		App->entityFactory->CreateWave(zone, 4);
+		App->entityFactory->CreateWave(zone, 4, WAVE_TYPE::LEVEL_1);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
