@@ -9,8 +9,111 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="0" />
-			<gold value="0" />
+			<life actualLife="143" />
+			<gold value="1920" />
+			<bagObjects>
+				<data name="legendary_vest" level="2" characterObject="Ritz" equipableType="mantle" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="fireElement" rol="defence" value="39" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.200000003" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="23" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="vest_2" level="2" characterObject="Ritz" equipableType="mantle" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="iceElement" rol="defence" value="35" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.200000003" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="bow_2" level="1" characterObject="Shara" equipableType="bow" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="93" y="32" w="13" h="13" />
+				</data>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="poisonElement" rol="attack" value="0.109999999" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.219999999" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="stick_1" level="2" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="12" y="67" w="11" h="16" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="43" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="allElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="allElement" rol="attack" value="0.280000001" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="allElement" rol="defence" value="16" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="armor_1" level="2" characterObject="Marche" equipableType="armor" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="93" y="69" w="15" h="15" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="21" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="health" value="34" />
+				</buffs>
+			</equipedObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="149" y="30" w="13" h="16" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

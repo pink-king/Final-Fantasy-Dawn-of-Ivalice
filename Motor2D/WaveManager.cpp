@@ -148,16 +148,17 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		{
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 15;
+			data.enemiesNumber = 12;
+			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 10;
+			data.zombieChances = 8;
 			data.golemChances = 0;
-			data.zombieChances = 0;
+			data.bombChances = 2;
 		}
 		else
 		{
-			data.enemiesNumber = 15;
+			data.enemiesNumber = 12;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
@@ -171,17 +172,17 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	case 4:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 2;
-			data.golemChances = 1;
+			data.bombChances = 3;
+			data.golemChances = 0;
 			data.zombieChances = 8;
 		}
 		else
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
@@ -195,16 +196,16 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	case 5:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 10;
+			data.bombChances = 4;
 			data.golemChances = 0;
-			data.zombieChances = 0;
+			data.zombieChances = 8;
 		}
 		else
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
 
@@ -217,16 +218,16 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	case 6:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 25;
+			data.enemiesNumber = 16;
 			data.types.push_back(EnemyType::TEST);
 
-			data.bombChances = 0;
+			data.bombChances = 1;
 			data.golemChances = 0;
 			data.zombieChances = 10;
 		}
 		else
 		{
-			data.enemiesNumber = 25;
+			data.enemiesNumber = 18;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
@@ -241,17 +242,17 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		{
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 30;
+			data.enemiesNumber = 20;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 5;
+			data.bombChances = 3;
 			data.golemChances = 0;
-			data.zombieChances = 5;
+			data.zombieChances = 7;
 		}
 		else
 		{
-			data.enemiesNumber = 30;
+			data.enemiesNumber = 22;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
