@@ -212,6 +212,25 @@ public:
 	unsigned int sharaAbility2_ImpactsWall;
 	unsigned int BombDeathSFX;
 	unsigned int bombgetHitSFX;
+
+	unsigned int golem_deathSFX;
+	unsigned int golem_impactWallSFX;
+	unsigned int golem_spawnSFX;
+	unsigned int golem_spawnAttackSFX;
+
+	unsigned int wave_respawn;
+	unsigned int wave_start;
+	unsigned int wave_end;
+	unsigned int boss_flower_deathCirc;
+	unsigned int boss_flower_basic;
+	unsigned int boss_flower_BasicImpWall;
+	unsigned int boss_flower_death; //looking for this SFX
+
+	unsigned int portal_appear;
+	unsigned int portal_mantain;
+	unsigned int portal_vanish;
+	unsigned int portal_travel;
+
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile
