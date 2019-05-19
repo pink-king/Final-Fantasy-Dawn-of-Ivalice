@@ -10,6 +10,7 @@ DialogTrigger::DialogTrigger(float posx, float posy, std::string Dtype):Trigger(
 
 DialogTrigger::~DialogTrigger()
 {
+	DeleteFromSubtiles(nSubtiles); 
 }
 
 bool DialogTrigger::Update(float dt)

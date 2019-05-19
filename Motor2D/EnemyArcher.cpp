@@ -17,6 +17,9 @@ bool EnemyArcher::PreUpdate()
 {
 	if (!isInDetectionRange())
 		state = EnemyState::IDLE;
+
+	if (to_die)
+		state = EnemyState::DYING;
 	return true;
 }
 
@@ -40,8 +43,7 @@ bool EnemyArcher::Update(float dt)
 
 bool EnemyArcher::PostUpdate()
 {
-	if (to_die)
-		state = EnemyState::DYING;
+	
 
 	return true;
 }

@@ -258,6 +258,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 			Enemy* enemy = nullptr;
 			iPoint spawnPos = { spawnZone.x + (int)CreateRandomBetween(0, spawnZone.w), spawnZone.y + (int)CreateRandomBetween(0,spawnZone.h) };
 			// No need to check for valid spawn pos since its assumed the rect will be in valid place
+			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
+			spawnPos.x = spawnPos.x * 2;
 
 			switch (*typeIter)
 			{

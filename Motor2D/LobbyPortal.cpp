@@ -41,6 +41,7 @@ LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 
 LobbyPortal::~LobbyPortal()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool LobbyPortal::Update(float dt)

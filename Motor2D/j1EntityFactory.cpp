@@ -32,6 +32,7 @@
 #include "j1PathFinding.h"
 #include "BossEmmiter.h"
 #include "BossEmmiterArrow.h"
+#include "WaveTrigger.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -791,6 +792,15 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 	return ret;
 }
 
+Trigger * j1EntityFactory::CreateWaveTrigger(iPoint pos, uint level)
+{
+	Trigger* ret = nullptr; 
+	ret = DBG_NEW WaveTrigger(pos.x, pos.y, level); 
+	entities.push_back(ret);
+
+	return ret;
+}
+
 Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger)
 {
 	Trigger* ret = nullptr;
@@ -1034,6 +1044,28 @@ void j1EntityFactory::AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile)
 	else
 		LOG("Trying to assign entity out of boundaries, ignoring");
 	
+}
+
+bool j1EntityFactory::DeleteEntityFromSubtilePos(j1Entity * entity, iPoint subtile)
+{
+	bool ret = false;
+
+	int index = GetSubtileEntityIndexAt(subtile);
+
+	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+	{
+		if (*entityIterator == entity)
+		{
+			//LOG("found");
+			entitiesDataMap[index].entities.erase(entityIterator);
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
 }
 
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const

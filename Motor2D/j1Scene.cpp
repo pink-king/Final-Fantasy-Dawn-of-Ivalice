@@ -25,6 +25,7 @@
 #include "j1DialogSystem.h"
 #include "j1TransitionManager.h"
 #include "NoWalkableTrigger.h"
+#include "WaveTrigger.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -64,8 +65,47 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		//WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-160, 598), 1); 
+		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), 1); 
+		waveTrigg->CreateEntryWall(iPoint(16, 22));
+		waveTrigg->CreateEntryWall(iPoint(17, 22));
+		waveTrigg->CreateExitWall({ 13,3 });
+		waveTrigg->CreateExitWall({ 14,3 });
+		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
+		App->entityFactory->CreatePlayer({ -209, 650 });
 		//App->entityFactory->CreatePlayer({ 0, 0 });
+		App->entityFactory->loadEnemies = true;
+		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
+		//AcceptUISFX_logic = false;
+		inGamePanel->enable = true;
+		uiMarche->enable = true;
+		uiShara->enable = true;
+		uiRitz->enable = true;
+		settingPanel->enable = false;
+		startMenu->enable = false;
+
+		App->audio->PlayFx(enterGameSFX, 0);
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+			ComeToDeath = false;
+		}
+		if (ComeToPortal)
+		{
+			App->LoadGame("Portal.xml");
+			App->entityFactory->player->GetMarche()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
+			ComeToPortal = false;
+		}
+	}
+
+	if (state == SceneState::LEVEL2)
+	{
+		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
 		//AcceptUISFX_logic = false;
@@ -104,6 +144,9 @@ bool j1Scene::Start()
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
+
+		//if(ComeToWin)
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 		/*inGamePanel->enable = true;
@@ -1074,7 +1117,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		break;
 
 	case SceneState::LEVEL2:
-		state = SceneState::LEVEL1;
+		state = SceneState::LEVEL2;
 		App->attackManager->Enable();
 		App->pathfinding->Enable();
 		App->camera2D->Enable();
@@ -1083,7 +1126,6 @@ void j1Scene::LoadScene(SceneState sceneState)
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
-		App->entityFactory->CreatePlayer({ 0, 0 });
 		break;
 
 	case SceneState::DEATH:

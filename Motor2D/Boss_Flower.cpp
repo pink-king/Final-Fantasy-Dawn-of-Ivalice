@@ -212,7 +212,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	// phases time
 	phase_control_timers.phase1.timer.Start(); // phase1 is the first, start timer here for now
 	phase_control_timers.phase1.time = 8000;
-	phase_control_timers.phase2.time = 15000; // this time should be +/- the duration of the emitter of rain
+	phase_control_timers.phase2.time = 15000; // this time is passed to the duration of the emitter of rain too
 	phase_control_timers.phase3.time = 7500;
 	phase_control_timers.phase4.time = 10000;
 	// attack cadence
@@ -228,8 +228,8 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	if (shootedPoisonRainEmitter && rainEmitter != nullptr)
-		rainEmitter->to_delete = true;
+	/*if (shootedPoisonRainEmitter && rainEmitter != nullptr)
+		rainEmitter->to_delete = true;*/
 
 	DesactiveShield();
 }
@@ -459,7 +459,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			shootedPoisonRainEmitter = false;
 
 			// unlink emitter
-			rainEmitter = nullptr;
+			//rainEmitter = nullptr;
 
 			break;
 		}
@@ -511,7 +511,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			shootedPoisonRainEmitter = false;
 
 			// unlink emitter
-			rainEmitter = nullptr;
+			//rainEmitter = nullptr;
 
 			break;
 		}
@@ -589,7 +589,8 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		else
 			duration = phase_control_timers.phase4.time;
 		// SHOOT
-		rainEmitter = App->entityFactory->CreateBossEmitter(
+		//rainEmitter = 
+		App->entityFactory->CreateBossEmitter(
 			GetPivotPos(), // projected position
 			radius, // radius, world coords
 			spawnRatio, // spawn ratio, ms

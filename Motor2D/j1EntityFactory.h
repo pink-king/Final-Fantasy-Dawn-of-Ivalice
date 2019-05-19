@@ -86,6 +86,7 @@ public:
 	LootEntity* CreateGold(int posX, int posY);
 
 	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
+	Trigger* CreateWaveTrigger(iPoint pos, uint level); 
 	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
 
 	uint CreateRandomBetween(uint min, uint max); 
@@ -108,6 +109,7 @@ public:
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
 	void AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile);
+	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
 

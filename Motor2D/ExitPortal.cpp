@@ -41,7 +41,7 @@ ExitPortal::ExitPortal(float posx, float posy)
 
 ExitPortal::~ExitPortal()
 {
-
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool ExitPortal::Update(float dt)
