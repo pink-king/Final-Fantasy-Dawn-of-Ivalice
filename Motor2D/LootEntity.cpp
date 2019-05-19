@@ -504,7 +504,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
-		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 40);
+		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 200);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
 		this->MyDescription->HideAllElements(false);
 
