@@ -33,6 +33,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	// debug normal tile tex
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
+	player_shadowTex = App->tex->Load("textures/characters/shadow_tile.png");
 	to_delete = false;
 	debug = false;
 	
@@ -62,6 +63,8 @@ PlayerEntityManager::~PlayerEntityManager()
 	debugSubtileTex = nullptr;
 	App->tex->UnLoad(texture);
 	texture = nullptr;
+	App->tex->UnLoad(player_shadowTex);
+	player_shadowTex = nullptr;
 	
 }
 
@@ -288,6 +291,7 @@ bool PlayerEntityManager::Update(float dt)
 
 bool PlayerEntityManager::PostUpdate()
 {
+
 	selectedCharacterEntity->PostUpdate();
 
 	if (debug)
@@ -363,15 +367,8 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	level = node.child("Experience").attribute("level").as_uint();
 	exp = node.child("Experience").attribute("exp").as_uint();
 
-	if (!App->scene->ComeToDeath)
-	{
-		life = 100 - node.child("life").attribute("actualLife").as_float();
-		maxLife = 100;
-	}
-	else
-	{
-		life = maxLife = 100;
-	}
+	life = node.child("life").attribute("actualLife").as_float();
+	
 	gold = node.child("gold").attribute("value").as_uint();
 
 	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
@@ -419,8 +416,12 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 	nodeexperience.append_attribute("exp") = exp;
 
 	pugi::xml_node nodelife = node.append_child("life");
-	nodelife.append_attribute("actualLife") = maxLife - life;
 
+	if (!App->scene->ComeToDeath)
+		nodelife.append_attribute("actualLife") = maxLife - life;
+
+	else
+		nodelife.append_attribute("actualLife") = 100;
 	pugi::xml_node nodegold = node.append_child("gold");
 	nodegold.append_attribute("value") = gold;
 

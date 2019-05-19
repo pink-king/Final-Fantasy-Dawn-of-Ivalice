@@ -224,6 +224,14 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 
 
 	myState = Boss1State::PHASE1;
+
+
+
+
+	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+
+	
+
 }
 
 FlowerBossEntity::~FlowerBossEntity()
@@ -247,6 +255,21 @@ FlowerBossEntity::~FlowerBossEntity()
 	// -----------------------------------------------------------------
 
 	DesactiveShield();
+
+
+
+	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+	{
+		if (lifeBar != nullptr)
+		{
+			lifeBar->deliever = nullptr;
+			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->to_delete = true;
+		}
+		LOG("parent enemy bye");
+	}
+
+
 }
 
 

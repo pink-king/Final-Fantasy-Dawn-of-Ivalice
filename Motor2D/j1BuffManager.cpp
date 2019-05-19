@@ -160,10 +160,10 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
-		lifeToSubstract  = 14;
+		lifeToSubstract  = 4;
 	}
-	else
-		defender->life -= lifeToSubstract;
+	
+	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)

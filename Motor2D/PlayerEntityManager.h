@@ -115,6 +115,7 @@ public:
 	j1Entity* GetShara();
 
 public:
+	SDL_Texture* player_shadowTex = nullptr;
 	//Loot vectors
 	std::vector<LootEntity*>		equipedObjects;
 	std::vector<LootEntity*>		bagObjects;

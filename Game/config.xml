@@ -7,7 +7,7 @@
   </app>
 
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
