@@ -1957,6 +1957,13 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 
 
 			player->GetVendor()->generateVendorItems(true);
+
+
+
+			std::string dest = "LVL" + std::to_string(player->level) ;
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+
 		}
 	}
 }

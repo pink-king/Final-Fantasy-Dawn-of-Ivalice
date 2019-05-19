@@ -9,33 +9,8 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="171" />
-			<gold value="21" />
-			<equipedObjects>
-				<data name="legendary_vest" level="2" characterObject="Ritz" equipableType="mantle" elementalType="noElement" objectType="armor" lootType="equipable">
-					<rect x="122" y="70" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="defence" value="38" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.200000003" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="24" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="stick_2" level="1" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="fireElement" rol="attack" value="13" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.970000029" />
-				</buffs>
-			</equipedObjects>
+			<life actualLife="0" />
+			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />
