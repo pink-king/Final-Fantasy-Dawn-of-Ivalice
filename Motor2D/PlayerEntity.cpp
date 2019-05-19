@@ -265,13 +265,14 @@ void PlayerEntity::CheckRenderFlip()
 }
 
 
-
-
-
 void PlayerEntity::Draw()
 {
 	if (entityTex != nullptr)
 	{
+		// prints shadow first
+		iPoint spriteShadowOffset = { 16,12 };
+		App->render->Blit(App->entityFactory->player->player_shadowTex, GetPivotPos().x - spriteShadowOffset.x ,GetPivotPos().y - spriteShadowOffset.y, NULL);
+
 		if (currentAnimation != nullptr)
 			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
