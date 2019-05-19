@@ -216,10 +216,10 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	phase_control_timers.phase3.time = 7500;
 	phase_control_timers.phase4.time = 10000;
 	// attack cadence
-	fireball_timer_data.time = 1600; // fireball cadence
-	spawnEnemies_timer_data.time = 2000;
-	shieldFire_timer_data.time = 800;
-	maxEvasion_timer_data.time = 400;
+	fireball_timer_data.time = 1600; // fireball shot cadence
+	spawnEnemies_timer_data.time = 1500; // time between spawns, 0 means only restricted to finish "spawnCircleAnim"
+	shieldFire_timer_data.time = 800; // cadence between fire explosions while shielded
+	maxEvasion_timer_data.time = 400; 
 	
 
 	myState = Boss1State::PHASE1;
@@ -320,7 +320,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 		{
 			// changes animation to attack one and set the flag attacking
 			doingAttack = true;
+			attackAnim->Reset();
 			LookToPlayer(attackAnim);
+			/*Uint8 r, g, b;
+			SDL_GetTextureColorMod(boss_spritesheet, &r, &g, &b);*/
+			SDL_SetTextureColorMod(boss_spritesheet, 255, 100, 100);
+			LOG("");
 		}
 		else if(!doingAttack && !evading)
 		{
@@ -345,6 +350,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			doingAttack = false;
 			launchedBall = false;
 			fireball_timer_data.timer.Start();
+			SDL_SetTextureColorMod(boss_spritesheet, 255, 255, 255);
 		}
 
 		// TODO: improve how the cadence and the evasion probability are calculated
