@@ -177,6 +177,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
 		
 		App->scene->hit_counter += 1;
+		App->scene->decreaseAlpha = false;
 		App->entityFactory->pushEF = true;
 		App->input->DoGamePadRumble(200, 100);
 		App->camera2D->AddTrauma(0.5f);

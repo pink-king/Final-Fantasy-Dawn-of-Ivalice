@@ -8,505 +8,366 @@
 	<scene />
 	<entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="438" y="3144" />
+			<position x="-2256" y="1477" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="456" y="3062" />
+			<position x="-2172" y="1400" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="432" y="3164" />
+			<position x="-2276" y="1495" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="502" y="3083" />
+			<position x="-2148" y="1410" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="292" y="2981" />
+			<position x="-2250" y="1363" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="504" y="3054" />
+			<position x="-2124" y="1384" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="546" y="3060" />
+			<position x="-2090" y="1380" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="392" y="3099" />
+			<position x="-2260" y="1447" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="244" y="3034" />
+			<position x="-2336" y="1419" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="394" y="3149" />
+			<position x="-2298" y="1490" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="276" y="3075" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-780" y="3594" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-682" y="3654" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-718" y="3616" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1018" y="2935" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1082" y="3019" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1102" y="2936" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1066" y="2933" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-984" y="2979" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-996" y="2922" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1070" y="3034" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1028" y="2929" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1008" y="2901" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1040" y="2996" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1058" y="2953" />
+			<position x="-2342" y="1449" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1152" y="2663" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1202" y="2589" />
+			<position x="-2222" y="1462" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1154" y="2670" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1092" y="2630" />
+			<position x="-2230" y="1421" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1222" y="2650" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1232" y="2657" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1068" y="2624" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1142" y="2619" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-716" y="2176" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-844" y="2207" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-730" y="2146" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-724" y="2174" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-686" y="2170" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-756" y="2179" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-382.818207" y="2297.00293" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-466.225098" y="2353.20093" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-440.191315" y="2295.71387" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-479.710022" y="2340.60352" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-399.278564" y="2288.99805" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-352.719788" y="2314.09448" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-388.094849" y="2297.39746" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-395.380157" y="2356.2085" />
+			<position x="-1674" y="1528" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="238.638474" y="2504.26587" />
+			<position x="-1764" y="1487" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="237.460266" y="2503.97998" />
+			<position x="-1800" y="1537" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="250.496506" y="2519.17358" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="372" y="1930" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="280" y="1919" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="180" y="1926" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="250" y="1926" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="254" y="1887" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="254" y="1928" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="214" y="1933" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="356" y="1940" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="300" y="1900" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="336" y="1942" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="748" y="2346" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="518" y="2230" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="518" y="2279" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="502" y="2270" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="618" y="2230" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="752" y="2280" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="464" y="2246" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="650" y="2303" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="498" y="2296" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="570" y="2217" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="774" y="2306" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="620" y="2275" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="684" y="2291" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="686" y="2384" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="708" y="2312" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="502" y="2306" />
+			<position x="-1892" y="1420" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="630" y="1164" />
+			<position x="-1900" y="1450" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="808" y="1134" />
+			<position x="-1736" y="1508" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="850" y="1108" />
+			<position x="-1914" y="1483" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="892" y="1183" />
+			<position x="-1850" y="1461" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="792" y="1183" />
+			<position x="-1720" y="1529" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2348" y="1542" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2232" y="1670" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2372" y="1584" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2394" y="1548" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2234" y="1605" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2296" y="1593" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2272" y="1644" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2356" y="1565" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-2272" y="1652" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-1740" y="1128" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2694" y="1572" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2390" y="1705" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2712" y="1577" />
+			<position x="-1716" y="1136" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2526" y="1591" />
+			<position x="-1862" y="1143" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="2470" y="1663" />
+			<position x="-1700" y="1171" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="2524" y="1586" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2648" y="1607" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2628" y="1590" />
+			<position x="-1866" y="1128" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2380" y="1661" />
+			<position x="-1768" y="1076" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="2478" y="1632" />
+			<position x="-1720" y="1115" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="2376" y="1652" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2388" y="1681" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2326" y="1686" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2430" y="1691" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2578" y="1560" />
+			<position x="-1774" y="1196" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="182" y="1811" />
+			<position x="-1662" y="1144" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-1718" y="1109" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-1750" y="1098" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="218" y="1727" />
+			<position x="-1686" y="1172" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-890" y="1447" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-972" y="1412" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-940" y="1480" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-1066" y="1385" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-952" y="1424" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-962" y="1496" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-856" y="1427" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-1048" y="1382" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-1158" y="1410" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-910" y="1398" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-916" y="1452" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="126" y="1700" />
+			<position x="-1062" y="1922" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="190" y="1820" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1248" y="1961" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1348" y="1976" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1078" y="1925" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1124" y="1930" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1450" y="1944" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1218" y="2056" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1286" y="2034" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1124" y="1901" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1318" y="2058" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1152" y="1867" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1148" y="1924" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1344" y="1870" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1184" y="1889" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2414" y="2244" />
+			<position x="-1114" y="1852" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2314" y="2277" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2404" y="2271" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2288" y="2303" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2170" y="2345" />
+			<position x="-1080" y="1911" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2214" y="2254" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2172" y="2257" />
+			<position x="-1136" y="1880" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2338" y="2208" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2364" y="2295" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2446" y="2267" />
+			<position x="-1198" y="1904" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="2276" y="2329" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1892" y="2015" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2012" y="2066" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2008" y="2115" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1988" y="2081" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1978" y="2069" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1952" y="2148" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1912" y="1993" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1988" y="2121" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1974" y="2075" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="2034" y="2041" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1852" y="2066" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="1312" y="1301" />
+			<position x="-1000" y="1895" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="1166" y="1407" />
+			<position x="-1084" y="1987" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-954" y="1915" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1372" y="1282" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="1336" y="1259" />
+			<position x="-144" y="1186" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1350" y="1232" />
+			<position x="-308" y="1201" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1280" y="1402" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="1252" y="1301" />
+			<position x="-170" y="1172" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1166" y="1383" />
+			<position x="-232" y="1168" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1102" y="1396" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="1538" y="1322" />
+			<position x="-244" y="1133" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1224" y="1364" />
+			<position x="-342" y="1186" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1356" y="1262" />
+			<position x="-376" y="1181" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1186" y="1421" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="1198" y="1409" />
+			<position x="-262" y="1181" />
 		</Entities>
 		<Entities type="enemyTest" level="0" life="100">
-			<position x="1400" y="1217" />
+			<position x="-366" y="1429" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-386" y="1385" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-302" y="1428" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-328" y="1448" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="940" y="1063" />
+			<position x="16" y="1276" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="1032" y="1001" />
+			<position x="-94" y="1309" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="838" y="980" />
+			<position x="-70" y="1309" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="960" y="1075" />
+			<position x="-38" y="1297" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="830" y="1038" />
+			<position x="-406" y="1301" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="882" y="968" />
+			<position x="-302" y="1273" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="944" y="1098" />
+			<position x="-312" y="1273" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-766" y="974" />
 		</Entities>
 		<Entities type="enemyBomb" level="0" life="100">
-			<position x="842" y="969" />
+			<position x="-834" y="953" />
 		</Entities>
-		<Players player="marche">
-			<Experience level="1" exp="375" />
-			<life actualLife="15" />
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-708" y="899" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-818" y="850" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-808" y="878" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-842" y="886" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-958" y="907" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-788" y="882" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-736" y="873" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-766" y="898" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-882" y="887" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-140" y="343" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-52" y="278" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-120" y="339" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-72" y="292" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="478" y="541" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="354" y="606" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="348" y="619" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="358" y="543" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="444" y="570" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-114" y="453" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="-162" y="477" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="32" y="611" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="30" y="618" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="464" y="402" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="434" y="393" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="306" y="339" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="232" y="272" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="388" y="420" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="360" y="339" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="232" y="296" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="406" y="436" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="286" y="338" />
+		</Entities>
+		<Entities type="enemyTest" level="0" life="100">
+			<position x="468" y="416" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="112" y="292" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-1440" y="1718" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-1454" y="1668" />
+		</Entities>
+		<Entities type="enemyBomb" level="0" life="100">
+			<position x="-1334" y="1747" />
+		</Entities>
+		<Players player="ritz">
+			<Experience level="1" exp="0" />
+			<life actualLife="0" />
 			<gold value="0" />
-			<equipedObjects>
-				<data name="legendary_stick" level="2" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="44" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.879999995" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="armor_1" level="2" characterObject="Marche" equipableType="armor" elementalType="fireElement" objectType="armor" lootType="equipable">
-					<rect x="93" y="69" w="15" h="15" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="21" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="health" value="34" />
-				</buffs>
-			</equipedObjects>
 		</Players>
 	</entities>
 	<AttackManager />
