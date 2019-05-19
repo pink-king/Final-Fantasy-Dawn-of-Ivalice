@@ -7,12 +7,10 @@
 	<map />
 	<scene />
 	<entities>
-
-		<Entities player="shara">
-			<Experience level="1" exp="75" />
-			<life actualLife="74" />
+		<Entities player="marche">
+			<Experience level="1" exp="0" />
+			<life actualLife="100" />
 			<gold value="0" />
-
 		</Entities>
 	</entities>
 	<AttackManager />
