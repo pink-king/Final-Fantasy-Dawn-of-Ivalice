@@ -154,7 +154,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		break;
 
 	case OBJECT_TYPE::PHOENIX_TAIL:
-		loot_rect = { 149,30,13,16 };
+		loot_rect = { 448,1570,32,32 };
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
 		size.create(32, 32);
