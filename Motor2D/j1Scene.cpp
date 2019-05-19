@@ -128,7 +128,7 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
-		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
+		App->camera2D->SetCameraPos({ (int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y + 10 });
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -154,6 +154,7 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+		App->camera2D->SetCameraPos({ (int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y + 10 });
 	}
 
 	if (state == SceneState::LOBBY)
@@ -182,7 +183,11 @@ bool j1Scene::Start()
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
-
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+			ComeToDeath = false;
+		}
 		if (ComeToPortal)
 		{
 			
@@ -191,6 +196,8 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 
 		}
+
+		App->camera2D->SetCameraPos({ (int)App->entityFactory->player->GetPivotPos().x, (int)App->entityFactory->player->GetPivotPos().y + 10 });
 		
 	}
 

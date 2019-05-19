@@ -56,9 +56,12 @@ bool j1BuffManager::CleanUp()
 
 	while (item != buffs.end())
 	{
-		buffs.remove(*item);
-		delete *item;
-		*item = nullptr;
+		if (*item != nullptr)
+		{
+			buffs.remove(*item);
+			delete *item;
+			*item = nullptr;
+		}
 		++item;
 	}
 	buffs.clear();
@@ -157,10 +160,10 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
-		lifeToSubstract  = 14;
+		lifeToSubstract  = 4;
 	}
-	else
-		defender->life -= lifeToSubstract;
+	
+	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
@@ -472,10 +475,20 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
+					if(player->coolDownData.basic.cooldownTime == 0)
+						player->coolDownData.basic.cooldownTime = 0;
 					player->coolDownData.dodge.cooldownTime *= value;
+					if (player->coolDownData.dodge.cooldownTime <= 0)
+						player->coolDownData.dodge.cooldownTime = 0;
 					player->coolDownData.special1.cooldownTime *= value;
+					if (player->coolDownData.special1.cooldownTime <= 0)
+						player->coolDownData.special1.cooldownTime = 0;
 					player->coolDownData.special2.cooldownTime *= value;
+					if (player->coolDownData.special2.cooldownTime <= 0)
+						player->coolDownData.special2.cooldownTime = 0;
 					player->coolDownData.ultimate.cooldownTime *= value;
+					if (player->coolDownData.ultimate.cooldownTime <= 0)
+						player->coolDownData.ultimate.cooldownTime = 0;
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{
