@@ -7,11 +7,14 @@
 WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type) : spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
 {
 	App->scene->wave_label->hide = false;
+	//Add SFX spawn
+	App->audio->PlayFx(App->entityFactory->wave_start, 0);
 }
 
 WaveManager::~WaveManager()
 {
 	App->scene->wave_label->hide = true;
+	App->audio->PlayFx(App->entityFactory->wave_end, 0);
 }
 
 bool WaveManager::Start()
@@ -33,6 +36,7 @@ bool WaveManager::PreUpdate()
 		// Add sfx of wave over
 		if (currentWave <= maxWaves && !toCreateNextWave)
 		{
+			App->audio->PlayFx(App->entityFactory->wave_respawn, 0);
 			toCreateNextWave = true;
 			nextWaveData = LoadNextWaveData(currentWave);
 			timer.Start();

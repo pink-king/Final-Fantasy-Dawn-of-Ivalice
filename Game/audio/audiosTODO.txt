@@ -1,0 +1,33 @@
+golem projectile hit wall golemprojectile ->toput
+golem spawn ->toput
+golem death ->toput
+EnemyArcher (golem attack sound)
+
+wave respawn(al update) ->toput
+wave start (constructor)
+wave over (preUpdate)
+
+medusa rework (secondary)
+
+buffmanager player petrified & burned?
+
+cubrir totes les abilitats del boss flower
+
+boss flower death circle ->toput
+boss flower basic ->toput
+boss flower basicImpwall ->toput
+
+win scene mus
+
+music lvl 2
+
+music hall
+
+vendor->purchase ->toput
+
+portal appear ->toput
+portal vanish ->toput
+portal mantain ->toput
+portal travel ->toput
+
+switch page ->toput

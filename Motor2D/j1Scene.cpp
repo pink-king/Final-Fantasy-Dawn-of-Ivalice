@@ -59,6 +59,9 @@ bool j1Scene::Start()
 	App->pause = false;
 	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
 	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
+	purchase = App->audio->LoadFx("audio/fx/UI/purchase.wav");
+	sell = App->audio->LoadFx("audio/fx/UI/sell.wav");
+	switch_page = App->audio->LoadFx("audio/fx/UI/switch_page.wav");
 
 	if (state == SceneState::LEVEL1)
 	{
@@ -136,6 +139,7 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
+		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
 		App->entityFactory->CreatePlayer({ 115, 240 });
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
@@ -155,7 +159,7 @@ bool j1Scene::Start()
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
-		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
 		if (ComeToPortal)
 		{
@@ -210,6 +214,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
+		App->audio->PlayMusic("audio/music/win.ogg", -1);
+
 		if (ComeToDeath)
 		{
 			ComeToDeath = false;
@@ -506,6 +512,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagLeft = true;
 				inventoryItem->firstTimeSwappedBagLeft3 = false;
 				inventoryItem->LoadElements();
+				App->audio->PlayFx(switch_page, 0);
 			}
 
 			if (inventoryItem->swappedBag3 && !inventoryItem->swappedBag2)
@@ -516,6 +523,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBag = false;
 				inventoryItem->firstTimeSwappedBagLeft3 = false;
 				inventoryItem->LoadElements();
+				App->audio->PlayFx(switch_page, 0);
 			}
 
 			App->gui->resetHoverSwapping = false;
@@ -531,6 +539,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = true;
 				inventoryItem->LoadElements(false,true);
+				App->audio->PlayFx(switch_page, 0);
 			}
 			if (!inventoryItem->swappedBag2Vendor && inventoryItem->swappedBagVendor)
 			{
@@ -541,6 +550,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
+				App->audio->PlayFx(switch_page, 0);
 			}
 			App->gui->resetHoverSwapping = false;
 		}
@@ -557,6 +567,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagLeftVendor = true;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
+				App->audio->PlayFx(switch_page, 0);
 			}
 
 			if (inventoryItem->swappedBag3Vendor && !inventoryItem->swappedBag2Vendor)
@@ -567,6 +578,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->firstTimeSwappedBagVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
+				App->audio->PlayFx(switch_page, 0);
 			}
 
 			App->gui->resetHoverSwapping = false;
