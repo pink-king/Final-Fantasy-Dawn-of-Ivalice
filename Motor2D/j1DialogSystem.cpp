@@ -46,7 +46,7 @@ bool j1DialogSystem::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		{
-			SetCurrentDialog("BOSS");
+			SetCurrentDialog("SAVEGAME");
 		}
 
 
@@ -205,7 +205,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "BOSS")
+			else if(currentDialogType == "SAVEGAME")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();

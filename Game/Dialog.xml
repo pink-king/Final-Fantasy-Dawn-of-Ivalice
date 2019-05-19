@@ -23,15 +23,11 @@
     </node>
 	
   </dialogtree>
-    <dialogtree treeid="1" treeName="BOSS">
-    <node line="You blocked me on facebook" id="0">
-      <option line="Woot" nextnode="1"/>
-      <option line="And?" nextnode="1"/>
+    <dialogtree treeid="1" treeName="SAVEGAME">
+    <node line="Do you want to save the game?" id="0">
+      <option line="Yes" nextnode="666"/>
+      <option line="I changed my mind" nextnode="666"/>
     </node>                                                   
-    <node line="...And now you are going to die" id="1">
-      <option line="shiet" nextnode="666"/>
-      <option line="ok then" nextnode="666"/>
-    </node>
   </dialogtree>
   
   
