@@ -213,14 +213,7 @@ bool PlayerEntityManager::Update(float dt)
 		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
 
 	}
-	// WARNING: search other way to do this
-	////provisional function to life
-	//std::vector<PlayerEntity*>::iterator item = characters.begin();
-	//for (; item != characters.end(); ++item)
-	//{
-	//	if ((*item) != selectedCharacterEntity)
-	//		(*item)->life = selectedCharacterEntity->life;
-	//}
+	
 	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
 		deleteObj = !deleteObj;
 

@@ -934,8 +934,6 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 				ret = *entityIterator;
 				if (ret != nullptr)
 				{
-					App->entityFactory->DeleteEntityFromSubtile(ret);
-
 					return ret;
 				}
 			}
