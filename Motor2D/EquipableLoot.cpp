@@ -122,7 +122,7 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::BOW:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 194, 770, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
