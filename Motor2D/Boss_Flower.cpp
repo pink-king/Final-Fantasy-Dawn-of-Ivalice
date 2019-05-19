@@ -256,7 +256,7 @@ FlowerBossEntity::~FlowerBossEntity()
 
 	DesactiveShield();
 
-
+	App->audio->PlayFx(App->entityFactory->boss_flower_death, 0);
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{

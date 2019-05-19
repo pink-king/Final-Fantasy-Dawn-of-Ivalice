@@ -141,6 +141,7 @@ bool j1EntityFactory::Start()
 	boss_flower_basic = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basic.wav");
 	boss_flower_BasicImpWall = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basicImpWall.wav");
 	boss_flower_deathCirc = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_deathcircle_SFX.wav");
+	boss_flower_death = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_dead.wav");
 
 	portal_appear = App->audio->LoadFx("audio/fx/Portal/portal_appear.wav");
 	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
