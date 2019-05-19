@@ -23,6 +23,8 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;
+
+	entityTex = App->entityFactory->lootItemsTex;
 }
 
 
