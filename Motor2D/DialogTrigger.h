@@ -1,5 +1,5 @@
-#ifndef _VENEDORTRIGGER_H_
-#define _VENEDORTRIGGER_H_
+#ifndef _DIALOGTRIGGER_H_
+#define _DIALOGTRIGGER_H_
 
 #include "Trigger.h"
 

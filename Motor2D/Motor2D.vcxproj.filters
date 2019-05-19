@@ -245,6 +245,9 @@
     <ClCompile Include="DialogTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="SaveTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -510,6 +513,9 @@
       <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="DialogTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>

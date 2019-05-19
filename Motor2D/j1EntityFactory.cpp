@@ -21,6 +21,7 @@
 #include "Portal.h"
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
+#include "SaveTrigger.h"
 #include "WinTrigger.h"
 #include "NoWalkableTrigger.h"
 #include "ExitPortal.h"
@@ -76,6 +77,7 @@ bool j1EntityFactory::Start()
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
 	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
+	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -288,7 +290,9 @@ bool j1EntityFactory::CleanUp()
 	lootItemsTex = nullptr;
 	App->tex->UnLoad(portalTex);
 	portalTex = nullptr;
-	
+	App->tex->UnLoad(campFireTex);
+	campFireTex = nullptr;
+
 
 	player = nullptr;
 
@@ -744,6 +748,10 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		break;
 	case TRIGGER_TYPE::EXITPORTAL:
 		ret = new ExitPortal(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::SAVE:
+		ret = new SaveTrigger(posX, posY);
 		entities.push_back(ret);
 		break;
 	default:
