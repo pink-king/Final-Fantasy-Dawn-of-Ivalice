@@ -339,6 +339,7 @@ void j1DialogSystem::BlitDialog()
 	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel, true);
 	npcLabel->isDialog = true;
 	npcLabel->tabbable = false;
+	npcLabel->isNPCLabel = true;
 
 	int space = 500;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)

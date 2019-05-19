@@ -96,13 +96,15 @@ bool j1Scene::Start()
 	{
 		App->entityFactory->CreatePlayer({ -300, 300 });
 		//AcceptUISFX_logic = false;
+		App->entityFactory->CreateDialogTrigger(-250, 250, "VENDOR");
 		App->entityFactory->loadEnemies = false;
+		inGamePanel->enable = true;
 		/*inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
-		settingPanel->enable = false;
-		startMenu->enable = false;*/
+		settingPanel->enable = false;*/
+		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);

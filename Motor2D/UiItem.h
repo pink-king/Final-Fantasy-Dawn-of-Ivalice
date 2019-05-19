@@ -57,6 +57,7 @@ public:
 	bool slidable = false;
 	bool tabbed = false;
 	bool tabbable = false;
+	bool isNPCLabel = false;
 	bool enable = true;
 	bool hide = false;
 	UiItem* iFriend = nullptr;
