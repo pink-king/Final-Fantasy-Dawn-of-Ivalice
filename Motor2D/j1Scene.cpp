@@ -25,6 +25,7 @@
 #include "j1DialogSystem.h"
 #include "j1TransitionManager.h"
 #include "NoWalkableTrigger.h"
+#include "WaveTrigger.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -61,7 +62,12 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		App->entityFactory->CreatePlayer({ -1575, 2150 });
+		//WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-160, 598), 1); 
+		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), 1); 
+		waveTrigg->CreateEntryWall(iPoint(-186,600)); 
+		waveTrigg->CreateEntryWall(iPoint(-196, 590));
+		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
+		App->entityFactory->CreatePlayer({ -209, 650 });
 		//App->entityFactory->CreatePlayer({ 0, 0 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });

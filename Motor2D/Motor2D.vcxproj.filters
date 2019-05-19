@@ -248,6 +248,9 @@
     <ClCompile Include="SaveTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="WaveTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -516,6 +519,9 @@
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
     <ClInclude Include="SaveTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>
