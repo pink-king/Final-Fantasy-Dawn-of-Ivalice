@@ -31,6 +31,11 @@ bool WaveTrigger::DoTriggerAction()
 {
 	if (!isActivated)
 	{
+		iPoint tileSize = { 32,32 };
+		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
+
+		App->entityFactory->CreateWave(waveZone, 5, WAVE_TYPE::LEVEL_1);
+
 		CreateWalls();
 		isActivated = true;
 	}
