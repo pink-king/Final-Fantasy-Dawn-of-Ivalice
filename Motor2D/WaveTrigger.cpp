@@ -24,7 +24,7 @@ WaveTrigger::~WaveTrigger()
 		App->pathfinding->DeactivateTile({ (*exitWallPositionsIter).x, (*exitWallPositionsIter).y });
 
 	// check this
-	DeleteFromSubtiles(4);
+	DeleteFromSubtiles(11);
 }
 
 bool WaveTrigger::DoTriggerAction()
@@ -32,9 +32,9 @@ bool WaveTrigger::DoTriggerAction()
 	if (!isActivated)
 	{
 		if (level == 1)
-			waveEntity = App->entityFactory->CreateWave(waveZone, 5, WAVE_TYPE::LEVEL_1);
+			waveEntity = App->entityFactory->CreateWave(waveZone, 5, WAVE_TYPE::LEVEL_1, this);
 		else if (level == 2)
-			waveEntity = App->entityFactory->CreateWave(waveZone, 6, WAVE_TYPE::LEVEL_2);
+			waveEntity = App->entityFactory->CreateWave(waveZone, 6, WAVE_TYPE::LEVEL_2, this);
 
 		CreateWalls();
 		isActivated = true;

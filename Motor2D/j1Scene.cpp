@@ -65,7 +65,6 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		//WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-160, 598), 1); 
 		iPoint tileSize = { 32,32 };
 		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
 		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1); 
@@ -73,6 +72,9 @@ bool j1Scene::Start()
 		waveTrigg->CreateEntryWall(iPoint(17, 22));
 		waveTrigg->CreateExitWall({ 13,3 });
 		waveTrigg->CreateExitWall({ 14,3 });
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
+
 		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
 		App->entityFactory->CreatePlayer({ -209, 650 });
 		//App->entityFactory->CreatePlayer({ 0, 0 });
@@ -107,6 +109,24 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL2)
 	{
+		iPoint tileSize = { 32,32 };
+		SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
+		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25,26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
+		waveTrigg->CreateEntryWall(iPoint(33, 22));
+		waveTrigg->CreateEntryWall(iPoint(33, 21));
+		waveTrigg->CreateEntryWall(iPoint(33, 20));
+		waveTrigg->CreateExitWall({ 19, 46 });
+		waveTrigg->CreateExitWall({ 20, 46 });
+		waveTrigg->CreateExitWall({ 21, 46 });
+		waveTrigg->CreateExitWall({ 22, 46 });
+
+		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
+		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y);
+		bossTrigger->CreateEntryWall(iPoint(37, 94));
+		bossTrigger->CreateEntryWall(iPoint(36, 94));
+		bossTrigger->CreateEntryWall(iPoint(35, 94));
+		bossTrigger->CreateEntryWall(iPoint(34, 94));
+
 		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ -(int)App->entityFactory->player->GetPivotPos().x, -(int)App->entityFactory->player->GetPivotPos().y });
@@ -139,23 +159,25 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
+
 		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
 		App->entityFactory->CreatePlayer({ 115, 240 });
+
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
 
-		//if(ComeToWin)
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		if(ComeToWin)
+			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
-		/*inGamePanel->enable = true;
+	
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
-		settingPanel->enable = false;*/
+		settingPanel->enable = false;
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
@@ -163,11 +185,13 @@ bool j1Scene::Start()
 
 		if (ComeToPortal)
 		{
+			
 			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 
 		}
+		
 	}
 
 	if (state == SceneState::STARTMENU)
@@ -281,7 +305,7 @@ bool j1Scene::PreUpdate()
 	//	App->win->SetScale(2);
 
 	// debug testing subtiles entities empty
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN /*&& hackerMode*/ && App->entityFactory->active)
 	{
 		iPoint entitySubTilePoint = App->render->ScreenToWorld(x, y);
 		iPoint clickedTile = entitySubTilePoint;
@@ -394,15 +418,23 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 	}
 	
+	if (state == SceneState::LOBBY)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
+		{
+			if(door == nullptr)
+				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		}
+	}
 	
-	if (state == SceneState::LEVEL1)
+	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
 	{
 		//Mix_CloseAudio();
 		//if()
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
 		result_fx = fx_bar->GetBarValue();
-		App->audio->SetFxVolume(result_fx); 
+		App->audio->SetFxVolume(result_fx);
 
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
@@ -457,7 +489,7 @@ bool j1Scene::Update(float dt)
 				}
 			}
 		}
-		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN )
+		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			App->pause = false;
 			Mix_ResumeMusic();
@@ -465,10 +497,10 @@ bool j1Scene::Update(float dt)
 			App->gui->selected_object->state = IDLE;
 			App->gui->selected_object = nullptr;
 			App->gui->GoBackToGame();
-			
+
 		}
 
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) //|| App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
 			DoOpenInventory();
 		}
@@ -538,7 +570,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBag3Vendor = true;
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = true;
-				inventoryItem->LoadElements(false,true);
+				inventoryItem->LoadElements(false, true);
 				App->audio->PlayFx(switch_page, 0);
 			}
 			if (!inventoryItem->swappedBag2Vendor && inventoryItem->swappedBagVendor)
@@ -958,6 +990,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
 	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1155,107 }, inGamePanel);
 	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->openSansBold18, { 1185, 695 }, inGamePanel);
+	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
 	return true;

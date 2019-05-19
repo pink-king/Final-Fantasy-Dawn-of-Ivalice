@@ -38,7 +38,7 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	
 	level = 1;
 	exp = 0;
-	maxExpInLevel = 10000;
+	maxExpInLevel = 7000;
 
 	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, marche, " ", 12);
 	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ritz, " ", 12);
@@ -130,7 +130,8 @@ bool PlayerEntityManager::Update(float dt)
 			}
 		}
 	}*/
-
+	if (life > maxLife)
+		life = maxLife;
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
 		lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));

@@ -36,7 +36,7 @@ Enemy::~Enemy()
 	{
 		std::vector<Enemy*>::iterator iter = App->entityFactory->waveManager->alive.begin();
 
-		for (iter; iter != App->entityFactory->waveManager->alive.end(); iter++)
+		for (; iter != App->entityFactory->waveManager->alive.end(); iter++)
 		{
 			if ((*iter) == this)
 			{

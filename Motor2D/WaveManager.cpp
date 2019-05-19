@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1BuffManager.h"
 
-WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type) : spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
+WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1Entity* associatedTrigger) : associatedTrigger(associatedTrigger),spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
 {
 	App->scene->wave_label->hide = false;
 	//Add SFX spawn
@@ -15,6 +15,21 @@ WaveManager::~WaveManager()
 {
 	App->scene->wave_label->hide = true;
 	App->audio->PlayFx(App->entityFactory->wave_end, 0);
+
+	// associate trigger delete
+	if (associatedTrigger != nullptr)
+		associatedTrigger->to_delete = true;
+
+	// deletes any enemy
+
+	for (std::vector<Enemy*>::iterator iter = alive.begin(); iter != alive.end(); ++iter)
+	{
+		(*iter)->inWave = false;
+		dynamic_cast<j1Entity*>(*iter)->to_delete = true;
+	}
+
+	alive.clear();
+
 }
 
 bool WaveManager::Start()
@@ -50,6 +65,12 @@ bool WaveManager::PreUpdate()
 
 bool WaveManager::Update(float dt)
 {
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		to_delete = true;
+	}
+
 	if (toCreateNextWave)
 	{
 		SpawnCurrentWaveLabel();
@@ -127,16 +148,17 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		{
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 15;
+			data.enemiesNumber = 12;
+			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 10;
+			data.zombieChances = 8;
 			data.golemChances = 0;
-			data.zombieChances = 0;
+			data.bombChances = 2;
 		}
 		else
 		{
-			data.enemiesNumber = 15;
+			data.enemiesNumber = 12;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
@@ -150,17 +172,17 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	case 4:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 2;
-			data.golemChances = 1;
+			data.bombChances = 3;
+			data.golemChances = 0;
 			data.zombieChances = 8;
 		}
 		else
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
@@ -174,16 +196,16 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	case 5:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 10;
+			data.bombChances = 4;
 			data.golemChances = 0;
-			data.zombieChances = 0;
+			data.zombieChances = 8;
 		}
 		else
 		{
-			data.enemiesNumber = 20;
+			data.enemiesNumber = 14;
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
 
@@ -196,16 +218,16 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 	case 6:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 25;
+			data.enemiesNumber = 16;
 			data.types.push_back(EnemyType::TEST);
 
-			data.bombChances = 0;
+			data.bombChances = 1;
 			data.golemChances = 0;
 			data.zombieChances = 10;
 		}
 		else
 		{
-			data.enemiesNumber = 25;
+			data.enemiesNumber = 18;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
@@ -220,17 +242,17 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 		{
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
-			data.enemiesNumber = 30;
+			data.enemiesNumber = 20;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 
-			data.bombChances = 5;
+			data.bombChances = 3;
 			data.golemChances = 0;
-			data.zombieChances = 5;
+			data.zombieChances = 7;
 		}
 		else
 		{
-			data.enemiesNumber = 30;
+			data.enemiesNumber = 22;
 			data.types.push_back(EnemyType::TEST);
 			data.types.push_back(EnemyType::BOMB);
 			data.types.push_back(EnemyType::ARCHER);
@@ -277,8 +299,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 					}
 					if (enemy != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(5, 15) + 5 * enemy->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(7, 17) + 5 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(2, 3) + 2 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(4, 8) + 2 * enemy->level);
 						enemyCount++;
 					}
 				}
@@ -298,17 +320,17 @@ void WaveManager::CreateNextWave(WaveData waveData)
 					}
 					if (enemy != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(5, 15) + 5 * enemy->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(7, 17) + 5 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(3, 5) + 2 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(4, 8) + 2 * enemy->level);
 						enemyCount++;
 					}
 				}
 				break;
 
 			case EnemyType::ARCHER:
-				if (CreateRandomBetween(1, 10) <= waveData.golemChances && enemyCount < maxEnemies)
-				{
-					// Last paramater is dummy
+
+				if (CreateRandomBetween(1, 10) <= waveData.bombChances && enemyCount < maxEnemies)
+				{	// Last paramater is dummy
 					enemy = App->entityFactory->CreateEnemy(EnemyType::ARCHER, spawnPos, false);
 					enemy->inWave = true;
 
@@ -320,8 +342,8 @@ void WaveManager::CreateNextWave(WaveData waveData)
 					}
 					if (enemy != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(5, 15) + 5 * enemy->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(7, 17) + 5 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, enemy, "\0", CreateRandomBetween(4, 6) + 3 * enemy->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, enemy, "\0", CreateRandomBetween(20, 25) + 3 * enemy->level);
 						enemyCount++;
 					}
 				}

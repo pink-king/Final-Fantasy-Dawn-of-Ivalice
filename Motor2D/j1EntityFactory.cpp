@@ -556,8 +556,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(3, 5) + 2 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(4, 8) + 2 * ret->level);
 						numBombs++;
 						cont++;
 					}
@@ -576,9 +576,9 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 						ret->level = App->entityFactory->player->level + enemyLevel;
 					}
 					if (ret != nullptr)
-					{	
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(2, 3) + 2 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(4, 8) + 2 * ret->level);
 						numTests++;
 						cont++;
 					}
@@ -597,8 +597,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(5, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 6) + 3 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(20, 25) + 3 * ret->level);
 						numArchers++;
 						cont++;
 					}
@@ -743,7 +743,7 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
-	uint max = 2; 
+	uint max = 8; 
 
 	LootEntity* ret = nullptr;
 	if (GetRandomValue(1, max) == 1)
@@ -843,9 +843,9 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
-WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave)
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger)
 {
-	waveManager = DBG_NEW WaveManager(zone, numWaves, wave);
+	waveManager = DBG_NEW WaveManager(zone, numWaves, wave, linkedTrigger);
 
 	if (waveManager != nullptr)
 	{
@@ -1698,15 +1698,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 	if (itemStats.subStatMajor == -1.f)
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.1f * itemStats.subStatMinor; 
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMinor; 
 	}
 	else if (itemStats.subStatMinor == -1.f)
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.25f * itemStats.subStatMajor;
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMajor;
 	}
 	else
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.25f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
 	}
 
 	
@@ -1715,6 +1715,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 
 	// 6: downwards deduction for player, and increase for vendor 
+
+
+	if (isConsumable)
+	{
+		if (item->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+		{
+			baseFinalPrice = 3000;
+		}
+	}
 
 	item->price = baseFinalPrice * 0.85f;
 	item->vendorPrice = baseFinalPrice * 1.15f; 
@@ -1943,17 +1952,28 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 
 void j1EntityFactory::AddExp(Enemy * enemy)
 {
-	uint expToAdd = 100;
-	uint bonusLevel = (enemy->level - player->level) * 25;
-	player->exp += expToAdd + bonusLevel;
-
-	if (player->exp > player->maxExpInLevel)
+	// TODO: CHECK WTF IS THIS
+	if (enemy != nullptr)
 	{
-		++player->level;
-		player->exp -= player->maxExpInLevel;
+		uint expToAdd = 100;
+		uint bonusLevel = (enemy->level - player->level) * 25;
+		player->exp += expToAdd + bonusLevel;
+
+		if (player->exp > player->maxExpInLevel)
+		{
+			++player->level;
+			player->exp -= player->maxExpInLevel;
 
 
-		player->GetVendor()->generateVendorItems(true); 
+			player->GetVendor()->generateVendorItems(true);
+
+
+
+			std::string dest = "LVL" + std::to_string(player->level) ;
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+
+		}
 	}
 }
 

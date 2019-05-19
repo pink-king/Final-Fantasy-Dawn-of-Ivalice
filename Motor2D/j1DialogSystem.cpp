@@ -4,7 +4,8 @@
 #include "j1DialogSystem.h"
 #include "j1Input.h"
 #include "j1Scene.h"
-
+#include "j1EntityFactory.h"
+#include "j1TransitionManager.h"
 
 j1DialogSystem::j1DialogSystem()
 {
@@ -46,7 +47,12 @@ bool j1DialogSystem::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		{
-			SetCurrentDialog("BOSS");
+			SetCurrentDialog("SAVEGAME");
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		{
+			SetCurrentDialog("STRANGER");
 		}
 
 
@@ -57,13 +63,17 @@ bool j1DialogSystem::Update(float dt)
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
 			
-			
-			//App->pause = true; 
+			App->entityFactory->player->selectedCharacterEntity->isParalize = true;
+			App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir];
+			App->entityFactory->player->selectedCharacterEntity->inputReady = false; 
+		
 		}
 		
 
 		if (isDialogSequenceActive)   // capture input only in this case
 		{
+			//App->entityFactory->player->selectedCharacterEntity->isParalize = true; 
+			//App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir]; 
 
 			if (isDialogInScreen)    // if dialog sequence is active AND inventory is NOT openned
 			{
@@ -72,7 +82,7 @@ bool j1DialogSystem::Update(float dt)
 					checkIfNPCFinishedTalking(); 
 
 				}
-				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 
 					doDialogTypeLogic();
@@ -84,6 +94,10 @@ bool j1DialogSystem::Update(float dt)
 			}
 
 
+		}
+		else
+		{
+			//App->entityFactory->player->Update(0); 
 		}
 
 
@@ -199,7 +213,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "BOSS")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -225,6 +239,11 @@ void j1DialogSystem::doDialogTypeLogic()
 				{
 
 					PerformDialogue(treeid);
+
+					if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos) 
+					{
+						App->SaveGame("save_game.xml");
+					}
 				}
 
 			}
@@ -322,7 +341,8 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				spawnDialogSequence = false;
 				
 				
-				
+				App->entityFactory->player->selectedCharacterEntity->isParalize = false;
+				App->entityFactory->player->selectedCharacterEntity->inputReady = true;
 				//App->pause = false; 
 			}
 			
@@ -387,6 +407,8 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	}
 	else
 		LOG("XML was loaded succesfully!");
+	
+	uint treeCount = 0; 
 
 	for (pugi::xml_node t = tree_file.child("dialogue").child("dialogtree"); t != NULL; t = t.next_sibling("dialogtree"))
 	{
@@ -396,6 +418,7 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	//	tr->karma = t.attribute("karma").as_int();
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
+		treeCount++; 
 	}
 	return ret;
 }

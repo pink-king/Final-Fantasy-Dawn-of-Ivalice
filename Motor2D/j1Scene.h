@@ -14,6 +14,7 @@ class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
 
+class Trigger;
 
 enum class SceneState
 {
@@ -67,6 +68,7 @@ public:
 	UiItem* winPanel = nullptr;
 	UiItem_Label* coins_label = nullptr;
 	UiItem_Label* wave_label = nullptr;
+	UiItem_Label* exp_label = nullptr;
 	UiItem_Label* coins_label_inventory = nullptr;
 	UiItem_Label* god_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
@@ -143,6 +145,7 @@ public:
 	int hit_counter;
 	int previous_counter;
 	bool decreaseAlpha = false;
+	Trigger* door = nullptr;
 	j1Timer timeindmg;
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;

@@ -73,7 +73,7 @@ public:
 
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
-	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave);
+	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger = nullptr);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
@@ -244,12 +244,12 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
-	int equipableChance = 35;
-	int baseItemChance = 50; 
-	int goldChance = 50; 
+	int equipableChance = 10;
+	int baseItemChance = 80; 
+	int goldChance = 16; 
 
-	uint minKillsToDeserveLoot = 5;
-	uint minKillsWithPerfectGoldToDeserveMaxPrice = 15; 
+	uint minKillsToDeserveLoot = 10;
+	uint minKillsWithPerfectGoldToDeserveMaxPrice = 20; 
 	int goldMin = 0; 
 	int goldMax = 0; 
 	

@@ -4,62 +4,80 @@
 
 NoWalkableTrigger::NoWalkableTrigger(float posx, float posy) : Trigger(TRIGGER_TYPE::NOWALKABLE, posx, posy, "noWalkable")
 {
-	AssignInSubtiles(4);
+	AssignInSubtiles(11);
 }
 
 NoWalkableTrigger::~NoWalkableTrigger()
 {
-	std::vector<wall*>::iterator item = walls.begin();
-	while (item != walls.end())
+	// delete wall entities
+	std::list<j1Entity*>::iterator wallsIter = exit_wall_entities.begin();
+	for (; wallsIter != exit_wall_entities.end(); ++wallsIter)
 	{
-		if ((*item)->doorType == DOOR::Exit)
-		{
-			App->pathfinding->DeactivateTile({ (int)(*item)->entity->position.x, (int)(*item)->entity->position.y });
-			App->entityFactory->entities.erase(
-					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), (*item)->entity), App->entityFactory->entities.end());
-
-			RELEASE(*item);
-			*item = nullptr;
-		}
-
-		
-		item = walls.erase(item);
+		(*wallsIter)->to_delete = true;
 	}
-	walls.clear();
+	exit_wall_entities.clear();
 
-	DeleteFromSubtiles(4);
+	// delete walkability
+	std::list<iPoint>::iterator exitWallPositionsIter = exit_wall_map_positions.begin();
+	for (; exitWallPositionsIter != exit_wall_map_positions.end(); ++exitWallPositionsIter)
+		App->pathfinding->DeactivateTile({ (*exitWallPositionsIter).x, (*exitWallPositionsIter).y });
+
+	// check this
+	DeleteFromSubtiles(11);
 }
 
 bool NoWalkableTrigger::DoTriggerAction()
 {
-	std::vector<wall*>::iterator item = walls.begin();
-	while (item != walls.end() && !isActived)
+	if (!isActivated)
 	{
-		iPoint pos = App->map->WorldToMap((int)(*item)->entity->position.x, (int)(*item)->entity->position.y);
-		pos.x += 2;
-		pos.y += 1;
-		App->pathfinding->ActivateTile({ pos.x, pos.y });
-		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, pos, { 64,384,64,64 });
-		App->entityFactory->entities.push_back((*item)->entity);
-		++item;
+
+		App->entityFactory->CreateEntity(FLOWERBOSS, 
+			iPoint(App->map->MapToWorld(40, 111).x, App->map->MapToWorld(40, 111).y).x, iPoint(App->map->MapToWorld(40, 111).x, App->map->MapToWorld(40, 111).y).y, "flower_boss");
+
+		CreateWalls();
+		isActivated = true;
 	}
-	isActived = true;
+	return true;
+}
+
+bool NoWalkableTrigger::Update(float dt)
+{
+	if (waveEntity == nullptr && isActivated)
+		to_delete = true;
+
 	return true;
 }
 
 void NoWalkableTrigger::CreateExitWall(iPoint pos)
 {
-	// load walls as entities
-	iPoint positionOnWorld = pos; // x and y are on iso coords, needs conversion
-	SDL_Rect destRect = { 64,384,64,64 };
-
-	wall* newWall = new wall();
-	newWall->doorType == DOOR::Exit;
-
-	newWall->entity = App->entityFactory->CreateAsset(EnvironmentAssetsTypes::TRIGGERWALL, positionOnWorld, destRect);
-	walls.push_back(newWall);
+	exit_wall_map_positions.push_back(pos);
 }
 
 void NoWalkableTrigger::CreateEntryWall(iPoint pos)
 {
+	entry_wall_map_positions.push_back(pos);
+}
+
+void NoWalkableTrigger::CreateWalls()
+{
+	// entry walls
+	std::list<iPoint>::iterator iter = entry_wall_map_positions.begin();
+	for (; iter != entry_wall_map_positions.end(); ++iter)
+	{
+		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
+		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y);
+		wallPoint.y -= 16; // sprite offset
+		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+	}
+
+	// exit walls
+	iter = exit_wall_map_positions.begin();
+	for (; iter != exit_wall_map_positions.end(); ++iter)
+	{
+		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
+		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y);
+		wallPoint.y -= 16; // sprite offset
+		exit_wall_entities.push_back(App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 }));
+	}
+
 }

@@ -23,15 +23,38 @@
     </node>
 	
   </dialogtree>
-    <dialogtree treeid="1" treeName="BOSS">
-    <node line="You blocked me on facebook" id="0">
-      <option line="Woot" nextnode="1"/>
-      <option line="And?" nextnode="1"/>
+  
+  
+    <dialogtree treeid="1" treeName="SAVEGAME">
+    <node line="Do you want to save the game?" id="0">
+      <option line="Yes" nextnode="666"/>
+      <option line="I changed my mind" nextnode="666"/>
     </node>                                                   
-    <node line="...And now you are going to die" id="1">
-      <option line="shiet" nextnode="666"/>
-      <option line="ok then" nextnode="666"/>
-    </node>
+  </dialogtree>
+  
+  
+    <dialogtree treeid="2" treeName="STRANGER">
+    <node line="Hello fellow warrior" id="0">
+      <option line="Who are you" nextnode="1"/>
+      <option line="Where am I?" nextnode="2"/>
+    </node>  
+ <node line="I have come to tell you something" id="1">
+      <option line="Who are you?" nextnode="3"/>
+      <option line="Where am I?" nextnode="2"/>
+    </node>     
+ <node line="We are in Ivalice, a magic kingdom" id="2">
+      <option line="And what are those doors?" nextnode="4"/>
+      <option line="I know enough now" nextnode="666"/>
+    </node>  
+ <node line="Do not wander, let me tell you what those doors are" id="3">
+      <option line="I am listening" nextnode="4"/>
+	  <option line= "Thanks, but I am on my way" nextnode="666"/>
+    </node>  
+	<node line="First, you must visit the left one. The other one holds terror and disdain" id="4">
+      <option line="I will take the first one then, farewell" nextnode="666"/>
+	  <option line= "I have survived to the first room and I am prepared for evil to come" nextnode="666"/>
+    </node>  
+   	
   </dialogtree>
   
   

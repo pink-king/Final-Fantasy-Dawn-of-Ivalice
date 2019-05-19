@@ -27,11 +27,25 @@ public:
 
 	bool DoTriggerAction();
 	void CreateExitWall(iPoint pos);
-	void CreateEntryWall(iPoint pos); 
+	void CreateEntryWall(iPoint pos);
+
+	void CreateWalls();
+
+	bool Update(float dt) override;
 
 private:
-	std::vector<wall*> walls;
-	bool isActived = false;
+	std::vector<wall*> wallsvec;
+	bool isActivated = false;
+
+	uint level = 1;
+
+	j1Entity* waveEntity = nullptr;
+
+	SDL_Rect waveZone;
+
+	std::list<iPoint> entry_wall_map_positions;
+	std::list<iPoint> exit_wall_map_positions;
+	std::list<j1Entity*> exit_wall_entities;
 };
 
 

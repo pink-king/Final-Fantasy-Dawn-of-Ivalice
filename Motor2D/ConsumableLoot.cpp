@@ -91,13 +91,15 @@ void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 	}
 	else
 	{
-		int randNum = (GetRandomValue(1, 6));
-		if (randNum == 1)
+		int randNum = (GetRandomValue(1, 8));
+		if (randNum < 6)
 		{
-			objectType = OBJECT_TYPE::POTIONS;
-			consumableType = CONSUMABLE_TYPE::POTION;
+		
+				objectType = OBJECT_TYPE::POTIONS;
+				consumableType = CONSUMABLE_TYPE::POTION; 
+		
 		}
-		else if (randNum == 2)
+		else 
 		{
 			objectType = OBJECT_TYPE::PHOENIX_TAIL;
 		}

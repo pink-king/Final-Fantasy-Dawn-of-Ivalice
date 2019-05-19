@@ -126,7 +126,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break;
 
 	case ELEMENTAL_TYPE::POISON_ELEMENT:
-		c = { 76, 40, 130, 255 };
+		c = { 90, 60, 255, 255 };
 		break;
 
 	case ELEMENTAL_TYPE::ICE_ELEMENT:
@@ -134,11 +134,11 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break;
 
 	case ELEMENTAL_TYPE::NO_ELEMENT:
-		c = { 30, 30, 30, 255 };
+		c = { 233, 200, 200, 255 };
 		break;
 
 	default:
-		c = { 30, 30, 30, 255 };
+		c = { 233, 200, 200, 255 };
 		break;
 	}
 

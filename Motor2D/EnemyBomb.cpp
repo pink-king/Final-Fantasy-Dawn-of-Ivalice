@@ -20,7 +20,7 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 EnemyBomb::~EnemyBomb()
 {
 //	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
-	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
+	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 2, 60, true);
 
 
 
@@ -235,7 +235,8 @@ void EnemyBomb::SetState(float dt)
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
 			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);			
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);		
+			exploded = true; 
 			to_die = true;
 		}
 	}
