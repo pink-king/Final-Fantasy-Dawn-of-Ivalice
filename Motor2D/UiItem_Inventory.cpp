@@ -1183,7 +1183,6 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 								doBagScroll = true;
 							}
 
-
 							break;
 						}
 						
