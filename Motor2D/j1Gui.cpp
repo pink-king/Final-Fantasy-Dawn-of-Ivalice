@@ -785,7 +785,7 @@ SDL_Texture* j1Gui::GetAtlas()
 void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
-	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::LOBBY);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::LEVEL1);
 }
 
 void j1Gui::ExitGame()

@@ -76,7 +76,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		if (ComeToDeath)
+		if (ComeToDeath || ComeToWin)
 		{
 			App->LoadGame("save_game.xml");
 			ComeToDeath = false;
@@ -94,10 +94,12 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-		App->entityFactory->CreatePlayer({ -300, 300 });
+		App->entityFactory->CreatePlayer({ 115, 240 });
 		//AcceptUISFX_logic = false;
-		App->entityFactory->CreateDialogTrigger(-250, 250, "VENDOR");
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, -250, 350);
+		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 		/*inGamePanel->enable = true;
@@ -114,7 +116,8 @@ bool j1Scene::Start()
 		{
 			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, -450, 350, previosState, White);
+			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+
 		}
 	}
 

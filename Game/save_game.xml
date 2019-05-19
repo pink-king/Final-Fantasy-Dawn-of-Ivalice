@@ -7,9 +7,9 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
+		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="136" />
+			<life actualLife="0" />
 			<gold value="0" />
 		</Entities>
 	</entities>
