@@ -7,9 +7,9 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="marche">
-			<Experience level="1" exp="0" />
-			<life actualLife="104" />
+		<Entities player="shara">
+			<Experience level="1" exp="1050" />
+			<life actualLife="0" />
 			<gold value="0" />
 		</Entities>
 	</entities>
