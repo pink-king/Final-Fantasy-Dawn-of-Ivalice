@@ -65,7 +65,6 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL1)
 	{
-		//WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-160, 598), 1); 
 		iPoint tileSize = { 32,32 };
 		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
 		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1); 
@@ -73,6 +72,9 @@ bool j1Scene::Start()
 		waveTrigg->CreateEntryWall(iPoint(17, 22));
 		waveTrigg->CreateExitWall({ 13,3 });
 		waveTrigg->CreateExitWall({ 14,3 });
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
+
 		//App->entityFactory->CreatePlayer({ -1575, 2150 }); Proper Start of the level
 		App->entityFactory->CreatePlayer({ -209, 650 });
 		//App->entityFactory->CreatePlayer({ 0, 0 });
@@ -157,16 +159,18 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
+
 		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
 		App->entityFactory->CreatePlayer({ 115, 240 });
+
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
 
-		//if(ComeToWin)
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		if(ComeToWin)
+			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 	
@@ -181,11 +185,13 @@ bool j1Scene::Start()
 
 		if (ComeToPortal)
 		{
+			
 			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 
 		}
+		
 	}
 
 	if (state == SceneState::STARTMENU)
@@ -412,6 +418,14 @@ bool j1Scene::Update(float dt)
 		//settingPanel->enable = false;
 	}
 	
+	if (state == SceneState::LOBBY)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
+		{
+			if(door == nullptr)
+				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		}
+	}
 	
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
 	{
