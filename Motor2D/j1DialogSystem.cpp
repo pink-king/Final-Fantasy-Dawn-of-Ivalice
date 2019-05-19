@@ -67,6 +67,8 @@ bool j1DialogSystem::Update(float dt)
 			App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir];
 			App->entityFactory->player->selectedCharacterEntity->inputReady = false; 
 		
+
+			//App->scene->dialogueBox->hide = false; 
 		}
 		
 
@@ -344,6 +346,9 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				App->entityFactory->player->selectedCharacterEntity->isParalize = false;
 				App->entityFactory->player->selectedCharacterEntity->inputReady = true;
 				//App->pause = false; 
+
+
+				//App->scene->dialogueBox->hide = true;
 			}
 			
 	    }
@@ -361,6 +366,7 @@ void j1DialogSystem::BlitDialog()
 	npcLabel->tabbable = false;
 	npcLabel->isNPCLabel = true;
 
+	
 	int space = 500;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
 	{

@@ -1037,13 +1037,13 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
-			if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-			{
+			/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+			{*/
 				for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 				{
 
-					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-					{
+					/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+					{*/
 						if ((*iter)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
 						{
 							if ((*iter)->GetObjectType() == callback->GetObjectType() && (*iter)->MyDescription->myLootItemIsEquipped.weapon)
@@ -1079,7 +1079,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 						}
 
 
-					}
+					//}
 
 				}
 				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
@@ -1091,7 +1091,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				}
 
 
-			}
+		/*	}*/
 
 
 
@@ -1163,8 +1163,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 			{
 				if ((*iter) == callback)
 				{
-					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-					{
+					/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+					{*/
 
 						if (DoPriceCalculations(callback))
 						{
@@ -1187,7 +1187,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							break;
 						}
 						
-					}
+				//	}
 
 
 				}
