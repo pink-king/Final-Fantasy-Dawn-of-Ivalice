@@ -250,21 +250,56 @@ bool FlowerBossEntity::Update(float dt)
 	if (to_die)
 		myState = Boss1State::DEATH;
 
-	//if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	//{
-	//	//myState = Boss1State::PHASE3;
-	//	Phase3Logic();
-	//}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		switch (myState)
+		{
+		case Boss1State::NOTHING:
+			break;
+		case Boss1State::PHASE1:
+		{
+			myState = Boss1State::PHASE2;
+			phase_control_timers.phase2.timer.Start();
+			break;
+		}
+		case Boss1State::PHASE2:
+		{
+			myState = Boss1State::PHASE3;
+			phase_control_timers.phase3.timer.Start();
+			break;
+		}
+		case Boss1State::PHASE3:
+		{
+			myState = Boss1State::PHASE4;
+			phase_control_timers.phase4.timer.Start();
+			break;
+		}
+		case Boss1State::PHASE4:
+		{
+			myState = Boss1State::PHASE1;
+			phase_control_timers.phase1.timer.Start();
+			break;
+		}
+		case Boss1State::PHASE5:
+			break;
+		case Boss1State::DEATH:
+			break;
+		case Boss1State::MAX:
+			break;
+		default:
+			break;
+		}
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
 	{
 		life = 40.f;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 	{
 		shootedPoisonRainEmitter = false;
 		Phase2Logic();
-	}
+	}*/
 
 	//LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
 	//LOG("life:%f", life);
