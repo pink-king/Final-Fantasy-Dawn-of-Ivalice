@@ -7,401 +7,25 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2118" y="1394" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2380" y="1426" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2190" y="1355" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2342" y="1462" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2092" y="1399" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2356" y="1445" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2110" y="1397" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2178" y="1441" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-2384" y="1435" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1734" y="1562" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1904" y="1468" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1824" y="1447" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1808" y="1541" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1888" y="1489" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1804" y="1523" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1818" y="1507" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1752" y="1538" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1838" y="1501" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1770" y="1476" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2364" y="1551" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2348" y="1667" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2184" y="1595" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2328" y="1656" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2344" y="1567" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2378" y="1614" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2348" y="1551" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2274" y="1700" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-2212" y="1613" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1648" y="1137" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1772" y="1057" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1658" y="1172" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1736" y="1159" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1792" y="1100" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1788" y="1189" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1650" y="1155" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1832" y="1101" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1748" y="1170" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1804" y="1083" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1792" y="1051" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1660" y="1112" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1812" y="1146" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-974" y="1371" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1120" y="1420" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1048" y="1332" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1106" y="1416" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-918" y="1475" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1040" y="1421" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-916" y="1404" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1200" y="1410" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1086" y="1434" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-974" y="1400" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1070" y="1372" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1066" y="1463" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1076" y="1426" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-1152" y="1407" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1174" y="1917" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1204" y="1900" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1138" y="1951" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1038" y="1932" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1050" y="1952" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1146" y="1906" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1090" y="1881" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1056" y="1917" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-246" y="1115" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-314" y="1165" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-170" y="1158" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-368" y="1177" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-238" y="1115" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-208" y="1229" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-234" y="1123" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-222" y="1239" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-294" y="1400" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-336" y="1397" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-334" y="1437" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-354" y="1431" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-388" y="1396" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-52" y="1273" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-106" y="1289" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="26" y="1297" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-80" y="1250" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-28" y="1324" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-334" y="1279" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-338" y="1263" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-340" y="1258" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-788" y="894" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-852" y="887" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-758" y="867" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-790" y="872" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-882" y="873" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-722" y="975" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-862" y="932" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-822" y="921" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-754" y="886" />
-		</Entities>
-		<Entities type="enemyTest" level="0" life="100">
-			<position x="-824" y="933" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1430" y="1699" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1540" y="1723" />
-		</Entities>
-		<Entities type="enemyBomb" level="0" life="100">
-			<position x="-1410" y="1671" />
-		</Entities>
-		<Players player="marche">
-			<Experience level="2" exp="525" />
-			<life actualLife="35" />
-			<gold value="3602" />
+		<Players player="ritz">
+			<Experience level="2" exp="5325" />
+			<life actualLife="20" />
+			<gold value="23801" />
 			<bagObjects>
-				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="fireElement" objectType="armor" lootType="equipable">
-					<rect x="123" y="32" w="14" h="14" />
+				<data name="legendary_sword" level="2" characterObject="Marche" equipableType="sword" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
 				</data>
 				<buffs>
-					<data character="Shara" type="additive" elementType="fireElement" rol="defence" value="22.5" />
+					<data character="Marche" type="additive" elementType="fireElement" rol="attack" value="34" />
 				</buffs>
 				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="18" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="-9.23999977" />
 				</buffs>
 			</bagObjects>
 			<bagObjects>
-				<data name="armor_1" level="2" characterObject="Marche" equipableType="armor" elementalType="noElement" objectType="armor" lootType="equipable">
-					<rect x="93" y="69" w="15" h="15" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="defence" value="25" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="health" value="33" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="stick_1" level="1" characterObject="Ritz" equipableType="rod" elementalType="iceElement" objectType="weapon" lootType="equipable">
-					<rect x="12" y="67" w="11" h="16" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="iceElement" rol="attack" value="34" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="vest_1" level="1" characterObject="Ritz" equipableType="mantle" elementalType="noElement" objectType="armor" lootType="equipable">
-					<rect x="122" y="70" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="defence" value="30" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="15" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="vest_2" level="2" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="122" y="70" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="poisonElement" rol="defence" value="40" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.300000012" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="iceElement" objectType="armor" lootType="equipable">
-					<rect x="123" y="32" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="iceElement" rol="defence" value="21.5" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="vest_2" level="1" characterObject="Ritz" equipableType="mantle" elementalType="allElement" objectType="armor" lootType="equipable">
-					<rect x="122" y="70" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="allElement" rol="defence" value="29" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.25" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="legendary_bow" level="2" characterObject="Shara" equipableType="bow" elementalType="noElement" objectType="weapon" lootType="equipable">
-					<rect x="93" y="32" w="13" h="13" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="iceElement" rol="attack" value="30" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.730000019" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.140000001" />
-				</buffs>
-			</bagObjects>
-			<equipedObjects>
-				<data name="vest_1" level="1" characterObject="Shara" equipableType="vest" elementalType="allElement" objectType="armor" lootType="equipable">
-					<rect x="123" y="32" w="14" h="14" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="allElement" rol="defence" value="22" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="health" value="19" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
 				<data name="armor_1" level="2" characterObject="Marche" equipableType="armor" elementalType="fireElement" objectType="armor" lootType="equipable">
 					<rect x="93" y="69" w="15" h="15" />
 				</data>
@@ -411,43 +35,273 @@
 				<buffs>
 					<data character="Marche" type="additive" elementType="noElement" rol="health" value="33" />
 				</buffs>
-			</equipedObjects>
-			<equipedObjects>
+			</bagObjects>
+			<bagObjects>
+				<data name="armor_2" level="2" characterObject="Marche" equipableType="armor" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="93" y="69" w="15" h="15" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="29" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.140000001" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_vest" level="1" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="defence" value="30" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.150000006" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="19" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="armor_2" level="1" characterObject="Marche" equipableType="armor" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="93" y="69" w="15" h="15" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="21" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.219999999" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="attack" value="0.289999992" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="defence" value="17" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="sword_2" level="2" characterObject="Marche" equipableType="sword" elementalType="allElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="allElement" rol="attack" value="0.360000014" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="allElement" rol="defence" value="21" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="bow_2" level="1" characterObject="Shara" equipableType="bow" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="93" y="32" w="13" h="13" />
+				</data>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="iceElement" rol="attack" value="0.119999997" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_vest" level="3" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="defence" value="48" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.349999994" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="25" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="vest_1" level="2" characterObject="Ritz" equipableType="mantle" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="fireElement" rol="defence" value="38" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="20" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
 				<data name="stick_2" level="1" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
 					<rect x="12" y="67" w="11" h="16" />
 				</data>
 				<buffs>
-					<data character="Ritz" type="additive" elementType="iceElement" rol="attack" value="15" />
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="13" />
 				</buffs>
 				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="1.00999999" />
+					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.949999988" />
 				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="legendary_vest" level="2" characterObject="Ritz" equipableType="mantle" elementalType="noElement" objectType="armor" lootType="equipable">
-					<rect x="122" y="70" w="14" h="14" />
+			</bagObjects>
+			<bagObjects>
+				<data name="stick_2" level="1" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="12" y="67" w="11" h="16" />
 				</data>
 				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="defence" value="37" />
+					<data character="Ritz" type="additive" elementType="noElement" rol="attack" value="16" />
 				</buffs>
 				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.200000003" />
+					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.879999995" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_stick" level="3" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="12" y="67" w="11" h="16" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="55" />
 				</buffs>
 				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="21" />
+					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.870000005" />
 				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="bow_1" level="1" characterObject="Shara" equipableType="bow" elementalType="noElement" objectType="weapon" lootType="equipable">
+			</bagObjects>
+			<bagObjects>
+				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="123" y="32" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="18.5" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="bow_1" level="2" characterObject="Shara" equipableType="bow" elementalType="iceElement" objectType="weapon" lootType="equipable">
 					<rect x="93" y="32" w="13" h="13" />
 				</data>
 				<buffs>
-					<data character="Shara" type="additive" elementType="allElement" rol="attack" value="25" />
+					<data character="Shara" type="additive" elementType="noElement" rol="attack" value="34" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.689999998" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_bow" level="2" characterObject="Shara" equipableType="bow" elementalType="allElement" objectType="weapon" lootType="equipable">
+					<rect x="93" y="32" w="13" h="13" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="allElement" rol="attack" value="33" />
 				</buffs>
 				<buffs>
 					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.709999979" />
 				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.239999995" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="noElement" objectType="weapon" lootType="equipable">
+					<rect x="59" y="67" w="16" h="16" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="poisonElement" rol="attack" value="0.25999999" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="15" />
+				</buffs>
 			</equipedObjects>
+			<equipedObjects>
+				<data name="vest_1" level="2" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="122" y="70" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="defence" value="39" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="20" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="vest_1" level="2" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="123" y="32" w="14" h="14" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="27" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="health" value="29" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="legendary_armor" level="1" characterObject="Marche" equipableType="armor" elementalType="allElement" objectType="armor" lootType="equipable">
+					<rect x="93" y="69" w="15" h="15" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="allElement" rol="defence" value="23" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.219999999" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="health" value="17" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="legendary_bow" level="1" characterObject="Shara" equipableType="bow" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="93" y="32" w="13" h="13" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="iceElement" rol="attack" value="20" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.899999976" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="stick_1" level="2" characterObject="Ritz" equipableType="rod" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="12" y="67" w="11" h="16" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="iceElement" rol="attack" value="44" />
+				</buffs>
+			</equipedObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="149" y="30" w="13" h="16" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="149" y="30" w="13" h="16" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="60" y="32" w="10" h="12" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
 		</Players>
 	</entities>
 	<AttackManager />

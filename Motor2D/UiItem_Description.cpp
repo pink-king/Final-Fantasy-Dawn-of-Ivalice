@@ -388,8 +388,25 @@ void UiItem_Description::Draw(const float& dt)
 						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 386)
 						{
 							App->gui->selected_object = (*item);
+							foundPoti = true;
+							isAnyItemRemaining = true;
+							break;
+						}
+						else
+							foundPoti = false;
+						
 
-							isAnyItemRemaining = true; 
+					}
+					if (!foundPoti)
+					{
+						
+						for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+						{
+							if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 462)
+							{
+								App->gui->selected_object = (*item);
+								isAnyItemRemaining = true;
+							}
 						}
 					}
 					if (isAnyItemRemaining)
