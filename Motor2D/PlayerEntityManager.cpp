@@ -1221,7 +1221,7 @@ j1Entity* Crosshair::SearchForTargetOnThisSubtile(const iPoint subtile) const
 
 		for (; subIter != subtileVec->end(); ++subIter)
 		{
-			if ((*subIter)->type != ENTITY_TYPE::PLAYER && (*subIter)->type != ENTITY_TYPE::PROJECTILE)
+			if ((*subIter)->type != ENTITY_TYPE::PLAYER && (*subIter)->type != ENTITY_TYPE::PROJECTILE && (*subIter)->type != ENTITY_TYPE::TRIGGER)
 			{
 				//LOG("enemy found");
 				ret = (*subIter);
