@@ -9,8 +9,8 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="104" />
-			<gold value="0" />
+			<life actualLife="100" />
+			<gold value="36" />
 		</Entities>
 	</entities>
 	<AttackManager />
