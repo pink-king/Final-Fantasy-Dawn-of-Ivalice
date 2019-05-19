@@ -804,6 +804,10 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			SharaIcon = App->gui->AddImage(position, &section, nullptr);
 		}
+		else if (charFlag == "dialogueBox")
+		{
+			dialogueBox = App->gui->AddImage(position, &section, nullptr);
+		}
 		else
 		{                                  // this is useless now
 			if (isPanel != 1)
@@ -1158,6 +1162,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
+		App->audio->PlayMusic("audio/music/level2.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		App->entityFactory->Enable();
 		// create player for testing purposes here
