@@ -335,6 +335,15 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 		attack1[i].speed = 50.f;
 		attack1[i].loop = false;
 	}
+	// basic attack pivot offsets
+	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
+	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 50.f };
+	attackPivotOffset[(int)facingDirection::S] = { 22.f, 50.f };
+	attackPivotOffset[(int)facingDirection::N] = { 22.f, 50.f };
+	attackPivotOffset[(int)facingDirection::E] = { 9.f, 50.f };
+	attackPivotOffset[(int)facingDirection::W] = { 37.f, 50.f };
+	attackPivotOffset[(int)facingDirection::NE] = { 18.f, 51.f };
+	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };
 
 	// TELEPORT
 	// -------------------------------------------------------------
@@ -541,7 +550,8 @@ bool Ritz::Update(float dt)
 		if (inputReady)
 		{
 			InputMovement(dt);
-			InputCombat();
+			if (App->scene->state != SceneState::LOBBY)
+				InputCombat();
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
 		{
@@ -589,8 +599,8 @@ bool Ritz::Update(float dt)
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
-			App->camera2D->AddTrauma(10.0f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			/*App->camera2D->AddTrauma(10.0f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);*/
 
 		}
 		if (!inputReady)
@@ -604,11 +614,16 @@ bool Ritz::Update(float dt)
 
 				// change combat state to idle
 				combat_state = combatState::IDLE;
-				App->camera2D->AddTrauma(40.0f / 100.f);
-				App->input->DoGamePadRumble(0.4f, 100);
+			/*	App->camera2D->AddTrauma(40.0f / 100.f);
+				App->input->DoGamePadRumble(0.4f, 100);*/
 				// restart timer
 				coolDownData.basic.timer.Start();
 			}
+
+			// pivots
+			//reposition pos
+			transference_pivot = attackPivotOffset[pointingDir];
+			transference_pivot -= pivot;
 		}
 		break;
 	}
@@ -744,6 +759,12 @@ bool Ritz::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_R) == 1)
 	{
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, this, "\0", 20);
+	}*/
+	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	{
+		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
+		if (item != App->entityFactory->player->consumables.end())
+			App->entityFactory->player->ConsumConsumable(*item, this);
 	}*/
 
 	if (stat.size() != 0)

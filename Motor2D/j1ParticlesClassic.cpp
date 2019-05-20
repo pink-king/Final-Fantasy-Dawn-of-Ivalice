@@ -58,7 +58,7 @@ bool j1ParticlesClassic::Start()
 	SharaUltimate = App->tex->Load("textures/spells/Shara_ultimate/shara_ultimate_WIP.png");
 	explosionsTex = App->tex->Load("textures/particles/explosionsSpriteSheet.png");
 	windsTex = App->tex->Load("textures/particles/windsTexture.png");
-	arrowTex = App->entityFactory->arrowsTexture; 
+	arrowTex = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	bossArrowsEmmiter = App->tex->Load("textures/particles/positonRain.png");
 
 	explosion01.anim.PushBack({ 0,354,32,32 });
@@ -336,6 +336,7 @@ bool j1ParticlesClassic::Start()
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
+	
 	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 170, 0, 170, 398 });
@@ -418,12 +419,12 @@ bool j1ParticlesClassic::CleanUp()
 		App->tex->UnLoad(arrowTex);
 		arrowTex = nullptr;
 	}
-
 	if (bossArrowsEmmiter != nullptr)
 	{
 		App->tex->UnLoad(bossArrowsEmmiter);
 		bossArrowsEmmiter = nullptr;
 	}
+
 	//removing active particles
 	if (!active.empty())
 	{

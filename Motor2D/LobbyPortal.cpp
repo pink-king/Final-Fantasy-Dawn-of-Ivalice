@@ -30,15 +30,18 @@ LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 	nSubtiles = 1;
 	SetPivot(0, 0);
 	size.create(64, 64);
+
 	AssignInSubtiles(nSubtiles);
 
 	currentAnim = &idle;
+	App->audio->PlayFx(App->entityFactory->portal_appear, 0);
+	App->audio->PlayFx(App->entityFactory->portal_mantain, -1);
 
 }
 
 LobbyPortal::~LobbyPortal()
 {
-
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool LobbyPortal::Update(float dt)
@@ -58,6 +61,7 @@ bool LobbyPortal::DoTriggerAction()
 {
 	if (doit)
 	{
+		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
 		App->entityFactory->player->to_delete = true;
 		currentAnim = &close;
 		App->scene->ComeToPortal = true;

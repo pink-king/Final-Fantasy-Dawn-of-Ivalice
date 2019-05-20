@@ -3,6 +3,7 @@
 #include "j1ModuleCamera2D.h"
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
+#include "j1TransitionManager.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -212,26 +213,63 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	// phases time
 	phase_control_timers.phase1.timer.Start(); // phase1 is the first, start timer here for now
 	phase_control_timers.phase1.time = 8000;
-	phase_control_timers.phase2.time = 15000; // this time should be +/- the duration of the emitter of rain
+	phase_control_timers.phase2.time = 15000; // this time is passed to the duration of the emitter of rain too
 	phase_control_timers.phase3.time = 7500;
 	phase_control_timers.phase4.time = 10000;
 	// attack cadence
 	fireball_timer_data.time = 1600; // fireball shot cadence
 	spawnEnemies_timer_data.time = 1500; // time between spawns, 0 means only restricted to finish "spawnCircleAnim"
 	shieldFire_timer_data.time = 800; // cadence between fire explosions while shielded
-	maxEvasion_timer_data.time = 400; 
-	
+	maxEvasion_timer_data.time = 400;
+
 
 	myState = Boss1State::PHASE1;
+
+
+
+
+	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+
+	
+
 }
 
-FlowerBossEntity::~FlowerBossEntity() 
+FlowerBossEntity::~FlowerBossEntity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	//if (shootedPoisonRainEmitter && rainEmitter != nullptr)
-	//	rainEmitter->to_delete = true;
+	/*if (shootedPoisonRainEmitter && rainEmitter != nullptr)
+		rainEmitter->to_delete = true;*/
+
+	// ---------- Win State Hardcoded when boss dies ------------------
+	if (!App->scene->ComeToDeath)
+	{
+		App->SaveGame("save_game.xml");
+		App->scene->ComeToDeath = true;
+		App->scene->ComeToPortal = false;
+		App->scene->ComeToWin = true;
+		App->pause = true;
+		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
+		App->scene->previosState = App->scene->state;
+		to_delete = true;
+	}
+	// -----------------------------------------------------------------
 
 	DesactiveShield();
+
+	App->audio->PlayFx(App->entityFactory->boss_flower_death, 0);
+
+	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+	{
+		if (lifeBar != nullptr)
+		{
+			lifeBar->deliever = nullptr;
+			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->to_delete = true;
+		}
+		LOG("parent enemy bye");
+	}
+
+
 }
 
 
@@ -252,7 +290,7 @@ bool FlowerBossEntity::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		switch (myState)	
+		switch (myState)
 		{
 		case Boss1State::NOTHING:
 			break;
@@ -309,7 +347,7 @@ bool FlowerBossEntity::Update(float dt)
 
 void FlowerBossEntity::PhaseManager(float dt)
 {
-	
+
 	switch (myState)
 	{
 	case Boss1State::NOTHING:
@@ -351,15 +389,16 @@ void FlowerBossEntity::PhaseManager(float dt)
 
 		// --------------------------------------------------------
 
-		if(fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack && !evading)
+		if (fireball_timer_data.timer.Read() >= fireball_timer_data.time && !doingAttack && !evading)
 		{
 			// changes animation to attack one and set the flag attacking
 			doingAttack = true;
 			LookToPlayer(attackAnim);
+			
 			SDL_SetTextureColorMod(boss_spritesheet, 255, 100, 100);
 			LOG("");
 		}
-		else if(!doingAttack && !evading)
+		else if (!doingAttack && !evading)
 		{
 			LookToPlayer(idleAnim);
 		}
@@ -387,6 +426,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			launchedBall = false;
 			fireball_timer_data.timer.Start();
 			SDL_SetTextureColorMod(boss_spritesheet, 255, 255, 255);
+
 		}
 
 		// TODO: improve how the cadence and the evasion probability are calculated
@@ -400,7 +440,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 		if (!doingAttack && !evading)
 		{
 			bool isProjectileOnPerimeter = IsAttackOnTilePerimeter();
-			
+
 			if (isProjectileOnPerimeter)
 			{
 				evading = true;
@@ -438,7 +478,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 				maxEvasion_timer_data.timer.Start();
 			}
 		}
-		
+
 		break;
 	}
 	case Boss1State::PHASE2:
@@ -514,7 +554,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			break;
 		}
 
-		
+
 		ShieldLogic();
 		Phase2Logic();
 		Phase3Logic();
@@ -538,7 +578,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 		break;
 	}
 
-	
+
 	CheckRenderFlip();
 
 }
@@ -580,7 +620,7 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		LOG("shooting emitter");
 		shootedPoisonRainEmitter = true;
 		uint spawnRatio = uint(life * 2.5f);
-		uint radius = 200u;
+		uint radius = 260u;
 		uint duration = 0;
 		if (myState == Boss1State::PHASE2)
 			duration = phase_control_timers.phase2.time;
@@ -654,7 +694,7 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 		GetSpawnTilePoints();
 
 		spawnDataReady = true;
-		
+
 		//// restart timer
 		//spawnEnemies_timer_data.timer.Start();
 		//enemyTypesVec.clear();
@@ -672,6 +712,7 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 	}
 	else if (spawnCircleAnim.Finished())
 	{
+		App->audio->PlayFx(App->entityFactory->boss_flower_deathCirc, 0);
 		LOG("finished spawn anim");
 		// instantiate enemies
 		InstantiateEnemiesAroundPlayer();
@@ -686,14 +727,14 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 
 void FlowerBossEntity::InstantiateEnemiesAroundPlayer()
 {
-	for(std::list<iPoint>::iterator iter = spawnTilePoints.begin(); iter != spawnTilePoints.end(); ++iter)
+	for (std::list<iPoint>::iterator iter = spawnTilePoints.begin(); iter != spawnTilePoints.end(); ++iter)
 	{
 		iPoint tileSize = { 32,32 };
 		SDL_Rect spawnTileRect = { (*iter).x * tileSize.x, (*iter).y * tileSize.y, tileSize.x, tileSize.y };
 
 		App->entityFactory->CreateEnemiesGroup(enemyTypesVec, spawnTileRect, 1, 1);
 	}
-		
+
 }
 
 void FlowerBossEntity::ActiveShield()
@@ -723,7 +764,7 @@ void FlowerBossEntity::DesactiveShield()
 	shieldActive = false;
 }
 
-void FlowerBossEntity::LookToPlayer(Animation* desiredAnim) // looks to player and updates current animation frame correctly
+void FlowerBossEntity::LookToPlayer(Animation * desiredAnim) // looks to player and updates current animation frame correctly
 {
 	fPoint dirVec = (App->entityFactory->player->GetPivotPos() - pivot) - position;
 	dirVec.Normalize();
@@ -786,16 +827,16 @@ void FlowerBossEntity::CheckRenderFlip()
 
 bool FlowerBossEntity::PostUpdate()
 {
-	if(previousLife != life)
-		LOG("life:%f", life);
+	//if (previousLife != life)
+	//	LOG("life:%f", life);
 
-	if (!evading)
-	{
-		// subtiles
-		iPoint subTilePos = GetSubtilePos();
-		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
-		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
-	}
+	//if (!evading)
+	//{
+	//	// subtiles
+	//	iPoint subTilePos = GetSubtilePos();
+	//	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+	//	App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
+	//}
 
 	return true;
 }

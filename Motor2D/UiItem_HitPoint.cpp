@@ -8,7 +8,7 @@
 #include "j1Scene.h"
 #include "Brofiler/Brofiler.h"
 
-UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start();
@@ -22,17 +22,17 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 	}
 	else if (type == variant::wave)
 	{
-	    std::string newString(valueInfo.string); 
+		std::string newString(valueInfo.string);
 		newString.append(" ");
 		newString.append(std::to_string((int)valueInfo.number));
 		texture = App->font->Print(newString.data(), color, font);
 	}
 
-	else if(type == variant::number)
+	else if (type == variant::number)
 	{
 		texture = App->font->Print(valueInfo.string.data(), color, font);
 	}
-	
+
 
 
 	this->numerOrText = type;
@@ -51,7 +51,7 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 }
 
 
-UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start();
@@ -74,7 +74,7 @@ UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * f
 }
 
 
-void UiItem_HitPoint::Draw(const float & dt)
+void UiItem_HitPoint::Draw(const float& dt)
 {
 	BROFILER_CATEGORY("Hit Point Draw", Profiler::Color::DarkTurquoise);
 
@@ -98,9 +98,9 @@ void UiItem_HitPoint::Draw(const float & dt)
 		}
 
 
-		if  (this->numerOrText == variant::wave)
+		if (this->numerOrText == variant::wave)
 		{
-			LOG("VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWE"); 
+			LOG("VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWE");
 		}
 	}
 
@@ -118,14 +118,14 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	// first considerate the type
 	uint maxLife = 0;
-	uint middlelife = 0; 
+	uint middlelife = 0;
 
 	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		maxLife = NUMBER_LIFE;
-		middlelife = middeLife; 
+		middlelife = middeLife;
 	}
-	else if(this->numerOrText == variant::wave)
+	else if (this->numerOrText == variant::wave)
 	{
 		maxLife = WAVE_LIFE;
 		middlelife = middlelifewave;
@@ -149,7 +149,7 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 		ret = fadeOut;
 	}
-	else if(lifeMoment > maxLife )
+	else if (lifeMoment > maxLife)
 	{
 		ret = dead;
 		//CleanUp(); 
@@ -202,11 +202,11 @@ void UiItem_HitPoint::updateHitPointSizes()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			if(this->numerOrText != variant::wave)
+			if (this->numerOrText != variant::wave)
 				scaleFactor *= 1.03f;
 			else
 				scaleFactor *= 1.05f;
-			
+
 			break;
 		case Middle:
 
@@ -251,14 +251,14 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			{
 				alphaValue *= 5;
 			}
-			
+
 			break;
 		case Middle:
 			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
-			{ 
+			{
 				alphaValue /= 1.1f;
 			}
-			else if(this->numerOrText != variant::wave)
+			else if (this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.01f;
 			}
@@ -266,7 +266,6 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			{
 				alphaValue /= 1.003f;
 			}
-		
 
 			break;
 		case fadeOut:
@@ -274,7 +273,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			{
 				alphaValue /= 1.7f;
 			}
-			else if(this->numerOrText != variant::wave)
+			else if (this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.1f;
 			}

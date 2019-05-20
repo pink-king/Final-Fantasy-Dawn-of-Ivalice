@@ -675,6 +675,7 @@ bool Marche::Update(float dt)
 		if (inputReady)
 		{
 			InputMovement(dt);
+			if(App->scene->state != SceneState::LOBBY)
 			InputCombat();
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
@@ -1085,12 +1086,15 @@ bool Marche::Update(float dt)
 		break;
 	}
 
+
+	
+
+	
 	return true;
 }
 
 void Marche::UlitMarche()
 {
-
 	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, 2, superTransMaxTimeSec);
 	App->buff->TemporalBuff(this, BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
 	App->buff->TemporalBuff(this, BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
@@ -1101,6 +1105,7 @@ void Marche::UlitMarche()
 	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::MULTIPLICATIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, 1, superTransMaxTimeSec);
 	App->buff->TemporalBuff(App->entityFactory->player->GetRitz(), BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, 0.9F, superTransMaxTimeSec);
 }
+
 
 //bool Marche::CleanUp()
 //{
@@ -1133,4 +1138,7 @@ bool Marche::PostUpdate()
 
 	return true;
 }
+
+
+
 

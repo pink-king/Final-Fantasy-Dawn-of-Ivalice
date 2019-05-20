@@ -17,5 +17,4 @@ private:
 	Color color;
 };
 
-
-#endif
+#endif 

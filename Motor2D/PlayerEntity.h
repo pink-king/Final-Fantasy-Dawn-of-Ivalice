@@ -77,13 +77,12 @@ public:
 	float GetLastHeadingAngle() const;
 	void CheckRenderFlip(); // animation relative
 	void Draw();
+	
 
 	bool IsAiming()
 	{
 		return aiming;
 	}
-
-	void UsePhoenixTail(std::vector<LootEntity*>::iterator & item, int & retflag);
 private:
 
 	std::vector<SDL_Rect> Collision2D(SDL_Rect& collider);
@@ -100,9 +99,9 @@ public:
 	bool inputReady = true;
 protected:
 	fPoint GetShotDirection();
-	
 	void DoDash();
 
+	
 	float dashMaxDistance;
 	int previousFrame; // to swap position with displaced sprites
 	fPoint untouchedPos; // stores original position before the dodge animation
@@ -110,6 +109,7 @@ protected:
 	fPoint dashDestinationPos;
 
 public:
+	
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;
 	fPoint previousPos;
@@ -132,6 +132,7 @@ public:
 	
 
 	bool blink = false;
+	
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/
@@ -141,7 +142,6 @@ private:
 
 	bool debug = true;
 	iPoint offset = { 0,0 }; // debug draw offset TODO: change name
-	
 };
 
 #endif

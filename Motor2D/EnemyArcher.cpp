@@ -2,13 +2,15 @@
 #include "j1EntityFactory.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-EnemyArcher::EnemyArcher(const iPoint & pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
+EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
 {
 	LoadAnims();
+	App->audio->PlayFx(App->entityFactory->golem_spawnSFX, 0);
 }
 
 EnemyArcher::~EnemyArcher()
 {
+	App->audio->PlayFx(App->entityFactory->golem_deathSFX, 0);
 }
 
 bool EnemyArcher::PreUpdate()
@@ -16,6 +18,8 @@ bool EnemyArcher::PreUpdate()
 	if (!isInDetectionRange())
 		state = EnemyState::IDLE;
 
+	if (to_die)
+		state = EnemyState::DYING;
 	return true;
 }
 
@@ -39,8 +43,7 @@ bool EnemyArcher::Update(float dt)
 
 bool EnemyArcher::PostUpdate()
 {
-	if (to_die)
-		state = EnemyState::DYING;
+	
 
 	return true;
 }
@@ -82,10 +85,10 @@ void EnemyArcher::SetState(float dt)
 	case EnemyState::GET_NEXT_TILE:
 	{
 		iPoint tileToGo = path_to_follow.front();
-		
+
 		currentDestiny = App->map->MapToWorld(tileToGo.x + 1, tileToGo.y);
 		currentDestiny = { currentDestiny.x, currentDestiny.y + (int)(App->map->data.tile_height * 0.5F) }; // Center of the tile
-	
+
 		SetNewDirection();
 		state = EnemyState::GO_NEXT_TILE;
 	}
@@ -135,18 +138,18 @@ void EnemyArcher::SetState(float dt)
 
 		if (isInAttackRange())
 		{
-			path_to_follow.clear(); 
+			path_to_follow.clear();
 			SetLookingTo(App->entityFactory->player->GetPivotPos());
 			state = EnemyState::ATTACK;
 			if (isOnMeleeRange())
 			{
-				currentAnimation = &meleeAttack[pointingDir]; 
-				toAttackMelee = true; 
+				currentAnimation = &meleeAttack[pointingDir];
+				toAttackMelee = true;
 			}
 			else
 			{
 				currentAnimation = &basicAttack[pointingDir];
-				toAttackMelee = false; 
+				toAttackMelee = false;
 			}
 			LOG("Attacking!");
 			checkTime.Start();
@@ -167,7 +170,7 @@ void EnemyArcher::SetState(float dt)
 			if (!toAttackMelee)
 				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetPivotPos(), 100, this, PROJECTILE_TYPE::GOLEM_ARROW);
 			else
-			{
+			{ 
 				App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, baseDamage, 4, 60, true);
 				// TODO: Add sfx
 				App->camera2D->AddTrauma(0.2F);
@@ -256,9 +259,9 @@ void EnemyArcher::LoadAnims()
 	run[(int)facingDirectionEnemy::S].speed = animSpeed;
 
 
-	run[(int)facingDirectionEnemy::NE].PushBack({ 0, 1056, 64, 64}); //
-	run[(int)facingDirectionEnemy::NE].PushBack({ 64, 1056, 64, 64});
-	run[(int)facingDirectionEnemy::NE].PushBack({ 128, 1056, 64, 64});
+	run[(int)facingDirectionEnemy::NE].PushBack({ 0, 1056, 64, 64 }); //
+	run[(int)facingDirectionEnemy::NE].PushBack({ 64, 1056, 64, 64 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 128, 1056, 64, 64 });
 	run[(int)facingDirectionEnemy::NE].PushBack({ 64, 1056, 64, 64 });
 	run[(int)facingDirectionEnemy::NE].speed = animSpeed;
 
@@ -268,8 +271,8 @@ void EnemyArcher::LoadAnims()
 	run[(int)facingDirectionEnemy::NW].PushBack({ 64, 1056, 64, 64 });
 	run[(int)facingDirectionEnemy::NW].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::N].PushBack({ 0, 1120, 64, 64}); //
-	run[(int)facingDirectionEnemy::N].PushBack({ 64, 1120, 64, 64});
+	run[(int)facingDirectionEnemy::N].PushBack({ 0, 1120, 64, 64 }); //
+	run[(int)facingDirectionEnemy::N].PushBack({ 64, 1120, 64, 64 });
 	run[(int)facingDirectionEnemy::N].PushBack({ 128, 1120, 64, 64 });
 	run[(int)facingDirectionEnemy::N].PushBack({ 64, 1120, 64, 64 });
 	run[(int)facingDirectionEnemy::N].speed = animSpeed;
@@ -304,7 +307,7 @@ void EnemyArcher::LoadAnims()
 	basicAttack[(int)facingDirectionEnemy::SW].loop = false;
 	basicAttack[(int)facingDirectionEnemy::SW].speed = attackSpeedAnim;
 
-	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 0, 512, 64, 64}); //
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 0, 512, 64, 64 }); //
 	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 64, 512, 64, 64 });
 	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 128, 512, 64, 64 });
 	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 192, 512, 64, 64 });
@@ -398,7 +401,7 @@ void EnemyArcher::LoadAnims()
 	meleeAttack[(int)facingDirectionEnemy::E].PushBack({ 192, 128, 64, 64 });
 	meleeAttack[(int)facingDirectionEnemy::E].loop = false;
 	meleeAttack[(int)facingDirectionEnemy::E].speed = attackSpeedAnim;
-	
+
 	meleeAttack[(int)facingDirectionEnemy::W].PushBack({ 0, 128, 64, 64 }); //
 	meleeAttack[(int)facingDirectionEnemy::W].PushBack({ 64, 128, 64, 64 });
 	meleeAttack[(int)facingDirectionEnemy::W].PushBack({ 128, 128, 64, 64 });
@@ -409,14 +412,14 @@ void EnemyArcher::LoadAnims()
 	// -------------
 
 	// Hardcode mode 
-	dyingAnim.PushBack({ 0, 320, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 320, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 320, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 320, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 448, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 448, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 448, 64, 64 }); 
-	dyingAnim.PushBack({ 0, 448, 64, 64 }); 
+	dyingAnim.PushBack({ 0, 320, 64, 64 });
+	dyingAnim.PushBack({ 0, 320, 64, 64 });
+	dyingAnim.PushBack({ 0, 320, 64, 64 });
+	dyingAnim.PushBack({ 0, 320, 64, 64 });
+	dyingAnim.PushBack({ 0, 448, 64, 64 });
+	dyingAnim.PushBack({ 0, 448, 64, 64 });
+	dyingAnim.PushBack({ 0, 448, 64, 64 });
+	dyingAnim.PushBack({ 0, 448, 64, 64 });
 	dyingAnim.loop = false;
 	dyingAnim.speed = 5.F;
 

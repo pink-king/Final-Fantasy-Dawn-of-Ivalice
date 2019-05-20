@@ -17,11 +17,11 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
-#include "BossEmmiter.h"
-#include "BossEmmiterArrow.h"
+#include "DialogTrigger.h"
 #include "Portal.h"
 #include "LobbyPortal.h"
 #include "EnemyProjectile.h"
+#include "SaveTrigger.h"
 #include "WinTrigger.h"
 #include "NoWalkableTrigger.h"
 #include "ExitPortal.h"
@@ -30,6 +30,9 @@
 #include "WaveManager.h"
 #include "GolemProjectile.h"
 #include "j1PathFinding.h"
+#include "BossEmmiter.h"
+#include "BossEmmiterArrow.h"
+#include "WaveTrigger.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -73,8 +76,9 @@ bool j1EntityFactory::Start()
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
-	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
 	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
+	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
+	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -123,12 +127,40 @@ bool j1EntityFactory::Start()
 
 	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
 	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
+	bombExplodeSFX = App->audio->LoadFx("audio/fx/Enemies/bomb_explode.wav");
 
-	
+	golem_deathSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_death.wav");
+	golem_impactWallSFX =App->audio->LoadFx("audio/fx/Enemies/golem/golem_impactWall.wav");
+	golem_spawnSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_spawn.wav");
+	golem_spawnAttackSFX = App->audio->LoadFx("audio/fx/Enemies/golem/spawn_attack.wav");
+
+	wave_end = App->audio->LoadFx("audio/fx/Enemies/wave/wave_end.wav");
+	wave_start = App->audio->LoadFx("audio/fx/Enemies/wave/wave_start.wav");
+	wave_respawn = App->audio->LoadFx("audio/fx/Enemies/wave/wave_spawn.wav");
+
+	boss_flower_basic = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basic.wav");
+	boss_flower_BasicImpWall = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basicImpWall.wav");
+	boss_flower_deathCirc = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_deathcircle_SFX.wav");
+	boss_flower_death = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_dead.wav");
+
+	portal_appear = App->audio->LoadFx("audio/fx/Portal/portal_appear.wav");
+	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
+	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
+	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
+
 	LoadSpawnGroups();
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
+
+
+	// get gold values from the start: needed if loot is equipped before gold
+
+	pugi::xml_node& config = App->config; 
+	goldMin = config.child("loot").child("gold").attribute("min").as_int();
+	goldMax = config.child("loot").child("gold").attribute("max").as_int();
+
+
 	return true;
 }
 
@@ -179,9 +211,10 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT 
-					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER 
-					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
+					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS 
+					&& (*item)->type != ENTITY_TYPE::PARTICLE && (*item)->type != ENTITY_TYPE::NO_TYPE)
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -279,6 +312,8 @@ bool j1EntityFactory::CleanUp()
 	lootItemsTex = nullptr;
 	App->tex->UnLoad(portalTex);
 	portalTex = nullptr;
+	App->tex->UnLoad(campFireTex);
+	campFireTex = nullptr;
 
 
 	player = nullptr;
@@ -298,6 +333,7 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 			
 	}
 	App->scene->ComeToDeath = false;
+
 	return true;
 }
 
@@ -361,6 +397,8 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			App->entityFactory->player->Load(characterPlayer);
 		}
 	}
+
+
 	//TODO create out portal
 	return true;
 }
@@ -382,6 +420,7 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 			(*item)->Save(nodeEntities);
 		}
 
+		
 	}
 
 	return true;
@@ -489,8 +528,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 	uint archerProbs = 3;
 
 	if (enemyTypes.empty())
-		return; 
-
+		return;
 
 	while (cont < numEnemies)
 	{
@@ -499,7 +537,6 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			Enemy* ret = nullptr;
 			int enemyLevel = CreateRandomBetween(0, 2);
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
-			
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
 			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(spawnPos.x, spawnPos.y)))
@@ -521,8 +558,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::FIRE_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(3, 5) + 2 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(4, 8) + 2 * ret->level);
 						numBombs++;
 						cont++;
 					}
@@ -541,9 +578,9 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 						ret->level = App->entityFactory->player->level + enemyLevel;
 					}
 					if (ret != nullptr)
-					{	
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::POISON_ELEMENT, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(2, 3) + 2 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(4, 8) + 2 * ret->level);
 						numTests++;
 						cont++;
 					}
@@ -562,8 +599,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(5, 10) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 6) + 3 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(20, 25) + 3 * ret->level);
 						numArchers++;
 						cont++;
 					}
@@ -650,20 +687,18 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
-
 	case PROJECTILE_TYPE::GOLEM_ARROW:
-		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner); 
-		entities.push_back(ret); 
-		break; 
+		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
 	case PROJECTILE_TYPE::BOSS_EMMITER:
-		/*ret = DBG_NEW BossEmmiter(pos, owner,lifeTime);
+		/*ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
 		entities.push_back(ret);*/
 		break;
 	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
 		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
 		entities.push_back(ret);
 		break;
-
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -675,10 +710,9 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 	return ret;
 }
 
-j1Entity * j1EntityFactory::CreateBossEmitter(fPoint pos, uint radius, uint spawnRatio, const j1Entity * owner, uint lifeTime)
+j1Entity* j1EntityFactory::CreateBossEmitter(fPoint pos, uint radius, uint spawnRatio, const j1Entity* owner, uint lifeTime)
 {
-	j1Entity* ret = nullptr; 
-
+	j1Entity* ret = nullptr;
 	ret = DBG_NEW BossEmmiter(pos, radius, spawnRatio, owner, lifeTime);
 	entities.push_back(ret);
 
@@ -711,14 +745,16 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
+	uint max = 8; 
+
 	LootEntity* ret = nullptr;
-	if (GetRandomValue(1, 2) == 1)
+	if (GetRandomValue(1, max) == 1)
 	{
 		ret = DBG_NEW Consumable(posX, posY);
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
 	}
-	return nullptr;
+	return nullptr; 
 }
 
 Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color)
@@ -734,8 +770,10 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new LobbyPortal(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
+	case TRIGGER_TYPE::NO_TRIGGER:
+		break;
 	case TRIGGER_TYPE::WIN:
-		ret = new WinTrigger(posX, posY,scene,color);
+		ret = new WinTrigger(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::NOWALKABLE:
@@ -746,11 +784,31 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new ExitPortal(posX, posY);
 		entities.push_back(ret);
 		break;
-	case TRIGGER_TYPE::NO_TRIGGER:
+	case TRIGGER_TYPE::SAVE:
+		ret = new SaveTrigger(posX, posY);
+		entities.push_back(ret);
 		break;
 	default:
 		break;
 	}
+	return ret;
+}
+
+Trigger * j1EntityFactory::CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level)
+{
+	Trigger* ret = nullptr; 
+	ret = DBG_NEW WaveTrigger(pos.x, pos.y, zone, level); 
+	entities.push_back(ret);
+
+	return ret;
+}
+
+Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger)
+{
+	Trigger* ret = nullptr;
+	ret = new DialogTrigger(posX, posY, Dtrigger);
+	entities.push_back(ret);
+
 	return ret;
 }
 
@@ -787,21 +845,19 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
-WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves)
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger)
 {
-	waveManager = DBG_NEW WaveManager(zone, 5); 
+	waveManager = DBG_NEW WaveManager(zone, numWaves, wave, linkedTrigger);
 
 	if (waveManager != nullptr)
 	{
-		entities.push_back(waveManager); 
-		return waveManager; 
+		entities.push_back(waveManager);
+		return waveManager;
 	}
 
 	LOG("Failed to create Wave Manager");
 	return nullptr;
 }
-
-
 
 bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * entity2)
 {
@@ -854,7 +910,7 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
-			(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS)
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS) 
 			{
 				ret = false;
 				break;
@@ -880,8 +936,6 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 				ret = *entityIterator;
 				if (ret != nullptr)
 				{
-					App->entityFactory->DeleteEntityFromSubtile(ret);
-
 					return ret;
 				}
 			}
@@ -982,13 +1036,36 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
-void j1EntityFactory::AssignEntityToSubtilePos(j1Entity * entity, iPoint subtile)
+void j1EntityFactory::AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile)
 {
 	if (CheckSubtileMapBoundaries(subtile))
 		entitiesDataMap[GetSubtileEntityIndexAt(subtile)].entities.push_back(entity);
 
 	else
 		LOG("Trying to assign entity out of boundaries, ignoring");
+	
+}
+
+bool j1EntityFactory::DeleteEntityFromSubtilePos(j1Entity * entity, iPoint subtile)
+{
+	bool ret = false;
+
+	int index = GetSubtileEntityIndexAt(subtile);
+
+	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+	{
+		if (*entityIterator == entity)
+		{
+			//LOG("found");
+			entitiesDataMap[index].entities.erase(entityIterator);
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
 }
 
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
@@ -1012,6 +1089,7 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 
 	return ret;
 }
+
 
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
@@ -1099,6 +1177,7 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 	default:
 		break;
 	}
+
 	return assetEntity;
 }
 
@@ -1132,7 +1211,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		switch (GetRandomValue(1, 12))
 		{
 		case 1:
-			if(lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
 				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
 			if (lootEntity->level == 0)
 				lootEntity->level = App->entityFactory->player->level;
@@ -1387,9 +1466,6 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		if (lootEntity->level < 1)
 			lootEntity->level = 1;
 
-		if (lootEntity->level < 1)
-			lootEntity->level = 1;
-
 		switch (lootEntity->GetEquipable())
 		{
 		case EQUIPABLE_TYPE::ARMOR:
@@ -1492,8 +1568,173 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		}
 		break;
 	}
+	
+	if (lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
+		MagicPriceCalculator(lootEntity);
+
 	return true;
 }
+
+
+void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
+{
+
+	// 1: take into account available gold, and the price 
+
+	uint base_average_Gold_Drop_Per_Enemy = (goldMin + goldMax) / 2; 
+	float average_Gold_Drop_Per_Enemy_With_Chance = ((float)goldChance / 100.f) * base_average_Gold_Drop_Per_Enemy;  // avg gold per enemy
+
+	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;  // 2: base item price: enemy kills * gold each enemy
+	uint max_Possible_Base_Price = minKillsWithPerfectGoldToDeserveMaxPrice * goldMax;
+
+
+	uint ItemChance = 0; 
+	bool isConsumable = NULL; 
+
+	switch (item->GetType())
+	{
+	case LOOT_TYPE::CONSUMABLE:
+		ItemChance = equipableChance;          // chances to spawn the item
+		isConsumable = true; 
+		break; 
+	case LOOT_TYPE::EQUIPABLE:
+		ItemChance = baseItemChance - equipableChance;
+		isConsumable = false;
+		break; 
+	}
+
+	
+	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(ItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
+	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor_Price;
+
+	
+	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
+	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
+	
+																										 
+																										 
+    // 4: now take into account item type and stats
+
+	struct {
+		float mainStat = -1.f; 
+		float subStatMajor = -1.f; 
+		float subStatMinor = -1.f; 
+	} itemStats;
+
+
+	
+	if (isConsumable)
+	{
+
+	}
+	else
+	{
+		bool weapon = NULL; 
+
+		switch (item->GetObjectType())
+		{
+		case OBJECT_TYPE::WEAPON_OBJECT:
+			weapon = true; 
+			break;
+		case OBJECT_TYPE::ARMOR_OBJECT:
+			weapon = false;
+			break;
+		}
+		
+
+		std::vector<Buff*>::iterator iter = item->stats.begin();
+
+		for (; iter != item->stats.end(); ++iter)    // capture main stat, and two other optional stats, one less revelant than the other
+		{
+			if (weapon)
+			{
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::ATTACK_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break; 
+
+				case ROL::COOLDOWN:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break; 
+
+				case ROL::DEFENCE_ROL:
+					itemStats.subStatMinor = (*iter)->GetValue(); 
+					break; 
+				}
+				
+			}
+			else
+			{
+
+				switch ((*iter)->GetRol())
+				{
+
+				case ROL::DEFENCE_ROL:
+					itemStats.mainStat = (*iter)->GetValue();
+					break;
+
+				case ROL::HEALTH:
+					itemStats.subStatMajor = (*iter)->GetValue();
+					break;
+
+				case ROL::VELOCITY:
+					itemStats.subStatMinor = (*iter)->GetValue();
+					break;
+				}
+
+			}
+
+		}
+		
+		
+	}
+
+
+	uint priceRange = max_Price_With_Availability - price_With_Availability;  // from avg (base) to max price
+	
+	float itemStatValue = 0.f; 
+
+	if (itemStats.subStatMajor == -1.f)
+	{
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMinor; 
+	}
+	else if (itemStats.subStatMinor == -1.f)
+	{
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMajor;
+	}
+	else
+	{
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
+	}
+
+	
+	// 5: exponentially increase from base price according to stats
+	uint baseFinalPrice = price_With_Availability + (uint)(int)pow(itemStatValue, 2);
+
+
+	// 6: downwards deduction for player, and increase for vendor 
+
+
+	if (isConsumable)
+	{
+		if (item->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+		{
+			baseFinalPrice = 3000;
+		}
+	}
+
+	item->price = baseFinalPrice * 0.85f;
+	item->vendorPrice = baseFinalPrice * 1.15f; 
+
+
+
+
+}
+
+
+
 
 int j1EntityFactory::GetRandomValue(int min, int max)
 {
@@ -1545,15 +1786,15 @@ LOOT_TYPE j1EntityFactory::WillDrop()
 {
 	int randvalue = GetRandomValue(1, 100);
 
-	if (randvalue <= 50)
+	if (randvalue <= baseItemChance)
 	{
-		if (randvalue <= 25)
-			return  LOOT_TYPE::CONSUMABLE;
-
-		else
+		if (randvalue <= equipableChance)
 			return  LOOT_TYPE::EQUIPABLE;
 
+		else
+			return  LOOT_TYPE::CONSUMABLE;
 
+		
 	}
 
 	else return LOOT_TYPE::NO_LOOT;
@@ -1584,8 +1825,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		{
 
 
-			float attack, resistance;
-			attack = resistance = 0.0f;
+			float attack, resistance, cooldown;
+			attack = resistance = cooldown = 0.0f;
 
 
 
@@ -1600,17 +1841,21 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 				{
 					resistance = (*iter)->GetValue();
 				}
+				else if ((*iter)->GetRol() == ROL::COOLDOWN)
+				{
+					cooldown = (*iter)->GetValue();
+				}
 
 			}
 
-			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, lootItem->level, lootItem, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToWeapon(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, attack, resistance, cooldown, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
 			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 			lootItem->MyDescription->iconImage->printFromLoot = true;
-			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 
 		}
 		else if (lootItem->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT || lootItem->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT)
@@ -1642,14 +1887,14 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			data.HP = HP;
 			data.velocity = velocity;
 
-			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel);
+			lootItem->MyDescription = App->gui->AddDescriptionToEquipment(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, defense, data, lootItem->level, lootItem, App->scene->inGamePanel, lootItem->price);
 
 
 			// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
 			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 			lootItem->MyDescription->iconImage->printFromLoot = true;
-			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 
 
 
@@ -1672,13 +1917,13 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 		}
 
-		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel);
+		lootItem->MyDescription = App->gui->AddDescriptionToPotion(pos, lootItem->lootname, &destRect, &lootItem->loot_rect, "default", iPoint(HP, 0), lootItem, App->scene->inGamePanel, lootItem->price);
 
 		// add the icon image in the description, pass it the same texture as loot, and print it from that texture
 
 		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 		lootItem->MyDescription->iconImage->printFromLoot = true;
-		lootItem->MyDescription->iconImage->scaleFactor = 6.0f;
+		lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 	}
 
 
@@ -1707,14 +1952,28 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 
 void j1EntityFactory::AddExp(Enemy * enemy)
 {
-	uint expToAdd = 100;
-	uint bonusLevel = (enemy->level - player->level) * 25;
-	player->exp = expToAdd + bonusLevel;
-
-	if (player->exp > player->maxExpInLevel)
+	// TODO: CHECK WTF IS THIS
+	if (enemy != nullptr)
 	{
-		++player->level;
-		player->exp -= player->maxExpInLevel;
+		uint expToAdd = 100;
+		uint bonusLevel = (enemy->level - player->level) * 25;
+		player->exp += expToAdd + bonusLevel;
+
+		if (player->exp > player->maxExpInLevel)
+		{
+			++player->level;
+			player->exp -= player->maxExpInLevel;
+
+
+			player->GetVendor()->generateVendorItems(true);
+
+
+
+			std::string dest = "LVL" + std::to_string(player->level) ;
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+
+		}
 	}
 }
 

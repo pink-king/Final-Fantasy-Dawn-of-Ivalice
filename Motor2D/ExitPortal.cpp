@@ -1,3 +1,4 @@
+
 #include "ExitPortal.h"
 #include "j1TransitionManager.h"
 #include "j1EntityFactory.h"
@@ -33,19 +34,21 @@ ExitPortal::ExitPortal(float posx, float posy)
 	AssignInSubtiles(nSubtiles);
 
 	currentAnim = &idle;
-
 	App->pause = true;
 	timer.Start();
+	App->audio->PlayFx(App->entityFactory->portal_vanish, 0);
 }
 
 ExitPortal::~ExitPortal()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool ExitPortal::Update(float dt)
 {
 	if (timer.Read() > 500)
 		App->pause = false;
+
 	if (idle.Finished())
 		currentAnim = &close;
 	if (close.Finished())

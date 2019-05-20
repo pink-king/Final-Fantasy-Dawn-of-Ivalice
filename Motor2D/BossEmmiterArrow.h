@@ -24,4 +24,4 @@ private:
 	bool damage = true;
 };
 
-#endif
+#endif 

@@ -8,38 +8,40 @@ Portal::Portal(float posx, float posy, SceneState scene, Color color)
 {
 	entityTex = App->entityFactory->portalTex;
 
-	idle.PushBack ({0,0,64,64});
-	idle.PushBack ({ 64,0,64,64 });
-	idle.PushBack ({ 128,0,64,64 });
-	idle.PushBack ({ 192,0,64,64 });
-	idle.PushBack ({ 256,0,64,64 });
-	idle.PushBack ({ 320,0,64,64 });
-	idle.PushBack ({ 384,0,64,64 });
-	idle.PushBack ({ 448,0,64,64 });
+	idle.PushBack({ 0,0,64,64 });
+	idle.PushBack({ 64,0,64,64 });
+	idle.PushBack({ 128,0,64,64 });
+	idle.PushBack({ 192,0,64,64 });
+	idle.PushBack({ 256,0,64,64 });
+	idle.PushBack({ 320,0,64,64 });
+	idle.PushBack({ 384,0,64,64 });
+	idle.PushBack({ 448,0,64,64 });
 	idle.speed = 10.F;
 	idle.loop = true;
 
-	open.PushBack ({ 0,64,64,64 });
-	open.PushBack ({ 64,64,64,64 });
-	open.PushBack ({ 128,64,64,64 });
-	open.PushBack ({ 192,64,64,64 });
-	open.PushBack ({ 256,64,64,64 });
-	open.PushBack ({ 320,64,64,64 });
-	open.PushBack ({ 384,64,64,64 });
-	open.PushBack ({ 448,64,64,64 });
+	open.PushBack({ 0,64,64,64 });
+	open.PushBack({ 64,64,64,64 });
+	open.PushBack({ 128,64,64,64 });
+	open.PushBack({ 192,64,64,64 });
+	open.PushBack({ 256,64,64,64 });
+	open.PushBack({ 320,64,64,64 });
+	open.PushBack({ 384,64,64,64 });
+	open.PushBack({ 448,64,64,64 });
 	open.speed = 10.F;
 	open.loop = false;
 
 	nSubtiles = 1;
 	SetPivot(0, 0);
-	size.create(64,64);
+	size.create(64, 64);
 	AssignInSubtiles(nSubtiles);
-
 	currentAnim = &open;
+	App->audio->PlayFx(App->entityFactory->portal_appear, 0);
+	App->audio->PlayFx(App->entityFactory->portal_mantain, -1);
 }
 
 Portal::~Portal()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool Portal::Update(float dt)
@@ -56,15 +58,18 @@ bool Portal::Update(float dt)
 void Portal::Draw()
 {
 	if (currentAnim != nullptr)
-		App->render->Blit(entityTex, position.x - size.x/2, position.y- size.y , &currentAnim->GetCurrentFrame(), 1.0F);
+		App->render->Blit(entityTex, position.x - size.x / 2, position.y - size.y, &currentAnim->GetCurrentFrame(), 1.0F);
 }
+
 
 bool Portal::DoTriggerAction()
 {
-	
-	App->scene->portalPos = { position.x,position.y + 16};
+	App->scene->portalPos = { position.x,position.y + 16 };
+
 	if (doit)
 	{
+		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
+		//App->scene->portalPos = App->entityFactory->player->position;
 		App->entityFactory->player->to_delete = true;
 		App->SaveGame("Portal.xml");
 		App->scene->ComeToPortal = true;

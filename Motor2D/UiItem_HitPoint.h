@@ -15,7 +15,6 @@
 
 #define middlelifewave 5000
 #define middeLife 1000
-
 struct valueInfo {
 	std::string string; 
 	uint number; 

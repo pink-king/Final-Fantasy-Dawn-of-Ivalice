@@ -2,6 +2,8 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "j1Timer.h"
+#define MAX_ALPHA 255
 
 struct SDL_Texture;
 
@@ -12,6 +14,7 @@ class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
 
+class Trigger;
 
 enum class SceneState
 {
@@ -65,7 +68,9 @@ public:
 	UiItem* winPanel = nullptr;
 	UiItem_Label* coins_label = nullptr;
 	UiItem_Label* wave_label = nullptr;
-	UiItem_Label* god_label = nullptr; 
+	UiItem_Label* exp_label = nullptr;
+	UiItem_Label* coins_label_inventory = nullptr;
+	UiItem_Label* god_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;
@@ -74,7 +79,7 @@ public:
 	bool debug = false;
 	bool debugSubtiles = false; 
 	bool debugColl = false;
-	bool hackerMode = true;
+	bool hackerMode = false;
 	bool ComeToPortal = false;
 	bool ComeToDeath = false;
 	bool ComeToWin = false;
@@ -92,6 +97,10 @@ public:
 	unsigned int playerDeath;
 	unsigned int selectUI;
 	unsigned int acceptUI;
+	unsigned int sell;
+	unsigned int purchase;
+	unsigned int switch_page;
+
 
 private:
 	SDL_Texture* debug_tex = nullptr;
@@ -121,17 +130,27 @@ private:
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
 	
 	PlayerEntityManager* player_selected = nullptr;
+
 	
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
 
-
+	float AlphaDecrease(float alphavalue, int counter);
+	float AlphaIncrease(float alphavalue, int counter);
+	bool DecideTexToPulse();
 
 public:
+	float hudAlphavalue[3];
+	int hit_counter;
+	int previous_counter;
+	bool decreaseAlpha = false;
+	Trigger* door = nullptr;
+	j1Timer timeindmg;
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;
 	UiItem_Image* RitzIcon = nullptr;
+	UiItem_Image* dialogueBox = nullptr;
 	
 };
 

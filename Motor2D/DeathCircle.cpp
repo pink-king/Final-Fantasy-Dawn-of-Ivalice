@@ -141,8 +141,8 @@ bool DeathCircle::PostUpdate()
 			damageType::DIRECT, ELEMENTAL_TYPE::ICE_ELEMENT, 70, 8, 30, true);
 			App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 				damageType::INTIME, ELEMENTAL_TYPE::ICE_ELEMENT, 50, 10, 30, true,true);
-			App->camera2D->AddTrauma(0.8F);
-			App->input->DoGamePadRumble(0.6F, 800);
+			App->camera2D->AddTrauma(0.7F);
+			App->input->DoGamePadRumble(0.5F, 800);
 			madeFinisher = true;
 			propagateTimer.Start(); // One last time so it doesnt die while the expansion
 		}
@@ -160,6 +160,6 @@ void DeathCircle::Propagate() const
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
 		damageType::DIRECT, ELEMENTAL_TYPE::ICE_ELEMENT, 10, 5, 40, false);
-	App->camera2D->AddTrauma(0.15F);
-	App->input->DoGamePadRumble(0.2F, 300);
+	App->camera2D->AddTrauma(0.10F);
+	App->input->DoGamePadRumble(0.1F, 300);
 }

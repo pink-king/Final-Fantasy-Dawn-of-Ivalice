@@ -10,7 +10,8 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
-	manualCollectable = false;
+	manualCollectable = true;
+	entityTex = App->entityFactory->lootItemsTex;
 }
 
 
@@ -36,8 +37,8 @@ bool Equipable::Update(float dt)
 	if (displacementTime.ReadMs() <= 280)
 	{
 		ExplosionMaker(dt);
-		LOG("displaced %f", position.x - originPos.x);
-		LOG("actual time %f", timeTest);
+		/*LOG("displaced %f", position.x - originPos.x);
+		LOG("actual time %f", timeTest);*/
 	}
 	else grounded = true;
 	/*else if(!repositionDescription)
@@ -58,9 +59,8 @@ bool Equipable::Update(float dt)
 		checkgrounded = false;
 		App->audio->PlayFx(App->entityFactory->lootGroundSFX, 0);
 	}
-
-	if(App->entityFactory->player->selectedCharacterEntity->IsAiming())
-	CheckClampedCrossHairToSpawnDescription();
+	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
+		CheckClampedCrossHairToSpawnDescription();
 
 	return true;
 }
@@ -114,44 +114,44 @@ void Equipable::SetEquipable()
 	{
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
-		loot_rect = { 59,67,16,16 };
-		SetPivot(8, 12);
-		size.create(16, 16);
+		loot_rect = { 64, 96, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::BOW:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
-		loot_rect = { 93,32,13,13 };
-		SetPivot(7, 9);
-		size.create(13, 13);
+		loot_rect = { 194, 770, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::ROD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
-		loot_rect = { 12,67,11,16 };
-		SetPivot(6, 8);
-		size.create(11, 16);
+		loot_rect = { 96, 736, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::ARMOR:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
-		loot_rect = { 93,69,15,15 };
-		SetPivot(7, 10);
-		size.create(15, 15);
+		loot_rect = { 128, 932, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
-		loot_rect = { 123,32,14,14 };
-		SetPivot(7, 9);
-		size.create(14, 14);
+		loot_rect = { 254, 1441, 32, 32};
+		SetPivot(16, 28);
+		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
-		loot_rect = { 122,70,14,14 };
-		SetPivot(7, 9);
-		size.create(14, 14);
+		loot_rect = { 350, 1409, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
 		break;
 
 	}

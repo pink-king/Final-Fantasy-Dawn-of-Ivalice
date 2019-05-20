@@ -6,6 +6,7 @@
 //#include <vector>
 //#include <list>
 #include "Enemy.h"
+#include "UiItem_HealthBar.h"
 
 #define NUM_NEIGH_PATTERN 8
 
@@ -129,7 +130,9 @@ private:
 
 	// 
 	j1Entity* rainEmitter = nullptr;
-	
+
+
+	UiItem_HealthBar* lifeBar = nullptr; 
 
 };
 

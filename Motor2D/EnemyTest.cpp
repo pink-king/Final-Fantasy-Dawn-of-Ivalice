@@ -22,7 +22,7 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 
 // Standard stats
 
-EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 75, 10, 1, 10, 1.3F, dummy, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
+EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 100, 10, 1, 10, 1.3F, dummy, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
 {
 	to_die = false;
 	LoadAnims();
@@ -45,6 +45,8 @@ bool EnemyTest::PreUpdate()
 	if (!isInDetectionRange())
 		state = EnemyState::IDLE;
 
+	if (to_die)
+		state = EnemyState::DYING;
 	return true;
 }
 
@@ -105,8 +107,7 @@ bool EnemyTest::Update(float dt)
 
 bool EnemyTest::PostUpdate()
 {
-	if (to_die)
-		state = EnemyState::DYING;
+	
 
 	return true;
 }

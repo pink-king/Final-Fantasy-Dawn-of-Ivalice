@@ -44,6 +44,7 @@ bool j1BuffManager::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 	{
 		godMode = !godMode;
+
 		godMode ? App->scene->god_label->hide = false : App->scene->god_label->hide = true;
 	}
 	return ret;
@@ -55,9 +56,12 @@ bool j1BuffManager::CleanUp()
 
 	while (item != buffs.end())
 	{
-		buffs.remove(*item);
-		delete *item;
-		*item = nullptr;
+		if (*item != nullptr)
+		{
+			buffs.remove(*item);
+			delete *item;
+			*item = nullptr;
+		}
 		++item;
 	}
 	buffs.clear();
@@ -147,20 +151,19 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 }
 
 
-bool j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
+bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
 	BROFILER_CATEGORY("Direct Attack", Profiler::Color::ForestGreen);
-
 	if (godMode && defender == App->entityFactory->player)
 		return true;
 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
-		lifeToSubstract = 14;
+		lifeToSubstract  = 4;
 	}
-	else
-		defender->life -= lifeToSubstract;
+	
+	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
@@ -175,10 +178,13 @@ bool j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
 		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
-		
+		App->scene->previous_counter = App->scene->hit_counter;
+		App->scene->hit_counter += 1;
+		App->scene->decreaseAlpha = false;
 		App->entityFactory->pushEF = true;
 		App->input->DoGamePadRumble(200, 100);
 		App->camera2D->AddTrauma(0.5f);
+		App->scene->timeindmg.Start();
 
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
@@ -234,7 +240,7 @@ bool j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 		
 																													  // but, enemy can die no
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
+	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
 		entitiesTimeDamage.remove(defender);
@@ -278,7 +284,7 @@ bool j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 			}
 		}
 	}
-	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath)
+	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
 		App->scene->isDeath = true;
 		App->pause = true;
@@ -469,10 +475,20 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
+					if(player->coolDownData.basic.cooldownTime == 0)
+						player->coolDownData.basic.cooldownTime = 0;
 					player->coolDownData.dodge.cooldownTime *= value;
+					if (player->coolDownData.dodge.cooldownTime <= 0)
+						player->coolDownData.dodge.cooldownTime = 0;
 					player->coolDownData.special1.cooldownTime *= value;
+					if (player->coolDownData.special1.cooldownTime <= 0)
+						player->coolDownData.special1.cooldownTime = 0;
 					player->coolDownData.special2.cooldownTime *= value;
+					if (player->coolDownData.special2.cooldownTime <= 0)
+						player->coolDownData.special2.cooldownTime = 0;
 					player->coolDownData.ultimate.cooldownTime *= value;
+					if (player->coolDownData.ultimate.cooldownTime <= 0)
+						player->coolDownData.ultimate.cooldownTime = 0;
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{
@@ -724,10 +740,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 { 
 
 	BROFILER_CATEGORY("Damage in Time", Profiler::Color::ForestGreen);
-
 	if (godMode && entity == App->entityFactory->player)
 		return true;
-
 	bool ret = false;
 	iPoint drawRectified;
 	if (entity == App->entityFactory->player)
@@ -773,6 +787,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
+
 						}
 						else
 						{
@@ -804,7 +821,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						{
 							iPoint stonePivot = { 8, 48 };
 							drawRectified -= stonePivot;
-							// TODO Add SFX
+							// TODO Add SFX ?
 							//App->audio->PlayFx(healingSFX, 0);
 							App->particles->AddParticle(App->particles->stone01, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						}
@@ -846,6 +863,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
+
 						}
 						else
 						{
@@ -879,6 +899,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
 						}
 						else
 						{

@@ -764,13 +764,12 @@ int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & desti
 //	return -1;
 //}
 
-
-uint j1PathFinding::GetIndexAt(const iPoint & pos) const
+uint j1PathFinding::GetIndexAt(const iPoint& pos) const
 {
 	return uint(pos.y * width + pos.x);
 }
 
-void j1PathFinding::ActivateTile(const iPoint& tile)
+void j1PathFinding::ActivateTile(const iPoint & tile)
 {
 	if (CheckBoundaries(tile))
 	{
@@ -783,7 +782,7 @@ void j1PathFinding::ActivateTile(const iPoint& tile)
 	}
 }
 
-void j1PathFinding::DeactivateTile(const iPoint& tile)
+void j1PathFinding::DeactivateTile(const iPoint & tile)
 {
 	if (CheckBoundaries(tile))
 	{

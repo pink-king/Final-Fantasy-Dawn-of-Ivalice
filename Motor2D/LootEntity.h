@@ -103,6 +103,8 @@ public:
 	std::vector<Buff*>	stats;
 
 	uint price = 10;
+	uint vendorPrice = 20; 
+
 	EQUIPABLE_TYPE equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	ELEMENTAL_TYPE elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
 
@@ -117,10 +119,8 @@ public:
 	UiItem_Description* MyDescription = nullptr; 
 	bool spawnedDescription = false;
 	void CheckClampedCrossHairToSpawnDescription();
-	
 
-	bool clampedByCrosshair = false; 
-
+	bool clampedByCrosshair = false;
 
 protected:
 

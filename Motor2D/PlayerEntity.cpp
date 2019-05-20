@@ -264,44 +264,43 @@ void PlayerEntity::CheckRenderFlip()
 		flip = SDL_FLIP_NONE;
 }
 
+
 void PlayerEntity::Draw()
 {
 	if (entityTex != nullptr)
 	{
+		// prints shadow first
+		iPoint spriteShadowOffset = { 16,12 };
+		App->render->Blit(App->entityFactory->player->player_shadowTex, GetPivotPos().x - spriteShadowOffset.x ,GetPivotPos().y - spriteShadowOffset.y, NULL);
+
 		if (currentAnimation != nullptr)
 			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 
-		if (App->entityFactory->pushEF)
+		if (App->entityFactory->pushEF|| App->entityFactory->dmgInTimeFdbck)
 		{
-			
-			
-			//SDL_SetTextureColorMod(entityTex, 0, 0, 0);
-			/*SDL_BlendMode hola;
-			hola = SDL_BLENDMODE_BLEND;*/ 
-			//SDL_SetTextureBlen
-            //https://www.gamedev.net/forums/topic/690797-blend-mode-in-sdl/
+			App->entityFactory->dmgInTimeFdbck = false;
 			App->entityFactory->alphaTimer.Start();
 			blink = true;
-			
+			//pulsation = true;
+			//hudAlphavalue[1] = 0;
+			//vanish = true;
 		}
+
 		if (blink)
 		{
-			if (App->entityFactory->alphaTimer.ReadSec() < 0.2f)
+
+			if (App->entityFactory->alphaTimer.ReadSec() < 0.25f)
 			{
 				App->render->SetTextureColor(entityTex, 255, 0, 0);
+				
 			}
-			else
-			{
-				App->render->SetTextureColor(entityTex, 255, 255, 255);
-				blink = false;
-			}
+			else blink = false;
 		}
+
 		else App->render->SetTextureColor(entityTex, 255, 255, 255);
 
-		//else SDL_SetTextureColorMod(entityTex, 255, 255, 255), SDL_SetTextureAlphaMod(entityTex, 255);
-			
 	}
 }
 
@@ -658,8 +657,8 @@ void PlayerEntity::DoDash()
 
 void j1Entity::DoPushback()
 {
-	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 8;
-	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 8;
+	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 5;
+	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 5;
 
 }
 
@@ -676,23 +675,4 @@ fPoint PlayerEntity::GetShotDirection()
 	}
 
 	return destination;
-}
-void PlayerEntity::UsePhoenixTail(std::vector<LootEntity *>::iterator &item, int &retflag)
-{
-	retflag = 1;
-	fPoint PortalFacingPos;
-
-	PortalFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
-	PortalFacingPos = GetPivotPos() + PortalFacingPos * 100;
-
-	if (!App->pathfinding->IsWalkable(App->map->WorldToMap(PortalFacingPos.x, PortalFacingPos.y)))
-	{
-		retflag = 2; return;
-	};
-
-	App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, PortalFacingPos.x, PortalFacingPos.y, SceneState::LOBBY, White);
-	delete *item;
-	*item = nullptr;
-	App->entityFactory->player->consumables.erase(item);
-	{ retflag = 2; return; };
 }

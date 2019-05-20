@@ -6,9 +6,10 @@
 #include "p2Point.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include "j1Audio.h"
 #include "j1TransitionManager.h"
 #include <assert.h>
-#include "j1Audio.h"
+
 
 UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, function, parent)
 {
@@ -55,10 +56,10 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 	if (functionName == "LoadGame")
 	{
 		App->scene->ComeToWin = true;
-		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LEVEL1, White);
-	}
-		
-
+		if (App->scene->previosState == SceneState::LEVEL1 || App->scene->previosState == SceneState::LEVEL2)
+			App->scene->ComeToPortal = true;
+		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LOBBY, White);
+	};
 	/*if(App->scene->AcceptUISFX_logic)*/
 		App->audio->PlayFx(App->scene->acceptUI, 0);
 

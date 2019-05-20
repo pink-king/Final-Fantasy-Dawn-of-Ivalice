@@ -9,7 +9,7 @@
 
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
-	entityTex = App->entityFactory->lootItemsTex;
+	
 	//ChooseEntity();
 	lootSubtile.x = posX;
 	lootSubtile.y = posY;
@@ -499,11 +499,12 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 	if (App->entityFactory->player->GetCrosshair()->GetClampedEntity() == this && !spawnedDescription)
 	{
 
-		clampedByCrosshair = true; 
-		
+
+		clampedByCrosshair = true;
+
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
-		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 40);
+		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 200);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
 		this->MyDescription->HideAllElements(false);
 
@@ -512,7 +513,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this  && !this->MyDescription->hide)
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
 	{
 
 		// delete last descr
@@ -528,7 +529,4 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 
 }
-
-
-
 

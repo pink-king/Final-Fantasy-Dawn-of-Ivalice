@@ -21,11 +21,10 @@ private:
 	Animation close;
 	Animation idle;
 
-	Animation*	currentAnim = nullptr;
+	Animation* currentAnim = nullptr;
 	bool doit = false;
-
 	j1Timer timer;
+
 };
 
-
-#endif
+#endif 

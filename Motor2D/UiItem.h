@@ -38,6 +38,7 @@ public:
 
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;
+	std::string name_object;
 	SDL_Rect hitBox = { 0,0,0,0 };
 	std::string function;
 	// p2Point<int> pivot = { 0,0 };
@@ -56,6 +57,7 @@ public:
 	bool slidable = false;
 	bool tabbed = false;
 	bool tabbable = false;
+	bool isNPCLabel = false;
 	bool enable = true;
 	bool hide = false;
 	UiItem* iFriend = nullptr;

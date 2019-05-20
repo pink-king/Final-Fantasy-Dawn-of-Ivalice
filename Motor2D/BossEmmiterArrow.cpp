@@ -8,10 +8,23 @@
 #include "p2Defs.h"
 #include "j1ParticlesClassic.h"
 
+#include "BossEmmiterArrow.h"
+#include "j1App.h"
+#include "j1Textures.h"
+#include "j1EntityFactory.h"
+#include "j1AttackManager.h"
+#include "j1Render.h"
+#include "j1PathFinding.h"
+#include "p2Defs.h"
+#include "j1ParticlesClassic.h"
+
 BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, uint timeLife)
 	: Projectile(pos, destination, speed, owner, "Arrow", PROJECTILE_TYPE::EMMITER_ARROWS), timeLife(timeLife)
 {
 	// TODO SFX arrow throwing
+
+	
+
 	SetPivot(132, 12);
 	size.create(64, 16);
 
@@ -19,7 +32,7 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 	App->audio->PlayFx(App->entityFactory->SharaUltimateWoosh, 0);
 	// Important for aiming offset
 	SetInitially();
-	
+
 	this->speed += 200;
 
 	iPoint newDest = App->map->WorldToSubtileMap(destination.x, destination.y);
@@ -43,7 +56,6 @@ BossEmmiterArrow::BossEmmiterArrow(fPoint pos, fPoint destination, uint speed, c
 
 BossEmmiterArrow::~BossEmmiterArrow()
 {
-	//LOG("Bye arrow!");
 }
 
 bool BossEmmiterArrow::PreUpdate()
@@ -66,11 +78,12 @@ bool BossEmmiterArrow::Update(float dt)
 
 bool BossEmmiterArrow::Move(float dt)
 {
-	
+
 	if (position.y + size.y <= destination.y)
 	{
 		position += direction * speed * dt;
 		willExplode = true;
+	
 	}
 	else
 	{
@@ -92,6 +105,7 @@ bool BossEmmiterArrow::Move(float dt)
 			timeLifeTimer.Start();
 			damage = false;
 
+			
 
 			App->camera2D->AddTrauma(6.5f / 100.f);
 			App->input->DoGamePadRumble(0.2f, 100);
@@ -109,4 +123,3 @@ bool BossEmmiterArrow::CleanUp()
 {
 	return true;
 }
-

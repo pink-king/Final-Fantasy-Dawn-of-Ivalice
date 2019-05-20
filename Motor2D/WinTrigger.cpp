@@ -12,12 +12,15 @@ WinTrigger::WinTrigger(float posx, float posy, SceneState scene, Color color)
 
 WinTrigger::~WinTrigger()
 {
+	DeleteFromSubtiles(nSubtiles);
 }
 
 bool WinTrigger::DoTriggerAction()
 {
 	App->SaveGame("save_game.xml");
 	App->scene->ComeToDeath = true;
+	App->scene->ComeToPortal = false;
+	App->scene->ComeToWin = true;
 	App->pause = true;
 	App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
 	App->scene->previosState = App->scene->state;

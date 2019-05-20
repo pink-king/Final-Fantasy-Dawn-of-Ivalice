@@ -19,16 +19,27 @@ EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 
 
 EnemyBomb::~EnemyBomb()
 {
+//	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
+	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 2, 60, true);
+
+
+
 }
 
 bool EnemyBomb::Start()
 {
+	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
 	return true;
 }
 bool EnemyBomb::PreUpdate()
 {
+
 	if (!isInDetectionRange())
-		state = EnemyState::IDLE; 
+		state = EnemyState::IDLE;
+
+	if (to_die)
+		state = EnemyState::DYING;
+
 
 	return true;
 }
@@ -51,9 +62,7 @@ bool EnemyBomb::Update(float dt)
 
 bool EnemyBomb::PostUpdate()
 {
-	if (to_die)
-		state = EnemyState::DYING;
-
+	
 	return true;
 }
 
@@ -61,12 +70,15 @@ bool EnemyBomb::CleanUp()
 {
 	path_to_follow.clear();
 
+	
+
 	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end();)
+	for (; item != stat.end(); )
 	{
 		delete *item;
 		*item = nullptr;
 		item = stat.erase(item);
+
 	}
 	stat.clear();
 
@@ -102,6 +114,7 @@ void EnemyBomb::SetState(float dt)
 			state = EnemyState::SEARCHPATH;
 		}
 		// else go back to spawn point?
+
 	}
 	break;
 	case EnemyState::SEARCHPATH:
@@ -222,10 +235,9 @@ void EnemyBomb::SetState(float dt)
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
 			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);			
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);		
+			exploded = true; 
 			to_die = true;
-			App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
-
 		}
 	}
 	break;
@@ -239,8 +251,8 @@ void EnemyBomb::SetState(float dt)
 
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
-
-			exploded = true; 
+			App->audio->PlayFx(App->entityFactory->bombExplodeSFX, 0);
+			exploded = true;
 		}
 
 		if (currentAnimation->Finished()) {

@@ -56,8 +56,8 @@ bool UiItem_HitPointManager::Update(float dt)
 			}
 			else
 			{
-				if((*hitPointIterator)->numerOrText != variant::gold && (*hitPointIterator)->numerOrText != variant::wave)                    // don't consider gold labels
-				labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
+				if ((*hitPointIterator)->numerOrText != variant::gold && (*hitPointIterator)->numerOrText != variant::wave)                    // don't consider gold labels
+					labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
 			}
 
 
@@ -126,7 +126,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break;
 
 	case ELEMENTAL_TYPE::POISON_ELEMENT:
-		c = { 76, 40, 130, 255 };
+		c = { 90, 60, 255, 255 };
 		break;
 
 	case ELEMENTAL_TYPE::ICE_ELEMENT:
@@ -134,11 +134,11 @@ UiItem_HitPoint* UiItem_HitPointManager::callHPLabelSpawn(iPoint pos, uint damag
 		break;
 
 	case ELEMENTAL_TYPE::NO_ELEMENT:
-		c = { 30, 30, 30, 255 };
+		c = { 233, 200, 200, 255 };
 		break;
 
 	default:
-		c = { 30, 30, 30, 255 };
+		c = { 233, 200, 200, 255 };
 		break;
 	}
 
@@ -188,8 +188,7 @@ UiItem_HitPoint * UiItem_HitPointManager::callGoldLabelSpawn(iPoint pos, uint va
 	return nullptr;
 }
 
-
-UiItem_HitPoint * UiItem_HitPointManager::callWaveLabelSpawn(iPoint pos, uint value)
+UiItem_HitPoint* UiItem_HitPointManager::callWaveLabelSpawn(iPoint pos, uint value)
 {
 	valueInfo info = {
 		"WAVE",
@@ -200,7 +199,6 @@ UiItem_HitPoint * UiItem_HitPointManager::callWaveLabelSpawn(iPoint pos, uint va
 
 	return nullptr;
 }
-
 
 
 void UiItem_HitPointManager::calculatePlayerCombo()

@@ -12,7 +12,6 @@ public:
 	~Portal();
 	bool Update(float dt);
 	void Draw();
-
 	bool DoTriggerAction();
 private:
 	SceneState scene;
@@ -21,9 +20,8 @@ private:
 	Animation open;
 	Animation idle;
 
-	Animation*	currentAnim = nullptr;
+	Animation* currentAnim = nullptr;
 	bool doit = false;
-
 };
 
 

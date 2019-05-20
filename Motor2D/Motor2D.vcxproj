@@ -28,7 +28,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -138,6 +138,7 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Ritz.cpp" />
+    <ClCompile Include="SaveTrigger.cpp" />
     <ClCompile Include="Shara.cpp" />
     <ClCompile Include="Squares.cpp" />
     <ClCompile Include="Store_Vendor.cpp" />
@@ -157,7 +158,9 @@
     <ClCompile Include="UiItem_Inventory.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
+    <ClCompile Include="DialogTrigger.cpp" />
     <ClCompile Include="WaveManager.cpp" />
+    <ClCompile Include="WaveTrigger.cpp" />
     <ClCompile Include="WinTrigger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +231,7 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Ritz.h" />
+    <ClInclude Include="SaveTrigger.h" />
     <ClInclude Include="Shara.h" />
     <ClInclude Include="Squares.h" />
     <ClInclude Include="Store_Vendor.h" />
@@ -247,7 +251,9 @@
     <ClInclude Include="UiItem_Inventory.h" />
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
+    <ClInclude Include="DialogTrigger.h" />
     <ClInclude Include="WaveManager.h" />
+    <ClInclude Include="WaveTrigger.h" />
     <ClInclude Include="WinTrigger.h" />
   </ItemGroup>
   <ItemGroup>

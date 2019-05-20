@@ -45,7 +45,6 @@ public:
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
-
 	const j1Entity* GetOwnerEntity() const;
 
 protected: 

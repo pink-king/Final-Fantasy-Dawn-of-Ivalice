@@ -14,7 +14,10 @@ public:
 	bool Update(float dt) override;
 	bool Move(float dt) override;
 	bool Contact();
+
+public:
+	bool wallcol = false;
 };
 
 
-#endif
+#endif 
