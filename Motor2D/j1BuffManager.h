@@ -22,6 +22,9 @@ public:
 	bool Update(float dt);
 	bool PostUpdate() { return true; };
 	bool CleanUp();
+
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 	//by buff without items
 	Buff* CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character,std::string stat, float value);
 	//for delete all buff of one entity
@@ -30,7 +33,7 @@ public:
 	float CalculateStat(const j1Entity* ent, float initialDamage, ELEMENTAL_TYPE elementType, ROL rol, std::string stat);
 
 	//combat functions
-	void DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat);
+	bool DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat);
 	bool DamageInTime(j1Entity* entity);
 	//functions to create damage in time
 	void CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize = false);
@@ -69,6 +72,7 @@ private:
 	
 public:
 	float powerAttack = 5;
+	bool godMode = false;
 
 	std::list<j1Entity*>			entitiesTimeDamage;
 };

@@ -108,7 +108,8 @@ bool Buff::Save(pugi::xml_node &node) const
 {
 	pugi::xml_node nodeData = node.append_child("data");
 
-	nodeData.append_attribute("character") = character->name.data();
+	if(character != nullptr)
+		nodeData.append_attribute("character") = character->name.data();
 
 	switch (type)
 	{

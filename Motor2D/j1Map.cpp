@@ -518,6 +518,41 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							destRect = { 0,256,64,64 };
 						}
 
+
+					    // level 2 
+
+						if (wallTypeName == "out1")
+						{
+							destRect = { 64,873,64,64 };
+						}
+						else if (wallTypeName == "out2")
+						{
+							destRect = { 0,873,64,64 };
+						}
+						else if (wallTypeName == "corner")   // the temporal outside wall that joins the two types
+						{
+							destRect = { 0,937,64,64 };
+						}
+						else if (wallTypeName == "ins1")
+						{
+							destRect = { 64,745,64,64 };
+						}
+						else if (wallTypeName == "ins2")
+						{
+							destRect = { 0,745,64,64 };
+						}
+						else if (wallTypeName == "diago1")
+						{
+							destRect = { 64,809,64,64 };
+						}
+						else if (wallTypeName == "diago2")
+						{
+							destRect = { 0,809,64,64 };
+						}
+
+
+
+
 						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
 
 
@@ -570,7 +605,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 				{
 					typesVec.push_back(EnemyType::TEST);
 				}
-				else if (attributeName == "archer")
+				else if (attributeName == "golem")
 				{
 					typesVec.push_back(EnemyType::ARCHER);
 				}
@@ -768,8 +803,13 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
 	quadT_position.x = -layer_size.x + ((layer->width + 1)*App->map->data.tile_width / 2);
 
-	layer->tileQuadTree = DBG_NEW TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height*4);
+	if (App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2)
+		layer->tileQuadTree = DBG_NEW TileQuadtree(7, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width * layer->height * 4);
+
+	else
+		layer->tileQuadTree = DBG_NEW TileQuadtree(2, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width * layer->height * 4);
 	//TEST
+
 
 	if (layer_data == NULL)
 	{

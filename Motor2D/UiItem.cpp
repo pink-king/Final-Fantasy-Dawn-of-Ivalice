@@ -86,6 +86,7 @@ void UiItem::DrawUi(float dt)
 			}
 			else
 			{
+				(*iter)->CleanUp();
 				delete (*iter);                                // destroy items that are to delete (like enemy health bars) 
 				iter = App->gui->ListItemUI.erase(iter);          // and erase from the list
 			}
@@ -100,7 +101,7 @@ void UiItem::DrawUi(float dt)
 	}
 
 
-	Draw_Cursor(dt);
+	//Draw_Cursor(dt);
 
 }
 

@@ -4,7 +4,8 @@
 #include "j1DialogSystem.h"
 #include "j1Input.h"
 #include "j1Scene.h"
-
+#include "j1EntityFactory.h"
+#include "j1TransitionManager.h"
 
 j1DialogSystem::j1DialogSystem()
 {
@@ -39,16 +40,21 @@ bool j1DialogSystem::Update(float dt)
 		// fake devug keys to test different dialog triggers
 
 
-		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	/*	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		{
 			SetCurrentDialog("VENDOR");
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		{
-			SetCurrentDialog("BOSS");
+			SetCurrentDialog("SAVEGAME");
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		{
+			SetCurrentDialog("STRANGER");
+		}
+		*/
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
@@ -56,12 +62,20 @@ bool j1DialogSystem::Update(float dt)
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
-			//App->pause = true; 
+			
+			App->entityFactory->player->selectedCharacterEntity->isParalize = true;
+			App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir];
+			App->entityFactory->player->selectedCharacterEntity->inputReady = false; 
+		
+
+			App->scene->dialogueBox->hide = false; 
 		}
 		
 
 		if (isDialogSequenceActive)   // capture input only in this case
 		{
+			//App->entityFactory->player->selectedCharacterEntity->isParalize = true; 
+			//App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir]; 
 
 			if (isDialogInScreen)    // if dialog sequence is active AND inventory is NOT openned
 			{
@@ -70,7 +84,7 @@ bool j1DialogSystem::Update(float dt)
 					checkIfNPCFinishedTalking(); 
 
 				}
-				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 
 					doDialogTypeLogic();
@@ -82,6 +96,10 @@ bool j1DialogSystem::Update(float dt)
 			}
 
 
+		}
+		else
+		{
+			//App->entityFactory->player->Update(0); 
 		}
 
 
@@ -197,7 +215,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "BOSS")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -223,6 +241,11 @@ void j1DialogSystem::doDialogTypeLogic()
 				{
 
 					PerformDialogue(treeid);
+
+					if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos) 
+					{
+						App->SaveGame("save_game.xml");
+					}
 				}
 
 			}
@@ -318,7 +341,14 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			{
 				isDialogSequenceActive = false; 
 				spawnDialogSequence = false;
+				
+				
+				App->entityFactory->player->selectedCharacterEntity->isParalize = false;
+				App->entityFactory->player->selectedCharacterEntity->inputReady = true;
 				//App->pause = false; 
+
+
+				App->scene->dialogueBox->hide = true;
 			}
 			
 	    }
@@ -331,14 +361,16 @@ void j1DialogSystem::BlitDialog()
 
 	waitForNPCTalking = true; 
 
-	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(500, 500), App->scene->inGamePanel, true);
+	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(515, 510), App->scene->inGamePanel, true);
 	npcLabel->isDialog = true;
 	npcLabel->tabbable = false;
+	npcLabel->isNPCLabel = true;
 
-	int space = 500;
+	
+	int space = 513;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
 	{
-		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 0, 255, 0, 255 }, App->font->openSansBold18, iPoint(500, space += 50), App->scene->inGamePanel);
+		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 34, 200, 43, 255 }, App->font->openSansBold18, iPoint(515, space += 21), App->scene->inGamePanel);
 		
 		
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)
@@ -381,6 +413,8 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	}
 	else
 		LOG("XML was loaded succesfully!");
+	
+	uint treeCount = 0; 
 
 	for (pugi::xml_node t = tree_file.child("dialogue").child("dialogtree"); t != NULL; t = t.next_sibling("dialogtree"))
 	{
@@ -390,6 +424,7 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	//	tr->karma = t.attribute("karma").as_int();
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
+		treeCount++; 
 	}
 	return ret;
 }

@@ -16,9 +16,6 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 
-	bool Load(pugi::xml_node &);
-
-	bool Save(pugi::xml_node & node) const;
 	//bool PostUpdate();
 	//virtual bool CleanUp();
 
@@ -33,6 +30,7 @@ public:
 
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
+	fPoint attackPivotOffset[(int)facingDirection::MAX];
 	Animation attack1[(int)facingDirection::MAX];
 	Animation tpAnim[(int)facingDirection::MAX];
 	SDL_Texture* attack1Tex = nullptr;

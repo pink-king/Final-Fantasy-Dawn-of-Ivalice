@@ -14,6 +14,9 @@ public:
 	bool Update(float dt) override;
 	bool Move(float dt) override;
 	bool Contact();
+
+	void Draw() override;
+
 };
 
 
