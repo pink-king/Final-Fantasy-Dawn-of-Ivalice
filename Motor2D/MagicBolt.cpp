@@ -7,8 +7,8 @@
 MagicBolt::MagicBolt(fPoint pos, fPoint destination, uint speed, const j1Entity* owner)
 	: Projectile(pos, destination, speed, owner, "MagicBolt", PROJECTILE_TYPE::MAGIC_BOLT)
 {
-	App->camera2D->AddTrauma(15.F / 100.f);
-	App->input->DoGamePadRumble(0.8F, 1000);
+	App->camera2D->AddTrauma(5.F / 100.f);
+	App->input->DoGamePadRumble(0.2F, 100);
 
 	entityTex = App->entityFactory->ritzBasicTex;
 
@@ -102,10 +102,10 @@ bool MagicBolt::Move(float dt)
 void MagicBolt::Explode()
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::ALL_ELEMENTS, 10, 7, 50, true);
+		damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 30, 7, 50, true);
 
-	App->camera2D->AddTrauma(50.f / 100.f);
-	App->input->DoGamePadRumble(0.8f, 1000);
+	App->camera2D->AddTrauma(5.f / 100.f);
+	App->input->DoGamePadRumble(0.2f, 300);
 	//App->particles->AddParticle(App->particles->blast01, GetPivotPos().x - 48, position.y - 48, { 0,0 }, 0u);
 	App->particles->AddParticle(App->particles->blast01, GetPivotPos().x - 44, position.y -20, { 0,0 }, 0u);
 

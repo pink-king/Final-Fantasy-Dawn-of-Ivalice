@@ -16,13 +16,15 @@
 
 EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed) : Enemy(position, speed, detectionRange, attackRange, baseDamage, attackSpeed, false, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
 {
+	to_die = false;
 	LoadAnims(); 
 }
 
 // Standard stats
 
-EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 75, 10, 1, 10, 1.3F, dummy, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
+EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 100, 10, 1, 10, 1.3F, dummy, ENTITY_TYPE::ENEMY_TEST, "Enemy Test")
 {
+	to_die = false;
 	LoadAnims();
 }
 
@@ -40,7 +42,11 @@ bool EnemyTest::Start()
 
 bool EnemyTest::PreUpdate()
 {
+	if (!isInDetectionRange())
+		state = EnemyState::IDLE;
 
+	if (to_die)
+		state = EnemyState::DYING;
 	return true;
 }
 
@@ -101,8 +107,7 @@ bool EnemyTest::Update(float dt)
 
 bool EnemyTest::PostUpdate()
 {
-	if (to_die)
-		state = EnemyState::DYING;
+	
 
 	return true;
 }
@@ -114,6 +119,7 @@ void EnemyTest::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
+		path_to_follow.clear();
 		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
@@ -187,7 +193,6 @@ void EnemyTest::SetState(float dt)
 
 		if (App->entityFactory->player->ChangedTile())		// Repath when player changes tiles (and random values)
 		{
-			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
 			{
 				path_to_follow.clear();
@@ -274,7 +279,7 @@ void EnemyTest::SetState(float dt)
 		{
 			freePass = true;
 			cont = 0;
-			LOG("Gave a free pass!");
+			//LOG("Gave a free pass!");
 		}
 		break;
 	}

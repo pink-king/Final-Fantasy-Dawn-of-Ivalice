@@ -29,6 +29,7 @@ class j1ModuleCamera2D;
 class UiItem_HitPointManager;
 class j1ParticlesClassic;
 class j1DialogSystem; 
+class j1TransitionManager;
 
 class j1App
 {
@@ -118,6 +119,7 @@ public:
 	j1ModuleCamera2D*	camera2D = nullptr;
 	UiItem_HitPointManager*   HPManager = nullptr;
 	j1DialogSystem*     dialog = nullptr;
+	j1TransitionManager*	transitionManager = nullptr;
 
 	bool				vsync = false;
 	bool				pause = false;

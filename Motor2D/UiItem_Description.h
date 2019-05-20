@@ -20,6 +20,14 @@ struct EquipmentStatType
 	bool spawnedVecloty = false;
 };
 
+struct WeaponStatType
+{
+	int cooldown = 666; 
+	bool spawnedCooldown = false; 
+	int defense = 66; 
+	bool spawnedDefesne = false; 
+};
+
 enum descriptionType
 {
 	WEAPON,
@@ -58,9 +66,9 @@ class UiItem_Description: public UiItem
 {
 
 public:
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent);   // for equipment
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, uint level, LootEntity* callback, UiItem* const parent);   // for weapons, right now we will print TWO variables
-	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price);   // for equipment
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Attack, float resistance, float cooldown, uint level, LootEntity* callback, UiItem* const parent, uint price);   // for weapons, right now we will print TWO variables
+	UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, std::string effect, iPoint HPandTime, LootEntity* callback, UiItem* const parent, uint price);   // for potions
 	~UiItem_Description();
 
     void Draw(const float& dt);   // do we need this?? I bet we don't 
@@ -80,6 +88,7 @@ public:
 	UiItem_Label* level = nullptr;
 	UiItem_Image* iconImageInventory = nullptr; 
 
+
 	// for weapons and armors, but not potions
 
 	UiItem_Label* attachedCharacter = nullptr;
@@ -87,9 +96,11 @@ public:
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 
 	UiItem_Label* resistanceLabel = nullptr;  // also for armor
+	UiItem_Label* cooldownLabel = nullptr;
 
 	comparisonLabel damageComparisonLabel; 
 	comparisonLabel resistanceComparisonLabel;  // also for armor
+	comparisonLabel cooldownComparisonLabel;  // also for armor
 	// for potions 
 	UiItem_Label* effectLabel = nullptr; 
 
@@ -98,9 +109,16 @@ public:
 	UiItem_Label* HPLabel = nullptr;
 	UiItem_Label* VelocityLabel = nullptr;
 
+	// price
+
+	UiItem_Label* price = nullptr;
+
 	bool hide = false; 
 	bool spawnedInventoryImage = false; 
 	bool switchedCameraUsage = false; 
+
+	bool showedPrice = false; 
+
 
 	uint offsetFromLoot = 1000; 
 
@@ -124,8 +142,10 @@ public:
 private:
 
 	EquipmentStatType equipmentLootInfo; 
+	WeaponStatType weaponLootInfo; 
 	descriptionType descrType; 
-	std::string name_object;
+	bool tabOnConsumable = false;
+	bool foundPoti = false;
 };
 
 #endif

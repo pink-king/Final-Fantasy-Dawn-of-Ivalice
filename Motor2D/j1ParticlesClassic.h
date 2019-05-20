@@ -72,6 +72,7 @@ private:
 	SDL_Texture* explosionsTex = nullptr;
 	SDL_Texture* windsTex = nullptr;
 	SDL_Texture* arrowTex = nullptr; 
+	SDL_Texture* bossArrowsEmmiter = nullptr;
 	std::list<Particle*> active;
 	pugi::xml_node particleNode;
 
@@ -100,6 +101,7 @@ public:
 	Particle arrowTrail;
 	Particle powder01;
 	Particle arrow; 
+	Particle PoisonBlast;
 
 };
 

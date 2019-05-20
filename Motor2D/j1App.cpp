@@ -24,6 +24,7 @@
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
 #include "j1DialogSystem.h"
+#include "j1TransitionManager.h"
 
 
 #define _CRTDBG_MAP_ALLOC
@@ -58,26 +59,37 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	camera2D = DBG_NEW j1ModuleCamera2D();
 	HPManager = DBG_NEW UiItem_HitPointManager();
 	dialog = DBG_NEW j1DialogSystem();
+	transitionManager = DBG_NEW j1TransitionManager();
 	// Ordered for awake / Start / Update
+
+
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
-	AddModule(map);
+	modules.push_back(map);
 	AddModule(scene);
-	AddModule(entityFactory);
-	AddModule(attackManager);
-	AddModule(buff);
+	modules.push_back(entityFactory);
+	modules.push_back(attackManager);
+	modules.push_back(buff);
 	AddModule(particles);
-	AddModule(pathfinding);
+	modules.push_back(pathfinding);
 	AddModule(gui);
 	AddModule(font);
-	AddModule(camera2D);
+	modules.push_back(camera2D);
 	AddModule(HPManager);
 	AddModule(dialog);
+	AddModule(transitionManager);
 	// render last to swap buffer
 	AddModule(render);
+
+	// TODO: search why this breaks the game
+	// entityfactory doesnt need to start on MAIN MENU
+	// wtf
+	// disable modules doesnt want to start at init
+	//entityFactory->active = false;
+
 
 	PERF_PEEK(ptimer);
 }
@@ -157,7 +169,9 @@ bool j1App::Start()
 
 	while(item != modules.end() && ret == true)
 	{
-		ret = (*item)->Start();
+		if ((*item)->active)
+			ret = (*item)->Start();
+
 		++item;
 	}
 
@@ -436,10 +450,15 @@ bool j1App::LoadGameNow()
 
 		while(item != modules.end() && ret == true)
 		{
-			ret = (*item)->Load(root.child((*item)->name.data()));
+			if (load_game.compare("Portal.xml") == 0)
+			{
+				ret = (*item)->LoadPortal(root.child((*item)->name.data()));
+			}
+			else
+				ret = (*item)->Load(root.child((*item)->name.data()));
+			
 			++item;
 		}
-
 		data.reset();
 		if(ret == true)
 			LOG("...finished loading");
@@ -471,7 +490,13 @@ bool j1App::SavegameNow() const
 	std::list<j1Module*>::const_iterator item = modules.begin();
 	while(item != modules.end() && ret == true)
 	{
-		ret = (*item)->Save(root.append_child((*item)->name.data()));
+		if (save_game.compare("Portal.xml") == 0)
+		{
+			ret = (*item)->SavePortal(root.append_child((*item)->name.data()));
+		}
+		else
+			ret = (*item)->Save(root.append_child((*item)->name.data()));
+		
 		++item;
 	}
 

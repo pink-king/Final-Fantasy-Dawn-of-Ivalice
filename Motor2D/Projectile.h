@@ -19,6 +19,10 @@ enum class PROJECTILE_TYPE
 	MEDUSA,
 	TORNADO,
 	EARTH_SHAKER,
+	ENEMY_ARROW,
+	GOLEM_ARROW,
+	BOSS_EMMITER,
+	BOSS_EMMITER_ARROWS,
 	NO_ARROW
 };
 
@@ -35,11 +39,13 @@ public:
 	float SetMyAngleRotation(const fPoint& direction);	// Useful for render rotations
 	bool TooFarAway() const;
 	bool OnCollisionWithWall() const;
+	bool OnCollisionWithPlayer() const; 
 	bool ReachedDestiny() const; // Needs to take a look to the initial direction (vertical cases)
 	void Draw() override;
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+	const j1Entity* GetOwnerEntity() const;
 
 protected: 
 

@@ -102,6 +102,12 @@ public:
 	void RemoveItemFromConsumables(LootEntity* entityLoot);
 
 	void ConsumConsumable(LootEntity* consumable, j1Entity* entity);
+
+	void SetHudAlphaValue();
+	void SetPosition(fPoint pos);
+
+	void PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEntity* entity);
+
 public:
 
 	j1Entity* GetMarche();
@@ -109,6 +115,7 @@ public:
 	j1Entity* GetShara();
 
 public:
+	SDL_Texture* player_shadowTex = nullptr;
 	//Loot vectors
 	std::vector<LootEntity*>		equipedObjects;
 	std::vector<LootEntity*>		bagObjects;
@@ -148,6 +155,8 @@ private:
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
 	bool deleteObj = false;
+	bool consumPotion = false;
+	bool consumPhoenix = false;
 
 	unsigned int pickLoot;
 	unsigned int pickGold;
@@ -157,7 +166,8 @@ private:
 
 	// vendor
 	Vendor* vendor = nullptr; 
-	
+	LootEntity* lastHoveredLootItem = nullptr;
+
 	
 };
 

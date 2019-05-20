@@ -19,15 +19,32 @@ j1AttackManager::j1AttackManager()
 	matrix[PLAYER][PLAYER] = false;
 	matrix[PLAYER][ENEMY_BOMB] = true;
 	matrix[PLAYER][ENEMY_TEST] = true;
+	matrix[PLAYER][ENEMY_ARCHER] = true;
+	matrix[PLAYER][FLOWERBOSS] = true;
 
 	matrix[ENEMY_BOMB][ENEMY_BOMB] = false;
 	matrix[ENEMY_BOMB][PLAYER] = true;
 	matrix[ENEMY_BOMB][ENEMY_TEST] = false;
+	matrix[ENEMY_BOMB][ENEMY_ARCHER] = false;
+	matrix[ENEMY_BOMB][FLOWERBOSS] = false;
 
 	matrix[ENEMY_TEST][PLAYER] = true;
 	matrix[ENEMY_TEST][ENEMY_BOMB] = false;
 	matrix[ENEMY_TEST][ENEMY_TEST] = false;
+	matrix[ENEMY_TEST][ENEMY_ARCHER] = false;
+	matrix[ENEMY_TEST][FLOWERBOSS] = false;
 
+	matrix[ENEMY_ARCHER][PLAYER] = true;
+	matrix[ENEMY_ARCHER][ENEMY_BOMB] = false;
+	matrix[ENEMY_ARCHER][ENEMY_TEST] = false;
+	matrix[ENEMY_ARCHER][ENEMY_ARCHER] = false;
+	matrix[ENEMY_ARCHER][FLOWERBOSS] = false;
+
+	matrix[FLOWERBOSS][PLAYER] = true;
+	matrix[FLOWERBOSS][ENEMY_BOMB] = false;
+	matrix[FLOWERBOSS][ENEMY_TEST] = false;
+	matrix[FLOWERBOSS][ENEMY_ARCHER] = false;
+	matrix[FLOWERBOSS][FLOWERBOSS] = false;
 
 }
 
