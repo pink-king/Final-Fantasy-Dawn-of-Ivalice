@@ -1,5 +1,7 @@
 #include "ConsumableLoot.h"
+#include "j1App.h"
 #include "j1Entity.h"
+#include "j1Scene.h"
 #include "easing.h"
 #include "j1EntityFactory.h"
 
@@ -10,6 +12,19 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;
+
+	entityTex = App->entityFactory->lootItemsTex;
+}
+
+Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
+{
+	SetConsumable(CONSUMABLE_TYPE::POTION);
+	originPos.x = position.x;
+	start = true;
+	checkgrounded = true;
+	manualCollectable = true;
+
+	entityTex = App->entityFactory->lootItemsTex;
 }
 
 
@@ -40,8 +55,7 @@ bool Consumable::Update(float dt)
 		if (displacementTime.ReadMs() <= 280)
 		{
 			ExplosionMaker(dt);
-			LOG("displaced %i",position.x - originPos.x);
-			LOG("actual time %f", timeTest);
+			
 		}
 		else
 		{
@@ -61,6 +75,8 @@ bool Consumable::Update(float dt)
 				App->audio->PlayFx(App->entityFactory->potionGroundSFX, 0);
 
 			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->entityFactory->coinGroundedSFX, 0);
+
+			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL)
 		}
     
 	return true;
@@ -69,8 +85,9 @@ bool Consumable::Update(float dt)
 
 
 
-void Consumable::ChooseConsumable()
+void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)
 {
+	
 	if (App->entityFactory->justGold)
 	{
 		objectType = OBJECT_TYPE::GOLD;
@@ -78,24 +95,47 @@ void Consumable::ChooseConsumable()
 	}
 	else
 	{
-		objectType = OBJECT_TYPE::POTIONS;
-		consumableType = CONSUMABLE_TYPE::POTION;
-
+		int randNum = (GetRandomValue(1, 8));
+		if (randNum <= 2)
+		{
+		
+				objectType = OBJECT_TYPE::POTIONS;
+				consumableType = CONSUMABLE_TYPE::POTION; 
+		
+		}
+		else if(randNum == 3)
+		{
+			objectType = OBJECT_TYPE::PHOENIX_TAIL;
+		}
+		else
+		{
+			to_delete = true;
+		}
 	}
+	
 }
 
-void Consumable::SetConsumable()
+void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 {
-	ChooseConsumable();
+	if (type == CONSUMABLE_TYPE::POTION)
+	{
+		objectType = OBJECT_TYPE::POTIONS;
+		consumableType = CONSUMABLE_TYPE::POTION;
+	}
+	else
+	{
+		ChooseConsumable();
+	}
+
 	switch (objectType)
 	{
 	case OBJECT_TYPE::GOLD:
 
 
-		loot_rect = { 13,27,22,23 };
-		size.create(22, 23);
+		loot_rect = { 448,1568,32,32 };
+		size.create(32, 32);
 
-		SetPivot(12, 17);
+		SetPivot(16, 28);
 
 		break;
 
@@ -104,14 +144,23 @@ void Consumable::SetConsumable()
 		switch (consumableType)
 		{
 		case CONSUMABLE_TYPE::POTION:
-			loot_rect = { 60,32,10,12 };
-
-			size.create(10, 12);
-			SetPivot(5, 10);
+			loot_rect = { 384,1568,32,32 };
+			lootname.assign("potion");
+			name.assign("potion");
+			size.create(32, 32);
+			SetPivot(16, 16);
 			break;
 		default:
 			break;
 		}
+		break;
+
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		loot_rect = { 416,1568,32,32 };
+		lootname.assign("phoenixTail");
+		name.assign("phoenixTail");
+		size.create(32, 32);
+		SetPivot(16, 30);
 		break;
 
 	default:

@@ -3,9 +3,14 @@
 
 #include "j1App.h"
 #include "j1Fonts.h"
+#include "j1Scene.h"
 #include "j1Textures.h"
 #include "j1Render.h"
 #include <assert.h>
+
+
+#include "j1EntityFactory.h"
+
 
 
 UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, bool typewriter) :UiItem(position, parent)
@@ -85,15 +90,42 @@ void UiItem_Label::Draw(const float & dt)
 				speed = 1.0f;
 
 			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
-			if (textureDimensions.x > prevTextDimension.x)
+			if (textureDimensions.x != prevTextDimension.x)
 			{
-				if (!first_hitbox)
+				if (textureDimensions.x == 33)
 				{
-					hitBox.x -= 28;
-					first_hitbox = true;
+					hitBox.x = 1080;
+					App->scene->coins_label_inventory->hitBox.x = 1080;
 				}
-				else
-					hitBox.x -= 14;
+				if (textureDimensions.x == 47)
+				{
+					hitBox.x = 1066;
+					App->scene->coins_label_inventory->hitBox.x = 1066;
+				}
+				
+				if (textureDimensions.x == 61)
+				{
+					hitBox.x = 1052;
+					App->scene->coins_label_inventory->hitBox.x = 1052;
+				}
+				if (textureDimensions.x == 75)
+				{
+					hitBox.x = 1038;
+					App->scene->coins_label_inventory->hitBox.x = 1038;
+				}
+				if (textureDimensions.x == 89)
+				{
+					hitBox.x = 1024;
+					App->scene->coins_label_inventory->hitBox.x = 1024;
+				}
+				if (textureDimensions.x == 103)
+				{
+					hitBox.x = 1010;
+					App->scene->coins_label_inventory->hitBox.x = 1010;
+				}
+					
+					
+				
 			}
 
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
@@ -186,3 +218,24 @@ bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* colo
 
 
 }
+
+void UiItem_Label::DoLogicHovered()
+{
+	if (this->isDialog)
+	{
+		const SDL_Color c = { 180, 200, 22, 200 };
+		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
+	}
+}
+
+
+
+void UiItem_Label::DoLogicAbandoned()
+{
+	if (this->isDialog)
+	{
+		const SDL_Color c = { 34, 200, 43, 255 };
+		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
+	}
+}
+

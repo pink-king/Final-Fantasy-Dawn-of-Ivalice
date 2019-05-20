@@ -40,11 +40,16 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	openSansBold18 = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
 	openSansBold36 = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
 	openSansSemiBold24 = Load("fonts/open_sans/OpenSans-Semibold.ttf", 24);
+	openSansSemiBold36 = Load("fonts/open_sans/OpenSans-Semibold.ttf", 36);
 
 	shatterBoxx36 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 36);
 	shatterBoxx48 = Load("fonts/shatterboxx/shatterboxx.regular.ttf", 48);
 
+	piecesofEight36 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 36);
 	piecesofEight48 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 48);
+
+	piecesofEight24= Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 24);
+	piecesofEight18 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 18);
 
 
 	return ret;

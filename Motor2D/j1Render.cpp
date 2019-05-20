@@ -31,9 +31,13 @@ bool j1Render::Awake(pugi::xml_node& config)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
+		
 	}
 
 	renderer = SDL_CreateRenderer(App->win->window, -1, flags);
+	uint w, h;
+	App->win->GetWindowSize(w, h);
+	SDL_RenderSetLogicalSize(renderer, w, h);
 
 	if(renderer == NULL)
 	{
@@ -43,7 +47,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 	else
 	{
 		camera = App->camera2D->GetCameraRectPtr();
-		App->camera2D->SetCameraRect({ 0,0, App->win->screen_surface->w,App->win->screen_surface->h});
+		App->camera2D->SetCameraRect({ 0,0, (int)w, (int)h});
 		/*camera.w = App->win->screen_surface->w;
 		camera.h = App->win->screen_surface->h;
 		camera.x = 0;
@@ -76,7 +80,7 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate()
 {
-	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
+	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
 	return true;
 }
@@ -112,6 +116,16 @@ bool j1Render::Save(pugi::xml_node& data) const
 void j1Render::SetBackgroundColor(SDL_Color color)
 {
 	background = color;
+}
+
+void j1Render::SetTextureColor(SDL_Texture* tex, uint r, uint g, uint b)
+{
+	SDL_SetTextureColorMod(tex, r, g, b);
+}
+
+void j1Render::SetTextureAlpha(SDL_Texture* tex, uint alpha)
+{
+	SDL_SetTextureAlphaMod(tex, alpha);
 }
 
 void j1Render::SetViewPort(const SDL_Rect& rect)

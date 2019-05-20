@@ -3,7 +3,7 @@
 #include "j1Render.h"
 
 Emmiter::Emmiter(fPoint pos, const j1Entity * owner)
-	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER_ARROWS)
+	:Projectile(pos, { 0.F,0.F }, 0u, owner, "EmmiterArrows", PROJECTILE_TYPE::EMMITER)
 {
 	SetPivot(150, 112);
 	size.create(300, 225);

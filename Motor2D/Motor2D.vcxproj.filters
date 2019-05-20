@@ -185,6 +185,72 @@
     <ClCompile Include="Store_Vendor.cpp">
       <Filter>Development\Modules\Entities\Vendor</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="j1TransitionManager.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Dissolve.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Squares.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Trigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyPortal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyArcher.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyProjectile.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveManager.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_Flower.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="WinTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="NoWalkableTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitPortal.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="GolemProjectile.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEmmiter.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEmmiterArrow.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -302,9 +368,6 @@
     <ClInclude Include="Marche.h">
       <Filter>Development\Modules\Entities\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Development\Modules\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Development\Modules\Tools\PugiXML</Filter>
     </ClInclude>
@@ -336,7 +399,7 @@
       <Filter>Development\Modules\GUI\basic</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Definitions.h">
-      <Filter>Development\Modules\GUI\help</Filter>
+      <Filter>Development\Modules\GUI\core\help</Filter>
     </ClInclude>
     <ClInclude Include="j1Gui.h">
       <Filter>Development\Modules\GUI\core</Filter>
@@ -392,12 +455,84 @@
     <ClInclude Include="Store_Vendor.h">
       <Filter>Development\Modules\Entities\Vendor</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Development\Modules\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="j1TransitionManager.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Dissolve.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Squares.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Development\Modules\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyPortal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArcher.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyProjectile.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveManager.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Flower.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="WinTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="NoWalkableTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitPortal.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Development\Modules\Tools\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="GolemProjectile.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEmmiter.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEmmiterArrow.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
       <Filter>Development\XML</Filter>
     </Xml>
     <Xml Include="..\Game\save_game.xml">
+      <Filter>Development\XML</Filter>
+    </Xml>
+    <Xml Include="..\Game\Portal.xml">
       <Filter>Development\XML</Filter>
     </Xml>
   </ItemGroup>
@@ -449,9 +584,6 @@
     <Filter Include="Development\Modules\GUI\basic">
       <UniqueIdentifier>{40f12a01-103f-4357-9fa5-4ee8de132031}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Development\Modules\GUI\help">
-      <UniqueIdentifier>{255d0b44-1a0c-4411-bddc-faa78dfb7121}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Development\Modules\GUI\managers">
       <UniqueIdentifier>{c7f538e3-e352-46f7-aa85-1cf7aa79d1e6}</UniqueIdentifier>
     </Filter>
@@ -469,6 +601,15 @@
     </Filter>
     <Filter Include="Development\Modules\Entities\Vendor">
       <UniqueIdentifier>{f335e991-b295-4f25-8ffa-55c592026b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Transitions">
+      <UniqueIdentifier>{14da82e2-ed4e-4ff9-8b0b-9f2669da7f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Triggers">
+      <UniqueIdentifier>{d26668ec-2b1d-46b9-a13f-fd540d32d715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\GUI\core\help">
+      <UniqueIdentifier>{255d0b44-1a0c-4411-bddc-faa78dfb7121}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -9,14 +9,14 @@
 
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
-	entityTex = App->entityFactory->lootItemsTex;
+	
 	//ChooseEntity();
 	lootSubtile.x = posX;
 	lootSubtile.y = posY;
 	engine.seed(rd());
 	
 	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
-
+	level = 0;
 	
 }
 
@@ -66,7 +66,17 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 
 	entityTex = App->entityFactory->lootItemsTex;
 
-	loot->name.assign(nodeData.attribute("name").as_string());
+	level = nodeData.attribute("level").as_int();
+
+	pugi::xml_node nodeRect = nodeData.child("rect");
+	loot_rect.x = nodeRect.attribute("x").as_int();
+	loot_rect.y = nodeRect.attribute("y").as_int();
+	loot_rect.w = nodeRect.attribute("w").as_int();
+	loot_rect.h = nodeRect.attribute("h").as_int();
+
+	std::string nameObj = nodeData.attribute("name").as_string();
+	loot->name.assign(nameObj);
+	loot->lootname.assign(loot->name.data());
 
 	std::string charName = nodeData.attribute("characterObject").as_string();
 	if (charName.compare("Marche") == 0)
@@ -114,23 +124,22 @@ bool LootEntity::Load(pugi::xml_node &node, LootEntity* loot)
 	else if (charObject.compare("head") == 0)
 		loot->objectType = OBJECT_TYPE::HEAD_OBJECT;
 	else if (charObject.compare("potion") == 0)
+	{
 		loot->objectType = OBJECT_TYPE::POTIONS;
+	}
 	else if (charObject.compare("gold") == 0)
 		loot->objectType = OBJECT_TYPE::GOLD;
+	else if (charObject.compare("phoenixTail") == 0)
+		loot->objectType = OBJECT_TYPE::PHOENIX_TAIL;
 
 	std::string charType = nodeData.attribute("lootType").as_string();
 	if (charType.compare("consumable") == 0)
 	{
 		loot->loot_type = LOOT_TYPE::CONSUMABLE;
-		dynamic_cast<Consumable*>(loot)->SetConsumable();
 	}
 	else if (charType.compare("equipable") == 0)
 	{
 		loot->loot_type = LOOT_TYPE::EQUIPABLE;
-		Equipable* auxloot = dynamic_cast<Equipable*>(loot);
-		auxloot->equipableType = loot->equipableType;
-		auxloot->SetEquipable();
-		loot->loot_rect = auxloot->loot_rect;
 	}
 
 	for (pugi::xml_node nodebuffs = node.child("buffs"); nodebuffs; nodebuffs = nodebuffs.next_sibling("buffs"))
@@ -151,9 +160,17 @@ bool LootEntity::Save(pugi::xml_node &node) const
 {
 	pugi::xml_node nodeData = node.append_child("data");
 
-	nodeData.append_attribute("name") = name.data();
+	nodeData.append_attribute("name") = lootname.data();
+	nodeData.append_attribute("level") = level;
 
-	nodeData.append_attribute("characterObject") = character->name.data();
+	pugi::xml_node nodeRect = nodeData.append_child("rect");
+	nodeRect.append_attribute("x") = loot_rect.x;
+	nodeRect.append_attribute("y") = loot_rect.y;
+	nodeRect.append_attribute("w") = loot_rect.w;
+	nodeRect.append_attribute("h") = loot_rect.h;
+
+	if(character != nullptr)
+		nodeData.append_attribute("characterObject") = character->name.data();
 
 	switch (equipableType)
 	{
@@ -226,6 +243,9 @@ bool LootEntity::Save(pugi::xml_node &node) const
 		break;
 	case OBJECT_TYPE::GOLD:
 		nodeData.append_attribute("objectType") = "gold";
+		break;
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		nodeData.append_attribute("objectType") = "phoenixTail";
 		break;
 	case OBJECT_TYPE::NO_OBJECT:
 		break;
@@ -468,7 +488,9 @@ void LootEntity::ExplosionMaker(float dt)
 	
 }
 
-
+// TODO: why loot entity asks on every frame ?
+// its not worth, what happen when we have a bunch of loots?
+// solution: only asks the player itself, or the crosshair instead
 
 void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this with player proximity instead of crosshair
 {
@@ -478,10 +500,11 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 	{
 
 
-		
+		clampedByCrosshair = true;
+
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
-		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 40);
+		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 200);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
 		this->MyDescription->HideAllElements(false);
 

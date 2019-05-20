@@ -40,7 +40,7 @@ void EarthShaker::Attack()
 	App->attackManager->AddPropagationAttack(owner, App->entityFactory->player->GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::STONE_ELEMENT, 0, 10, 60, true);
 	App->attackManager->AddPropagationAttack(owner, App->entityFactory->player->GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 50, 10, 60, false);
 
-	App->input->DoGamePadRumble(1.F, 900);
+	App->input->DoGamePadRumble(1.F, 1000);
 	App->camera2D->AddTrauma(1.f);
 }
 

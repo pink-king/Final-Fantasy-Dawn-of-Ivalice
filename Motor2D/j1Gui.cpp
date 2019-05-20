@@ -7,6 +7,7 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1Window.h"
+#include "j1TransitionManager.h"
 #include "p2Log.h"
 #include "Brofiler/Brofiler.h"
 
@@ -32,8 +33,15 @@ bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.data());
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
-	selectUI = App->audio->LoadFx("audio/fx/UI/selectUI.wav");
-	acceptUI = App->audio->LoadFx("audio/fx/UI/AcceptUI.wav");
+
+	if (hurt_hud_tex == nullptr)
+		hurt_hud_tex = App->tex->Load("textures/hud dmg/playerhurt.png");
+
+	if (hurt_hud_tex2 == nullptr)
+		hurt_hud_tex2 = App->tex->Load("textures/hud dmg/hurt2.png");
+
+	if (hurt_hud_tex3 == nullptr)
+		hurt_hud_tex3 = App->tex->Load("textures/hud dmg/hurt3.png");
 	return true;
 }
 
@@ -111,7 +119,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 		}
-
+		
 
 	}
 
@@ -209,7 +217,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the right to a list
 
@@ -258,7 +266,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the left to a list
 
@@ -303,17 +311,20 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 			for (; item != ListItemUI.end(); item++)
 			{
-				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide)
+				if (selected_object && (*item)->parent == selected_object->parent && (*item)->parent->enable && !(*item)->hide && !(*item)->isNPCLabel)
 				{
 					if ((*item)->hitBox.y < selected_object->hitBox.y && (*item)->hitBox.x == selected_object->hitBox.x)
 					{
-						selected_object->tabbed = false;
-						selected_object->state = IDLE;               // deselect current object
-						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						
+							selected_object->tabbed = false;
+							selected_object->state = IDLE;               // deselect current object
+							selected_object->DoLogicAbandoned();
+							App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the right to a list
+							candidates.push_back(*item);       // add objects on the right to a list
 
+						
+					
 					}
 				}
 			}
@@ -360,7 +371,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->tabbed = false;
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
-						App->audio->PlayFx(selectUI, 0);
+						App->audio->PlayFx(App->scene->selectUI, 0);
 
 						candidates.push_back(*item);       // add objects on the right to a list
 
@@ -413,8 +424,13 @@ bool j1Gui::PostUpdate()
 
 	BROFILER_CATEGORY("UI PostUpdates", Profiler::Color::Yellow);
 
-	// temporal debug 
+	App->render->Blit(hurt_hud_tex3, 0, 0, 0, 0.0f);
+	App->render->Blit(hurt_hud_tex2, 0, 0, 0, 0.0f);
+	App->render->Blit(hurt_hud_tex, 0, 0, 0, 0.0f);
 
+	// temporal debug 
+	
+	
 	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 
@@ -463,9 +479,26 @@ bool j1Gui::CleanUp()
 		App->tex->UnLoad(lootTexture);
 		lootTexture = nullptr;
 	}
+	if (hurt_hud_tex != nullptr)
+	{
+		App->tex->UnLoad(hurt_hud_tex);
+		hurt_hud_tex = nullptr;
+	}
 
-	delete canvas;
-	canvas = nullptr;
+	if (hurt_hud_tex2 != nullptr)
+	{
+		App->tex->UnLoad(hurt_hud_tex2);
+		hurt_hud_tex = nullptr;
+	}
+
+	if (hurt_hud_tex3 != nullptr)
+	{
+		App->tex->UnLoad(hurt_hud_tex3);
+		hurt_hud_tex3 = nullptr;
+	}
+	/*delete canvas;
+	canvas = nullptr;*/
+
 	// TODO: Remove items from list, not hitlabels (they are on their own list)
 	for (std::list<UiItem*>::iterator item = ListItemUI.begin(); item != ListItemUI.end(); ++item)
 	{
@@ -699,12 +732,12 @@ UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::
 
 
 
-UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity * callback, UiItem * const parent)
+UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity * callback, UiItem * const parent, uint price)
 {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Value, variableType, level, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -713,11 +746,11 @@ UiItem_Description* j1Gui::AddDescriptionToEquipment(iPoint position, std::strin
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, uint level, LootEntity * callback, UiItem * const parent) {
+UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, float Attack, float resistance, float cooldown, uint level, LootEntity * callback, UiItem * const parent, uint price) {
 
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, level, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, Attack, resistance, cooldown, level, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -726,11 +759,11 @@ UiItem_Description* j1Gui::AddDescriptionToWeapon(iPoint position, std::string i
 
 }
 
-UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, LootEntity * callback, UiItem * const parent)
+UiItem_Description* j1Gui::AddDescriptionToPotion(iPoint position, std::string itemName, const SDL_Rect * panelRect, const SDL_Rect * iconRect, std::string effect, iPoint HPandTime, LootEntity * callback, UiItem * const parent, uint price)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent);
+	newUIItem = DBG_NEW UiItem_Description(position, itemName, panelRect, iconRect, effect, HPandTime, callback, parent, price);
 
 	ListItemUI.push_back(newUIItem);
 	
@@ -752,7 +785,7 @@ SDL_Texture* j1Gui::GetAtlas()
 void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
-	App->scene->LoadScene(SceneState::LEVEL1);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::LOBBY);
 }
 
 void j1Gui::ExitGame()
@@ -790,13 +823,13 @@ void j1Gui::GoBackToStartMenu()
 {
 	resetHoverSwapping = false;
 	App->pause = false;
-	App->scene->LoadScene(SceneState::STARTMENU);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
 
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
-	App->scene->LoadScene(SceneState::STARTMENU);
+	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
 
 

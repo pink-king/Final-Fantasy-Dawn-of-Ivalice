@@ -335,6 +335,15 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 		attack1[i].speed = 50.f;
 		attack1[i].loop = false;
 	}
+	// basic attack pivot offsets
+	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
+	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 50.f };
+	attackPivotOffset[(int)facingDirection::S] = { 22.f, 50.f };
+	attackPivotOffset[(int)facingDirection::N] = { 22.f, 50.f };
+	attackPivotOffset[(int)facingDirection::E] = { 9.f, 50.f };
+	attackPivotOffset[(int)facingDirection::W] = { 37.f, 50.f };
+	attackPivotOffset[(int)facingDirection::NE] = { 18.f, 51.f };
+	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };
 
 	// TELEPORT
 	// -------------------------------------------------------------
@@ -472,9 +481,9 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0; // basic magic ball
 	coolDownData.dodge.cooldownTime = 0;
-	coolDownData.special1.cooldownTime = 1500; // TELEPORT
-	coolDownData.special2.cooldownTime = 1000; // Medusa
-	coolDownData.ultimate.cooldownTime = 3000; // death circle
+	coolDownData.special1.cooldownTime = 5500; // TELEPORT
+	coolDownData.special2.cooldownTime = 2000; // Medusa
+	coolDownData.ultimate.cooldownTime = 10000; // death circle
 
 	previousPos = position;
 }
@@ -541,7 +550,8 @@ bool Ritz::Update(float dt)
 		if (inputReady)
 		{
 			InputMovement(dt);
-			InputCombat();
+			if (App->scene->state != SceneState::LOBBY)
+				InputCombat();
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
 		{
@@ -560,9 +570,12 @@ bool Ritz::Update(float dt)
 	{
 
 		DoPushback();
-		DoPush = false;
+		/*blink = true;
+		alphaTimer.Start();*/
 		App->entityFactory->pushEF = false;
-		LOG("log from ritz update()");
+		LOG("log from marche update()");
+		App->render->SetTextureColor(entityTex, 255, 0, 0);
+
 	}
 
 	/*if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
@@ -586,8 +599,8 @@ bool Ritz::Update(float dt)
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
-			App->camera2D->AddTrauma(10.0f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			/*App->camera2D->AddTrauma(10.0f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);*/
 
 		}
 		if (!inputReady)
@@ -596,16 +609,21 @@ bool Ritz::Update(float dt)
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 8)
 			{
 				// Launch attack
-				App->entityFactory->CreateArrow(GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(),
+				App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
 					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
 
 				// change combat state to idle
 				combat_state = combatState::IDLE;
-				App->camera2D->AddTrauma(40.0f / 100.f);
-				App->input->DoGamePadRumble(0.4f, 100);
+			/*	App->camera2D->AddTrauma(40.0f / 100.f);
+				App->input->DoGamePadRumble(0.4f, 100);*/
 				// restart timer
 				coolDownData.basic.timer.Start();
 			}
+
+			// pivots
+			//reposition pos
+			transference_pivot = attackPivotOffset[pointingDir];
+			transference_pivot -= pivot;
 		}
 		break;
 	}
@@ -742,12 +760,12 @@ bool Ritz::Update(float dt)
 	{
 		App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, this, "\0", 20);
 	}*/
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
+	/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
 		std::vector<LootEntity*>::iterator item = App->entityFactory->player->consumables.begin();
 		if (item != App->entityFactory->player->consumables.end())
 			App->entityFactory->player->ConsumConsumable(*item, this);
-	}
+	}*/
 
 	if (stat.size() != 0)
 	{
@@ -766,14 +784,20 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 
 	inputReady = false; // deactivate user input
 	// checks the direction of aiming
-	iPoint targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
-	fPoint targetPos;
-	targetPos.x = targetDirection.x - GetPivotPos().x;
-	targetPos.y = targetDirection.y - GetPivotPos().y;
-	targetPos.Normalize();
-	// sets new pointing dir
-	float angle = atan2f(targetPos.y, targetPos.x);
-	pointingDir = GetPointingDir(angle);
+	
+	if (aiming)
+	{
+		iPoint targetDirection;
+		fPoint targetPos;
+		targetDirection = App->entityFactory->player->GetCrossHairPivotPos();
+		targetPos.x = targetDirection.x - GetPivotPos().x;
+		targetPos.y = targetDirection.y - GetPivotPos().y;
+		targetPos.Normalize();
+		// sets new pointing dir
+		lastAxisMovAngle = atan2f(targetPos.y, targetPos.x);
+	}
+
+	pointingDir = GetPointingDir(lastAxisMovAngle);
 	// updates renderflip if we need
 	CheckRenderFlip();
 	// links animation and textures
@@ -811,18 +835,11 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 
 fPoint Ritz::GetTeleportPos()
 {
-	fPoint ret;
-	// TODO: rework how to get the heading vector, this calcs are needed previously and do de same
-	// checks the direction of aiming
-	iPoint targetPos = App->entityFactory->player->GetCrossHairPivotPos();
-	fPoint targetDirection;
-	targetDirection.x = targetPos.x - GetPivotPos().x;
-	targetDirection.y = targetPos.y - GetPivotPos().y;
-	targetDirection.Normalize();
-	
-	ret = position + targetDirection * tpMaxDistance;
+	fPoint tpFacingPos;
+	tpFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+	tpFacingPos = position + tpFacingPos * tpMaxDistance;
 
-	return ret;
+	return tpFacingPos;
 }
 
 //bool Ritz::CleanUp()
@@ -837,20 +854,3 @@ fPoint Ritz::GetTeleportPos()
 //}
 
 
-bool Ritz::Load(pugi::xml_node &node)
-{
-	pugi::xml_node nodeSpeed = node.child("Ritz");
-
-	position.x = nodeSpeed.attribute("speedx").as_float();
-	position.y = nodeSpeed.attribute("speedy").as_float();
-	return true;
-}
-
-bool Ritz::Save(pugi::xml_node &node) const
-{
-	pugi::xml_node nodeData = node.append_child("Ritz");
-
-	nodeData.append_attribute("speedx") = characterBaseSpeed.x;
-	nodeData.append_attribute("speedy") = characterBaseSpeed.y;
-	return true;
-}

@@ -5,6 +5,7 @@
 #include "j1PathFinding.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "WaveManager.h"
 #include <ctime>
 #include <random>
 Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint attackRange, uint baseDamage, float attackSpeed, bool dummy, ENTITY_TYPE entityType, const char* name) 
@@ -29,28 +30,40 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 Enemy::~Enemy()
 {
-// TODO: Loot spawn in all enemies? 
-App->attackManager->DestroyAllMyCurrentAttacks(this);
+	App->attackManager->DestroyAllMyCurrentAttacks(this);
 
-App->tex->UnLoad(debugSubtile);
-debugSubtile = nullptr;
-
-memset(idle, 0, sizeof(idle));
-memset(run, 0, sizeof(run));
-memset(basicAttack, 0, sizeof(basicAttack));
-
-
-if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
-{
-
-	if (lifeBar != nullptr)
+	if (inWave)
 	{
-		lifeBar->deliever = nullptr;
-		lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-		lifeBar->to_delete = true;
+		std::vector<Enemy*>::iterator iter = App->entityFactory->waveManager->alive.begin();
+
+		for (; iter != App->entityFactory->waveManager->alive.end(); iter++)
+		{
+			if ((*iter) == this)
+			{
+				break;
+			}
+		}
+
+		App->entityFactory->waveManager->alive.erase(iter);
+		// Probably here will change the label of remaining enemies in the wave? 
+		LOG("Enemies remaining: %i", App->entityFactory->waveManager->alive.size());
 	}
-}
-LOG("parent enemy bye");
+
+	memset(idle, 0, sizeof(idle));
+	memset(run, 0, sizeof(run));
+	memset(basicAttack, 0, sizeof(basicAttack));
+
+
+	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
+	{
+		if (lifeBar != nullptr)
+		{
+			lifeBar->deliever = nullptr;
+			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			lifeBar->to_delete = true;
+		}
+		LOG("parent enemy bye");
+	}
 }
 
 bool Enemy::SearchNewPath()
@@ -355,8 +368,20 @@ bool Enemy::Load(pugi::xml_node &)
 	return true;
 }
 
-bool Enemy::Save(pugi::xml_node &) const
+bool Enemy::Save(pugi::xml_node &node) const
 {
+	if(type == ENTITY_TYPE::ENEMY_BOMB)
+		node.append_attribute("type") = "enemyBomb";
+	else if(type == ENTITY_TYPE::ENEMY_TEST)
+		node.append_attribute("type") = "enemyTest";
+
+	node.append_attribute("level") = level;
+	node.append_attribute("life") = life;
+	pugi::xml_node nodeSpeed = node.append_child("position");
+
+	nodeSpeed.append_attribute("x") = position.x;
+	nodeSpeed.append_attribute("y") = position.y;
+
 	return true;
 }
 

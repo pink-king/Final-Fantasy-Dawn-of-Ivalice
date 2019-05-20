@@ -47,7 +47,11 @@ public:
 	_TTF_Font*			    openSansBold18 = nullptr;
 	_TTF_Font*			    openSansBold36 = nullptr;
 	_TTF_Font*			    openSansSemiBold24 = nullptr;
+	_TTF_Font*				openSansSemiBold36 = nullptr;
+	_TTF_Font*				piecesofEight36 = nullptr;
 	_TTF_Font*				piecesofEight48 = nullptr;
+	_TTF_Font*				piecesofEight24 = nullptr;
+	_TTF_Font*				piecesofEight18 = nullptr;
 
 	// hitpoint labels
 	_TTF_Font*              shatterBoxx36 = nullptr;

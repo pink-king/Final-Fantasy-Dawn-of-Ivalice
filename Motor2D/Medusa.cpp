@@ -60,8 +60,8 @@ void Medusa::Pulsation()
 void Medusa::Explode()
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::POISON_ELEMENT, 60, radius, 50, true, true);
-	App->input->DoGamePadRumble(0.5F, 1000);
-	App->camera2D->AddTrauma(40.F / 100);
+	App->input->DoGamePadRumble(0.3F, 1000);
+	App->camera2D->AddTrauma(20.F / 100);
 	to_delete = true; 
 
 }

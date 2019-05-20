@@ -41,17 +41,12 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	/*if (entitiesTimeDamage.size() != 0)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 	{
-		std::list<j1Entity*>::iterator item = entitiesTimeDamage.begin();
-		for (; item != entitiesTimeDamage.end() && ret; ++item)
-		{
-			if (DamageInTime(*item))
-			{
-				entitiesTimeDamage.remove(*item);
-			}
-		}
-	}*/
+		godMode = !godMode;
+
+		godMode ? App->scene->god_label->hide = false : App->scene->god_label->hide = true;
+	}
 	return ret;
 }
 
@@ -61,9 +56,12 @@ bool j1BuffManager::CleanUp()
 
 	while (item != buffs.end())
 	{
-		buffs.remove(*item);
-		delete *item;
-		*item = nullptr;
+		if (*item != nullptr)
+		{
+			buffs.remove(*item);
+			delete *item;
+			*item = nullptr;
+		}
 		++item;
 	}
 	buffs.clear();
@@ -79,7 +77,6 @@ bool j1BuffManager::CleanUp()
 
 	return true;
 }
-
 
 Buff* j1BuffManager::CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character, std::string stat, float value)
 {
@@ -154,17 +151,19 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 }
 
 
-void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
+bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float initialDamage, ELEMENTAL_TYPE elementType, std::string stat)
 {
 	BROFILER_CATEGORY("Direct Attack", Profiler::Color::ForestGreen);
+	if (godMode && defender == App->entityFactory->player)
+		return true;
 
 	float lifeToSubstract = CalculateStat(attacker, initialDamage, elementType, ROL::ATTACK_ROL, stat) - CalculateStat(defender, defender->defence, elementType, ROL::DEFENCE_ROL, stat);
 	if (lifeToSubstract <= 0)
 	{
-		lifeToSubstract  = 1;
+		lifeToSubstract  = 4;
 	}
-	else
-		defender->life -= lifeToSubstract;
+	
+	defender->life -= lifeToSubstract;
 	// add always a hitpoint
 	// but if we have a previous one, unlink
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
@@ -179,10 +178,14 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
 		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
-		
+		App->scene->previous_counter = App->scene->hit_counter;
+		App->scene->hit_counter += 1;
+		App->scene->decreaseAlpha = false;
 		App->entityFactory->pushEF = true;
+		App->input->DoGamePadRumble(200, 100);
+		App->camera2D->AddTrauma(0.5f);
+		App->scene->timeindmg.Start();
 
-		
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
 			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
@@ -237,7 +240,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 
 		
 																													  // but, enemy can die no
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
+	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
 		entitiesTimeDamage.remove(defender);
@@ -283,7 +286,8 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 	}
 	else if (defender->life < 0 && defender->type == ENTITY_TYPE::PLAYER)
 	{
-		defender->life = 0;
+		App->scene->isDeath = true;
+		App->pause = true;
 	}
 
 
@@ -304,7 +308,7 @@ void j1BuffManager::DirectAttack(j1Entity * attacker, j1Entity* defender, float 
 		drawRectified -= bloodPivot;
 		App->particles->AddParticle(App->particles->blood02, drawRectified.x, drawRectified.y - defender->pivot.y, { 0,0 }, 0u, renderFlip);
 	}
-	
+	return true;
 }
 
 void j1BuffManager::CreateBurned(j1Entity* attacker, j1Entity* defender, float damageSecond, uint totalTime, std::string stat, bool paralize)
@@ -471,10 +475,20 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
+					if(player->coolDownData.basic.cooldownTime == 0)
+						player->coolDownData.basic.cooldownTime = 0;
 					player->coolDownData.dodge.cooldownTime *= value;
+					if (player->coolDownData.dodge.cooldownTime <= 0)
+						player->coolDownData.dodge.cooldownTime = 0;
 					player->coolDownData.special1.cooldownTime *= value;
+					if (player->coolDownData.special1.cooldownTime <= 0)
+						player->coolDownData.special1.cooldownTime = 0;
 					player->coolDownData.special2.cooldownTime *= value;
+					if (player->coolDownData.special2.cooldownTime <= 0)
+						player->coolDownData.special2.cooldownTime = 0;
 					player->coolDownData.ultimate.cooldownTime *= value;
+					if (player->coolDownData.ultimate.cooldownTime <= 0)
+						player->coolDownData.ultimate.cooldownTime = 0;
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{
@@ -485,7 +499,9 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					player->coolDownData.ultimate.cooldownTime -= value;
 				}
 			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST ||
+				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
+				entity->type == ENTITY_TYPE::ENEMY_ARCHER)
 			{
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 					enemy->attackSpeed *= value;
@@ -508,7 +524,9 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					player->characterBaseSpeed.y += value;
 				}
 			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST ||
+				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
+				entity->type == ENTITY_TYPE::ENEMY_ARCHER)
 			{
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
@@ -535,7 +553,9 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					App->entityFactory->player->life += value;
 				}
 			}
-			else if (entity->type == ENTITY_TYPE::ENEMY_TEST)
+			else if (entity->type == ENTITY_TYPE::ENEMY_TEST ||
+				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
+				entity->type == ENTITY_TYPE::ENEMY_ARCHER)
 			{
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
@@ -582,7 +602,9 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->coolDownData.ultimate.cooldownTime += buff->GetValue();
 			}
 		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_ARCHER)
 		{
 			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
 				enemy->attackSpeed /= buff->GetValue();
@@ -605,7 +627,9 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->characterBaseSpeed.y -= buff->GetValue();
 			}
 		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST || 
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_ARCHER)
 		{
 			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
 			{
@@ -632,7 +656,9 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				App->entityFactory->player->life -= buff->GetValue();
 			}
 		}
-		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST)
+		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
+			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_ARCHER)
 		{
 			if (buff->GetType() == BUFF_TYPE::MULTIPLICATIVE)
 			{
@@ -714,7 +740,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 { 
 
 	BROFILER_CATEGORY("Damage in Time", Profiler::Color::ForestGreen);
-
+	if (godMode && entity == App->entityFactory->player)
+		return true;
 	bool ret = false;
 	iPoint drawRectified;
 	if (entity == App->entityFactory->player)
@@ -760,6 +787,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
+
 						}
 						else
 						{
@@ -791,7 +821,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						{
 							iPoint stonePivot = { 8, 48 };
 							drawRectified -= stonePivot;
-							// TODO Add SFX
+							// TODO Add SFX ?
 							//App->audio->PlayFx(healingSFX, 0);
 							App->particles->AddParticle(App->particles->stone01, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
 						}
@@ -833,6 +863,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
+
 						}
 						else
 						{
@@ -866,6 +899,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						if (entity->type == ENTITY_TYPE::PLAYER)
 						{
 							App->entityFactory->player->life -= (*item)->secDamage;
+							App->entityFactory->dmgInTimeFdbck = true;
+							App->input->DoGamePadRumble(70, 50);
 						}
 						else
 						{
@@ -1018,9 +1053,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 		entity->to_die = true;
 		return true;
 	}
-	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER)
+	else if (entity->life < 0 && entity->type == ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath)
 	{
-		entity->life = 0;
+		App->scene->isDeath = true;
+		App->pause = true;
 	}
 	if (entity->stat.size() == 0)
 		ret = true;
@@ -1045,19 +1081,7 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 		break;
 	}
 	
-	case ENTITY_TYPE::ENEMY_TEST:
-	{
-		if (!entity->isParalize && entity->currentAnimation->speed != 0.f)
-		{
-			dynamic_cast<Enemy*>(entity)->lastAnimationSpeed = dynamic_cast<Enemy*>(entity)->currentAnimation->speed;
-			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = 0.f;
-		}
-		else
-			dynamic_cast<Enemy*>(entity)->currentAnimation->speed = dynamic_cast<Enemy*>(entity)->lastAnimationSpeed;
-		break;
-	}
-
-	case ENTITY_TYPE::ENEMY_BOMB:
+	case ENTITY_TYPE::ENEMY_TEST || ENTITY_TYPE::ENEMY_BOMB || ENTITY_TYPE::ENEMY_ARCHER:
 	{
 		if (!entity->isParalize && entity->currentAnimation->speed != 0.f)
 		{
@@ -1092,14 +1116,26 @@ fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
 	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
 	int xfactor, yfactor;
 	
-	player->unitariX = unitVec.x;
-	player->unitariY = unitVec.y;
+	
 	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
 	
-	player->DoPush = true;
+
 	LOG("log from buffmanager getplayerEnemy");
 	return unitVec;
 
-	return vec;
 
+}
+
+bool j1BuffManager::Load(pugi::xml_node &node)
+{
+
+	return true;
+}
+
+// TODO: random crash here
+// sometimes when the player dies
+bool j1BuffManager::Save(pugi::xml_node &node) const
+{
+
+	return true;
 }

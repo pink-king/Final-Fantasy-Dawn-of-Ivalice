@@ -12,15 +12,15 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 }
 
 // Standard stats
-EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 30, 1.F, dummy, ENTITY_TYPE::ENEMY_BOMB, "Bomb")
+EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 10, 1.F, dummy, ENTITY_TYPE::ENEMY_BOMB, "Bomb")
 {
 	LoadAnims(); 
 }
 
 EnemyBomb::~EnemyBomb()
 {
-	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
-	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 6, 60, true);
+//	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
+	App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS, damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, 3, 2, 60, true);
 
 
 
@@ -28,10 +28,18 @@ EnemyBomb::~EnemyBomb()
 
 bool EnemyBomb::Start()
 {
+	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
 	return true;
 }
 bool EnemyBomb::PreUpdate()
 {
+
+	if (!isInDetectionRange())
+		state = EnemyState::IDLE;
+
+	if (to_die)
+		state = EnemyState::DYING;
+
 
 	return true;
 }
@@ -54,9 +62,7 @@ bool EnemyBomb::Update(float dt)
 
 bool EnemyBomb::PostUpdate()
 {
-	if (to_die)
-		state = EnemyState::DYING;
-
+	
 	return true;
 }
 
@@ -67,11 +73,12 @@ bool EnemyBomb::CleanUp()
 	
 
 	std::list<entityStat*>::iterator item = stat.begin();
-	for (; item != stat.end(); ++item)
+	for (; item != stat.end(); )
 	{
-		stat.remove(*item);
 		delete *item;
 		*item = nullptr;
+		item = stat.erase(item);
+
 	}
 	stat.clear();
 
@@ -99,6 +106,7 @@ void EnemyBomb::SetState(float dt)
 	{
 	case EnemyState::IDLE:
 	{
+		path_to_follow.clear();
 		currentAnimation = &idle[pointingDir];
 		if (isInDetectionRange() && !dummy)
 		{
@@ -166,7 +174,6 @@ void EnemyBomb::SetState(float dt)
 
 		if (App->entityFactory->player->ChangedTile())
 		{
-			App->entityFactory->ReleaseAllReservedSubtiles();
 			if (checkTime.Read() > GetRandomValue(250, 1000))
 			{
 				path_to_follow.clear();
@@ -228,16 +235,27 @@ void EnemyBomb::SetState(float dt)
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
 			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
-				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);			
-			to_delete = true;
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);		
+			exploded = true; 
+			to_die = true;
 		}
 	}
 	break;
 
 	case EnemyState::DYING:
 		currentAnimation = &dyingAnim;
-		if (currentAnimation->Finished()) {
+		if (!exploded)
+		{
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
+			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
+
+			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
+				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
+			App->audio->PlayFx(App->entityFactory->bombExplodeSFX, 0);
+			exploded = true;
+		}
+
+		if (currentAnimation->Finished()) {
 			to_delete = true;
 		}
 		break;

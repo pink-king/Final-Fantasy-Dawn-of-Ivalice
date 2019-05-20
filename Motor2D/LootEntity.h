@@ -31,6 +31,7 @@ enum class OBJECT_TYPE
 	HEAD_OBJECT,
 	POTIONS,
 	GOLD,
+	PHOENIX_TAIL,
 
 	NO_OBJECT
 };
@@ -102,8 +103,10 @@ public:
 	std::vector<Buff*>	stats;
 
 	uint price = 10;
-	EQUIPABLE_TYPE equipableType;
-	ELEMENTAL_TYPE elemetalType;
+	uint vendorPrice = 20; 
+
+	EQUIPABLE_TYPE equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
+	ELEMENTAL_TYPE elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
 
 	j1Entity* character = nullptr;
 	OBJECT_TYPE objectType = OBJECT_TYPE::NO_OBJECT;
@@ -116,6 +119,8 @@ public:
 	UiItem_Description* MyDescription = nullptr; 
 	bool spawnedDescription = false;
 	void CheckClampedCrossHairToSpawnDescription();
+
+	bool clampedByCrosshair = false;
 
 protected:
 
