@@ -763,3 +763,34 @@ int j1PathFinding::CreateSubtilePath(const iPoint & origin, const iPoint & desti
 //	LOG("Invalid path: The algorithm has extended to all the possible nodes and hasn't found a path to the destination.");
 //	return -1;
 //}
+
+uint j1PathFinding::GetIndexAt(const iPoint& pos) const
+{
+	return uint(pos.y * width + pos.x);
+}
+
+void j1PathFinding::ActivateTile(const iPoint & tile)
+{
+	if (CheckBoundaries(tile))
+	{
+		int id = GetIndexAt(tile);
+		if (map != NULL)
+		{
+			if (map[id] != 0)
+				map[id] = 0;
+		}
+	}
+}
+
+void j1PathFinding::DeactivateTile(const iPoint & tile)
+{
+	if (CheckBoundaries(tile))
+	{
+		int id = GetIndexAt(tile);
+		if (map != NULL)
+		{
+			if (map[id] == 0)
+				map[id] = 1;
+		}
+	}
+}

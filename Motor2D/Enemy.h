@@ -41,7 +41,7 @@ enum class EnemyState
 enum class EnemyType
 {
 	MELEE,
-	DISTANCE,
+	ARCHER,
 	TRAP,
 	BOMB,
 	TEST
@@ -92,6 +92,8 @@ public:
 	uint speed = 0;
 
 	uint level;
+	bool inWave = false;
+
 protected:
 	std::vector<iPoint> path_to_follow;
 

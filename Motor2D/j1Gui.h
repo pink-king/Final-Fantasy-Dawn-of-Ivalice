@@ -143,9 +143,12 @@ public:
 	bool resetHoverSwapping = false;
 	theClocks allclocksData;
 	clockOwners spawnedClocks;
-	unsigned int selectUI;
-	unsigned int acceptUI;
+	
 	enemyHealthBarInfo enemyLifeBarInfo;
+	SDL_Texture* hurt_hud_tex = nullptr;
+	SDL_Texture* hurt_hud_tex2 = nullptr;
+	SDL_Texture* hurt_hud_tex3 = nullptr;
+
 };
 
 

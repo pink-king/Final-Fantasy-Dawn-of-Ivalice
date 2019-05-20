@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "EnemyTest.h"
 #include "EnemyBomb.h"
+#include "EnemyArcher.h"
 #include "Enemy.h"
 #include "j1BuffManager.h"
 #include "j1Scene.h"
@@ -16,10 +17,25 @@
 #include "EmmiterArrows.h"
 #include "Medusa.h"
 #include "Tornado.h"
+#include "DialogTrigger.h"
+#include "Portal.h"
+#include "LobbyPortal.h"
+#include "EnemyProjectile.h"
+#include "SaveTrigger.h"
+#include "WinTrigger.h"
+#include "NoWalkableTrigger.h"
+#include "ExitPortal.h"
 #include "Brofiler/Brofiler.h"
 #include "EarthShaker.h"
+#include "WaveManager.h"
+#include "GolemProjectile.h"
+#include "j1PathFinding.h"
+#include "BossEmmiter.h"
+#include "BossEmmiterArrow.h"
+#include "WaveTrigger.h"
 #include <ctime>
 #include <algorithm>
+#include "Boss_Flower.h"
 
 
 
@@ -36,22 +52,6 @@ j1EntityFactory::~j1EntityFactory()
 bool j1EntityFactory::Awake(pugi::xml_node & node)
 {
 	bool ret = true;
-
-	pugi::xml_node entity;
-	for (entity = node.child("entities").child("entity"); entity && ret; entity = entity.next_sibling("entity"))
-	{
-		if (node.attribute("type").as_string() == "static")
-			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_STATIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
-
-		else if (node.attribute("type").as_string() == "dinamic")
-			entities.push_back(CreateEntity(ENTITY_TYPE::ENTITY_DYNAMIC, node.attribute("positionX").as_float(), node.attribute("positionY").as_float(), node.attribute("name").as_string()));
-	}
-
-	std::vector<j1Entity*>::iterator item = entities.begin();
-	for (; item != entities.end(); ++item)
-	{
-		(*item)->LoadEntitydata(node);
-	}
 
 	return ret;
 }
@@ -70,12 +70,15 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
+	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolemv2.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
 	ritzBasicTex = App->tex->Load("textures/spells/Ritz_attacks/ritzBasicTest.png");
 	marcheTornadoTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpin.png");
-	lootItemsTex = App->tex->Load("textures/loot/loot_items.png");
+	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
+	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
+	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
 
 	// Load SFX
 	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
@@ -124,7 +127,26 @@ bool j1EntityFactory::Start()
 
 	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
 	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
+	bombExplodeSFX = App->audio->LoadFx("audio/fx/Enemies/bomb_explode.wav");
 
+	golem_deathSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_death.wav");
+	golem_impactWallSFX =App->audio->LoadFx("audio/fx/Enemies/golem/golem_impactWall.wav");
+	golem_spawnSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_spawn.wav");
+	golem_spawnAttackSFX = App->audio->LoadFx("audio/fx/Enemies/golem/spawn_attack.wav");
+
+	wave_end = App->audio->LoadFx("audio/fx/Enemies/wave/wave_end.wav");
+	wave_start = App->audio->LoadFx("audio/fx/Enemies/wave/wave_start.wav");
+	wave_respawn = App->audio->LoadFx("audio/fx/Enemies/wave/wave_spawn.wav");
+
+	boss_flower_basic = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basic.wav");
+	boss_flower_BasicImpWall = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basicImpWall.wav");
+	boss_flower_deathCirc = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_deathcircle_SFX.wav");
+	boss_flower_death = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_dead.wav");
+
+	portal_appear = App->audio->LoadFx("audio/fx/Portal/portal_appear.wav");
+	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
+	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
+	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
 
 	LoadSpawnGroups();
 
@@ -189,7 +211,10 @@ bool j1EntityFactory::Update(float dt)
 			else
 			{
 				//if entit is diffetent to player create loot
-				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT && (*item)->type != ENTITY_TYPE::PROJECTILE) //needs to be loot too, otherwise if player collects loot thereis teh cnahce to create loot again
+				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
+					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS 
+					&& (*item)->type != ENTITY_TYPE::PARTICLE && (*item)->type != ENTITY_TYPE::NO_TYPE)
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
@@ -271,6 +296,8 @@ bool j1EntityFactory::CleanUp()
 	enemyZombieTex = nullptr;
 	App->tex->UnLoad(enemyBombTex);
 	enemyBombTex = nullptr;
+	App->tex->UnLoad(enemyGolemTex);
+	enemyGolemTex = nullptr; 
 	App->tex->UnLoad(debugsubtileTex);
 	debugsubtileTex = nullptr;
 	App->tex->UnLoad(arrowsTexture);
@@ -283,6 +310,11 @@ bool j1EntityFactory::CleanUp()
 	marcheTornadoTex = nullptr;
 	App->tex->UnLoad(lootItemsTex); 
 	lootItemsTex = nullptr;
+	App->tex->UnLoad(portalTex);
+	portalTex = nullptr;
+	App->tex->UnLoad(campFireTex);
+	campFireTex = nullptr;
+
 
 	player = nullptr;
 
@@ -294,13 +326,14 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 
 	for (pugi::xml_node nodeEntities = node.child("Entities"); nodeEntities; nodeEntities = nodeEntities.next_sibling("Entities"))
 	{
-		
 		if (App->entityFactory->player != nullptr)
 		{
 			App->entityFactory->player->Load(nodeEntities);
 		}
 			
 	}
+	App->scene->ComeToDeath = false;
+
 	return true;
 }
 
@@ -316,6 +349,80 @@ bool j1EntityFactory::Save(pugi::xml_node &node) const
 			(*item)->Save(nodeEntities);
 		}
 	}
+	return true;
+}
+
+bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
+{
+	if (loadEnemies)
+	{
+		for (pugi::xml_node node2 = node.child("Entities"); node2; node2 = node2.next_sibling("Entities"))
+		{
+			Enemy* ret = nullptr;
+
+			pugi::xml_node nodeSpeed = node2.child("position");
+			iPoint spawnPos = { nodeSpeed.attribute("x").as_int(),nodeSpeed.attribute("y").as_int() + 16 };
+
+			std::string retType = node2.attribute("type").as_string();
+			if (retType.compare("enemyBomb") == 0)
+			{
+				ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
+				ret->level = node2.attribute("level").as_int();
+				ret->life = node2.attribute("life").as_float();
+
+				if (ret != nullptr)
+				{
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
+				}
+			}
+
+			if (retType.compare("enemyTest") == 0)
+			{
+				ret = CreateEnemy(EnemyType::TEST, spawnPos, false);
+				ret->level = node2.attribute("level").as_int();
+				ret->life = node2.attribute("life").as_float();
+				if (ret != nullptr)
+				{
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
+					App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
+				}
+			}
+		}
+	}
+	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
+	{
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->Load(characterPlayer);
+		}
+	}
+
+
+	//TODO create out portal
+	return true;
+}
+
+bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
+{
+	std::vector<j1Entity*>::const_iterator item = entities.begin();
+	for (; item != entities.end(); ++item)
+	{
+		if (((*item)->type == ENTITY_TYPE::ENEMY_BOMB || (*item)->type == ENTITY_TYPE::ENEMY_TEST) && (*item) != nullptr)
+		{
+			pugi::xml_node nodeEntities = node.append_child("Entities");
+			(*item)->Save(nodeEntities);
+		}
+
+		if ((*item)->type == ENTITY_TYPE::PLAYER)
+		{
+			pugi::xml_node nodeEntities = node.append_child("Players");
+			(*item)->Save(nodeEntities);
+		}
+
+		
+	}
+
 	return true;
 }
 
@@ -362,6 +469,10 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 		
 		LOG("From factory Loot Entity");
 		break;
+
+	case FLOWERBOSS:
+		ret = DBG_NEW FlowerBossEntity({ positionX, positionY });
+		entities.push_back(ret);
 	default:
 		break;
 	}
@@ -387,12 +498,14 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 	case EnemyType::MELEE:
 		break; 
 
-	case EnemyType::DISTANCE:
+	case EnemyType::ARCHER:
+		ret = DBG_NEW EnemyArcher(pos, dummy); 
+		entities.push_back(ret);
 		break; 
 
 	case EnemyType::TRAP:
 		break;
-	
+
 	default:
 		break;
 	}
@@ -407,10 +520,15 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 	uint numBombs = 0;
 	uint numTests = 0;
+	uint numArchers = 0; 
 	uint cont = 0;
 
 	uint bombProbs = 3;
 	uint testProbs = 8;
+	uint archerProbs = 3;
+
+	if (enemyTypes.empty())
+		return;
 
 	while (cont < numEnemies)
 	{
@@ -421,12 +539,15 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
+			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(spawnPos.x, spawnPos.y)))
+				continue; 
+
 			LOG("Spawn Position: %i, %i", spawnPos.x, spawnPos.y);
 
 			switch (*typeIter)
 			{
 			case EnemyType::BOMB:
-				if (CreateRandomBetween(1, 10) <= bombProbs)
+				if (CreateRandomBetween(1, 10) <= bombProbs && cont < numEnemies)
 				{
 					// Last paramater is dummy
 					ret = CreateEnemy(EnemyType::BOMB, spawnPos, false);
@@ -437,8 +558,8 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 					}
 					if (ret != nullptr)
 					{
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(5, 15) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(7, 17) + 5 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(3, 5) + 2 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(4, 8) + 2 * ret->level);
 						numBombs++;
 						cont++;
 					}
@@ -457,10 +578,30 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 						ret->level = App->entityFactory->player->level + enemyLevel;
 					}
 					if (ret != nullptr)
-					{	
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 10) + 5 * ret->level);
-						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(10, 20) + 5 * ret->level);
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(2, 3) + 2 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(4, 8) + 2 * ret->level);
 						numTests++;
+						cont++;
+					}
+				}
+				break;
+
+			case EnemyType::ARCHER:
+				if (CreateRandomBetween(1, 10) <= archerProbs && cont < numEnemies)
+				{
+					// Last paramater is dummy
+					ret = CreateEnemy(EnemyType::ARCHER, spawnPos, false);
+
+					if (App->entityFactory->player != nullptr)
+					{
+						ret->level = App->entityFactory->player->level + enemyLevel;
+					}
+					if (ret != nullptr)
+					{
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, ret, "\0", CreateRandomBetween(4, 6) + 3 * ret->level);
+						App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ret, "\0", CreateRandomBetween(20, 25) + 3 * ret->level);
+						numArchers++;
 						cont++;
 					}
 				}
@@ -481,8 +622,10 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 
 void j1EntityFactory::LoadSpawnGroups()
 {
-	for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++){
-		CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+	if (!App->scene->ComeToPortal) {
+		for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++) {
+			CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+		}
 	}
 	spawngroups.clear();
 }
@@ -540,6 +683,22 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		entities.push_back(ret);
 		break;
 
+	case PROJECTILE_TYPE::ENEMY_ARROW:
+		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
+		entities.push_back(ret); 
+		break; 
+	case PROJECTILE_TYPE::GOLEM_ARROW:
+		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
+		entities.push_back(ret);
+		break;
+	case PROJECTILE_TYPE::BOSS_EMMITER:
+		/*ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
+		entities.push_back(ret);*/
+		break;
+	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
+		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
+		entities.push_back(ret);
+		break;
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -547,6 +706,15 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		break;
 	}
 	
+
+	return ret;
+}
+
+j1Entity* j1EntityFactory::CreateBossEmitter(fPoint pos, uint radius, uint spawnRatio, const j1Entity* owner, uint lifeTime)
+{
+	j1Entity* ret = nullptr;
+	ret = DBG_NEW BossEmmiter(pos, radius, spawnRatio, owner, lifeTime);
+	entities.push_back(ret);
 
 	return ret;
 }
@@ -577,7 +745,7 @@ LootEntity* j1EntityFactory::CreateLoot(/*LOOT_TYPE lType,*/ int posX, int posY)
 
 LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 {
-	uint max = 2; 
+	uint max = 8; 
 
 	LootEntity* ret = nullptr;
 	if (GetRandomValue(1, max) == 1)
@@ -589,11 +757,60 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 	return nullptr; 
 }
 
+Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color)
+{
+	Trigger* ret = nullptr;
+	switch (type)
+	{
+	case TRIGGER_TYPE::PORTAL:	
+		ret = new Portal(posX, posY,scene,color);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::LOBBYPORTAL:
+		ret = new LobbyPortal(posX, posY, scene, color);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::NO_TRIGGER:
+		break;
+	case TRIGGER_TYPE::WIN:
+		ret = new WinTrigger(posX, posY, scene, color);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::NOWALKABLE:
+		ret = new NoWalkableTrigger(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::EXITPORTAL:
+		ret = new ExitPortal(posX, posY);
+		entities.push_back(ret);
+		break;
+	case TRIGGER_TYPE::SAVE:
+		ret = new SaveTrigger(posX, posY);
+		entities.push_back(ret);
+		break;
+	default:
+		break;
+	}
+	return ret;
+}
 
+Trigger * j1EntityFactory::CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level)
+{
+	Trigger* ret = nullptr; 
+	ret = DBG_NEW WaveTrigger(pos.x, pos.y, zone, level); 
+	entities.push_back(ret);
 
+	return ret;
+}
 
+Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger)
+{
+	Trigger* ret = nullptr;
+	ret = new DialogTrigger(posX, posY, Dtrigger);
+	entities.push_back(ret);
 
-
+	return ret;
+}
 
 uint j1EntityFactory::CreateRandomBetween(uint min, uint max)
 {
@@ -628,7 +845,19 @@ PlayerEntityManager* j1EntityFactory::CreatePlayer(iPoint position)
 	return nullptr;
 }
 
+WaveManager * j1EntityFactory::CreateWave(const SDL_Rect & zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger)
+{
+	waveManager = DBG_NEW WaveManager(zone, numWaves, wave, linkedTrigger);
 
+	if (waveManager != nullptr)
+	{
+		entities.push_back(waveManager);
+		return waveManager;
+	}
+
+	LOG("Failed to create Wave Manager");
+	return nullptr;
+}
 
 bool j1EntityFactory::SortByYPos(const j1Entity * entity1, const j1Entity * entity2)
 {
@@ -680,7 +909,91 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
-			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB) // || other enemy types 
+			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS) 
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+
+	return ret;
+}
+
+j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
+{
+
+	j1Entity* ret = nullptr;
+
+	if (!isThisSubtileReserved(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGER)
+			{
+				ret = *entityIterator;
+				if (ret != nullptr)
+				{
+					return ret;
+				}
+			}
+		}
+	}
+	return nullptr;
+}
+
+j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
+{
+
+	j1Entity* ret = nullptr;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::LOOT)
+			{
+				ret = *entityIterator;
+				return ret;
+			}
+		}
+	}
+	return nullptr;
+}
+
+bool j1EntityFactory::BoolisThisSubtileTriggerFree(const iPoint pos) const
+{
+
+	bool ret = false;
+
+	if (!isThisSubtileReserved(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGER && (*entityIterator)->to_delete == false)
+			{
+				ret = true;
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
+bool j1EntityFactory::isThisSubtilePlayerFree(const iPoint pos) const
+{
+	bool ret = true;
+
+	if (!isThisSubtileEmpty(pos))
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == ENTITY_TYPE::PLAYER)
 			{
 				ret = false;
 				break;
@@ -723,6 +1036,38 @@ void j1EntityFactory::AssignEntityToSubtile(j1Entity* entity) const
 		LOG("Trying to assign entity out of boundaries, ignoring");
 }
 
+void j1EntityFactory::AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile)
+{
+	if (CheckSubtileMapBoundaries(subtile))
+		entitiesDataMap[GetSubtileEntityIndexAt(subtile)].entities.push_back(entity);
+
+	else
+		LOG("Trying to assign entity out of boundaries, ignoring");
+	
+}
+
+bool j1EntityFactory::DeleteEntityFromSubtilePos(j1Entity * entity, iPoint subtile)
+{
+	bool ret = false;
+
+	int index = GetSubtileEntityIndexAt(subtile);
+
+	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+	{
+		if (*entityIterator == entity)
+		{
+			//LOG("found");
+			entitiesDataMap[index].entities.erase(entityIterator);
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
+}
+
 bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 {
 	bool ret = false;
@@ -744,6 +1089,8 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 
 	return ret;
 }
+
+
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
 {
@@ -799,7 +1146,7 @@ void j1EntityFactory::ReleaseAllReservedSubtiles()
 	{
 		reservedAdjacentSubtiles[i] = false; 
 	}
-	LOG("RELEASED ALL RESERVED SUBTILES");
+	//LOG("RELEASED ALL RESERVED SUBTILES");
 }
 
 bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
@@ -808,7 +1155,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -822,12 +1169,19 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 		break;
 	case EnvironmentAssetsTypes::WALL1:
 		break;
+	case EnvironmentAssetsTypes::TRIGGERWALL:
+		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
+		break;
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
 		break;
 	}
-}bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
+
+	return assetEntity;
+}
+
+bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 {
 	int randID = 0;
 	int id;
@@ -864,7 +1218,7 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 			break;
 		case 2:
 			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;	
 			if (lootEntity->level == 0)
 				lootEntity->level = App->entityFactory->player->level;
 			break;
@@ -988,13 +1342,13 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 					{
 
 						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20) * 0.01, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level*0.1, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level*0.02, lootEntity);
 					}
 					else
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
 						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.05, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.1, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
 					}
 				}
 			}
@@ -1012,8 +1366,8 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 					lootEntity->lootname = node.attribute("name").as_string();
 
 					if (id == 1)
-					{
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20) + lootEntity->level * 15, lootEntity);
+					{					
+							lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20) + lootEntity->level * 15, lootEntity);
 					}
 
 					else if (id == 2)
@@ -1134,12 +1488,12 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 					else if (id == 2)
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.1, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
 					}
 					else
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.1, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 5, lootEntity);
 					}
 				}
@@ -1167,12 +1521,12 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 					else if (id == 2)
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 2.5, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.2, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.05, lootEntity);
 					}
 					else
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.2, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.05, lootEntity);
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 5, lootEntity);
 					}
 				}
@@ -1200,12 +1554,12 @@ void j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, 
 					else if (id == 2)
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 10, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.2, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.05, lootEntity);
 					}
 					else
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 10, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.2, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.05, lootEntity);
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 5, lootEntity);
 					}
 				}
@@ -1344,15 +1698,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 	if (itemStats.subStatMajor == -1.f)
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.1f * itemStats.subStatMinor; 
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMinor; 
 	}
 	else if (itemStats.subStatMinor == -1.f)
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.25f * itemStats.subStatMajor;
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f * itemStats.subStatMajor;
 	}
 	else
 	{
-		itemStatValue = 0.65f * itemStats.mainStat + 0.25f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
+		itemStatValue = 1.2f * itemStats.mainStat + 0.45f  * itemStats.subStatMajor + 0.1f * itemStats.subStatMinor;
 	}
 
 	
@@ -1361,6 +1715,15 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 
 	// 6: downwards deduction for player, and increase for vendor 
+
+
+	if (isConsumable)
+	{
+		if (item->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+		{
+			baseFinalPrice = 3000;
+		}
+	}
 
 	item->price = baseFinalPrice * 0.85f;
 	item->vendorPrice = baseFinalPrice * 1.15f; 
@@ -1463,7 +1826,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 
 			float attack, resistance, cooldown;
-			attack = resistance = cooldown = -666.f;
+			attack = resistance = cooldown = 0.0f;
 
 
 
@@ -1492,7 +1855,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 			lootItem->MyDescription->iconImage->printFromLoot = true;
-			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 
 		}
 		else if (lootItem->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT || lootItem->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT)
@@ -1531,7 +1894,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 			lootItem->MyDescription->iconImage->printFromLoot = true;
-			lootItem->MyDescription->iconImage->scaleFactor = 4.0f;
+			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 
 
 
@@ -1560,7 +1923,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 		lootItem->MyDescription->iconImage->printFromLoot = true;
-		lootItem->MyDescription->iconImage->scaleFactor = 6.0f;
+		lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 	}
 
 
@@ -1589,17 +1952,28 @@ void j1EntityFactory::DoDescriptionComparison(LootEntity * lootItem)
 
 void j1EntityFactory::AddExp(Enemy * enemy)
 {
-	uint expToAdd = 100;
-	uint bonusLevel = (enemy->level - player->level) * 25;
-	player->exp += expToAdd + bonusLevel;
-
-	if (player->exp > player->maxExpInLevel)
+	// TODO: CHECK WTF IS THIS
+	if (enemy != nullptr)
 	{
-		++player->level;
-		player->exp -= player->maxExpInLevel;
+		uint expToAdd = 100;
+		uint bonusLevel = (enemy->level - player->level) * 25;
+		player->exp += expToAdd + bonusLevel;
+
+		if (player->exp > player->maxExpInLevel)
+		{
+			++player->level;
+			player->exp -= player->maxExpInLevel;
 
 
-		player->GetVendor()->generateVendorItems(true); 
+			player->GetVendor()->generateVendorItems(true);
+
+
+
+			std::string dest = "LVL" + std::to_string(player->level) ;
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+
+		}
 	}
 }
 

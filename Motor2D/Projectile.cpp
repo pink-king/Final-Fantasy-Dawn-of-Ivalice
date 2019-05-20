@@ -14,11 +14,12 @@ Projectile::Projectile(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 Projectile::~Projectile()
 {
-	if (debugSubtile != nullptr)
+	// It belongs to the factory
+	/*if (debugSubtile != nullptr)
 	{
 		App->tex->UnLoad(debugSubtile);
 		debugSubtile = nullptr;
-	}
+	}*/
 }
 
 
@@ -66,6 +67,11 @@ bool Projectile::OnCollisionWithWall() const
 	return (!App->pathfinding->IsWalkable(GetTilePos()));
 }
 
+bool Projectile::OnCollisionWithPlayer() const
+{
+	return (!App->entityFactory->isThisSubtilePlayerFree(GetSubtilePos()));
+}
+
 bool Projectile::ReachedDestiny() const
 {
 	return (GetPivotPos().DistanceManhattan(destination) < 20);
@@ -101,3 +107,7 @@ bool Projectile::Save(pugi::xml_node &) const
 
 
 
+const j1Entity* Projectile::GetOwnerEntity() const
+{
+	return owner;
+}

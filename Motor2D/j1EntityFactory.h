@@ -4,9 +4,11 @@
 #include "j1Module.h"
 #include "j1Entity.h"
 #include "Enemy.h"
+#include "Trigger.h"
 #include "PlayerEntityManager.h"
+#include "WaveManager.h"
 #include <vector>
-
+#include "Color.h"
 #include "j1Map.h"
 #include "ConsumableLoot.h"
 #include "EquipableLoot.h"
@@ -26,6 +28,7 @@ enum class EnvironmentAssetsTypes
 {
 	NO_TYPE,
 	WALL,
+	TRIGGERWALL,
 	WALL1,
 	// ---
 	MAX
@@ -64,23 +67,39 @@ public:
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+
+	bool LoadPortal(pugi::xml_node&);
+	bool SavePortal(pugi::xml_node&) const;
+
 	// entities constructors -------
 	PlayerEntityManager* CreatePlayer(iPoint position);
+	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger = nullptr);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
 	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
 	void LoadSpawnGroups();
 	
 	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime = 0);
+	j1Entity* CreateBossEmitter(fPoint pos, uint radius, uint spawnRatio, const j1Entity* owner, uint lifeTime);
 
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
+
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
+	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
+	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
+
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
 
 	void CreateEntitiesDataMap(int width, int height);
 	bool isThisSubtileEmpty(const iPoint position) const;
 	bool isThisSubtileEnemyFree(const iPoint pos) const; 
+	j1Entity* isThisSubtileTriggerFree(const iPoint pos) const;
+	j1Entity* isThisSubtileLootFree(const iPoint pos) const;
+
+	bool BoolisThisSubtileTriggerFree(const iPoint pos) const;
+	bool isThisSubtilePlayerFree(const iPoint pos) const; 
 	int GetSubtileEntityIndexAt(const iPoint position) const;
 	bool areAllSubtilesReserved() const; 
 
@@ -89,7 +108,10 @@ public:
 	static bool SortByYPos(const j1Entity* entity1, const j1Entity* entity2);
 
 	void AssignEntityToSubtile(j1Entity* entity) const;
+	void AssignEntityToSubtilePos(j1Entity* entity, iPoint subtile);
+	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
+
 
 	// Subyacent subtiles functions
 
@@ -101,11 +123,13 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	void CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	void CreateLootStats(LootEntity* lootEntity);
+
 	int GetRandomValue(int min, int max);
 	j1Entity* CreateLootType(int x, int y, LOOT_TYPE definedType = LOOT_TYPE::NO_LOOT);
 	LOOT_TYPE WillDrop();
@@ -119,32 +143,37 @@ public:
 	
 	fPoint getplayerDamagevec();
 	void setPlayerDmageVec(fPoint unitari);
-
+	
 	void MagicPriceCalculator(LootEntity*);
 
 public:
 	fPoint					dmg_vec;
 	bool					pushEF = false;
-
+	bool					dmgInTimeFdbck = false;
+	bool					loadEnemies = false;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
+	WaveManager*			waveManager = nullptr;
 
 	SDL_Texture*			texture = nullptr;
 	SDL_Texture*			assetsAtlasTex = nullptr;
 	// TO DO Atlas of enemies
 	SDL_Texture*			enemyZombieTex = nullptr; 
 	SDL_Texture*			enemyBombTex = nullptr; 
+	SDL_Texture*			enemyGolemTex = nullptr;
 	SDL_Texture*			debugsubtileTex = nullptr; 
 	SDL_Texture*			arrowsTexture = nullptr; 
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
 	SDL_Texture*			marcheTornadoTex = nullptr;
 	SDL_Texture*			lootItemsTex = nullptr; 
+	SDL_Texture*			portalTex = nullptr;
+	SDL_Texture*			campFireTex = nullptr;
 
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
 	bool justGold;
-
+	j1Timer alphaTimer;
 	//----SFX-----//
 	unsigned int lootGroundSFX;
 	unsigned int potionGroundSFX;
@@ -186,6 +215,24 @@ public:
 	unsigned int sharaAbility2_ImpactsWall;
 	unsigned int BombDeathSFX;
 	unsigned int bombgetHitSFX;
+	unsigned int bombExplodeSFX;
+	unsigned int golem_deathSFX;
+	unsigned int golem_impactWallSFX;
+	unsigned int golem_spawnSFX;
+	unsigned int golem_spawnAttackSFX;
+
+	unsigned int wave_respawn;
+	unsigned int wave_start;
+	unsigned int wave_end;
+	unsigned int boss_flower_deathCirc;
+	unsigned int boss_flower_basic;
+	unsigned int boss_flower_BasicImpWall;
+	unsigned int boss_flower_death; //looking for this SFX
+	unsigned int portal_appear;
+	unsigned int portal_mantain;
+	unsigned int portal_vanish;
+	unsigned int portal_travel;
+
 private:
 	std::vector<j1Entity*>	draw_entities;
 	// subtile data map, associated entities to subtile
@@ -197,12 +244,12 @@ private:
 
 	int subtileWidth = 0; // stores the size in subtiles scale
 	int subtileHeight = 0;
-	int equipableChance = 35;
-	int baseItemChance = 50; 
-	int goldChance = 50; 
+	int equipableChance = 10;
+	int baseItemChance = 80; 
+	int goldChance = 16; 
 
-	uint minKillsToDeserveLoot = 5;
-	uint minKillsWithPerfectGoldToDeserveMaxPrice = 15; 
+	uint minKillsToDeserveLoot = 10;
+	uint minKillsWithPerfectGoldToDeserveMaxPrice = 20; 
 	int goldMin = 0; 
 	int goldMax = 0; 
 	

@@ -7,7 +7,7 @@
   </app>
 
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
@@ -29,13 +29,17 @@
   <scene>
     <InGameUi>
       <images>
-
+  <image name="dialogue_box">
+          <section x="452" y="297" w="458" h="109"/>
+          <flag  value="dialogueBox" />
+        </image>
+		
         <image name="loot_item_panel">
-          <section x="640" y="222" w="244" h="257"/>
+          <section x="1" y="64" w="225" h="239"/>
           <flag  value="loot" />
         </image>
         <image name="loot_item_panel_no_button">
-          <section x="922" y="222" w="238" h="243"/>
+          <section x="227" y="167" w="225" h="239"/>
           <flag  value="lootNoButton" />
         </image>
         <image name="life_bar">
@@ -63,12 +67,16 @@
           <position x="40" y="21"/>
         </image>
         <image name="dPad">
-          <section x="527" y="105" w="52" h="52"/>
+          <section x="227" y="115" w="52" h="52"/>
           <position x="1170" y="617"/>
         </image>
         <image name="potion">
-          <section x="580" y="105" w="26" h="32"/>
+          <section x="280" y="115" w="26" h="32"/>
           <position x="1232" y="625"/>
+        </image>
+        <image name="phoenix_tail">
+          <section x="307" y="115" w="29" h="37"/>
+          <position x="1142" y="622"/>
         </image>
         <!--
         <image name="level_box">
@@ -88,7 +96,7 @@
         <healthbar name="life_bar">
           <dynamicSection x="0" y="432" w="153" h="31"/>
           <damageSection x="28" y="414" w="126" h="16"/>
-          <position x="32" y="133"/>
+          <position x="32" y="150"/>
           <type value="player"/>
         </healthbar>
 
@@ -103,20 +111,20 @@
 
       <clocks>
         <clock name="ability1_clock">
-          <section x="859" y="126" w="51" h="51"/>
-          <position x="160" y="635"/>
+          <section x="856" y="123" w="54" h="54"/>
+          <position x="164" y="635"/>
           <type value="ability1"/>
         </clock>
 
         <clock name="ability2_clock">
-          <section x="859" y="126" w="51" h="51"/>
-          <position x="220" y="635"/>
+          <section x="856" y="123" w="54" h="54"/>
+          <position x="226" y="635"/>
           <type value="ability2"/>
         </clock>
 
         <clock name="ulti_clock">
-          <section x="859" y="126" w="51" h="51"/>
-          <position x="280" y="635"/>
+          <section x="856" y="123" w="54" h="54"/>
+          <position x="288" y="635"/>
           <type value="ulti"/>
 
         </clock>
@@ -131,27 +139,27 @@
     <InGameUiM>
       <images>
         <image name="basic_marche">
-          <section x="371" y="1" w="51" h="51"/>
+          <section x="371" y="1" w="54" h="54"/>
           <position x="40" y="635 "/>
         </image>
         <image name="dash_marche">
-          <section x="371" y="105" w="51" h="51"/>
-          <position x="100" y="635"/>
+          <section x="426" y="1" w="54" h="54"/>
+          <position x="102" y="635"/>
         </image>
         <image name="tornado_marche">
-          <section x="475" y="1" w="51" h="51"/>
-          <position x="220" y="635"/>
+          <section x="536" y="1" w="54" h="54"/>
+          <position x="226" y="635"/>
         </image>
         <image name="scarWind_shara">
-          <section x="423" y="157" w="51" h="51"/>
-          <position x="160" y="635"/>
+          <section x="481" y="1" w="54" h="54"/>
+          <position x="164" y="635"/>
         </image>
         <image name="rage_marche">
-          <section x="423" y="1" w="51" h="51"/>
-          <position x="280" y="635"/>
+          <section x="591" y="1" w="54" h="54"/>
+          <position x="288" y="635"/>
         </image>
         <image name="marche">
-          <section x="641" y="1" w="84" h="92"/>
+          <section x="855" y="1" w="84" h="92"/>
           <position x="41" y="37"/>
         </image>
         <image name="player2">
@@ -163,26 +171,26 @@
           <position x="153" y="41"/>
         </image>
         <image name="basic_button">
-          <section x="312" y="1" w="58" h="30"/>
-          <position x="36" y="603"/>
+          <section x="346" y="6" w="24" h="24"/>
+          <position x="55" y="608"/>
         </image>
 
         <image name="dash_button">
-          <section x="253" y="1" w="58" h="30"/>
-          <position x="96" y="603"/>
+          <section x="287" y="6" w="24" h="24"/>
+          <position x="117" y="608"/>
         </image>
 
         <image name="scarWind_button">
-          <section x="194" y="33" w="58" h="30"/>
-          <position x="156" y="603"/>
+          <section x="228" y="38" w="24" h="24"/>
+          <position x="179" y="608"/>
         </image>
         <image name="tornado_button">
-          <section x="194" y="2" w="58" h="30"/>
-          <position x="218" y="603"/>
+          <section x="228" y="2" w="24" h="30"/>
+          <position x="241" y="602"/>
         </image>
         <image name="rage_button">
-          <section x="253" y="32" w="55" h="30"/>
-          <position x="278" y="603"/>
+          <section x="287" y="32" w="21" h="30"/>
+          <position x="305" y="602"/>
         </image>
 
 
@@ -193,24 +201,24 @@
     <InGameUiS>
       <images>
         <image name="basic_shara">
-          <section x="423" y="53" w="51" h="51"/>
+          <section x="371" y="111" w="54" h="54"/>
           <position x="40" y="635 "/>
         </image>
         <image name="dash_shara">
-          <section x="423" y="105" w="51" h="51"/>
-          <position x="100" y="635"/>
+          <section x="426" y="111" w="54" h="54"/>
+          <position x="102" y="635"/>
         </image>
         <image name="fireArrow_shara">
-          <section x="475" y="53" w="51" h="51"/>
-          <position x="160" y="635"/>
+          <section x="481" y="111" w="54" h="54"/>
+          <position x="164" y="635"/>
         </image>
         <image name="contagious_shara">
-          <section x="527" y="53" w="51" h="51"/>
-          <position x="220" y="635"/>
+          <section x="536" y="111" w="54" h="54"/>
+          <position x="226" y="635"/>
         </image>
         <image name="skyShot_shara">
-          <section x="579" y="53" w="51" h="51"/>
-          <position x="280" y="635"/>
+          <section x="591" y="111" w="54" h="54"/>
+          <position x="288" y="635"/>
         </image>
         <image name="shara">
           <section x="1129" y="1" w="96" h="100"/>
@@ -225,26 +233,26 @@
           <position x="153" y="41"/>
         </image>
         <image name="basic_button">
-          <section x="312" y="1" w="58" h="30"/>
-          <position x="36" y="603"/>
+          <section x="346" y="6" w="24" h="24"/>
+          <position x="55" y="608"/>
         </image>
 
         <image name="dash_button">
-          <section x="253" y="1" w="58" h="30"/>
-          <position x="96" y="603"/>
+          <section x="287" y="6" w="24" h="24"/>
+          <position x="117" y="608"/>
         </image>
 
         <image name="fireArrow_button">
-          <section x="194" y="33" w="58" h="30"/>
-          <position x="156" y="603"/>
+          <section x="228" y="38" w="24" h="24"/>
+          <position x="179" y="608"/>
         </image>
         <image name="contagious_button">
-          <section x="194" y="2" w="58" h="30"/>
-          <position x="218" y="603"/>
+          <section x="228" y="2" w="24" h="30"/>
+          <position x="241" y="602"/>
         </image>
         <image name="skiShot_button">
           <section x="253" y="32" w="55" h="30"/>
-          <position x="278" y="603"/>
+          <position x="288" y="602"/>
         </image>
       </images>
     </InGameUiS>
@@ -254,24 +262,24 @@
     <InGameUiR>
       <images>
         <image name="basic_ritz">
-          <section x="527" y="1" w="51" h="51"/>
+          <section x="371" y="56" w="54" h="54"/>
           <position x="40" y="635 "/>
         </image>
         <image name="dash_ritz">
-          <section x="475" y="105" w="51" h="51"/>
-          <position x="100" y="635"/>
+          <section x="426" y="56" w="54" h="54"/>
+          <position x="102" y="635"/>
         </image>
         <image name="teleport_ritz">
-          <section x="371" y="53" w="51" h="51"/>
-          <position x="160" y="635"/>
+          <section x="536" y="56" w="54" h="54"/>
+          <position x="226" y="635"/>
         </image>
         <image name="medusa_shara">
-          <section x="371" y="157" w="51" h="51"/>
-          <position x="220" y="635"/>
+          <section x="481" y="56" w="54" h="54"/>
+          <position x="164" y="635"/>
         </image>
         <image name="deathCircle_ritz">
-          <section x="579" y="1" w="51" h="51"/>
-          <position x="280" y="635"/>
+          <section x="591" y="56" w="54" h="54"/>
+          <position x="288" y="635"/>
         </image>
         <image name="ritz">
           <section x="940" y="1" w="92" h="96"/>
@@ -286,26 +294,26 @@
           <position x="153" y="41"/>
         </image>
         <image name="basic_button">
-          <section x="312" y="1" w="58" h="30"/>
-          <position x="36" y="603"/>
+          <section x="346" y="6" w="24" h="24"/>
+          <position x="55" y="608"/>
         </image>
 
         <image name="dash_button">
-          <section x="253" y="1" w="58" h="30"/>
-          <position x="96" y="603"/>
+          <section x="287" y="6" w="24" h="24"/>
+          <position x="117" y="608"/>
         </image>
 
         <image name="teleport_button">
-          <section x="194" y="33" w="58" h="30"/>
-          <position x="156" y="603"/>
+          <section x="228" y="38" w="24" h="24"/>
+          <position x="179" y="608"/>
         </image>
         <image name="medusa_button">
           <section x="194" y="2" w="58" h="30"/>
-          <position x="218" y="603"/>
+          <position x="224" y="602"/>
         </image>
         <image name="deathCircle_button">
           <section x="253" y="32" w="55" h="30"/>
-          <position x="278" y="603"/>
+          <position x="288" y="602"/>
         </image>
       </images>
     </InGameUiR>
@@ -321,22 +329,30 @@
       </images>
       <buttons>
         <button name="button_ingame" function = "FadeToScene">
-          <idleSec x="856" y="2320" w="222" h="67"/>
+           <idleSec x="856" y="2320" w="222" h="67"/>
           <hoverSec x="856" y="2252" w="222" h="67" />
           <clickSec x="856" y="2388" w="222" h="67" />
-          <position x="101" y="360"/>
+          <position x="943" y="200"/>
         </button>
+
+        <button name="button_loadGame" function = "LoadGame">
+          <idleSec x="1079" y="2728" w="222" h="67"/>
+          <hoverSec x="1079" y="2660" w="222" h="67" />
+          <clickSec x="1079" y="2796" w="222" h="67" />
+          <position x="943" y="300"/>
+        </button>
+
         <button name="button_settings" function = "SettingsScreen">
           <idleSec  x="1079" y="2320" w="222" h="67"/>
           <hoverSec x="1079" y="2252" w="222" h="67" />
           <clickSec x="1079" y="2388" w="222" h="67" />
-          <position x="101" y="460"/>
+          <position x="943" y="400"/>
         </button>
         <button name="button_exit" function = "ExitGame">
           <idleSec  x="856" y="2524" w="222" h="67"/>
           <hoverSec x="856" y="2456" w="222" h="67" />
           <clickSec x="856" y="2592" w="222" h="67" />
-          <position x="101" y="560"/>
+          <position x="943" y="500"/>
         </button>
 
       </buttons>
@@ -444,13 +460,13 @@
           <idleSec  x="856" y="2728" w="222" h="67"/>
           <hoverSec x="856" y="2660" w="222" h="67" />
           <clickSec x="856" y="2796" w="222" h="67" />
-          <position x="530" y="440"/>
+          <position x="530" y="551"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
           <idleSec  x="1079" y="2524" w="222" h="67"/>
           <hoverSec x="1079" y="2456" w="222" h="67" />
           <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="530" y="551"/>
+          <position x="530" y="440"/>
         </button>
       </buttons>
 
@@ -530,7 +546,7 @@
           <idleSec  x="856" y="2728" w="222" h="67"/>
           <hoverSec x="856" y="2660" w="222" h="67" />
           <clickSec x="856" y="2796" w="222" h="67" />
-          <position x="540" y="600"/>
+          <position x="889" y="446"/>
         </button>
       </buttons>
     </DeathScreen>

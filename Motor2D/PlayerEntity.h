@@ -77,6 +77,7 @@ public:
 	float GetLastHeadingAngle() const;
 	void CheckRenderFlip(); // animation relative
 	void Draw();
+	
 
 	bool IsAiming()
 	{
@@ -97,8 +98,10 @@ public:
 	float lastAnimationSpeed;
 	bool inputReady = true;
 protected:
+	fPoint GetShotDirection();
 	void DoDash();
 
+	
 	float dashMaxDistance;
 	int previousFrame; // to swap position with displaced sprites
 	fPoint untouchedPos; // stores original position before the dodge animation
@@ -106,14 +109,15 @@ protected:
 	fPoint dashDestinationPos;
 
 public:
+	
 	bool dodged = false;
 	float lastAxisMovAngle = 0.f;
 	fPoint previousPos;
 	int pointingDir = 0; // relative to facing direction enum order
 	characterName character;
 	int exp = 0; // TODO: BUFF MANAGER
-	fPoint characterBaseSpeed = { 2.0f,1.5f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
-	fPoint characterBaseSpeedKey = { 2.0f, 1.0f };
+	fPoint characterBaseSpeed = { 1.6f,1.2f }; // TODO: IMPLEMENT BUFF MANAGER and adds a percentage multiplicative with equipped items
+	fPoint characterBaseSpeedKey = { 1.7f, 0.85f };
 	SDL_Texture* spritesheet = nullptr;
 	SDL_Texture* dash_spritesheet = nullptr;
 	Animation idle[(int)facingDirection::MAX];
@@ -124,9 +128,11 @@ public:
 	
 	/*std::vector<j1Entity*>	entities;
 	std::vector<j1Entity*> draw_entities;*/
-	j1Timer alphaTimer;
-	void Blinker(SDL_Texture* entityTex, j1Timer alphaTimer);
-	int timeToBlink;
+	
+	
+
+	bool blink = false;
+	
 private:
 	/*j1Timer inputDelayer;
 	j1Timer pulsationTimeRecorder;*/

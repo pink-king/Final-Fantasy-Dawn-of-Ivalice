@@ -38,7 +38,7 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 
 		for (int i = 1; i <= numberOfPot; ++i)
 		{
-			j1Entity* consumable = App->entityFactory->CreateLootType(0, 0, LOOT_TYPE::CONSUMABLE);
+			j1Entity* consumable = DBG_NEW Consumable(0,0, OBJECT_TYPE::POTIONS, CONSUMABLE_TYPE::POTION);
 			App->entityFactory->LoadLootData((LootEntity*)consumable, App->config);
 			EquipVendor((LootEntity*)consumable);
 

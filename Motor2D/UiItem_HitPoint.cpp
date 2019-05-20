@@ -8,7 +8,7 @@
 #include "j1Scene.h"
 #include "Brofiler/Brofiler.h"
 
-UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start();
@@ -20,11 +20,19 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 		newString.append(valueInfo.string);
 		texture = App->font->Print(newString.data(), color, font);
 	}
-	else if(type == variant::number)
+	else if (type == variant::wave)
+	{
+		std::string newString(valueInfo.string);
+		newString.append(" ");
+		newString.append(std::to_string((int)valueInfo.number));
+		texture = App->font->Print(newString.data(), color, font);
+	}
+
+	else if (type == variant::number)
 	{
 		texture = App->font->Print(valueInfo.string.data(), color, font);
 	}
-	
+
 
 
 	this->numerOrText = type;
@@ -43,7 +51,7 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font 
 }
 
 
-UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem*const parent, variant type) :UiItem(position, parent)
+UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type) :UiItem(position, parent)
 {
 	// TODO: Initialize timer
 	lifeSpan.Start();
@@ -66,7 +74,7 @@ UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font * f
 }
 
 
-void UiItem_HitPoint::Draw(const float & dt)
+void UiItem_HitPoint::Draw(const float& dt)
 {
 	BROFILER_CATEGORY("Hit Point Draw", Profiler::Color::DarkTurquoise);
 
@@ -76,7 +84,7 @@ void UiItem_HitPoint::Draw(const float & dt)
 
 	if (!App->scene->inventory->enable)
 	{
-		if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
+		if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
 		{
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
 		}
@@ -89,6 +97,11 @@ void UiItem_HitPoint::Draw(const float & dt)
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
 		}
 
+
+		if (this->numerOrText == variant::wave)
+		{
+			LOG("VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWE");
+		}
 	}
 
 
@@ -105,33 +118,48 @@ lifeState UiItem_HitPoint::returnLifeState() {
 
 	// first considerate the type
 	uint maxLife = 0;
+	uint middlelife = 0;
+
 	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		maxLife = NUMBER_LIFE;
+		middlelife = middeLife;
+	}
+	else if (this->numerOrText == variant::wave)
+	{
+		maxLife = WAVE_LIFE;
+		middlelife = middlelifewave;
 	}
 	else
 	{
 		maxLife = TEXT_LIFE;
-
+		middlelife = middeLife;
 	}
 
 	if (lifeMoment < 300)
 	{
 		ret = fadeIn;
 	}
-	else if (lifeMoment >= 300 && lifeMoment <= 1000)
+	else if (lifeMoment >= 300 && lifeMoment <= middlelife)
 	{
 		ret = Middle;
 	}
-	else if (lifeMoment > 1000 && lifeMoment <= maxLife)
+	else if (lifeMoment > middlelife && lifeMoment <= maxLife)
 	{
+
 		ret = fadeOut;
 	}
-	else
+	else if (lifeMoment > maxLife)
 	{
 		ret = dead;
 		//CleanUp(); 
 		to_delete = true;
+
+
+		if (this->numerOrText == variant::wave)
+		{
+			LOG("VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWE");
+		}
 	}
 
 
@@ -142,7 +170,7 @@ lifeState UiItem_HitPoint::returnLifeState() {
 void UiItem_HitPoint::CleanUp()
 {
 
-	if (this->numerOrText == variant::text || this->numerOrText == variant::gold)
+	if (this->numerOrText == variant::text || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
 	{
 		App->HPManager->labelsSpawned.totalLabels--;
 	}
@@ -160,33 +188,7 @@ void UiItem_HitPoint::updateHitPointPositions()
 	if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 	{
 		hitBox.y -= 2;
-
-
-		/*if (attachedEntity->life > 0)    // TODO: DO THIS FROM THE ENEMY
-		{
-			  // TODO: DO THIS FROM THE ENEMY
-
-			if (attachedEntity->life > 0)    // have a "pivot" on the enemy
-			{
-				//hitBox.x += App->render->WorldToScreen(attachedEntity->GetPosition().x - App->render->ScreenToWorld(this->hitBox.x, 0).x, 0).x;
-				int w, h;
-				SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
-
-				hitBox.x = App->render->WorldToScreen(attachedEntity->position.x, 0).x - w / 2;
-
-			}
-
-		}
-		else
-			LOG("");
-
-		}*/
 	}
-
-	// TODO: update de x: keep in mind the scaleFactor, and move the x to the left
-	/*int w, h;
-	SDL_QueryTexture((*item)->texture, NULL, NULL, &w, &h);
-	 */
 
 }
 
@@ -200,7 +202,11 @@ void UiItem_HitPoint::updateHitPointSizes()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			scaleFactor *= 1.03f;
+			if (this->numerOrText != variant::wave)
+				scaleFactor *= 1.03f;
+			else
+				scaleFactor *= 1.05f;
+
 			break;
 		case Middle:
 
@@ -209,10 +215,11 @@ void UiItem_HitPoint::updateHitPointSizes()
 				scaleFactor /= 1.003f;
 			}
 
+
 			break;
 		case fadeOut:
 
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
 			{
 				scaleFactor /= 1.02f;
 			}
@@ -236,16 +243,28 @@ void UiItem_HitPoint::updateHitPointOpacities()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			alphaValue *= 3;
-			break;
-		case Middle:
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
-			{ 
-				alphaValue /= 1.1f;
+			if (this->numerOrText != variant::wave)
+			{
+				alphaValue *= 3;
 			}
 			else
 			{
+				alphaValue *= 5;
+			}
+
+			break;
+		case Middle:
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
+			{
+				alphaValue /= 1.1f;
+			}
+			else if (this->numerOrText != variant::wave)
+			{
 				alphaValue /= 1.01f;
+			}
+			else
+			{
+				alphaValue /= 1.003f;
 			}
 
 			break;
@@ -254,9 +273,13 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			{
 				alphaValue /= 1.7f;
 			}
-			else
+			else if (this->numerOrText != variant::wave)
 			{
 				alphaValue /= 1.1f;
+			}
+			else
+			{
+				alphaValue /= 1.02f;
 			}
 			break;
 		}
