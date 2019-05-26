@@ -271,6 +271,7 @@ FlowerBossEntity::~FlowerBossEntity()
 			myBossLifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 			myBossLifeBar->staticImage->to_delete = true;
 			myBossLifeBar->divisionImage->to_delete = true; 
+			myBossLifeBar->nameOnTop->to_delete = true; 
 			myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");

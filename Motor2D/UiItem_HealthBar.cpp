@@ -6,7 +6,9 @@
 #include "j1Scene.h"
 #include "j1EntityFactory.h"
 #include "PlayerEntityManager.h"
+#include "j1Fonts.h"
 #include "Brofiler/Brofiler.h"
+
 
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent) : UiItem(position, parent)
 {
@@ -50,6 +52,16 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth,offset.y), divSection, this);
+
+
+	
+
+	this->nameOnTop = App->gui->AddLabel(deliever->name, {230, 240, 200, 255}, App->font->piecesofEight36, iPoint(0,staticImage->hitBox.y - 40), this, false);
+
+	int stringw, stringh = 0; 
+	SDL_QueryTexture(nameOnTop->texture, NULL, NULL, &stringw, &stringh); 
+	iPoint destPos = { (int)((float)this->staticImage->hitBox.x + (float)this->staticImage->section.w *.5f) - (int)((float)stringw * .5f), 0}; 
+	this->nameOnTop->hitBox.x = destPos.x; 
 
 }
 

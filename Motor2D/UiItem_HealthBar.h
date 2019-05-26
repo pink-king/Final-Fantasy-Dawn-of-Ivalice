@@ -11,6 +11,7 @@
 #define bossBarSeparations 4
 
 class UiItem_Image;
+class UiItem_Label; 
 class j1Entity;
 
 enum type
@@ -51,6 +52,8 @@ public:
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
 	UiItem_Image* divisionImage = nullptr;
+	UiItem_Label* nameOnTop = nullptr; 
+
 private:
 
 	uint maxSection = 0;
