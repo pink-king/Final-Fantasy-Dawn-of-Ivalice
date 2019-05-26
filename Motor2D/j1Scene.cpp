@@ -964,6 +964,8 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 			App->gui->bossHealthBarInfo.staticSection = staticSection;
+			SDL_Rect divSection = { uiNode.child("divSection").attribute("x").as_int(), uiNode.child("divSection").attribute("y").as_int(), uiNode.child("divSection").attribute("w").as_int(), uiNode.child("divSection").attribute("h").as_int() };
+			App->gui->bossHealthBarInfo.divSection = divSection;
 		}
 
 	}

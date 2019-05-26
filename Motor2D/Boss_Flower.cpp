@@ -227,7 +227,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 
 	// todo: capture two new special sections for boss bar in scene cpp load ui
 
-	this->myBossLifeBar = App->gui->AddHealthBarToBoss(iPoint(0, 0), &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection,
+	this->myBossLifeBar = App->gui->AddHealthBarToBoss(iPoint(0, 0), &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection, &App->gui->bossHealthBarInfo.divSection,
 		type::boss, this->life, this, App->scene->inGamePanel);
 
 	
@@ -265,6 +265,7 @@ FlowerBossEntity::~FlowerBossEntity()
 			myBossLifeBar->deliever = nullptr;
 			myBossLifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 			myBossLifeBar->staticImage->to_delete = true;
+			myBossLifeBar->divisionImage->to_delete = true; 
 			myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");

@@ -108,7 +108,7 @@ public:
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
 	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem* const parent = nullptr);
-	UiItem_HealthBar* AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent = nullptr); // boss
+	UiItem_HealthBar* AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent = nullptr); // boss
 	
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem* const parent = nullptr);
 

@@ -718,11 +718,11 @@ UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, ty
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent)
+UiItem_HealthBar* j1Gui::AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, staticSection, variant, maxLife, deliever, parent);
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, staticSection, divSection, variant, maxLife, deliever, parent);
 
 	ListItemUI.push_back(newUIItem);
 

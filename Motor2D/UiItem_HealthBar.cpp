@@ -27,7 +27,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 
-UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
@@ -46,7 +46,11 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 	this->deliever = deliever; 
 
-	bossSeparationWidth = maxSection / bossBarSeparations;  // divide bar in 4 sectionss
+	bossSeparationWidth = maxSection / bossBarSeparations;  // divide bar in 4 sections
+
+
+	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth,offset.y), divSection, this);
+
 }
 
 
