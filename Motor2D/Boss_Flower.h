@@ -90,8 +90,9 @@ public:
 	iPoint firstSpawnTilePos;
 	bool spawnDataReady = false;
 
-private:
+public:
 	Boss1State myState = Boss1State::NOTHING;
+private:
 	bool shieldActive = false;
 	bool evading = false;
 	SDL_Texture* boss_spritesheet = nullptr;

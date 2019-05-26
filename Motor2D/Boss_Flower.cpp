@@ -223,7 +223,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	maxEvasion_timer_data.time = 400;
 
 
-	myState = Boss1State::PHASE1;
+	myState = Boss1State::NOTHING;
 
 
 

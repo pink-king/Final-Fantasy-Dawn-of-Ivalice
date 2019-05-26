@@ -66,6 +66,8 @@ public:
 
 	void checkIfNPCFinishedTalking(); 
 	void spawnPlayerLabelAfterNPCFinishesTalking(); 
+
+
 	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
 
 	bool isDialogInScreen = false; 
@@ -75,6 +77,7 @@ public:
 	bool spawnDialogSequence = false; 
 
 	bool waitForNPCTalking = true; 
+
 private:
 	std::vector <DialogTree*> dialogTrees;
 	DialogNode* currentNode;

@@ -59,6 +59,31 @@
   
   
   
+  <dialogtree treeid="3" treeName="BOSS">
+    <node line="You have come so far... Just to perish" id="0">
+      <option line="What the hell are you?!" nextnode="1"/>
+      <option line="What is hapenning in this kingdom?!" nextnode="1"/>
+    </node>  
+ <node line="Ivalice has come to an end, prepare to die" id="1">
+      <option line="Wait, what do you intend?" nextnode="2"/>
+      <option line="So it be" nextnode="666"/>
+    </node>     
+ <node line="Once we all die, our souls will be freed" id="2">
+      <option line="Our souls? What are you suggesting?" nextnode="3"/>
+      <option line="The outcome of Ivalice matters not to me" nextnode="666"/>
+    </node>  
+ <node line="The monsters you have killed... They were humans once" id="2">
+      <option line="Dear Lord, what have I done?..." nextnode="3"/>
+    </node> 
+ <node line="We are all here because of our sins, miscreant!" id="3">
+      <option line="Then I will have to free your soul too" nextnode="666"/>
+      <option line="All I now is that I am going to end this right now" nextnode="666"/>
+    </node>	
+
+  </dialogtree>
+  
+  
+  
   
   
   

@@ -108,6 +108,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LEVEL2)
 	{
+		
+
 		App->entityFactory->CreatePlayer({ -820,3300 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos(1800, -5000);
@@ -129,6 +131,9 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(36, 94));
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
+
+	
+		App->entityFactory->CreateDialogTrigger(PosX.x, PosX.y, "BOSS");     // boss dialog ready for lvl 2 interaction with boss
 
 		
 		//AcceptUISFX_logic = false;
@@ -285,7 +290,7 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		App->win->SetScale(2);
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) //if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->map->ToggleDebugDraw();
 		debug = !debug;
