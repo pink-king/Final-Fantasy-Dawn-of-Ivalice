@@ -348,6 +348,34 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	// how to get joysticks for correct UI navigation/whatever needed situation examples --------
+	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN)
+	{
+		LOG("LEFT JOYSTICK, UP PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_DOWN)
+	{
+		LOG("LEFT JOYSTICK, RIGHT PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_UP)
+	{
+		LOG("LEFT JOYSTICK, RIGHT UNPRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_LEFT) == KEY_DOWN)
+	{
+		LOG("RIGHT JOYSTICK, LEFT PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_UP) == KEY_DOWN)
+	{
+		LOG("RIGHT JOYSTICK, UP PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_DOWN) == KEY_REPEAT)
+	{
+		LOG("RIGHT JOYSTICK, DOWN REPEAT");
+	}
+	// etc
+	// -------------------------------------------------------------------------------------------
+
 	int mx, my;
 	
 	App->input->GetMousePosition(mx, my);

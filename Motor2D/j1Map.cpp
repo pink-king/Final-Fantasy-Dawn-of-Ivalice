@@ -141,7 +141,7 @@ iPoint j1Map::MapToWorld(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -167,7 +167,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -229,7 +229,7 @@ iPoint j1Map::SubTileMapToWorld(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -250,7 +250,7 @@ iPoint j1Map::WorldToSubtileMap(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
