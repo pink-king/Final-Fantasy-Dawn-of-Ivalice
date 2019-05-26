@@ -222,7 +222,10 @@ void UiItem_HealthBar::doDamageToBoss(uint lifeToSubstract)
 
 	for (int i = 1; i <= remainingBossSeparations; ++i)
 	{
-		if (actualDynImageWidth - lifeEquivalentInSection < bossSeparationWidth * (remainingBossSeparations - i))
+		int c1 = (int)actualDynImageWidth - (int)lifeEquivalentInSection; 
+		int c2 = bossSeparationWidth * (remainingBossSeparations - i);
+
+		if (c1 < c2)
 		{
 			SeparationJumps++;
 

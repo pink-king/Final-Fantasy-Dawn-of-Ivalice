@@ -260,12 +260,12 @@ FlowerBossEntity::~FlowerBossEntity()
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-		if (lifeBar != nullptr)
+		if (myBossLifeBar != nullptr)
 		{
-			lifeBar->deliever = nullptr;
-			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-			lifeBar->staticImage->to_delete = true;
-			lifeBar->to_delete = true;
+			myBossLifeBar->deliever = nullptr;
+			myBossLifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			myBossLifeBar->staticImage->to_delete = true;
+			myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");
 	}
