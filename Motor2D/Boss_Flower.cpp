@@ -4,6 +4,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1TransitionManager.h"
+#include "j1Window.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -227,7 +228,11 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 
 	// todo: capture two new special sections for boss bar in scene cpp load ui
 
-	this->myBossLifeBar = App->gui->AddHealthBarToBoss(iPoint(0, 0), &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection, &App->gui->bossHealthBarInfo.divSection,
+	uint width, height = 0; 
+	App->win->GetWindowSize(width, height); 
+	iPoint desiredPosition = {(int)((float)(int)width * .5f) - (int)((float)(int)App->gui->bossHealthBarInfo.staticSection.w * .5f), 50};
+
+	this->myBossLifeBar = App->gui->AddHealthBarToBoss(desiredPosition, &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection, &App->gui->bossHealthBarInfo.divSection,
 		type::boss, this->life, this, App->scene->inGamePanel);
 
 	
