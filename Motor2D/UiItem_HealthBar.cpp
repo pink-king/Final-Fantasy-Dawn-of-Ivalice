@@ -26,6 +26,30 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 }
 
 
+
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
+{
+	this->guiType = GUI_TYPES::HEALTHBAR;
+	this->variantType = variant;
+
+	staticImage = App->gui->AddImage(position, staticSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+
+	iPoint offset((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2); 
+
+	dynamicImage = App->gui->AddImage(position + offset, dynamicSection, this);
+
+	maxSection = dynamicImage->section.w;
+
+	enemyMaxLife = deliever->life;  // boss life
+
+	conversionFactor = maxSection / deliever->life;
+
+	this->deliever = deliever; 
+
+	bossSeparationWidth = maxSection / bossBarSeparations;  // divide bar in 4 sectionss
+}
+
+
 UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever) : UiItem(parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
@@ -105,7 +129,14 @@ void UiItem_HealthBar::Draw(const float& dt)
 			DamageQuadReset();
 		}
 	}
-	else
+	else if (this->variantType == type::boss)
+	{
+	
+		/*lastSection = dynamicImage->section.w;
+		dynamicImage->section.w = conversionFactor * deliever->life;*/  // shouldn't do anything here
+
+	}
+	else if(this->variantType == type::enemy)
 	{
 
 
@@ -178,9 +209,34 @@ void UiItem_HealthBar::CleanUp()
 		if (damageImage != nullptr)
 			damageImage->to_delete = true;
 	}
+	
 
 }
 
+void UiItem_HealthBar::doDamageToBoss(uint lifeToSubstract)
+{
+	uint SeparationJumps = 0; 
+
+	uint lifeEquivalentInSection = lifeToSubstract * conversionFactor;   
+	uint actualDynImageWidth = dynamicImage->section.w; 
+
+	for (int i = 1; i <= bossBarSeparations; ++i)
+	{
+		if (actualDynImageWidth - lifeEquivalentInSection < bossSeparationWidth * (remainingBossSeparations - i))
+		{
+			SeparationJumps++;
+
+		}
+	}
+
+	if (SeparationJumps > 0)
+	{
+		remainingBossSeparations -= SeparationJumps;
+		dynamicImage->section.w = bossSeparationWidth * remainingBossSeparations;
+
+	}
+	
+}
 
 
 void UiItem_HealthBar::DamageLogic()

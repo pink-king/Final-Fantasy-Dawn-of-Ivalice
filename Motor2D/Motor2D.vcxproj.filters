@@ -134,9 +134,6 @@
     <ClCompile Include="j1Gui.cpp">
       <Filter>Development\Modules\GUI\core</Filter>
     </ClCompile>
-    <ClCompile Include="UiItem.cpp">
-      <Filter>Development\Modules\GUI\core</Filter>
-    </ClCompile>
     <ClCompile Include="UiItem_HitPointManager.cpp">
       <Filter>Development\Modules\GUI\managers</Filter>
     </ClCompile>
@@ -250,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="WaveTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem.cpp">
+      <Filter>Development\Modules\GUI\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -401,9 +401,6 @@
     <ClInclude Include="GUI_Definitions.h">
       <Filter>Development\Modules\GUI\core\help</Filter>
     </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Development\Modules\GUI\core</Filter>
-    </ClInclude>
     <ClInclude Include="UiItem.h">
       <Filter>Development\Modules\GUI\core</Filter>
     </ClInclude>
@@ -523,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="WaveTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Development\Modules\GUI\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -717,6 +717,22 @@ UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, ty
 
 
 
+
+UiItem_HealthBar* j1Gui::AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, staticSection, variant, maxLife, deliever, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_HealthBar*)newUIItem;
+
+}
+
+
+
+
 UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::string type, std::string charName, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;

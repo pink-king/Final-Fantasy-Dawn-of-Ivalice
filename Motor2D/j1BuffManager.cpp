@@ -7,6 +7,7 @@
 #include "UiItem_Image.h"
 #include "j1ParticlesClassic.h"
 #include "Brofiler/Brofiler.h"
+#include "Boss_Flower.h"
 
 j1BuffManager::j1BuffManager()
 {
@@ -171,6 +172,12 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 	/*if (attacker->type == ENTITY_TYPE::PLAYER)
 		getPlayerandEnemyVec(attacker, defender);*/
+
+	if (defender->type == ENTITY_TYPE::FLOWERBOSS)
+	{
+		int a = 0; 
+		dynamic_cast<FlowerBossEntity*>(defender)->myBossLifeBar->doDamageToBoss(lifeToSubstract); 
+	}
 
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{

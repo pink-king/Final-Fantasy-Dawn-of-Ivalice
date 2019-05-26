@@ -105,6 +105,13 @@
           <position x="113" y="78"/>
           <type value="enemy"/>
         </healthbar>
+		
+		
+		<healthbar name="life_bar_boss">
+          <dynamicSection x="371" y="443" w="245" h="15"/>
+          <staticSection x="641" y="441" w="249" h="19"/>
+          <type value="boss"/>
+        </healthbar>
 
       </healthbars>
 

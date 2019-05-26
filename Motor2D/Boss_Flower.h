@@ -133,7 +133,8 @@ private:
 	j1Entity* rainEmitter = nullptr;
 
 
-	UiItem_HealthBar* lifeBar = nullptr; 
+public: 
+	UiItem_HealthBar* myBossLifeBar = nullptr; 
 
 };
 
