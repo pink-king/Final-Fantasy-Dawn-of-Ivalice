@@ -220,7 +220,7 @@ void UiItem_HealthBar::doDamageToBoss(uint lifeToSubstract)
 	uint lifeEquivalentInSection = lifeToSubstract * conversionFactor;   
 	uint actualDynImageWidth = dynamicImage->section.w; 
 
-	for (int i = 1; i <= bossBarSeparations; ++i)
+	for (int i = 1; i <= remainingBossSeparations; ++i)
 	{
 		if (actualDynImageWidth - lifeEquivalentInSection < bossSeparationWidth * (remainingBossSeparations - i))
 		{
@@ -234,6 +234,7 @@ void UiItem_HealthBar::doDamageToBoss(uint lifeToSubstract)
 		remainingBossSeparations -= SeparationJumps;
 		dynamicImage->section.w = bossSeparationWidth * remainingBossSeparations;
 
+		LOG("There has been a boss helathbar substaction!!!"); 
 	}
 	
 }

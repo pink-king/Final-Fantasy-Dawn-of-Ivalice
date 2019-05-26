@@ -175,7 +175,6 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 	if (defender->type == ENTITY_TYPE::FLOWERBOSS)
 	{
-		int a = 0; 
 		dynamic_cast<FlowerBossEntity*>(defender)->myBossLifeBar->doDamageToBoss(lifeToSubstract); 
 	}
 
