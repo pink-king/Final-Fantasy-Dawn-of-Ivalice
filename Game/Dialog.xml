@@ -77,7 +77,7 @@
     </node> 
  <node line="We are all here because of our sins, miscreant!" id="3">
       <option line="Then I will have to free your soul too" nextnode="666"/>
-      <option line="All I now is that I am going to end this right now" nextnode="666"/>
+      <option line="I am going to end this right now" nextnode="666"/>
     </node>	
 
   </dialogtree>

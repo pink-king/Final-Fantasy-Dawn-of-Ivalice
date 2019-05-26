@@ -63,6 +63,13 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	iPoint destPos = { (int)((float)this->staticImage->hitBox.x + (float)this->staticImage->section.w *.5f) - (int)((float)stringw * .5f), 0}; 
 	this->nameOnTop->hitBox.x = destPos.x; 
 
+
+
+	this->staticImage->hide = true;
+	this->dynamicImage->hide = true;
+	this->divisionImage->hide = true;
+	this->nameOnTop->hide = true;
+
 }
 
 
@@ -200,6 +207,16 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 }
 
+
+void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
+{
+
+	this->staticImage->hide = false; 
+	this->dynamicImage->hide = false;
+	this->divisionImage->hide = false;
+	this->nameOnTop->hide = false;
+
+}
 
 void UiItem_HealthBar::UpdatePos()
 {

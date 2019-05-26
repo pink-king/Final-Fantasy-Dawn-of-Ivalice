@@ -47,6 +47,9 @@ public:
 
 	void CleanUp();
 
+
+	void ShowBossBarWhenDialogIsOver(); 
+
 public:
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
@@ -79,7 +82,7 @@ public:
 	damageInfo damageInform;
 	j1Entity* deliever = nullptr;
 
-	;
+   
 };
 
 #endif
