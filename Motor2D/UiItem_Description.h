@@ -98,14 +98,20 @@ public:
 
 	comparisonLabel damageComparisonLabel; 
 	comparisonLabel resistanceComparisonLabel;  // also for armor
-	comparisonLabel cooldownComparisonLabel;  // also for armor
-	// for potions 
-	UiItem_Label* effectLabel = nullptr; 
+	comparisonLabel cooldownComparisonLabel;  
+
 
 	// for armors
-
 	UiItem_Label* HPLabel = nullptr;
 	UiItem_Label* VelocityLabel = nullptr;
+
+	comparisonLabel HPComparisonLabel;
+	comparisonLabel velocityComparisonLabel;
+
+
+	// for potions 
+	UiItem_Label* effectLabel = nullptr;
+
 
 	// price
 
@@ -133,6 +139,10 @@ public:
 	// to capture
 	float attack; 
 	float resistance; 
+	float cooldown; 
+
+	float HP; 
+	float velocity; 
 
 	// flag
 	bool hasToCompare = true; 
