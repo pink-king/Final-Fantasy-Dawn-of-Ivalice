@@ -96,8 +96,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 
-	if (this->equipmentLootInfo.HP != 666)
-	{
+	
 		std::string HPString("HP: ");
 		HPString.append(std::to_string((int)variableType.HP));
 
@@ -105,18 +104,12 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		this->HPLabel = App->gui->AddLabel(HPString,  { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->HPLabel->useCamera = false;
 
-		this->equipmentLootInfo.spawnedHP = true;
-	}
-	if (this->equipmentLootInfo.velocity != 666)
-	{
+
 		std::string VelocityString("VEL: ");
 		VelocityString.append(std::to_string((int)variableType.velocity));
 
 		this->VelocityLabel = App->gui->AddLabel(VelocityString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->VelocityLabel->useCamera = false;
-
-		this->equipmentLootInfo.spawnedVecloty = true;
-	}
 
 
 
@@ -513,15 +506,22 @@ void UiItem_Description::HideAllComparisonLabels()
 	switch (this->callback->objectType)
 	{
 	case OBJECT_TYPE::WEAPON_OBJECT:
+
 		this->damageComparisonLabel.label->hide = true; 
 
 		  // TODO: cooldown and defense
+			this->cooldownComparisonLabel.label->hide = true; 
+
+			this->resistanceComparisonLabel.label->hide = true;
+
 		break; 
+
 	case OBJECT_TYPE::ARMOR_OBJECT:
+
 		this->resistanceComparisonLabel.label->hide = true;
 
-
-		// TODO: hp and velocity
+		// TODO: hp and velocity comparisons
+		
 
 		break;
 	}
@@ -735,14 +735,11 @@ void UiItem_Description::SwitchCameraUsage()
 		this->resistanceComparisonLabel.label->useCamera = true;   // ADD HP LABEL AND VELOCITY LABEL
 
 
-		if (this->equipmentLootInfo.spawnedHP)
-		{
-			HPLabel->useCamera = true;
-		}
-		if (this->equipmentLootInfo.spawnedVecloty)
-		{
+
+			this->HPLabel->useCamera = true;
+
 			this->VelocityLabel->useCamera = true;
-		}
+		
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -795,14 +792,10 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 
 		this->resistanceComparisonLabel.label->hide = hide;   // ADD HP LABEL AND VELOCITY LABEL
 
-		if (this->equipmentLootInfo.spawnedHP)
-		{
-			HPLabel->hide = hide;
-		}
-		if (this->equipmentLootInfo.spawnedVecloty)
-		{
+			this->HPLabel->hide = hide;
+	
 			this->VelocityLabel->hide = hide;
-		}
+	
 
 	}
 	else if (this->descrType == descriptionType::POTION)
@@ -904,25 +897,12 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		}
 
 
-
-		if (this->equipmentLootInfo.spawnedHP && this->equipmentLootInfo.spawnedVecloty)
-		{
-			HPLabel->hitBox.x = referencePanelPosition.x + 90;
+        	HPLabel->hitBox.x = referencePanelPosition.x + 90;
 			HPLabel->hitBox.y = referencePanelPosition.y + 100;
 
 			VelocityLabel->hitBox.x = referencePanelPosition.x + 90;
 			VelocityLabel->hitBox.y = referencePanelPosition.y + 130;
-		}
-		else if (this->equipmentLootInfo.spawnedHP && !this->equipmentLootInfo.spawnedVecloty)
-		{
-			HPLabel->hitBox.x = referencePanelPosition.x + 90;
-			HPLabel->hitBox.y = referencePanelPosition.y + 100;
-		}
-		else if (!this->equipmentLootInfo.spawnedHP && this->equipmentLootInfo.spawnedVecloty)
-		{
-			VelocityLabel->hitBox.x = referencePanelPosition.x + 90;
-			VelocityLabel->hitBox.y = referencePanelPosition.y + 100;
-		}
+	
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -988,15 +968,10 @@ void UiItem_Description::DeleteEverything()
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
 
 
-		if (this->equipmentLootInfo.spawnedHP)
-		{
+		
 			App->gui->destroyElement(this->HPLabel);
-		}
-
-		if (this->equipmentLootInfo.spawnedVecloty)
-		{
 			App->gui->destroyElement(this->VelocityLabel);
-		}
+		
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{

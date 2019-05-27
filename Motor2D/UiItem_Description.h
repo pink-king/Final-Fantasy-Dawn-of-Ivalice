@@ -14,18 +14,14 @@ class UiItem_Label;
 
 struct EquipmentStatType
 {
-	int HP = 666;
-	bool spawnedHP = false;
-	int velocity = 666;
-	bool spawnedVecloty = false;
+	int HP = 0;
+	int velocity = 0;
 };
 
 struct WeaponStatType
 {
-	int cooldown = 666; 
-	bool spawnedCooldown = false; 
-	int defense = 66; 
-	bool spawnedDefesne = false; 
+	int cooldown = 0; 
+	int defense = 0; 
 };
 
 enum descriptionType
