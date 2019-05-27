@@ -499,10 +499,10 @@ void UiItem_Description::Draw(const float& dt)
 
 				if (!hasToCompare)
 				{
-					if (myLootItemIsEquipped.state == ACTIVE)
+					/*if (myLootItemIsEquipped.state == ACTIVE)
 					{
 						HideAllComparisonLabels();   // hide equipped objects comparison
-					}
+					}*/
 				}
 				else
 				{
@@ -530,7 +530,8 @@ void UiItem_Description::Draw(const float& dt)
 			
 				// MORE PROTECTION TO NOT COMPARE WHEN THE ITEM DOES NOT BELONG TO CURRENT CHARACTER
 
-				if (App->entityFactory->player->selectedCharacterEntity != this->callback->character)
+				if (App->entityFactory->player->selectedCharacterEntity != this->callback->character
+					|| myLootItemIsEquipped.state == ACTIVE)
 				{
 					HideAllComparisonLabels();
 				}
