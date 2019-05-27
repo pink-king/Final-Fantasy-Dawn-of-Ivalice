@@ -36,9 +36,9 @@ FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity 
 
 FireArrow::~FireArrow()
 {
-	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+	App->audio->PlayFx(App->scene->sharaAbility1, 0);
 	if(hitwall)
-		App->audio->PlayFx(App->entityFactory->sharaAbility1_ImpactsWall, 0);
+		App->audio->PlayFx(App->scene->sharaAbility1_ImpactsWall, 0);
 
 
 }

@@ -20,7 +20,7 @@ EnemyProjectile::EnemyProjectile(fPoint pos, fPoint destination, uint speed, con
 	size.create(32, 32);
 	// TODO: Add different SFX
 	//App->audio->PlayFx(App->entityFactory->sharaBasic);
-	App->audio->PlayFx(App->entityFactory->boss_flower_basic, 0);
+	App->audio->PlayFx(App->scene->boss_flower_basic, 0);
 	// Important for aiming offset
 	SetInitially();
 }
@@ -44,7 +44,7 @@ bool EnemyProjectile::PreUpdate()
 		App->particles->AddParticle(App->particles->fire02, GetPivotPos().x - 45, GetPivotPos().y - 65, { 0,0 }, 200);
 
 		// TODO:: Add different sfx
-		App->audio->PlayFx(App->entityFactory->boss_flower_BasicImpWall, 0);
+		App->audio->PlayFx(App->scene->boss_flower_BasicImpWall, 0);
 	}
 	return true;
 }
@@ -76,7 +76,7 @@ bool EnemyProjectile::Contact()
 	App->particles->AddParticle(App->particles->fire02, GetPivotPos().x - 45, GetPivotPos().y - 65, { 0,0 }, 200);
 
 	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
-	App->audio->PlayFx(App->entityFactory->basicBodyImp, 0);
+	App->audio->PlayFx(App->scene->basicBodyImp, 0);
 
 	to_delete = true;
 

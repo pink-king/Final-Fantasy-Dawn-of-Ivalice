@@ -594,7 +594,7 @@ bool Ritz::Update(float dt)
 			if (attack1Tex != nullptr)
 			{
 				SetStopperState();
-				App->audio->PlayFx(App->entityFactory->RitzBasic, 0);
+				App->audio->PlayFx(App->scene->RitzBasic, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -655,7 +655,7 @@ bool Ritz::Update(float dt)
 			{
 				SetStopperState();
 				tpPos = GetTeleportPos();
-				App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
+				App->audio->PlayFx(App->scene->RitzAbility1, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -722,7 +722,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
 			coolDownData.ultimate.timer.Start();
-			App->audio->PlayFx(App->entityFactory->RitzUltimate, 0);
+			App->audio->PlayFx(App->scene->RitzUltimate, 0);
 
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
 			coolDownData.ultimate.timer.Start();

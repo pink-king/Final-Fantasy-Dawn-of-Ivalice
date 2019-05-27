@@ -35,8 +35,8 @@ Portal::Portal(float posx, float posy, SceneState scene, Color color)
 	size.create(64, 64);
 	AssignInSubtiles(nSubtiles);
 	currentAnim = &open;
-	App->audio->PlayFx(App->entityFactory->portal_appear, 0);
-	App->audio->PlayFx(App->entityFactory->portal_mantain, -1);
+	App->audio->PlayFx(App->scene->portal_appear, 0);
+	App->audio->PlayFx(App->scene->portal_mantain, -1);
 }
 
 Portal::~Portal()
@@ -68,7 +68,7 @@ bool Portal::DoTriggerAction()
 
 	if (doit)
 	{
-		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
+		App->audio->PlayFx(App->scene->portal_travel, 0);
 		//App->scene->portalPos = App->entityFactory->player->position;
 		App->SaveGame("Portal.xml");
 		App->scene->ComeToPortal = true;

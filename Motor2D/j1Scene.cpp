@@ -62,7 +62,73 @@ bool j1Scene::Start()
 	purchase = App->audio->LoadFx("audio/fx/UI/purchase.wav");
 	sell = App->audio->LoadFx("audio/fx/UI/sell.wav");
 	switch_page = App->audio->LoadFx("audio/fx/UI/switch_page.wav");
+	// Load SFX
+	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
+	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
+	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
+	swapCharSFX = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
+	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
+	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
 
+	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche/Marche_damaged.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic1Grunt.wav");
+	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic2Grunt.wav");
+	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/Marche/marche_tornado.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/Marche/marcheUltimate.wav");
+	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/Marche/marche_ability1.wav");
+	marcheEarthShakeSFX = App->audio->LoadFx("audio/fx/Player/Marche/marche_earthShake.wav");
+	marcheTornadoExplosion = App->audio->LoadFx("audio/fx/Player/Marche/marche_tornado_explosion.wav");
+
+	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_damaged.wav");
+	RitzBasic = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic.wav");
+	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic_hit.wav");
+	RitzMedusa = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_medusa.wav");
+	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_Ability2.wav");
+	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_teleport.wav");
+	RitzUltimate = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_ultimateTest2.wav");
+
+
+	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara/Shara_damaged.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/Player/Shara/sharaBasic.wav");
+	basicBodyImp = App->audio->LoadFx("audio/fx/Player/Shara/arrow_impactBody.wav");
+	strech_Shoot = App->audio->LoadFx("audio/fx/Player/Shara/strech&shoot.wav");
+	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara/Shara_ultimate_woosh.wav");
+	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/Shara/SharaUltimateGrounding.wav");
+	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/Shara/shara_ability1.wav");
+	sharaBasic_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/SharaBasicImpact.wav");
+	sharaAbility1_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/sharaAbility1_impactswall.wav");
+	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/sharaAbility2_impactswall.wav");
+	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/Shara/SharaAbility2Shoot.wav");
+
+	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
+
+	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
+	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
+	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
+
+	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
+	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
+	bombExplodeSFX = App->audio->LoadFx("audio/fx/Enemies/bomb_explode.wav");
+
+	golem_deathSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_death.wav");
+	golem_impactWallSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_impactWall.wav");
+	golem_spawnSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_spawn.wav");
+	golem_spawnAttackSFX = App->audio->LoadFx("audio/fx/Enemies/golem/spawn_attack.wav");
+
+	wave_end = App->audio->LoadFx("audio/fx/Enemies/wave/wave_end.wav");
+	wave_start = App->audio->LoadFx("audio/fx/Enemies/wave/wave_start.wav");
+	wave_respawn = App->audio->LoadFx("audio/fx/Enemies/wave/wave_spawn.wav");
+
+	boss_flower_basic = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basic.wav");
+	boss_flower_BasicImpWall = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basicImpWall.wav");
+	boss_flower_deathCirc = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_deathcircle_SFX.wav");
+	boss_flower_death = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_dead.wav");
+
+	portal_appear = App->audio->LoadFx("audio/fx/Portal/portal_appear.wav");
+	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
+	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
+	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };

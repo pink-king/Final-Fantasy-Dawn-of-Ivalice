@@ -72,9 +72,9 @@ bool Consumable::Update(float dt)
 		{
 			checkgrounded = false;
 			if (objectType == OBJECT_TYPE::POTIONS)
-				App->audio->PlayFx(App->entityFactory->potionGroundSFX, 0);
+				App->audio->PlayFx(App->scene->potionGroundSFX, 0);
 
-			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->entityFactory->coinGroundedSFX, 0);
+			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
 
 			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL)
 		}

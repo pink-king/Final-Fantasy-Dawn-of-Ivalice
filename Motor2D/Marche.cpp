@@ -737,14 +737,14 @@ bool Marche::Update(float dt)
 			if (basicAttackPulsationTimer.Read() > basicAttackPulsationMaxTime)
 			{
 				basicAttackPulsationTimer.Start();
-				App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
+				App->audio->PlayFx(App->scene->marcheBasic, 0);
 
 				LOG("ATTACK1");
 				attackType = 0;
 			}
 			else
 			{
-				App->audio->PlayFx(App->entityFactory->marcheBasic2, 0);
+				App->audio->PlayFx(App->scene->marcheBasic2, 0);
 
 				LOG("ATTACK2");
 				attackType = 1;
@@ -1024,7 +1024,7 @@ bool Marche::Update(float dt)
 		{
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 5)
 			{
-				App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
+				App->audio->PlayFx(App->scene->marcheUltimateScream, 0);
 				combat_state = combatState::IDLE;
 				// camera shake and rumble
 				App->camera2D->AddTrauma(0.95f);

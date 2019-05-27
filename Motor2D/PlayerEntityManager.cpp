@@ -551,7 +551,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot();
-			App->audio->PlayFx(App->entityFactory->swapCharSFX, 0);
+			App->audio->PlayFx(App->scene->swapCharSFX, 0);
 			break;
 		}
 	}
@@ -592,7 +592,7 @@ void PlayerEntityManager::SetNextCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot(); 
-			App->audio->PlayFx(App->entityFactory->swapCharSFX, 0);
+			App->audio->PlayFx(App->scene->swapCharSFX, 0);
 			break;
 		}
 	}

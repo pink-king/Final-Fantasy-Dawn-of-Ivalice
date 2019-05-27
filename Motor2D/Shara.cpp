@@ -458,7 +458,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-			App->audio->PlayFx(App->entityFactory->sharaBasic);
+			App->audio->PlayFx(App->scene->sharaBasic);
 			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
 
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
@@ -486,7 +486,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
-			App->audio->PlayFx(App->entityFactory->sharaAbility1);
+			App->audio->PlayFx(App->scene->sharaAbility1);
 			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
@@ -642,7 +642,7 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 		break;
 	case combatState::ULTIMATE:
 	{
-		App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);
+		App->audio->PlayFx(App->scene->strech_Shoot, 0);
 		currentAnimation = &ultiCastAnim[pointingDir];
 		entityTex = ultiCastTex;
 		break;

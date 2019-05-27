@@ -34,8 +34,8 @@ LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 	AssignInSubtiles(nSubtiles);
 
 	currentAnim = &idle;
-	App->audio->PlayFx(App->entityFactory->portal_appear, 0);
-	App->audio->PlayFx(App->entityFactory->portal_mantain, -1);
+	App->audio->PlayFx(App->scene->portal_appear, 0);
+	App->audio->PlayFx(App->scene->portal_mantain, -1);
 
 }
 
@@ -61,7 +61,7 @@ bool LobbyPortal::DoTriggerAction()
 {
 	if (doit)
 	{
-		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
+		App->audio->PlayFx(App->scene->portal_travel, 0);
 		currentAnim = &close;
 		App->scene->ComeToPortal = true;
 		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);

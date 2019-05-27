@@ -148,13 +148,13 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		if (startMove)
 		{
-			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			App->audio->PlayFx(App->scene->stepSFX, 0);
 			startMove = false;
 			stepSFXTimer.Start();
 		}
 		if(stepSFXTimer.ReadMs() >= 300.0f)
 		{
-			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			App->audio->PlayFx(App->scene->stepSFX, 0);
 			stepSFXTimer.Start();
 		}
 		// store actual
@@ -231,7 +231,7 @@ bool PlayerEntity::InputCombat()
 		combat_state = combatState::DODGE;
 		if (inputReady)
 		{
-			App->audio->PlayFx(App->entityFactory->dash, 0);
+			App->audio->PlayFx(App->scene->dash, 0);
 			LOG("audio played");
 		}
 		DoDash();

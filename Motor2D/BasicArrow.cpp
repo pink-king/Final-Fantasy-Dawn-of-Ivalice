@@ -21,7 +21,7 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 	SetPivot(13, 4);
 	size.create(32, 8);
-	App->audio->PlayFx(App->entityFactory->sharaBasic);
+	App->audio->PlayFx(App->scene->sharaBasic);
 
 	// Important for aiming offset
 	SetInitially();
@@ -30,7 +30,7 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 BasicArrow::~BasicArrow()
 {
 	if (wallCol)
-		App->audio->PlayFx(App->entityFactory->sharaBasic_ImpactsWall, 0);
+		App->audio->PlayFx(App->scene->sharaBasic_ImpactsWall, 0);
 	LOG("Bye arrow!");
 
 }
@@ -83,7 +83,7 @@ bool BasicArrow::Contact()
 
 	// TODO Add sfx, blood, slice etc
 	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
-	App->audio->PlayFx(App->entityFactory->basicBodyImp, 0);
+	App->audio->PlayFx(App->scene->basicBodyImp, 0);
 
 	to_delete = true;
 

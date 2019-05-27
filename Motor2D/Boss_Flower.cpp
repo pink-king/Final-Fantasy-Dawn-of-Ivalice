@@ -258,7 +258,7 @@ FlowerBossEntity::~FlowerBossEntity()
 
 	DesactiveShield();
 
-	App->audio->PlayFx(App->entityFactory->boss_flower_death, 0);
+	App->audio->PlayFx(App->scene->boss_flower_death, 0);
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
@@ -714,7 +714,7 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 	}
 	else if (spawnCircleAnim.Finished())
 	{
-		App->audio->PlayFx(App->entityFactory->boss_flower_deathCirc, 0);
+		App->audio->PlayFx(App->scene->boss_flower_deathCirc, 0);
 		LOG("finished spawn anim");
 		// instantiate enemies
 		InstantiateEnemiesAroundPlayer();

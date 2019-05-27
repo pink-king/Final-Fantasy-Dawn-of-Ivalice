@@ -167,7 +167,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 	// add always a hitpoint
 	// but if we have a previous one, unlink
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
-		App->audio->PlayFx(App->entityFactory->goblinAttack, 0);
+		App->audio->PlayFx(App->scene->goblinAttack, 0);
 
 	/*if (attacker->type == ENTITY_TYPE::PLAYER)
 		getPlayerandEnemyVec(attacker, defender);*/
@@ -188,17 +188,17 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
-			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
+			App->audio->PlayFx(App->scene->marcheDamaged, 0);
 		}
 
 		else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
 		{
-			App->audio->PlayFx(App->entityFactory->RitzDamaged, 0);
+			App->audio->PlayFx(App->scene->RitzDamaged, 0);
 		}
 
 		else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
 		{
-			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
+			App->audio->PlayFx(App->scene->SharaDamaged, 0);
 		}
 
 		if (defender->life <= 0)
@@ -256,10 +256,10 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 	else if (defender->life > 0 && attacker->type != ENTITY_TYPE::PLAYER)
 	{
 			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)
-				App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+				App->audio->PlayFx(App->scene->goblinDamaged, 0);
 
 			if (App->entityFactory->GetRandomValue(1, 2) == 2 && defender->type == ENTITY_TYPE::ENEMY_BOMB)
-				App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+				App->audio->PlayFx(App->scene->bombgetHitSFX, 0);
 
 		if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT && !defender->isBurned)
 		{
@@ -881,10 +881,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+							App->audio->PlayFx(App->scene->goblinDamaged, 0);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
-							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+							App->audio->PlayFx(App->scene->bombgetHitSFX, 0);
 						
 						//TODO: call create hitpoint label
 					}
@@ -918,9 +918,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->particles->AddParticle(App->particles->poison01, drawRectified.x + 15, drawRectified.y - entity->pivot.y*0.5, { 0,0 }, 0u);
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+								App->audio->PlayFx(App->scene->goblinDamaged, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
-							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+							App->audio->PlayFx(App->scene->bombgetHitSFX, 0);
 						//TODO: call create hitpoint label
 
 						// Reset drawRectified
