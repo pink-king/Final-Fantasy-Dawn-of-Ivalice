@@ -72,10 +72,10 @@
       <option line="Our souls? What are you suggesting?" nextnode="3"/>
       <option line="The outcome of Ivalice matters not to me" nextnode="666"/>
     </node>  
- <node line="The monsters you have killed... They were humans once" id="2">
-      <option line="Dear Lord, what have I done?..." nextnode="3"/>
+ <node line="The beasts you killed, they were human once!" id="3">
+      <option line="Dear Lord, what have I done?..." nextnode="4"/>
     </node> 
- <node line="We are all here because of our sins, miscreant!" id="3">
+ <node line="We are all here because of our sins, miscreant!" id="4">
       <option line="Then I will have to free your soul too" nextnode="666"/>
       <option line="I am going to end this right now" nextnode="666"/>
     </node>	
