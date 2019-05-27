@@ -53,13 +53,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	// the icon image is created after creating description in loot spawning
 
 
-	// attached character name
-	std::string characterString;
-
 
 	if (callback->equipableType == EQUIPABLE_TYPE::ARMOR)
 	{
-		characterString = "Marche";
+		attachedCharacterString = "Marche";
 
 		resistanceComparisonLabel.character = "Marche";
 		resistanceComparisonLabel.type = "armor";
@@ -67,20 +64,20 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::MANTLE)
 	{
-		characterString = "Ritz";
+		attachedCharacterString = "Ritz";
 
 		resistanceComparisonLabel.character = "Ritz";
 		resistanceComparisonLabel.type = "mantle";
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::VEST)
 	{
-		characterString = "Shara";
+		attachedCharacterString = "Shara";
 
 		resistanceComparisonLabel.character = "Shara";
 		resistanceComparisonLabel.type = "vest";
 	}
 
-	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->attachedCharacter = App->gui->AddLabel(attachedCharacterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	attachedCharacter->useCamera = false;
 
 
@@ -191,13 +188,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 
-	// attached character name
-	std::string characterString;
-
-
 	if (callback->equipableType == EQUIPABLE_TYPE::SWORD)
 	{
-		characterString = "Marche";
+		attachedCharacterString = "Marche";
 
 		damageComparisonLabel.character = "Marche";
 		damageComparisonLabel.type = "sword";
@@ -210,7 +203,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
 	{
-		characterString = "Ritz";
+		attachedCharacterString = "Ritz";
 
 		damageComparisonLabel.character = "Ritz";
 		damageComparisonLabel.type = "rod";
@@ -223,7 +216,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::BOW)
 	{
-		characterString = "Shara";
+		attachedCharacterString = "Shara";
 
 		damageComparisonLabel.character = "Shara";
 		damageComparisonLabel.type = "bow";
@@ -235,7 +228,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		cooldownComparisonLabel.type = "bow";
 	}
 
-	this->attachedCharacter = App->gui->AddLabel(characterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->attachedCharacter = App->gui->AddLabel(attachedCharacterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 	attachedCharacter->useCamera = false;
 
 
@@ -481,6 +474,15 @@ void UiItem_Description::Draw(const float& dt)
 
 				if (hasToCompare)
 					ChangeComparisonLabels();    // "+3 dmg", "+4def ect
+				else
+				{
+					if (myLootItemIsEquipped.state == ACTIVE)
+					{
+						HideAllComparisonLabels();   // hide equipped objects comparison
+					}
+			
+				}
+					
 
 
 
@@ -504,6 +506,27 @@ void UiItem_Description::Draw(const float& dt)
 
 }
 
+void UiItem_Description::HideAllComparisonLabels()
+{
+
+
+	switch (this->callback->objectType)
+	{
+	case OBJECT_TYPE::WEAPON_OBJECT:
+		this->damageComparisonLabel.label->hide = true; 
+
+		  // TODO: cooldown and defense
+		break; 
+	case OBJECT_TYPE::ARMOR_OBJECT:
+		this->resistanceComparisonLabel.label->hide = true;
+
+
+		// TODO: hp and velocity
+
+		break;
+	}
+
+}
 
 bool UiItem_Description::ChangeComparisonLabels()
 {
@@ -537,15 +560,20 @@ bool UiItem_Description::ChangeComparisonLabels()
 					((*lootItem)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && this->descrType == descriptionType::EQUIPMENT)
 					)
 				{
-
+					
 					if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
-						&& this->resistanceComparisonLabel.character == "Marche")
+						    && this->attachedCharacterString == "Marche"
+						    && ((*lootItem)->character == App->entityFactory->player->GetMarche()))
+				
 
 						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
-							&& this->resistanceComparisonLabel.character == "Ritz")
+							&& this->attachedCharacterString == "Ritz"
+							&& ((*lootItem)->character == App->entityFactory->player->GetRitz()))
 
 						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
-							&& this->resistanceComparisonLabel.character == "Shara"))
+							&& this->attachedCharacterString == "Shara"
+							&& ((*lootItem)->character == App->entityFactory->player->GetShara())))
+						 
 					{
 
 						std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
@@ -655,6 +683,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	}
 
+	
 
 	hasToCompare = false;
 

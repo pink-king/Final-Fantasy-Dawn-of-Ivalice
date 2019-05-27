@@ -76,6 +76,7 @@ public:
 	void HideAllElements(bool hide = true, bool closeInventory = false, bool buyingOrSelling = false); 
 	void RepositionAllElements(iPoint referencePanelPosition); 
 	bool ChangeComparisonLabels(); 
+	void HideAllComparisonLabels(); 
 	void SwitchCameraUsage(); 
 
 	void DeleteEverything(); 
@@ -92,6 +93,7 @@ public:
 	// for weapons and armors, but not potions
 
 	UiItem_Label* attachedCharacter = nullptr;
+	std::string attachedCharacterString; 
 	
 	// for weapons
 	UiItem_Label* damageLabel = nullptr; 
