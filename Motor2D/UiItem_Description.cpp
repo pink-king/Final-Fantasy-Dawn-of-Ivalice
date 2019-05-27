@@ -458,6 +458,7 @@ void UiItem_Description::Draw(const float& dt)
 			if (App->gui->selected_object == iconImageInventory)
 			{
 
+			
 
 				if (this->name_object == "potion_1")
 				{
@@ -496,7 +497,23 @@ void UiItem_Description::Draw(const float& dt)
 					App->scene->inventoryItem->LoadElements();    // ALERT ALERT: already done in player manager when switching chars
 				}*/
 
-				if (hasToCompare)
+				if (!hasToCompare)
+				{
+					if (myLootItemIsEquipped.state == ACTIVE)
+					{
+						HideAllComparisonLabels();   // hide equipped objects comparison
+					}
+				}
+				else
+				{
+					if (myLootItemIsEquipped.state == INACTIVE)
+					{
+						ChangeComparisonLabels();    // "+3 dmg", "+4def ect
+					}
+
+				}
+
+				/*if (hasToCompare)
 				{
 					ChangeComparisonLabels();    // "+3 dmg", "+4def ect
 				}
@@ -507,10 +524,16 @@ void UiItem_Description::Draw(const float& dt)
 						HideAllComparisonLabels();   // hide equipped objects comparison
 					}
 			
-				}
+				}*/
 					
 
+			
+				// MORE PROTECTION TO NOT COMPARE WHEN THE ITEM DOES NOT BELONG TO CURRENT CHARACTER
 
+				if (App->entityFactory->player->selectedCharacterEntity != this->callback->character)
+				{
+					HideAllComparisonLabels();
+				}
 
 
 			}
