@@ -62,7 +62,6 @@ bool LobbyPortal::DoTriggerAction()
 	if (doit)
 	{
 		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
-		App->entityFactory->player->to_delete = true;
 		currentAnim = &close;
 		App->scene->ComeToPortal = true;
 		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);

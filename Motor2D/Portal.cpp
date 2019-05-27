@@ -70,7 +70,6 @@ bool Portal::DoTriggerAction()
 	{
 		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
 		//App->scene->portalPos = App->entityFactory->player->position;
-		App->entityFactory->player->to_delete = true;
 		App->SaveGame("Portal.xml");
 		App->scene->ComeToPortal = true;
 		App->pause = true;

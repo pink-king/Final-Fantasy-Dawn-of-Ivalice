@@ -240,7 +240,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 		
 																													  // but, enemy can die no
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath) // ONLY FOR DELETE
+	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
 		entitiesTimeDamage.remove(defender);

@@ -146,6 +146,8 @@ public:
 	
 	void MagicPriceCalculator(LootEntity*);
 
+	void UnloadEntitiesWithoutPlayer();
+
 public:
 	fPoint					dmg_vec;
 	bool					pushEF = false;

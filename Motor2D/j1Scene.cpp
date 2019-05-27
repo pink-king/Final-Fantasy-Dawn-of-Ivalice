@@ -75,7 +75,16 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
 
-		App->entityFactory->CreatePlayer({ -1575, 2150 });   //Proper Start of the level
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->GetMarche()->position = { -1575.f, 2150.f };
+			App->entityFactory->player->GetShara()->position = { -1575.f, 2150.f };
+			App->entityFactory->player->GetRitz()->position = { -1575.f, 2150.f };
+		}
+		else
+		{
+			App->entityFactory->CreatePlayer({ -1575, 2150 });
+		}
 		//App->entityFactory->CreatePlayer({ -209, 650 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ 3575, -3150 });
@@ -90,11 +99,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-			ComeToDeath = false;
-		}
+		
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -104,11 +109,22 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+		App->entityFactory->LoadSpawnGroups();
 	}
 
 	if (state == SceneState::LEVEL2)
 	{
-		App->entityFactory->CreatePlayer({ -820,3300 });
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->GetMarche()->position = { -820.f, 3300.f };
+			App->entityFactory->player->GetShara()->position = { -820.f, 3300.f };
+			App->entityFactory->player->GetRitz()->position = { -820.f, 3300.f };
+		}
+		else
+		{
+			App->entityFactory->CreatePlayer({ -820, 3300 });
+		}
+
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos(1800, -5000);
 
@@ -142,11 +158,6 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-			ComeToDeath = false;
-		}
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -156,14 +167,24 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+		App->entityFactory->LoadSpawnGroups();
 	}
 
 	if (state == SceneState::LOBBY)
 	{
 
 		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
-		App->entityFactory->CreatePlayer({ 115, 240 });
 
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->GetMarche()->position = { 115.f, 240.f };
+			App->entityFactory->player->GetShara()->position = { 115.f, 240.f };
+			App->entityFactory->player->GetRitz()->position = { 115.f, 240.f };
+		}
+		else
+		{
+			App->entityFactory->CreatePlayer({ 115, 240 });
+		}
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
@@ -184,21 +205,14 @@ bool j1Scene::Start()
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-			ComeToDeath = false;
-		}
+	
 		if (ComeToPortal)
 		{
-			
-			App->LoadGame("Portal.xml");
 			ComeToPortal = false;
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
-
 		}
 
-		App->camera2D->SetCameraPos({(int)App->entityFactory->player->position.x + App->camera2D->camera.w/4, (int)App->entityFactory->player->position.y - App->camera2D->camera.h/2});
+		App->camera2D->SetCameraPos({ 115, 240 });
 		
 	}
 
@@ -1136,8 +1150,6 @@ void j1Scene::UnLoadScene()
 		App->map->Disable();
 	if (App->attackManager->IsEnabled())
 		App->attackManager->Disable();
-	if (App->entityFactory->IsEnabled())
-		App->entityFactory->Disable();
 	if (App->pathfinding->IsEnabled())
 		App->pathfinding->Disable();
 	if (App->buff->IsEnabled())
@@ -1146,6 +1158,7 @@ void j1Scene::UnLoadScene()
 		App->camera2D->Disable();
 
 	App->audio->UnLoadAudio();
+	App->entityFactory->UnloadEntitiesWithoutPlayer();
 
 }
 
@@ -1157,6 +1170,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 	{
 	case SceneState::STARTMENU:
 		state = SceneState::STARTMENU;
+		if (App->entityFactory->IsEnabled())
+			App->entityFactory->Disable();
 		break;
 
 	case SceneState::LOBBY:
@@ -1174,7 +1189,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 			App->map->active = true;
 			LoadNewMap("maps/mainhall.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		}
-		App->entityFactory->Enable();
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
 		break;
 	case SceneState::LEVEL1:
 
@@ -1186,7 +1202,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
 		//LoadNewMap("maps/Level2.tmx");
-		App->entityFactory->Enable();
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
 		//App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
@@ -1202,7 +1219,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		App->audio->PlayMusic("audio/music/level2.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-		App->entityFactory->Enable();
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
 		// create player for testing purposes here
 		break;
 
@@ -1210,12 +1228,16 @@ void j1Scene::LoadScene(SceneState sceneState)
 		state = SceneState::DEATH;
 		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
+		if (App->entityFactory->IsEnabled())
+			App->entityFactory->Disable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
 		if (!App->camera2D->IsEnabled())
 		App->camera2D->Enable();
+		if (App->entityFactory->IsEnabled())
+			App->entityFactory->Disable();
 		ComeToWin = true;
 
 		break;

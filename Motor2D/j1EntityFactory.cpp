@@ -61,7 +61,8 @@ bool j1EntityFactory::Start()
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
-		(*item)->Start();
+		if((*item) != nullptr)
+			(*item)->Start();
 	}
 
 	// Load Textures 
@@ -148,8 +149,6 @@ bool j1EntityFactory::Start()
 	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
 	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
 
-	LoadSpawnGroups();
-
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
 
@@ -234,7 +233,10 @@ bool j1EntityFactory::Update(float dt)
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 			}
 		}
-
+		else
+		{
+			item = entities.erase(item);
+		}
 
 	}
 
@@ -275,10 +277,14 @@ bool j1EntityFactory::CleanUp()
 
 	while (entitiesItem != entities.rend())
 	{
-		(*entitiesItem)->CleanUp();
-		RELEASE(*entitiesItem);
-		*entitiesItem = nullptr;
+		if ((*entitiesItem) != nullptr)
+		{
+			(*entitiesItem)->CleanUp();
+			RELEASE(*entitiesItem);
+			*entitiesItem = nullptr;
+		}
 		++entitiesItem;
+
 	}
 	entities.clear();
 
@@ -390,16 +396,6 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			}
 		}
 	}
-	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
-	{
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->Load(characterPlayer);
-		}
-	}
-
-
-	//TODO create out portal
 	return true;
 }
 
@@ -412,15 +408,7 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 		{
 			pugi::xml_node nodeEntities = node.append_child("Entities");
 			(*item)->Save(nodeEntities);
-		}
-
-		if ((*item)->type == ENTITY_TYPE::PLAYER)
-		{
-			pugi::xml_node nodeEntities = node.append_child("Players");
-			(*item)->Save(nodeEntities);
-		}
-
-		
+		}		
 	}
 
 	return true;
@@ -959,6 +947,7 @@ j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
 				ret = *entityIterator;
 				return ret;
 			}
+
 		}
 	}
 	return nullptr;
@@ -1303,7 +1292,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 					if (id == 1)
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 5, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.05, lootEntity);
 
 					}
 					else if (id == 2)
@@ -1315,7 +1304,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(5, 15) + lootEntity->level * 5, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 5, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.05, lootEntity);
 
 					}
 				}
@@ -1730,6 +1719,24 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 
 
+
+}
+
+void j1EntityFactory::UnloadEntitiesWithoutPlayer()
+{
+	j1Entity* play = nullptr;
+	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
+	while (entitiesItem != entities.rend())
+	{
+		if ((*entitiesItem)->type != ENTITY_TYPE::PLAYER)
+		{
+			(*entitiesItem)->CleanUp();
+			RELEASE(*entitiesItem);
+			*entitiesItem = nullptr;
+		}	
+		++entitiesItem;
+
+	}
 
 }
 

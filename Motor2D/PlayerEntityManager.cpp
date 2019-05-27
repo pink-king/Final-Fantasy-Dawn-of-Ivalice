@@ -417,11 +417,8 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 
 	pugi::xml_node nodelife = node.append_child("life");
 
-	if (!App->scene->ComeToDeath)
-		nodelife.append_attribute("actualLife") = maxLife - life;
+	nodelife.append_attribute("actualLife") = maxLife - life;
 
-	else
-		nodelife.append_attribute("actualLife") = 100;
 	pugi::xml_node nodegold = node.append_child("gold");
 	nodegold.append_attribute("value") = gold;
 
