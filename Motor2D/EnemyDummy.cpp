@@ -22,6 +22,18 @@ bool EnemyDummy::CleanUp()
 	App->tex->UnLoad(entityTex); 
 	entityTex = nullptr; 
 
+	std::list<entityStat*>::iterator item = stat.begin();
+	for (; item != stat.end(); )
+	{
+		delete *item;
+		*item = nullptr;
+		item = stat.erase(item);
+
+	}
+	stat.clear();
+
+
+
 	return true;
 }
 
