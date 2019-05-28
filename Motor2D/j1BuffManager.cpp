@@ -41,7 +41,7 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
 	{
 		godMode = !godMode;
 
