@@ -40,7 +40,7 @@ bool j1DialogSystem::Update(float dt)
 		// fake devug keys to test different dialog triggers
 
 
-	/*	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		{
 			SetCurrentDialog("VENDOR");
 		}
@@ -54,7 +54,14 @@ bool j1DialogSystem::Update(float dt)
 		{
 			SetCurrentDialog("STRANGER");
 		}
-		*/
+		
+
+		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+		{
+			SetCurrentDialog("TUTORIAL");
+		}
+
+
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{

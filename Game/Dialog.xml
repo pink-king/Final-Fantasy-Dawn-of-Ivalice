@@ -76,6 +76,7 @@
 	  <option line= "I will come back later, then. So long" nextnode="666"/>
     </node> 
 	
+	</dialogtree>
 
   <dialogtree treeid="3" treeName="BOSS">
     <node line="You have come so far... Just to perish" id="0">
