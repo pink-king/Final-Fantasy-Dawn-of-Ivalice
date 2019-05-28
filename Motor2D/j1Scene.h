@@ -60,6 +60,9 @@ public:
 	UiItem* uiMarche = nullptr;
 	UiItem* uiShara = nullptr;
 	UiItem* uiRitz = nullptr;
+	UiItem* uiMarchePortrait = nullptr;
+	UiItem* uiSharaPortrait = nullptr;
+	UiItem* uiRitzPortrait = nullptr;
 	UiItem* startMenu = nullptr;
 	UiItem* settingPanel = nullptr;
 	UiItem* pausePanel = nullptr;

@@ -84,6 +84,9 @@ bool j1Scene::Start()
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
+		uiMarchePortrait->enable = true;
+		uiSharaPortrait->enable = true;
+		uiRitzPortrait->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
@@ -141,6 +144,9 @@ bool j1Scene::Start()
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
+		uiMarchePortrait->enable = true;
+		uiSharaPortrait->enable = true;
+		uiRitzPortrait->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
@@ -181,9 +187,7 @@ bool j1Scene::Start()
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 	
-		uiMarche->enable = true;
-		uiShara->enable = true;
-		uiRitz->enable = true;
+		
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
@@ -226,6 +230,9 @@ bool j1Scene::Start()
 		uiMarche->enable = false;
 		uiShara->enable = false;
 		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
@@ -461,23 +468,41 @@ bool j1Scene::Update(float dt)
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 			{
 				//LOG("marche");
-				uiMarche->enable = true;
-				uiRitz->enable = false;
-				uiShara->enable = false;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = true;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = true;				
+				uiRitzPortrait->enable = false;
+				uiSharaPortrait->enable = false;
 			}
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
 			{
 				//LOG("marche");
-				uiMarche->enable = false;
-				uiRitz->enable = true;
-				uiShara->enable = false;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = true;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = false;
+				uiRitzPortrait->enable = true;
+				uiSharaPortrait->enable = false;
 			}
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
 			{
 				//LOG("marche");
-				uiMarche->enable = false;
-				uiRitz->enable = false;
-				uiShara->enable = true;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = true;
+				}
+				uiMarchePortrait->enable = false;
+				uiRitzPortrait->enable = false;
+				uiSharaPortrait->enable = true;
 			}
 		}
 
@@ -1059,6 +1084,18 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	pugi::xml_node ritzNode = nodeScene.child("InGameUiR");
 	uiRitz = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitz, ritzNode);
+
+	pugi::xml_node marchePNode = nodeScene.child("InGameUiMP");
+	uiMarchePortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiMarchePortrait, marchePNode);
+
+	pugi::xml_node sharaPNode = nodeScene.child("InGameUiSP");
+	uiSharaPortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiSharaPortrait, sharaPNode);
+
+	pugi::xml_node ritzPNode = nodeScene.child("InGameUiRP");
+	uiRitzPortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiRitzPortrait, ritzPNode);
 
 	return true;
 }
