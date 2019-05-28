@@ -8,7 +8,6 @@
 #include "p2Log.h"
 #include <map>
 
-#include "j1Scene.h"
 
 
 class DialogOption
@@ -32,19 +31,6 @@ public:
 	std::vector <DialogOption*> dialogOptions;
 	int id/*, karma*/;
 };
-
-// ------------------ NPC labels
-
-class UiItem_Label;
-
-struct NPC_Labels
-{
-	UiItem_Label* nameLabel = nullptr;
-	UiItem_Label* talkLabel = nullptr;
-};
-
-// ------------------ NPC labels
-
 class DialogTree
 {
 public:
@@ -54,13 +40,11 @@ public:
 public:
 	std::vector <DialogNode*> dialogNodes;
 	int treeid/*, karma*/;
-	std::string treeName;
-	int maxNodes;
-	std::string NPCName;
-	std::string NPCscene;
-	NPC_Labels myNPCLabels;
+	std::string treeName; 
+	int maxNodes; 
 };
 
+class UiItem_Label;
 
 class j1DialogSystem : public j1Module
 {
@@ -75,33 +59,32 @@ public:
 	bool LoadDialogue(const char*);
 	bool LoadTreeData(pugi::xml_node& trees, DialogTree* oak);
 	bool LoadNodesDetails(pugi::xml_node& text_node, DialogNode* npc);
-	void BlitDialog(int tr_id);
-	void doDialogTypeLogic();
-	void SetCurrentDialog(std::string callback);
-	void spawnDialoguesAfterInventory();
+	void BlitDialog();
+	void doDialogTypeLogic(); 
+	void SetCurrentDialog(std::string callback); 
+	void spawnDialoguesAfterInventory(); 
 
-	void checkIfNPCFinishedTalking();
-	void spawnPlayerLabelAfterNPCFinishesTalking();
+	void checkIfNPCFinishedTalking(); 
+	void spawnPlayerLabelAfterNPCFinishesTalking(); 
 
-	void destroyNPCNameLabels(SceneState scene);
-	void createNPCNameLabels(SceneState scene);
+
 	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
 
-	bool isDialogInScreen = false;
+	bool isDialogInScreen = false; 
 	bool isDialogSequenceActive = false;  // TODO: it should be false, then true when arriving to the store
 
 
-	bool spawnDialogSequence = false;
+	bool spawnDialogSequence = false; 
 
-	bool waitForNPCTalking = true;
+	bool waitForNPCTalking = true; 
+
 private:
 	std::vector <DialogTree*> dialogTrees;
 	DialogNode* currentNode;
 	int input = 7;
 	int treeid = 0;
-	pugi::xml_document	tree_file;
+	pugi::xml_document	tree_file;	
 
-	uint treeCount;
 
 	std::string currentDialogType = "DEFAULT";
 };
