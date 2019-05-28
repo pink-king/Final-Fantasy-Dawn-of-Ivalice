@@ -904,6 +904,7 @@ bool j1EntityFactory::BoolisThisSubtileTriggerFree(const iPoint pos) const
 				ret = true;
 				break;
 			}
+			
 		}
 	}
 	return ret;
@@ -1664,15 +1665,25 @@ void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
 	while (entitiesItem != entities.rend())
 	{
-		if ((*entitiesItem)->type != ENTITY_TYPE::PLAYER)
+		if ((*entitiesItem) != nullptr)
 		{
-			(*entitiesItem)->CleanUp();
-			RELEASE(*entitiesItem);
-			*entitiesItem = nullptr;
+			if ((*entitiesItem)->type != ENTITY_TYPE::PLAYER)
+			{
+				(*entitiesItem)->CleanUp();
+				RELEASE(*entitiesItem);
+				*entitiesItem = nullptr;
+			}
+			else
+			{
+				play = (*entitiesItem);
+			}
 		}	
 		++entitiesItem;
 
 	}
+	entities.clear();
+	entities.push_back(play);
+	player = (PlayerEntityManager*)play;
 
 }
 
