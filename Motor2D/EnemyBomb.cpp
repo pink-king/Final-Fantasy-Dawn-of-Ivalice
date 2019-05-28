@@ -45,7 +45,11 @@ bool EnemyBomb::PreUpdate()
 }
 bool EnemyBomb::Update(float dt)
 {
-	
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 
 	if(!isParalize)
 		SetState(dt);

@@ -58,6 +58,11 @@ bool EnemyTest::Update(float dt)
 	{
 		LOG("");
 	}*/
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 	if (!isParalize)
 	{
 	

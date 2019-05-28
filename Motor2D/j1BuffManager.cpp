@@ -177,7 +177,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
-		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
+		App->entityFactory->setPlayerDmageVec(getPlayerToEnemyVec(defender, attacker)); //vector to get player orientations from enemy
 		App->scene->previous_counter = App->scene->hit_counter;
 		App->scene->hit_counter += 1;
 		App->scene->decreaseAlpha = false;
@@ -213,8 +213,17 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 	bool playerAttacks = false;
 	if (attacker->type == ENTITY_TYPE::PLAYER)
-		playerAttacks = true;
+	{
+		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+		{
+			defender->entityPushback = true;
+			App->entityFactory->setPlayerDmageVec(getPlayerToEnemyVec(defender, attacker));
+			//defender->dmgEnemyVec = getPlayerToEnemyVec(defender, attacker);
 
+			//defender->entityPushback = false;
+		}
+		playerAttacks = true;
+	}
 	// Calling Hit point labels
 	switch (elementType)
 	{
@@ -1097,33 +1106,19 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	}
 }
 
-fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
+
+fPoint j1BuffManager::getPlayerToEnemyVec(j1Entity* origin, j1Entity* dest)
 {
 	fPoint vec;
 
-	enemy->GetPivotPos();
-	vec.x = player->GetPivotPos().x - enemy->GetPivotPos().x;
-	vec.y = player->GetPivotPos().y - enemy->GetPivotPos().y;
+	vec.x = origin->GetPivotPos().x - dest->GetPivotPos().x;
+	vec.y = origin->GetPivotPos().y - dest->GetPivotPos().y;
+	
+	vec.Normalize();
 	LOG("xlabel %f", vec.x);
 	LOG("ylabel %f", vec.y);
-
-	float vecModule = sqrt(vec.x * vec.x + vec.y * vec.y);
-	LOG("vecModule %f", vecModule);
-
-	fPoint unitVec;
-	unitVec.x = vec.x / vecModule;
-	unitVec.y = vec.y / vecModule;
-	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
-	int xfactor, yfactor;
 	
-	
-	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
-	
-
-	LOG("log from buffmanager getplayerEnemy");
-	return unitVec;
-
-
+	return vec;
 }
 
 bool j1BuffManager::Load(pugi::xml_node &node)
