@@ -553,15 +553,16 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 
 
 						// props
-						/*else if (wallTypeName == "ceramicYes")
+						else if (wallTypeName == "ceramicYes")
 						{
-							destRect = { 441,458,64,64 };
+							destRect = { 384,448,64,64 };
 						}
 						else if (wallTypeName == "ceramicNo")
 						{
-							destRect = { 505,458,28,31 };
-						}*/
+							destRect = { 449,448,64,64 };
+						}
 
+				
 						else if (wallTypeName == "Statue")
 						{
 							destRect = { 423,186,64,64 };
