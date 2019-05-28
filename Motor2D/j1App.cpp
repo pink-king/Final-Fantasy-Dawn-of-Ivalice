@@ -260,7 +260,7 @@ void j1App::FinishUpdate()
 		frames_on_last_update, avg_fps, last_frame_ms, seconds_since_startup, frame_count/*, framerate_cap*/);
 	App->win->AddStringToTitle(title);
 
-
+	
 	/*static char title[256];
 	std::string capFramesString;
 

@@ -238,8 +238,6 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-	
-
 		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
 
 		if (App->entityFactory->player != nullptr)
@@ -309,7 +307,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
 		
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 730, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
