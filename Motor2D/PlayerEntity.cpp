@@ -657,8 +657,34 @@ void PlayerEntity::DoDash()
 
 void j1Entity::DoPushback()
 {
-	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 5;
-	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 5;
+	fPoint futurePos = position;
+	fPoint increase = {   2*App->entityFactory->getplayerDamagevec().x * 5,
+		 1.5f * App->entityFactory->getplayerDamagevec().y * 5 };
+	
+
+	if (App->pathfinding->IsWalkable(App->map->WorldToMap(futurePos.x += increase.x , futurePos.y += increase.y)) && 
+		App->pathfinding->IsWalkable(App->map->WorldToMap(futurePos.x += increase.x * 0.5f, futurePos.y += increase.y * 0.5f))
+		&& App->pathfinding->IsWalkable(App->map->WorldToMap(futurePos.x += increase.x * 0.25f, futurePos.y += increase.y * 0.25f)))
+	{
+		position += increase;
+		LOG("full increase");
+	}
+	else if (App->pathfinding->IsWalkable(App->map->WorldToMap(futurePos.x += increase.x * 0.5f, futurePos.y += increase.y * 0.5f)) 
+		&& App->pathfinding->IsWalkable(App->map->WorldToMap(futurePos.x += increase.x * 0.25f, futurePos.y += increase.y * 0.25f)))
+	{
+		position += increase*0.5f;
+		LOG("half increase");
+	}
+	else if (App->pathfinding->IsWalkable(App->map->WorldToMap(futurePos.x += increase.x * 0.25f, futurePos.y += increase.y * 0.25f)))
+	{
+		position += increase * 0.25f;
+		LOG("quarter increase");
+	}
+	else
+	{
+		
+		LOG("no increase");
+	}
 
 }
 
