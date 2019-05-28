@@ -198,6 +198,7 @@ public:
 	float AlphaIncrease(float alphavalue, int counter);
 	bool DecideTexToPulse();
 
+
 public:
 	float hudAlphavalue[3];
 	int hit_counter;

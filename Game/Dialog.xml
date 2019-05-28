@@ -1,5 +1,5 @@
 <dialogue>
-  <dialogtree treeid="0" treeName="VENDOR">
+  <dialogtree treeid="0" treeName="VENDOR" NPCname="Vendor" NPCscene="LOBBY">
     <node line="Greetings stranger" id="0">
       <option line="Hello mister" nextnode="1"/>
       <option line="...hello?" nextnode="1"/>
@@ -25,7 +25,7 @@
   </dialogtree>
   
   
-    <dialogtree treeid="1" treeName="SAVEGAME">
+    <dialogtree treeid="1" treeName="SAVEGAME" >
     <node line="Do you want to save the game?" id="0">
       <option line="Yes" nextnode="666"/>
       <option line="I changed my mind" nextnode="666"/>
@@ -33,7 +33,7 @@
   </dialogtree>
   
   
-    <dialogtree treeid="2" treeName="STRANGER">
+    <dialogtree treeid="2" treeName="STRANGER" NPCname="Stranger" NPCscene="LOBBY">
     <node line="Hello fellow warrior" id="0">
       <option line="Hello" nextnode="1"/>
       <option line="What are you doing here?" nextnode="1"/>
