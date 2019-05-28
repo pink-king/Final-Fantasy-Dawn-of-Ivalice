@@ -1137,22 +1137,16 @@ void j1Scene::UnLoadScene()
 
 void j1Scene::LoadScene(SceneState sceneState)
 {
-	App->dialog->destroyNPCNameLabels(state);
-
 	UnLoadScene();
-
 
 	switch (sceneState)
 	{
 	case SceneState::STARTMENU:
 		state = SceneState::STARTMENU;
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		break;
 
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
-
 		if (!App->attackManager->IsEnabled())
 			App->attackManager->Enable();
 		if (!App->pathfinding->IsEnabled())
@@ -1166,8 +1160,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 			App->map->active = true;
 			LoadNewMap("maps/mainhall.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		}
-		if (!App->entityFactory->IsEnabled())
-			App->entityFactory->Enable();
+		App->entityFactory->Enable();
 		break;
 	case SceneState::LEVEL1:
 
@@ -1179,8 +1172,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
 		//LoadNewMap("maps/Level2.tmx");
-		if (!App->entityFactory->IsEnabled())
-			App->entityFactory->Enable();
+		App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
 		//App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
@@ -1196,25 +1188,20 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		App->audio->PlayMusic("audio/music/level2.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-		if (!App->entityFactory->IsEnabled())
-			App->entityFactory->Enable();
+		App->entityFactory->Enable();
 		// create player for testing purposes here
 		break;
 
 	case SceneState::DEATH:
 		state = SceneState::DEATH;
 		if (!App->camera2D->IsEnabled())
-			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
+		App->camera2D->Enable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
 		if (!App->camera2D->IsEnabled())
-			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
+		App->camera2D->Enable();
 		ComeToWin = true;
 
 		break;
@@ -1226,8 +1213,6 @@ void j1Scene::LoadScene(SceneState sceneState)
 	}
 
 	Start();
-
-	App->dialog->createNPCNameLabels(state);
 }
 
 
