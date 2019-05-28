@@ -154,10 +154,6 @@ void j1DialogSystem::spawnPlayerLabelAfterNPCFinishesTalking()
 
 void j1DialogSystem::doDialogTypeLogic()
 {
-
-	
-
-
 			if (currentDialogType == "VENDOR")
 			{
 				bool enterInventory = false;
@@ -215,7 +211,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -242,10 +238,14 @@ void j1DialogSystem::doDialogTypeLogic()
 
 					PerformDialogue(treeid);
 
-					if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos) 
+					if (currentDialogType == "SAVEGAME")
 					{
-						App->SaveGame("save_game.xml");
+						if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos)
+						{
+							App->SaveGame("save_game.xml");
+						}
 					}
+				
 				}
 
 			}
@@ -380,6 +380,18 @@ void j1DialogSystem::destroyNPCNameLabels(SceneState sc)
 		}
 		
 	}
+	else if (sc == SceneState::FIRINGRANGE)
+	{
+		for (int j = 0; j < treeCount; j++)
+		{
+			if (dialogTrees[j]->NPCscene == "FIRINGRANGE")
+			{
+				//App->gui->destroyElement(dialogTrees[j]->myNPCLabels.nameLabel);  // TODO: talk label
+				dialogTrees[j]->myNPCLabels.nameLabel->hide = true;
+			}
+
+		}
+	}
 
 }
 
@@ -400,6 +412,22 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 
 		}
 	}
+
+	else if (sc == SceneState::FIRINGRANGE)
+	{
+		for (int j = 0; j < treeCount; j++)
+		{
+			if (dialogTrees[j]->NPCscene == "FIRINGRANGE")
+			{
+				if (!dialogTrees[j]->firstInteraction)
+					dialogTrees[j]->myNPCLabels.nameLabel->hide = false;   // show npc name after first interaction
+
+			}
+
+
+		}
+	}
+
 }
 
 void j1DialogSystem::BlitDialog(int tr_id)
@@ -486,6 +514,8 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 			pos.x -= 160; 
 			pos.y -= 140;
 		}
+
+		// TODO: tutorial npc, Godo 
 	
 		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
 		tr->myNPCLabels.nameLabel->hide = true; 
