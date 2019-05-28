@@ -292,14 +292,13 @@ bool j1Scene::Start()
 	if (state == SceneState::FIRINGRANGE)
 	{
 
-
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
 		if (App->entityFactory->player != nullptr)
 		{
-			App->entityFactory->player->GetMarche()->position = { 115.f, 240.f };
-			App->entityFactory->player->GetShara()->position = { 115.f, 240.f };
-			App->entityFactory->player->GetRitz()->position = { 115.f, 240.f };
+			App->entityFactory->player->GetMarche()->position = { 115.f, 550.0f };
+			App->entityFactory->player->GetShara()->position = { 115.f, 550.0f };
+			App->entityFactory->player->GetRitz()->position = { 115.f, 550.0f };
 		}
 		else
 		{
@@ -1342,7 +1341,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		if (!App->map->IsEnabled())
 		{
 			App->map->active = true;
-			LoadNewMap("maps/FiringRange.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+			LoadNewMap("maps/FiringRange.tmx");
 		}
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
