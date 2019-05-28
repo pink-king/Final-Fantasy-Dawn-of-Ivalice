@@ -1909,7 +1909,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 	// TODO: CHECK WTF IS THIS
 	if (enemy != nullptr)
 	{
-		uint expToAdd = 100;
+		uint expToAdd = 200;
 		uint bonusLevel = (enemy->level - player->level) * 25;
 		player->exp += expToAdd + bonusLevel;
 
@@ -1921,7 +1921,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 
 			player->GetVendor()->generateVendorItems(true);
 
-
+			//TODO: Put particles and lavel to levelUp
 
 			std::string dest = "LVL" + std::to_string(player->level) ;
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
