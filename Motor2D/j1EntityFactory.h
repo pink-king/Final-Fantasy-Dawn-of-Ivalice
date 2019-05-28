@@ -112,7 +112,7 @@ public:
 	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
-
+	
 	// Subyacent subtiles functions
 
 	bool isPlayerAdjacent(const iPoint& pos) const; 
@@ -127,6 +127,7 @@ public:
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
+	void CreateNumandTypeofLoot(LOOT_TYPE LootType, int amount, fPoint pos);
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	void CreateLootStats(LootEntity* lootEntity);
 

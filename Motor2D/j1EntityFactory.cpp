@@ -121,7 +121,13 @@ bool j1EntityFactory::Update(float dt)
 {
 	bool ret = true;
 	BROFILER_CATEGORY("Entities Update", Profiler::Color::Fuchsia);
-	
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && App->scene->hackerMode && active)
+	{
+		int mx, my;
+		App->input->GetMousePosition(mx, my);
+
+	//App->entityFactory->CreateNumandTypeofLoot(LOOT_TYPE::EQUIPABLE, 20, { mx ,my });
+	}
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
 	{
@@ -1108,6 +1114,60 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 	}
 
 	return assetEntity;
+}
+
+void j1EntityFactory::CreateNumandTypeofLoot(LOOT_TYPE Loot_type, int amount, fPoint pos)
+{
+	j1Entity* ret = nullptr;
+	
+	if(Loot_type == LOOT_TYPE::CONSUMABLE)
+	{
+		for (int i = 0; i < amount; ++i)
+		{
+			ret = DBG_NEW Consumable(pos.x, pos.y);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+	}
+
+	else if (Loot_type == LOOT_TYPE::EQUIPABLE)
+	{
+		for (int i = 0; i < amount; ++i)
+		{
+			ret = DBG_NEW Equipable(pos.x, pos.y);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+	}
+	//switch (Loot_type)
+	//{
+	//case Loot_type == LOOT_TYPE::CONSUMABLE:
+	//	for (int i = 0; i < amount; ++i)
+	//	{
+	//		j1Entity* ret = nullptr;
+	//		ret = DBG_NEW Consumable(pos.x, pos.y);
+	//		ret->type = ENTITY_TYPE::LOOT;
+	//		LoadLootData((LootEntity*)ret, App->config);
+	//		entities.push_back(ret);
+	//	}
+	//	break;
+	//case LOOT_TYPE::EQUIPABLE:
+
+	//	for (int i = 0; i < amount; ++i)
+	//	{
+	//		j1Entity* ret = nullptr;
+	//		ret = DBG_NEW Equipable(pos.x, pos.y);
+	//		ret->type = ENTITY_TYPE::LOOT;
+	//		LoadLootData((LootEntity*)ret, App->config);
+	//		entities.push_back(ret);
+	//	}
+	//	break;
+
+	//}
+
+	
 }
 
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)

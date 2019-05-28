@@ -81,10 +81,7 @@ bool PlayerEntityManager::Start()
 	for (; item != characters.end(); ++item)
 		(*item)->Start();
 
-	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
-	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
-	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
-	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
+	
 	
 	
 	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
@@ -679,7 +676,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	bool ret = true;
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
-		App->audio->PlayFx(pickLoot, 0);
+		App->audio->PlayFx(App->scene->pickLoot, 0);
 		// when a loot item is collected, the description should be hiden
 		
 
@@ -730,19 +727,19 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 		{
 			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
 			{
-				App->audio->PlayFx(pickPotion, 0);
+				App->audio->PlayFx(App->scene->pickPotion, 0);
 				consumables.push_back(entityLoot);
 			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::PHOENIX_TAIL)
 			{
-				App->audio->PlayFx(pickPotion, 0);
+				App->audio->PlayFx(App->scene->pickPotion, 0);
 				consumables.push_back(entityLoot);
 			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 			{
-				App->audio->PlayFx(pickGold, 0);
+				App->audio->PlayFx(App->scene->pickGold, 0);
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
 				str_coin = std::to_string(gold) + " x";
@@ -876,7 +873,7 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 		{
 			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS)
 			{
-				App->audio->PlayFx(consumHealPotion, 0);
+				App->audio->PlayFx(App->scene->consumHealPotion, 0);
 				for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 				{
 					App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);

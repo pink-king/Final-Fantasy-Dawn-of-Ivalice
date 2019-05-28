@@ -158,10 +158,7 @@ private:
 	bool consumPotion = false;
 	bool consumPhoenix = false;
 
-	unsigned int pickLoot;
-	unsigned int pickGold;
-	unsigned int consumHealPotion;
-	unsigned int pickPotion;
+	
 
 
 	// vendor
