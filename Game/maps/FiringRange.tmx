@@ -4549,6 +4549,10 @@
   </group>
  </group>
  <layer id="2" name="Collisions" width="30" height="30">
+  <properties>
+   <property name="Navigation" type="int" value="1"/>
+   <property name="Nodraw" type="int" value="0"/>
+  </properties>
   <data>
    <tile gid="265"/>
    <tile gid="265"/>
