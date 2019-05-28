@@ -249,12 +249,15 @@ void j1DialogSystem::doDialogTypeLogic()
 
 					PerformDialogue(treeid);
 
-
-					if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos)  
+					if (currentDialogType == "SAVEGAME")
 					{
-						if (currentDialogType == "SAVEGAME")
-						App->SaveGame("save_game.xml");
+						if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos)
+						{
+
+							App->SaveGame("save_game.xml");
+						}
 					}
+					
 				}
 
 			}
