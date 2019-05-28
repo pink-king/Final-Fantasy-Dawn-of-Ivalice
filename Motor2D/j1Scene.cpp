@@ -489,7 +489,7 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause)
 				{
-					Mix_PauseMusic();
+					
 					if (!pausePanel->enable)
 						App->audio->PlayFx(open_PauseMenuSFX, 0);
 
@@ -499,7 +499,7 @@ bool j1Scene::Update(float dt)
 				}
 				else
 				{
-					Mix_ResumeMusic();
+					
 					App->gui->resetHoverSwapping = false;
 					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
