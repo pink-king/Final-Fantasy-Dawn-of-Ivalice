@@ -605,7 +605,7 @@ bool j1Scene::Update(float dt)
 	}
 
 	
-	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
+	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//Mix_CloseAudio();
 		//if()

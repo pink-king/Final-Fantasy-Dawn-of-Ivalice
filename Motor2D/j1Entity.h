@@ -156,10 +156,10 @@ public:
 	
 	bool					manualCollectable;
 	int						value;
+	bool					entityPushback = false;
 
 
-
-	fPoint dmgDestinationPos;
+	fPoint					dmgEnemyVec;
 	j1Timer					alphaTimer;
 protected:
 	iPoint imOnTile;

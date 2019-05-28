@@ -25,6 +25,11 @@ bool EnemyArcher::PreUpdate()
 
 bool EnemyArcher::Update(float dt)
 {
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 	if (!isParalize)
 	{
 		SetState(dt);
