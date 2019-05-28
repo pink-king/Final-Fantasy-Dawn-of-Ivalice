@@ -26,7 +26,16 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 
 	entityTex = App->entityFactory->lootItemsTex;
 }
+Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
+{
+	ToSelectLootFunction( objectT);
 
+	start = true;
+	checkgrounded = true;
+	manualCollectable = true;
+
+	entityTex = App->entityFactory->lootItemsTex;
+}
 
 Consumable::~Consumable()
 {
@@ -72,17 +81,51 @@ bool Consumable::Update(float dt)
 		{
 			checkgrounded = false;
 			if (objectType == OBJECT_TYPE::POTIONS)
-				App->audio->PlayFx(App->entityFactory->potionGroundSFX, 0);
+				App->audio->PlayFx(App->scene->potionGroundSFX, 0);
 
-			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->entityFactory->coinGroundedSFX, 0);
+			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
 
-			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL) //put phoenix tail  SXF
 		}
     
 	return true;
 }
 
+void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
+{
+	switch (type)
+	{
+	case OBJECT_TYPE::GOLD:
 
+
+		loot_rect = { 448,1568,32,32 };
+		size.create(32, 32);
+
+		SetPivot(16, 28);
+
+		break;
+
+	case OBJECT_TYPE::POTIONS:
+
+			loot_rect = { 384,1568,32,32 };
+			lootname.assign("potion");
+			name.assign("potion");
+			size.create(32, 32);
+			SetPivot(16, 16);
+		break;
+
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		loot_rect = { 416,1568,32,32 };
+		lootname.assign("phoenixTail");
+		name.assign("phoenixTail");
+		size.create(32, 32);
+		SetPivot(16, 30);
+		break;
+
+	default:
+		break;
+	}
+}
 
 
 void Consumable::ChooseConsumable(CONSUMABLE_TYPE type)

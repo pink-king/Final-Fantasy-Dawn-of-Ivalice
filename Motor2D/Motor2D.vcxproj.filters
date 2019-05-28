@@ -251,6 +251,9 @@
     <ClCompile Include="WaveTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyDummy.cpp">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -523,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="WaveTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDummy.h">
+      <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

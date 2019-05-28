@@ -42,7 +42,7 @@ enum class EnemyType
 {
 	MELEE,
 	ARCHER,
-	TRAP,
+	DUMMY,
 	BOMB,
 	TEST
 };

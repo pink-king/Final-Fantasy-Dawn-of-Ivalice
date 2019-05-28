@@ -10,7 +10,7 @@
   <image source="../textures/map_props/dungeon/dungeon_props.png" width="512" height="712"/>
  </tileset>
  <tileset firstgid="217" name="tileset_dungeon_lvl1_old" tilewidth="64" tileheight="64" tilecount="64" columns="8">
-  <image source="tileset_dungeon_lvl1_old.png" width="512" height="512"/>
+  <image source="Tilesets/Level 1/tileset_dungeon_lvl1.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="281" name="npc_spritesheet" tilewidth="48" tileheight="64" tilecount="20" columns="5">
   <image source="../textures/npc/npc_spritesheet.png" width="256" height="256"/>
@@ -796,7 +796,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="9"/>
+   <tile gid="4"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1678,7 +1678,7 @@
    </layer>
   </group>
  </group>
- <layer id="32" name="Collisions" width="18" height="18">
+ <layer id="32" name="Collisions" width="18" height="18" visible="0">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="Nodraw" type="int" value="0"/>

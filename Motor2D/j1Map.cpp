@@ -141,7 +141,7 @@ iPoint j1Map::MapToWorld(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -167,7 +167,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -229,7 +229,7 @@ iPoint j1Map::SubTileMapToWorld(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -250,7 +250,7 @@ iPoint j1Map::WorldToSubtileMap(int x, int y) const
 	}
 	else
 	{
-		LOG("Unknown map type");
+		//LOG("Unknown map type");
 		ret.x = x; ret.y = y;
 	}
 
@@ -324,6 +324,7 @@ bool j1Map::CleanUp()
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 
+	map_loaded = false;
 	// Clean up the pugui tree
 	map_file.reset();
 	return true;
@@ -551,13 +552,33 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						}
 
 
+						// props
+						else if (wallTypeName == "ceramicYes")
+						{
+							destRect = { 384,448,64,64 };
+						}
+						else if (wallTypeName == "ceramicNo")
+						{
+							destRect = { 449,448,64,64 };
+						}
+
+				
+						else if (wallTypeName == "Statue")
+						{
+							destRect = { 423,186,64,64 };
+						}
+						else if (wallTypeName == "Statue2")
+						{
+							destRect = { 487,186,64,64 };
+						}
+
 
 
 						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
 
 
 
-						// else if(wallTypeName == "wall2") {} etc
+						
 					}
 
 				}

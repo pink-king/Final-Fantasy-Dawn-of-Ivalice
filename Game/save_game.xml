@@ -9,8 +9,30 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="100" />
-			<gold value="0" />
+			<life actualLife="108" />
+			<gold value="197" />
+			<equipedObjects>
+				<data name="bow_2" level="2" characterObject="Shara" equipableType="bow" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="iceElement" rol="attack" value="0.129999995" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.140000001" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="254" y="1441" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="22.5" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
+				</buffs>
+			</equipedObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

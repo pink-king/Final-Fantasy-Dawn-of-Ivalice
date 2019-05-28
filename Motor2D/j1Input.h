@@ -28,6 +28,22 @@ enum j1KeyState
 	KEY_UP
 };
 
+enum j1JoyDir
+{
+	JOYSTICK_DIR_LEFT, // neg
+	JOYSTICK_DIR_RIGHT, // pos
+	JOYSTICK_DIR_UP, // neg
+	JOYSTICK_DIR_DOWN, // pos
+	JOYSTICK_DIR_MAX
+};
+
+enum j1JoyStickSide
+{
+	JOY_STICK_LEFT,
+	JOY_STICK_RIGHT,
+	JOY_MAX
+};
+
 class j1Input : public j1Module
 {
 
@@ -75,6 +91,8 @@ public:
 		return controller_axis[id];
 	}
 
+	j1KeyState GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir joyButtonDir);
+
 
 	// Check if a certain window event happened
 	bool GetWindowEvent(int code);
@@ -93,6 +111,7 @@ private:
 	j1KeyState*	mouse_buttons = nullptr;
 	j1KeyState* controller = nullptr;
 	j1KeyState* controller_axis = nullptr;
+	j1KeyState* joystick = nullptr;
 	int			mouse_motion_x;
 	int			mouse_motion_y;
 	int			mouse_x;

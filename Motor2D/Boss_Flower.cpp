@@ -241,22 +241,24 @@ FlowerBossEntity::~FlowerBossEntity()
 		rainEmitter->to_delete = true;*/
 
 	// ---------- Win State Hardcoded when boss dies ------------------
-	if (!App->scene->ComeToDeath)
+	if (App->entityFactory->player != nullptr)
 	{
-		App->SaveGame("save_game.xml");
-		App->scene->ComeToDeath = true;
-		App->scene->ComeToPortal = false;
-		App->scene->ComeToWin = true;
-		App->pause = true;
-		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
-		App->scene->previosState = App->scene->state;
-		to_delete = true;
+		if (App->entityFactory->player->to_delete == false)
+		{
+			App->SaveGame("save_game.xml");
+			App->scene->ComeToDeath = true;
+			App->scene->ComeToPortal = false;
+			App->scene->ComeToWin = true;
+			App->pause = true;
+			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
+			App->scene->previosState = App->scene->state;
+		}
 	}
 	// -----------------------------------------------------------------
 
 	DesactiveShield();
 
-	App->audio->PlayFx(App->entityFactory->boss_flower_death, 0);
+	App->audio->PlayFx(App->scene->boss_flower_death, 0);
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
@@ -712,7 +714,7 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 	}
 	else if (spawnCircleAnim.Finished())
 	{
-		App->audio->PlayFx(App->entityFactory->boss_flower_deathCirc, 0);
+		App->audio->PlayFx(App->scene->boss_flower_deathCirc, 0);
 		LOG("finished spawn anim");
 		// instantiate enemies
 		InstantiateEnemiesAroundPlayer();
