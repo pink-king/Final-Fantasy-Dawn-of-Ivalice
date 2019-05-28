@@ -58,7 +58,9 @@ public:
 	int maxNodes; 
 	std::string NPCName; 
 	std::string NPCscene; 
+	iPoint NPCtriggerPos; 
 	NPC_Labels myNPCLabels; 
+	bool firstInteraction = true; 
 };
 
 

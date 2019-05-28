@@ -351,7 +351,13 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				App->scene->dialogueBox->hide = true;
 
 			
-			
+				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
+				{
+					dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
+					dialogTrees[tr_id]->firstInteraction = false;
+				}
+
+
 			}
 			
 	    }
@@ -386,7 +392,10 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 			if (dialogTrees[j]->NPCscene == "LOBBY")
 			{
 				//dialogTrees[j]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[j]->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
-				dialogTrees[j]->myNPCLabels.nameLabel->hide = false;
+				if (!dialogTrees[j]->firstInteraction) 
+					dialogTrees[j]->myNPCLabels.nameLabel->hide = false;   // show npc name after first interaction
+			
+				
 			}
 
 		}
@@ -426,6 +435,9 @@ void j1DialogSystem::BlitDialog(int tr_id)
 		dialogTrees[tr_id]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[tr_id]->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
 	}*/
 
+
+
+
 }
 
 void j1DialogSystem::spawnDialoguesAfterInventory()
@@ -459,8 +471,25 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 
 		tr->NPCName = t.attribute("NPCname").as_string();
 		tr->NPCscene = t.attribute("NPCscene").as_string();
-		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
+		tr->NPCtriggerPos.x = t.attribute("NPCposX").as_int();
+		tr->NPCtriggerPos.y = t.attribute("NPCposY").as_int();
+		
+		iPoint pos = App->render->WorldToScreen(tr->NPCtriggerPos.x, tr->NPCtriggerPos.y, true);
+		
+		if (tr->NPCName == "Stranger")
+		{
+			pos.x -= 110; 
+			pos.y -= 140; 
+		}
+		else if (tr->NPCName == "Vendor")
+		{
+			pos.x -= 160; 
+			pos.y -= 140;
+		}
 	
+		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
+		tr->myNPCLabels.nameLabel->hide = true; 
+		tr->myNPCLabels.nameLabel->useCamera = false; 
 
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
