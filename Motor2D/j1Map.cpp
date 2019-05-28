@@ -324,6 +324,7 @@ bool j1Map::CleanUp()
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 
+	map_loaded = false;
 	// Clean up the pugui tree
 	map_file.reset();
 	return true;

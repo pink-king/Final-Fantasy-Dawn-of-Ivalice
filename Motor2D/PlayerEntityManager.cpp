@@ -135,56 +135,66 @@ bool PlayerEntityManager::Update(float dt)
 	}*/
 	if (life > maxLife)
 		life = maxLife;
-	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
+
+	if (App->map->IsEnabled())
 	{
-		lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
-		if (lastHoveredLootItem->manualCollectable)
+		//check triggers
+		if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 		{
-			if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
-			{
-				App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+			dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
 
-				App->entityFactory->entities.erase(
-					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
-
-			}
-			
 		}
-		if (!lastHoveredLootItem->manualCollectable)
+		//check loot
+		if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 		{
-			//TODO: description         dynamic_cast<LootEntity*>(equipable)
-
-		/*	if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+			lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+			if (lastHoveredLootItem->manualCollectable)
 			{
-				if (!lastHoveredLootItem->spawnedDescription)
-					PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
-			}*/
-
-			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-			{
-				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
-				//PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
-
-				if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
+				if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
 				{
-					// then delete loot from subtile and factory 
 					App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
-					//LOG("entities size: %i", App->entityFactory->entities.size());
-					// erase - remove idiom.
+
 					App->entityFactory->entities.erase(
 						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 
-					//last detach clamped entity
-					lastHoveredLootItem = nullptr;
-					//LOG("entities size: %i", App->entityFactory->entities.size());
 				}
 
 			}
-		}
-	
-	}
+			if (!lastHoveredLootItem->manualCollectable)
+			{
+				//TODO: description         dynamic_cast<LootEntity*>(equipable)
 
-	
+			/*	if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+				{
+					if (!lastHoveredLootItem->spawnedDescription)
+						PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
+				}*/
+
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+				{
+					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+					//PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
+
+					if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
+					{
+						// then delete loot from subtile and factory 
+						App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+						// erase - remove idiom.
+						App->entityFactory->entities.erase(
+							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
+
+						//last detach clamped entity
+						lastHoveredLootItem = nullptr;
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+					}
+
+				}
+			}
+
+		}
+
+	}
 
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
@@ -210,12 +220,7 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
-	//check triggers
-	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
-	{
-		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
 
-	}
 	// WARNING: search other way to do this
 	////provisional function to life
 	//std::vector<PlayerEntity*>::iterator item = characters.begin();
