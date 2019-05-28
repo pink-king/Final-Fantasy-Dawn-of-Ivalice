@@ -238,8 +238,6 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-
-
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
 		if (App->entityFactory->player != nullptr)
@@ -308,9 +306,8 @@ bool j1Scene::Start()
 		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 730, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
 		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-240.F, 401.F));
-
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
@@ -606,9 +603,8 @@ bool j1Scene::Update(float dt)
 				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::FIRINGRANGE, Black);
 		}
 	}
-
-
-	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
+	
+	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//Mix_CloseAudio();
 		//if()
