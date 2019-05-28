@@ -31,6 +31,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		WAVE_MANAGER,
 		FLOWERBOSS,
 		ENEMY_ARCHER,
+		ENEMY_DUMMY,
 		//etc
 		LOOT,
 		PROJECTILE,
