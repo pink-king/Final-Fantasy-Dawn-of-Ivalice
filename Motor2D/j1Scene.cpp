@@ -238,6 +238,7 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
+	
 
 		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
 
@@ -345,6 +346,10 @@ bool j1Scene::Start()
 		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
 		enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
 		playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
+
+
+	
+
 	return true;
 }
 
@@ -1230,8 +1235,11 @@ void j1Scene::UnLoadScene()
 
 void j1Scene::LoadScene(SceneState sceneState)
 {
+	App->dialog->destroyNPCNameLabels(state); 
+
 	UnLoadScene();
 
+	
 	switch (sceneState)
 	{
 	case SceneState::STARTMENU:
@@ -1242,6 +1250,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
+
 		if (!App->attackManager->IsEnabled())
 			App->attackManager->Enable();
 		if (!App->pathfinding->IsEnabled())
@@ -1315,6 +1324,9 @@ void j1Scene::LoadScene(SceneState sceneState)
 	}
 
 	Start();
+
+	App->dialog->createNPCNameLabels(state);
+
 }
 
 

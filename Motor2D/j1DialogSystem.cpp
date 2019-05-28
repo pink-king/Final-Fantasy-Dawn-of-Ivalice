@@ -336,7 +336,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 		if (CreateLabels)
 		{
 			if(!exit)
-			BlitDialog();
+			BlitDialog(tr_id);
 			else                                       // Stop dialogue if input is greater than max nodes ("Farewell")
 			{
 				isDialogSequenceActive = false; 
@@ -349,13 +349,60 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 
 
 				App->scene->dialogueBox->hide = true;
+
+			
+				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
+				{
+					dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
+					dialogTrees[tr_id]->firstInteraction = false;
+				}
+
+
 			}
 			
 	    }
 	
 }
 
-void j1DialogSystem::BlitDialog()
+void j1DialogSystem::destroyNPCNameLabels(SceneState sc)
+{
+
+	if (sc == SceneState::LOBBY)
+	{
+		for (int j = 0; j < treeCount; j++)
+		{
+			if (dialogTrees[j]->NPCscene == "LOBBY")
+			{
+				//App->gui->destroyElement(dialogTrees[j]->myNPCLabels.nameLabel);  // TODO: talk label
+				dialogTrees[j]->myNPCLabels.nameLabel->hide = true; 
+			}
+
+		}
+		
+	}
+
+}
+
+void j1DialogSystem::createNPCNameLabels(SceneState sc)
+{
+	if (sc == SceneState::LOBBY)
+	{
+		for (int j = 0; j < treeCount; j++)
+		{
+			if (dialogTrees[j]->NPCscene == "LOBBY")
+			{
+				//dialogTrees[j]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[j]->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
+				if (!dialogTrees[j]->firstInteraction) 
+					dialogTrees[j]->myNPCLabels.nameLabel->hide = false;   // show npc name after first interaction
+			
+				
+			}
+
+		}
+	}
+}
+
+void j1DialogSystem::BlitDialog(int tr_id)
 {
 	isDialogInScreen = true; 
 
@@ -381,22 +428,21 @@ void j1DialogSystem::BlitDialog()
 		/*if(i == 0)
 		App->gui->resetHoverSwapping = false;   // assign the current UI selected object to the player first choice*/
 	}
-		
+	
+	
+	/*if (tr_id != 666)
+	{
+		dialogTrees[tr_id]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[tr_id]->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
+	}*/
+
+
+
 
 }
 
 void j1DialogSystem::spawnDialoguesAfterInventory()
 {
-
-	//currentNode = dialogTrees[treeid]->dialogNodes[4]; // recover the node before the inventory openned (could be cleaner code) 
-
-	//input = 1; // "I changed my mind" (faked to go back to dialogue) 
-	
-	//PerformDialogue(treeid);        // last node was stored, it is "Anything else?" 
-
-
-	BlitDialog();    
-
+	BlitDialog(666);    
 }
 
 
@@ -414,7 +460,7 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	else
 		LOG("XML was loaded succesfully!");
 	
-	uint treeCount = 0; 
+
 
 	for (pugi::xml_node t = tree_file.child("dialogue").child("dialogtree"); t != NULL; t = t.next_sibling("dialogtree"))
 	{
@@ -422,6 +468,29 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 		tr->treeid = t.attribute("treeid").as_int();
 		tr->treeName = t.attribute("treeName").as_string();
 	//	tr->karma = t.attribute("karma").as_int();
+
+		tr->NPCName = t.attribute("NPCname").as_string();
+		tr->NPCscene = t.attribute("NPCscene").as_string();
+		tr->NPCtriggerPos.x = t.attribute("NPCposX").as_int();
+		tr->NPCtriggerPos.y = t.attribute("NPCposY").as_int();
+		
+		iPoint pos = App->render->WorldToScreen(tr->NPCtriggerPos.x, tr->NPCtriggerPos.y, true);
+		
+		if (tr->NPCName == "Stranger")
+		{
+			pos.x -= 110; 
+			pos.y -= 140; 
+		}
+		else if (tr->NPCName == "Vendor")
+		{
+			pos.x -= 160; 
+			pos.y -= 140;
+		}
+	
+		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
+		tr->myNPCLabels.nameLabel->hide = true; 
+		tr->myNPCLabels.nameLabel->useCamera = false; 
+
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
 		treeCount++; 
