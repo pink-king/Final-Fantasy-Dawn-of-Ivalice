@@ -226,17 +226,20 @@ bool PlayerEntity::InputCombat()
 		
 
 	// check dodge
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
 	{
-		combat_state = combatState::DODGE;
-		if (inputReady)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
-			App->audio->PlayFx(App->scene->dash, 0);
-			LOG("audio played");
+			combat_state = combatState::DODGE;
+			if (inputReady)
+			{
+				App->audio->PlayFx(App->scene->dash, 0);
+				LOG("audio played");
+			}
+			DoDash();
+			LOG("DODGE");
+			//DoDash();
 		}
-		DoDash();
-		LOG("DODGE");
-		//DoDash();
 	}
 
 	if (aiming == true)

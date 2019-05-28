@@ -307,7 +307,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 1500;
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
 	coolDownData.ultimate.cooldownTime = 10000;
@@ -379,6 +379,9 @@ bool Shara::Update(float dt)
 				currentAnimation = &idle[pointingDir];
 				inputReady = true;
 				transference_pivot = { 0,0 };
+
+				if (combat_state == combatState::DODGE)
+					coolDownData.dodge.timer.Start();
 			}
 		}
 	}
@@ -440,11 +443,6 @@ bool Shara::Update(float dt)
 		break;
 	case combatState::DODGE:
 	{
-		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
-		{
-			coolDownData.dodge.timer.Start();
-			//App->audio->PlayFx(App->entityFactory->dash, 0);
-		}
 		if (!inputReady)
 		{
 			//reposition pos
@@ -452,6 +450,19 @@ bool Shara::Update(float dt)
 			transference_pivot -= pivot;
 			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
+
+		// CLOCKS
+		if (!App->gui->spawnedClocks.Shara.dodge)
+		{
+
+			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Shara", App->scene->inGamePanel);
+
+			App->gui->spawnedClocks.Shara.dodge = true;
+		}
+		/*else
+		{
+			myUIClocks.ulti->Restart();
+		}*/
 		break;
 	}
 	case combatState::SPECIAL1:

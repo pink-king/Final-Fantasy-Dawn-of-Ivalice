@@ -126,7 +126,12 @@
           <section x="856" y="123" w="54" h="54"/>
           <position x="288" y="635"/>
           <type value="ulti"/>
-
+        </clock>
+		
+		  <clock name="dodge_clock">
+          <section x="856" y="123" w="54" h="54"/>
+          <position x="102" y="635"/>
+          <type value="dodge"/>
         </clock>
 
       </clocks>

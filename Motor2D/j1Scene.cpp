@@ -1163,6 +1163,13 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		}
 
+		else if (type == "dodge")
+		{
+			App->gui->allclocksData.dodge.position = position;
+			App->gui->allclocksData.dodge.section = section;
+			App->gui->allclocksData.dodge.type = type;
+		}
+
 	}
 
 }
