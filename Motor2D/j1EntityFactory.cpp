@@ -33,6 +33,7 @@
 #include "BossEmmiter.h"
 #include "BossEmmiterArrow.h"
 #include "WaveTrigger.h"
+#include "EnemyDummy.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -431,7 +432,9 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 		entities.push_back(ret);
 		break; 
 
-	case EnemyType::TRAP:
+	case EnemyType::DUMMY:
+		ret = DBG_NEW EnemyDummy(pos); 
+		entities.push_back(ret); 
 		break;
 
 	default:
@@ -840,7 +843,7 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
-				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS) 
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS || (*entityIterator)->type == ENTITY_TYPE::ENEMY_DUMMY)
 			{
 				ret = false;
 				break;
