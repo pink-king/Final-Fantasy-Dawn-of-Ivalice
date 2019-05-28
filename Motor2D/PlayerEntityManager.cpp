@@ -133,10 +133,18 @@ bool PlayerEntityManager::Update(float dt)
 			}
 		}
 	}*/
+	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+	{
+		++level;
+
+		std::string dest = "LVL" + std::to_string(level);
+		App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+	}
+
 	if (life > maxLife)
 		life = maxLife;
 
-	if (App->map->IsEnabled())
+	if (App->map->active)
 	{
 		//check triggers
 		if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
