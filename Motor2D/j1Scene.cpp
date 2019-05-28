@@ -26,6 +26,7 @@
 #include "j1TransitionManager.h"
 #include "NoWalkableTrigger.h"
 #include "WaveTrigger.h"
+#include"LootEntity.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -50,6 +51,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
+	LType = LOOT_TYPE::CONSUMABLE;
 	debug = false;
 	
 	if(debug_tex == nullptr)
@@ -129,6 +131,12 @@ bool j1Scene::Start()
 	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
 	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
 	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
+
+	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
+	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
+	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
+	
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
@@ -510,6 +518,10 @@ bool j1Scene::Update(float dt)
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 	
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	{
+		//App->entityFactory->CreateNumandTypeofLoot(1, 20, { mousePos.x ,mousePos.y });
+	}
 	App->tex->textures;
 	// map debug draw grids
 

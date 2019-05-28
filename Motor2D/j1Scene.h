@@ -13,7 +13,7 @@ class UiItem_Bar;
 class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
-
+enum class LOOT_TYPE;
 class Trigger;
 
 enum class SceneState
@@ -91,6 +91,8 @@ public:
 	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;
+	LOOT_TYPE LType;
+	//----SFX-----//
 	unsigned int openInventorySFX;
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
@@ -102,7 +104,7 @@ public:
 	unsigned int purchase;
 	unsigned int switch_page;
 
-	//----SFX-----//
+	
 	unsigned int lootGroundSFX;
 	unsigned int potionGroundSFX;
 	unsigned int coinGroundedSFX;
@@ -155,11 +157,16 @@ public:
 	unsigned int boss_flower_deathCirc;
 	unsigned int boss_flower_basic;
 	unsigned int boss_flower_BasicImpWall;
-	unsigned int boss_flower_death; //looking for this SFX
+	unsigned int boss_flower_death; 
 	unsigned int portal_appear;
 	unsigned int portal_mantain;
 	unsigned int portal_vanish;
 	unsigned int portal_travel; 
+
+	unsigned int pickLoot;
+	unsigned int pickGold;
+	unsigned int consumHealPotion;
+	unsigned int pickPotion;
 
 private:
 	SDL_Texture* debug_tex = nullptr;
@@ -198,7 +205,7 @@ public:
 	float AlphaDecrease(float alphavalue, int counter);
 	float AlphaIncrease(float alphavalue, int counter);
 	bool DecideTexToPulse();
-
+	
 
 public:
 	float hudAlphavalue[3];
