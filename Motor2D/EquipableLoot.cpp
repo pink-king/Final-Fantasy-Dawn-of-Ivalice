@@ -14,6 +14,16 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	entityTex = App->entityFactory->lootItemsTex;
 }
 
+Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
+{
+	ToSelectLootFunction(OBJ_TYPE);
+	originPos.x = position.x;
+	start = true;
+	checkgrounded = true;
+	manualCollectable = true;
+	entityTex = App->entityFactory->lootItemsTex;
+}
+
 
 Equipable::~Equipable()
 {
@@ -143,6 +153,55 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 254, 1441, 32, 32};
+		SetPivot(16, 28);
+		size.create(32, 32);
+		break;
+
+	case EQUIPABLE_TYPE::MANTLE:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 350, 1409, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		break;
+
+	}
+}
+
+void Equipable::ToSelectLootFunction(EQUIPABLE_TYPE type)
+{
+	switch (type)
+	{
+	case EQUIPABLE_TYPE::SWORD:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
+		loot_rect = { 64, 96, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		break;
+
+	case EQUIPABLE_TYPE::BOW:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
+		loot_rect = { 194, 770, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		break;
+
+	case EQUIPABLE_TYPE::ROD:
+		objectType = OBJECT_TYPE::WEAPON_OBJECT;
+		loot_rect = { 96, 736, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		break;
+
+	case EQUIPABLE_TYPE::ARMOR:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 128, 932, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		break;
+
+	case EQUIPABLE_TYPE::VEST:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 254, 1441, 32, 32 };
 		SetPivot(16, 28);
 		size.create(32, 32);
 		break;

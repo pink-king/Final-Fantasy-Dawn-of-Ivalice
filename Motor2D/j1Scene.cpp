@@ -520,10 +520,12 @@ bool j1Scene::Update(float dt)
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 	
-	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
-		//App->entityFactory->CreateNumandTypeofLoot(1, 20, { mousePos.x ,mousePos.y });
+		App->entityFactory->RepeatAmountofEquipable(5,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},EQUIPABLE_TYPE::ARMOR);
+		
 	}
+
 	App->tex->textures;
 	// map debug draw grids
 

@@ -18,6 +18,8 @@ class Equipable : public LootEntity
 {
 public:
 	Equipable(int posX, int posY);
+	Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE);
+
 	~Equipable();
 
 	bool Update(float dt);
@@ -25,7 +27,8 @@ public:
 
 	EQUIPABLE_TYPE ChooseEquipable();
 	void SetEquipable();
-	
+	void ToSelectLootFunction(EQUIPABLE_TYPE type);
+
 public:
 
 	

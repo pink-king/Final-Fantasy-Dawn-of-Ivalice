@@ -126,7 +126,7 @@ bool j1EntityFactory::Update(float dt)
 		int mx, my;
 		App->input->GetMousePosition(mx, my);
 
-	//App->entityFactory->CreateNumandTypeofLoot(LOOT_TYPE::EQUIPABLE, 20, { mx ,my });
+		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 10, { (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y });
 	}
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
@@ -1116,59 +1116,153 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 	return assetEntity;
 }
 
-void j1EntityFactory::CreateNumandTypeofLoot(LOOT_TYPE Loot_type, int amount, fPoint pos)
+void j1EntityFactory::RandomAmountofLoot(LOOT_TYPE Loot_type, int amount, fPoint pos)
 {
-	j1Entity* ret = nullptr;
 	
-	if(Loot_type == LOOT_TYPE::CONSUMABLE)
+	
+	switch (Loot_type)
 	{
+	case LOOT_TYPE::CONSUMABLE:
 		for (int i = 0; i < amount; ++i)
 		{
+			j1Entity* ret = nullptr;
 			ret = DBG_NEW Consumable(pos.x, pos.y);
 			ret->type = ENTITY_TYPE::LOOT;
 			LoadLootData((LootEntity*)ret, App->config);
 			entities.push_back(ret);
 		}
-	}
+		break;
+	case LOOT_TYPE::EQUIPABLE:
 
-	else if (Loot_type == LOOT_TYPE::EQUIPABLE)
-	{
 		for (int i = 0; i < amount; ++i)
 		{
+			j1Entity* ret = nullptr;
 			ret = DBG_NEW Equipable(pos.x, pos.y);
 			ret->type = ENTITY_TYPE::LOOT;
 			LoadLootData((LootEntity*)ret, App->config);
 			entities.push_back(ret);
 		}
+		break;
+
 	}
-	//switch (Loot_type)
-	//{
-	//case Loot_type == LOOT_TYPE::CONSUMABLE:
-	//	for (int i = 0; i < amount; ++i)
-	//	{
-	//		j1Entity* ret = nullptr;
-	//		ret = DBG_NEW Consumable(pos.x, pos.y);
-	//		ret->type = ENTITY_TYPE::LOOT;
-	//		LoadLootData((LootEntity*)ret, App->config);
-	//		entities.push_back(ret);
-	//	}
-	//	break;
-	//case LOOT_TYPE::EQUIPABLE:
-
-	//	for (int i = 0; i < amount; ++i)
-	//	{
-	//		j1Entity* ret = nullptr;
-	//		ret = DBG_NEW Equipable(pos.x, pos.y);
-	//		ret->type = ENTITY_TYPE::LOOT;
-	//		LoadLootData((LootEntity*)ret, App->config);
-	//		entities.push_back(ret);
-	//	}
-	//	break;
-
-	//}
 
 	
 }
+
+void j1EntityFactory::RepeatAmountofConsumables(int amount, fPoint pos, OBJECT_TYPE type)
+{
+
+	switch (type)
+	{
+
+	case OBJECT_TYPE::POTIONS:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y,OBJECT_TYPE::POTIONS);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case OBJECT_TYPE::GOLD:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y, OBJECT_TYPE::GOLD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y, OBJECT_TYPE::PHOENIX_TAIL);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	
+	default:
+		break;
+	}
+	
+}
+
+void j1EntityFactory::RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type)
+{
+	switch (type)
+	{
+
+	case EQUIPABLE_TYPE::SWORD:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::SWORD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::BOW:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::BOW);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::ROD:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::ROD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::ARMOR:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::ARMOR);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::VEST:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::VEST);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::MANTLE:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::MANTLE);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+
 
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 {
