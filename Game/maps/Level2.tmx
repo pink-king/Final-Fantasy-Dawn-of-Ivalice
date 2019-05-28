@@ -56410,7 +56410,7 @@
    </properties>
   </object>
  </objectgroup>
- <layer id="25" name="Collisions" width="130" height="140" visible="0">
+ <layer id="25" name="Collisions" width="130" height="140">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="Nodraw" type="int" value="0"/>
@@ -59157,7 +59157,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -59286,7 +59286,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -59415,7 +59415,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -59544,7 +59544,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -60784,7 +60784,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -60844,10 +60844,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -60872,6 +60870,8 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -60913,7 +60913,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -60974,10 +60974,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -61002,6 +61000,8 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -61042,7 +61042,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -61171,7 +61171,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -61300,7 +61300,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67436,7 +67436,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67565,7 +67565,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67694,7 +67694,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67823,7 +67823,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -69516,7 +69516,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -69645,7 +69645,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -69774,7 +69774,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -70033,7 +70033,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>

@@ -280,8 +280,52 @@ bool j1Scene::Start()
 		}
 
 		App->camera2D->SetCameraPos({ 115, 240 });
+
+
+		// trigger to firing range
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 0, 195, SceneState::FIRINGRANGE, Black);
+
 		
 	}
+
+	if (state == SceneState::FIRINGRANGE)
+	{
+
+
+		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
+
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->GetMarche()->position = { 115.f, 240.f };
+			App->entityFactory->player->GetShara()->position = { 115.f, 240.f };
+			App->entityFactory->player->GetRitz()->position = { 115.f, 240.f };
+		}
+		else
+		{
+			App->entityFactory->CreatePlayer({ 115, 240 });
+		}
+		//AcceptUISFX_logic = false;
+		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
+		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
+		
+
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
+
+		App->entityFactory->loadEnemies = false;
+		inGamePanel->enable = true;
+
+		uiMarche->enable = true;
+		uiShara->enable = true;
+		uiRitz->enable = true;
+		settingPanel->enable = false;
+		startMenu->enable = false;
+
+		App->audio->PlayFx(enterGameSFX, 0);
+		App->camera2D->SetCameraPos({ 115, 240 });
+
+	}
+
 
 	if (state == SceneState::STARTMENU)
 	{
@@ -370,7 +414,7 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		App->win->SetScale(2);
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		App->map->ToggleDebugDraw();
 		debug = !debug;
@@ -529,7 +573,13 @@ bool j1Scene::Update(float dt)
 
 	}
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint coords = App->render->ScreenToWorld(x, y);
+		App->entityFactory->CreateLoot(coords.x, coords.y);
+	}
 	if (state == SceneState::STARTMENU)
 	{
 		result_volume = volume_bar->GetBarValue();
@@ -547,6 +597,16 @@ bool j1Scene::Update(float dt)
 				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
 		}
 	}
+
+	if (state == SceneState::LOBBY)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+		{
+			if (door == nullptr)
+				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::FIRINGRANGE, Black);
+		}
+	}
+
 	
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
 	{
@@ -1267,6 +1327,29 @@ void j1Scene::LoadScene(SceneState sceneState)
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		break;
+
+	case SceneState::FIRINGRANGE:
+		state = SceneState::FIRINGRANGE;
+
+		if (!App->attackManager->IsEnabled())
+			App->attackManager->Enable();
+		if (!App->pathfinding->IsEnabled())
+			App->pathfinding->Enable();
+		if (!App->camera2D->IsEnabled())
+			App->camera2D->Enable();
+		if (!App->buff->IsEnabled())
+			App->buff->Enable();
+		if (!App->map->IsEnabled())
+		{
+			App->map->active = true;
+			LoadNewMap("maps/FiringRange.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		}
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
+		break;
+
+
+
 	case SceneState::LEVEL1:
 
 		state = SceneState::LEVEL1;

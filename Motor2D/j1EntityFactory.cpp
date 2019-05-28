@@ -904,6 +904,7 @@ bool j1EntityFactory::BoolisThisSubtileTriggerFree(const iPoint pos) const
 				ret = true;
 				break;
 			}
+			
 		}
 	}
 	return ret;
@@ -1664,15 +1665,25 @@ void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
 	while (entitiesItem != entities.rend())
 	{
-		if ((*entitiesItem)->type != ENTITY_TYPE::PLAYER)
+		if ((*entitiesItem) != nullptr)
 		{
-			(*entitiesItem)->CleanUp();
-			RELEASE(*entitiesItem);
-			*entitiesItem = nullptr;
+			if ((*entitiesItem)->type != ENTITY_TYPE::PLAYER)
+			{
+				(*entitiesItem)->CleanUp();
+				RELEASE(*entitiesItem);
+				*entitiesItem = nullptr;
+			}
+			else
+			{
+				play = (*entitiesItem);
+			}
 		}	
 		++entitiesItem;
 
 	}
+	entities.clear();
+	entities.push_back(play);
+	player = (PlayerEntityManager*)play;
 
 }
 
@@ -1898,7 +1909,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 	// TODO: CHECK WTF IS THIS
 	if (enemy != nullptr)
 	{
-		uint expToAdd = 100;
+		uint expToAdd = 200;
 		uint bonusLevel = (enemy->level - player->level) * 25;
 		player->exp += expToAdd + bonusLevel;
 
@@ -1910,7 +1921,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 
 			player->GetVendor()->generateVendorItems(true);
 
-
+			//TODO: Put particles and lavel to levelUp
 
 			std::string dest = "LVL" + std::to_string(player->level) ;
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);

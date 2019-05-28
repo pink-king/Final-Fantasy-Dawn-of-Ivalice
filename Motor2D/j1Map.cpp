@@ -324,6 +324,7 @@ bool j1Map::CleanUp()
 	App->tex->UnLoad(texture);
 	texture = nullptr;
 
+	map_loaded = false;
 	// Clean up the pugui tree
 	map_file.reset();
 	return true;
@@ -555,21 +556,21 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						else if (wallTypeName == "ceramicYes")
 						{
 							destRect = { 384,448,64,64 };
-						}/*
+						}
 						else if (wallTypeName == "ceramicNo")
 						{
-							destRect = { 505,458,28,31 };
-						}*/
+							destRect = { 449,448,64,64 };
+						}
 
-						// TODO: adjust the new rects from spritesheet
-						/*else if (wallTypeName == "Statue")
+				
+						else if (wallTypeName == "Statue")
 						{
 							destRect = { 423,186,64,64 };
 						}
 						else if (wallTypeName == "Statue2")
 						{
 							destRect = { 487,186,64,64 };
-						}*/
+						}
 
 
 

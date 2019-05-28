@@ -30788,7 +30788,7 @@
    </properties>
   </object>
  </objectgroup>
- <layer id="1" name="Collisions" width="100" height="100" visible="0">
+ <layer id="1" name="Collisions" width="100" height="100">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="Nodraw" type="int" value="0"/>
@@ -31205,13 +31205,13 @@
    <tile/>
    <tile gid="269"/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -39038,7 +39038,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -39110,7 +39110,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>

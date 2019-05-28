@@ -24,6 +24,7 @@ enum class SceneState
 	DEATH,
 	WIN,
 	LOBBY,
+	FIRINGRANGE,
 	MAX_STATES
 };
 
