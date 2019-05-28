@@ -69,7 +69,7 @@
 	   
 	<node line="Take the left one of the two in front of you" id="7">
       <option line="What about the other one?" nextnode="8"/>
-	  <option line= "We will meet later, comrade. So long" nextnode="666"/>
+	  <option line= "I will unravel this mystery world. So long" nextnode="666"/>
     </node> 
 	
 	<node line="You shall not ask. It holds madness and disdain" id="8">
