@@ -60,6 +60,12 @@ struct enemyHealthBarInfo
 };
 
 
+struct bossLifeBarInfo
+{
+	SDL_Rect staticSection;
+	SDL_Rect dynamicSection;
+	SDL_Rect divSection;
+};
 
 class GUI_Definitions
 {

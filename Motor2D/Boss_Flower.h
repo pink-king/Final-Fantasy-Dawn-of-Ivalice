@@ -90,8 +90,9 @@ public:
 	iPoint firstSpawnTilePos;
 	bool spawnDataReady = false;
 
-private:
+public:
 	Boss1State myState = Boss1State::NOTHING;
+private:
 	bool shieldActive = false;
 	bool evading = false;
 	SDL_Texture* boss_spritesheet = nullptr;
@@ -132,8 +133,8 @@ private:
 	j1Entity* rainEmitter = nullptr;
 
 
-	UiItem_HealthBar* lifeBar = nullptr; 
-
+public:
+	UiItem_HealthBar* myBossLifeBar = nullptr;
 };
 
 #endif // !__FLOWER_BOSS_H__

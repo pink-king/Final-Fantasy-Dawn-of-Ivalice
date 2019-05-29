@@ -39,13 +39,13 @@ protected:
 	bool left_text = false;
 	SDL_Color color;
 	TTF_Font* font = nullptr;
-	SDL_Texture* texture = nullptr;
 
 	j1PerfTimer typewriter_time;
 	bool finishedWriting = false; 
 
 
 public:  
+	SDL_Texture* texture = nullptr;
 	//bool hide = false;
 	friend class j1DialogSystem; 
 };

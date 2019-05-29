@@ -166,6 +166,9 @@ bool j1Scene::Start()
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
+		uiMarchePortrait->enable = true;
+		uiSharaPortrait->enable = true;
+		uiRitzPortrait->enable = true;
 		uiRitz->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
@@ -220,11 +223,15 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
+		App->entityFactory->CreateDialogTrigger(PosX.x, PosX.y, "BOSS");     // boss dialog ready for lvl 2 interaction with boss
 
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
+		uiMarchePortrait->enable = true;
+		uiSharaPortrait->enable = true;
+		uiRitzPortrait->enable = true;
 		uiRitz->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
@@ -270,9 +277,7 @@ bool j1Scene::Start()
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 
-		uiMarche->enable = true;
-		uiShara->enable = true;
-		uiRitz->enable = true;
+		
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
@@ -353,6 +358,9 @@ bool j1Scene::Start()
 		uiMarche->enable = false;
 		uiShara->enable = false;
 		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
@@ -421,7 +429,7 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		App->win->SetScale(2);
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) //if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->map->ToggleDebugDraw();
 		debug = !debug;
@@ -597,9 +605,11 @@ bool j1Scene::Update(float dt)
 	{
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
+		volume_bar_ig->thumb->hitBox.x = volume_bar->thumb->hitBox.x + 263;
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
 		//settingPanel->enable = false;
+		fx_bar_ig->thumb->hitBox.x = fx_bar->thumb->hitBox.x + 263;
 	}
 
 	if (state == SceneState::LOBBY)
@@ -624,10 +634,12 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		result_volume = volume_bar->GetBarValue();
+		result_volume = volume_bar_ig->GetBarValue();
 		App->audio->SetVolume(result_volume);
-		result_fx = fx_bar->GetBarValue();
+		volume_bar->thumb->hitBox.x = volume_bar_ig->thumb->hitBox.x - 263;
+		result_fx = fx_bar_ig->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
+		fx_bar->thumb->hitBox.x = fx_bar_ig->thumb->hitBox.x - 263;
 
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
@@ -635,24 +647,39 @@ bool j1Scene::Update(float dt)
 			//settingPanel->enable = false;
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 			{
-				//LOG("marche");
-				uiMarche->enable = true;
-				uiRitz->enable = false;
-				uiShara->enable = false;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = true;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = true;
+				uiRitzPortrait->enable = false;
+				uiSharaPortrait->enable = false;
 			}
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
 			{
-				//LOG("marche");
-				uiMarche->enable = false;
-				uiRitz->enable = true;
-				uiShara->enable = false;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = true;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = false;
+				uiRitzPortrait->enable = true;
+				uiSharaPortrait->enable = false;
 			}
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
 			{
-				//LOG("marche");
-				uiMarche->enable = false;
-				uiRitz->enable = false;
-				uiShara->enable = true;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = true;
+				}
+				uiMarchePortrait->enable = false;
+				uiRitzPortrait->enable = false;
+				uiSharaPortrait->enable = true;
 			}
 		}
 
@@ -1083,6 +1110,14 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			fx_bar = slider_volume;
 		}
+		if (name == "volumeSliderInGame")
+		{
+			volume_bar_ig = slider_volume;
+		}
+		if (name == "fxSliderInGame")
+		{
+			fx_bar_ig = slider_volume;
+		}
 	}
 
 
@@ -1137,6 +1172,15 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		else if (variant == "enemy")
 		{
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
+		}
+		else if (variant == "boss")
+		{
+			App->gui->bossHealthBarInfo.dynamicSection = dynamicSection;
+
+			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
+			App->gui->bossHealthBarInfo.staticSection = staticSection;
+			SDL_Rect divSection = { uiNode.child("divSection").attribute("x").as_int(), uiNode.child("divSection").attribute("y").as_int(), uiNode.child("divSection").attribute("w").as_int(), uiNode.child("divSection").attribute("h").as_int() };
+			App->gui->bossHealthBarInfo.divSection = divSection;
 		}
 
 	}
@@ -1224,6 +1268,18 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	pugi::xml_node ritzNode = nodeScene.child("InGameUiR");
 	uiRitz = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitz, ritzNode);
+
+	pugi::xml_node marchePNode = nodeScene.child("InGameUiMP");
+	uiMarchePortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiMarchePortrait, marchePNode);
+
+	pugi::xml_node sharaPNode = nodeScene.child("InGameUiSP");
+	uiSharaPortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiSharaPortrait, sharaPNode);
+
+	pugi::xml_node ritzPNode = nodeScene.child("InGameUiRP");
+	uiRitzPortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiRitzPortrait, ritzPNode);
 
 	return true;
 }

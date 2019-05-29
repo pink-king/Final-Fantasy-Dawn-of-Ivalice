@@ -6,182 +6,189 @@
     </node>
     <node line="Is there anything you need?" id="1">
       <option line="I want to buy something" nextnode="2"/>
-	  <option line="I want so sell something" nextnode="3"/> 
+      <option line="I want so sell something" nextnode="3"/>
     </node>
     <node line="Then take a look here:" id="2">
-      <option line="Sure" nextnode="4"/>                   <!-- between 2 and 4: in the "sure" option the vendor opens his inventory and player selects item-->
+      <option line="Sure" nextnode="4"/>
+      <!-- between 2 and 4: in the "sure" option the vendor opens his inventory and player selects item-->
       <option line="I changed my mind" nextnode="4"/>
     </node>
     <node line="What is it, then?" id="3">
       <option line="I will show you" nextnode="4"/>
       <option line="I changed my mind" nextnode="4"/>
-    </node>                                                    <!-- between 3 and 4: int the "i will show you" option the player opens inventory and selects item -->
+    </node>
+    <!-- between 3 and 4: int the "i will show you" option the player opens inventory and selects item -->
     <node line="Anything else?" id="4">
       <option line="I want to buy something" nextnode="2"/>
       <option line="I want to sell something" nextnode="3"/>
-	  <option line="Farewell" nextnode="6"/>
+      <option line="Farewell" nextnode="6"/>
     </node>
-	
+
   </dialogtree>
-  
-  
-    <dialogtree treeid="1" treeName="SAVEGAME">
+
+
+  <dialogtree treeid="1" treeName="SAVEGAME">
     <node line="Do you want to save the game?" id="0">
       <option line="Yes" nextnode="666"/>
       <option line="I changed my mind" nextnode="666"/>
-    </node>                                                   
+    </node>
   </dialogtree>
-  
-  
-     <dialogtree treeid="2" treeName="STRANGER" NPCname="Stranger"  NPCposX = "90" NPCposY = "189" NPCscene="LOBBY">
+
+
+  <dialogtree treeid="2" treeName="STRANGER" NPCname="Stranger"  NPCposX = "90" NPCposY = "189" NPCscene="LOBBY">
     <node line="Hello fellow warrior" id="0">
       <option line="Where am I" nextnode="1"/>
       <option line="What are you doing here?" nextnode="3"/>
-    </node>  
-	
+    </node>
+
     <node line="We are in Ivalice, wanderer" id="1">
       <option line="I don't remember how I got here" nextnode="2"/>
       <option line="Who are you?" nextnode="5"/>
-    </node> 
-    
+    </node>
+
     <node line="Ivalice holds many secrets..." id="2">
-	  <option line="I want to know more" nextnode="6"/>
+      <option line="I want to know more" nextnode="6"/>
       <option line="And what are those doors?" nextnode="4"/>
-    </node>  
-	
+    </node>
+
     <node line="Do not wonder, do you know why you are here?" id="3">
       <option line="I am listening" nextnode="1"/>
-	  <option line= "Thanks, but I am on my way" nextnode="666"/>
-    </node>  
+      <option line= "Thanks, but I am on my way" nextnode="666"/>
+    </node>
 
-	<node line="Go to the one on my right first, someone waits" id="4">
+    <node line="Go to the one on my right first, someone waits" id="4">
       <option line="And when I come back?" nextnode="7"/>
-    </node> 
-	
-	<node line="I am trapped here just like you are, poor soul" id="5">
+    </node>
+
+    <node line="I am trapped here just like you are, poor soul" id="5">
       <option line="Is there... some kind of enchantment?" nextnode="2"/>
-    </node>  	
-   	
-	<node line="I can only say it is our fault to be here" id="6">
+    </node>
+
+    <node line="I can only say it is our fault to be here" id="6">
       <option line="So will you tell me about those doors?" nextnode="4"/>
-	  <option line="I am ready to go now" nextnode="666"/>
-    </node> 
-	   
-	<node line="Take the left one of the two in front of you" id="7">
+      <option line="I am ready to go now" nextnode="666"/>
+    </node>
+
+    <node line="Take the left one of the two in front of you" id="7">
       <option line="What about the other one?" nextnode="8"/>
-	  <option line= "I will unravel this mystery world. So long" nextnode="666"/>
-    </node> 
-	
-	<node line="You shall not ask. It holds madness and disdain" id="8">
-	  <option line= "I will come back later, then. So long" nextnode="666"/>
-    </node> 
-	
-	</dialogtree>
+      <option line= "I will unravel this mystery world. So long" nextnode="666"/>
+    </node>
+
+    <node line="You shall not ask. It holds madness and disdain" id="8">
+      <option line= "I will come back later, then. So long" nextnode="666"/>
+    </node>
+
+
+
+
+  </dialogtree>
+
+
 
   <dialogtree treeid="3" treeName="BOSS">
     <node line="You have come so far... Just to perish" id="0">
       <option line="What the hell are you?!" nextnode="1"/>
       <option line="What is hapenning in this kingdom?!" nextnode="1"/>
-    </node>  
- <node line="Ivalice has come to an end, prepare to die" id="1">
+    </node>
+    <node line="Ivalice has come to an end, prepare to die" id="1">
       <option line="Wait, what do you intend?" nextnode="2"/>
       <option line="So it be" nextnode="666"/>
-    </node>     
- <node line="Once we all die, our souls will be freed" id="2">
+    </node>
+    <node line="Once we all die, our souls will be freed" id="2">
       <option line="Our souls? What are you suggesting?" nextnode="3"/>
       <option line="The outcome of Ivalice matters not to me" nextnode="666"/>
-    </node>  
- <node line="The beasts you killed, they were human once!" id="3">
+    </node>
+    <node line="The beasts you killed, they were human once!" id="3">
       <option line="Dear Lord, what have I done?..." nextnode="4"/>
-    </node> 
- <node line="We are all here because of our sins, miscreant!" id="4">
+    </node>
+    <node line="We are all here because of our sins, miscreant!" id="4">
       <option line="Then I will have to free your soul too" nextnode="666"/>
       <option line="I am going to end this right now" nextnode="666"/>
-    </node>	
+    </node>
 
   </dialogtree>
-  
-  
-     <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godo"  NPCposX = "0" NPCposY = "0" NPCscene="FIRINGRANGE">
+
+
+  <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godo"  NPCposX = "0" NPCposY = "0" NPCscene="FIRINGRANGE">
     <node line="Hello there, wanderer!" id="0">
       <option line="Your friend sent me here" nextnode="1"/>
       <option line="Woah, what is going on with that scarecrow" nextnode="2"/>
-    </node>  
-		
-	<node line="See that on my right? You will train with it" id="1">
+    </node>
+
+    <node line="See that on my right? You will train with it" id="1">
       <option line="Well... It doesn't seem much of a threat" nextnode="3"/>
-    </node>  
-	
+    </node>
+
     <node line="It is your new training partner!!" id="2">
       <option line="Well... It doesn't seem much of a threat" nextnode="3"/>
-    </node>  
-	
-	 <node line="Exactly, I've make it easy for you" id="3">
-      <option line="What can I do with it???" nextnode="4"/>
-    </node> 
-	
-	
-	<node line="Do you want to learn about items, aiming or fighting?" id="4">
-      <option line="I do not know how to aim" nextnode="5"/>
-	  <option line="What about those items?" nextnode="6"/>
-	  <option line="Teach me to fight" nextnode="9"/>
-    </node> 
-	
-	
-	<node line="Use LT and move the scope with the left joystick" id="5">
-      <option line="I want to know about other capabilities" nextnode="4"/>
-	  <option line="I will test the knowledge now" nextnode="666"/>
-    </node> 
-	
-	<node line="Monsters drop them. Pick them with the scope" id="6">
-      <option line="So... the scope is attracted to them?" nextnode="7"/>
-    </node> 
-	
-	<node line="Yes, and you can run into them and pick them too" id="7">
-      <option line="Where are they stored?" nextnode="8"/>  
-    </node> 
-	
-	<node line="Press BACK to see them, or go to the shop!!" id="8">
-      <option line="Good, I want to know about other capabilities" nextnode="4"/>
-	  <option line="I will test the knowledge now" nextnode="666"/>  
     </node>
-	
-	
-	<node line="B is for dash and X for basic attack" id="9">
+
+    <node line="Exactly, I've make it easy for you" id="3">
+      <option line="What can I do with it???" nextnode="4"/>
+    </node>
+
+
+    <node line="Do you want to learn about items, aiming or fighting?" id="4">
+      <option line="I do not know how to aim" nextnode="5"/>
+      <option line="What about those items?" nextnode="6"/>
+      <option line="Teach me to fight" nextnode="9"/>
+    </node>
+
+
+    <node line="Use LT and move the scope with the left joystick" id="5">
+      <option line="I want to know about other capabilities" nextnode="4"/>
+      <option line="I will test the knowledge now" nextnode="666"/>
+    </node>
+
+    <node line="Monsters drop them. Pick them with the scope" id="6">
+      <option line="So... the scope is attracted to them?" nextnode="7"/>
+    </node>
+
+    <node line="Yes, and you can run into them and pick them too" id="7">
+      <option line="Where are they stored?" nextnode="8"/>
+    </node>
+
+    <node line="Press BACK to see them, or go to the shop!!" id="8">
+      <option line="Good, I want to know about other capabilities" nextnode="4"/>
+      <option line="I will test the knowledge now" nextnode="666"/>
+    </node>
+
+
+    <node line="B is for dash and X for basic attack" id="9">
       <option line="Is it always like that?" nextnode="10"/>
     </node>
-	
-   <node line="No, Shara and Ritz use LT with it" id="10">
+
+    <node line="No, Shara and Ritz use LT with it" id="10">
       <option line="Is that all?" nextnode="11"/>
     </node>
 
-	   <node line="You will unlock new abilities on your journey" id="11">
+    <node line="You will unlock new abilities on your journey" id="11">
       <option line="Good, I want to know about other capabilities" nextnode="4"/>
-	  <option line="So what is your name, sir?" nextnode="12"/>
-	  <option line="I will test the knowledge now" nextnode="666"/>  
+      <option line="So what is your name, sir?" nextnode="12"/>
+      <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
-	<node line="My name is Godo" id="12">
+    <node line="My name is Godo" id="12">
       <option line="Will you give anything for my journey?" nextnode="13"/>
       <option line="You and the scarecrow make a good couple, Godo" nextnode="14"/>
-    </node>  
-	
-	<node line="Now, I am granting you the rank of Night" id="13">
+    </node>
+
+    <node line="Now, I am granting you the rank of Night" id="13">
       <option line="Knight? What is this, the Dark Ages?" nextnode="14"/>
-    </node>  
-	
-	<node line="Your attempt at humor is wasted" id="13">
+    </node>
+
+    <node line="Your attempt at humor is wasted" id="13">
       <option line="Farewell" nextnode="666"/>
       <option line="So long" nextnode="666"/>
-    </node>  
-	
+    </node>
 
-	
-	
-	
+
+
+
+
   </dialogtree>
-  
-  
-  
-  
+
+
+
+
 </dialogue> 
