@@ -75,6 +75,8 @@ public:
 	UiItem_Label* exp_label = nullptr;
 	UiItem_Label* coins_label_inventory = nullptr;
 	UiItem_Label* god_label = nullptr;
+	UiItem_Label* potionIg_label = nullptr;
+	UiItem_Label* phoenixIg_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;

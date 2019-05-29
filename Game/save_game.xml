@@ -6,7 +6,27 @@
 	<audio />
 	<map />
 	<scene />
-	<entities />
+	<entities>
+		<Entities player="ritz">
+			<Experience level="1" exp="0" />
+			<life actualLife="105" />
+			<gold value="222" />
+			<equipedObjects>
+				<data name="legendary_bow" level="2" characterObject="Shara" equipableType="bow" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="attack" value="30" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.889999986" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.140000001" />
+				</buffs>
+			</equipedObjects>
+		</Entities>
+	</entities>
 	<AttackManager />
 	<Buff />
 	<ParticlesClassic />

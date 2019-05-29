@@ -39,6 +39,10 @@ protected:
 	bool left_text = false;
 	SDL_Color color;
 	TTF_Font* font = nullptr;
+	std::string str_potionIg;
+	std::string str_phoenixIg;
+	int potion_counterIg = 0;
+	int phoenix_counterIg = 0;
 
 	j1PerfTimer typewriter_time;
 	bool finishedWriting = false; 
@@ -48,5 +52,6 @@ public:
 	SDL_Texture* texture = nullptr;
 	//bool hide = false;
 	friend class j1DialogSystem; 
+	
 };
 #endif

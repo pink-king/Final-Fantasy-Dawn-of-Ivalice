@@ -691,7 +691,7 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause)
 				{
-					Mix_PauseMusic();
+					
 					if (!pausePanel->enable)
 						App->audio->PlayFx(open_PauseMenuSFX, 0);
 
@@ -701,7 +701,7 @@ bool j1Scene::Update(float dt)
 				}
 				else
 				{
-					Mix_ResumeMusic();
+					
 					App->gui->resetHoverSwapping = false;
 					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
@@ -1243,6 +1243,8 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
+	potionIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
+	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1128,628 }, inGamePanel);
 	return true;
 }
 

@@ -139,6 +139,25 @@ void UiItem_Label::Draw(const float & dt)
 			if (!useCamera)
 				speed = 1.0f;
 
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin();
+			for (; iter != App->entityFactory->player->consumables.end(); ++iter)
+			{
+				// Potions
+				if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
+				{
+					potion_counterIg++;
+					str_potionIg = "" + std::to_string(potion_counterIg);
+					App->scene->potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+				}
+				if ((*iter)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+				{
+					phoenix_counterIg++;
+					str_phoenixIg = "" + std::to_string(phoenix_counterIg);
+					App->scene->phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+				}
+			}
+			potion_counterIg = 0;
+			phoenix_counterIg = 0;
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 		}
 	}
