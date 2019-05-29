@@ -503,8 +503,6 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					if (player->coolDownData.ultimate.cooldownTime <= 1)
 						player->coolDownData.ultimate.cooldownTime = 1;
 
-					App->gui->healthBar->RecalculateSection();
-
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{

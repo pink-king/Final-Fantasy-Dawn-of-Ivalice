@@ -9,41 +9,8 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="105" />
-			<gold value="740" />
-			<equipedObjects>
-				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="noElement" objectType="weapon" lootType="equipable">
-					<rect x="64" y="96" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="multiplicative" elementType="poisonElement" rol="attack" value="0.25999999" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="15" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="stick_2" level="2" characterObject="Ritz" equipableType="rod" elementalType="iceElement" objectType="weapon" lootType="equipable">
-					<rect x="96" y="736" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="iceElement" rol="attack" value="21" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.949999988" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="254" y="1441" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="17.5" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.25" />
-				</buffs>
-			</equipedObjects>
+			<life actualLife="136" />
+			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />
