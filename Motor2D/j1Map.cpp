@@ -572,6 +572,10 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							destRect = { 487,186,64,64 };
 						}
 
+						else if (wallTypeName == "NPCfiring")
+						{
+							destRect = { 386,847,64,64 };
+						}
 
 
 						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
