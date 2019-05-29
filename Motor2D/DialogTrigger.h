@@ -12,8 +12,6 @@ public:
 
 	bool Update(float dt);
 
-	void Draw();
-
 	bool CleanUp();
 
 	bool Save(pugi::xml_node&) const;

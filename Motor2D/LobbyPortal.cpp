@@ -55,6 +55,8 @@ void LobbyPortal::Draw()
 {
 	if (currentAnim != nullptr)
 		App->render->Blit(entityTex, position.x - size.x / 2, position.y - size.y, &currentAnim->GetCurrentFrame(), 1.0F);
+	if (App->scene->debugSubtiles)
+		DebugTrigger();
 }
 
 bool LobbyPortal::DoTriggerAction()

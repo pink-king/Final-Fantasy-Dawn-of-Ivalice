@@ -3,6 +3,7 @@
 
 Trigger::Trigger(TRIGGER_TYPE type, float posx, float posy, std::string name) : j1Entity(ENTITY_TYPE::TRIGGER, posx, posy, name), triggerType(type)
 {
+	debugSubtile = App->entityFactory->debugsubtileTex;
 }
 
 Trigger::~Trigger()
@@ -11,11 +12,26 @@ Trigger::~Trigger()
 }
 bool Trigger::Update(float dt)
 {
+
 	return true;
+}
+
+void Trigger::DebugTrigger()
+{
+
+	for (std::vector<iPoint>::iterator iter = subTiles.begin(); iter != subTiles.end(); ++iter)
+	{
+		iPoint subTilePos = *iter;
+		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+		App->render->Blit(debugSubtile, subTilePos.x, subTilePos.y, NULL);
+	}
+
 }
 
 void Trigger::Draw()
 {
+	if (App->scene->debugSubtiles)
+		DebugTrigger();
 }
 
 bool Trigger::CleanUp()
@@ -37,28 +53,34 @@ bool Trigger::DoTriggerAction()
 
 void Trigger::AssignInSubtiles(int numbreOfSubtile)
 {
-	for (int i = -numbreOfSubtile; i < numbreOfSubtile; ++i)
+	if (numbreOfSubtile == 0)
 	{
-		for (int j = -numbreOfSubtile; j < numbreOfSubtile; ++j)
+		iPoint p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
+		App->entityFactory->AssignEntityToSubtilePos(this, p);
+		subTiles.push_back(p);
+	}
+	else
+	{
+		for (int i = -numbreOfSubtile; i < numbreOfSubtile; ++i)
 		{
-			iPoint p = App->map->WorldToSubtileMap((int)position.x, (int)position.y);
-			p.x += i;
-			p.y += j;
-			App->entityFactory->AssignEntityToSubtilePos(this, p);
+			for (int j = -numbreOfSubtile; j < numbreOfSubtile; ++j)
+			{
+				iPoint p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
+				p.x += i;
+				p.y += j;
+				App->entityFactory->AssignEntityToSubtilePos(this, p);
+				subTiles.push_back(p);
+			}
 		}
 	}
 }
 
 void Trigger::DeleteFromSubtiles(int numberOfSubtile)
 {
-	for (int i = -numberOfSubtile; i < numberOfSubtile; ++i)
+	for (std::vector<iPoint>::iterator iter = subTiles.begin(); iter != subTiles.end(); ++iter)
 	{
-		for (int j = -numberOfSubtile; j < numberOfSubtile; ++j)
-		{
-			iPoint p = App->map->WorldToSubtileMap((int)position.x, (int)position.y);
-			p.x += i;
-			p.y += j;
-			App->entityFactory->DeleteEntityFromSubtilePos(this, p);
-		}
+		iPoint p = *iter;
+		p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
+		App->entityFactory->DeleteEntityFromSubtilePos(this, p);
 	}
 }

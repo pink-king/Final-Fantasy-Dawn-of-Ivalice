@@ -3,7 +3,7 @@
 #include "j1EntityFactory.h"
 DialogTrigger::DialogTrigger(float posx, float posy, std::string Dtype):Trigger(TRIGGER_TYPE::DIALOG,posx,posy,"dialog"),dialogType(Dtype)
 {
-	nSubtiles = 1;
+	nSubtiles = 0;
 	SetPivot(0, 0);
 	AssignInSubtiles(nSubtiles);
 }
@@ -19,9 +19,6 @@ bool DialogTrigger::Update(float dt)
 	return true;
 }
 
-void DialogTrigger::Draw()
-{
-}
 
 bool DialogTrigger::CleanUp()
 {
