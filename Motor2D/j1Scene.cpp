@@ -837,6 +837,36 @@ bool j1Scene::Update(float dt)
 		}
 		////////////
 
+		potion_counterIg = 0;
+		phoenix_counterIg = 0;
+		for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin(); iter != App->entityFactory->player->consumables.end(); ++iter)
+		{
+			// Potions
+			if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
+			{
+				potion_counterIg++;
+				str_potionIg = "" + std::to_string(potion_counterIg);
+				potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+			}
+			if ((*iter)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				phoenix_counterIg++;
+				str_phoenixIg = "" + std::to_string(phoenix_counterIg);
+				phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+			}
+		}
+		if (potion_counterIg == 0)
+		{
+			str_potionIg = "";
+			potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+		}
+		if (phoenix_counterIg == 0)
+		{
+			str_phoenixIg = "";
+			phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+		}
+		
+
 	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -1244,7 +1274,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	wave_label->hide = true;
 	god_label->hide = true;
 	potionIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
-	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1128,628 }, inGamePanel);
+	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1115,628 }, inGamePanel);
 	return true;
 }
 

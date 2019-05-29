@@ -225,6 +225,10 @@ public:
 	UiItem_Image* SharaIcon = nullptr;
 	UiItem_Image* RitzIcon = nullptr;
 	UiItem_Image* dialogueBox = nullptr;
+	std::string str_potionIg;
+	std::string str_phoenixIg;
+	int potion_counterIg = 0;
+	int phoenix_counterIg = 0;
 	
 };
 
