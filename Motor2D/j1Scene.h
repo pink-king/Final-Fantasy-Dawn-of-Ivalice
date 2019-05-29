@@ -229,6 +229,7 @@ public:
 	std::string str_phoenixIg;
 	int potion_counterIg = 0;
 	int phoenix_counterIg = 0;
+	bool swapAbilities = false;
 	
 };
 

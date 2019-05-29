@@ -867,6 +867,45 @@ bool j1Scene::Update(float dt)
 		}
 		
 
+		if (App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN)
+		{
+			if (!swapAbilities)
+			{
+				for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+				{
+					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
+					{
+						(*item)->hitBox.x += 909;
+						
+					}
+					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
+					{
+						(*item)->hitBox.x -= 1088;
+					}
+					
+
+					
+				}
+				swapAbilities = true;
+			}
+			else
+			{
+				for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+				{
+					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
+					{
+						(*item)->hitBox.x -= 909;
+					}
+					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
+					{
+						(*item)->hitBox.x += 1088;
+					}
+				}
+				swapAbilities = false;
+			}
+
+		}
+
 	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
@@ -1029,6 +1068,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
+		int isSwappable = uiNode.child("flag").attribute("isSwappable").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
 
@@ -1064,7 +1104,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{                                  // this is useless now
 			if (isPanel != 1)
 			{
-				App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
+				App->gui->AddImage(position, &section, parent,isSwappable, isPanel);  // bug: an image is created as panel 
 			}
 			else
 			{

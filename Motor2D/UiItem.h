@@ -69,7 +69,7 @@ public:
 	iPoint prevTextDimension;
 	bool first_hitbox = false;
 	bool isDialog = false; 
-
+	bool swapPosition = false;
 	bool changeTexture = false; 
 
 	uint dialogPos = 666; 

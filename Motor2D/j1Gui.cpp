@@ -567,14 +567,14 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	return (UiItem_Label*)newUIItem;
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
+UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool swapPosition, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = DBG_NEW UiItem_Image(position, section, canvas, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, canvas, swapPosition, isPanel);
 	else
-		newUIItem = DBG_NEW UiItem_Image(position, section, parent, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, parent, swapPosition, isPanel);
 
 	ListItemUI.push_back(newUIItem);
 

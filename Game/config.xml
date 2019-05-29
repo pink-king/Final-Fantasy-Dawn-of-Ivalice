@@ -68,14 +68,17 @@
         </image>
         <image name="dPad">
           <section x="227" y="115" w="52" h="52"/>
+          <flag  isSwappable="1" />
           <position x="1160" y="617"/>
         </image>
         <image name="potion">
           <section x="280" y="115" w="26" h="32"/>
+          <flag  isSwappable="1" />
           <position x="1222" y="625"/>
         </image>
         <image name="phoenix_tail">
           <section x="307" y="115" w="29" h="37"/>
+          <flag  isSwappable="1" />
           <position x="1132" y="622"/>
         </image>
         <!--

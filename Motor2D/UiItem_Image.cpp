@@ -6,12 +6,14 @@
 #include "j1Scene.h"
 #include "LootEntity.h"
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel) : UiItem(position, parent)
+
+
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, UiItem * const parent, bool swapPosition, bool isPanel) : UiItem(position, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
 
-
+	this->swapPosition = swapPosition;
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
 
@@ -27,7 +29,6 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*cons
 
 	this->hitBox.x = position.x;
 	this->hitBox.y = position.y;
-
 }
 
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex, UiItem_Description* myDescr) : UiItem(position, parent)
