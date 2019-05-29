@@ -671,34 +671,29 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 
 void Shara::SpawnArrowsInArch(const fPoint & destination) 
 {
-	fPoint vec = destination - GetPivotPos();
+	fPoint vec = destination - GetThrowingPos();
 	vec.Normalize(); 
 	
-	float angle = RADTODEG * atan2f(vec.y, vec.x);
-	float newAngle = angle + 20; 
+	float offset = 20 * DEGTORAD; 
+	float angle = atan2f(vec.y, vec.x);
+
+
+	float newAngle = angle + offset; 
 
 	fPoint newDir;
-	newDir.x = cosf(newAngle * DEGTORAD); 
-	newDir.y = sinf(newAngle * DEGTORAD);
-	LOG("New Vec = %f X, %f Y", newDir.x, newDir.y);
+	newDir.x = cosf(newAngle); 
+	newDir.y = sinf(newAngle);
 
-	newDir = newDir * 100000;
-	LOG("New Vec With Offset = %f X, %f Y", newDir.x, newDir.y);
+	newDir = newDir * 100000.F;
 
 	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
+	newAngle = angle - offset; 
 
-	LOG("Angle = %f", angle);
-	LOG("Angle + 20 = %f", newAngle);
-	LOG("Angle RAD = %f", angle * DEGTORAD);
-	LOG("Angle + 20 RAD = %f", newAngle * DEGTORAD);
-
-	/*newAngle = angle - 20; 
-	newDir.x = cosf(newAngle * DEGTORAD);
-	newDir.y = sinf(newAngle * DEGTORAD);
+	newDir.x = cosf(newAngle);
+	newDir.y = sinf(newAngle);
 	newDir = newDir * 10000;
-	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);*/
-
+	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 }
 
 //bool Shara::CleanUp()
