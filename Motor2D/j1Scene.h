@@ -13,7 +13,7 @@ class UiItem_Bar;
 class UiItem_Inventory;
 class UiItem;
 class PlayerEntityManager;
-
+enum class LOOT_TYPE;
 class Trigger;
 
 enum class SceneState
@@ -24,6 +24,7 @@ enum class SceneState
 	DEATH,
 	WIN,
 	LOBBY,
+	FIRINGRANGE,
 	MAX_STATES
 };
 
@@ -93,6 +94,8 @@ public:
 	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;
+	LOOT_TYPE LType;
+	//----SFX-----//
 	unsigned int openInventorySFX;
 	unsigned int closeinventorySFX;
 	unsigned int open_PauseMenuSFX;
@@ -104,6 +107,69 @@ public:
 	unsigned int purchase;
 	unsigned int switch_page;
 
+	
+	unsigned int lootGroundSFX;
+	unsigned int potionGroundSFX;
+	unsigned int coinGroundedSFX;
+	unsigned int swapCharSFX;
+	unsigned int stepSFX;
+	unsigned int enemySpawn;
+	unsigned int goblinDetection;
+	unsigned int marcheDamaged;
+	unsigned int marcheBasic;
+	unsigned int marcheTornadoExplosion;
+	unsigned int marcheBasic2;
+	unsigned int RitzDamaged;
+	unsigned int RitzBasic;
+	unsigned int RitzBasicHit;
+	unsigned int RitzMedusa;
+	unsigned int RitzAbility2;
+	unsigned int RitzAbility1;
+	unsigned int RitzUltimate;
+	unsigned int sharaBasic;
+	unsigned int basicBodyImp;
+	unsigned int strech_Shoot;
+	unsigned int emitter_explodeFire;
+	unsigned int SharaUltimateWoosh;
+	unsigned int SharaDamaged;
+	unsigned int goblinDamaged;
+	unsigned int goblinDeath;
+	unsigned int goblinAttack;
+	unsigned int goblinLaugh;
+	unsigned int marcheUltimateScream;
+	unsigned int marcheAbility1;
+	unsigned int marcheEarthShakeSFX;
+	unsigned int marcheAbility2; //tornado
+	unsigned int dash;
+	unsigned int sharaAbility1;
+	unsigned int sharaAbility2_shoot;
+	unsigned int sharaBasic_ImpactsWall;
+	unsigned int sharaAbility1_ImpactsWall;
+	unsigned int sharaAbility2_ImpactsWall;
+	unsigned int BombDeathSFX;
+	unsigned int bombgetHitSFX;
+	unsigned int bombExplodeSFX;
+	unsigned int golem_deathSFX;
+	unsigned int golem_impactWallSFX;
+	unsigned int golem_spawnSFX;
+	unsigned int golem_spawnAttackSFX;
+
+	unsigned int wave_respawn;
+	unsigned int wave_start;
+	unsigned int wave_end;
+	unsigned int boss_flower_deathCirc;
+	unsigned int boss_flower_basic;
+	unsigned int boss_flower_BasicImpWall;
+	unsigned int boss_flower_death; 
+	unsigned int portal_appear;
+	unsigned int portal_mantain;
+	unsigned int portal_vanish;
+	unsigned int portal_travel; 
+
+	unsigned int pickLoot;
+	unsigned int pickGold;
+	unsigned int consumHealPotion;
+	unsigned int pickPotion;
 
 private:
 	SDL_Texture* debug_tex = nullptr;
@@ -144,6 +210,7 @@ public:
 	float AlphaDecrease(float alphavalue, int counter);
 	float AlphaIncrease(float alphavalue, int counter);
 	bool DecideTexToPulse();
+	
 
 public:
 	float hudAlphavalue[3];

@@ -28,7 +28,7 @@ EnemyBomb::~EnemyBomb()
 
 bool EnemyBomb::Start()
 {
-	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
+	App->audio->PlayFx(App->scene->BombDeathSFX, 0);
 	return true;
 }
 bool EnemyBomb::PreUpdate()
@@ -45,7 +45,11 @@ bool EnemyBomb::PreUpdate()
 }
 bool EnemyBomb::Update(float dt)
 {
-	
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 
 	if(!isParalize)
 		SetState(dt);
@@ -251,7 +255,7 @@ void EnemyBomb::SetState(float dt)
 
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
-			App->audio->PlayFx(App->entityFactory->bombExplodeSFX, 0);
+			App->audio->PlayFx(App->scene->bombExplodeSFX, 0);
 			exploded = true;
 		}
 

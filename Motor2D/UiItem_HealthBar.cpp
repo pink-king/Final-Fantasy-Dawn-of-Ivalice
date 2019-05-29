@@ -9,7 +9,6 @@
 #include "j1Fonts.h"
 #include "Brofiler/Brofiler.h"
 
-
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
@@ -27,8 +26,6 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 }
 
-
-
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
@@ -36,7 +33,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 	staticImage = App->gui->AddImage(position, staticSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 
-	iPoint offset((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2); 
+	iPoint offset((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
 
 	dynamicImage = App->gui->AddImage(position + offset, dynamicSection, this);
 
@@ -46,30 +43,24 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 	conversionFactor = maxSection / deliever->life;
 
-	this->deliever = deliever; 
+	this->deliever = deliever;
 
 	bossSeparationWidth = maxSection / bossBarSeparations;  // divide bar in 4 sections
 
 
-	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth,offset.y), divSection, this);
+	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth, offset.y), divSection, this);
 
+	this->nameOnTop = App->gui->AddLabel(deliever->name, { 230, 240, 200, 255 }, App->font->piecesofEight36, iPoint(0, staticImage->hitBox.y - 40), this, false);
 
-	
-
-	this->nameOnTop = App->gui->AddLabel(deliever->name, {230, 240, 200, 255}, App->font->piecesofEight36, iPoint(0,staticImage->hitBox.y - 40), this, false);
-
-	int stringw, stringh = 0; 
-	SDL_QueryTexture(nameOnTop->texture, NULL, NULL, &stringw, &stringh); 
-	iPoint destPos = { (int)((float)this->staticImage->hitBox.x + (float)this->staticImage->section.w *.5f) - (int)((float)stringw * .5f), 0}; 
-	this->nameOnTop->hitBox.x = destPos.x; 
-
-
+	int stringw, stringh = 0;
+	SDL_QueryTexture(nameOnTop->texture, NULL, NULL, &stringw, &stringh);
+	iPoint destPos = { (int)((float)this->staticImage->hitBox.x + (float)this->staticImage->section.w * .5f) - (int)((float)stringw * .5f), 0 };
+	this->nameOnTop->hitBox.x = destPos.x;
 
 	this->staticImage->hide = true;
 	this->dynamicImage->hide = true;
 	this->divisionImage->hide = true;
 	this->nameOnTop->hide = true;
-
 }
 
 
@@ -154,12 +145,12 @@ void UiItem_HealthBar::Draw(const float& dt)
 	}
 	else if (this->variantType == type::boss)
 	{
-	
+
 		/*lastSection = dynamicImage->section.w;
 		dynamicImage->section.w = conversionFactor * deliever->life;*/  // shouldn't do anything here
 
 	}
-	else if(this->variantType == type::enemy)
+	else if (this->variantType == type::enemy)
 	{
 
 
@@ -207,17 +198,15 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 }
 
-
 void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 {
 
-	this->staticImage->hide = false; 
+	this->staticImage->hide = false;
 	this->dynamicImage->hide = false;
 	this->divisionImage->hide = false;
 	this->nameOnTop->hide = false;
 
 }
-
 void UiItem_HealthBar::UpdatePos()
 {
 	BROFILER_CATEGORY("Healthbar Pos", Profiler::Color::MidnightBlue);
@@ -242,20 +231,19 @@ void UiItem_HealthBar::CleanUp()
 		if (damageImage != nullptr)
 			damageImage->to_delete = true;
 	}
-	
 
 }
 
 void UiItem_HealthBar::doDamageToBoss(uint lifeToSubstract)
 {
-	uint SeparationJumps = 0; 
+	uint SeparationJumps = 0;
 
-	uint lifeEquivalentInSection = lifeToSubstract * conversionFactor;   
-	uint actualDynImageWidth = dynamicImage->section.w; 
+	uint lifeEquivalentInSection = lifeToSubstract * conversionFactor;
+	uint actualDynImageWidth = dynamicImage->section.w;
 
 	for (int i = 1; i <= remainingBossSeparations; ++i)
 	{
-		int c1 = (int)actualDynImageWidth - (int)lifeEquivalentInSection; 
+		int c1 = (int)actualDynImageWidth - (int)lifeEquivalentInSection;
 		int c2 = bossSeparationWidth * (remainingBossSeparations - i);
 
 		if (c1 < c2)
@@ -269,12 +257,11 @@ void UiItem_HealthBar::doDamageToBoss(uint lifeToSubstract)
 	{
 		remainingBossSeparations -= SeparationJumps;
 		dynamicImage->section.w = bossSeparationWidth * remainingBossSeparations;
+		LOG("There has been a boss helathbar substaction!!!");
 
-		LOG("There has been a boss helathbar substaction!!!"); 
 	}
-	
-}
 
+}
 
 void UiItem_HealthBar::DamageLogic()
 {

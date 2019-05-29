@@ -30,7 +30,7 @@ EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 100, 10, 1, 
 
 EnemyTest::~EnemyTest()
 {
-	App->audio->PlayFx(App->entityFactory->goblinDeath, 0);
+	App->audio->PlayFx(App->scene->goblinDeath, 0);
 	LOG("Bye Enemy Test ");
 } 
 
@@ -58,6 +58,11 @@ bool EnemyTest::Update(float dt)
 	{
 		LOG("");
 	}*/
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 	if (!isParalize)
 	{
 	

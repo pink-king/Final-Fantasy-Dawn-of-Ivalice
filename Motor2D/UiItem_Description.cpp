@@ -15,8 +15,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->callback = callback;
 
 	this->resistance = Value;
-	this->HP = variableType.HP; 
-	this->velocity = variableType.velocity; 
+	this->HP = variableType.HP;
+	this->velocity = variableType.velocity;
 
 	this->descrType = descriptionType::EQUIPMENT;
 	this->parent = parent;
@@ -142,7 +142,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 
-	
+
 	// price
 
 	if (price > 0)
@@ -151,7 +151,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		PriceString.append(std::to_string((int)price));
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
-		this->price->hide = true; 
+		this->price->hide = true;
 	}
 }
 
@@ -162,7 +162,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	this->attack = Attack;
 	this->resistance = resistance;   // needed for comparison labels
-	this->cooldown = cooldown; 
+	this->cooldown = cooldown;
 
 	this->descrType = descriptionType::WEAPON;
 	this->parent = parent;
@@ -202,7 +202,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	resistanceLabel->useCamera = false;
 
 
-	std::string coolString("COOL: "); 
+	std::string coolString("COOL: ");
 	coolString.append(std::to_string((int)cooldown));
 	cooldownLabel = App->gui->AddLabel(coolString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 
@@ -222,8 +222,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		resistanceComparisonLabel.character = "Marche";
 		resistanceComparisonLabel.type = "sword";
 
-		cooldownComparisonLabel.character = "Marche"; 
-		cooldownComparisonLabel.type = "sword"; 
+		cooldownComparisonLabel.character = "Marche";
+		cooldownComparisonLabel.type = "sword";
 	}
 	else if (callback->equipableType == EQUIPABLE_TYPE::ROD)
 	{
@@ -292,10 +292,10 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->descrType = descriptionType::POTION;
 	this->parent = parent;
 	this->guiType = GUI_TYPES::DESCRIPTION;
-	
 
 
-	
+
+
 	if (callback->objectType == OBJECT_TYPE::POTIONS)
 	{
 		this->name_object = "potion_1";
@@ -306,7 +306,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	{
 		this->name_object = "fenix_tail";
 	}
-	
+
 
 	// common 
 	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
@@ -335,15 +335,15 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		effectLabel->useCamera = false;
 
 	}
-	else if(callback->objectType == OBJECT_TYPE::PHOENIX_TAIL)
-    {
+	else if (callback->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+	{
 		std::string hpString("Go to hall / level");
 		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		effectLabel->useCamera = false;
 
 	}
 
-	
+
 
 	// the icon image is created after creating description in loot spawning
 
@@ -360,7 +360,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 UiItem_Description::~UiItem_Description()
 {
-	
+
 }
 
 
@@ -368,12 +368,12 @@ UiItem_Description::~UiItem_Description()
 void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
-	
+
 	if (!App->scene->inventory->enable && spawnedInventoryImage)
 	{
 		// if inventory is no longer enabled, delete description
 		App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
-		showedPrice = false; 
+		showedPrice = false;
 	}
 
 	if (spawnedInventoryImage)
@@ -402,14 +402,14 @@ void UiItem_Description::Draw(const float& dt)
 					PriceString.append(std::to_string((int)callback->price));
 					this->price->ChangeTextureIdle(PriceString, NULL, NULL);
 				}
-				showedPrice = true; 
+				showedPrice = true;
 			}
 
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
 			{
 				if (!tabOnConsumable)
 				{
-					bool isAnyItemRemaining = false; 
+					bool isAnyItemRemaining = false;
 
 					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
 					for (; item != App->gui->ListItemUI.end(); ++item)
@@ -423,12 +423,12 @@ void UiItem_Description::Draw(const float& dt)
 						}
 						else
 							foundPoti = false;
-						
+
 
 					}
 					if (!foundPoti)
 					{
-						
+
 						for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
 						{
 							if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 462)
@@ -444,7 +444,7 @@ void UiItem_Description::Draw(const float& dt)
 						App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffsetPotion.y;
 						tabOnConsumable = true;
 					}
-					
+
 				}
 				else
 				{
@@ -452,13 +452,13 @@ void UiItem_Description::Draw(const float& dt)
 					tabOnConsumable = false;
 				}
 
-				
-				
+
+
 			}
 			if (App->gui->selected_object == iconImageInventory)
 			{
 
-			
+
 
 				if (this->name_object == "potion_1")
 				{
@@ -478,7 +478,7 @@ void UiItem_Description::Draw(const float& dt)
 					App->scene->tab_inventory->hitBox.y = App->gui->selected_object->hitBox.y - tabOffset.y;
 				}
 
-				
+
 				HideAllElements(false);
 
 				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 20));
@@ -523,11 +523,11 @@ void UiItem_Description::Draw(const float& dt)
 					{
 						HideAllComparisonLabels();   // hide equipped objects comparison
 					}
-			
-				}*/
-					
 
-			
+				}*/
+
+
+
 				// MORE PROTECTION TO NOT COMPARE WHEN THE ITEM DOES NOT BELONG TO CURRENT CHARACTER
 
 				if (App->entityFactory->player->selectedCharacterEntity != this->callback->character
@@ -545,7 +545,7 @@ void UiItem_Description::Draw(const float& dt)
 				hasToCompare = true;  // reset comparison label
 			}
 
-			
+
 		}
 
 
@@ -564,14 +564,14 @@ void UiItem_Description::HideAllComparisonLabels()
 	{
 	case OBJECT_TYPE::WEAPON_OBJECT:
 
-		this->damageComparisonLabel.label->hide = true; 
+		this->damageComparisonLabel.label->hide = true;
 
-		  // TODO: cooldown and defense
-			this->cooldownComparisonLabel.label->hide = true; 
+		// TODO: cooldown and defense
+		this->cooldownComparisonLabel.label->hide = true;
 
-			this->resistanceComparisonLabel.label->hide = true;
+		this->resistanceComparisonLabel.label->hide = true;
 
-		break; 
+		break;
 
 	case OBJECT_TYPE::ARMOR_OBJECT:
 
@@ -606,7 +606,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 				float attack = 0.0f;
 				float resistance = 0.0f;
-				float cooldown = 0.0f; 
+				float cooldown = 0.0f;
 
 				float HP = 0.0f;
 				float velocity = 0.0f;
@@ -621,11 +621,11 @@ bool UiItem_Description::ChangeComparisonLabels()
 					((*lootItem)->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT && this->descrType == descriptionType::EQUIPMENT)
 					)
 				{
-					
+
 					if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
-						    && this->attachedCharacterString == "Marche"
-						    && ((*lootItem)->character == App->entityFactory->player->GetMarche()))
-				
+						&& this->attachedCharacterString == "Marche"
+						&& ((*lootItem)->character == App->entityFactory->player->GetMarche()))
+
 
 						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
 							&& this->attachedCharacterString == "Ritz"
@@ -634,7 +634,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
 							&& this->attachedCharacterString == "Shara"
 							&& ((*lootItem)->character == App->entityFactory->player->GetShara())))
-						 
+
 					{
 
 						std::vector<Buff*>::iterator iter = (*lootItem)->stats.begin();
@@ -683,7 +683,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
 
-							
+
 							// - - - - - - - - - - - - - -  COOLDOWN
 
 							this->cooldownComparisonLabel.value = (int)(this->cooldown - cooldown);
@@ -830,7 +830,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	}
 
-	
+
 
 	hasToCompare = false;
 
@@ -853,7 +853,7 @@ void UiItem_Description::SwitchCameraUsage()
 	this->name->useCamera = true;
 	this->useCamera = true;
 
-	this->price->useCamera = true; 
+	this->price->useCamera = true;
 
 	if (spawnedInventoryImage)                 // only when the inventory is closed, the duplicated icon image should be hiden 
 	{
@@ -866,12 +866,12 @@ void UiItem_Description::SwitchCameraUsage()
 		this->level->useCamera = true;
 		this->damageLabel->useCamera = true;
 		this->resistanceLabel->useCamera = true;
-		this->cooldownLabel->useCamera = true; 
+		this->cooldownLabel->useCamera = true;
 		this->attachedCharacter->useCamera = true;
 
 		this->damageComparisonLabel.label->useCamera = true;
 		this->resistanceComparisonLabel.label->useCamera = true;
-		this->cooldownComparisonLabel.label->useCamera = true; 
+		this->cooldownComparisonLabel.label->useCamera = true;
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
@@ -885,7 +885,7 @@ void UiItem_Description::SwitchCameraUsage()
 		this->HPComparisonLabel.label->useCamera = true;   // ADD HP LABEL AND VELOCITY LABEL
 		this->velocityComparisonLabel.label->useCamera = true;   // ADD HP LABEL AND VELOCITY LABEL
 
-		
+
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -903,7 +903,7 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 	this->name->hide = hide;
 	this->hide = hide;
 
-	this->price->hide = hide; 
+	this->price->hide = hide;
 
 	if (spawnedInventoryImage)
 	{
@@ -915,7 +915,7 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 
 	}
 
-	
+
 	// - - - - - - - - - - - - - 
 
 	if (this->descrType == descriptionType::WEAPON)
@@ -923,12 +923,12 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 		this->level->hide = hide;
 		this->damageLabel->hide = hide;
 		this->resistanceLabel->hide = hide;
-		this->cooldownLabel->hide = hide; 
+		this->cooldownLabel->hide = hide;
 		this->attachedCharacter->hide = hide;
 
 		this->damageComparisonLabel.label->hide = hide;
 		this->resistanceComparisonLabel.label->hide = hide;
-		this->cooldownComparisonLabel.label->hide = hide; 
+		this->cooldownComparisonLabel.label->hide = hide;
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
@@ -942,7 +942,7 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 		this->HPComparisonLabel.label->hide = hide;   // ADD HP LABEL AND VELOCITY LABEL
 		this->velocityComparisonLabel.label->hide = hide;   // ADD HP LABEL AND VELOCITY LABEL
 
-		
+
 
 	}
 	else if (this->descrType == descriptionType::POTION)
@@ -1041,7 +1041,7 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 		if (App->scene->inventory->enable)
 		{
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;   
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
 			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
 			this->HPComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
@@ -1051,7 +1051,7 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 		else
 		{
 
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;    
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
 			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
 			this->HPComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
@@ -1092,7 +1092,7 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this->panelWithButton);
 	App->gui->destroyElement(this->name);
 
-	App->gui->destroyElement(this->price); 
+	App->gui->destroyElement(this->price);
 
 	// TODO: delete the icon image in the inventory only if it exists
 	//this->iconImageInventory->to_delete = true;
@@ -1127,7 +1127,7 @@ void UiItem_Description::DeleteEverything()
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
 		App->gui->destroyElement(this->HPComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
 		App->gui->destroyElement(this->velocityComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
-		
+
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
@@ -1137,4 +1137,3 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this);
 
 }
-

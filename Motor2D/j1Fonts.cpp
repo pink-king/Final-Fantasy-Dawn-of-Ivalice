@@ -36,7 +36,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		default = Load(path, size);
 	}
 
-
+	openSansBold12 = Load("fonts/open_sans/OpenSans-Bold.ttf", 12);
 	openSansBold18 = Load("fonts/open_sans/OpenSans-Bold.ttf", 18);
 	openSansBold36 = Load("fonts/open_sans/OpenSans-Bold.ttf", 36);
 	openSansSemiBold24 = Load("fonts/open_sans/OpenSans-Semibold.ttf", 24);

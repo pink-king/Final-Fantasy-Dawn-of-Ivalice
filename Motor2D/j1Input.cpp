@@ -20,6 +20,9 @@ j1Input::j1Input() : j1Module()
 	memset(controller, KEY_IDLE, sizeof(j1KeyState) * SDL_CONTROLLER_BUTTON_MAX);
 	controller_axis = DBG_NEW j1KeyState[SDL_CONTROLLER_AXIS_MAX];
 	memset(controller_axis, KEY_IDLE, sizeof(j1KeyState)* SDL_CONTROLLER_AXIS_MAX);
+
+	joystick = DBG_NEW j1KeyState[(int)j1JoyStickSide::JOY_MAX * (int)j1JoyDir::JOYSTICK_DIR_MAX];
+	memset(joystick, KEY_IDLE, sizeof(j1KeyState) * ((int)j1JoyStickSide::JOY_MAX * (int)j1JoyDir::JOYSTICK_DIR_MAX));
 }
 
 // Destructor
@@ -29,6 +32,7 @@ j1Input::~j1Input()
 	delete[] mouse_buttons;
 	delete[] controller;
 	delete[] controller_axis;
+	delete[] joystick;
 }
 
 // Called before render is available
@@ -95,10 +99,12 @@ bool j1Input::PreUpdate()
 			}
 		}
 	}
-	// TRIGGERS STATE
+	// TRIGGERS/JOYSTICKS GENERAL STATE (for joysticks better use GetJoystickPulsation to differentiate directions
+	// for triggers this is good
 	for (int i = 0; i < SDL_CONTROLLER_AXIS_MAX; ++i)
 	{
-		if (SDL_GameControllerGetAxis(gamePad1, (SDL_GameControllerAxis)i) > 0)
+		//if (SDL_GameControllerGetAxis(gamePad1, (SDL_GameControllerAxis)i) > 0)
+		if(GetControllerAxis((SDL_GameControllerAxis)i)) // filtered with dead zone too
 		{
 			if (controller_axis[i] == KEY_IDLE)
 				controller_axis[i] = KEY_DOWN;
@@ -115,7 +121,66 @@ bool j1Input::PreUpdate()
 		
 	}
 
-	// -----------------------------------------------
+	// joystick axis pulsation -----------------------------------------------
+	/* Original order of sdl_gamecontrolleraxis enum
+	SDL_CONTROLLER_AXIS_INVALID = -1,
+
+	SDL_CONTROLLER_AXIS_LEFTX,
+	SDL_CONTROLLER_AXIS_LEFTY,
+	SDL_CONTROLLER_AXIS_RIGHTX,
+	SDL_CONTROLLER_AXIS_RIGHTY,
+
+	SDL_CONTROLLER_AXIS_TRIGGERLEFT,
+	SDL_CONTROLLER_AXIS_TRIGGERRIGHT,
+	SDL_CONTROLLER_AXIS_MAX */
+
+	int axis_direction_counter = 0; // relative to joydir enum order, this is good because we only "track" pairs for each dir (+/-)
+	for (int i = SDL_CONTROLLER_AXIS_LEFTX; i < SDL_CONTROLLER_AXIS_TRIGGERLEFT; ++i)
+	{
+		// we need to track for each axis two directions -/+
+		Sint16 joy_value = GetControllerAxis((SDL_GameControllerAxis)i); // filtered with dead zone too
+		
+		// negative values for "this" axis, ie: SDL_CONTROLLER_AXIS_LEFTX, directly to joydir enum order, dir "left"
+		// ie: SDL_CONTROLLER_AXIS_RIGHTX, axis direction counter = 2, pointing to joydir UP, wich needs a negative value from getaxis
+		// etc
+
+		if (joy_value < 0) 
+		{
+			if (joystick[axis_direction_counter] == KEY_IDLE)
+				joystick[axis_direction_counter] = KEY_DOWN;
+			else
+				joystick[axis_direction_counter] = KEY_REPEAT;
+		}
+		else
+		{
+			if (joystick[axis_direction_counter] == KEY_REPEAT || joystick[axis_direction_counter] == KEY_DOWN)
+				joystick[axis_direction_counter] = KEY_UP;
+			else
+				joystick[axis_direction_counter] = KEY_IDLE;
+		}
+
+		++axis_direction_counter;
+
+		// positive values  for "this" axis, ie: SDL_CONTROLLER_AXIS_LEFTX, dir "right" (axis direction counter 1)
+		if (joy_value > 0)
+		{
+			if (joystick[axis_direction_counter] == KEY_IDLE)
+				joystick[axis_direction_counter] = KEY_DOWN;
+			else
+				joystick[axis_direction_counter] = KEY_REPEAT;
+		}
+		else
+		{
+			if (joystick[axis_direction_counter] == KEY_REPEAT || joystick[axis_direction_counter] == KEY_DOWN)
+				joystick[axis_direction_counter] = KEY_UP;
+			else
+				joystick[axis_direction_counter] = KEY_IDLE;
+		}
+
+		++axis_direction_counter;
+	}
+
+	// --------------------------------------------------------------
 	
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
@@ -311,4 +376,9 @@ void j1Input::DoGamePadRumble(float strength, uint32 duration) const
 	// for simple rumble too (for now)
 	SDL_HapticRumblePlay(haptic, strength, duration);
 
+}
+
+j1KeyState j1Input::GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir joyButtonDir)
+{
+	return joystick[(int)joystickSide * ((int)j1JoyDir::JOYSTICK_DIR_MAX) + (int)joyButtonDir];
 }

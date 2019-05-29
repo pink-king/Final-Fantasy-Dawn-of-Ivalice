@@ -34,12 +34,12 @@ void Fade::Action()
 {
 	DrawFadeRect(255.0F);
 
+	Transition::Action();
+
 	if (is_scene_change)
 	{
 		App->scene->LoadScene(scene_to_change);
 	}
-
-	Transition::Action();
 }
 
 void Fade::Exiting()

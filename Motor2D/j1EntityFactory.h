@@ -112,7 +112,7 @@ public:
 	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
-
+	
 	// Subyacent subtiles functions
 
 	bool isPlayerAdjacent(const iPoint& pos) const; 
@@ -127,6 +127,9 @@ public:
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
+	void RandomAmountofLoot(LOOT_TYPE LootType, int amount, fPoint pos); //create the amount and type of randomLoot 
+	void RepeatAmountofConsumables(int amount, fPoint pos, OBJECT_TYPE type);//Create the amount of the same Consumable with random values for gold
+	void RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type);//Create the amount of the same Equipable with random values for each entity
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	void CreateLootStats(LootEntity* lootEntity);
 
@@ -145,6 +148,8 @@ public:
 	void setPlayerDmageVec(fPoint unitari);
 	
 	void MagicPriceCalculator(LootEntity*);
+
+	void UnloadEntitiesWithoutPlayer();
 
 public:
 	fPoint					dmg_vec;
@@ -174,64 +179,7 @@ public:
 	std::vector<j1Entity*>	entities;
 	bool justGold;
 	j1Timer alphaTimer;
-	//----SFX-----//
-	unsigned int lootGroundSFX;
-	unsigned int potionGroundSFX;
-	unsigned int coinGroundedSFX;
-	unsigned int swapCharSFX;
-	unsigned int stepSFX;
-	unsigned int enemySpawn;
-	unsigned int goblinDetection;
-	unsigned int marcheDamaged;
-	unsigned int marcheBasic;
-	unsigned int marcheTornadoExplosion;
-	unsigned int marcheBasic2;
-	unsigned int RitzDamaged;
-	unsigned int RitzBasic;
-	unsigned int RitzBasicHit;
-	unsigned int RitzMedusa;
-	unsigned int RitzAbility2;
-	unsigned int RitzAbility1;
-	unsigned int RitzUltimate;
-	unsigned int sharaBasic;
-	unsigned int basicBodyImp;
-	unsigned int strech_Shoot;
-	unsigned int emitter_explodeFire;
-	unsigned int SharaUltimateWoosh;
-	unsigned int SharaDamaged;
-	unsigned int goblinDamaged;
-	unsigned int goblinDeath;
-	unsigned int goblinAttack;
-	unsigned int goblinLaugh;
-	unsigned int marcheUltimateScream;
-	unsigned int marcheAbility1;
-	unsigned int marcheEarthShakeSFX;
-	unsigned int marcheAbility2; //tornado
-	unsigned int dash;
-	unsigned int sharaAbility1;
-	unsigned int sharaAbility2_shoot;
-	unsigned int sharaBasic_ImpactsWall; 
-	unsigned int sharaAbility1_ImpactsWall; 
-	unsigned int sharaAbility2_ImpactsWall;
-	unsigned int BombDeathSFX;
-	unsigned int bombgetHitSFX;
-	unsigned int bombExplodeSFX;
-	unsigned int golem_deathSFX;
-	unsigned int golem_impactWallSFX;
-	unsigned int golem_spawnSFX;
-	unsigned int golem_spawnAttackSFX;
-
-	unsigned int wave_respawn;
-	unsigned int wave_start;
-	unsigned int wave_end;
-	unsigned int boss_flower_deathCirc;
-	unsigned int boss_flower_basic;
-	unsigned int boss_flower_BasicImpWall;
-	unsigned int boss_flower_death; //looking for this SFX
-	unsigned int portal_appear;
-	unsigned int portal_mantain;
-	unsigned int portal_vanish;
-	unsigned int portal_travel;
+	
 
 private:
 	std::vector<j1Entity*>	draw_entities;

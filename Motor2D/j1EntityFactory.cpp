@@ -33,6 +33,7 @@
 #include "BossEmmiter.h"
 #include "BossEmmiterArrow.h"
 #include "WaveTrigger.h"
+#include "EnemyDummy.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -61,7 +62,8 @@ bool j1EntityFactory::Start()
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
-		(*item)->Start();
+		if((*item) != nullptr)
+			(*item)->Start();
 	}
 
 	// Load Textures 
@@ -80,75 +82,7 @@ bool j1EntityFactory::Start()
 	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
 
-	// Load SFX
-	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
-	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
-	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
-	swapCharSFX = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
-	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
-	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
-	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
-
-	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche/Marche_damaged.wav");
-	marcheBasic = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic1Grunt.wav");
-	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic2Grunt.wav");
-	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/Marche/marche_tornado.wav");
-	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/Marche/marcheUltimate.wav");
-	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/Marche/marche_ability1.wav");
-	marcheEarthShakeSFX = App->audio->LoadFx("audio/fx/Player/Marche/marche_earthShake.wav");
-	marcheTornadoExplosion = App->audio->LoadFx("audio/fx/Player/Marche/marche_tornado_explosion.wav");
-
-	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_damaged.wav");
-	RitzBasic = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic.wav");
-	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic_hit.wav");
-	RitzMedusa = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_medusa.wav");
-	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_Ability2.wav");
-	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_teleport.wav");
-	RitzUltimate = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_ultimateTest2.wav");
-
-
-	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara/Shara_damaged.wav");
-	sharaBasic = App->audio->LoadFx("audio/fx/Player/Shara/sharaBasic.wav");
-	basicBodyImp = App->audio->LoadFx("audio/fx/Player/Shara/arrow_impactBody.wav");
-	strech_Shoot = App->audio->LoadFx("audio/fx/Player/Shara/strech&shoot.wav");
-	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara/Shara_ultimate_woosh.wav");
-	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/Shara/SharaUltimateGrounding.wav");
-	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/Shara/shara_ability1.wav");
-	sharaBasic_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/SharaBasicImpact.wav");
-	sharaAbility1_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/sharaAbility1_impactswall.wav");
-	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/sharaAbility2_impactswall.wav");
-	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/Shara/SharaAbility2Shoot.wav");
-
-	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
-
-	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
-	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
-	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
-
-	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
-	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
-	bombExplodeSFX = App->audio->LoadFx("audio/fx/Enemies/bomb_explode.wav");
-
-	golem_deathSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_death.wav");
-	golem_impactWallSFX =App->audio->LoadFx("audio/fx/Enemies/golem/golem_impactWall.wav");
-	golem_spawnSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_spawn.wav");
-	golem_spawnAttackSFX = App->audio->LoadFx("audio/fx/Enemies/golem/spawn_attack.wav");
-
-	wave_end = App->audio->LoadFx("audio/fx/Enemies/wave/wave_end.wav");
-	wave_start = App->audio->LoadFx("audio/fx/Enemies/wave/wave_start.wav");
-	wave_respawn = App->audio->LoadFx("audio/fx/Enemies/wave/wave_spawn.wav");
-
-	boss_flower_basic = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basic.wav");
-	boss_flower_BasicImpWall = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basicImpWall.wav");
-	boss_flower_deathCirc = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_deathcircle_SFX.wav");
-	boss_flower_death = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_dead.wav");
-
-	portal_appear = App->audio->LoadFx("audio/fx/Portal/portal_appear.wav");
-	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
-	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
-	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
-
-	LoadSpawnGroups();
+	
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -187,7 +121,13 @@ bool j1EntityFactory::Update(float dt)
 {
 	bool ret = true;
 	BROFILER_CATEGORY("Entities Update", Profiler::Color::Fuchsia);
-	
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && App->scene->hackerMode && active)
+	{
+		int mx, my;
+		App->input->GetMousePosition(mx, my);
+
+		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 10, { (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y });
+	}
 	std::vector<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
 	{
@@ -234,7 +174,10 @@ bool j1EntityFactory::Update(float dt)
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 			}
 		}
-
+		else
+		{
+			item = entities.erase(item);
+		}
 
 	}
 
@@ -275,10 +218,14 @@ bool j1EntityFactory::CleanUp()
 
 	while (entitiesItem != entities.rend())
 	{
-		(*entitiesItem)->CleanUp();
-		RELEASE(*entitiesItem);
-		*entitiesItem = nullptr;
+		if ((*entitiesItem) != nullptr)
+		{
+			(*entitiesItem)->CleanUp();
+			RELEASE(*entitiesItem);
+			*entitiesItem = nullptr;
+		}
 		++entitiesItem;
+
 	}
 	entities.clear();
 
@@ -390,16 +337,6 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			}
 		}
 	}
-	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
-	{
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->Load(characterPlayer);
-		}
-	}
-
-
-	//TODO create out portal
 	return true;
 }
 
@@ -412,15 +349,7 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 		{
 			pugi::xml_node nodeEntities = node.append_child("Entities");
 			(*item)->Save(nodeEntities);
-		}
-
-		if ((*item)->type == ENTITY_TYPE::PLAYER)
-		{
-			pugi::xml_node nodeEntities = node.append_child("Players");
-			(*item)->Save(nodeEntities);
-		}
-
-		
+		}		
 	}
 
 	return true;
@@ -503,7 +432,9 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 		entities.push_back(ret);
 		break; 
 
-	case EnemyType::TRAP:
+	case EnemyType::DUMMY:
+		ret = DBG_NEW EnemyDummy(pos); 
+		entities.push_back(ret); 
 		break;
 
 	default:
@@ -751,8 +682,10 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 	if (GetRandomValue(1, max) == 1)
 	{
 		ret = DBG_NEW Consumable(posX, posY);
+		ret->type = ENTITY_TYPE::LOOT;
 		LoadLootData(ret, App->config);
 		entities.push_back(ret);
+		
 	}
 	return nullptr; 
 }
@@ -910,7 +843,7 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
-				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS) 
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS || (*entityIterator)->type == ENTITY_TYPE::ENEMY_DUMMY)
 			{
 				ret = false;
 				break;
@@ -959,6 +892,7 @@ j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
 				ret = *entityIterator;
 				return ret;
 			}
+
 		}
 	}
 	return nullptr;
@@ -979,6 +913,7 @@ bool j1EntityFactory::BoolisThisSubtileTriggerFree(const iPoint pos) const
 				ret = true;
 				break;
 			}
+			
 		}
 	}
 	return ret;
@@ -1181,6 +1116,154 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 	return assetEntity;
 }
 
+void j1EntityFactory::RandomAmountofLoot(LOOT_TYPE Loot_type, int amount, fPoint pos)
+{
+	
+	
+	switch (Loot_type)
+	{
+	case LOOT_TYPE::CONSUMABLE:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case LOOT_TYPE::EQUIPABLE:
+
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+
+	}
+
+	
+}
+
+void j1EntityFactory::RepeatAmountofConsumables(int amount, fPoint pos, OBJECT_TYPE type)
+{
+
+	switch (type)
+	{
+
+	case OBJECT_TYPE::POTIONS:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y,OBJECT_TYPE::POTIONS);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case OBJECT_TYPE::GOLD:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y, OBJECT_TYPE::GOLD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case OBJECT_TYPE::PHOENIX_TAIL:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Consumable(pos.x, pos.y, OBJECT_TYPE::PHOENIX_TAIL);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	
+	default:
+		break;
+	}
+	
+}
+
+void j1EntityFactory::RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type)
+{
+	switch (type)
+	{
+
+	case EQUIPABLE_TYPE::SWORD:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::SWORD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::BOW:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::BOW);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::ROD:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::ROD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::ARMOR:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::ARMOR);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::VEST:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::VEST);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	case  EQUIPABLE_TYPE::MANTLE:
+		for (int i = 0; i < amount; ++i)
+		{
+			j1Entity* ret = nullptr;
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::MANTLE);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLootData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+
+
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
 {
 	int randID = 0;
@@ -1303,7 +1386,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 					if (id == 1)
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 5, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.05, lootEntity);
 
 					}
 					else if (id == 2)
@@ -1315,7 +1398,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 					{
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
 						lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(5, 15) + lootEntity->level * 5, lootEntity);
-						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 5, lootEntity);
+						lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.05, lootEntity);
 
 					}
 				}
@@ -1733,6 +1816,34 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 }
 
+void j1EntityFactory::UnloadEntitiesWithoutPlayer()
+{
+	j1Entity* play = nullptr;
+	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
+	while (entitiesItem != entities.rend())
+	{
+		if ((*entitiesItem) != nullptr)
+		{
+			if ((*entitiesItem)->type != ENTITY_TYPE::PLAYER)
+			{
+				(*entitiesItem)->CleanUp();
+				RELEASE(*entitiesItem);
+				*entitiesItem = nullptr;
+			}
+			else
+			{
+				play = (*entitiesItem);
+			}
+		}	
+		++entitiesItem;
+
+	}
+	entities.clear();
+	entities.push_back(play);
+	player = (PlayerEntityManager*)play;
+
+}
+
 
 
 
@@ -1955,7 +2066,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 	// TODO: CHECK WTF IS THIS
 	if (enemy != nullptr)
 	{
-		uint expToAdd = 100;
+		uint expToAdd = 200;
 		uint bonusLevel = (enemy->level - player->level) * 25;
 		player->exp += expToAdd + bonusLevel;
 
@@ -1967,7 +2078,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 
 			player->GetVendor()->generateVendorItems(true);
 
-
+			//TODO: Put particles and lavel to levelUp
 
 			std::string dest = "LVL" + std::to_string(player->level) ;
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);

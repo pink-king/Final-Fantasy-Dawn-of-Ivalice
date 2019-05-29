@@ -16,7 +16,7 @@ struct coolDownClockData
 struct theClocks
 {
 
-	coolDownClockData ability1, ability2, ulti, potion;
+	coolDownClockData ability1, ability2, ulti, potion,dodge;
 
 };
 
@@ -27,6 +27,7 @@ struct createdClocks {
 	bool special2 = false;
 	bool ulti = false;
 	bool potion = false;
+	bool dodge = false;
 };
 
 
@@ -43,6 +44,7 @@ struct myClocks {
 	UiItem_CooldownClock* special2 = nullptr;
 	UiItem_CooldownClock* ulti = nullptr;
 	UiItem_CooldownClock* potion = nullptr;
+	UiItem_CooldownClock* dodge = nullptr;
 };
 
 
@@ -62,9 +64,8 @@ struct bossLifeBarInfo
 {
 	SDL_Rect staticSection;
 	SDL_Rect dynamicSection;
-	SDL_Rect divSection; 
+	SDL_Rect divSection;
 };
-
 
 class GUI_Definitions
 {

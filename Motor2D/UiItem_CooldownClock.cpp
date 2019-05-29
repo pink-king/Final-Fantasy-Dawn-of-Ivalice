@@ -144,6 +144,27 @@ void UiItem_CooldownClock::DoLogic()
 			}
 		}
 
+		// dodge
+		// ulti 
+		if (keepAnEye.ability == "dodge")
+		{
+			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.timer.Read()
+				< App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.cooldownTime)
+			{
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.cooldownTime / maxHeight;
+
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.timer.Read() / proportion;
+
+				heightDiff = LastHeight - this->section.h;
+
+				this->hitBox.y += heightDiff;
+			}
+			else
+			{
+				Restart();    //dont't call it if it is already called from the player
+			}
+		}
+
 
 
 	}

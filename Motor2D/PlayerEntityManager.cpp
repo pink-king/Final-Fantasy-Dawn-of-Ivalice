@@ -81,10 +81,7 @@ bool PlayerEntityManager::Start()
 	for (; item != characters.end(); ++item)
 		(*item)->Start();
 
-	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
-	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
-	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
-	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
+	
 	
 	
 	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
@@ -133,58 +130,76 @@ bool PlayerEntityManager::Update(float dt)
 			}
 		}
 	}*/
+	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+	{
+		++level;
+
+		std::string dest = "LVL" + std::to_string(level);
+		App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+	}
+
 	if (life > maxLife)
 		life = maxLife;
-	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
+
+	if (App->map->active)
 	{
-		lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
-		if (lastHoveredLootItem->manualCollectable)
+		//check triggers
+		if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
 		{
-			if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
-			{
-				App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+			dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
 
-				App->entityFactory->entities.erase(
-					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
-
-			}
-			
 		}
-		if (!lastHoveredLootItem->manualCollectable)
+		//check loot
+		if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 		{
-			//TODO: description         dynamic_cast<LootEntity*>(equipable)
-
-		/*	if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+			lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+			if (lastHoveredLootItem->manualCollectable)
 			{
-				if (!lastHoveredLootItem->spawnedDescription)
-					PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
-			}*/
-
-			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-			{
-				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
-				//PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
-
-				if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
+				if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
 				{
-					// then delete loot from subtile and factory 
 					App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
-					//LOG("entities size: %i", App->entityFactory->entities.size());
-					// erase - remove idiom.
+
 					App->entityFactory->entities.erase(
 						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 
-					//last detach clamped entity
-					lastHoveredLootItem = nullptr;
-					//LOG("entities size: %i", App->entityFactory->entities.size());
 				}
 
 			}
-		}
-	
-	}
+			if (!lastHoveredLootItem->manualCollectable)
+			{
+				//TODO: description         dynamic_cast<LootEntity*>(equipable)
 
-	
+			/*	if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+				{
+					if (!lastHoveredLootItem->spawnedDescription)
+						PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
+				}*/
+
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+				{
+					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+					//PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
+
+					if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
+					{
+						// then delete loot from subtile and factory 
+						App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+						// erase - remove idiom.
+						App->entityFactory->entities.erase(
+							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
+
+						//last detach clamped entity
+						lastHoveredLootItem = nullptr;
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+					}
+
+				}
+			}
+
+		}
+
+	}
 
 	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN && App->scene->inGamePanel->enable && !App->scene->inventory->enable)
 	{
@@ -210,12 +225,7 @@ bool PlayerEntityManager::Update(float dt)
 		}
 	}
 
-	//check triggers
-	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
-	{
-		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
 
-	}
 	// WARNING: search other way to do this
 	////provisional function to life
 	//std::vector<PlayerEntity*>::iterator item = characters.begin();
@@ -417,11 +427,8 @@ bool PlayerEntityManager::Save(pugi::xml_node &node) const
 
 	pugi::xml_node nodelife = node.append_child("life");
 
-	if (!App->scene->ComeToDeath)
-		nodelife.append_attribute("actualLife") = maxLife - life;
+	nodelife.append_attribute("actualLife") = maxLife - life;
 
-	else
-		nodelife.append_attribute("actualLife") = 100;
 	pugi::xml_node nodegold = node.append_child("gold");
 	nodegold.append_attribute("value") = gold;
 
@@ -554,7 +561,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot();
-			App->audio->PlayFx(App->entityFactory->swapCharSFX, 0);
+			App->audio->PlayFx(App->scene->swapCharSFX, 0);
 			break;
 		}
 	}
@@ -595,7 +602,7 @@ void PlayerEntityManager::SetNextCharacter()
 			SetCurrentAnimation();
 			// updates pivot
 			UpdatePivot(); 
-			App->audio->PlayFx(App->entityFactory->swapCharSFX, 0);
+			App->audio->PlayFx(App->scene->swapCharSFX, 0);
 			break;
 		}
 	}
@@ -669,7 +676,7 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	bool ret = true;
 	if (entityLoot->GetType() == LOOT_TYPE::EQUIPABLE)
 	{
-		App->audio->PlayFx(pickLoot, 0);
+		App->audio->PlayFx(App->scene->pickLoot, 0);
 		// when a loot item is collected, the description should be hiden
 		
 
@@ -720,19 +727,19 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 		{
 			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
 			{
-				App->audio->PlayFx(pickPotion, 0);
+				App->audio->PlayFx(App->scene->pickPotion, 0);
 				consumables.push_back(entityLoot);
 			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::PHOENIX_TAIL)
 			{
-				App->audio->PlayFx(pickPotion, 0);
+				App->audio->PlayFx(App->scene->pickPotion, 0);
 				consumables.push_back(entityLoot);
 			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::GOLD)
 			{
-				App->audio->PlayFx(pickGold, 0);
+				App->audio->PlayFx(App->scene->pickGold, 0);
 				gold += entityLoot->price;
 				entityLoot->to_delete = true;
 				str_coin = std::to_string(gold) + " x";
@@ -866,7 +873,7 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 		{
 			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS)
 			{
-				App->audio->PlayFx(consumHealPotion, 0);
+				App->audio->PlayFx(App->scene->consumHealPotion, 0);
 				for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
 				{
 					App->buff->CreateHealth(App->entityFactory->player, (*iter)->GetValue(), 8);

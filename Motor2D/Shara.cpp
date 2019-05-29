@@ -307,7 +307,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 1500;
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
 	coolDownData.ultimate.cooldownTime = 10000;
@@ -379,6 +379,9 @@ bool Shara::Update(float dt)
 				currentAnimation = &idle[pointingDir];
 				inputReady = true;
 				transference_pivot = { 0,0 };
+
+				if (combat_state == combatState::DODGE)
+					coolDownData.dodge.timer.Start();
 			}
 		}
 	}
@@ -440,11 +443,6 @@ bool Shara::Update(float dt)
 		break;
 	case combatState::DODGE:
 	{
-		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
-		{
-			coolDownData.dodge.timer.Start();
-			//App->audio->PlayFx(App->entityFactory->dash, 0);
-		}
 		if (!inputReady)
 		{
 			//reposition pos
@@ -452,13 +450,26 @@ bool Shara::Update(float dt)
 			transference_pivot -= pivot;
 			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
+
+		// CLOCKS
+		if (!App->gui->spawnedClocks.Shara.dodge)
+		{
+
+			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Shara", App->scene->inGamePanel);
+
+			App->gui->spawnedClocks.Shara.dodge = true;
+		}
+		/*else
+		{
+			myUIClocks.ulti->Restart();
+		}*/
 		break;
 	}
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
 			coolDownData.special1.timer.Start();
-			App->audio->PlayFx(App->entityFactory->sharaBasic);
+			App->audio->PlayFx(App->scene->sharaBasic);
 			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 100, this, PROJECTILE_TYPE::FIRE_ARROW);
 
 			//App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), 75, App->entityFactory->player->GetMarche());
@@ -486,7 +497,7 @@ bool Shara::Update(float dt)
 		if (coolDownData.special2.timer.Read() > coolDownData.special2.cooldownTime)
 		{
 			coolDownData.special2.timer.Start();
-			App->audio->PlayFx(App->entityFactory->sharaAbility1);
+			App->audio->PlayFx(App->scene->sharaAbility1);
 			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
@@ -642,7 +653,7 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 		break;
 	case combatState::ULTIMATE:
 	{
-		App->audio->PlayFx(App->entityFactory->strech_Shoot, 0);
+		App->audio->PlayFx(App->scene->strech_Shoot, 0);
 		currentAnimation = &ultiCastAnim[pointingDir];
 		entityTex = ultiCastTex;
 		break;

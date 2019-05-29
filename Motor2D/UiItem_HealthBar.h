@@ -7,12 +7,12 @@
 #include "p2Log.h"
 #include "j1PerfTimer.h"
 // #include "j1Entity.h"
-
 #define bossBarSeparations 4
 
+
 class UiItem_Image;
-class UiItem_Label; 
 class j1Entity;
+class UiItem_Label;
 
 enum type
 {
@@ -34,7 +34,7 @@ class UiItem_HealthBar : public UiItem
 
 public:
 	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent); // player
-	UiItem_HealthBar(iPoint position,  const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent); // boss
+	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent); // boss
 	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever); // enemies
 	~UiItem_HealthBar();
 
@@ -46,16 +46,14 @@ public:
 	void UpdatePos();
 
 	void CleanUp();
-
-
-	void ShowBossBarWhenDialogIsOver(); 
+	void ShowBossBarWhenDialogIsOver();
 
 public:
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
 	UiItem_Image* divisionImage = nullptr;
-	UiItem_Label* nameOnTop = nullptr; 
+	UiItem_Label* nameOnTop = nullptr;
 
 private:
 
@@ -75,14 +73,14 @@ private:
 
 	iPoint playerBarOffset = { 28,11 };
 
-	uint remainingBossSeparations = 4; 
-	uint bossSeparationWidth = 0; 
+	uint remainingBossSeparations = 4;
+	uint bossSeparationWidth = 0;
 
 public:
 	damageInfo damageInform;
 	j1Entity* deliever = nullptr;
 
-   
+	
 };
 
 #endif

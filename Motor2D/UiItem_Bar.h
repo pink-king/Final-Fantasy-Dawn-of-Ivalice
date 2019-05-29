@@ -18,7 +18,6 @@ class UiItem_Bar :public UiItem
 {
 protected:
 	TypeBar type = HORIZONTAL;
-	
 	UiItem_Image* image_bar = nullptr;
 	UiItem_Image* bar = nullptr;
 	SDL_Rect section;

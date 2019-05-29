@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Final_Fantasy-Dawn_of_Ivalice</ProjectName>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,6 +95,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
+    <ClCompile Include="EnemyDummy.cpp" />
     <ClCompile Include="EnemyProjectile.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyBomb.h" />
+    <ClInclude Include="EnemyDummy.h" />
     <ClInclude Include="EnemyProjectile.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
@@ -260,6 +262,7 @@
     <Xml Include="..\Game\config.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="..\Game\Dialog.xml" />
     <Xml Include="..\Game\Portal.xml">
       <SubType>Designer</SubType>
     </Xml>

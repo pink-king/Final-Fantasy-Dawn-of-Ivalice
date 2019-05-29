@@ -480,7 +480,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0; // basic magic ball
-	coolDownData.dodge.cooldownTime = 0;
+	coolDownData.dodge.cooldownTime = 1500;
 	coolDownData.special1.cooldownTime = 5500; // TELEPORT
 	coolDownData.special2.cooldownTime = 2000; // Medusa
 	coolDownData.ultimate.cooldownTime = 10000; // death circle
@@ -562,6 +562,9 @@ bool Ritz::Update(float dt)
 				currentAnimation = &idle[pointingDir];
 				inputReady = true;
 				transference_pivot = { 0,0 };
+
+				if (combat_state == combatState::DODGE)
+					coolDownData.dodge.timer.Start();
 			}
 		}
 	}
@@ -594,7 +597,7 @@ bool Ritz::Update(float dt)
 			if (attack1Tex != nullptr)
 			{
 				SetStopperState();
-				App->audio->PlayFx(App->entityFactory->RitzBasic, 0);
+				App->audio->PlayFx(App->scene->RitzBasic, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -629,11 +632,6 @@ bool Ritz::Update(float dt)
 	}
 	case combatState::DODGE:
 	{
-		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
-		{
-			coolDownData.dodge.timer.Start();
-			//App->audio->PlayFx(App->entityFactory->dash, 0);
-		}
 		if (!inputReady)
 		{
 			//reposition pos
@@ -641,6 +639,15 @@ bool Ritz::Update(float dt)
 			transference_pivot -= pivot;
 			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
+
+		if (!App->gui->spawnedClocks.Ritz.dodge)
+		{
+
+			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Ritz", App->scene->inGamePanel);
+
+			App->gui->spawnedClocks.Ritz.dodge = true;
+		}
+
 		break;
 	}
 	case combatState::SPECIAL1:
@@ -655,7 +662,7 @@ bool Ritz::Update(float dt)
 			{
 				SetStopperState();
 				tpPos = GetTeleportPos();
-				App->audio->PlayFx(App->entityFactory->RitzAbility1, 0);
+				App->audio->PlayFx(App->scene->RitzAbility1, 0);
 			}
 
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
@@ -722,7 +729,7 @@ bool Ritz::Update(float dt)
 		if (coolDownData.ultimate.timer.Read() > coolDownData.ultimate.cooldownTime)
 		{
 			coolDownData.ultimate.timer.Start();
-			App->audio->PlayFx(App->entityFactory->RitzUltimate, 0);
+			App->audio->PlayFx(App->scene->RitzUltimate, 0);
 
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::DEATH_CIRCLE);
 			coolDownData.ultimate.timer.Start();
