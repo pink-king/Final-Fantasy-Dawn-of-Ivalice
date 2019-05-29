@@ -16,7 +16,7 @@
 
 #define staringPosition iPoint(278, 101)
 #define tabOffset iPoint(15,17)
-#define tabOffsetPotion iPoint(23,18)
+#define tabOffsetPotion iPoint(12,18)
 
 struct elementsStartingPositionsOffsets
 {
