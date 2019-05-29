@@ -16,7 +16,7 @@ SaveTrigger::SaveTrigger(float posx, float posy) :Trigger(TRIGGER_TYPE::SAVE, po
 	idle.speed = 10.F;
 	idle.loop = true;
 
-	nSubtiles = 0;
+	nSubtiles = 1;
 	SetPivot(24, 42);
 	size.create(48, 48);
 	AssignInSubtiles(nSubtiles);
@@ -30,8 +30,7 @@ SaveTrigger::~SaveTrigger()
 
 bool SaveTrigger::Update(float dt)
 {
-	if (isActive && !App->entityFactory->BoolisThisSubtileTriggerFree(App->entityFactory->player->GetSubtilePos()))
-		isActive = false;
+	
 	return true;
 }
 
@@ -57,7 +56,7 @@ bool SaveTrigger::Save(pugi::xml_node &) const
 
 bool SaveTrigger::DoTriggerAction()
 {
-	if (!isActive)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN )
 	{
 		isActive = true;
 		App->dialog->SetCurrentDialog("SAVEGAME");

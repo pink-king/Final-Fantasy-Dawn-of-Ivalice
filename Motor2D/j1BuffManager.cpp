@@ -605,6 +605,18 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->coolDownData.special1.cooldownTime /= buff->GetValue();
 				player->coolDownData.special2.cooldownTime /= buff->GetValue();
 				player->coolDownData.ultimate.cooldownTime /= buff->GetValue();
+
+				if (player->coolDownData.basic.cooldownTime < 1)
+					player->coolDownData.basic.cooldownTime = 1;
+				if (player->coolDownData.dodge.cooldownTime < 1)
+					player->coolDownData.dodge.cooldownTime = 1;
+				if (player->coolDownData.special1.cooldownTime < 1)
+					player->coolDownData.special1.cooldownTime = 1;
+				if (player->coolDownData.special2.cooldownTime < 1)
+					player->coolDownData.special2.cooldownTime = 1;
+				if (player->coolDownData.ultimate.cooldownTime < 1)
+					player->coolDownData.ultimate.cooldownTime = 1;
+
 			}
 			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
 			{

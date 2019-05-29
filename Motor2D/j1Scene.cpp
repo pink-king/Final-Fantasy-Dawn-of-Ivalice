@@ -620,7 +620,7 @@ bool j1Scene::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
 			if (door == nullptr)
-				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 253, SceneState::LEVEL2, Black);
 		}
 	}
 
@@ -1355,7 +1355,7 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
-	App->entityFactory->UnloadEntitiesWithoutPlayer();
+	
 	if (App->map->IsEnabled())
 		App->map->Disable();
 	if (App->attackManager->IsEnabled())
@@ -1367,6 +1367,7 @@ void j1Scene::UnLoadScene()
 	if (App->camera2D->IsEnabled())
 		App->camera2D->Disable();
 
+	App->entityFactory->UnloadEntitiesWithoutPlayer();
 	App->audio->UnLoadAudio();
 
 }

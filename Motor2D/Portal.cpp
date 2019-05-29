@@ -31,7 +31,7 @@ Portal::Portal(float posx, float posy, SceneState scene, Color color)
 	open.loop = false;
 
 	nSubtiles = 1;
-	SetPivot(32, 60);
+	SetPivot(0, 0);
 	size.create(64, 64);
 	AssignInSubtiles(nSubtiles);
 	currentAnim = &open;
