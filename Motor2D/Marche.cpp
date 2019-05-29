@@ -829,7 +829,7 @@ bool Marche::Update(float dt)
 		if (!App->gui->spawnedClocks.Marche.dodge)
 		{
 
-			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Marche", App->scene->inGamePanel);
+			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Marche", App->scene->uiMarche);
 
 			App->gui->spawnedClocks.Marche.dodge = true;
 		}
@@ -853,7 +853,7 @@ bool Marche::Update(float dt)
 			if (!App->gui->spawnedClocks.Marche.special1)
 			{
 
-				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Marche", App->scene->inGamePanel);
+				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Marche", App->scene->uiMarche);
 
 				App->gui->spawnedClocks.Marche.special1 = true;
 			}
@@ -882,7 +882,7 @@ bool Marche::Update(float dt)
 			if (!App->gui->spawnedClocks.Marche.special2)
 			{
 
-				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->inGamePanel);
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->uiMarche);
 
 				App->gui->spawnedClocks.Marche.special2 = true;
 			}
@@ -1019,7 +1019,7 @@ bool Marche::Update(float dt)
 			if (!App->gui->spawnedClocks.Marche.ulti)
 			{
 				
-				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->inGamePanel);
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->uiMarche);
 
 				App->gui->spawnedClocks.Marche.ulti = true;
 			}

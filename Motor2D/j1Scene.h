@@ -230,6 +230,10 @@ public:
 	int potion_counterIg = 0;
 	int phoenix_counterIg = 0;
 	bool swapAbilities = false;
+	bool dodge = false;
+	bool ability1 = false;
+	bool ability2 = false;
+	bool ulti = false;
 	
 };
 

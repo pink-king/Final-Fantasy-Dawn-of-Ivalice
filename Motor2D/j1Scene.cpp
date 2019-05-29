@@ -875,8 +875,30 @@ bool j1Scene::Update(float dt)
 				{
 					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
 					{
-						(*item)->hitBox.x += 909;
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge)
+						{
+							App->gui->allclocksData.dodge.position.x += 909;
+							dodge = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1)
+						{
+							App->gui->allclocksData.ability1.position.x += 909;
+							ability1 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2)
+						{
+							App->gui->allclocksData.ability2.position.x += 909;
+							ability2 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti)
+						{
+							App->gui->allclocksData.ulti.position.x += 909;
+							ulti = true;
+						}
 						
+							(*item)->hitBox.x += 909;
+
+
 					}
 					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
 					{
@@ -894,7 +916,28 @@ bool j1Scene::Update(float dt)
 				{
 					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
 					{
-						(*item)->hitBox.x -= 909;
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge)
+						{
+							App->gui->allclocksData.dodge.position.x -= 909;
+							dodge = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1)
+						{
+							App->gui->allclocksData.ability1.position.x -= 909;
+							ability1 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2)
+						{
+							App->gui->allclocksData.ability2.position.x -= 909;
+							ability2 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti)
+						{
+							App->gui->allclocksData.ulti.position.x -= 909;
+							ulti = true;
+						}
+						
+							(*item)->hitBox.x -= 909;
 					}
 					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
 					{
