@@ -7,10 +7,68 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="marche">
+		<Entities player="ritz">
 			<Experience level="1" exp="0" />
-			<life actualLife="136" />
-			<gold value="0" />
+			<life actualLife="121" />
+			<gold value="636" />
+			<bagObjects>
+				<data name="sword_1" level="2" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="attack" value="34" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.800000012" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_sword" level="1" characterObject="Marche" equipableType="sword" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="attack" value="25" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="14" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.860000014" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="legendary_sword" level="1" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="attack" value="24" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="20" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.839999974" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="legendary_vest" level="2" characterObject="Shara" equipableType="vest" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="254" y="1441" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="fireElement" rol="defence" value="29" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="health" value="17" />
+				</buffs>
+			</equipedObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="30" nextobjectid="1817">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="30" nextobjectid="1822">
  <tileset firstgid="1" name="tileset_dungeon_lvl1_old" tilewidth="64" tileheight="64" tilecount="64" columns="8">
   <image source="Tilesets/Level 1/tileset_dungeon_lvl1.png" width="512" height="512"/>
  </tileset>
@@ -56226,12 +56226,12 @@
   </group>
  </group>
  <objectgroup id="2" name="Spawns">
-  <object id="1752" name="spawnZone" x="3141.5" y="2795.17" width="271.833" height="173.167">
+  <object id="1752" name="spawnZone" x="3350.5" y="1508.5" width="69.333" height="85.167">
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
-    <property name="maxEnemies" type="int" value="12"/>
-    <property name="minEnemies" type="int" value="10"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
@@ -56430,6 +56430,42 @@
     <property name="golem" type="bool" value="false"/>
     <property name="maxEnemies" type="int" value="10"/>
     <property name="minEnemies" type="int" value="8"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="1817" name="spawnZone" x="3127.11" y="2747.36" width="271.833" height="173.167">
+   <properties>
+    <property name="bomb" type="bool" value="true"/>
+    <property name="golem" type="bool" value="false"/>
+    <property name="maxEnemies" type="int" value="12"/>
+    <property name="minEnemies" type="int" value="10"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="1819" name="spawnZone" x="3351.83" y="1702.92" width="69.333" height="85.167">
+   <properties>
+    <property name="bomb" type="bool" value="true"/>
+    <property name="golem" type="bool" value="false"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="6"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="1820" name="spawnZone" x="2647.88" y="1646.39" width="69.333" height="85.167">
+   <properties>
+    <property name="bomb" type="bool" value="true"/>
+    <property name="golem" type="bool" value="false"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="6"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="1821" name="spawnZone" x="1970.33" y="1159.42" width="69.333" height="85.167">
+   <properties>
+    <property name="bomb" type="bool" value="true"/>
+    <property name="golem" type="bool" value="false"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
