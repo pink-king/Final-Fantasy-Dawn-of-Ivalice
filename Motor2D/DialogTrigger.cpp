@@ -15,9 +15,7 @@ DialogTrigger::~DialogTrigger()
 
 bool DialogTrigger::Update(float dt)
 {
-	if (PrevSubtile != App->entityFactory->player->GetSubtilePos())
-		active = false;
-	PrevSubtile = App->entityFactory->player->GetSubtilePos();
+	
 	return true;
 }
 
@@ -37,10 +35,8 @@ bool DialogTrigger::Save(pugi::xml_node &) const
 
 bool DialogTrigger::DoTriggerAction()
 {
-	if (!active)
-	{
-		active = true;
+	if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		App->dialog->SetCurrentDialog(dialogType.data());
-	}
+
 	return true;
 }
