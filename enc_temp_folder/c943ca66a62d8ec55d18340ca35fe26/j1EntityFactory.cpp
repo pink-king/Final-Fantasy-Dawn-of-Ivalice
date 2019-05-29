@@ -2101,8 +2101,6 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 				{
 					std::string dest = "LVL" + std::to_string(player->level);
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
-
-					App->gui->healthBar->RecalculateSection();
 				}
 
 				else
@@ -2111,10 +2109,8 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 				}
 
-				
-
 			}
-		
+		App->gui->healthBar->RecalculateSection(); 
 
 		}
 	}
