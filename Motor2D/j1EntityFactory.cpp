@@ -2100,6 +2100,8 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 
 
+			App->gui->healthBar->RecalculateSection(); 
+
 		}
 	}
 }
