@@ -23,6 +23,7 @@ public:
 
 private:
 	bool SetStopperState();
+	void SpawnArrowsInArch(const fPoint& destination); 
 
 public:
 	myClocks myUIClocks;

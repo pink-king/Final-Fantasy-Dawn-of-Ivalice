@@ -110,7 +110,7 @@ bool j1AttackManager::Update(float dt)
 		}
 		else
 		{
-			LOG("Involved %i entities", (*attacksDataIterator)->combo);
+			//LOG("Involved %i entities", (*attacksDataIterator)->combo);
 			delete(*attacksDataIterator);
 			(*attacksDataIterator) = nullptr;
 			attacksDataIterator = currentPropagationAttacks.erase(attacksDataIterator);
@@ -502,7 +502,7 @@ void attackData::CheckEntitiesFromSubtileStep()
 			std::vector<j1Entity*>::iterator invoterator = involvedEntities->begin();
 			for (; invoterator != involvedEntities->end(); ++invoterator)
 			{
-				LOG("Entity name %s", (*invoterator)->name.begin());
+				//LOG("Entity name %s", (*invoterator)->name.begin());
 
 				// filter an add the target entities to final queue
 				AddEntityToQueueFiltered((*invoterator));

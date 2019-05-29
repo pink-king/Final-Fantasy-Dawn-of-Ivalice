@@ -6,6 +6,7 @@
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1ParticlesClassic.h"
+#include "p2Defs.h"
 
 Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 {
@@ -499,7 +500,7 @@ bool Shara::Update(float dt)
 			coolDownData.special2.timer.Start();
 			App->audio->PlayFx(App->scene->sharaAbility1);
 			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
-
+			SpawnArrowsInArch(GetShotDirection());
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 
 			// add gui clock
@@ -666,6 +667,38 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 	}
 
 	return ret;
+}
+
+void Shara::SpawnArrowsInArch(const fPoint & destination) 
+{
+	fPoint vec = destination - GetPivotPos();
+	vec.Normalize(); 
+	
+	float angle = RADTODEG * atan2f(vec.y, vec.x);
+	float newAngle = angle + 20; 
+
+	fPoint newDir;
+	newDir.x = cosf(newAngle * DEGTORAD); 
+	newDir.y = sinf(newAngle * DEGTORAD);
+	LOG("New Vec = %f X, %f Y", newDir.x, newDir.y);
+
+	newDir = newDir * 100000;
+	LOG("New Vec With Offset = %f X, %f Y", newDir.x, newDir.y);
+
+	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
+
+	LOG("Angle = %f", angle);
+	LOG("Angle + 20 = %f", newAngle);
+	LOG("Angle RAD = %f", angle * DEGTORAD);
+	LOG("Angle + 20 RAD = %f", newAngle * DEGTORAD);
+
+	/*newAngle = angle - 20; 
+	newDir.x = cosf(newAngle * DEGTORAD);
+	newDir.y = sinf(newAngle * DEGTORAD);
+	newDir = newDir * 10000;
+	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);*/
+
 }
 
 //bool Shara::CleanUp()
