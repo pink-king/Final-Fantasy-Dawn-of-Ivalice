@@ -565,11 +565,11 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 				
 						else if (wallTypeName == "Statue")
 						{
-							destRect = { 423,186,64,64 };
+							destRect = { 374,186,64,64 };
 						}
 						else if (wallTypeName == "Statue2")
 						{
-							destRect = { 487,186,64,64 };
+							destRect = { 448,186,64,64 };
 						}
 
 						else if (wallTypeName == "NPCfiring")
