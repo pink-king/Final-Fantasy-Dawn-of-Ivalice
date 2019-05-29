@@ -194,12 +194,12 @@ bool PlayerEntity::InputCombat()
 	// ---------------------
 
 	// check ultimate trigger - marche without aim
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE  && App->entityFactory->player->level >= 4)
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE  && (App->entityFactory->player->level >= 4 || App->buff->godMode))
 	{
 		combat_state = combatState::ULTIMATE;
 		//LOG("ULTIMATE");
 	}
-	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming  && App->entityFactory->player->level >= 4)
+	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming  && (App->entityFactory->player->level >= 4 || App->buff->godMode))
 		combat_state = combatState::ULTIMATE;
 
 
@@ -210,18 +210,18 @@ bool PlayerEntity::InputCombat()
 		LOG("BASIC");
 	}
 	
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN && App->entityFactory->player->level >= 2)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN && (App->entityFactory->player->level >= 2 || App->buff->godMode))
 	{
 		combat_state = combatState::SPECIAL1;
 		LOG("SPECIAL1");
 	}
 	// special difference for "medusa work in progress cutre version"
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ && App->entityFactory->player->level >= 3)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ && (App->entityFactory->player->level >= 3 || App->buff->godMode))
 	{
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
 	}
-	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming && App->entityFactory->player->level >= 3)
+	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode))
 		combat_state = combatState::SPECIAL2;
 		
 

@@ -159,6 +159,9 @@ bool j1Scene::Start()
 		{
 			App->entityFactory->CreatePlayer({ -1575, 2150 });
 		}
+
+		App->entityFactory->LoadSpawnGroups();
+
 		//App->entityFactory->CreatePlayer({ -209, 650 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ 3575, -3150 });
@@ -186,7 +189,6 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
-		App->entityFactory->LoadSpawnGroups();
 	}
 
 	if (state == SceneState::LEVEL2)
@@ -201,6 +203,8 @@ bool j1Scene::Start()
 		{
 			App->entityFactory->CreatePlayer({ -820, 3300 });
 		}
+
+		App->entityFactory->LoadSpawnGroups();
 
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos(1800, -5000);
@@ -248,7 +252,6 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
-		App->entityFactory->LoadSpawnGroups();
 	}
 
 	if (state == SceneState::LOBBY)
@@ -1352,6 +1355,7 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
+	App->entityFactory->UnloadEntitiesWithoutPlayer();
 	if (App->map->IsEnabled())
 		App->map->Disable();
 	if (App->attackManager->IsEnabled())
@@ -1364,7 +1368,6 @@ void j1Scene::UnLoadScene()
 		App->camera2D->Disable();
 
 	App->audio->UnLoadAudio();
-	App->entityFactory->UnloadEntitiesWithoutPlayer();
 
 }
 
