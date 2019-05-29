@@ -4,6 +4,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1TransitionManager.h"
+#include "j1Window.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -223,13 +224,17 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	maxEvasion_timer_data.time = 400;
 
 
-	myState = Boss1State::PHASE1;
+	myState = Boss1State::NOTHING;
 
 
 
 
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+	uint width, height = 0;
+	App->win->GetWindowSize(width, height);
+	iPoint desiredPosition = { (int)((float)(int)width * .5f) - (int)((float)(int)App->gui->bossHealthBarInfo.staticSection.w * .5f), 50 };
 
+	this->myBossLifeBar = App->gui->AddHealthBarToBoss(desiredPosition, &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection, &App->gui->bossHealthBarInfo.divSection,
+		type::boss, this->life, this, App->scene->inGamePanel);
 	
 
 }
@@ -262,11 +267,14 @@ FlowerBossEntity::~FlowerBossEntity()
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-		if (lifeBar != nullptr)
+		if (myBossLifeBar != nullptr)
 		{
-			lifeBar->deliever = nullptr;
-			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-			lifeBar->to_delete = true;
+			myBossLifeBar->deliever = nullptr;
+			myBossLifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			myBossLifeBar->staticImage->to_delete = true;
+			myBossLifeBar->divisionImage->to_delete = true;
+			myBossLifeBar->nameOnTop->to_delete = true;
+			myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");
 	}

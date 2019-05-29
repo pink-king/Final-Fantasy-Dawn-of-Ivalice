@@ -1974,7 +1974,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 
 
 			int defense, HP, velocity;
-			defense = HP = velocity = 666;
+			defense = HP = velocity = 0;
 
 			std::vector<Buff*>::iterator iter = lootItem->stats.begin();
 			for (; iter != lootItem->stats.end(); ++iter)

@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1EntityFactory.h"
 #include "j1TransitionManager.h"
+#include "Boss_Flower.h"
 
 j1DialogSystem::j1DialogSystem()
 {
@@ -61,7 +62,10 @@ bool j1DialogSystem::Update(float dt)
 			SetCurrentDialog("TUTORIAL");
 		}
 
-
+		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+		{
+			SetCurrentDialog("BOSS");
+		}
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
@@ -218,7 +222,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL" || currentDialogType == "BOSS")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -249,6 +253,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					{
 						if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos)
 						{
+
 							App->SaveGame("save_game.xml");
 						}
 					}
@@ -356,7 +361,21 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 
 
 				App->scene->dialogueBox->hide = true;
+				if (currentDialogType == "BOSS")
+				{
 
+					for (auto& item : App->entityFactory->entities)
+					{
+						if (item != nullptr)
+						{
+							if (item->type == ENTITY_TYPE::FLOWERBOSS)
+							{
+								dynamic_cast<FlowerBossEntity*>(item)->myState = Boss1State::PHASE1;
+								dynamic_cast<FlowerBossEntity*>(item)->myBossLifeBar->ShowBossBarWhenDialogIsOver();
+							}
+						}
+					}
+				}
 			
 				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
 				{
