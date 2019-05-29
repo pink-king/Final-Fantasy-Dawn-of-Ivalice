@@ -851,9 +851,9 @@ fPoint Ritz::GetTeleportPos()
 	fPoint directionVector = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
 	directionVector.Normalize();
 	fPoint checker;
-	int distMultiplier = (int)tpMaxDistance - 1;
+	int distMultiplier = (int)tpMaxDistance;
 
-	for (; distMultiplier >= 1; --distMultiplier)
+	for (; distMultiplier >= 0; --distMultiplier)
 	{
 		checker = GetPivotPos() + directionVector * distMultiplier;
 		if (App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
@@ -864,7 +864,9 @@ fPoint Ritz::GetTeleportPos()
 	}
 
 	int playerVolumeOffset = 10;
-	ret = position + directionVector * (distMultiplier - playerVolumeOffset);
+	int maxOffset = distMultiplier - playerVolumeOffset;
+	if (maxOffset <= 0) maxOffset = 0;
+	ret = position + directionVector * maxOffset;
 
 	return ret;
 }
