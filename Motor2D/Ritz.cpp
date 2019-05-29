@@ -4,6 +4,7 @@
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
+#include "j1PathFinding.h"
 
 Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 {
@@ -842,11 +843,30 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 
 fPoint Ritz::GetTeleportPos()
 {
-	fPoint tpFacingPos;
-	tpFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
-	tpFacingPos = position + tpFacingPos * tpMaxDistance;
+	fPoint ret;
+	
+	// if destination is not walkable, go backwards till find a walkable pos and adds offset (between player pivot to collider radius)
+	// TODO: improve this going backwards on tile cells, we need to "plot" a line to grid between current pos to destination pos and checks this cells
+	// and only if the first destination is invalid
+	fPoint directionVector = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+	directionVector.Normalize();
+	fPoint checker;
+	int distMultiplier = (int)tpMaxDistance - 1;
 
-	return tpFacingPos;
+	for (; distMultiplier >= 1; --distMultiplier)
+	{
+		checker = GetPivotPos() + directionVector * distMultiplier;
+		if (App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
+		{
+			LOG("researched VALID");
+			break;
+		}
+	}
+
+	int playerVolumeOffset = 10;
+	ret = position + directionVector * (distMultiplier - playerVolumeOffset);
+
+	return ret;
 }
 
 //bool Ritz::CleanUp()
