@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="30" nextobjectid="1793">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="30" nextobjectid="1817">
  <tileset firstgid="1" name="tileset_dungeon_lvl1_old" tilewidth="64" tileheight="64" tilecount="64" columns="8">
   <image source="Tilesets/Level 1/tileset_dungeon_lvl1.png" width="512" height="512"/>
  </tileset>
@@ -56198,6 +56198,30 @@
     <object id="1790" name="ceramicNo" x="3136" y="3264" width="32" height="32"/>
     <object id="1791" name="ceramicNo" x="3168" y="3232" width="32" height="32"/>
     <object id="1792" name="ceramicYes" x="3200" y="3200" width="32" height="32"/>
+    <object id="1793" name="ceramicNo" x="2368" y="1184" width="32" height="32"/>
+    <object id="1794" name="ceramicNo" x="2400" y="1152" width="32" height="32"/>
+    <object id="1795" name="ceramicYes" x="2432" y="1120" width="32" height="32"/>
+    <object id="1796" name="ceramicNo" x="2464" y="1088" width="32" height="32"/>
+    <object id="1797" name="ceramicYes" x="2496" y="1056" width="32" height="32"/>
+    <object id="1798" name="ceramicYes" x="256" y="1088" width="32" height="32"/>
+    <object id="1799" name="ceramicNo" x="256" y="1120" width="32" height="32"/>
+    <object id="1800" name="ceramicNo" x="288" y="1120" width="32" height="32"/>
+    <object id="1801" name="ceramicNo" x="288" y="1088" width="32" height="32"/>
+    <object id="1802" name="ceramicNo" x="256" y="768" width="32" height="32"/>
+    <object id="1803" name="ceramicYes" x="288" y="736" width="32" height="32"/>
+    <object id="1804" name="ceramicYes" x="320" y="704" width="32" height="32"/>
+    <object id="1805" name="ceramicYes" x="352" y="672" width="32" height="32"/>
+    <object id="1806" name="ceramicYes" x="1920" y="2976" width="32" height="32"/>
+    <object id="1807" name="ceramicYes" x="1952" y="2976" width="32" height="32"/>
+    <object id="1808" name="ceramicNo" x="1920" y="3008" width="32" height="32"/>
+    <object id="1809" name="ceramicNo" x="1760" y="2464" width="32" height="32"/>
+    <object id="1810" name="ceramicNo" x="1760" y="2496" width="32" height="32"/>
+    <object id="1811" name="ceramicYes" x="1792" y="2464" width="32" height="32"/>
+    <object id="1812" name="ceramicYes" x="2592" y="2720" width="32" height="32"/>
+    <object id="1813" name="ceramicYes" x="2592" y="2752" width="32" height="32"/>
+    <object id="1814" name="ceramicYes" x="2624" y="2720" width="32" height="32"/>
+    <object id="1815" name="ceramicYes" x="2272" y="1568" width="32" height="32"/>
+    <object id="1816" name="ceramicNo" x="2272" y="1600" width="32" height="32"/>
    </objectgroup>
   </group>
  </group>
@@ -62857,7 +62881,7 @@
    <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -62987,7 +63011,7 @@
    <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -66481,8 +66505,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
-   <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -66611,7 +66635,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -68566,8 +68590,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
-   <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -68696,7 +68720,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
