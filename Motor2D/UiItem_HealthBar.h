@@ -44,6 +44,7 @@ public:
 	void DamageQuadReset();
 	void doDamageToBoss(uint lifeToSubstract);
 	void UpdatePos();
+	void RecalculateSection(); 
 
 	void CleanUp();
 	void ShowBossBarWhenDialogIsOver();
