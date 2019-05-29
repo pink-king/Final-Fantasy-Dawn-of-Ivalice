@@ -95,6 +95,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
+    <ClCompile Include="EnemyDummy.cpp" />
     <ClCompile Include="EnemyProjectile.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyBomb.h" />
+    <ClInclude Include="EnemyDummy.h" />
     <ClInclude Include="EnemyProjectile.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
@@ -260,6 +262,7 @@
     <Xml Include="..\Game\config.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="..\Game\Dialog.xml" />
     <Xml Include="..\Game\Portal.xml">
       <SubType>Designer</SubType>
     </Xml>

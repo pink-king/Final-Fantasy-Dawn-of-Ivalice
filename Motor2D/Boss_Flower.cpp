@@ -4,6 +4,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "j1TransitionManager.h"
+#include "j1Window.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -223,13 +224,17 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	maxEvasion_timer_data.time = 400;
 
 
-	myState = Boss1State::PHASE1;
+	myState = Boss1State::NOTHING;
 
 
 
 
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+	uint width, height = 0;
+	App->win->GetWindowSize(width, height);
+	iPoint desiredPosition = { (int)((float)(int)width * .5f) - (int)((float)(int)App->gui->bossHealthBarInfo.staticSection.w * .5f), 50 };
 
+	this->myBossLifeBar = App->gui->AddHealthBarToBoss(desiredPosition, &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection, &App->gui->bossHealthBarInfo.divSection,
+		type::boss, this->life, this, App->scene->inGamePanel);
 	
 
 }
@@ -241,30 +246,35 @@ FlowerBossEntity::~FlowerBossEntity()
 		rainEmitter->to_delete = true;*/
 
 	// ---------- Win State Hardcoded when boss dies ------------------
-	if (!App->scene->ComeToDeath)
+	if (App->entityFactory->player != nullptr)
 	{
-		App->SaveGame("save_game.xml");
-		App->scene->ComeToDeath = true;
-		App->scene->ComeToPortal = false;
-		App->scene->ComeToWin = true;
-		App->pause = true;
-		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
-		App->scene->previosState = App->scene->state;
-		to_delete = true;
+		if (App->entityFactory->player->to_delete == false)
+		{
+			App->SaveGame("save_game.xml");
+			App->scene->ComeToDeath = true;
+			App->scene->ComeToPortal = false;
+			App->scene->ComeToWin = true;
+			App->pause = true;
+			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
+			App->scene->previosState = App->scene->state;
+		}
 	}
 	// -----------------------------------------------------------------
 
 	DesactiveShield();
 
-	App->audio->PlayFx(App->entityFactory->boss_flower_death, 0);
+	App->audio->PlayFx(App->scene->boss_flower_death, 0);
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-		if (lifeBar != nullptr)
+		if (myBossLifeBar != nullptr)
 		{
-			lifeBar->deliever = nullptr;
-			lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-			lifeBar->to_delete = true;
+			myBossLifeBar->deliever = nullptr;
+			myBossLifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+			myBossLifeBar->staticImage->to_delete = true;
+			myBossLifeBar->divisionImage->to_delete = true;
+			myBossLifeBar->nameOnTop->to_delete = true;
+			myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");
 	}
@@ -712,7 +722,7 @@ void FlowerBossEntity::Phase3Logic() // spawn enemies around player neighbour po
 	}
 	else if (spawnCircleAnim.Finished())
 	{
-		App->audio->PlayFx(App->entityFactory->boss_flower_deathCirc, 0);
+		App->audio->PlayFx(App->scene->boss_flower_deathCirc, 0);
 		LOG("finished spawn anim");
 		// instantiate enemies
 		InstantiateEnemiesAroundPlayer();

@@ -549,7 +549,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 500; // DODGE "COOLDOWN" is limited to finish its "translation" and animation
+	coolDownData.dodge.cooldownTime = 1500; // DODGE cooldown, restarts when dodge finishes
 	coolDownData.special1.cooldownTime = 5500;
 	coolDownData.special2.cooldownTime = 5500;
 	coolDownData.ultimate.cooldownTime = 10000;
@@ -680,8 +680,6 @@ bool Marche::Update(float dt)
 		}
 		if (!inputReady) // dash, or animations that needs control of its finish state
 		{	
-			
-
 			if (currentAnimation->Finished())
 			{
 				currentAnimation->Reset();
@@ -689,6 +687,12 @@ bool Marche::Update(float dt)
 				currentAnimation = &idle[pointingDir];
 				inputReady = true;
 				transference_pivot = { 0,0 };
+
+				if (combat_state == combatState::DODGE)
+				{
+					coolDownData.dodge.timer.Start();
+					//myUIClocks.dodge->Restart();
+				}
 			}
 		}
 	}
@@ -737,14 +741,14 @@ bool Marche::Update(float dt)
 			if (basicAttackPulsationTimer.Read() > basicAttackPulsationMaxTime)
 			{
 				basicAttackPulsationTimer.Start();
-				App->audio->PlayFx(App->entityFactory->marcheBasic, 0);
+				App->audio->PlayFx(App->scene->marcheBasic, 0);
 
 				LOG("ATTACK1");
 				attackType = 0;
 			}
 			else
 			{
-				App->audio->PlayFx(App->entityFactory->marcheBasic2, 0);
+				App->audio->PlayFx(App->scene->marcheBasic2, 0);
 
 				LOG("ATTACK2");
 				attackType = 1;
@@ -813,12 +817,7 @@ bool Marche::Update(float dt)
 		break;
 	}
 	case combatState::DODGE:
-
-		if (coolDownData.dodge.timer.Read() > coolDownData.basic.cooldownTime)
-		{
-			coolDownData.dodge.timer.Start();
-				
-		}
+	{
 		if (!inputReady)
 		{
 			//reposition pos
@@ -826,7 +825,22 @@ bool Marche::Update(float dt)
 			transference_pivot -= pivot;
 			position = App->camera2D->lerp(position, dashDestinationPos, dt * currentAnimation->speed);
 		}
-			break;
+
+		if (!App->gui->spawnedClocks.Marche.dodge)
+		{
+
+			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Marche", App->scene->inGamePanel);
+
+			App->gui->spawnedClocks.Marche.dodge = true;
+		}
+		/*else
+		{
+			myUIClocks.dodge->Restart();
+		}*/
+
+
+		break;
+	}
 	case combatState::SPECIAL1:
 		if (coolDownData.special1.timer.Read() > coolDownData.special1.cooldownTime)
 		{
@@ -872,10 +886,7 @@ bool Marche::Update(float dt)
 
 				App->gui->spawnedClocks.Marche.special2 = true;
 			}
-			else
-			{
-				myUIClocks.special2->Restart();
-			}
+		
 
 			if (!inputReady)
 			{
@@ -1024,7 +1035,7 @@ bool Marche::Update(float dt)
 		{
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 5)
 			{
-				App->audio->PlayFx(App->entityFactory->marcheUltimateScream, 0);
+				App->audio->PlayFx(App->scene->marcheUltimateScream, 0);
 				combat_state = combatState::IDLE;
 				// camera shake and rumble
 				App->camera2D->AddTrauma(0.95f);

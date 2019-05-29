@@ -148,13 +148,13 @@ bool PlayerEntity::InputMovement(float dt)
 	{
 		if (startMove)
 		{
-			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			App->audio->PlayFx(App->scene->stepSFX, 0);
 			startMove = false;
 			stepSFXTimer.Start();
 		}
 		if(stepSFXTimer.ReadMs() >= 300.0f)
 		{
-			App->audio->PlayFx(App->entityFactory->stepSFX, 0);
+			App->audio->PlayFx(App->scene->stepSFX, 0);
 			stepSFXTimer.Start();
 		}
 		// store actual
@@ -194,12 +194,12 @@ bool PlayerEntity::InputCombat()
 	// ---------------------
 
 	// check ultimate trigger - marche without aim
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE)
+	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE  && App->entityFactory->player->level >= 4)
 	{
 		combat_state = combatState::ULTIMATE;
 		//LOG("ULTIMATE");
 	}
-	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming)
+	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming  && App->entityFactory->player->level >= 4)
 		combat_state = combatState::ULTIMATE;
 
 
@@ -210,33 +210,36 @@ bool PlayerEntity::InputCombat()
 		LOG("BASIC");
 	}
 	
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN && App->entityFactory->player->level >= 2)
 	{
 		combat_state = combatState::SPECIAL1;
 		LOG("SPECIAL1");
 	}
 	// special difference for "medusa work in progress cutre version"
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ && App->entityFactory->player->level >= 3)
 	{
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
 	}
-	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming)
+	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming && App->entityFactory->player->level >= 3)
 		combat_state = combatState::SPECIAL2;
 		
 
 	// check dodge
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
 	{
-		combat_state = combatState::DODGE;
-		if (inputReady)
+		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
-			App->audio->PlayFx(App->entityFactory->dash, 0);
-			LOG("audio played");
+			combat_state = combatState::DODGE;
+			if (inputReady)
+			{
+				App->audio->PlayFx(App->scene->dash, 0);
+				LOG("audio played");
+			}
+			DoDash();
+			LOG("DODGE");
+			//DoDash();
 		}
-		DoDash();
-		LOG("DODGE");
-		//DoDash();
 	}
 
 	if (aiming == true)
@@ -655,12 +658,7 @@ void PlayerEntity::DoDash()
 		LOG("WARNING: no dash spritesheet defined, dash is not executed");
 }
 
-void j1Entity::DoPushback()
-{
-	position.x += 2 * App->entityFactory->getplayerDamagevec().x * 5;
-	position.y += 1.5f * App->entityFactory->getplayerDamagevec().y * 5;
 
-}
 
 fPoint PlayerEntity::GetShotDirection()
 {

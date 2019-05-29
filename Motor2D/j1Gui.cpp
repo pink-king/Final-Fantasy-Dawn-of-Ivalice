@@ -201,10 +201,9 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 	else                                                       // this is done in loops
 	{
-		Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
-		Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
-
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || xAxis > 30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || 
+			App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_DOWN ||
+			App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -251,7 +250,9 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || xAxis < -30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || 
+			App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_LEFT) == KEY_DOWN ||
+			App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -304,7 +305,9 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
 
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || yAxis < -30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || 
+			App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN ||
+			App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -356,7 +359,9 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		}
 
 
-		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || yAxis > 30000 || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || 
+			App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_DOWN) == KEY_DOWN ||
+			App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 		{
 			std::list<UiItem*>::iterator item = ListItemUI.begin();
 			std::list<UiItem*> candidates;
@@ -715,7 +720,17 @@ UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, ty
 
 }
 
+UiItem_HealthBar* j1Gui::AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent)
+{
+	UiItem* newUIItem = nullptr;
 
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, staticSection, divSection, variant, maxLife, deliever, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_HealthBar*)newUIItem;
+
+}
 
 UiItem_CooldownClock* j1Gui::AddClock(iPoint position, SDL_Rect * section, std::string type, std::string charName, UiItem * const parent)
 {

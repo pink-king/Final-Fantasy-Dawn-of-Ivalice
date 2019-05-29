@@ -63,7 +63,7 @@ MagicBolt::~MagicBolt()
 
 bool MagicBolt::CleanUp()
 {
-	App->audio->PlayFx(App->entityFactory->RitzBasicHit, 0);
+	App->audio->PlayFx(App->scene->RitzBasicHit, 0);
 	/*if (entityTex != nullptr)
 	{
 		App->tex->UnLoad(entityTex);
