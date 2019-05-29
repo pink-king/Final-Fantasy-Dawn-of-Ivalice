@@ -59,13 +59,15 @@ bool j1DialogSystem::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 		{
+			SetCurrentDialog("BOSS");
+		}
+
+
+		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+		{
 			SetCurrentDialog("TUTORIAL");
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-		{
-			SetCurrentDialog("BOSS");
-		}
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
