@@ -16,7 +16,7 @@ SaveTrigger::SaveTrigger(float posx, float posy) :Trigger(TRIGGER_TYPE::SAVE, po
 	idle.speed = 10.F;
 	idle.loop = true;
 
-	nSubtiles = 1;
+	nSubtiles = 0;
 	SetPivot(24, 42);
 	size.create(48, 48);
 	AssignInSubtiles(nSubtiles);
@@ -39,6 +39,9 @@ void SaveTrigger::Draw()
 {
 	if (currentAnim != nullptr)
 		App->render->Blit(entityTex, position.x, position.y, &currentAnim->GetCurrentFrame(), 1.0F);
+
+	if (App->scene->debugSubtiles)
+		DebugTrigger();
 }
 
 bool SaveTrigger::CleanUp()

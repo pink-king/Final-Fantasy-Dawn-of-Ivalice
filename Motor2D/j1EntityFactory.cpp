@@ -141,7 +141,8 @@ bool j1EntityFactory::Update(float dt)
 				ret = (*item)->Update(dt);
 				ret = ((*item)->Move(dt));
 				// updates entity associated tile positions tile and subtile
-				(*item)->UpdateTilePositions();
+				if(entitiesDataMap != nullptr)
+					(*item)->UpdateTilePositions();
 				//LOG("entity subtile: %i,%i", (*item)->GetSubtilePos().x, (*item)->GetSubtilePos().y);
 
 				draw_entities.push_back(*item);
@@ -859,6 +860,9 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 
 	j1Entity* ret = nullptr;
 
+	if (entitiesDataMap == nullptr)
+		return ret;
+
 	if (!isThisSubtileReserved(pos))
 	{
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
@@ -882,6 +886,9 @@ j1Entity* j1EntityFactory::isThisSubtileLootFree(const iPoint pos) const
 
 	j1Entity* ret = nullptr;
 
+	if (entitiesDataMap == nullptr)
+		return ret;
+
 	if (!isThisSubtileEmpty(pos))
 	{
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
@@ -903,6 +910,8 @@ bool j1EntityFactory::BoolisThisSubtileTriggerFree(const iPoint pos) const
 
 	bool ret = false;
 
+	if (entitiesDataMap == nullptr)
+		return false;
 	if (!isThisSubtileReserved(pos))
 	{
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
@@ -1841,6 +1850,9 @@ void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 	entities.clear();
 	entities.push_back(play);
 	player = (PlayerEntityManager*)play;
+
+	RELEASE_ARRAY(entitiesDataMap);
+	entitiesDataMap = nullptr;
 
 }
 

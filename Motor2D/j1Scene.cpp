@@ -273,7 +273,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 180, SceneState::LEVEL1, Black);
 
 		if (ComeToWin)
 			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);

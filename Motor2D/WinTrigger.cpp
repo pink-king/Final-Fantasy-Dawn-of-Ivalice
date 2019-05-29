@@ -5,7 +5,7 @@
 WinTrigger::WinTrigger(float posx, float posy, SceneState scene, Color color)
 	: Trigger(TRIGGER_TYPE::PORTAL, posx, posy, "portal"), scene(scene), color(color)
 {
-	nSubtiles = 3;
+	nSubtiles = 0;
 	SetPivot(0, 0);
 	AssignInSubtiles(nSubtiles);
 }

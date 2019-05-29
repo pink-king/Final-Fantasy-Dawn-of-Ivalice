@@ -6,7 +6,93 @@
 	<audio />
 	<map />
 	<scene />
-	<entities />
+	<entities>
+		<Entities player="shara">
+			<Experience level="6" exp="2625" />
+			<life actualLife="0" />
+			<gold value="385351" />
+			<bagObjects>
+				<data name="vest_1" level="2" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="350" y="1409" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="39" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="attack" value="23" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="sword_2" level="2" characterObject="Marche" equipableType="sword" elementalType="noElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Enemy Test" type="additive" elementType="allElement" rol="defence" value="20" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="39" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="legendary_armor" level="2" characterObject="Marche" equipableType="armor" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="128" y="932" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="42" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="attack" value="26" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="41" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="legendary_vest" level="1" characterObject="Ritz" equipableType="mantle" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="350" y="1409" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Enemy Test" type="additive" elementType="allElement" rol="attack" value="16" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="42" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="attack" value="25" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="stick_1" level="2" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="96" y="736" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="attack" value="26" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="allElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="45" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="43" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="bow_1" level="2" characterObject="Shara" equipableType="bow" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="attack" value="25" />
+				</buffs>
+				<buffs>
+					<data character="EnemyArcher" type="additive" elementType="allElement" rol="defence" value="44" />
+				</buffs>
+			</equipedObjects>
+		</Entities>
+	</entities>
 	<AttackManager />
 	<Buff />
 	<ParticlesClassic />
