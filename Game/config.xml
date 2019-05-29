@@ -106,6 +106,13 @@
           <type value="enemy"/>
         </healthbar>
 
+        <healthbar name="life_bar_boss">
+          <dynamicSection x="371" y="443" w="245" h="15"/>
+          <staticSection x="641" y="441" w="249" h="19"/>
+          <divSection x="918" y="443" w="126" h="15"/>
+          <type value="boss"/>
+        </healthbar>
+        
       </healthbars>
 
 
@@ -163,18 +170,7 @@
           <section x="591" y="1" w="54" h="54"/>
           <position x="288" y="635"/>
         </image>
-        <image name="marche">
-          <section x="855" y="1" w="84" h="92"/>
-          <position x="41" y="37"/>
-        </image>
-        <image name="player2">
-          <section x="342" y=" 481" w="64" h="64"/>
-          <position x="229" y="41"/>
-        </image>
-        <image name="player3">
-          <section x="283" y="481" w="58" h="64"/>
-          <position x="153" y="41"/>
-        </image>
+       
         <image name="basic_button">
           <section x="346" y="6" w="24" h="24"/>
           <position x="55" y="608"/>
@@ -225,18 +221,7 @@
           <section x="591" y="111" w="54" h="54"/>
           <position x="288" y="635"/>
         </image>
-        <image name="shara">
-          <section x="1129" y="1" w="96" h="100"/>
-          <position x="41" y="29"/>
-        </image>
-        <image name="player2">
-          <section x="407" y="481" w="62" h="62"/>
-          <position x="229" y="41"/>
-        </image>
-        <image name="player3">
-          <section x="342" y=" 481" w="64" h="64"/>
-          <position x="153" y="41"/>
-        </image>
+      
         <image name="basic_button">
           <section x="346" y="6" w="24" h="24"/>
           <position x="55" y="608"/>
@@ -286,18 +271,7 @@
           <section x="591" y="56" w="54" h="54"/>
           <position x="288" y="635"/>
         </image>
-        <image name="ritz">
-          <section x="940" y="1" w="92" h="96"/>
-          <position x="41" y="33"/>
-        </image>
-        <image name="player2">
-          <section x="283" y=" 481" w="58" h="64"/>
-          <position x="229" y="41"/>
-        </image>
-        <image name="player3">
-          <section x="407" y="481" w="62" h="62"/>
-          <position x="153" y="41"/>
-        </image>
+        
         <image name="basic_button">
           <section x="346" y="6" w="24" h="24"/>
           <position x="55" y="608"/>
@@ -323,7 +297,56 @@
       </images>
     </InGameUiR>
 
+    <InGameUiMP>
+      <images>
+        <image name="marche">
+          <section x="855" y="1" w="84" h="92"/>
+          <position x="41" y="37"/>
+        </image>
+        <image name="player2">
+          <section x="342" y=" 481" w="64" h="64"/>
+          <position x="229" y="41"/>
+        </image>
+        <image name="player3">
+          <section x="283" y="481" w="58" h="64"/>
+          <position x="153" y="41"/>
+        </image>
+      </images>
+    </InGameUiMP>
 
+    <InGameUiSP>
+      <images>
+        <image name="shara">
+          <section x="1129" y="1" w="96" h="100"/>
+          <position x="41" y="29"/>
+        </image>
+        <image name="player2">
+          <section x="407" y="481" w="62" h="62"/>
+          <position x="229" y="41"/>
+        </image>
+        <image name="player3">
+          <section x="342" y=" 481" w="64" h="64"/>
+          <position x="153" y="41"/>
+        </image>
+      </images>
+    </InGameUiSP>
+
+    <InGameUiRP>
+      <images>
+        <image name="ritz">
+          <section x="940" y="1" w="92" h="96"/>
+          <position x="41" y="33"/>
+        </image>
+        <image name="player2">
+          <section x="283" y=" 481" w="58" h="64"/>
+          <position x="229" y="41"/>
+        </image>
+        <image name="player3">
+          <section x="407" y="481" w="62" h="62"/>
+          <position x="153" y="41"/>
+        </image>
+      </images>
+    </InGameUiRP>
 
     <StartMenu>
       <images>
@@ -460,6 +483,27 @@
         </label>
       </labels>
 
+      <panelBars>
+
+        <panelBar name="volumeSliderInGame">
+          <section_bar x="1101" y="610" w="215" h="34"/>
+          <position x="530" y="237"/>
+          <section_thumb x="1150" y="558" w="42" h="42"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
+          <type value = "HORIZONTAL"/>
+        </panelBar>
+        <panelBar name="fxSliderInGame">
+          <section_bar x="1101" y="610" w="215" h="34"/>
+          <position x="530" y="334"/>
+          <section_thumb x="1150" y="558" w="42" h="42"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
+          <type value = "HORIZONTAL"/>
+        </panelBar>
+
+      </panelBars>
+      
       <buttons>
         <button name="button_backMenu" function = "GoBackToStartMenu">
           <idleSec  x="856" y="2728" w="222" h="67"/>

@@ -61,6 +61,9 @@ public:
 	UiItem* uiMarche = nullptr;
 	UiItem* uiShara = nullptr;
 	UiItem* uiRitz = nullptr;
+	UiItem* uiMarchePortrait = nullptr;
+	UiItem* uiSharaPortrait = nullptr;
+	UiItem* uiRitzPortrait = nullptr;
 	UiItem* startMenu = nullptr;
 	UiItem* settingPanel = nullptr;
 	UiItem* pausePanel = nullptr;
@@ -175,6 +178,8 @@ private:
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
+	UiItem_Bar* volume_bar_ig = nullptr;
+	UiItem_Bar* fx_bar_ig = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
 	SDL_Rect inventory_transparency = { 0,0,1280,720 };
