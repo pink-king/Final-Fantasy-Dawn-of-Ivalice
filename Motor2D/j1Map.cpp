@@ -611,6 +611,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 		{
 			int minEnemies = 0;
 			int maxEnemies = 0;
+			uint level = 0; 
 			spawnRect.x = object.attribute("x").as_int();
 			spawnRect.y = object.attribute("y").as_int();
 			spawnRect.w = object.attribute("width").as_int();
@@ -642,9 +643,13 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 				{
 					maxEnemies = properties.attribute("value").as_int();
 				}
+				else if (attributeName == "level")
+				{
+					level = properties.attribute("value").as_int(); 
+				}
 			}
 
-			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
+			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies, level); 
 			App->entityFactory->spawngroups.push_back(ret);
 			typesVec.clear();
 		}

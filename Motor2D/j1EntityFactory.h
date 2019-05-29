@@ -15,13 +15,14 @@
 
 #include "Projectile.h"
 struct GroupInfo {
-	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies)
-		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies) {}
+	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies, uint level)
+		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies), groupLevel(level) {}
 
 	std::vector<EnemyType> types;
 	SDL_Rect zone = { 0, 0, 0, 0 };
 	uint minEnemies;
 	uint maxEnemies;
+	uint groupLevel; 
 };
 
 enum class EnvironmentAssetsTypes
@@ -76,7 +77,7 @@ public:
 	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger = nullptr);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
-	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
+	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum, uint groupLevel = 0);
 	void LoadSpawnGroups();
 	
 	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime = 0);
