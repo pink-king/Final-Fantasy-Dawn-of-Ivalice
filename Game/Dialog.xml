@@ -115,7 +115,7 @@
       <option line="Woah, what is going on with that scarecrow" nextnode="2"/>
     </node>
 
-    <node line="See that on my right? You will train with it" id="1">
+    <node line="See that scarecrow? You will train with it" id="1">
       <option line="Well... It doesn't seem much of a threat" nextnode="3"/>
     </node>
 
@@ -123,33 +123,37 @@
       <option line="Well... It doesn't seem much of a threat" nextnode="3"/>
     </node>
 
-    <node line="Exactly, I've make it easy for you" id="3">
-      <option line="What can I do with it???" nextnode="4"/>
+    <node line="Take it easy, novice, we want you alive haha" id="3">
+      <option line="Mmm... What can I do with it???" nextnode="4"/>
     </node>
 
 
-    <node line="Do you want to learn about items, aiming or fighting?" id="4">
+    <node line="You can learn about items, aiming or fighting" id="4">
       <option line="I do not know how to aim" nextnode="5"/>
       <option line="What about those items?" nextnode="6"/>
       <option line="Teach me to fight" nextnode="9"/>
     </node>
 
 
-    <node line="Use LT and move the scope with the left joystick" id="5">
-      <option line="I want to know about other capabilities" nextnode="4"/>
+    <node line="LT and move the scope with the left joystick" id="5">
+      <option line="Good, I want to know about other capabilities" nextnode="4"/>
+	  <option line="I want to know about you" nextnode="12"/>
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
     <node line="Monsters drop them. Pick them with the scope" id="6">
+	  <option line="How can I do that?" nextnode="15"/>
       <option line="So... the scope is attracted to them?" nextnode="7"/>
     </node>
 
-    <node line="Yes, and you can run into them and pick them too" id="7">
+    <node line="Yes, and you can also pick them staying on top" id="7">
+	  <option line="So, if I use the scope, how does it work?" nextnode="15"/>
       <option line="Where are they stored?" nextnode="8"/>
     </node>
 
     <node line="Press BACK to see them, or go to the shop!!" id="8">
       <option line="Good, I want to know about other capabilities" nextnode="4"/>
+	  <option line="I want to know about you" nextnode="12"/>
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
@@ -164,24 +168,27 @@
 
     <node line="You will unlock new abilities on your journey" id="11">
       <option line="Good, I want to know about other capabilities" nextnode="4"/>
-      <option line="So what is your name, sir?" nextnode="12"/>
+      <option line="I want to know about you" nextnode="12"/>
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
-    <node line="My name is Godo" id="12">
+    <node line="I, Godo, give life to inanimate objects!" id="12">
       <option line="Will you give anything for my journey?" nextnode="13"/>
-      <option line="You and the scarecrow make a good couple, Godo" nextnode="14"/>
+      <option line="You and the scarecrow make a good couple, yes" nextnode="14"/>
     </node>
 
-    <node line="Now, I am granting you the rank of Night" id="13">
+    <node line="Now, I am granting you the rank of Night!" id="13">
       <option line="Knight? What is this, the Dark Ages?" nextnode="14"/>
     </node>
 
-    <node line="Your attempt at humor is wasted" id="13">
+    <node line="Your attempt at humor is wasted" id="14">
       <option line="Farewell" nextnode="666"/>
       <option line="So long" nextnode="666"/>
     </node>
-
+	
+   <node line="LT and move the scope with the left joystick" id="15">
+      <option line="Right, and where are items stored?" nextnode="8"/>
+    </node>
 
 
 

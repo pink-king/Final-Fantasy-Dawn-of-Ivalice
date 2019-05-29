@@ -57,7 +57,7 @@ bool j1DialogSystem::Update(float dt)
 		}
 		
 
-		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
 		{
 			SetCurrentDialog("TUTORIAL");
 		}
