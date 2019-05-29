@@ -130,12 +130,21 @@ bool PlayerEntityManager::Update(float dt)
 			}
 		}
 	}*/
-	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN && level <= 60 )
 	{
 		++level;
 
-		std::string dest = "LVL" + std::to_string(level);
-		App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+		if (level < 60)
+		{
+			std::string dest = "LVL" + std::to_string(level);
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+		}
+
+		else
+		{
+			std::string dest = "MAXLVL";
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+		}
 	}
 
 	if (life > maxLife)

@@ -488,20 +488,23 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
-					if(player->coolDownData.basic.cooldownTime == 0)
-						player->coolDownData.basic.cooldownTime = 0;
+					if(player->coolDownData.basic.cooldownTime == 1)
+						player->coolDownData.basic.cooldownTime = 1;
 					player->coolDownData.dodge.cooldownTime *= value;
-					if (player->coolDownData.dodge.cooldownTime <= 0)
-						player->coolDownData.dodge.cooldownTime = 0;
+					if (player->coolDownData.dodge.cooldownTime <= 1)
+						player->coolDownData.dodge.cooldownTime = 1;
 					player->coolDownData.special1.cooldownTime *= value;
-					if (player->coolDownData.special1.cooldownTime <= 0)
-						player->coolDownData.special1.cooldownTime = 0;
+					if (player->coolDownData.special1.cooldownTime <= 1)
+						player->coolDownData.special1.cooldownTime = 1;
 					player->coolDownData.special2.cooldownTime *= value;
-					if (player->coolDownData.special2.cooldownTime <= 0)
-						player->coolDownData.special2.cooldownTime = 0;
+					if (player->coolDownData.special2.cooldownTime <= 1)
+						player->coolDownData.special2.cooldownTime = 1;
 					player->coolDownData.ultimate.cooldownTime *= value;
-					if (player->coolDownData.ultimate.cooldownTime <= 0)
-						player->coolDownData.ultimate.cooldownTime = 0;
+					if (player->coolDownData.ultimate.cooldownTime <= 1)
+						player->coolDownData.ultimate.cooldownTime = 1;
+
+					App->gui->healthBar->RecalculateSection();
+
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{
@@ -605,6 +608,8 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->coolDownData.special1.cooldownTime /= buff->GetValue();
 				player->coolDownData.special2.cooldownTime /= buff->GetValue();
 				player->coolDownData.ultimate.cooldownTime /= buff->GetValue();
+
+
 			}
 			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
 			{
