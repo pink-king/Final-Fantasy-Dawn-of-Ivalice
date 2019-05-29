@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="808">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="823">
  <tileset firstgid="1" name="tileset_level_1" tilewidth="64" tileheight="64" tilecount="240" columns="15">
   <image source="Tilesets/Level 1/tileset_level_1.png" width="1021" height="1024"/>
  </tileset>
@@ -10925,10 +10925,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="316"/>
-   <tile gid="313"/>
-   <tile/>
-   <tile/>
+   <tile gid="255"/>
+   <tile gid="255"/>
+   <tile gid="255"/>
+   <tile gid="255"/>
    <tile/>
    <tile/>
    <tile/>
@@ -11025,9 +11025,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="313"/>
-   <tile/>
-   <tile/>
+   <tile gid="255"/>
+   <tile gid="255"/>
+   <tile gid="255"/>
    <tile/>
    <tile/>
    <tile/>
@@ -13949,8 +13949,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="316"/>
-   <tile gid="315"/>
+   <tile gid="327"/>
+   <tile gid="327"/>
    <tile/>
    <tile/>
    <tile/>
@@ -14049,7 +14049,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="313"/>
+   <tile gid="327"/>
    <tile/>
    <tile/>
    <tile/>
@@ -30687,6 +30687,21 @@
     <object id="805" name="Statue2" x="512" y="2656" width="32" height="32"/>
     <object id="806" name="Statue" x="352" y="128" width="32" height="32"/>
     <object id="807" name="Statue" x="544" y="128" width="32" height="32"/>
+    <object id="808" name="ceramicNo" x="896" y="2336" width="32" height="32"/>
+    <object id="809" name="ceramicYes" x="928" y="2336" width="32" height="32"/>
+    <object id="810" name="ceramicNo" x="896" y="2368" width="32" height="32"/>
+    <object id="811" name="ceramicNo" x="960" y="1216" width="32" height="32"/>
+    <object id="812" name="ceramicYes" x="960" y="1248" width="32" height="32"/>
+    <object id="813" name="ceramicYes" x="992" y="1216" width="32" height="32"/>
+    <object id="814" name="ceramicYes" x="384" y="1216" width="32" height="32"/>
+    <object id="815" name="ceramicYes" x="384" y="1248" width="32" height="32"/>
+    <object id="816" name="ceramicYes" x="416" y="1216" width="32" height="32"/>
+    <object id="817" name="ceramicYes" x="192" y="256" width="32" height="32"/>
+    <object id="818" name="ceramicNo" x="192" y="288" width="32" height="32"/>
+    <object id="819" name="ceramicYes" x="192" y="320" width="32" height="32"/>
+    <object id="820" name="ceramicYes" x="224" y="256" width="32" height="32"/>
+    <object id="821" name="ceramicNo" x="256" y="256" width="32" height="32"/>
+    <object id="822" name="ceramicYes" x="224" y="288" width="32" height="32"/>
    </objectgroup>
   </group>
  </group>
@@ -31600,9 +31615,9 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="269"/>
+   <tile gid="269"/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -31700,8 +31715,8 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
-   <tile/>
+   <tile gid="269"/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -31800,7 +31815,7 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34606,8 +34621,8 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
-   <tile/>
+   <tile gid="269"/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34624,8 +34639,8 @@
    <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
-   <tile/>
-   <tile/>
+   <tile gid="269"/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34706,7 +34721,7 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34724,7 +34739,7 @@
    <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -38122,8 +38137,8 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
-   <tile/>
+   <tile gid="269"/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -38222,7 +38237,7 @@
    <tile/>
    <tile/>
    <tile gid="269"/>
-   <tile/>
+   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
