@@ -198,6 +198,11 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 }
 
+void UiItem_HealthBar::RecalculateSection()
+{
+	conversionFactor = maxSection / App->entityFactory->player->life;
+}
+
 void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 {
 

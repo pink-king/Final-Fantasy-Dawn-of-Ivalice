@@ -446,7 +446,7 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 	return ret;
 }
 
-void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum)
+void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum, uint groupLevel)
 {
 	uint numEnemies = CreateRandomBetween(minNum, maxNum);
 
@@ -467,7 +467,11 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 		for (std::vector<EnemyType>::iterator typeIter = enemyTypes.begin(); typeIter != enemyTypes.end(); typeIter++)
 		{
 			Enemy* ret = nullptr;
-			int enemyLevel = CreateRandomBetween(0, 2);
+
+			// If the level is passed as paramater (read through tiled), add this level, if not, create a random 2 above the player
+			int enemyLevel = 0;
+			groupLevel != 0 ? enemyLevel = groupLevel : enemyLevel = CreateRandomBetween(0, 2); 
+
 			iPoint spawnPos = { zone.x + (int)CreateRandomBetween(0, zone.w), zone.y + (int)CreateRandomBetween(0,zone.h) };
 			spawnPos = App->map->IsoToWorld(spawnPos.x, spawnPos.y);
 			spawnPos.x = spawnPos.x * 2;
@@ -556,7 +560,7 @@ void j1EntityFactory::LoadSpawnGroups()
 {
 	if (!App->scene->ComeToPortal) {
 		for (std::vector<GroupInfo>::iterator iter = spawngroups.begin(); iter != spawngroups.end(); iter++) {
-			CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies);
+			CreateEnemiesGroup((*iter).types, (*iter).zone, (*iter).minEnemies, (*iter).maxEnemies, (*iter).groupLevel);
 		}
 	}
 	spawngroups.clear();
@@ -2105,8 +2109,9 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 				}
 
-
 			}
+		App->gui->healthBar->RecalculateSection(); 
+
 		}
 	}
 }
