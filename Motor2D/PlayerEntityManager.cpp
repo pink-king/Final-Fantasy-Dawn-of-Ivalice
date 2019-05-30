@@ -185,26 +185,34 @@ bool PlayerEntityManager::Update(float dt)
 
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
-				if (lastHoveredLootItem && dynamic_cast<LootEntity*>(lastHoveredLootItem)->clampedByPlayerOnTop)
+				if (!App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame)
 				{
-					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
-					
-
-					if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, false))  // first collect
+					if (lastHoveredLootItem && !dynamic_cast<LootEntity*>(lastHoveredLootItem)->clampedByCrosshair
+						&& App->entityFactory->player->GetCrosshair()->GetClampedEntity() == nullptr)
 					{
-						PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);    // THEN despwn descr and put last hovered to null`tr
+						// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 
-						// then delete loot from subtile and factory 
-						App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
-						//LOG("entities size: %i", App->entityFactory->entities.size());
-						// erase - remove idiom.
-						App->entityFactory->entities.erase(
-							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
 
-						//last detach clamped entity
-						lastHoveredLootItem = nullptr;
-						//LOG("entities size: %i", App->entityFactory->entities.size());
+						if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, false))  // first collect
+						{
+							PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);    // THEN despwn descr and put last hovered to null`tr
+
+							// then delete loot from subtile and factory 
+							App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+							//LOG("entities size: %i", App->entityFactory->entities.size());
+							// erase - remove idiom.
+							App->entityFactory->entities.erase(
+								std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
+
+							//last detach clamped entity
+							lastHoveredLootItem = nullptr;
+							//LOG("entities size: %i", App->entityFactory->entities.size());
+						}
 					}
+				}
+				else
+				{
+					App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame = false; 
 				}
 			
 
@@ -696,14 +704,14 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 		
 		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
 
-		if (entityLoot->spawnedDescription)                 // only destroy description if it has been spawned( when collecting with the crosshair)
+	/*	if (entityLoot->spawnedDescription)                 // only destroy description if it has been spawned( when collecting with the crosshair)
 		{
 			entityLoot->MyDescription->DeleteEverything();
 			entityLoot->MyDescription = nullptr;
 
 			entityLoot->spawnedDescription = false;
 
-		}
+		}*/
 		
 		// - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -970,7 +978,11 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 		entity->MyDescription->DeleteEverything();
 		entity->MyDescription = nullptr;
 		entity->spawnedDescription = false;
-		lastHoveredLootItem = nullptr;
+	
+		
+		
+		
+		// lastHoveredLootItem = nullptr;  // CAUTION, do not put here, it will be put to nullpt after it is DELETED form SUBTILE
 
 		//lastHoveredLootItem->clampedByPlayerOnTop = false;
 	}
@@ -1159,6 +1171,19 @@ bool Crosshair::ManageInput(float dt)
 					{
 						if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
 						{
+
+							if (dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription)
+							{
+
+								// delete last descr
+								dynamic_cast<LootEntity*>(clampedEntity)->MyDescription->DeleteEverything();
+								dynamic_cast<LootEntity*>(clampedEntity)->MyDescription = nullptr;
+
+								dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription = false;
+								dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair = false;
+							}
+
+
 							// then delete loot from subtile and factory 
 							App->entityFactory->DeleteEntityFromSubtile((j1Entity*)clampedEntity);
 							//LOG("entities size: %i", App->entityFactory->entities.size());
@@ -1170,6 +1195,8 @@ bool Crosshair::ManageInput(float dt)
 							clampedEntity = nullptr;
 							clamped = false;
 							//LOG("entities size: %i", App->entityFactory->entities.size());
+
+							App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame = true; 
 						}
 					}
 			
