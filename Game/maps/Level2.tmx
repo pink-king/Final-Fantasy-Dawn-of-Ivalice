@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="30" nextobjectid="1822">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="130" height="140" tilewidth="64" tileheight="32" infinite="0" nextlayerid="30" nextobjectid="1826">
  <tileset firstgid="1" name="tileset_dungeon_lvl1_old" tilewidth="64" tileheight="64" tilecount="64" columns="8">
   <image source="Tilesets/Level 1/tileset_dungeon_lvl1.png" width="512" height="512"/>
  </tileset>
@@ -56222,6 +56222,10 @@
     <object id="1814" name="ceramicYes" x="2624" y="2720" width="32" height="32"/>
     <object id="1815" name="ceramicYes" x="2272" y="1568" width="32" height="32"/>
     <object id="1816" name="ceramicNo" x="2272" y="1600" width="32" height="32"/>
+    <object id="1822" name="ceramicNo" x="3104" y="2784" width="32" height="32"/>
+    <object id="1823" name="ceramicNo" x="3200" y="2688" width="32" height="32"/>
+    <object id="1824" name="ceramicYes" x="3168" y="2720" width="32" height="32"/>
+    <object id="1825" name="ceramicNo" x="3141.5" y="2745.5" width="32" height="32"/>
    </objectgroup>
   </group>
  </group>
@@ -56230,6 +56234,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
@@ -56239,6 +56244,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="5"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="2"/>
     <property name="test" type="bool" value="true"/>
@@ -56248,6 +56254,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="5"/>
     <property name="maxEnemies" type="int" value="7"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
@@ -56257,6 +56264,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="5"/>
     <property name="maxEnemies" type="int" value="14"/>
     <property name="minEnemies" type="int" value="10"/>
     <property name="test" type="bool" value="true"/>
@@ -56275,6 +56283,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="8"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="false"/>
@@ -56284,6 +56293,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="10"/>
     <property name="minEnemies" type="int" value="8"/>
     <property name="test" type="bool" value="true"/>
@@ -56293,6 +56303,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="10"/>
     <property name="minEnemies" type="int" value="8"/>
     <property name="test" type="bool" value="true"/>
@@ -56302,6 +56313,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="11"/>
     <property name="minEnemies" type="int" value="10"/>
     <property name="test" type="bool" value="true"/>
@@ -56311,6 +56323,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="20"/>
     <property name="minEnemies" type="int" value="16"/>
     <property name="test" type="bool" value="true"/>
@@ -56320,6 +56333,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
@@ -56329,6 +56343,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="8"/>
     <property name="maxEnemies" type="int" value="6"/>
     <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
@@ -56338,6 +56353,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="8"/>
     <property name="maxEnemies" type="int" value="15"/>
     <property name="minEnemies" type="int" value="20"/>
     <property name="test" type="bool" value="true"/>
@@ -56347,6 +56363,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="5"/>
     <property name="minEnemies" type="int" value="4"/>
     <property name="test" type="bool" value="false"/>
@@ -56356,6 +56373,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="20"/>
     <property name="minEnemies" type="int" value="16"/>
     <property name="test" type="bool" value="true"/>
@@ -56365,6 +56383,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
@@ -56374,6 +56393,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="10"/>
     <property name="minEnemies" type="int" value="15"/>
     <property name="test" type="bool" value="true"/>
@@ -56383,6 +56403,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="10"/>
     <property name="minEnemies" type="int" value="12"/>
     <property name="test" type="bool" value="true"/>
@@ -56392,6 +56413,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="8"/>
     <property name="maxEnemies" type="int" value="16"/>
     <property name="minEnemies" type="int" value="14"/>
     <property name="test" type="bool" value="true"/>
@@ -56401,6 +56423,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="6"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
@@ -56410,6 +56433,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="6"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="false"/>
@@ -56419,6 +56443,7 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="true"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="6"/>
     <property name="minEnemies" type="int" value="4"/>
     <property name="test" type="bool" value="false"/>
@@ -56428,15 +56453,17 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="8"/>
     <property name="maxEnemies" type="int" value="10"/>
     <property name="minEnemies" type="int" value="8"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="1817" name="spawnZone" x="3127.11" y="2747.36" width="271.833" height="173.167">
+  <object id="1817" name="spawnZone" x="3153.61" y="2796.86" width="271.833" height="173.167">
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="5"/>
     <property name="maxEnemies" type="int" value="12"/>
     <property name="minEnemies" type="int" value="10"/>
     <property name="test" type="bool" value="true"/>
@@ -56446,6 +56473,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
@@ -56455,6 +56483,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="7"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
@@ -56464,6 +56493,7 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="golem" type="bool" value="false"/>
+    <property name="level" type="int" value="8"/>
     <property name="maxEnemies" type="int" value="4"/>
     <property name="minEnemies" type="int" value="6"/>
     <property name="test" type="bool" value="true"/>
@@ -59217,7 +59247,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -59287,6 +59316,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -59346,8 +59376,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -59418,6 +59447,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -59475,8 +59505,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -59604,8 +59634,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -59630,6 +59658,8 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -60844,12 +60874,12 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -60904,8 +60934,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -60930,8 +60960,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -60973,7 +61003,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -60981,6 +61010,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -61034,8 +61064,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -61060,8 +61090,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -61102,7 +61132,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -61112,6 +61141,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -61231,7 +61261,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -61243,6 +61272,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -61360,7 +61390,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -62917,11 +62947,11 @@
    <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile/>
@@ -63047,7 +63077,7 @@
    <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -66541,8 +66571,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -66563,6 +66591,8 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -66671,7 +66701,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -67496,7 +67526,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67504,6 +67533,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -67625,7 +67655,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -67754,7 +67784,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67764,6 +67793,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -67883,7 +67913,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
    <tile/>
    <tile/>
    <tile/>
@@ -67894,6 +67923,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -68626,8 +68656,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -68643,6 +68672,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -68756,8 +68786,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="157"/>
-   <tile gid="157"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -68773,6 +68802,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -69576,7 +69606,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="29"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -69705,7 +69735,6 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile/>
@@ -69714,6 +69743,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -69825,7 +69855,6 @@
    <tile gid="29"/>
    <tile/>
    <tile/>
-   <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -69844,6 +69873,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
@@ -70093,7 +70123,7 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="29"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
