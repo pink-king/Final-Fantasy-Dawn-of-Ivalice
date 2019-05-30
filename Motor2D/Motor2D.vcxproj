@@ -82,6 +82,7 @@
     <ClCompile Include="BossEmmiter.cpp" />
     <ClCompile Include="BossEmmiterArrow.cpp" />
     <ClCompile Include="Boss_Flower.cpp" />
+    <ClCompile Include="BreakableAsset.cpp" />
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="BossEmmiter.h" />
     <ClInclude Include="BossEmmiterArrow.h" />
     <ClInclude Include="Boss_Flower.h" />
+    <ClInclude Include="BreakableAsset.h" />
     <ClInclude Include="Buff.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />

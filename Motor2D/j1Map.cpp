@@ -489,7 +489,8 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						positionOnWorld.y -= walls.attribute("height").as_int(0);
 						
 						SDL_Rect destRect = { 0 }; 
-
+						EnvironmentAssetsTypes type = EnvironmentAssetsTypes::WALL; // by default WALL
+						BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE; 
 						// check different types of walls
 					/*	if (wallTypeName == "wall1")
 						{
@@ -556,10 +557,15 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						else if (wallTypeName == "ceramicYes")
 						{
 							destRect = { 384,448,64,64 };
+							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
+							breakableType = BreakableType::JAR; 
 						}
 						else if (wallTypeName == "ceramicNo")
 						{
 							destRect = { 449,448,64,64 };
+							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
+							breakableType = BreakableType::JARFULL;
+
 						}
 
 				
@@ -577,12 +583,8 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							destRect = { 386,847,64,64 };
 						}
 
+						App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType);
 
-						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
-
-
-
-						
 					}
 
 				}

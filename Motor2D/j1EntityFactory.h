@@ -31,9 +31,21 @@ enum class EnvironmentAssetsTypes
 	WALL,
 	TRIGGERWALL,
 	WALL1,
+	BREAKABLE_ASSET,
 	// ---
 	MAX
 };
+
+enum class BreakableType
+{
+	JAR,
+	JARFULL,
+	BARREL,
+
+	//---
+	NO_BREAKABLE_TYPE
+};
+
 
 struct entityDataMap
 {
@@ -124,7 +136,7 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 

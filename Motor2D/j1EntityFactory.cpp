@@ -34,6 +34,7 @@
 #include "BossEmmiterArrow.h"
 #include "WaveTrigger.h"
 #include "EnemyDummy.h"
+#include "BreakableAsset.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -848,7 +849,7 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
-				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS || (*entityIterator)->type == ENTITY_TYPE::ENEMY_DUMMY)
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS || (*entityIterator)->type == ENTITY_TYPE::ENEMY_DUMMY || (*entityIterator)->type == ENTITY_TYPE::BREAKABLE_ASSET)
 			{
 				ret = false;
 				break;
@@ -1103,7 +1104,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1120,6 +1121,9 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 	case EnvironmentAssetsTypes::TRIGGERWALL:
 		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
 		break;
+	case EnvironmentAssetsTypes::BREAKABLE_ASSET:
+		assetEntity = DBG_NEW BreakableAsset(worldPos, breakableType);
+		entities.push_back(assetEntity);
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:
