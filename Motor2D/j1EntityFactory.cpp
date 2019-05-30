@@ -1105,7 +1105,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBossChest)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1127,7 +1127,7 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::CHEST:
-		assetEntity = DBG_NEW ChestAsset(worldPos);
+		assetEntity = DBG_NEW ChestAsset(worldPos, isBossChest);
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::MAX:

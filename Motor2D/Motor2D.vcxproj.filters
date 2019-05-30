@@ -263,6 +263,7 @@
     <ClCompile Include="ChestTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
+    <ClCompile Include="j1EasingSplines.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -548,6 +549,7 @@
     <ClInclude Include="ChestTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
+    <ClInclude Include="j1EasingSplines.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
