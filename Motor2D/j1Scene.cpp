@@ -1621,6 +1621,9 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				inventoryItem->LoadElements(onlyEquipped, isVendor);
 				App->audio->PlayFx(openInventorySFX, 0);
 
+				// PREVENT NPC LABEL OVERLAYING
+				App->dialog->hideAllNPCLabels(true); 
+				
 
 			}
 
@@ -1640,6 +1643,10 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				{
 					App->dialog->spawnDialoguesAfterInventory();
 				}
+
+
+				// PREVENT NPC LABEL OVERLAYING
+				App->dialog->hideAllNPCLabels(false);
 			}
 		}
 	}

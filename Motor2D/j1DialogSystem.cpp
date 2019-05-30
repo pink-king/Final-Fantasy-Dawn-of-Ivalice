@@ -456,6 +456,35 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 
 }
 
+void j1DialogSystem::hideAllNPCLabels(bool hide)
+{
+	bool doIt = false; 
+
+	for (auto& dialogTree : dialogTrees)                      // no need to hide "Godo" label when you open inventory in lobby, or the other labels when ypu open it in firing range
+	{
+		if (App->scene->state == SceneState::LOBBY && dialogTree->NPCscene == "LOBBY")
+		{
+			doIt = true;
+		}
+		else if (App->scene->state == SceneState::FIRINGRANGE && dialogTree->NPCscene == "FIRINGRANGE")
+		{
+			doIt = true;
+		}
+
+
+		if (doIt)
+		{
+			if (!dialogTree->firstInteraction)   // if it hasn't interacted yet the label is hidden already
+			{
+				dialogTree->myNPCLabels.nameLabel->hide = hide;
+			}
+		}
+	
+		
+	}
+
+}
+
 void j1DialogSystem::BlitDialog(int tr_id)
 {
 	isDialogInScreen = true; 
