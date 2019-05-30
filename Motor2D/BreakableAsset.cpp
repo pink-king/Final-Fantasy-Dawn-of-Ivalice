@@ -69,11 +69,11 @@ BreakableAsset::~BreakableAsset()
 bool BreakableAsset::PreUpdate()
 {
 
-	if (!isAssigned)	// I have to do this the pretty way: booleans! :D
-	{
-		App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
-		isAssigned = true;
-	}
+	//if (!isAssigned)	// I have to do this the pretty way: booleans! :D
+	//{
+	//	App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
+	//	isAssigned = true;
+	//}
 
 	return true;
 }
