@@ -121,6 +121,7 @@ public:
 	void CheckClampedCrossHairToSpawnDescription();
 
 	bool clampedByCrosshair = false;
+	bool clampedByPlayerOnTop = false; 
 
 protected:
 

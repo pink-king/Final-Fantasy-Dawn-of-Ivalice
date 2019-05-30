@@ -492,6 +492,7 @@ void LootEntity::ExplosionMaker(float dt)
 // its not worth, what happen when we have a bunch of loots?
 // solution: only asks the player itself, or the crosshair instead
 
+/*
 void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this with player proximity instead of crosshair
 {
 	// if the crosshair focuses the item and description is hiden 
@@ -504,7 +505,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
-		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 200);
+		iPoint offset(-80, -this->MyDescription->panelWithButton->section.y - 180);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
 		this->MyDescription->HideAllElements(false);
 
@@ -513,7 +514,9 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	// this is preventing the player from picking loot by staying on top of it himself
+
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() && !this->MyDescription->hide)
 	{
 
 		// delete last descr
@@ -528,5 +531,5 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 
 
-}
+}*/
 

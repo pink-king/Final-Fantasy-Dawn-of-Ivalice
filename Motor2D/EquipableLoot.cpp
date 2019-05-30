@@ -10,7 +10,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
-	manualCollectable = true;
+	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 }
 
@@ -20,7 +20,7 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
-	manualCollectable = true;
+	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 }
 
@@ -70,7 +70,7 @@ bool Equipable::Update(float dt)
 		App->audio->PlayFx(App->scene->lootGroundSFX, 0);
 	}
 	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
-		CheckClampedCrossHairToSpawnDescription();
+		//CheckClampedCrossHairToSpawnDescription();
 
 	return true;
 }

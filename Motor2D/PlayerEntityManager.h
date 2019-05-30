@@ -163,6 +163,8 @@ private:
 
 	// vendor
 	Vendor* vendor = nullptr; 
+
+public: 
 	LootEntity* lastHoveredLootItem = nullptr;
 
 	
