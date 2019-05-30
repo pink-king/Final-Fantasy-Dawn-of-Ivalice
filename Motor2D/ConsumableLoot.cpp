@@ -20,6 +20,7 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 {
 	SetConsumable(CONSUMABLE_TYPE::POTION);
 	originPos.x = position.x;
+	objectType = objectT;
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;
@@ -29,7 +30,7 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	ToSelectLootFunction( objectT);
-
+	objectType = objectT;
 	start = true;
 	checkgrounded = true;
 	manualCollectable = true;

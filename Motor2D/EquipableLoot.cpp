@@ -20,6 +20,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
 	ToSelectLootFunction(OBJ_TYPE);
+	equipableType = OBJ_TYPE;
 	originPos.x = position.x;
 	originPos.y = position.y;
 	start = true;
