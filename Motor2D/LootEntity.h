@@ -14,6 +14,7 @@
 #include <string>
 #include "j1Gui.h"
 
+#define NUM_NEIGH_TILE_FALL 8
 
 struct SDL_Texture;
 
@@ -88,7 +89,15 @@ public:
 
 	void DecideExplosion();
 	void ExplosionMaker(float dt);
+
+	std::list<iPoint> GetGroundTilePoints();
+	void SetSplineToFall();
+	void SelectTileToGround();
 public:
+	std::list<iPoint> groundTilePoints;
+	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_TILE_FALL];
+	iPoint groundTileDestination;
+
 	iPoint Getoriginpos();
 	iPoint GetFinalPos();
 	iPoint lootSubtile;
@@ -121,6 +130,7 @@ public:
 	void CheckClampedCrossHairToSpawnDescription();
 
 	bool clampedByCrosshair = false;
+	bool clampedByPlayerOnTop = false; 
 
 protected:
 
@@ -146,9 +156,13 @@ protected:
 	j1PerfTimer displacementTime;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
+	int Ease(float time_passed, int initialpos, int distance_to_travel, float time_to_travel);
+	int EaseOutCubic(float time_passed, int initialpos, int distance_to_travel, float time_to_travel);
+	iPoint distanceTotravel;
+	void GetDistanceTotravel();
 	std::random_device rd;
 	std::mt19937 engine;
-	
+	float timeStarted = SDL_GetTicks();
 	//pcg_extras::seed_seq_from <std::random_device> seed_source;
 
 	

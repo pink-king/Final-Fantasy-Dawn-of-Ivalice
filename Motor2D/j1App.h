@@ -30,7 +30,7 @@ class UiItem_HitPointManager;
 class j1ParticlesClassic;
 class j1DialogSystem; 
 class j1TransitionManager;
-
+class j1EasingSplines;
 class j1App
 {
 public:
@@ -120,7 +120,7 @@ public:
 	UiItem_HitPointManager*   HPManager = nullptr;
 	j1DialogSystem*     dialog = nullptr;
 	j1TransitionManager*	transitionManager = nullptr;
-
+	j1EasingSplines* easing = nullptr;
 	bool				vsync = false;
 	bool				pause = false;
 	bool                cleaningUp = false;

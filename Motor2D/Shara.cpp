@@ -499,7 +499,6 @@ bool Shara::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			App->audio->PlayFx(App->scene->sharaAbility1);
-			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 			SpawnArrowsInArch(GetShotDirection());
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 
@@ -671,29 +670,52 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 
 void Shara::SpawnArrowsInArch(const fPoint & destination) 
 {
+	// Spawn Main / Central Arrow
+	App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
 	fPoint vec = destination - GetThrowingPos();
 	vec.Normalize(); 
 	
 	float offset = 20 * DEGTORAD; 
 	float angle = atan2f(vec.y, vec.x);
 
+	// Calculates arrows to throw depending on level 
 
-	float newAngle = angle + offset; 
+	uint arrows = App->entityFactory->player->level;	
 
-	fPoint newDir;
-	newDir.x = cosf(newAngle); 
-	newDir.y = sinf(newAngle);
+	if (arrows > 18)	// (max is 18, full cercle) (9 if you want semicercle)
+		arrows = 18;
 
-	newDir = newDir * 100000.F;
+	if (arrows % 2 == 1)	// Makes them an even number
+		arrows--; 
 
-	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+	uint arrowsOnSide = arrows / 2; 
+	
+	// Spawn arrows on the right side of the main arrow 
 
-	newAngle = angle - offset; 
+	for (uint i = 1; i < arrowsOnSide + 1; ++i)
+	{	
+		float newAngle = angle + offset * i;
 
-	newDir.x = cosf(newAngle);
-	newDir.y = sinf(newAngle);
-	newDir = newDir * 10000;
-	App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+		fPoint newDir;
+		newDir.x = cosf(newAngle);
+		newDir.y = sinf(newAngle);
+		newDir = newDir * 100000.F;
+		App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+	}
+
+	// Spawn arrows on the left side of the main arrow 
+
+	for (uint i = 1; i < arrowsOnSide + 1; ++i)
+	{
+		float newAngle = angle - offset * i;
+
+		fPoint newDir;
+		newDir.x = cosf(newAngle);
+		newDir.y = sinf(newAngle);
+		newDir = newDir * 100000.F;
+		App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+	}
 }
 
 //bool Shara::CleanUp()

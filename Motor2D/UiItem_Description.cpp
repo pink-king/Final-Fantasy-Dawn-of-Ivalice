@@ -595,7 +595,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	bool ret = false;
 
-	if (!App->entityFactory->player->equipedObjects.empty())
+  if (!App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
 

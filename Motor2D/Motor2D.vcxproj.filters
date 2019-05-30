@@ -254,6 +254,18 @@
     <ClCompile Include="EnemyDummy.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="j1EasingSplines.cpp">
+      <Filter>Development\Modules</Filter>
+      </ClCompile>
+    <ClCompile Include="BreakableAsset.cpp">
+      <Filter>Development\Modules\Entities\Props</Filter>
+    </ClCompile>
+    <ClCompile Include="ChestAsset.cpp">
+      <Filter>Development\Modules\Entities\Props</Filter>
+    </ClCompile>
+    <ClCompile Include="ChestTrigger.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -530,6 +542,18 @@
     <ClInclude Include="EnemyDummy.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="j1EasingSplines.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableAsset.h">
+      <Filter>Development\Modules\Entities\Props</Filter>
+    </ClInclude>
+    <ClInclude Include="ChestAsset.h">
+      <Filter>Development\Modules\Entities\Props</Filter>
+    </ClInclude>
+    <ClInclude Include="ChestTrigger.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
@@ -619,6 +643,9 @@
     </Filter>
     <Filter Include="Development\Modules\GUI\core\help">
       <UniqueIdentifier>{255d0b44-1a0c-4411-bddc-faa78dfb7121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Props">
+      <UniqueIdentifier>{d4c82fa6-af43-4716-af4b-adaa3a47c18d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

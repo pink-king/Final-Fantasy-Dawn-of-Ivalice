@@ -1,7 +1,7 @@
 #include "EquipableLoot.h"
 #include "j1Entity.h"
 #include "j1EntityFactory.h"
-
+#include "j1EasingSplines.h"
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
@@ -10,8 +10,9 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
-	manualCollectable = true;
+	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
+
 }
 
 Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
@@ -20,7 +21,7 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 	originPos.x = position.x;
 	start = true;
 	checkgrounded = true;
-	manualCollectable = true;
+	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 }
 
@@ -33,36 +34,38 @@ Equipable::~Equipable()
 
 bool Equipable::Update(float dt)
 {
-	if (start)
-	{
-		goalPos = SetDestinationPos(goalPos.x, goalPos.y);
-		start = false;
-		position.y + 5;
+	//if (start)
+	//{
+	//	goalPos = SetDestinationPos(goalPos.x, goalPos.y);
+	//	start = false;
+	//	position.y + 5;
 
-		DecideExplosion();
-	}
+	//	DecideExplosion();
+	//}
 
-	dt = EaseOutBack(displacementTime.ReadMs())*0.000001; 
+	//dt = EaseOutBack(displacementTime.ReadMs())*0.000001; 
 
-	if (displacementTime.ReadMs() <= 280)
-	{
-		ExplosionMaker(dt);
-		/*LOG("displaced %f", position.x - originPos.x);
-		LOG("actual time %f", timeTest);*/
-	}
-	else grounded = true;
+	//if (displacementTime.ReadMs() <= 280)
+	//{
+	//	ExplosionMaker(dt);
+	//	/*LOG("displaced %f", position.x - originPos.x);
+	//	LOG("actual time %f", timeTest);*/
+	//}
+	//else grounded = true;
 	/*else if(!repositionDescription)
 	{
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
 		repositionDescription = true; 
 	}*/
+	float timepassed = SDL_GetTicks() - timeStarted;
+	if (timepassed < 1000)
+	{
+		GetDistanceTotravel();
+		position.x = Ease(timepassed, originPos.x, distanceTotravel.x, 1000);
+	}
 
-
-	/*if (!spawnedDescription)
-	{*/
-		
-	//}
-
+	
+	
 	
 	if (checkgrounded && grounded)
 	{
@@ -70,7 +73,7 @@ bool Equipable::Update(float dt)
 		App->audio->PlayFx(App->scene->lootGroundSFX, 0);
 	}
 	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
-		CheckClampedCrossHairToSpawnDescription();
+		//CheckClampedCrossHairToSpawnDescription();
 
 	return true;
 }

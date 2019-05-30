@@ -5,8 +5,8 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1EntityFactory.h"
-
-
+#include "j1PathFinding.h"
+#include "j1EasingSplines.h"
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	
@@ -17,7 +17,24 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	
 	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	level = 0;
+	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
+	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
+	adjacentTileNeighboursToGround[2] = { -1,0 }; // W
+	adjacentTileNeighboursToGround[3] = { 1,0 }; // E
+	adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
+	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
+	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
+	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+
+	GetGroundTilePoints();
+	SelectTileToGround();
+	/*int actualposX = position.x;
+	int actualposY = position.y;
+	iPoint dest = App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y);
 	
+	App->easing->CreateSpline(&actualposX, actualposX -1000, 1000, TypeSpline::EASE);
+
+	App->easing->CreateSpline(&actualposY, actualposY-1000,2000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall,this));*/
 }
 
 LootEntity::~LootEntity()
@@ -38,6 +55,15 @@ bool LootEntity::Start()
 	
 	start = true;
 	endReached = false;
+	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
+	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
+	adjacentTileNeighboursToGround[2] = { -1,0 }; // W
+	adjacentTileNeighboursToGround[3] = { 1,0 }; // E
+	adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
+	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
+	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
+	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+
 	
 	return true;
 }
@@ -469,6 +495,7 @@ void LootEntity::ExplosionMaker(float dt)
 	if (displacementTime.ReadMs() <= timeXmid)
 	{
 		position.x += incrementX * dt;
+		LOG("positionX increment %i",position.x);
 	}
 	else position.x += decrementX * dt;
 
@@ -488,10 +515,59 @@ void LootEntity::ExplosionMaker(float dt)
 	
 }
 
+std::list<iPoint> LootEntity::GetGroundTilePoints()
+{
+	
+	for (int i = 0; i < NUM_NEIGH_TILE_FALL; ++i)
+	{
+		App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
+		//iPoint tilePos = App->entityFactory->player->GetTilePos() + adjacentTileNeighboursToGround[i];
+
+		iPoint tilePos = App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
+
+		if (App->pathfinding->IsWalkable(tilePos))
+		{
+			groundTilePoints.push_back(tilePos);
+
+		}
+	}
+	return groundTilePoints;
+}
+
+void LootEntity::SetSplineToFall()
+{
+	//App->easing->CreateSpline((&float)position.y,)
+	int actualpos = position.y;
+	App->easing->CreateSpline(&actualpos, App->map->MapToWorld(groundTileDestination.x,groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
+}
+
+void LootEntity::SelectTileToGround()
+{
+	
+	LOG("groundTile size %i", groundTilePoints.size());
+	int randVal = GetRandomValue(0, groundTilePoints.size());
+	int m=0;
+
+	for (std::list<iPoint>::iterator iter = groundTilePoints.begin(); iter != groundTilePoints.end(); ++iter)
+	{
+		if (m == randVal)
+		{
+
+			
+			groundTileDestination = (*iter);
+			LOG("tw8");
+			break;
+
+		}
+		++m;
+	}
+}
+
 // TODO: why loot entity asks on every frame ?
 // its not worth, what happen when we have a bunch of loots?
 // solution: only asks the player itself, or the crosshair instead
 
+/*
 void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this with player proximity instead of crosshair
 {
 	// if the crosshair focuses the item and description is hiden 
@@ -504,7 +580,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
-		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 200);
+		iPoint offset(-80, -this->MyDescription->panelWithButton->section.y - 180);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
 		this->MyDescription->HideAllElements(false);
 
@@ -513,7 +589,9 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	// this is preventing the player from picking loot by staying on top of it himself
+
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() && !this->MyDescription->hide)
 	{
 
 		// delete last descr
@@ -528,5 +606,21 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 
 
+}*/
+
+int LootEntity::Ease(float time_passed, int initialpos, int distance_to_travel, float time_to_travel)
+{
+	return distance_to_travel * (time_passed / time_to_travel) + initialpos;
+}
+
+int LootEntity::EaseOutCubic(float time_passed, int initialpos, int distance_to_travel, float time_to_travel)
+{
+	return distance_to_travel * (time_passed /= time_to_travel) * time_passed * time_passed + initialpos;
+}
+
+void LootEntity::GetDistanceTotravel()
+{
+	iPoint actual{ (int)position.x,(int)position.y };
+	distanceTotravel = App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y) - actual;
 }
 

@@ -82,7 +82,10 @@
     <ClCompile Include="BossEmmiter.cpp" />
     <ClCompile Include="BossEmmiterArrow.cpp" />
     <ClCompile Include="Boss_Flower.cpp" />
+    <ClCompile Include="BreakableAsset.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="ChestAsset.cpp" />
+    <ClCompile Include="ChestTrigger.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
@@ -106,6 +109,7 @@
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1DialogSystem.cpp" />
+    <ClCompile Include="j1EasingSplines.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
@@ -169,7 +173,10 @@
     <ClInclude Include="BossEmmiter.h" />
     <ClInclude Include="BossEmmiterArrow.h" />
     <ClInclude Include="Boss_Flower.h" />
+    <ClInclude Include="BreakableAsset.h" />
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="ChestAsset.h" />
+    <ClInclude Include="ChestTrigger.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
@@ -194,6 +201,7 @@
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1DialogSystem.h" />
+    <ClInclude Include="j1EasingSplines.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />

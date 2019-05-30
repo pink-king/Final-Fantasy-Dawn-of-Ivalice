@@ -35,7 +35,7 @@ enum ENTITY_TYPE  // todo, pass to class
 		//etc
 		LOOT,
 		PROJECTILE,
-
+		BREAKABLE_ASSET,
 		TRIGGER,
 		// LAST
 		MAX_TYPE
