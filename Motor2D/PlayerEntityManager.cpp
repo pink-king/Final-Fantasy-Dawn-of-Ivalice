@@ -134,6 +134,8 @@ bool PlayerEntityManager::Update(float dt)
 	{
 		++level;
 
+		App->entityFactory->player->GetVendor()->generateVendorItems(true); 
+
 		std::string dest = "LVL" + std::to_string(level);
 		App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 	}
