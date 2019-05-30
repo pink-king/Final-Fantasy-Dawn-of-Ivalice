@@ -185,22 +185,28 @@ bool PlayerEntityManager::Update(float dt)
 
 			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
-				// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
-				PlayerOnTopOfLootToSpawnDescription(false, dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos())));
-
-				if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, true))
+				if (lastHoveredLootItem && dynamic_cast<LootEntity*>(lastHoveredLootItem)->clampedByPlayerOnTop)
 				{
-					// then delete loot from subtile and factory 
-					App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
-					//LOG("entities size: %i", App->entityFactory->entities.size());
-					// erase - remove idiom.
-					App->entityFactory->entities.erase(
-						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
+					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
+					
 
-					//last detach clamped entity
-					lastHoveredLootItem = nullptr;
-					//LOG("entities size: %i", App->entityFactory->entities.size());
+					if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, false))  // first collect
+					{
+						PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);    // THEN despwn descr and put last hovered to null`tr
+
+						// then delete loot from subtile and factory 
+						App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+						// erase - remove idiom.
+						App->entityFactory->entities.erase(
+							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
+
+						//last detach clamped entity
+						lastHoveredLootItem = nullptr;
+						//LOG("entities size: %i", App->entityFactory->entities.size());
+					}
 				}
+			
 
 			}
 		}
@@ -952,7 +958,7 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 		entity->spawnedDescription = true;
 		lastHoveredLootItem = entity;
 
-		entity->clampedByPlayerOnTop = true; 
+		lastHoveredLootItem->clampedByPlayerOnTop = true;
 
 	}
 
@@ -966,7 +972,7 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 		entity->spawnedDescription = false;
 		lastHoveredLootItem = nullptr;
 
-		entity->clampedByPlayerOnTop = false; 
+		//lastHoveredLootItem->clampedByPlayerOnTop = false;
 	}
 
 }
@@ -1149,20 +1155,24 @@ bool Crosshair::ManageInput(float dt)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 					
-					if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
+					if (dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair && !dynamic_cast<LootEntity*>(clampedEntity)->clampedByPlayerOnTop)
 					{
-						// then delete loot from subtile and factory 
-						App->entityFactory->DeleteEntityFromSubtile((j1Entity*)clampedEntity);
-						//LOG("entities size: %i", App->entityFactory->entities.size());
-						// erase - remove idiom.
-						App->entityFactory->entities.erase(
-							std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), clampedEntity), App->entityFactory->entities.end());
+						if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
+						{
+							// then delete loot from subtile and factory 
+							App->entityFactory->DeleteEntityFromSubtile((j1Entity*)clampedEntity);
+							//LOG("entities size: %i", App->entityFactory->entities.size());
+							// erase - remove idiom.
+							App->entityFactory->entities.erase(
+								std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), clampedEntity), App->entityFactory->entities.end());
 
-						//last detach clamped entity
-						clampedEntity = nullptr;
-						clamped = false;
-						//LOG("entities size: %i", App->entityFactory->entities.size());
+							//last detach clamped entity
+							clampedEntity = nullptr;
+							clamped = false;
+							//LOG("entities size: %i", App->entityFactory->entities.size());
+						}
 					}
+			
 					
 				}
 			}
