@@ -144,6 +144,8 @@ public:
 	void RandomAmountofLoot(LOOT_TYPE LootType, int amount, fPoint pos); //create the amount and type of randomLoot 
 	void RepeatAmountofConsumables(int amount, fPoint pos, OBJECT_TYPE type);//Create the amount of the same Consumable with random values for gold
 	void RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type);//Create the amount of the same Equipable with random values for each entity
+	void CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type);
+	bool LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& config);
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	void CreateLootStats(LootEntity* lootEntity);
 

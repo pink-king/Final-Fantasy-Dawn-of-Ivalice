@@ -59,7 +59,7 @@ bool Consumable::Update(float dt)
 			DecideExplosion();
 		}
 
-		dt = EaseOutBack(displacementTime.ReadMs())*0.000001;
+		dt = EaseOutBackBADvERSION(displacementTime.ReadMs())*0.000001;
 
 		if (displacementTime.ReadMs() <= 280)
 		{

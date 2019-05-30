@@ -539,8 +539,8 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
 		
-
-		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 10, { (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y });
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y }, EQUIPABLE_TYPE::MANTLE);
+		//App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 10, { (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y });
 	}
 	App->tex->textures;
 	// map debug draw grids

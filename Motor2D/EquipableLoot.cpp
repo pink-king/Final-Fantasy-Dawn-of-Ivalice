@@ -8,6 +8,8 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	this->equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	SetEquipable();
 	originPos.x = position.x;
+	originPos.y = position.y;
+
 	start = true;
 	checkgrounded = true;
 	manualCollectable = false;
@@ -19,6 +21,7 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 {
 	ToSelectLootFunction(OBJ_TYPE);
 	originPos.x = position.x;
+	originPos.y = position.y;
 	start = true;
 	checkgrounded = true;
 	manualCollectable = false;
@@ -58,14 +61,33 @@ bool Equipable::Update(float dt)
 		repositionDescription = true; 
 	}*/
 	float timepassed = SDL_GetTicks() - timeStarted;
+	GetDistanceTotravel();
 	if (timepassed < 1000)
 	{
-		GetDistanceTotravel();
+		LOG("preEase posX %f", position.x);
+		
 		position.x = Ease(timepassed, originPos.x, distanceTotravel.x, 1000);
+		LOG("Eased posX %f", position.x);
+		LOG("originPos.x %f", originPos.y);
+		LOG("DistanceToTravel.x %i", distanceTotravel.x);
 	}
 
+	if (timepassed < 1000)
+	{
+		LOG("preEase posY %f", position.y);
+		position.y =  EaseOutBounce(timepassed, originPos.y, distanceTotravel.y, 1000);
+		LOG("Eased posY %f", position.y);
+		LOG("originPos.y %f", originPos.y);
+		LOG("DistanceToTravel.y %i", distanceTotravel.y);
+	}
+	if (timepassed < 1000)
+	{
+	//position.y = Ease(timepassed, originPos.y, distanceTotravel.y, 1500);
+	position.y = EaseOutCubic(timepassed, originPos.y, distanceTotravel.y, 900);
+
+	}
 	
-	
+
 	
 	if (checkgrounded && grounded)
 	{

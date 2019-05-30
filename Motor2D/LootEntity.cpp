@@ -17,14 +17,14 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	
 	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	level = 0;
-	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
-	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
-	adjacentTileNeighboursToGround[2] = { -1,0 }; // W
-	adjacentTileNeighboursToGround[3] = { 1,0 }; // E
-	adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
-	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
-	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
-	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+	adjacentTileNeighboursToGround[0] = { 0,-3 }; // N
+	adjacentTileNeighboursToGround[1] = { 0, 3 }; // S
+	adjacentTileNeighboursToGround[2] = { -3,0 }; // W
+	adjacentTileNeighboursToGround[3] = { 3,0 }; // E
+	adjacentTileNeighboursToGround[4] = { 3,-3 }; // NE
+	adjacentTileNeighboursToGround[5] = { -3,-3 }; // NW
+	adjacentTileNeighboursToGround[6] = { 3, 3 }; // SE
+	adjacentTileNeighboursToGround[7] = { -3,3 }; // SW
 
 	GetGroundTilePoints();
 	SelectTileToGround();
@@ -55,14 +55,14 @@ bool LootEntity::Start()
 	
 	start = true;
 	endReached = false;
-	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
-	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
-	adjacentTileNeighboursToGround[2] = { -1,0 }; // W
-	adjacentTileNeighboursToGround[3] = { 1,0 }; // E
-	adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
-	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
-	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
-	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+	//adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
+	//adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
+	//adjacentTileNeighboursToGround[2] = { -1,0 }; // W
+	//adjacentTileNeighboursToGround[3] = { 1,0 }; // E
+	//adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
+	//adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
+	//adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
+	//adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
 
 	
 	return true;
@@ -365,7 +365,7 @@ int LootEntity::GetRandomValue(int min, int max)
 	return ret;
 }
 
-float LootEntity::EaseOutBack(float t)
+float LootEntity::EaseOutBackBADvERSION(float t)
 {
 
 
@@ -608,9 +608,19 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 }*/
 
+void LootEntity::GetDistanceTotravel()
+{
+	iPoint actual{ (int)position.x,(int)position.y };
+	distanceTotravel = App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y) - actual;
+}
+
 int LootEntity::Ease(float time_passed, int initialpos, int distance_to_travel, float time_to_travel)
 {
 	return distance_to_travel * (time_passed / time_to_travel) + initialpos;
+}
+int LootEntity::EaseOutQuint(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	return distance_to_travel * ((time_passed = time_passed / time_to_travel - 1) * time_passed * time_passed * time_passed * time_passed + 1) + initial_position;
 }
 
 int LootEntity::EaseOutCubic(float time_passed, int initialpos, int distance_to_travel, float time_to_travel)
@@ -618,9 +628,71 @@ int LootEntity::EaseOutCubic(float time_passed, int initialpos, int distance_to_
 	return distance_to_travel * (time_passed /= time_to_travel) * time_passed * time_passed + initialpos;
 }
 
-void LootEntity::GetDistanceTotravel()
+
+
+int LootEntity::EaseInOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
 {
-	iPoint actual{ (int)position.x,(int)position.y };
-	distanceTotravel = App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y) - actual;
+	float s = 1.70158f;
+	if ((time_passed /= time_to_travel / 2) < 1) {
+		return distance_to_travel / 2 * (time_passed * time_passed * (((s *= (1.525f)) + 1) * time_passed - s)) + initial_position;
+	}
+	else {
+		float postFix = time_passed -= 2;
+		return distance_to_travel / 2 * ((postFix)* time_passed * (((s *= (1.525f)) + 1) * time_passed + s) + 2) + initial_position;
+	}
 }
 
+int LootEntity::EaseInBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	float s = 2.70158f;
+	float postFix = time_passed /= time_to_travel;
+	return distance_to_travel * (postFix)* time_passed* ((s + 1) * time_passed - s) + initial_position;
+}
+
+int LootEntity::EaseOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	float s = 1.10158f;
+	return distance_to_travel * ((time_passed = time_passed / time_to_travel - 1) * time_passed * ((s + 1) * time_passed + s) + 1) + initial_position;
+}
+
+int LootEntity::EaseInCubic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	return distance_to_travel * (time_passed /= time_to_travel) * time_passed * time_passed + initial_position;
+}
+
+int LootEntity::EaseOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	if ((time_passed /= time_to_travel) < (1 / 2.75f)) {
+		return distance_to_travel * (7.5625f * time_passed * time_passed) + initial_position;
+	}
+	else if (time_passed < (2 / 2.75f)) {
+		float postFix = time_passed -= (1.5f / 2.75f);
+		return distance_to_travel * (7.5625f * (postFix)* time_passed + .75f) + initial_position;
+	}
+	else if (time_passed < (2.5 / 2.75)) {
+		float postFix = time_passed -= (2.25f / 2.75f);
+		return distance_to_travel * (7.5625f * (postFix)* time_passed + .9375f) + initial_position;
+	}
+	else {
+		float postFix = time_passed -= (2.625f / 2.75f);
+		return distance_to_travel * (7.5625f * (postFix)* time_passed + .984375f) + initial_position;
+	}
+}
+
+int LootEntity::OwnEaseOutQuartic(float t, int b, int c, float d)
+{
+	int ts = (t /= d) * t;
+	int tc = ts * t;
+	return b + c * (1.5 * tc * ts + -1.1 * ts * ts + 0.7 * tc + -0.1 * t);
+}
+
+int LootEntity::EaseinBounce(float t, int b, int c, float d)
+{
+	return c - EaseOutBounce(d - t, 0, c, d) + b;
+}
+
+int LootEntity::EaseInOutBounce(float t, int b, int c, float d)
+{
+	if (t < d / 2) return EaseinBounce(t * 2, 0, c, d) * .5f + b;
+	else return EaseInOutBounce(t * 2 - d, 0, c, d) * .5f + c * .5f + b;
+}

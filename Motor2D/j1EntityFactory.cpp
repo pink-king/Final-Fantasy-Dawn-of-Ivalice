@@ -1288,6 +1288,343 @@ void j1EntityFactory::RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_
 	}
 }
 
+void j1EntityFactory::CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type)
+{
+	j1Entity* ret = nullptr;
+	switch (type)
+	{
+
+	case EQUIPABLE_TYPE::SWORD:
+		
+			
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::SWORD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLegendariData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		
+		break;
+	case  EQUIPABLE_TYPE::BOW:
+	
+		
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::BOW);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLegendariData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		
+		break;
+	case  EQUIPABLE_TYPE::ROD:
+		
+			
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::ROD);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLegendariData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		
+		break;
+	case  EQUIPABLE_TYPE::ARMOR:
+		
+			
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::ARMOR);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLegendariData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		
+		break;
+	case  EQUIPABLE_TYPE::VEST:
+	
+			
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::VEST);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLegendariData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		
+		break;
+	case  EQUIPABLE_TYPE::MANTLE:
+		
+			
+			ret = DBG_NEW Equipable(pos.x, pos.y, EQUIPABLE_TYPE::MANTLE);
+			ret->type = ENTITY_TYPE::LOOT;
+			LoadLegendariData((LootEntity*)ret, App->config);
+			entities.push_back(ret);
+		
+		break;
+	default:
+		break;
+	}
+}
+
+bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& config)
+{
+	switch (lootEntity->GetObjectType())
+	{
+		int randID;
+	case OBJECT_TYPE::WEAPON_OBJECT:
+		 randID = GetRandomValue(1, 3);
+
+		switch (GetRandomValue(1, 12))
+		{
+		case 1:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 2:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 3:
+			lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 4:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 5:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 6:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 7:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 8:
+			lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 9:
+			lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level - 1;
+			break;
+		case 10:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level - 1;
+			break;
+		case 11:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level - 1;
+			break;
+		case 12:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		default:
+			break;
+		}
+
+	case OBJECT_TYPE::ARMOR_OBJECT:
+
+		randID = GetRandomValue(1, 3);
+
+		switch (GetRandomValue(1, 12))
+		{
+		case 1:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 2:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 3:
+			lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 4:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		case 5:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 6:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 7:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 8:
+			lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level + 1;
+			break;
+		case 9:
+			lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level - 1;
+			break;
+		case 10:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level - 1;
+			break;
+		case 11:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level - 1;
+			break;
+		case 12:
+			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+				lootEntity->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
+			if (lootEntity->level == 0)
+				lootEntity->level = App->entityFactory->player->level;
+			break;
+		default:
+			break;
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	if (lootEntity->level < 1)
+		lootEntity->level = 1;
+
+	int id;
+	switch (lootEntity->GetEquipable())
+	{
+	case EQUIPABLE_TYPE::SWORD:
+		lootEntity->character = player->GetMarche();
+		
+		for (auto node : config.child("loot").child("equipable").child("sword").children("equipment"))
+		{
+			id = node.attribute("id").as_int();
+			if (id == 3)
+			{
+				lootEntity->lootname = node.attribute("name").as_string();
+				lootEntity->name.assign(lootEntity->lootname.data());
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(5, 15) + lootEntity->level * 5, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01 - lootEntity->level * 0.05, lootEntity);
+			}
+		}
+
+		break;
+
+	case EQUIPABLE_TYPE::BOW:
+		lootEntity->character = player->GetShara();
+		for (auto node : config.child("loot").child("equipable").child("bow").children("equipment"))
+		{
+			id = node.attribute("id").as_int();
+			if (id == 3)
+			{
+				lootEntity->lootname = node.attribute("name").as_string();
+				lootEntity->name.assign(lootEntity->lootname.data());
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01 - lootEntity->level * 0.05, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.02, lootEntity);
+			}
+		}
+		break;
+
+	case EQUIPABLE_TYPE::ROD:
+		lootEntity->character = player->GetRitz();
+		for (auto node : config.child("loot").child("equipable").child("rod").children("equipment"))
+		{
+			id = node.attribute("id").as_int();
+			if (id == 3)
+			{
+				lootEntity->lootname = node.attribute("name").as_string();
+				lootEntity->name.assign(lootEntity->lootname.data());
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20) + lootEntity->level * 15, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(65, 85)* 0.01 + lootEntity->level * 0.05, lootEntity);
+			}
+		}
+		break;
+
+	case EQUIPABLE_TYPE::ARMOR:
+		lootEntity->character = player->GetMarche();
+		for (auto node : config.child("loot").child("equipable").child("armor").children("equipment"))
+		{
+			id = node.attribute("id").as_int();
+			if (id == 3)
+			{
+				lootEntity->lootname = node.attribute("name").as_string();
+				lootEntity->name.assign(lootEntity->lootname.data());
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 2, lootEntity);
+			}
+		}
+		break;
+	case EQUIPABLE_TYPE::VEST:
+		lootEntity->character = player->GetShara();
+		for (auto node : config.child("loot").child("equipable").child("vest").children("equipment"))
+		{
+			id = node.attribute("id").as_int();
+			if (id == 3)
+			{
+				lootEntity->lootname = node.attribute("name").as_string();
+				lootEntity->name.assign(lootEntity->lootname.data());
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 2, lootEntity);
+			}
+		}
+		break;
+
+	case EQUIPABLE_TYPE::MANTLE:
+		lootEntity->character = player->GetRitz();
+		for (auto node : config.child("loot").child("equipable").child("mantle").children("equipment"))
+		{
+			id = node.attribute("id").as_int();
+			if (id == 3)
+			{
+				lootEntity->lootname = node.attribute("name").as_string();
+				lootEntity->name.assign(lootEntity->lootname.data());
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 10, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 2, lootEntity);
+			}
+		}
+		break;
+	}
+	return true;
+}
+
 
 
 bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
@@ -1645,7 +1982,7 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		case EQUIPABLE_TYPE::MANTLE:
 
 			lootEntity->character = App->entityFactory->player->GetRitz();
-			for (auto node : config.child("loot").child("equipable").child("vest").children("equipment"))
+			for (auto node : config.child("loot").child("equipable").child("mantle").children("equipment"))
 			{
 				//weapon type
 				id = node.attribute("id").as_int();

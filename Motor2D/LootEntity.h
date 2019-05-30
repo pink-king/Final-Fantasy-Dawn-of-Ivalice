@@ -80,7 +80,7 @@ public:
 	int GetRandomValue(int min, int max);
 	//void GetAttributesForDescription(); 
 
-	float EaseOutBack(float t);
+	float EaseOutBackBADvERSION(float t);
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
 	fPoint Lerp(fPoint actual, fPoint destination, float t);
 	float LerpX(float actual, float destination, float t);
@@ -158,6 +158,17 @@ protected:
 
 	int Ease(float time_passed, int initialpos, int distance_to_travel, float time_to_travel);
 	int EaseOutCubic(float time_passed, int initialpos, int distance_to_travel, float time_to_travel);
+	int EaseOutQuint(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseInOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseInBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseInCubic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int OwnEaseOutQuartic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	//http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
+	//https://github.com/jesusgollonet/ofpennereasing/tree/master/PennerEasing
+	int EaseinBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseInOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
 	iPoint distanceTotravel;
 	void GetDistanceTotravel();
 	std::random_device rd;
