@@ -34,7 +34,6 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 			for (auto& LootEntity : vBagObjects)
 			{
 				App->buff->RemoveItemStat(LootEntity);
-
 				App->scene->inventoryItem->De_______GenerateDescription(LootEntity, false); 
 			}
 			vBagObjects.clear(); 
@@ -48,7 +47,7 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 
 		}
 
-		if (vConsumables.size() < 20)
+		if (vConsumables.size() < 10)
 		{
 			for (int i = 1; i <= numberOfPot; ++i)
 			{
