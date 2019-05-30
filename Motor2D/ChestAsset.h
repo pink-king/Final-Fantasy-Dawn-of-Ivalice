@@ -8,7 +8,7 @@ class ChestAsset : public j1Entity
 {
 public:
 
-	ChestAsset(const iPoint& pos);
+	ChestAsset(const iPoint& pos, bool isBossChest);
 	~ChestAsset();
 
 	//bool Start() override;	// Entity Factory doesn't Start the entities when reloading scenes!
@@ -16,6 +16,7 @@ public:
 
 	void Draw() override;
 
+	void SpawnLoot();
 	void OpenChest();
 
 private:
@@ -23,6 +24,7 @@ private:
 	Animation idle;
 	Animation opening;
 
+	bool isBossChest = false; 
 	bool isAssigned = false;
 	bool isOpened = false;
 };
