@@ -7,35 +7,36 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type)
 {
 	switch (type)
 	{
+		// Rects -9 in Y to adjust to tile's center
 	case BreakableType::JAR:
-		idle.PushBack({ 384, 702, 64, 64 });
+		idle.PushBack({ 384, 693, 64, 64 });
 
-		breaking.PushBack({ 448, 702, 64, 64 });
-		breaking.PushBack({ 512, 702, 64, 64 });
-		breaking.PushBack({ 576, 702, 64, 64 });
-		breaking.PushBack({ 640, 702, 64, 64 });
+		breaking.PushBack({ 448, 693, 64, 64 });
+		breaking.PushBack({ 512, 693, 64, 64 });
+		breaking.PushBack({ 576, 693, 64, 64 });
+		breaking.PushBack({ 640, 693, 64, 64 });
 		breaking.speed = 10.f;
 		breaking.loop = false; 
 
 		break;
 
 	case BreakableType::JARFULL:
-		idle.PushBack({ 384, 444, 64,64 });
+		idle.PushBack({ 384, 435, 64,64 });
 
-		breaking.PushBack({ 512, 702, 64, 64 });
-		breaking.PushBack({ 576, 702, 64, 64 });
-		breaking.PushBack({ 640, 702, 64, 64 });
+		breaking.PushBack({ 512, 693, 64, 64 });
+		breaking.PushBack({ 576, 693, 64, 64 });
+		breaking.PushBack({ 640, 693, 64, 64 });
 		breaking.speed = 10.f;
 		breaking.loop = false;
 		break;
 
 	case BreakableType::BARREL:
-		idle.PushBack({ 384, 766, 64, 64 });
+		idle.PushBack({ 384, 757, 64, 64 });
 							  
-		breaking.PushBack({ 448, 766, 64, 64 });
-		breaking.PushBack({ 512, 766, 64, 64 });
-		breaking.PushBack({ 576, 766, 64, 64 });  
-		breaking.PushBack({ 640, 766, 64, 64 });
+		breaking.PushBack({ 448, 757, 64, 64 });
+		breaking.PushBack({ 512, 757, 64, 64 });
+		breaking.PushBack({ 576, 757, 64, 64 });  
+		breaking.PushBack({ 640, 757, 64, 64 });
 		breaking.speed = 10.f;
 		breaking.loop = false;
 		break;
@@ -55,27 +56,30 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type)
 
 	this->type = BREAKABLE_ASSET;
 	this->life = 1;
+	// When this entity is created, the Walkability Map is not created yet
+	//	App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
 }
 
 BreakableAsset::~BreakableAsset()
 {
 }
+
+
+
 bool BreakableAsset::PreUpdate()
 {
 
-	//if (!isAssigned)	// I have to do this the pretty way: booleans! :D
-	//{
-	//	App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
-	//	isAssigned = true;
-	//}
+	if (!isAssigned)	// I have to do this the pretty way: booleans! :D
+	{
+		App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
+		isAssigned = true;
+	}
 
 	return true;
 }
 
 bool BreakableAsset::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		to_die = true; 
 
 	if (to_die && !isBroken)
 		Break();
