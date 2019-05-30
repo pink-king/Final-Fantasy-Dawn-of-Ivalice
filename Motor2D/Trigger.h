@@ -14,6 +14,8 @@ enum class TRIGGER_TYPE
 	DIALOG,
 	SAVE,
 	WAVE,
+	CHEST, 
+	// ---
 	NO_TRIGGER
 };
 

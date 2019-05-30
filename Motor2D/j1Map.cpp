@@ -565,9 +565,11 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							//destRect = { 449,448,64,64 }; // Now loaded in the new entity
 							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
 							breakableType = BreakableType::JARFULL;
-
 						}
-
+						else if (wallTypeName == "chest")
+						{
+							type = EnvironmentAssetsTypes::CHEST;
+						}
 				
 						else if (wallTypeName == "Statue")
 						{

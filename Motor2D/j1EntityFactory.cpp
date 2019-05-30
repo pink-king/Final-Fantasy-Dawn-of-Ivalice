@@ -35,6 +35,8 @@
 #include "WaveTrigger.h"
 #include "EnemyDummy.h"
 #include "BreakableAsset.h"
+#include "ChestAsset.h"
+#include "ChestTrigger.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -727,6 +729,9 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		ret = new SaveTrigger(posX, posY);
 		entities.push_back(ret);
 		break;
+	case TRIGGER_TYPE::CHEST:
+		ret = DBG_NEW ChestTrigger(fPoint(posX, posY));
+		entities.push_back(ret);
 	default:
 		break;
 	}
@@ -1124,6 +1129,11 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 	case EnvironmentAssetsTypes::BREAKABLE_ASSET:
 		assetEntity = DBG_NEW BreakableAsset(worldPos, breakableType);
 		entities.push_back(assetEntity);
+		break; 
+	case EnvironmentAssetsTypes::CHEST:
+		assetEntity = DBG_NEW ChestAsset(worldPos);
+		entities.push_back(assetEntity);
+		break; 
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:

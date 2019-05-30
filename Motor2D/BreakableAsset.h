@@ -15,9 +15,8 @@ public:
 	//bool Start() override;	// Entity Factory doesn't Start the entities when reloading scenes!
 	bool PreUpdate() override; 
 	bool Update(float dt) override;
-	bool CleanUp() override;
 
-	virtual void Draw() override;
+	void Draw() override;
 
 	void Break();
 

@@ -84,6 +84,8 @@
     <ClCompile Include="Boss_Flower.cpp" />
     <ClCompile Include="BreakableAsset.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="ChestAsset.cpp" />
+    <ClCompile Include="ChestTrigger.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
@@ -172,6 +174,8 @@
     <ClInclude Include="Boss_Flower.h" />
     <ClInclude Include="BreakableAsset.h" />
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="ChestAsset.h" />
+    <ClInclude Include="ChestTrigger.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />

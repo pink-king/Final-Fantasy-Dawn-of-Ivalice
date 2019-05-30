@@ -87,11 +87,6 @@ bool BreakableAsset::Update(float dt)
 	return true;
 }
 
-bool BreakableAsset::CleanUp()
-{
-	return true;
-}
-
 void BreakableAsset::Draw()
 {
 
@@ -112,8 +107,9 @@ void BreakableAsset::Break()
 {
 	isBroken = true;
 	currentAnimation = &breaking;
-	App->entityFactory->RandomAmountofLoot(LOOT_TYPE::CONSUMABLE, 4, GetPivotPos());
-	App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 1, GetPivotPos());
+	App->entityFactory->RepeatAmountofConsumables(4, GetPivotPos(), OBJECT_TYPE::GOLD); 
+	App->entityFactory->RepeatAmountofConsumables(1, GetPivotPos(), OBJECT_TYPE::POTIONS);
+
 	// TODO: Add SFX
 
 	//App->pathfinding->DeactivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));

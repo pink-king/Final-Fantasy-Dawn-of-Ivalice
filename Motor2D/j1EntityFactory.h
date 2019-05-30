@@ -32,6 +32,7 @@ enum class EnvironmentAssetsTypes
 	TRIGGERWALL,
 	WALL1,
 	BREAKABLE_ASSET,
+	CHEST,
 	// ---
 	MAX
 };
