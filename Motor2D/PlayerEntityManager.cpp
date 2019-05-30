@@ -972,12 +972,20 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 
 	// if description is showing, but player goes away
 
-	if (!onTop && entity->spawnedDescription && entity->clampedByPlayerOnTop && !entity->clampedByCrosshair)
+	if (!onTop && entity == lastHoveredLootItem && lastHoveredLootItem->spawnedDescription && lastHoveredLootItem->clampedByPlayerOnTop)
 	{
-		// delete last descr
-		entity->MyDescription->DeleteEverything();
-		entity->MyDescription = nullptr;
-		entity->spawnedDescription = false;
+		lastHoveredLootItem->clampedByPlayerOnTop = false;
+
+		if (!lastHoveredLootItem->clampedByCrosshair)
+		{
+
+			// delete last descr
+			entity->MyDescription->DeleteEverything();
+			entity->MyDescription = nullptr;
+			entity->spawnedDescription = false;
+
+
+		}
 	
 		
 		
@@ -1167,20 +1175,27 @@ bool Crosshair::ManageInput(float dt)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 					
-					if (dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair && !dynamic_cast<LootEntity*>(clampedEntity)->clampedByPlayerOnTop)
+					if (dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)
 					{
 						if (App->entityFactory->player->CollectLoot((LootEntity*)(clampedEntity), true))
 						{
 
+
 							if (dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription)
 							{
-
-								// delete last descr
-								dynamic_cast<LootEntity*>(clampedEntity)->MyDescription->DeleteEverything();
-								dynamic_cast<LootEntity*>(clampedEntity)->MyDescription = nullptr;
-
-								dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription = false;
 								dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair = false;
+
+								if (!dynamic_cast<LootEntity*>(clampedEntity)->clampedByPlayerOnTop)
+								{
+									// delete last descr
+
+									dynamic_cast<LootEntity*>(clampedEntity)->MyDescription->DeleteEverything();
+									dynamic_cast<LootEntity*>(clampedEntity)->MyDescription = nullptr;
+
+									dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription = false;
+								}
+							
+							
 							}
 
 
@@ -1278,6 +1293,23 @@ bool Crosshair::ManageInput(float dt)
 		// and if we have any clamped entity, unclamp
 		if (clamped) 
 		{
+
+			if (clampedEntity->type == ENTITY_TYPE::LOOT && dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)
+			{
+				if (dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription && !dynamic_cast<LootEntity*>(clampedEntity)->clampedByPlayerOnTop)
+				{
+
+					// delete last descr
+					dynamic_cast<LootEntity*>(clampedEntity)->MyDescription->DeleteEverything();
+					dynamic_cast<LootEntity*>(clampedEntity)->MyDescription = nullptr;
+
+					dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription = false;
+					dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair = false;
+				}
+			}
+
+
+
 			clamped = false;
 			clampedEntity = nullptr;
 		}
