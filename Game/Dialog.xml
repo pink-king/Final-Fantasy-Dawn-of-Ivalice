@@ -1,5 +1,5 @@
 <dialogue>
-  <dialogtree treeid="0" treeName="VENDOR">
+  <dialogtree treeid="0" treeName="VENDOR" NPCname="Vendor"  NPCposX = "-135" NPCposY = "262" NPCscene="LOBBY">
     <node line="Greetings stranger" id="0">
       <option line="Hello mister" nextnode="1"/>
       <option line="...hello?" nextnode="1"/>
