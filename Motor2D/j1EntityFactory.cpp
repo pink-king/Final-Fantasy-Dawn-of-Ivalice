@@ -2106,6 +2106,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 				++player->level;
 				player->exp -= player->maxExpInLevel;
 
+				
 
 				player->GetVendor()->generateVendorItems(true);
 

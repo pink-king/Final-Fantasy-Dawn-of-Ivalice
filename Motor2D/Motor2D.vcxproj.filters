@@ -254,9 +254,6 @@
     <ClCompile Include="EnemyDummy.cpp">
       <Filter>Development\Modules\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="j1EasingSplines.cpp">
-      <Filter>Development\Modules</Filter>
-      </ClCompile>
     <ClCompile Include="BreakableAsset.cpp">
       <Filter>Development\Modules\Entities\Props</Filter>
     </ClCompile>
@@ -541,9 +538,6 @@
     </ClInclude>
     <ClInclude Include="EnemyDummy.h">
       <Filter>Development\Modules\Entities\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="j1EasingSplines.h">
-      <Filter>Development\Modules</Filter>
     </ClInclude>
     <ClInclude Include="BreakableAsset.h">
       <Filter>Development\Modules\Entities\Props</Filter>
