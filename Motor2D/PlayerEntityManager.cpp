@@ -1212,7 +1212,7 @@ bool Crosshair::ManageInput(float dt)
 
 	// delete descr when you stop holding crosshair button
 
-	if (clamped && App->input->GetControllerButton() == KEY_UP)
+	/*if (clamped && App->input->GetControllerButton() == KEY_UP)
 	{
 		if (clampedEntity->type == ENTITY_TYPE::LOOT && dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)
 		{
@@ -1229,7 +1229,7 @@ bool Crosshair::ManageInput(float dt)
 		}
 
 
-	}
+	}*/
 
 
 
