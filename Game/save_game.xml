@@ -7,11 +7,155 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
-			<Experience level="1" exp="0" />
-			<life actualLife="121" />
-			<gold value="636" />
+		<Entities player="marche">
+			<Experience level="3" exp="0" />
+			<life actualLife="216" />
+			<gold value="4523" />
 			<bagObjects>
+				<data name="vest_1" level="2" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="350" y="1409" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="defence" value="29" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="14" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_sword" level="2" characterObject="Marche" equipableType="sword" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="attack" value="34" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="18" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.660000026" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="vest_1" level="3" characterObject="Shara" equipableType="vest" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="254" y="1441" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="fireElement" rol="defence" value="35" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="health" value="14" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_sword" level="2" characterObject="Marche" equipableType="sword" elementalType="poisonElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="poisonElement" rol="attack" value="35" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="18" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.649999976" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="vest_2" level="2" characterObject="Shara" equipableType="vest" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="254" y="1441" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="fireElement" rol="defence" value="21" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.219999999" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_vest" level="2" characterObject="Ritz" equipableType="mantle" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="350" y="1409" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="iceElement" rol="defence" value="35" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="16" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="bow_1" level="4" characterObject="Shara" equipableType="bow" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="iceElement" rol="attack" value="55" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.689999998" />
+				</buffs>
+			</bagObjects>
+			<bagObjects>
+				<data name="legendary_bow" level="4" characterObject="Shara" equipableType="bow" elementalType="noElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="attack" value="54" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="multiplicative" elementType="noElement" rol="cooldown" value="0.620000005" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.180000007" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="armor_2" level="2" characterObject="Marche" equipableType="armor" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="128" y="932" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="25" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="stick_2" level="1" characterObject="Ritz" equipableType="rod" elementalType="allElement" objectType="weapon" lootType="equipable">
+					<rect x="96" y="736" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="allElement" rol="attack" value="14" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.879999995" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="vest_2" level="1" characterObject="Ritz" equipableType="mantle" elementalType="poisonElement" objectType="armor" lootType="equipable">
+					<rect x="350" y="1409" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="poisonElement" rol="defence" value="25" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.209999993" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="254" y="1441" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="iceElement" rol="defence" value="21.5" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.109999999" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
 				<data name="sword_1" level="2" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
 					<rect x="64" y="96" w="32" h="32" />
 				</data>
@@ -21,49 +165,33 @@
 				<buffs>
 					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.800000012" />
 				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="legendary_sword" level="1" characterObject="Marche" equipableType="sword" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="64" y="96" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="fireElement" rol="attack" value="25" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="14" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.860000014" />
-				</buffs>
-			</bagObjects>
-			<equipedObjects>
-				<data name="legendary_sword" level="1" characterObject="Marche" equipableType="sword" elementalType="iceElement" objectType="weapon" lootType="equipable">
-					<rect x="64" y="96" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="iceElement" rol="attack" value="24" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="iceElement" rol="defence" value="20" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="multiplicative" elementType="noElement" rol="cooldown" value="0.839999974" />
-				</buffs>
 			</equipedObjects>
 			<equipedObjects>
-				<data name="legendary_vest" level="2" characterObject="Shara" equipableType="vest" elementalType="fireElement" objectType="armor" lootType="equipable">
-					<rect x="254" y="1441" w="32" h="32" />
+				<data name="bow_2" level="2" characterObject="Shara" equipableType="bow" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
 				</data>
 				<buffs>
-					<data character="Shara" type="additive" elementType="fireElement" rol="defence" value="29" />
+					<data character="Shara" type="multiplicative" elementType="fireElement" rol="attack" value="0.200000003" />
 				</buffs>
 				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="health" value="17" />
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.239999995" />
 				</buffs>
 			</equipedObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
 			<consumableObjects>
 				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
 					<rect x="416" y="1568" w="32" h="32" />
