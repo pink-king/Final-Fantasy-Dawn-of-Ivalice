@@ -1128,7 +1128,10 @@ bool Crosshair::ManageInput(float dt)
 			//LOG("DONT SEARCH");
 	}
 	else
-	{	//TODO: UNCLAMP when player pull the crosshair out a target
+
+	{
+
+    //TODO: UNCLAMP when player pull the crosshair out a target
 		if (clampedEntity != nullptr && !clampedEntity->to_delete) // for if the entity is killed protection
 		{
 			position = clampedEntity->GetPivotPos();
@@ -1210,27 +1213,7 @@ bool Crosshair::ManageInput(float dt)
 	}
 
 
-	// delete descr when you stop holding crosshair button
-
-	/*if (clamped && App->input->GetControllerButton() == KEY_UP)
-	{
-		if (clampedEntity->type == ENTITY_TYPE::LOOT && dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)
-		{
-			if (dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription && !dynamic_cast<LootEntity*>(clampedEntity)->clampedByPlayerOnTop)
-			{
-
-				// delete last descr
-				dynamic_cast<LootEntity*>(clampedEntity)->MyDescription->DeleteEverything();
-				dynamic_cast<LootEntity*>(clampedEntity)->MyDescription = nullptr;
-
-				dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription = false;
-				dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair = false;
-			}
-		}
-
-
-	}*/
-
+	
 
 
 	// Clamp position to limited radius
@@ -1334,6 +1317,21 @@ bool Crosshair::PostUpdate()
 
 bool Crosshair::Reset()
 {
+	if (clamped && clampedEntity->type == ENTITY_TYPE::LOOT && dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair)
+	{
+		if (dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription && !dynamic_cast<LootEntity*>(clampedEntity)->clampedByPlayerOnTop)
+		{
+
+			// delete last descr
+			dynamic_cast<LootEntity*>(clampedEntity)->MyDescription->DeleteEverything();
+			dynamic_cast<LootEntity*>(clampedEntity)->MyDescription = nullptr;
+
+			dynamic_cast<LootEntity*>(clampedEntity)->spawnedDescription = false;
+			dynamic_cast<LootEntity*>(clampedEntity)->clampedByCrosshair = false;
+		}
+	}
+
+
 	startAnim.Reset();
 	loopAnim.Reset();
 	clamped = false;
