@@ -882,7 +882,7 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 	if (entitiesDataMap == nullptr)
 		return ret;
 
-	if (!isThisSubtileReserved(pos))
+	if (!isThisSubtileEmpty(pos))
 	{
 		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)

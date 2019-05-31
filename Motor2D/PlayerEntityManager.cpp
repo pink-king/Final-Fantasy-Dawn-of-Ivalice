@@ -893,7 +893,7 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 	
 		for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
 		{
-			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS)
+			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS && App->entityFactory->player->life < App->entityFactory->player->maxLife)
 			{
 				App->audio->PlayFx(App->scene->consumHealPotion, 0);
 				for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
@@ -905,7 +905,7 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 				break;
 			}
 
-			if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL && (App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2))
+			if (consumable == *item && consumable->objectType == OBJECT_TYPE::PHOENIX_TAIL && (App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2) && App->entityFactory->waveManager == nullptr)
 			{
 				//App->audio->PlayFx(consumHealPotion, 0);
 				fPoint destination = { cosf(selectedCharacterEntity->lastAxisMovAngle), sinf(selectedCharacterEntity->lastAxisMovAngle) };
