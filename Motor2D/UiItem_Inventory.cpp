@@ -637,7 +637,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						De_______GenerateDescription((*iter), true);
 
-						iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 285) };
+						iPoint position_1 = { (startingPos.x + 616), (startingPos.y + 285) };
 
 						potion_counter++;
 						
@@ -681,7 +681,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						De_______GenerateDescription((*iter), true);
 
-						iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 361) };
+						iPoint position_1 = { (startingPos.x + 616), (startingPos.y + 361) };
 
 						fenix_counter++;
 
@@ -759,7 +759,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					De_______GenerateDescription((*iter), true);
 
 
-					iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 285) };
+					iPoint position_1 = { (startingPos.x + 616), (startingPos.y + 285) };
 
 					if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
 					{

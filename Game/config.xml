@@ -586,8 +586,8 @@
           <position x="0" y="0"/>
         </image>
         <image name="inventoryPanel">
-          <section x="68" y="2252" w="787" h="520"/>
-          <position x="278" y="101"/>
+          <section x="0" y="2252" w="848" h="539"/>
+          <position x="216" y="91"/>
         </image>
         <image name="marche_inv">
           <section x="1485" y="1468" w="96" h="183"/>
@@ -606,31 +606,31 @@
         </image>
          <image name="leftArrow">
           <section x="314" y="78" w="21" h="21"/>
-          <position x="787" y="470"/>
+          <position x="760" y="470"/>
         </image>
         <image name="RightArrow">
           <section x="349" y="113" w="21" h="21"/>
-          <position x="849" y="470"/>
+          <position x="822" y="470"/>
         </image>
          <image name="Ybutton">
           <section x="336" y="78" w="34" h="34"/>
-          <position x="811" y="463"/>
+          <position x="784" y="463"/>
         </image>
         <image name="RTbutton">
           <section x="235" y="63" w="36" h="51"/>
-          <position x="982" y="452"/>
+          <position x="952" y="452"/>
         </image>
         <image name="LTbutton">
           <section x="272" y="63" w="36" h="51"/>
-          <position x="333" y="452"/>
+          <position x="303" y="452"/>
         </image>
         <image name="leftArrow">
           <section x="314" y="78" w="21" h="21"/>
-          <position x="309" y="467"/>
+          <position x="279" y="467"/>
         </image>
         <image name="leftArrow">
           <section x="349" y="113" w="21" h="21"/>
-          <position x="1021" y="467"/>
+          <position x="991" y="467"/>
         </image>
         <image name="coin">
           <section x="59" y="518" w="26" h="26"/>

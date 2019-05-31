@@ -414,7 +414,7 @@ void UiItem_Description::Draw(const float& dt)
 					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
 					for (; item != App->gui->ListItemUI.end(); ++item)
 					{
-						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 890 && (*item)->hitBox.y == 386)
+						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 863 && (*item)->hitBox.y == 381)
 						{
 							App->gui->selected_object = (*item);
 							foundPoti = true;
@@ -431,7 +431,7 @@ void UiItem_Description::Draw(const float& dt)
 
 						for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
 						{
-							if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 890 && (*item)->hitBox.y == 462)
+							if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 863 && (*item)->hitBox.y == 457)
 							{
 								App->gui->selected_object = (*item);
 								isAnyItemRemaining = true;
