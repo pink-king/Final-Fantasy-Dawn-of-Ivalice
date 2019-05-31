@@ -15,8 +15,8 @@
 #define boxSeparation iPoint(77,74)
 
 #define staringPosition iPoint(247, 96)
-#define tabOffset iPoint(15,17)
-#define tabOffsetPotion iPoint(6,7)
+#define tabOffset iPoint(8,10)
+#define tabOffsetPotion iPoint(8,9)
 
 struct elementsStartingPositionsOffsets
 {
@@ -85,7 +85,7 @@ public:
 	iPoint startingPos = { 247, 96 };
 
 private:
-	SDL_Rect tab_image = { 726,1,69,70 };
+	SDL_Rect tab_image = { 726,1,64,64 };
 	bool first_potion = false;
 	bool first_label_potion = false;
 	bool first_label_fenix = false;
