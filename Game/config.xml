@@ -586,8 +586,8 @@
           <position x="0" y="0"/>
         </image>
         <image name="inventoryPanel">
-          <section x="0" y="2252" w="848" h="539"/>
-          <position x="216" y="91"/>
+          <section x="0" y="2252" w="848" h="584"/>
+          <position x="216" y="46"/>
         </image>
         <image name="marche_inv">
           <section x="1485" y="1468" w="96" h="183"/>
