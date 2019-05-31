@@ -452,11 +452,17 @@
           <clickSec x="1079" y="2388" w="222" h="67" />
           <position x="943" y="400"/>
         </button>
+        <button name="button_credits" function = "Credits">
+          <idleSec  x="1079" y="2932" w="222" h="67"/>
+          <hoverSec x="1079" y="2864" w="222" h="67" />
+          <clickSec x="1079" y="3000" w="222" h="67" />
+          <position x="943" y="500"/>
+        </button>
         <button name="button_exit" function = "ExitGame">
           <idleSec  x="856" y="2524" w="222" h="67"/>
           <hoverSec x="856" y="2456" w="222" h="67" />
           <clickSec x="856" y="2592" w="222" h="67" />
-          <position x="943" y="500"/>
+          <position x="943" y="600"/>
         </button>
 
       </buttons>
