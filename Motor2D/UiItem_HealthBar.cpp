@@ -245,25 +245,32 @@ void UiItem_HealthBar::UpdatePos()
 {
 	BROFILER_CATEGORY("Healthbar Pos", Profiler::Color::MidnightBlue);
 
-	iPoint pos = App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
+	iPoint pos = App->render->WorldToScreen(deliever->position.x + deliever->size.x / 2 - dynamicImage->section.w / 4, deliever->position.y - offsetFromEnemy.y);
 
 	dynamicImage->hitBox.x = pos.x;
 	dynamicImage->hitBox.y = pos.y;
 
-	int extraYSkullOssfet = -10; 
-	iPoint skullpos = App->render->WorldToScreen(deliever->position.x, deliever->position.y - offsetFromEnemy.y + extraYSkullOssfet);
-
-	if (startShowing)
+	if (deliever->type != ENTITY_TYPE::FLOWERBOSS)
 	{
-		skull->hitBox.x = pos.x + skullOffset.x;
-		skull->hitBox.y = pos.y + skullOffset.y;
+		iPoint skullpos = App->render->WorldToScreen(deliever->position.x + deliever->size.x / 2 - skull->section.w / 4, deliever->position.y - offsetFromEnemy.y);
+
+		if (startShowing)
+		{
+			skull->hitBox.x = pos.x + skullOffset.x;
+			skull->hitBox.y = pos.y + skullOffset.y;
+
+		}
+		else
+		{
+			skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
+			skull->hitBox.y = skullpos.y + skullOffset.y;
+		}
 
 	}
-	else
-	{
-		skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
-		skull->hitBox.y = skullpos.y + skullOffset.y;
-	}
+
+
+
+
 
 }
 
