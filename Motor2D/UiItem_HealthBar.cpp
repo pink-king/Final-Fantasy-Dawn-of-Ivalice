@@ -98,7 +98,6 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 	// skull
 
-
 	iPoint dynImPos = iPoint(dynamicImage->hitBox.x, dynamicImage->hitBox.y); 
 
 	if (deliever->type == ENTITY_TYPE::ENEMY_BOMB || deliever->type == ENTITY_TYPE::ENEMY_TEST)
@@ -106,23 +105,32 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.baseEnemyRect, this);
 
 		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+
+		spawnedSkull = true; 
 	}
 	else if(deliever->type == ENTITY_TYPE::ENEMY_ARCHER)
 	{
 		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.strongEnemyRect, this);
 		
 		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+
+		spawnedSkull = true;
 	}
 
 	//skull->hitBox.x += skullOffset.x;
 
 	// at the start, put the skull on top of the enemy: 
-	skull->hitBox.x += dynamicImage->section.w / 2 - skull->section.w / 2; 
 
-	skull->hitBox.y += skullOffset.y;
+	if (spawnedSkull)
+	{
+		skull->hitBox.x += dynamicImage->section.w / 2 - skull->section.w / 2;
 
-	skull->hide = false;
-}
+		skull->hitBox.y += skullOffset.y;
+
+		skull->hide = false;
+	}
+	}
+
 
 UiItem_HealthBar::~UiItem_HealthBar()
 {
@@ -245,6 +253,7 @@ void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 	this->nameOnTop->hide = false;
 
 	// todo: skull
+	if(spawnedSkull)
 	this->skull->hide = false; 
 
 }
@@ -257,20 +266,24 @@ void UiItem_HealthBar::UpdatePos()
 	dynamicImage->hitBox.x = pos.x;
 	dynamicImage->hitBox.y = pos.y;
 
-	if (deliever->type != ENTITY_TYPE::FLOWERBOSS)
+	if (spawnedSkull)
 	{
-		iPoint skullpos = App->render->WorldToScreen(deliever->position.x + deliever->size.x / 2 - skull->section.w / 4, deliever->position.y - offsetFromEnemy.y);
-
-		if (startShowing)
+		if (deliever->type != ENTITY_TYPE::FLOWERBOSS)
 		{
-			skull->hitBox.x = pos.x + skullOffset.x;
-			skull->hitBox.y = pos.y + skullOffset.y;
+			iPoint skullpos = App->render->WorldToScreen(deliever->position.x + deliever->size.x / 2 - skull->section.w / 4, deliever->position.y - offsetFromEnemy.y);
 
-		}
-		else
-		{
-			skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
-			skull->hitBox.y = skullpos.y + skullOffset.y;
+			if (startShowing)
+			{
+				skull->hitBox.x = pos.x + skullOffset.x;
+				skull->hitBox.y = pos.y + skullOffset.y;
+
+			}
+			else
+			{
+				skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
+				skull->hitBox.y = skullpos.y + skullOffset.y;
+			}
+
 		}
 
 	}

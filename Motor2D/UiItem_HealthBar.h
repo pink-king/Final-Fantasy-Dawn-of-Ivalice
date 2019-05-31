@@ -76,6 +76,8 @@ private:
 	uint enemyMaxLife;
 	bool startShowing = false;
 
+	bool spawnedSkull = false; 
+
 
 	iPoint playerBarOffset = { 28,11 };
 
