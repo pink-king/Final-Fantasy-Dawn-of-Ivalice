@@ -181,14 +181,35 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
+		/*-------- HURT HUD ---------*/
 		App->entityFactory->setPlayerDmageVec(getPlayerToEnemyVec(defender, attacker)); //vector to get player orientations from enemy
-		App->scene->previous_counter = App->scene->hit_counter;
-		App->scene->hit_counter += 1;
-		App->scene->decreaseAlpha = false;
+
+		//-------->
+		if (App->scene->hit_counter < 3 && defender->life > defender->maxLife * 0.5f)
+		{
+			App->scene->previous_counter = App->scene->hit_counter;
+			App->scene->hit_counter += 1;
+			App->scene->decreaseAlpha = false;
+		}
+		else if (App->scene->hit_counter == 3 && defender->life > defender->maxLife * 0.5f)
+		{
+			App->scene->hit_counter -= 1;
+			App->scene->previous_counter = App->scene->hit_counter - 1;
+		}
+
+		if (defender->life < defender->maxLife * 0.5f)
+		{
+			App->scene->previous_counter = App->scene->hit_counter;
+			App->scene->hit_counter += 1;
+			App->scene->decreaseAlpha = false;
+		}
+		//<-----------
+
 		App->entityFactory->pushEF = true;
 		App->input->DoGamePadRumble(200, 100);
 		App->camera2D->AddTrauma(0.5f);
 		App->scene->timeindmg.Start();
+		/*----------------------------*/
 
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{

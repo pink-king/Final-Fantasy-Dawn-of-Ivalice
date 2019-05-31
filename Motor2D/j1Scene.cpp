@@ -1592,6 +1592,9 @@ bool j1Scene::DecideTexToPulse()
 		break;
 
 	case 1:
+	case 2:
+	case 3:
+
 		if (!App->scene->decreaseAlpha)
 		{
 			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaIncrease(hudAlphavalue[0], 0));
@@ -1606,8 +1609,9 @@ bool j1Scene::DecideTexToPulse()
 			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
 		}
 		break;
-
-	case 2:
+	case 4:
+	case 5:
+	case 6:
 		if (!App->scene->decreaseAlpha)
 		{
 			hudAlphavalue[0] = 255;
@@ -1623,7 +1627,9 @@ bool j1Scene::DecideTexToPulse()
 		}
 		break;
 
-	case 3:
+	case 7:
+	case 8:
+	case 9:
 		if (!App->scene->decreaseAlpha)
 		{
 			hudAlphavalue[0] = hudAlphavalue[1] = 255;
