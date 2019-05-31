@@ -149,17 +149,8 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
 
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { -1575.f, 2150.f };
-			App->entityFactory->player->GetShara()->position = { -1575.f, 2150.f };
-			App->entityFactory->player->GetRitz()->position = { -1575.f, 2150.f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ -1575, 2150 });
-		}
-
+		App->entityFactory->CreatePlayer({ -1575, 2150 });
+			
 		App->entityFactory->LoadSpawnGroups();
 
 		//App->entityFactory->CreatePlayer({ -209, 650 });
@@ -179,7 +170,6 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -189,21 +179,24 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
 	}
 
 	if (state == SceneState::LEVEL2)
 	{
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { -820.f, 3300.f };
-			App->entityFactory->player->GetShara()->position = { -820.f, 3300.f };
-			App->entityFactory->player->GetRitz()->position = { -820.f, 3300.f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ -820, 3300 });
-		}
-
+		
+		App->entityFactory->CreatePlayer({ -820, 3300 });
+		
 		App->entityFactory->LoadSpawnGroups();
 
 		App->entityFactory->loadEnemies = true;
@@ -243,6 +236,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
+
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -252,22 +246,25 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+
 	}
 
 	if (state == SceneState::LOBBY)
 	{
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { 115.f, 240.f };
-			App->entityFactory->player->GetShara()->position = { 115.f, 240.f };
-			App->entityFactory->player->GetRitz()->position = { 115.f, 240.f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ 115, 240 });
-		}
+		App->entityFactory->CreatePlayer({ 115, 240 });
+		
 		//AcceptUISFX_logic = false;
 		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
@@ -276,8 +273,9 @@ bool j1Scene::Start()
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 180, SceneState::LEVEL1, Black);
 
 		if (ComeToWin)
-			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
-		App->entityFactory->loadEnemies = false;
+			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 250, SceneState::LEVEL2, Black);
+		
+	App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 
 		
@@ -287,10 +285,24 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
+		
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+
 		if (ComeToPortal)
 		{
 			ComeToPortal = false;
+			App->entityFactory->loadEnemies = false;
+			App->LoadGame("Portal.xml");
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+		}
+
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
 		}
 
 		App->camera2D->SetCameraPos({ 115, 240 });
@@ -310,16 +322,8 @@ bool j1Scene::Start()
 
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { 115.f, 550.0f };
-			App->entityFactory->player->GetShara()->position = { 115.f, 550.0f };
-			App->entityFactory->player->GetRitz()->position = { 115.f, 550.0f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ 115, 240 });
-		}
+		App->entityFactory->CreatePlayer({ 115, 240 });
+		
 		//AcceptUISFX_logic = false;
 		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
@@ -339,6 +343,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->camera2D->SetCameraPos({ 115, 240 });
 
+		App->LoadGame("save_game.xml");
 	}
 
 
@@ -1365,6 +1370,8 @@ void j1Scene::UnLoadScene()
 		App->map->Disable();
 	if (App->attackManager->IsEnabled())
 		App->attackManager->Disable();
+	if (App->entityFactory->IsEnabled())
+		App->entityFactory->Disable();
 	if (App->pathfinding->IsEnabled())
 		App->pathfinding->Disable();
 	if (App->buff->IsEnabled())
@@ -1372,9 +1379,7 @@ void j1Scene::UnLoadScene()
 	if (App->camera2D->IsEnabled())
 		App->camera2D->Disable();
 
-	App->entityFactory->UnloadEntitiesWithoutPlayer();
 	App->audio->UnLoadAudio();
-
 }
 
 void j1Scene::LoadScene(SceneState sceneState)
@@ -1388,8 +1393,6 @@ void j1Scene::LoadScene(SceneState sceneState)
 	{
 	case SceneState::STARTMENU:
 		state = SceneState::STARTMENU;
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		break;
 
 	case SceneState::LOBBY:
@@ -1468,20 +1471,11 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::DEATH:
 		state = SceneState::DEATH;
-		if (!App->camera2D->IsEnabled())
-			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
-		if (!App->camera2D->IsEnabled())
-			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		ComeToWin = true;
-
 		break;
 
 	case SceneState::MAX_STATES:

@@ -17,9 +17,11 @@ WinTrigger::~WinTrigger()
 
 bool WinTrigger::DoTriggerAction()
 {
+	App->SaveGame("save_game.xml");
+	App->scene->ComeToDeath = true;
 	App->pause = true;
 	App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
+	App->scene->previosState = App->scene->state;
 	to_delete = true;
-	App->scene->ComeToWin = true;
 	return true;
 }

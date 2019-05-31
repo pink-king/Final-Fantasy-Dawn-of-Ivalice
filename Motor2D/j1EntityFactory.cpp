@@ -337,6 +337,13 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			}
 		}
 	}
+	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
+	{
+		if (App->entityFactory->player != nullptr)
+		{
+			App->entityFactory->player->Load(characterPlayer);
+		}
+	}
 	return true;
 }
 
@@ -345,11 +352,17 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 	std::vector<j1Entity*>::const_iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
-		if (((*item)->type == ENTITY_TYPE::ENEMY_BOMB || (*item)->type == ENTITY_TYPE::ENEMY_TEST) && (*item) != nullptr)
+		if (((*item)->type == ENTITY_TYPE::ENEMY_BOMB || (*item)->type == ENTITY_TYPE::ENEMY_TEST || (*item)->type == ENTITY_TYPE::ENEMY_ARCHER) && (*item) != nullptr)
 		{
 			pugi::xml_node nodeEntities = node.append_child("Entities");
 			(*item)->Save(nodeEntities);
-		}		
+		}	
+
+		if ((*item)->type == ENTITY_TYPE::PLAYER)
+		{
+			pugi::xml_node nodeEntities = node.append_child("Players");
+			(*item)->Save(nodeEntities);
+		}
 	}
 
 	return true;

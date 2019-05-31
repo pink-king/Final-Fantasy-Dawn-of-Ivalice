@@ -63,11 +63,13 @@ bool LobbyPortal::DoTriggerAction()
 {
 	if (doit)
 	{
+		App->SaveGame("save_game.xml");
 		App->audio->PlayFx(App->scene->portal_travel, 0);
 		currentAnim = &close;
 		App->scene->ComeToPortal = true;
 		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
 		App->scene->previosState = App->scene->state;
+		App->entityFactory->player->to_delete = true;
 		doit = false;
 	}
 	return true;

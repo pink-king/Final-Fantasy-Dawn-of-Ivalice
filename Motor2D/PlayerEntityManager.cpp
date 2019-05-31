@@ -398,7 +398,8 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	level = node.child("Experience").attribute("level").as_uint();
 	exp = node.child("Experience").attribute("exp").as_uint();
 
-	life = node.child("life").attribute("actualLife").as_float();
+	maxLife = 100;
+	life = maxLife - node.child("life").attribute("actualLife").as_float();
 	
 	gold = node.child("gold").attribute("value").as_uint();
 

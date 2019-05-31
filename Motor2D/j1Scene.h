@@ -28,6 +28,15 @@ enum class SceneState
 	MAX_STATES
 };
 
+enum class WhereCome
+{
+	LVL1,
+	DEATH,
+	PORTAL,
+	WIN,
+	START
+};
+
 
 class j1Scene : public j1Module
 {
@@ -91,6 +100,7 @@ public:
 	bool exitGame = false;
 	SceneState state = SceneState::STARTMENU;
 	SceneState previosState = SceneState::LOBBY;
+	WhereCome comeTo = WhereCome::START;
 	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;

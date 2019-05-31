@@ -47,10 +47,14 @@ ExitPortal::~ExitPortal()
 bool ExitPortal::Update(float dt)
 {
 	if (timer.Read() > 500)
+	{
 		App->pause = false;
-
-	if (idle.Finished())
+	}
+	if (idle.Finished() && currentAnim == &idle)
+	{
+		App->LoadGame("save_game.xml");
 		currentAnim = &close;
+	}
 	if (close.Finished())
 	{
 		to_delete = true;
