@@ -93,25 +93,29 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 	// skull
 
 
-
+	iPoint dynImPos = iPoint(dynamicImage->hitBox.x, dynamicImage->hitBox.y); 
 
 	if (deliever->type == ENTITY_TYPE::ENEMY_BOMB || deliever->type == ENTITY_TYPE::ENEMY_TEST)
 	{
-		skull = App->gui->AddImage(newPos + skullOffset, &App->gui->enemySkullInfo.baseEnemyRect, this);
+		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.baseEnemyRect, this);
 
 		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
 	}
 	else if(deliever->type == ENTITY_TYPE::ENEMY_ARCHER)
 	{
-		skull = App->gui->AddImage(newPos + skullOffset, &App->gui->enemySkullInfo.strongEnemyRect, this);
+		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.strongEnemyRect, this);
 		
 		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
 	}
 
-	skull->hitBox.x += skullOffset.x;
+	//skull->hitBox.x += skullOffset.x;
+
+	// at the start, put the skull on top of the enemy: 
+	skull->hitBox.x += dynamicImage->section.w / 2 - skull->section.w / 2; 
+
 	skull->hitBox.y += skullOffset.y;
 
-	skull->hide = true;
+	skull->hide = false;
 }
 
 UiItem_HealthBar::~UiItem_HealthBar()
@@ -246,10 +250,20 @@ void UiItem_HealthBar::UpdatePos()
 	dynamicImage->hitBox.x = pos.x;
 	dynamicImage->hitBox.y = pos.y;
 
+	int extraYSkullOssfet = -10; 
+	iPoint skullpos = App->render->WorldToScreen(deliever->position.x, deliever->position.y - offsetFromEnemy.y + extraYSkullOssfet);
 
-	skull->hitBox.x = pos.x + skullOffset.x; 
-	skull->hitBox.y = pos.y + skullOffset.y; 
+	if (startShowing)
+	{
+		skull->hitBox.x = pos.x + skullOffset.x;
+		skull->hitBox.y = pos.y + skullOffset.y;
 
+	}
+	else
+	{
+		skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
+		skull->hitBox.y = skullpos.y + skullOffset.y;
+	}
 
 }
 

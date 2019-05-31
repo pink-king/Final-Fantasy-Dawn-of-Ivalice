@@ -59,7 +59,7 @@ public:
 
 	// boss and enemies
 	UiItem_Image* skull = nullptr; 
-	iPoint skullOffset = iPoint(-15,0); 
+	iPoint skullOffset = iPoint(-25,0); 
 
 private:
 
