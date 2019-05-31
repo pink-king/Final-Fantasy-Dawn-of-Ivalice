@@ -234,6 +234,11 @@ public:
 	bool ability1 = false;
 	bool ability2 = false;
 	bool ulti = false;
+
+	bool dodge_rv = false;
+	bool ability1_rv = false;
+	bool ability2_rv = false;
+	bool ulti_rv = false;
 	
 };
 

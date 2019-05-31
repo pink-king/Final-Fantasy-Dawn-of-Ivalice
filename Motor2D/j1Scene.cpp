@@ -909,6 +909,10 @@ bool j1Scene::Update(float dt)
 					
 				}
 				swapAbilities = true;
+				dodge = false;
+				ability1 = false;
+				ability2 = false;
+				ulti = false;
 			}
 			else
 			{
@@ -916,25 +920,25 @@ bool j1Scene::Update(float dt)
 				{
 					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
 					{
-						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge)
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge_rv)
 						{
 							App->gui->allclocksData.dodge.position.x -= 909;
-							dodge = true;
+							dodge_rv = true;
 						}
-						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1)
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1_rv)
 						{
 							App->gui->allclocksData.ability1.position.x -= 909;
-							ability1 = true;
+							ability1_rv = true;
 						}
-						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2)
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2_rv)
 						{
 							App->gui->allclocksData.ability2.position.x -= 909;
-							ability2 = true;
+							ability2_rv = true;
 						}
-						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti)
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti_rv)
 						{
 							App->gui->allclocksData.ulti.position.x -= 909;
-							ulti = true;
+							ulti_rv = true;
 						}
 						
 							(*item)->hitBox.x -= 909;
@@ -945,6 +949,10 @@ bool j1Scene::Update(float dt)
 					}
 				}
 				swapAbilities = false;
+				dodge_rv = false;
+				ability1_rv = false;
+				ability2_rv = false;
+				ulti_rv = false;
 			}
 
 		}
@@ -1375,6 +1383,8 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	god_label->hide = true;
 	potionIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
 	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1115,628 }, inGamePanel);
+	potionIg_label->swapPosition = true;
+	phoenixIg_label->swapPosition = true;
 	return true;
 }
 
