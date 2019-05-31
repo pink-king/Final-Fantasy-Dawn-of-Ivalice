@@ -119,11 +119,11 @@ bool PlayerEntityManager::Update(float dt)
 	else if (!crossHair->isReseted)
 		crossHair->Reset();
 
-	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN && level <= 60)
+	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN && level <= 20)
 	{
 		++level;
 
-		if (level < 60)
+		if (level < 20)
 		{
 			std::string dest = "LVL" + std::to_string(level);
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);

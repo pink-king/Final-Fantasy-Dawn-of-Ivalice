@@ -99,7 +99,7 @@ public:
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 
-	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0);
 	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
 	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
 

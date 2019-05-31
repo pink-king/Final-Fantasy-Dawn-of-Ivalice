@@ -147,7 +147,7 @@ bool j1Scene::Start()
 		waveTrigg->CreateExitWall({ 13,3 });
 		waveTrigg->CreateExitWall({ 14,3 });
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White,3);
 
 		App->entityFactory->CreatePlayer({ -1575, 2150 });
 			
@@ -272,10 +272,13 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 180, SceneState::LEVEL1, Black);
 
-		if (ComeToWin)
+		if (ComeToWin && previosState == SceneState::LEVEL1)
+			passLvl1 = true;
+
+		if(passLvl1)
 			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 250, SceneState::LEVEL2, Black);
 		
-	App->entityFactory->loadEnemies = false;
+		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 
 		
@@ -317,12 +320,12 @@ bool j1Scene::Start()
 
 	if (state == SceneState::FIRINGRANGE)
 	{
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 730, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 340, 700, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
 		App->entityFactory->CreateDialogTrigger(90, 189, "TUTORIAL");   // todo: proper position 
 
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
-		App->entityFactory->CreatePlayer({ 115, 240 });
+		App->entityFactory->CreatePlayer({ 165, 580 });
 		
 		//AcceptUISFX_logic = false;
 		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
