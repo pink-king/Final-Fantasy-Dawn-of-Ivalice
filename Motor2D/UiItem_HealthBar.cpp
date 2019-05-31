@@ -64,6 +64,12 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 	// todo: skull 
+	skull = App->gui->AddImage(iPoint(dynamicImage->hitBox.x - 30, dynamicImage->hitBox.y ), &App->gui->enemySkullInfo.BossEnemyRect, this);
+
+	skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+	skull->hitBox.y += skullOffset.y;
+	skull->hide = true; 
+
 
 }
 
@@ -239,6 +245,7 @@ void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 	this->nameOnTop->hide = false;
 
 	// todo: skull
+	this->skull->hide = false; 
 
 }
 void UiItem_HealthBar::UpdatePos()

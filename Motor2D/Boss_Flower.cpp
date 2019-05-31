@@ -276,7 +276,7 @@ FlowerBossEntity::~FlowerBossEntity()
 			myBossLifeBar->nameOnTop->to_delete = true;
 
 			// TDDO: skull
-
+			myBossLifeBar->skull->to_delete = true; 
 
 			myBossLifeBar->to_delete = true;
 		}
