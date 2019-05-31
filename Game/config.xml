@@ -95,17 +95,17 @@
 			
 	    <image name="skullBasic">
           <section x="2290" y="804" w="18" h="20"/>
-          <position x="1121" y="31"/>
+		  <donotdoitflag value ="true" />
         </image>
 		
         <image name="skullStrong">
           <section x="2354" y="804" w="18" h="20"/>
-          <position x="1121" y="31"/>
+		    <donotdoitflag value ="true" />
         </image>
 		
 	    <image name="skullBoss">
           <section x="2226" y="804" w="18" h="20"/>
-          <position x="1121" y="31"/>
+		    <donotdoitflag value ="true" />
         </image>
 		
 		

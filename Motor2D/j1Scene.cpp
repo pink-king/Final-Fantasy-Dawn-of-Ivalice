@@ -1114,7 +1114,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		int isSwappable = uiNode.child("flag").attribute("isSwappable").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
-
+		std::string doNotCreate = uiNode.child("donotdoitflag").attribute("value").as_string();
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
 		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
 		if (lootFlag == "loot")
@@ -1147,7 +1147,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{                                  // this is useless now
 			if (isPanel != 1)
 			{
-				App->gui->AddImage(position, &section, parent,isSwappable, isPanel);  // bug: an image is created as panel 
+				if (doNotCreate != "true")
+				{
+					App->gui->AddImage(position, &section, parent, isSwappable, isPanel);  // bug: an image is created as panel 
+				}
+		
 			}
 			else
 			{

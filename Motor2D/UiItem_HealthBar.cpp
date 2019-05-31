@@ -76,7 +76,7 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 
 	// rigth now only the dynamic is needed
-	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, dynamicSection->h / 2);
+	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, 10);
 
 	iPoint newPos(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
