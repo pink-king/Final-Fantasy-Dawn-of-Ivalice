@@ -67,6 +67,13 @@ struct bossLifeBarInfo
 	SDL_Rect divSection;
 };
 
+struct enemySkullIcon
+{
+	SDL_Rect baseEnemyRect; 
+	SDL_Rect strongEnemyRect;
+	SDL_Rect BossEnemyRect;
+};
+
 class GUI_Definitions
 {
 

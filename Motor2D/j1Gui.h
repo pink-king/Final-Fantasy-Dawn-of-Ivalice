@@ -147,6 +147,8 @@ public:
 	
 	enemyHealthBarInfo enemyLifeBarInfo;
 	bossLifeBarInfo bossHealthBarInfo;
+	enemySkullIcon enemySkullInfo; 
+
 	SDL_Texture* hurt_hud_tex = nullptr;
 	SDL_Texture* hurt_hud_tex2 = nullptr;
 	SDL_Texture* hurt_hud_tex3 = nullptr;

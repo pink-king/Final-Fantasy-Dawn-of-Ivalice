@@ -61,6 +61,10 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	this->dynamicImage->hide = true;
 	this->divisionImage->hide = true;
 	this->nameOnTop->hide = true;
+
+
+	// todo: skull 
+
 }
 
 
@@ -86,7 +90,28 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 	enemyMaxLife = deliever->life;
 	dynamicImage->hide = true;
 
+	// skull
 
+
+
+
+	if (deliever->type == ENTITY_TYPE::ENEMY_BOMB || deliever->type == ENTITY_TYPE::ENEMY_TEST)
+	{
+		skull = App->gui->AddImage(newPos + skullOffset, &App->gui->enemySkullInfo.baseEnemyRect, this);
+
+		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+	}
+	else if(deliever->type == ENTITY_TYPE::ENEMY_ARCHER)
+	{
+		skull = App->gui->AddImage(newPos + skullOffset, &App->gui->enemySkullInfo.strongEnemyRect, this);
+		
+		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+	}
+
+	skull->hitBox.x += skullOffset.x;
+	skull->hitBox.y += skullOffset.y;
+
+	skull->hide = true;
 }
 
 UiItem_HealthBar::~UiItem_HealthBar()
@@ -163,6 +188,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 			if (!startShowing && deliever->life < enemyMaxLife)
 			{
 				dynamicImage->hide = false;
+				skull->hide = false;
 				startShowing = true;
 			}
 
@@ -170,11 +196,13 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 				if (!App->scene->inventory->enable)
 				{
-					dynamicImage->hide = false;
+					dynamicImage->hide = false;             // CAUTION: dummies do not have skull
+					skull->hide = false;
 				}
 				else
 				{
 					dynamicImage->hide = true;
+					skull->hide = true; 
 				}
 
 			}
@@ -206,6 +234,8 @@ void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 	this->divisionImage->hide = false;
 	this->nameOnTop->hide = false;
 
+	// todo: skull
+
 }
 void UiItem_HealthBar::UpdatePos()
 {
@@ -215,6 +245,10 @@ void UiItem_HealthBar::UpdatePos()
 
 	dynamicImage->hitBox.x = pos.x;
 	dynamicImage->hitBox.y = pos.y;
+
+
+	skull->hitBox.x = pos.x + skullOffset.x; 
+	skull->hitBox.y = pos.y + skullOffset.y; 
 
 
 }

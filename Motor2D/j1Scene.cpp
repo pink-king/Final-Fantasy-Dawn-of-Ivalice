@@ -1156,7 +1156,20 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		}
 
-
+		// enemy skulls
+		std::string name = uiNode.attribute("name").as_string(); 
+		if (name == "skullBasic")
+		{
+			App->gui->enemySkullInfo.baseEnemyRect = section; 
+		}
+		else if (name == "skullStrong")
+		{
+			App->gui->enemySkullInfo.strongEnemyRect = section;
+		}
+		else if (name == "skullBoss")
+		{
+			App->gui->enemySkullInfo.BossEnemyRect = section;
+		}
 
 
 	}

@@ -52,8 +52,14 @@ public:
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
+
+	// boss
 	UiItem_Image* divisionImage = nullptr;
 	UiItem_Label* nameOnTop = nullptr;
+
+	// boss and enemies
+	UiItem_Image* skull = nullptr; 
+	iPoint skullOffset = iPoint(-15,0); 
 
 private:
 
