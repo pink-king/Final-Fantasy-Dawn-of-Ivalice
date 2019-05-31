@@ -932,7 +932,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		{
 			// create a new description
 			App->entityFactory->GenerateDescriptionForLootItem(ent);
-			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 545, staringPosition.y + 30));
 			ent->MyDescription->HideAllElements(false);
 
 			ent->spawnedDescription = true;
