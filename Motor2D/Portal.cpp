@@ -41,7 +41,6 @@ Portal::Portal(float posx, float posy, SceneState scene, Color color)
 
 Portal::~Portal()
 {
-	DeleteFromSubtiles(nSubtiles);
 }
 
 bool Portal::Update(float dt)
@@ -66,13 +65,10 @@ void Portal::Draw()
 
 bool Portal::DoTriggerAction()
 {
-	App->scene->portalPos = { position.x,position.y + 16 };
-
 	if (doit)
 	{
-		to_delete = true;
+		App->scene->portalPos = { position.x,position.y + 16 };
 		App->audio->PlayFx(App->scene->portal_travel, 0);
-		//App->scene->portalPos = App->entityFactory->player->position;
 		App->SaveGame("Portal.xml");
 		App->scene->ComeToPortal = true;
 		App->pause = true;

@@ -8,7 +8,8 @@ Trigger::Trigger(TRIGGER_TYPE type, float posx, float posy, std::string name) : 
 
 Trigger::~Trigger()
 {
-	
+	DeleteFromSubtiles(nSubtiles);
+
 }
 bool Trigger::Update(float dt)
 {
@@ -53,24 +54,18 @@ bool Trigger::DoTriggerAction()
 
 void Trigger::AssignInSubtiles(int numbreOfSubtile)
 {
-	if (numbreOfSubtile == 0)
+	for (int i = -numbreOfSubtile; i < numbreOfSubtile; ++i)
 	{
-		iPoint p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
-		App->entityFactory->AssignEntityToSubtilePos(this, p);
-		subTiles.push_back(p);
-	}
-	else
-	{
-		for (int i = -numbreOfSubtile; i < numbreOfSubtile; ++i)
+		for (int j = -numbreOfSubtile; j < numbreOfSubtile; ++j)
 		{
-			for (int j = -numbreOfSubtile; j < numbreOfSubtile; ++j)
-			{
-				iPoint p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
-				p.x += i;
-				p.y += j;
-				App->entityFactory->AssignEntityToSubtilePos(this, p);
-				subTiles.push_back(p);
-			}
+			if (i == 0 && j == 0)
+				continue;
+
+			iPoint p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
+			p.x += i;
+			p.y += j;
+			App->entityFactory->AssignEntityToSubtilePos(this, p);
+			subTiles.push_back(p);
 		}
 	}
 }
@@ -80,7 +75,6 @@ void Trigger::DeleteFromSubtiles(int numberOfSubtile)
 	for (std::vector<iPoint>::iterator iter = subTiles.begin(); iter != subTiles.end(); ++iter)
 	{
 		iPoint p = *iter;
-		p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
-		App->entityFactory->DeleteEntityFromSubtilePos(this, p);
+		App->entityFactory->DeleteEntityFromSubtilePos(this,p);
 	}
 }

@@ -79,6 +79,8 @@ public:
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;
+
+	Trigger* Portalal = nullptr;
 	
 	bool debug = false;
 	bool debugSubtiles = false; 

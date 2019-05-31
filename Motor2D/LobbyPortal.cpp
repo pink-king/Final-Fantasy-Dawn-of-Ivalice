@@ -27,7 +27,7 @@ LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 	close.speed = 10.F;
 	close.loop = false;
 
-	nSubtiles = 1;
+	nSubtiles = 0;
 	SetPivot(0, 0);
 	size.create(64, 64);
 

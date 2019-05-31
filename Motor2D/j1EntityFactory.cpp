@@ -2182,8 +2182,8 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 {
 	j1Entity* play = nullptr;
-	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
-	while (entitiesItem != entities.rend())
+	std::vector<j1Entity*>::iterator entitiesItem = entities.begin();
+	while (entitiesItem != entities.end())
 	{
 		if ((*entitiesItem) != nullptr)
 		{
@@ -2192,22 +2192,28 @@ void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 				(*entitiesItem)->CleanUp();
 				RELEASE(*entitiesItem);
 				*entitiesItem = nullptr;
+				++entitiesItem;
+
 			}
 			else
 			{
 				play = (*entitiesItem);
+				DeleteEntityFromSubtile(play);
+				*entitiesItem = nullptr;
+				entitiesItem = entities.erase(entitiesItem);
+
 			}
 		}	
-		++entitiesItem;
 
 	}
 	entities.clear();
-	entities.push_back(play);
 	player = (PlayerEntityManager*)play;
 
 	RELEASE_ARRAY(entitiesDataMap);
 	entitiesDataMap = nullptr;
 
+	if (player != nullptr)
+		player->lastHoveredLootItem = nullptr;
 }
 
 

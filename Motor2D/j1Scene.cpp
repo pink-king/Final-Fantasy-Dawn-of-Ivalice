@@ -154,6 +154,9 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetMarche()->position = { -1575.f, 2150.f };
 			App->entityFactory->player->GetShara()->position = { -1575.f, 2150.f };
 			App->entityFactory->player->GetRitz()->position = { -1575.f, 2150.f };
+			App->entityFactory->entities.push_back(App->entityFactory->player);
+			for (std::vector<LootEntity*>::iterator lootIter = App->entityFactory->player->equipedObjects.begin(); lootIter != App->entityFactory->player->equipedObjects.end(); ++lootIter)
+				App->buff->AddItemStats(*lootIter);
 		}
 		else
 		{
@@ -198,6 +201,9 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetMarche()->position = { -820.f, 3300.f };
 			App->entityFactory->player->GetShara()->position = { -820.f, 3300.f };
 			App->entityFactory->player->GetRitz()->position = { -820.f, 3300.f };
+			App->entityFactory->entities.push_back(App->entityFactory->player);
+			for (std::vector<LootEntity*>::iterator lootIter = App->entityFactory->player->equipedObjects.begin(); lootIter != App->entityFactory->player->equipedObjects.end(); ++lootIter)
+				App->buff->AddItemStats(*lootIter);
 		}
 		else
 		{
@@ -263,6 +269,9 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetMarche()->position = { 115.f, 240.f };
 			App->entityFactory->player->GetShara()->position = { 115.f, 240.f };
 			App->entityFactory->player->GetRitz()->position = { 115.f, 240.f };
+			App->entityFactory->entities.push_back(App->entityFactory->player);
+			for (std::vector<LootEntity*>::iterator lootIter = App->entityFactory->player->equipedObjects.begin(); lootIter != App->entityFactory->player->equipedObjects.end(); ++lootIter)
+				App->buff->AddItemStats(*lootIter);
 		}
 		else
 		{
@@ -315,6 +324,9 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetMarche()->position = { 115.f, 550.0f };
 			App->entityFactory->player->GetShara()->position = { 115.f, 550.0f };
 			App->entityFactory->player->GetRitz()->position = { 115.f, 550.0f };
+			App->entityFactory->entities.push_back(App->entityFactory->player);
+			for (std::vector<LootEntity*>::iterator lootIter = App->entityFactory->player->equipedObjects.begin(); lootIter != App->entityFactory->player->equipedObjects.end(); ++lootIter)
+				App->buff->AddItemStats(*lootIter);
 		}
 		else
 		{
@@ -1373,6 +1385,7 @@ void j1Scene::UnLoadScene()
 		App->camera2D->Disable();
 
 	App->entityFactory->UnloadEntitiesWithoutPlayer();
+	App->entityFactory->active = false;
 	App->audio->UnLoadAudio();
 
 }
@@ -1388,8 +1401,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 	{
 	case SceneState::STARTMENU:
 		state = SceneState::STARTMENU;
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
+		App->entityFactory->CleanUp();
 		break;
 
 	case SceneState::LOBBY:
@@ -1410,6 +1422,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		}
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
+		else
+			App->entityFactory->active = true;
 		break;
 
 	case SceneState::FIRINGRANGE:
@@ -1430,6 +1444,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		}
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
+		else
+			App->entityFactory->active = true;
 		break;
 
 
@@ -1446,6 +1462,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		//LoadNewMap("maps/Level2.tmx");
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
+		else
+			App->entityFactory->active = true;
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
 		//App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
@@ -1463,6 +1481,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
+		else
+			App->entityFactory->active = true;
 		// create player for testing purposes here
 		break;
 
@@ -1470,16 +1490,15 @@ void j1Scene::LoadScene(SceneState sceneState)
 		state = SceneState::DEATH;
 		if (!App->camera2D->IsEnabled())
 			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
+		App->entityFactory->CleanUp();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
 		if (!App->camera2D->IsEnabled())
 			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
+	
+		App->entityFactory->CleanUp();
 		ComeToWin = true;
 
 		break;
