@@ -25,6 +25,8 @@ enum class SceneState
 	WIN,
 	LOBBY,
 	FIRINGRANGE,
+	INTRO, 
+
 	MAX_STATES
 };
 
@@ -89,7 +91,7 @@ public:
 	bool ComeToWin = false;
 	bool passLvl1 = false;
 	bool exitGame = false;
-	SceneState state = SceneState::STARTMENU;
+	SceneState state = SceneState::INTRO;
 	SceneState previosState = SceneState::LOBBY;
 	fPoint portalPos;
 	bool isDeath = false;

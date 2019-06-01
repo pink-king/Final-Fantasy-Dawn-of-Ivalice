@@ -32,7 +32,7 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
-	state = SceneState::STARTMENU;
+	state = SceneState::INTRO;
 }
 
 // Destructor
@@ -379,7 +379,38 @@ bool j1Scene::Start()
 		deathPanel->enable = false;
 		winPanel->enable = false;
 
-		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
+		App->audio->PlayMusic("audio/music/menu_1.0.ogg"); // Added fade in
+	}
+	if (state == SceneState::INTRO)
+	{
+		// UI Crashes if not loaded this
+		App->gui->resetHoverSwapping = false;
+		if (!LoadedUi)
+		{
+			LoadInGameUi(sceneNode);
+			LoadStartMenu(sceneNode);
+			LoadPlayerUi(sceneNode);
+			LoadSettings(sceneNode);
+			LoadPauseSettings(sceneNode);
+			LoadInventory(sceneNode);
+			LoadDeathScreen(sceneNode);
+			LoadWinScreen(sceneNode);
+			LoadedUi = true;
+		}
+
+		startMenu->enable = false;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
+		settingPanel->enable = false;
+		inGamePanel->enable = false;
+		pausePanel->enable = false;
+		inventory->enable = false;
+		deathPanel->enable = false;
+		winPanel->enable = false;
 	}
 
 	if (state == SceneState::DEATH)
