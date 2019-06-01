@@ -21,7 +21,7 @@ bool WinTrigger::DoTriggerAction()
 	App->scene->ComeToDeath = true;
 	App->scene->ComeToWin = true;
 	App->pause = true;
-	App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
+	App->transitionManager->CreateFadeTransition(2.0, true, scene, color);
 	App->scene->previosState = App->scene->state;
 	to_delete = true;
 	return true;

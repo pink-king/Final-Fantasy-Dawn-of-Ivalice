@@ -289,11 +289,7 @@ bool j1Scene::Start()
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
 		
-		if (ComeToWin)
-		{
-			ComeToDeath = false;
-			ComeToWin = false;
-		}
+		
 
 		if (ComeToPortal)
 		{
@@ -308,6 +304,11 @@ bool j1Scene::Start()
 			App->LoadGame("save_game.xml");
 		}
 
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
 		App->camera2D->SetCameraPos({ 115, 240 });
 
 
