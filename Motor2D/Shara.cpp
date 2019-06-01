@@ -14,21 +14,62 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	name.assign("Shara");
 
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP2.png");
 	dash_spritesheet = App->tex->Load("textures/characters/shara/Shara_dash_WIP.png");
 	ultiCastTex = App->tex->Load("textures/characters/shara/Shara_ultimate_animation.png");
 	entityTex = spritesheet;
 
 	// TODO: improve this from xml and with for loop, just for testing now
 	// IDLE
-	idle[(int)facingDirection::N].PushBack({ 222,0,55,60 });
-	idle[(int)facingDirection::S].PushBack({ 0,0,55,60 });
-	idle[(int)facingDirection::E].PushBack({ 110,0,55,60 });
-	idle[(int)facingDirection::W].PushBack({ 110,0,55,60 }); // same as E but flipped - 4
-	idle[(int)facingDirection::NE].PushBack({ 165,0,55,60 });
-	idle[(int)facingDirection::SE].PushBack({ 55,0,55,60 });
-	idle[(int)facingDirection::SW].PushBack({ 55,0,55,60 }); // same as SE but flipped - 3
-	idle[(int)facingDirection::NW].PushBack({ 165,0,55,60 }); // same as NE but flipped - 7
+	float idleAnimSpeed = 7.f;
+	idle[(int)facingDirection::N].PushBack({ 330,240,55,60 });
+	idle[(int)facingDirection::N].PushBack({ 385,240,55,60 });
+	idle[(int)facingDirection::N].PushBack({ 440,240,55,60 });
+	idle[(int)facingDirection::N].PushBack({ 495,240,55,60 });
+	idle[(int)facingDirection::N].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::S].PushBack({ 330,0,55,60 });
+	idle[(int)facingDirection::S].PushBack({ 385,0,55,60 });
+	idle[(int)facingDirection::S].PushBack({ 440,0,55,60 });
+	idle[(int)facingDirection::S].PushBack({ 495,0,55,60 });
+	idle[(int)facingDirection::S].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::E].PushBack({ 330,120,55,60 });
+	idle[(int)facingDirection::E].PushBack({ 385,120,55,60 });
+	idle[(int)facingDirection::E].PushBack({ 440,120,55,60 });
+	idle[(int)facingDirection::E].PushBack({ 495,120,55,60 });
+	idle[(int)facingDirection::E].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::W].PushBack({ 330,120,55,60 }); // same as E but flipped - 4
+	idle[(int)facingDirection::W].PushBack({ 385,120,55,60 });
+	idle[(int)facingDirection::W].PushBack({ 440,120,55,60 });
+	idle[(int)facingDirection::W].PushBack({ 495,120,55,60 });
+	idle[(int)facingDirection::W].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::NE].PushBack({ 330,180,55,60 });
+	idle[(int)facingDirection::NE].PushBack({ 385,180,55,60 });
+	idle[(int)facingDirection::NE].PushBack({ 440,180,55,60 });
+	idle[(int)facingDirection::NE].PushBack({ 495,180,55,60 });
+	idle[(int)facingDirection::NE].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::NW].PushBack({ 330,180,55,60 }); // same as NE but flipped - 7
+	idle[(int)facingDirection::NW].PushBack({ 385,180,55,60 });
+	idle[(int)facingDirection::NW].PushBack({ 440,180,55,60 });
+	idle[(int)facingDirection::NW].PushBack({ 495,180,55,60 });
+	idle[(int)facingDirection::NW].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::SE].PushBack({ 330,60,55,60 });
+	idle[(int)facingDirection::SE].PushBack({ 385,60,55,60 });
+	idle[(int)facingDirection::SE].PushBack({ 440,60,55,60 });
+	idle[(int)facingDirection::SE].PushBack({ 495,60,55,60 });
+	idle[(int)facingDirection::SE].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::SW].PushBack({ 330,60,55,60 }); // same as SE but flipped - 3
+	idle[(int)facingDirection::SW].PushBack({ 385,60,55,60 });
+	idle[(int)facingDirection::SW].PushBack({ 440,60,55,60 });
+	idle[(int)facingDirection::SW].PushBack({ 495,60,55,60 });
+	idle[(int)facingDirection::SW].speed = idleAnimSpeed;
+
 	// one frame doesnt need speed
 	//idle[(int)facingDirection::N].speed = 10.0f;
 
