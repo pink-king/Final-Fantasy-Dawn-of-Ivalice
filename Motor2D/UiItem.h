@@ -71,6 +71,8 @@ public:
 	bool isDialog = false; 
 	bool swapPosition = false;
 	bool changeTexture = false; 
+	bool hasBeenSpawned = false; 
+	bool isCharacterStat = false; 
 
 	uint dialogPos = 666; 
 

@@ -83,6 +83,7 @@
     <ClCompile Include="BossEmmiterArrow.cpp" />
     <ClCompile Include="Boss_Flower.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="CharacterStats.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="BossEmmiterArrow.h" />
     <ClInclude Include="Boss_Flower.h" />
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="CharacterStats.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
