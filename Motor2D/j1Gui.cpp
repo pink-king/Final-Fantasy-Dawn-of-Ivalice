@@ -666,11 +666,11 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, const SDL_Rect * panel_section, const SDL_Rect * box_section, const SDL_Rect * tick_section, labelInfo * labelInfo, UiItem * const parent)
+UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, std::string name, const SDL_Rect * panel_section, const SDL_Rect * box_section, const SDL_Rect * tick_section, labelInfo * labelInfo, UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Checkbox(position, function, panel_section, box_section, tick_section, labelInfo, parent);
+	newUIItem = DBG_NEW UiItem_Checkbox(position, function,name, panel_section, box_section, tick_section, labelInfo, parent);
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
