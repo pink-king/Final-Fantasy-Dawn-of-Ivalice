@@ -27,7 +27,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
 	basicAttackTex = basicAttackTexPtr = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
 	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
-	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
+	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run2.png");
 	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
 	entityTex = spritesheet;
 
@@ -614,7 +614,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
-	superTransMaxTimeSec = 4;
+	superTransMaxTimeSec = 7;
 
 }
 
@@ -799,8 +799,8 @@ bool Marche::Update(float dt)
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
-			App->camera2D->AddTrauma(10.0f / 100.f);
-			App->input->DoGamePadRumble(0.3f, 100);
+			//App->camera2D->AddTrauma(10.0f / 100.f);
+			//App->input->DoGamePadRumble(0.3f, 100);
 
 		}
 
@@ -818,10 +818,10 @@ bool Marche::Update(float dt)
 						damageType::DIRECT,
 						ELEMENTAL_TYPE::NO_ELEMENT,
 						baseDamage,
-						2, 30, false);
+						3, 30, false);
 
 					// FINAL RUMBLE AND SHAKE
-					App->camera2D->AddTrauma(0.45f);
+					App->camera2D->AddTrauma(0.10f);
 					App->input->DoGamePadRumble(0.4f, 300);
 
 					// force change state
@@ -837,10 +837,10 @@ bool Marche::Update(float dt)
 					damageType::DIRECT,
 					ELEMENTAL_TYPE::NO_ELEMENT,
 					baseDamage * 2, // TODO: PASS parameter basedamage from attackdata from attack manager to float
-					3, 20, false);
+					4, 20, false);
 
 				// FINAL RUMBLE AND SHAKE
-				App->camera2D->AddTrauma(0.65f);
+				App->camera2D->AddTrauma(0.38f);
 				App->input->DoGamePadRumble(0.8f, 300);
 
 				// force change state
@@ -1010,10 +1010,10 @@ bool Marche::Update(float dt)
 								damageType::DIRECT,
 								ELEMENTAL_TYPE::FIRE_ELEMENT,
 								whirlwindWhileLoopDMG,
-								3, 30, true);
+								5, 30, true);
 
 							// camera shake and rumble
-							App->camera2D->AddTrauma(0.3f);
+							App->camera2D->AddTrauma(0.13f);
 							App->input->DoGamePadRumble(0.4f, whirlwindCadence* 0.9f);
 
 							// instantiate or not a random tornado
