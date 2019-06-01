@@ -616,9 +616,37 @@
           <idleSec  x="1079" y="2524" w="222" h="67"/>
           <hoverSec x="1079" y="2456" w="222" h="67" />
           <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="267" y="561"/>
+          <position x="918" y="566"/>
         </button>
+      <button name="instagram" function = "Instagram">
+          <idleSec  x="453" y="166" w="100" h="100"/>
+          <hoverSec x="453" y="166" w="100" h="100" />
+          <clickSec x="453" y="166" w="100" h="100" />
+          <position x="111" y="566"/>
+        </button>
+      <button name="youtube" function = "YouTube">
+          <idleSec  x="554" y="166" w="100" h="100"/>
+          <hoverSec x="554" y="166" w="100" h="100" />
+          <clickSec x="554" y="166" w="100" h="100" />
+          <position x="341" y="566"/>
+        </button>
+       <button name="twitter" function = "Twitter">
+          <idleSec  x="655" y="166" w="100" h="100"/>
+          <hoverSec x="655" y="166" w="100" h="100" />
+          <clickSec x="655" y="166" w="100" h="100" />
+          <position x="568" y="566"/>
+        </button>
+      <button name="github" function = "Github">
+          <idleSec  x="756" y="166" w="100" h="100"/>
+          <hoverSec x="756" y="166" w="100" h="100" />
+          <clickSec x="756" y="166" w="100" h="100" />
+          <position x="784" y="566"/>
+        </button>
+    
+      
+      
       </buttons>
+      
     
     </Credits>
 
