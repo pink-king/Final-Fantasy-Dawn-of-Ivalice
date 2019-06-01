@@ -36,7 +36,7 @@ protected:
 	// UiItem* parent = NULL;
 public:
 	UiItem* parent = nullptr;
-
+	std::string name_button;
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;
 	std::string name_object;

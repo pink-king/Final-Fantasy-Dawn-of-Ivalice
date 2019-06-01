@@ -44,7 +44,7 @@ UiItem::UiItem(const iPoint & pos, std::string & function, std::string& name, Ui
 		this->parent = parent;
 
 	this->function = function;
-
+	name_button = name;
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
