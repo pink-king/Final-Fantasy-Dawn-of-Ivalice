@@ -139,6 +139,7 @@ bool PlayerEntityManager::Update(float dt)
 	if (life > maxLife)
 		life = maxLife;
 
+	// TODO: crash, rework this
 	//collect loot
 	if (lastHoveredLootItem != nullptr)
 	{

@@ -375,14 +375,23 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 		attack1[i].loop = false;
 	}
 	// basic attack pivot offsets
-	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
+	/*attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
 	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 50.f };
 	attackPivotOffset[(int)facingDirection::S] = { 22.f, 50.f };
 	attackPivotOffset[(int)facingDirection::N] = { 22.f, 50.f };
 	attackPivotOffset[(int)facingDirection::E] = { 9.f, 50.f };
 	attackPivotOffset[(int)facingDirection::W] = { 37.f, 50.f };
 	attackPivotOffset[(int)facingDirection::NE] = { 18.f, 51.f };
-	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };
+	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };*/
+	// post workaround/new method
+	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 49.f };
+	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 49.f };
+	attackPivotOffset[(int)facingDirection::S] = { 23.f, 49.f };
+	attackPivotOffset[(int)facingDirection::N] = { 23.f, 49.f };
+	attackPivotOffset[(int)facingDirection::E] = { 11.f, 48.f };
+	attackPivotOffset[(int)facingDirection::W] = { 35.f, 48.f };
+	attackPivotOffset[(int)facingDirection::NE] = { 17.f, 49.f };
+	attackPivotOffset[(int)facingDirection::NW] = { 29.f, 49.f };
 
 	// TELEPORT
 	// -------------------------------------------------------------

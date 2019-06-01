@@ -822,7 +822,7 @@ bool Marche::Update(float dt)
 
 					// FINAL RUMBLE AND SHAKE
 					App->camera2D->AddTrauma(0.10f);
-					App->input->DoGamePadRumble(0.4f, 300);
+					App->input->DoGamePadRumble(0.25f, 250);
 
 					// force change state
 					combat_state = combatState::IDLE;
@@ -841,7 +841,7 @@ bool Marche::Update(float dt)
 
 				// FINAL RUMBLE AND SHAKE
 				App->camera2D->AddTrauma(0.38f);
-				App->input->DoGamePadRumble(0.8f, 300);
+				App->input->DoGamePadRumble(0.45f, 250);
 
 				// force change state
 				combat_state = combatState::IDLE;
