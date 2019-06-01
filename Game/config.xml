@@ -603,6 +603,25 @@
 
     </SettingsInGame>
 
+    <Credits>
+      <images>
+         <image name="bg_credits">
+          <section x="1311" y="3095" w="1280" h="720"/>
+          <position x="0" y="0"/>
+        </image>
+      </images>
+      
+    <buttons>
+        <button name="button_backMenu" function = "GoBackToMenu">
+          <idleSec  x="1079" y="2524" w="222" h="67"/>
+          <hoverSec x="1079" y="2456" w="222" h="67" />
+          <clickSec x="1079" y="2592" w="222" h="67" />
+          <position x="267" y="561"/>
+        </button>
+      </buttons>
+    
+    </Credits>
+
     <Inventory>
       <images>
         <image name="bg_transparency">

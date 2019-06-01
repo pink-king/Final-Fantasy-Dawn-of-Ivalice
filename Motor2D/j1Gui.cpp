@@ -819,6 +819,7 @@ void j1Gui::GoBackToMenu()
 {
 	resetHoverSwapping = false;
 	App->scene->settingPanel->enable = false;
+	App->scene->creditsPanel->enable = false;
 	App->scene->startMenu->enable = true;
 }
 
@@ -832,6 +833,13 @@ void j1Gui::GoBackToGame()
 {
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
+}
+
+void j1Gui::Credits()
+{
+	resetHoverSwapping = false;
+	App->scene->startMenu->enable = false;
+	App->scene->creditsPanel->enable = true;
 }
 
 void j1Gui::GoBackToStartMenu()
