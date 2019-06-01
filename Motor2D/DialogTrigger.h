@@ -7,7 +7,7 @@
 class DialogTrigger : public Trigger
 {
 public:
-	DialogTrigger(float posx, float posy,std::string Dtype);
+	DialogTrigger(float posx, float posy,std::string Dtype, uint nSubtiles, bool pressA);
 	~DialogTrigger();
 
 	bool Update(float dt);
@@ -18,7 +18,7 @@ public:
 	bool DoTriggerAction() override;
 private:
 	std::string dialogType;
-	bool active = false;
+	bool pressA = false;
 	iPoint PrevSubtile = { 0,0 };
 };
 

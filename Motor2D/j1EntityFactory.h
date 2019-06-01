@@ -101,7 +101,7 @@ public:
 
 	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0);
 	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
-	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
+	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger, uint nSubtiles = 0, bool pressA = true);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);

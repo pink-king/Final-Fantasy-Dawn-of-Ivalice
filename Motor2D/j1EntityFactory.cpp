@@ -756,10 +756,10 @@ Trigger * j1EntityFactory::CreateWaveTrigger(const iPoint& pos, const SDL_Rect& 
 	return ret;
 }
 
-Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger)
+Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger, uint nSubtiles, bool pressA)
 {
 	Trigger* ret = nullptr;
-	ret = new DialogTrigger(posX, posY, Dtrigger);
+	ret = new DialogTrigger(posX, posY, Dtrigger,nSubtiles,pressA);
 	entities.push_back(ret);
 
 	return ret;
@@ -884,8 +884,8 @@ j1Entity* j1EntityFactory::isThisSubtileTriggerFree(const iPoint pos) const
 
 	if (!isThisSubtileEmpty(pos))
 	{
-		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.begin();
-		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		std::vector<j1Entity*>::reverse_iterator entityIterator = entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.rbegin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.rend(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::TRIGGER)
 			{

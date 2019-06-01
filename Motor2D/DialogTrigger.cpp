@@ -1,9 +1,9 @@
 #include "DialogTrigger.h"
 #include "j1DialogSystem.h"
 #include "j1EntityFactory.h"
-DialogTrigger::DialogTrigger(float posx, float posy, std::string Dtype):Trigger(TRIGGER_TYPE::DIALOG,posx,posy,"dialog"),dialogType(Dtype)
+DialogTrigger::DialogTrigger(float posx, float posy, std::string Dtype, uint nSubtiles, bool pressA):Trigger(TRIGGER_TYPE::DIALOG,posx,posy,"dialog"),dialogType(Dtype), pressA(pressA)
 {
-	nSubtiles = 0;
+	this->nSubtiles = nSubtiles;
 	SetPivot(0, 0);
 	AssignInSubtiles(nSubtiles);
 }
@@ -32,8 +32,9 @@ bool DialogTrigger::Save(pugi::xml_node &) const
 
 bool DialogTrigger::DoTriggerAction()
 {
-	if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if(((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && pressA) || !pressA)
 		App->dialog->SetCurrentDialog(dialogType.data());
-
+	if (!pressA)
+		to_delete = true;
 	return true;
 }

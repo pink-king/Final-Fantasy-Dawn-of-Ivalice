@@ -220,8 +220,6 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
-		App->entityFactory->CreateDialogTrigger(PosX.x, PosX.y, "BOSS");     // boss dialog ready for lvl 2 interaction with boss
-
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
