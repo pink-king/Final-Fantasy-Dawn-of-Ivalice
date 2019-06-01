@@ -11,6 +11,7 @@ class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
 class UiItem_Inventory;
+class CharacterStats; 
 class UiItem;
 class PlayerEntityManager;
 enum class LOOT_TYPE;
@@ -82,7 +83,8 @@ public:
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;
-	
+	CharacterStats* characterStatsItem = nullptr; 
+
 	bool debug = false;
 	bool debugSubtiles = false; 
 	bool debugColl = false;

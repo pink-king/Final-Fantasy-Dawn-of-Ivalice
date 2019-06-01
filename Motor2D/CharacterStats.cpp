@@ -1,6 +1,7 @@
 #include "CharacterStats.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"  // TO CHECK: This includes CharacterStats.h again !!
+#include "p2Log.h"
 
 CharacterStats::CharacterStats(UiItem* const parent) :UiItem(parent)
 {
@@ -8,7 +9,7 @@ CharacterStats::CharacterStats(UiItem* const parent) :UiItem(parent)
 	this->guiType = GUI_TYPES::CHARACTERSTATMANAGER;
     
 	doMapping(); 
-	generateCharacterStats(); 
+	
 }
 CharacterStats::~CharacterStats()
 {
@@ -24,11 +25,12 @@ void CharacterStats::doMapping()
 	positionMap.insert(std::make_pair(4, "VELOCITY"));
 }
 
-void CharacterStats::generateCharacterStats()   
+void CharacterStats::generateCharacterStats()   // call it when opening inventory
 {
 	
+	int i = 0; 
 
-	for (int i = 0; i <= positionMap.size(); ++i)
+	for (; i < positionMap.size(); ++i)
 		{
 		iPoint currentBlockPos = START_BLOCK_POSITION_RELATIVE_TO_INVENTORY + iPoint(0, STAT_BLOCK_SEPARATION_Y * i); 
 
@@ -55,21 +57,26 @@ void CharacterStats::generateCharacterStats()
 		newStat->hide = true; 
 
 	    
-		App->gui->AddCharacterStatBlock(statName, baseStat, newStat, baseStatValue, newStatValue, Arrows, this);
-
+		CharacterStatBlock* block =  App->gui->AddCharacterStatBlock(statName, baseStat, newStat, baseStatValue, newStatValue, Arrows, this);
 	    }
+		
+
 
 }
 
-void CharacterStats::deGenerateCharacterStats()
+void CharacterStats::deGenerateCharacterStats()  // call it when closing inventory
 {
-	for (std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); iter != App->gui->ListItemUI.end();)
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); 
+
+
+	for (; iter != App->gui->ListItemUI.end();)
 	{
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
-			iter = App->gui->ListItemUI.erase(iter);
 			delete (*iter);
 			(*iter) = nullptr;
+			iter = App->gui->ListItemUI.erase(iter);
+
 		}
 		else
 		{
@@ -77,6 +84,8 @@ void CharacterStats::deGenerateCharacterStats()
 		}
 
 	}
+
+
 }
 
 // TODO: remember to clean the map in the global ui item clean up

@@ -1471,6 +1471,7 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 
 	// TODO: Add character stats item; 
 
+	characterStatsItem = App->gui->AddCharacterStatsItem(inventoryItem); 
 
 	return true;
 }
@@ -1666,10 +1667,18 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				App->dialog->hideAllNPCLabels(true); 
 				
 
+				// character stats panel
+				characterStatsItem->generateCharacterStats(); 
+				int a = 0; 
 			}
 
 			else
 			{
+				// character stats panel
+				characterStatsItem->deGenerateCharacterStats();
+
+
+
 				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
 				inventoryItem->swappedBag = true;
@@ -1688,6 +1697,10 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 
 				// PREVENT NPC LABEL OVERLAYING
 				App->dialog->hideAllNPCLabels(false);
+
+
+		
+
 			}
 		}
 	}

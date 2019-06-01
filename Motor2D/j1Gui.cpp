@@ -603,7 +603,7 @@ UiItem_Inventory* j1Gui::AddInventory(UiItem * const parent)
 	return (UiItem_Inventory*)newUIItem;
 }
 
-CharacterStats * j1Gui::AddCharacterStats(UiItem * const parent)
+CharacterStats * j1Gui::AddCharacterStatsItem(UiItem * const parent)
 {
 	UiItem* newUIItem = nullptr;
 	newUIItem = DBG_NEW CharacterStats(parent);

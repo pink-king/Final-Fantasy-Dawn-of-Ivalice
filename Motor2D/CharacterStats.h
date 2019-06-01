@@ -6,8 +6,8 @@
 
 #include <map>
 
-#define START_BLOCK_POSITION_RELATIVE_TO_INVENTORY iPoint(0,0)
-#define STAT_BLOCK_SEPARATION_Y 10
+#define START_BLOCK_POSITION_RELATIVE_TO_INVENTORY iPoint(700,100)
+#define STAT_BLOCK_SEPARATION_Y 30
 #define ELEMENT_INSIDE_BLOCK_OFFSET_Y 5
 #define ELEMENT_INSIDE_BLOCK_SEPARATION_X 8 
 
@@ -31,7 +31,6 @@ private:
 public: 
 	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem* const parent) : BlockName(Name), baseStat(bStat),
 		newStat(nStat), baseStatValue(bValue), newStatValue(nValue), changeStatArrows(Arrows), UiItem(parent){
-
 	}
 	
 
@@ -45,12 +44,16 @@ public:
 	CharacterStats(UiItem* const parent);
 	~CharacterStats(); 
 
-private: 
+public: 
 	void generateCharacterStats(); 
 	void deGenerateCharacterStats(); 
+
+private: 
 	void doMapping(); 
 
 	std::map<int, std::string> positionMap; 
+
+
 
 };
 
