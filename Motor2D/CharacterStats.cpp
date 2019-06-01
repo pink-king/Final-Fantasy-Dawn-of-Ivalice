@@ -36,23 +36,23 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 		std::string name = positionMap.at(i); 
 
-		UiItem_Label* statName = App->gui->AddLabel(name, { 255, 255, 255, 255 }, App->font->openSansBold18, currentBlockPos, this);
+		UiItem_Label* statName = App->gui->AddLabel(name, { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos, this);
 		statName->hasBeenSpawned = true; 
 
 		Uint8 baseStatValue;
 		Uint8 newStatValue;
 		baseStatValue = newStatValue = 0;   // TODO: get base buffs from player 
 
-		UiItem_Label* baseStat = App->gui->AddLabel(name, { 255, 255, 255, 255 }, App->font->openSansBold18, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X, STAT_BLOCK_SEPARATION_Y), this);
+		UiItem_Label* baseStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X, ELEMENT_INSIDE_BLOCK_OFFSET_Y), this);
 		baseStat->hasBeenSpawned = true;
 
 		// upon creation, there is not comparison stat 
-		UiItem_Label* Arrows = App->gui->AddLabel(">>", { 255, 0, 0, 255 }, App->font->openSansBold18, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 2, STAT_BLOCK_SEPARATION_Y), this); 
+		UiItem_Label* Arrows = App->gui->AddLabel(">>", { 255, 0, 0, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 2, ELEMENT_INSIDE_BLOCK_OFFSET_Y), this);
 		Arrows->hasBeenSpawned = true;
 		Arrows->hide = true;
 
 		// upon creation, there is not comparison stat
-		UiItem_Label* newStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold18, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 3, STAT_BLOCK_SEPARATION_Y), this);  
+		UiItem_Label* newStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 3, ELEMENT_INSIDE_BLOCK_OFFSET_Y), this);
 		newStat->hasBeenSpawned = true;
 		newStat->hide = true; 
 
