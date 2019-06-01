@@ -16,7 +16,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	// TODO: import from xml
 	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP2.png");
 	dash_spritesheet = App->tex->Load("textures/characters/shara/Shara_dash_WIP.png");
-	ultiCastTex = App->tex->Load("textures/characters/shara/Shara_ultimate_animation.png");
+	ultiCastTex = App->tex->Load("textures/characters/shara/Shara_ultimate_animation2.png");
 	entityTex = spritesheet;
 
 	// TODO: improve this from xml and with for loop, just for testing now
@@ -343,16 +343,27 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	ultiCastAnim[(int)facingDirection::NW].speed = 15.F;
 	ultiCastAnim[(int)facingDirection::NW].loop = false;
 
-	dashMaxDistance = 120.f;
-
+	ultiCastPivots[(int)facingDirection::S] = { 23.f, 61.f };
+	ultiCastPivots[(int)facingDirection::SE] = { 23.f, 61.f };
+	ultiCastPivots[(int)facingDirection::SW] = { 23.f, 61.f };
+	ultiCastPivots[(int)facingDirection::E] = { 23.f, 59.f };
+	ultiCastPivots[(int)facingDirection::W] = { 23.f, 59.f };
+	ultiCastPivots[(int)facingDirection::N] = { 25.f, 62.f };
+	ultiCastPivots[(int)facingDirection::NE] = { 24.f, 62.f };
+	ultiCastPivots[(int)facingDirection::NW] = { 22.f, 62.f };
+	
+	// ---------------------------------------------------------------------------
+	
 	currentAnimation = &run[(int)facingDirection::SE];
 
+
+	dashMaxDistance = 120.f;
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
 	coolDownData.dodge.cooldownTime = 1500;
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 10000;
+	coolDownData.ultimate.cooldownTime = 8000;
 	maxEmitterDelayTime = 1000;
 
 	previousPos = position;
@@ -607,6 +618,12 @@ bool Shara::Update(float dt)
 				// restart timer
 				coolDownData.ultimate.timer.Start();
 			}
+
+			// pivoting...
+			//reposition pos
+			transference_pivot = ultiCastPivots[pointingDir];
+			transference_pivot -= pivot;
+
 		}
 		break;
 
