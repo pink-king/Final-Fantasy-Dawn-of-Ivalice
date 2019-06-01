@@ -635,14 +635,14 @@ UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * se
 
 
 
-UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
+UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, std::string name, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = DBG_NEW UiItem_Button(position, function, idle, canvas, click, hover);
+		newUIItem = DBG_NEW UiItem_Button(position, function, name, idle, canvas, click, hover);
 	else
-		newUIItem = DBG_NEW UiItem_Button(position, function, idle, parent, click, hover);
+		newUIItem = DBG_NEW UiItem_Button(position, function, name,  idle, parent, click, hover);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -857,6 +857,54 @@ void j1Gui::Credits()
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
 	App->scene->creditsPanel->enable = true;
+}
+
+void j1Gui::SocialMedia(std::string &name)
+{
+	if (name == "instagram")
+	{
+
+	}
+	if (name == "youtube")
+	{
+
+	}
+	if (name == "twitter")
+	{
+
+	}
+	if (name == "github")
+	{
+
+	}
+	if (name == "Sebastia")
+	{
+
+	}
+	if (name == "Jose")
+	{
+
+	}
+	if (name == "Carlos")
+	{
+
+	}
+	if (name == "Doctor")
+	{
+
+	}
+	if (name == "Didac")
+	{
+
+	}
+	if (name == "Gerard")
+	{
+
+	}
+	if (name == "Pol")
+	{
+
+	}
 }
 
 void j1Gui::GoBackToStartMenu()

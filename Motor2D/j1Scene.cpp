@@ -1193,6 +1193,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	//button
 	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
@@ -1214,7 +1215,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 
 
-		App->gui->AddButton(position, functionPath, &sectionIdle, parent, sectionClick, sectionHove);
+		App->gui->AddButton(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove);
 	}
 
 	// labels

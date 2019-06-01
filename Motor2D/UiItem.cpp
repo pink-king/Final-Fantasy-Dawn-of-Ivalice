@@ -36,7 +36,7 @@ UiItem::UiItem(UiItem * const parent)
 
 
 
-UiItem::UiItem(const iPoint & pos, std::string & function, UiItem * const parent) : parent(parent)
+UiItem::UiItem(const iPoint & pos, std::string & function, std::string& name, UiItem * const parent) : parent(parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
