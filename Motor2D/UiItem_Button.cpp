@@ -56,8 +56,6 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 	if (functionName == "LoadGame")
 	{
 		App->scene->ComeToWin = true;
-		if (App->scene->previosState == SceneState::LEVEL1 || App->scene->previosState == SceneState::LEVEL2)
-			App->scene->ComeToPortal = true;
 		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LOBBY, White);
 	};
 	/*if(App->scene->AcceptUISFX_logic)*/

@@ -255,7 +255,7 @@ FlowerBossEntity::~FlowerBossEntity()
 			App->scene->ComeToPortal = false;
 			App->scene->ComeToWin = true;
 			App->pause = true;
-			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
+			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, White);
 			App->scene->previosState = App->scene->state;
 		}
 	}
