@@ -613,10 +613,10 @@
       
     <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
-          <idleSec  x="1079" y="2524" w="222" h="67"/>
-          <hoverSec x="1079" y="2456" w="222" h="67" />
-          <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="918" y="566"/>
+          <idleSec  x="0" y="2837" w="143" h="66"/>
+          <hoverSec x="0" y="2837" w="143" h="66" />
+          <clickSec x="0" y="2837" w="143" h="66" />
+          <position x="1007" y="566"/>
         </button>
       <button name="instagram" function = "Instagram">
           <idleSec  x="453" y="166" w="100" h="100"/>
@@ -641,6 +641,48 @@
           <hoverSec x="756" y="166" w="100" h="100" />
           <clickSec x="756" y="166" w="100" h="100" />
           <position x="784" y="566"/>
+        </button>
+      <button name="Sebastia" function = "Sebastia">
+          <idleSec  x="0" y="2904" w="771" h="18"/>
+          <hoverSec x="0" y="2904" w="771" h="18" />
+          <clickSec x="0" y="2904" w="771" h="18" />
+          <position x="111" y="241"/>
+        </button>
+      <button name="Jose" function = "Jose">
+          <idleSec  x="0" y="2923" w="585" h="18"/>
+          <hoverSec x="0" y="2923" w="585" h="18" />
+          <clickSec x="0" y="2923" w="585" h="18" />
+          <position x="111" y="342"/>
+        </button>
+       <button name="Carlos" function = "Carlos">
+          <idleSec  x="0" y="2942" w="464" h="27"/>
+          <hoverSec x="0" y="2942" w="464" h="27" />
+          <clickSec x="0" y="2942" w="464" h="27" />
+          <position x="111" y="404"/>
+        </button>
+        <button name="Doctor" function = "Doctor">
+          <idleSec  x="0" y="2970" w="403" h="18"/>
+          <hoverSec x="0" y="2970" w="403" h="18" />
+          <clickSec x="0" y="2970" w="403" h="18" />
+          <position x="111" y="460"/>
+        </button>
+       <button name="Didac" function = "Didac">
+          <idleSec  x="0" y="2989" w="336" h="27"/>
+          <hoverSec x="0" y="2989" w="336" h="27" />
+          <clickSec x="0" y="2989" w="336" h="27" />
+          <position x="795" y="342"/>
+        </button>
+      <button name="Gerard" function = "Gerard">
+          <idleSec  x="0" y="3017" w="356" h="22"/>
+          <hoverSec x="0" y="3017" w="356" h="22" />
+          <clickSec x="0" y="3017" w="356" h="22" />
+          <position x="795" y="404"/>
+        </button>
+      <button name="Pol" function = "Pol">
+          <idleSec  x="0" y="3040" w="336" h="18"/>
+          <hoverSec x="0" y="3040" w="336" h="18" />
+          <clickSec x="0" y="3040" w="336" h="18" />
+          <position x="795" y="460"/>
         </button>
     
       
