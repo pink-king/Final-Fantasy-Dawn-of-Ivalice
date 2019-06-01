@@ -273,11 +273,28 @@ void PlayerEntity::Draw()
 	if (entityTex != nullptr)
 	{
 		// prints shadow first
-		iPoint spriteShadowOffset = { 16,12 };
+		// shadow must be on same "fixed" position between character swaps
+		// relative to position only, not anim rects itself
+		iPoint spriteShadowOffset = { 16,14 };
 		App->render->Blit(App->entityFactory->player->player_shadowTex, GetPivotPos().x - spriteShadowOffset.x ,GetPivotPos().y - spriteShadowOffset.y, NULL);
 
 		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		{
+			// big workaround to center with "new system" only idle and run animations
+			// but at this stage rework the rest of pivot offsets its not worth
+			if (transference_pivot.x == 0.f && transference_pivot.y == 0.f)
+			{
+				SDL_Rect currentAnimRect = currentAnimation->ReturnCurrentFrame();
+				fPoint centeredPrintPos = { float(currentAnimRect.w / 2), 0.f };//float(currentAnimRect.h / 2) }; // gets the x center of the rect
+				centeredPrintPos.x -= 22;
+				centeredPrintPos.y -= 0;
+				centeredPrintPos = position - centeredPrintPos;
+				//LOG("BIG WORKAROUND");
+				App->render->Blit(entityTex, centeredPrintPos.x, centeredPrintPos.y , &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+			}
+			else
+				App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		}
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 
