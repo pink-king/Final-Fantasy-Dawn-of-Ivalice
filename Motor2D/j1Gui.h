@@ -131,6 +131,7 @@ public:
 	void GoBackToMenu();
 	void FpsCap();
 	void GoBackToGame();
+	void Credits();
 	void GoBackToStartMenu();
 	void GoBackToStartMenuFromDeathWin();
 

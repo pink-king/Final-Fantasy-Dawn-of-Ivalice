@@ -332,6 +332,7 @@ bool j1Scene::Start()
 		uiRitz->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
+		
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->camera2D->SetCameraPos({ 115, 240 });
@@ -349,6 +350,7 @@ bool j1Scene::Start()
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
+			LoadCredits(sceneNode);
 			LoadInventory(sceneNode);
 			LoadDeathScreen(sceneNode);
 			LoadWinScreen(sceneNode);
@@ -358,6 +360,7 @@ bool j1Scene::Start()
 		uiMarche->enable = false;
 		uiShara->enable = false;
 		uiRitz->enable = false;
+		creditsPanel->enable = false;
 		uiMarchePortrait->enable = false;
 		uiSharaPortrait->enable = false;
 		uiRitzPortrait->enable = false;
@@ -1439,6 +1442,14 @@ bool j1Scene::LoadPauseSettings(pugi::xml_node& nodeScene)
 	pugi::xml_node settingPauseNode = nodeScene.child("SettingsInGame");
 	pausePanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(pausePanel, settingPauseNode);
+	return true;
+}
+
+bool j1Scene::LoadCredits(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node creditsNode = nodeScene.child("Credits");
+	creditsPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(creditsPanel, creditsNode);
 	return true;
 }
 

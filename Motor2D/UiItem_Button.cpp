@@ -53,6 +53,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToStartMenu();
 	if (functionName == "GoBackToStartMenuFromDeathWin")
 		App->gui->GoBackToStartMenuFromDeathWin();
+	if (functionName == "Credits")
+		App->gui->Credits();
 	if (functionName == "LoadGame")
 	{
 		App->scene->ComeToWin = true;
