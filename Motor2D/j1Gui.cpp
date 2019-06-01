@@ -603,6 +603,23 @@ UiItem_Inventory* j1Gui::AddInventory(UiItem * const parent)
 	return (UiItem_Inventory*)newUIItem;
 }
 
+CharacterStats * j1Gui::AddCharacterStats(UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = DBG_NEW CharacterStats(parent);
+	ListItemUI.push_back(newUIItem);
+	return (CharacterStats*)newUIItem; 
+}
+
+CharacterStatBlock * j1Gui::AddCharacterStatBlock( UiItem_Label * Name, UiItem_Label * bStat, UiItem_Label * nStat, Uint8 bValue, Uint8 nValue, UiItem_Label * Arrows, UiItem* const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = DBG_NEW CharacterStatBlock(Name, bStat, nStat, bValue, nValue, Arrows, parent);
+	ListItemUI.push_back(newUIItem);
+	return (CharacterStatBlock*)newUIItem;
+}
+
+// TODO: add character stat manager
 
 
 UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect * image_idle, const SDL_Rect * image_hover, UiItem * const parent)

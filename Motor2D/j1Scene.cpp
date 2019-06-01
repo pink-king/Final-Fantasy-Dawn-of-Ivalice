@@ -1458,6 +1458,9 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	SharaIcon->hide = true;
 	RitzIcon->hide = true;
 
+	// TODO: Add character stats item; 
+
+
 	return true;
 }
 

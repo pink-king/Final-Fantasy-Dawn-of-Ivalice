@@ -18,6 +18,7 @@
 #include "GUI_Definitions.h"
 #include "UiItem_Description.h"
 #include "UiItem_Inventory.h"
+#include "CharacterStats.h"
 
 struct labelInfo
 {
@@ -119,6 +120,9 @@ public:
 
 	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	UiItem_Inventory* AddInventory(UiItem* const parent);
+
+	CharacterStats* AddCharacterStats(UiItem* const parent);
+	CharacterStatBlock* AddCharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem* const parent);
 
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
