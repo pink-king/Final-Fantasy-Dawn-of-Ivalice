@@ -23,6 +23,7 @@ private:
 	UiItem_Label* baseStat = nullptr;
 	UiItem_Label* newStat = nullptr;
 	uint baseStatValue = 0;                      // some should be 1 or 2 decimal floats
+	uint candidateToNewStat = 0; 
 	uint newStatValue = 0;
 	uint lastNewStatValue = 0; 
 	UiItem_Label* changeStatArrows = nullptr;
@@ -30,7 +31,7 @@ private:
 	UiItem_Image* changeStatIcon = nullptr;*/ 
 	uint mapPosition; 
 	bool AddedNewBuff = false; 
-	bool lastCompared = false; 
+
 
 public: 
 	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem* const parent) : BlockName(Name), baseStat(bStat),

@@ -920,12 +920,12 @@ void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 	std::array<int, 5> characterStatsMapping = {};
 	std::array<int, 5> characterStatsValues = {};
 
-	float attack = 0.0f;
-	float resistance = 0.0f;
-	float cooldown = 0.0f;
+	int attack = 0;
+	int resistance = 0;
+	int cooldown = 0;
 
-	float HP = 0.0f;
-	float velocity = 0.0f;
+	int HP = 0;
+	int velocity = 0;
 
 	std::vector<Buff*>::iterator iter = ent->stats.begin();
 
@@ -935,21 +935,21 @@ void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 		{
 			if ((*iter)->GetRol() == ROL::ATTACK_ROL)
 			{
-				attack = (*iter)->GetValue();
+				attack = (int)(*iter)->GetValue();
 
 				characterStatsMapping.at(0) = 1;
 				characterStatsValues.at(0) = attack;
 			}
 			else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 			{
-				resistance = (*iter)->GetValue();
+				resistance = (int)(*iter)->GetValue();
 
 				characterStatsMapping.at(1) = 1;
 				characterStatsValues.at(1) = resistance;
 			}
 			else if ((*iter)->GetRol() == ROL::COOLDOWN)
 			{
-				cooldown = (*iter)->GetValue();
+				cooldown = (int)(*iter)->GetValue();
 
 				characterStatsMapping.at(2) = 1;
 				characterStatsValues.at(2) = cooldown;
@@ -964,7 +964,7 @@ void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 		{
 			if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 			{
-				resistance = (*iter)->GetValue();
+				resistance = (int)(*iter)->GetValue();
 
 				characterStatsMapping.at(1) = 1;
 				characterStatsValues.at(1) = resistance;
@@ -978,7 +978,7 @@ void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 			}
 			else if ((*iter)->GetRol() == ROL::VELOCITY)
 			{
-				velocity = (*iter)->GetValue();
+				velocity = (int)(*iter)->GetValue();
 
 
 				characterStatsMapping.at(4) = 1;

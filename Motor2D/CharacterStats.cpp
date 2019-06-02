@@ -125,26 +125,19 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 	{
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
-			if (!dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)       // CAUTION: prevent comparing again is icon is selected again in inventory
-			{
+	
 
 				for (uint i = 0; i < newStatsMappingPositions.size(); ++i)
 				{
 					if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
 					{
 						if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
-						{
-							dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = true;
-
-
-							//	if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
-							dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
-
-							dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = values.at(i);  // if buff is summative
+						{	//dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = values.at(i);  // if buff is summative
+							dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat = values.at(i);                  // capture this for later
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
 
 							uint valueIfPickingObject = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
-								+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;
+								+ dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat;
 
 							SDL_Color c = { 0, 0, 0, 0 };
 							if (valueIfPickingObject > dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
@@ -165,19 +158,12 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
 							//	}
 
-
+						
 						}
-						else
-						{
-							dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = false;
-						}
+		
 					}
 				}
-			}
-			else
-			{
-				ShowAllComparisonStats(); 
-			}
+		
 			
 		}
 	}
@@ -196,11 +182,10 @@ void CharacterStats::SetNewStats()
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
 		
-			if (dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)
-			{
-
+			
 
 				// NEW BASE STAT = base - last + new 
+				dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat;
 
 				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
 					+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;
@@ -216,8 +201,12 @@ void CharacterStats::SetNewStats()
 				if (!dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
 					dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff = true;
 
-			}
-			    
+
+				//	if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
+				dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
+
+				int a = 0; 
+
 		}
 	}
 
@@ -232,11 +221,10 @@ void CharacterStats::HideAllComparisonStats()
 	{
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
-			if (dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)
-			{
+		
 				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
-			}
+		
 		}
 	}
 
@@ -252,11 +240,10 @@ void CharacterStats::ShowAllComparisonStats()
 	{
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
-			if (dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)
-			{
+		
 				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
-			}
+		
 		}
 	}
 
