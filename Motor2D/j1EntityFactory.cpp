@@ -84,7 +84,7 @@ bool j1EntityFactory::Start()
 	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
 	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
-
+	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
 	
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -756,10 +756,10 @@ Trigger * j1EntityFactory::CreateWaveTrigger(const iPoint& pos, const SDL_Rect& 
 	return ret;
 }
 
-Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger, uint nSubtiles, bool pressA)
+Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::string Dtrigger, iPoint posState, uint nSubtiles, bool pressA)
 {
 	Trigger* ret = nullptr;
-	ret = new DialogTrigger(posX, posY, Dtrigger,nSubtiles,pressA);
+	ret = new DialogTrigger(posX, posY, Dtrigger, posState, nSubtiles,pressA);
 	entities.push_back(ret);
 
 	return ret;

@@ -264,8 +264,8 @@ bool j1Scene::Start()
 		App->entityFactory->CreatePlayer({ 115, 240 });
 		
 		//AcceptUISFX_logic = false;
-		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
-		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(6, 19).x - 5, App->map->SubTileMapToWorld(6, 19).y }, 1);
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(12, 9).x, App->map->SubTileMapToWorld(12, 9).y, "STRANGER",{ App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y },2);
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 180, SceneState::LEVEL1, Black);
@@ -320,7 +320,7 @@ bool j1Scene::Start()
 	if (state == SceneState::FIRINGRANGE)
 	{
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 340, 700, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
-		App->entityFactory->CreateDialogTrigger(90, 189, "TUTORIAL");   // todo: proper position 
+		App->entityFactory->CreateDialogTrigger(90, 189, "TUTORIAL", { 90, 189 });   // todo: proper position 
 
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
