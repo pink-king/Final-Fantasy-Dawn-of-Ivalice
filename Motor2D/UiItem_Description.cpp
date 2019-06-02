@@ -866,34 +866,6 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 
 
-
-				if (App->gui->selected_object == this->iconImageInventory)
-				{
-					int a = 0;
-
-					if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
-						&& this->attachedCharacterString == "Marche")
-
-
-						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
-							&& this->attachedCharacterString == "Ritz")
-
-						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
-							&& this->attachedCharacterString == "Shara"))
-
-					{
-						App->scene->characterStatsItem->HideAllComparisonStats();
-						getItemBuffsAndCallStatComparison(this->callback);
-
-					}
-					else
-					{
-						App->scene->characterStatsItem->HideAllComparisonStats();
-					}
-				}
-
-
-
 			}
 
 		}
@@ -901,33 +873,36 @@ bool UiItem_Description::ChangeComparisonLabels()
 	}
 	else     // when no items are equipped but stats change !!!!
 	{
-		if (App->gui->selected_object == this->iconImageInventory)
-		{
-
-			if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
-				&& this->attachedCharacterString == "Marche")
-
-
-				|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
-					&& this->attachedCharacterString == "Ritz")
-
-				|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
-					&& this->attachedCharacterString == "Shara"))
-
-			{
-				App->scene->characterStatsItem->HideAllComparisonStats();
-				getItemBuffsAndCallStatComparison(this->callback);
-
-			}
-			else
-			{
-				App->scene->characterStatsItem->HideAllComparisonStats();
-			}
-		}
-
+	
 		
     
     }
+
+
+
+	if (App->gui->selected_object == this->iconImageInventory)
+	{
+
+		if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
+			&& this->attachedCharacterString == "Marche")
+
+
+			|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
+				&& this->attachedCharacterString == "Ritz")
+
+			|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
+				&& this->attachedCharacterString == "Shara"))
+
+		{
+		//	App->scene->characterStatsItem->HideAllComparisonStats();
+			getItemBuffsAndCallStatComparison(this->callback);                 // CAUTIOn: if item is selected again, prevent calculating again (xd)
+
+		}
+		else
+		{
+			App->scene->characterStatsItem->HideAllComparisonStats();
+		}
+	}
 
 	
 

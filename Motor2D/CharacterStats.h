@@ -65,6 +65,7 @@ public:
 	void GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	void SetNewStats();
 	void HideAllComparisonStats(); 
+	void ShowAllComparisonStats(); 
 
 
 

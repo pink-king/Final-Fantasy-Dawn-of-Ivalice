@@ -121,54 +121,62 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 {
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
-	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	for (; iter != App->gui->ListItemUI.end(); ++iter)                             
 	{
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
-			for (uint i = 0; i < newStatsMappingPositions.size(); ++i)
+			if (!dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)       // CAUTION: prevent comparing again is icon is selected again in inventory
 			{
-				if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
+
+				for (uint i = 0; i < newStatsMappingPositions.size(); ++i)
 				{
-					if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
+					if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
 					{
-						dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = true; 
-
-
-					//	if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
-						dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
-
-						dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = values.at(i);  // if buff is summative
-						dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false; 
-
-						uint valueIfPickingObject = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
-							+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue; 
-
-						SDL_Color c = { 0, 0, 0, 0 }; 
-						if (valueIfPickingObject > dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+						if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
 						{
-							c = { 0, 255, 0, 255 };
-						}
-						else if (valueIfPickingObject <= dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
-						{
-							c = { 255, 0, 0, 255 }; 
-						}
+							dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = true;
 
 
-						/*if (valueIfPickingObject != 0)
-						{*/
+							//	if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
+							dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
+
+							dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = values.at(i);  // if buff is summative
+							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
+
+							uint valueIfPickingObject = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
+								+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;
+
+							SDL_Color c = { 0, 0, 0, 0 };
+							if (valueIfPickingObject > dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+							{
+								c = { 0, 255, 0, 255 };
+							}
+							else if (valueIfPickingObject <= dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+							{
+								c = { 255, 0, 0, 255 };
+							}
+
+
+							/*if (valueIfPickingObject != 0)
+							{*/
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
 
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
-					//	}
-					
-						
-					}
-					else
-					{
-						dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = false; 
+							//	}
+
+
+						}
+						else
+						{
+							dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = false;
+						}
 					}
 				}
+			}
+			else
+			{
+				ShowAllComparisonStats(); 
 			}
 			
 		}
@@ -215,6 +223,7 @@ void CharacterStats::SetNewStats()
 
 }
 
+
 void CharacterStats::HideAllComparisonStats()
 {
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -223,12 +232,36 @@ void CharacterStats::HideAllComparisonStats()
 	{
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
-			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
-			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
+			if (dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)
+			{
+				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
+				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
+			}
 		}
 	}
 
 }
+
+
+
+void CharacterStats::ShowAllComparisonStats()
+{
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	{
+		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
+		{
+			if (dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)
+			{
+				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
+				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
+			}
+		}
+	}
+
+}
+
 
 /*
 void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values)
