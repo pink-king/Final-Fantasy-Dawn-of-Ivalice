@@ -1136,6 +1136,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
+		std::string name_image = uiNode.attribute("name").as_string();
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
@@ -1157,19 +1158,19 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else if (charFlag == "Marche")
 		{
-			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
+			MarcheIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (charFlag == "Ritz")
 		{
-			RitzIcon = App->gui->AddImage(position, &section, nullptr);
+			RitzIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (charFlag == "Shara")
 		{
-			SharaIcon = App->gui->AddImage(position, &section, nullptr);
+			SharaIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (lootFlag == "dialogueBox")
 		{
-			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, inGamePanel);
+			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, name_image, inGamePanel);
 			dialogueBox->hide = true;
 		}
 		else
@@ -1178,7 +1179,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			{
 				if (doNotCreate != "true")
 				{
-					App->gui->AddImage(position, &section, parent, isSwappable, isPanel);  // bug: an image is created as panel 
+					App->gui->AddImage(position, &section, name_image, parent, isSwappable, isPanel);  // bug: an image is created as panel 
 				}
 		
 			}

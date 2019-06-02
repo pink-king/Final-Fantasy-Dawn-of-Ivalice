@@ -48,13 +48,13 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string &function, std::st
 
 
 	// panel 
-	panel = App->gui->AddImage(position, panel_section, this);
+	panel = App->gui->AddImage(position, panel_section,name, this);
 
 	// box
-	box = App->gui->AddImage(boxPos, box_section, this);
+	box = App->gui->AddImage(boxPos, box_section,name, this);
 
 	// tick
-	tick = App->gui->AddImage(tickPos, tick_section, this);
+	tick = App->gui->AddImage(tickPos, tick_section,name, this);
 	tick->hide = true;
 
 

@@ -8,7 +8,7 @@
 
 
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, UiItem * const parent, bool swapPosition, bool isPanel) : UiItem(position, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::string& name, UiItem * const parent, bool swapPosition, bool isPanel) : UiItem(position, name, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
@@ -16,6 +16,7 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, UiItem * c
 	this->swapPosition = swapPosition;
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
+	section_item = *section;
 
 	if (isPanel == 1)
 	{

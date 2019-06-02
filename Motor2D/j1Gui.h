@@ -97,7 +97,7 @@ public:
 	std::list<UiItem*>	ListItemUI;
 	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, bool type_writer = false);
-	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool swapPosition = false, bool isPanel = false);
+	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition = false, bool isPanel = false);
 	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem* const parent); // , TypeBar type = VERTICAL);
 	UiItem_Button* AddButton(iPoint position, std::string function, std::string name, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem* const parent = nullptr);

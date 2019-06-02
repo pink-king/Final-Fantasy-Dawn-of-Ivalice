@@ -60,7 +60,7 @@ public:
 	// boss and enemies
 	UiItem_Image* skull = nullptr; 
 	iPoint skullOffset = iPoint(-25,0); 
-
+	std::string name = "";
 private:
 
 	uint maxSection = 0;

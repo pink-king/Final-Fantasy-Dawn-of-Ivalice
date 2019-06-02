@@ -24,7 +24,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->guiType = GUI_TYPES::DESCRIPTION;
 
 	// common 
-	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, itemName, this);
 	panelWithButton->useCamera = false;
 
 	if (itemName.empty())
@@ -169,7 +169,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->guiType = GUI_TYPES::DESCRIPTION;
 
 	// common 
-	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, itemName, this);
 	panelWithButton->useCamera = false;
 
 	if (itemName.empty())
@@ -309,7 +309,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 	// common 
-	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, itemName, this);
 	panelWithButton->useCamera = false;
 
 	if (itemName.empty())
