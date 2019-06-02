@@ -51,7 +51,7 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		Arrows->hide = true;
 
 		// upon creation, there is not comparison stat
-		UiItem_Label* newStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 2.4f, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
+		UiItem_Label* newStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 1.8f, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
 		newStat->hasBeenSpawned = true;
 		newStat->hide = true;
 
@@ -140,10 +140,26 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 						uint valueIfPickingObject = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
 							+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue; 
 
-						dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), NULL, NULL);
+						SDL_Color c = { 0, 0, 0, 0 }; 
+						if (valueIfPickingObject > dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+						{
+							c = { 0, 255, 0, 255 };
+						}
+						else if (valueIfPickingObject < dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+						{
+							c = { 255, 0, 0, 255 }; 
+						}
 
-						dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
-                        
+
+						if (valueIfPickingObject != 0)
+						{
+							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
+
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
+						}
+					
+						
 					}
 				}
 			}
