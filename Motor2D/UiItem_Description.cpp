@@ -929,7 +929,7 @@ void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 
 	std::vector<Buff*>::iterator iter = ent->stats.begin();
 
-	if (this->descrType == descriptionType::WEAPON)
+	if (ent->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
 	{
 		for (; iter != ent->stats.end(); ++iter)    // capture att and def 
 		{
@@ -958,7 +958,7 @@ void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 		}
 
 	}
-	else
+	else if(ent->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT)
 	{
 		for (; iter != ent->stats.end(); ++iter)   // capture def and other 2 possible rols
 		{

@@ -156,6 +156,9 @@ private:
 	descriptionType descrType;
 	bool tabOnConsumable = false;
 	bool foundPoti = false;
+
+
+
 };
 
 #endif

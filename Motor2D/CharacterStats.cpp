@@ -3,6 +3,7 @@
 #include "j1Gui.h"  // TO CHECK: This includes CharacterStats.h again !!
 #include "p2Log.h"
 #include "j1EntityFactory.h"
+#include "UiItem_Description.h"
 
 CharacterStats::CharacterStats(UiItem* const parent) :UiItem(parent)
 {
@@ -69,14 +70,36 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		Arrows->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
 
     }
-		
-	std::array<int, 5> newStatsMappingPositions; 
-	std::fill(std::begin(newStatsMappingPositions), std::end(newStatsMappingPositions), NULL);
+	
+	InitializeStats(); 
 
-	SetBaseStats(newStatsMappingPositions);
+
 }
 
-void CharacterStats::SetBaseStats(std::array<int, 5> newStatsMappingPositions)
+
+void CharacterStats::InitializeStats()
+{
+
+	SetBaseStats();
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		for (auto& item : App->entityFactory->player->equipedObjects)
+		{
+			item->MyDescription->getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+			SetNewStats();
+		}
+			
+		
+	}
+
+	
+}
+
+
+
+
+void CharacterStats::SetBaseStats()
 {
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
