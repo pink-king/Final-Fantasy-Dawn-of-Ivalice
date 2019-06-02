@@ -131,7 +131,10 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 				{
 					if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
 					{
-						if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
+						dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = true; 
+
+
+					//	if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
 						dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
 
 						dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = values.at(i);  // if buff is summative
@@ -145,21 +148,25 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 						{
 							c = { 0, 255, 0, 255 };
 						}
-						else if (valueIfPickingObject < dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+						else if (valueIfPickingObject <= dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
 						{
 							c = { 255, 0, 0, 255 }; 
 						}
 
 
-						if (valueIfPickingObject != 0)
-						{
+						/*if (valueIfPickingObject != 0)
+						{*/
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
 
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
-						}
+					//	}
 					
 						
+					}
+					else
+					{
+						dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared = false; 
 					}
 				}
 			}
@@ -181,22 +188,28 @@ void CharacterStats::SetNewStats()
 		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
 		{
 		
-			
-			    // NEW BASE STAT = base - last + new 
+			if (dynamic_cast<CharacterStatBlock*>(*iter)->lastCompared)
+			{
 
-		     	dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
-				+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;
 
-		
+				// NEW BASE STAT = base - last + new 
+
+				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
+					+ dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;
+
+
 				dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), NULL, NULL);
 
 
-				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true; 
+				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
 
-	           
+
 				if (!dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
-					dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff = true; 
+					dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff = true;
+
+			}
+			    
 		}
 	}
 
