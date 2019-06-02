@@ -15,6 +15,7 @@ enum class TRIGGER_TYPE
 	SAVE,
 	WAVE,
 	CHEST, 
+	DOOR,
 	// ---
 	NO_TRIGGER
 };

@@ -37,6 +37,7 @@
 #include "BreakableAsset.h"
 #include "ChestAsset.h"
 #include "ChestTrigger.h"
+#include "Door.h"
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
@@ -85,7 +86,8 @@ bool j1EntityFactory::Start()
 	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
 	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
-	
+	hallTex = App->tex->Load("maps/Tilesets/Main Hall/tileset_main_hall.png");
+	ButtonAtex = App->tex->Load("textures/interactable_states/button_a.png");
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -707,40 +709,44 @@ LootEntity* j1EntityFactory::CreateGold(int posX, int posY)
 	return nullptr; 
 }
 
-Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color, uint nSubtiles)
+Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene, Color color, uint nSubtiles, bool lookLeft)
 {
 	Trigger* ret = nullptr;
 	switch (type)
 	{
 	case TRIGGER_TYPE::PORTAL:	
-		ret = new Portal(posX, posY,scene,color);
+		ret = DBG_NEW Portal(posX, posY,scene,color);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::LOBBYPORTAL:
-		ret = new LobbyPortal(posX, posY, scene, color);
+		ret = DBG_NEW LobbyPortal(posX, posY, scene, color);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::NO_TRIGGER:
 		break;
 	case TRIGGER_TYPE::WIN:
-		ret = new WinTrigger(posX, posY, scene, color, nSubtiles);
+		ret = DBG_NEW WinTrigger(posX, posY, scene, color, nSubtiles);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::NOWALKABLE:
-		ret = new NoWalkableTrigger(posX, posY);
+		ret = DBG_NEW NoWalkableTrigger(posX, posY);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::EXITPORTAL:
-		ret = new ExitPortal(posX, posY);
+		ret = DBG_NEW ExitPortal(posX, posY);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::SAVE:
-		ret = new SaveTrigger(posX, posY);
+		ret = DBG_NEW SaveTrigger(posX, posY);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::CHEST:
 		ret = DBG_NEW ChestTrigger(fPoint(posX, posY));
 		entities.push_back(ret);
+	case TRIGGER_TYPE::DOOR:
+		ret = DBG_NEW Door(posX, posY, scene, color, nSubtiles, lookLeft);
+		entities.push_back(ret);
+		break;
 	default:
 		break;
 	}

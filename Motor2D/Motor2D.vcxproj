@@ -91,6 +91,7 @@
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
     <ClCompile Include="Dissolve.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EarthShaker.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Emmiter.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
     <ClInclude Include="Dissolve.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EarthShaker.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Emmiter.h" />

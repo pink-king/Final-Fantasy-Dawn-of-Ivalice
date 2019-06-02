@@ -267,6 +267,9 @@
     <ClCompile Include="Video.cpp">
       <Filter>Development\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -555,6 +558,9 @@
     <ClInclude Include="j1EasingSplines.h" />
     <ClInclude Include="Video.h">
       <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -99,7 +99,7 @@ public:
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 
-	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0);
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0, bool lookLeft = true);
 	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
 	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger,iPoint posState, uint nSubtiles = 0, bool pressA = true);
 
@@ -191,6 +191,8 @@ public:
 	SDL_Texture*			portalTex = nullptr;
 	SDL_Texture*			campFireTex = nullptr;
 	SDL_Texture*			interactiveStatesTex = nullptr;
+	SDL_Texture*			hallTex = nullptr;
+	SDL_Texture*			ButtonAtex = nullptr;
 
 	std::vector<GroupInfo> spawngroups;
 	std::vector<j1Entity*>	entities;
