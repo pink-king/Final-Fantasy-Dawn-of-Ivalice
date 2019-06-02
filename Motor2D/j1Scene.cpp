@@ -656,6 +656,12 @@ bool j1Scene::Update(float dt)
 					uiRitz->enable = false;
 					uiShara->enable = false;
 				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
 				uiMarchePortrait->enable = true;
 				uiRitzPortrait->enable = false;
 				uiSharaPortrait->enable = false;
@@ -666,6 +672,12 @@ bool j1Scene::Update(float dt)
 				{
 					uiMarche->enable = false;
 					uiRitz->enable = true;
+					uiShara->enable = false;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
 					uiShara->enable = false;
 				}
 				uiMarchePortrait->enable = false;
@@ -679,6 +691,12 @@ bool j1Scene::Update(float dt)
 					uiMarche->enable = false;
 					uiRitz->enable = false;
 					uiShara->enable = true;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
 				}
 				uiMarchePortrait->enable = false;
 				uiRitzPortrait->enable = false;
@@ -1193,6 +1211,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	//button
 	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
@@ -1214,7 +1233,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 
 
-		App->gui->AddButton(position, functionPath, &sectionIdle, parent, sectionClick, sectionHove);
+		App->gui->AddButton(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove);
 	}
 
 	// labels
@@ -1266,6 +1285,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
@@ -1288,7 +1308,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			fontIndex,
 		};
 
-		App->gui->AddCheckbox(panelPosition, functionPath, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
+		App->gui->AddCheckbox(panelPosition, functionPath, name, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
 
 	}
 

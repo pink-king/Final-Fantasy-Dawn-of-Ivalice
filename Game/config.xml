@@ -613,34 +613,76 @@
       
     <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
-          <idleSec  x="1079" y="2524" w="222" h="67"/>
-          <hoverSec x="1079" y="2456" w="222" h="67" />
-          <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="918" y="566"/>
+          <idleSec  x="0" y="2837" w="143" h="66"/>
+          <hoverSec x="144" y="2837" w="143" h="66" />
+          <clickSec x="0" y="2837" w="143" h="66" />
+          <position x="1007" y="566"/>
         </button>
-      <button name="instagram" function = "Instagram">
+      <button name="instagram" function = "SocialMedia">
           <idleSec  x="453" y="166" w="100" h="100"/>
-          <hoverSec x="453" y="166" w="100" h="100" />
+          <hoverSec x="857" y="178" w="100" h="100" />
           <clickSec x="453" y="166" w="100" h="100" />
           <position x="111" y="566"/>
         </button>
-      <button name="youtube" function = "YouTube">
+      <button name="youtube" function = "SocialMedia">
           <idleSec  x="554" y="166" w="100" h="100"/>
-          <hoverSec x="554" y="166" w="100" h="100" />
+          <hoverSec x="958" y="178" w="100" h="100" />
           <clickSec x="554" y="166" w="100" h="100" />
           <position x="341" y="566"/>
         </button>
-       <button name="twitter" function = "Twitter">
+       <button name="twitter" function = "SocialMedia">
           <idleSec  x="655" y="166" w="100" h="100"/>
-          <hoverSec x="655" y="166" w="100" h="100" />
+          <hoverSec x="1059" y="178" w="100" h="100" />
           <clickSec x="655" y="166" w="100" h="100" />
           <position x="568" y="566"/>
         </button>
-      <button name="github" function = "Github">
+      <button name="github" function = "SocialMedia">
           <idleSec  x="756" y="166" w="100" h="100"/>
-          <hoverSec x="756" y="166" w="100" h="100" />
+          <hoverSec x="1160" y="178" w="100" h="100" />
           <clickSec x="756" y="166" w="100" h="100" />
-          <position x="784" y="566"/>
+          <position x="795" y="566"/>
+        </button>
+      <button name="Sebastia" function = "SocialMedia">
+          <idleSec  x="0" y="2904" w="771" h="18"/>
+          <hoverSec x="0" y="3078" w="771" h="18" />
+          <clickSec x="0" y="2904" w="771" h="18" />
+          <position x="111" y="241"/>
+        </button>
+      <button name="Jose" function = "SocialMedia">
+          <idleSec  x="0" y="2923" w="585" h="18"/>
+          <hoverSec x="0" y="3059" w="585" h="18" />
+          <clickSec x="0" y="2923" w="585" h="18" />
+          <position x="111" y="342"/>
+        </button>
+       <button name="Carlos" function = "SocialMedia">
+          <idleSec  x="0" y="2942" w="464" h="27"/>
+          <hoverSec x="288" y="2837" w="464" h="27" />
+          <clickSec x="0" y="2942" w="464" h="27" />
+          <position x="111" y="392"/>
+        </button>
+        <button name="Doctor" function = "SocialMedia">
+          <idleSec  x="0" y="2970" w="403" h="18"/>
+          <hoverSec x="288" y="2865" w="403" h="18" />
+          <clickSec x="0" y="2970" w="403" h="18" />
+          <position x="111" y="460"/>
+        </button>
+       <button name="Didac" function = "SocialMedia">
+          <idleSec  x="0" y="2989" w="336" h="27"/>
+          <hoverSec x="465" y="2942" w="336" h="27" />
+          <clickSec x="0" y="2989" w="336" h="27" />
+          <position x="795" y="392"/>
+        </button>
+      <button name="Gerard" function = "SocialMedia">
+          <idleSec  x="0" y="3017" w="356" h="22"/>
+          <hoverSec x="404" y="2970" w="356" h="22" />
+          <clickSec x="0" y="3017" w="356" h="22" />
+          <position x="795" y="342"/>
+        </button>
+      <button name="Pol" function = "SocialMedia">
+          <idleSec  x="0" y="3040" w="336" h="18"/>
+          <hoverSec x="288" y="2884" w="336" h="18" />
+          <clickSec x="0" y="3040" w="336" h="18" />
+          <position x="795" y="460"/>
         </button>
     
       
@@ -720,11 +762,17 @@
       </images>
 
       <buttons>
+        <button name="button_backLobby" function = "GoBackToLobbyFromDeath">
+          <idleSec  x="856" y="2932" w="222" h="67"/>
+          <hoverSec x="856" y="2864" w="222" h="67" />
+          <clickSec x="856" y="3000" w="222" h="67" />
+          <position x="889" y="446"/>
+        </button>
         <button name="button_backMenu" function = "GoBackToStartMenuFromDeathWin">
           <idleSec  x="856" y="2728" w="222" h="67"/>
           <hoverSec x="856" y="2660" w="222" h="67" />
           <clickSec x="856" y="2796" w="222" h="67" />
-          <position x="889" y="446"/>
+          <position x="889" y="546"/>
         </button>
       </buttons>
     </DeathScreen>

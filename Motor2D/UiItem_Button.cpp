@@ -11,7 +11,10 @@
 #include <assert.h>
 
 
-UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) : UiItem(position, function, parent)
+
+
+
+UiItem_Button::UiItem_Button(iPoint position, std::string & function, std::string &name, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover) :UiItem(position, function, name, parent)
 {
 	assert(parent != nullptr);
 	frames[IDLE] = *idle;
@@ -29,8 +32,8 @@ UiItem_Button::UiItem_Button(iPoint position, std::string &function, const SDL_R
 	this->guiType = GUI_TYPES::BUTTON;
 	hitBox.w = idle->w;
 	hitBox.h = idle->h;
+	name_button = name;
 }
-
 
 void UiItem_Button::AddFuntion(std::string & string)
 {
@@ -55,8 +58,12 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToStartMenuFromDeathWin();
 	if (functionName == "Credits")
 		App->gui->Credits();
-	if (functionName == "LoadGame")
+	if (functionName == "SocialMedia")
+		App->gui->SocialMedia(name_button);
+
+	if (functionName == "LoadGame" || functionName == "GoBackToLobbyFromDeath")
 	{
+		App->scene->deathPanel->enable = false;
 		App->scene->ComeToWin = true;
 		if (App->scene->previosState == SceneState::LEVEL1 || App->scene->previosState == SceneState::LEVEL2)
 			App->scene->ComeToPortal = true;
