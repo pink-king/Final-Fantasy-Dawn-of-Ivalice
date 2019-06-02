@@ -51,8 +51,6 @@ void DialogTrigger::Draw()
 
 	if (App->scene->debugSubtiles)
 		DebugTrigger();
-
-	LOG("posstate: %i", posState.y);
 }
 
 

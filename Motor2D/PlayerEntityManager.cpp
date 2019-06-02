@@ -106,8 +106,19 @@ bool PlayerEntityManager::Update(float dt)
 {
 	bool ret = true;
 
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+	{
+		playerUpdateReady = !playerUpdateReady;
+
+		if (!playerUpdateReady)
+			LockPlayerInput();
+		else
+			UnlockPlayerInput();
+	}
+
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
-	selectedCharacterEntity->Update(dt);
+	if(playerUpdateReady)
+		selectedCharacterEntity->Update(dt);
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
 	lastCharHeadingAngle = selectedCharacterEntity->GetLastHeadingAngle();
@@ -393,6 +404,22 @@ bool PlayerEntityManager::CleanUp()
 	return true;
 }
 
+void PlayerEntityManager::LockPlayerInput()
+{
+	// updates all characters to idle anim with pointing dir with the last selected
+	for (std::vector<PlayerEntity*>::iterator charsIter = characters.begin(); charsIter != characters.end(); ++charsIter)
+	{
+		(*charsIter)->currentAnimation = &(*charsIter)->idle[selectedCharacterEntity->pointingDir];
+	}
+
+	playerUpdateReady = false;
+}
+
+void PlayerEntityManager::UnlockPlayerInput()
+{
+	playerUpdateReady = true;
+}
+
 bool PlayerEntityManager::Load(pugi::xml_node &node)
 {
 	
@@ -585,6 +612,8 @@ void PlayerEntityManager::SetPreviousCharacter()
 			// updates pivot
 			UpdatePivot();
 			App->audio->PlayFx(App->scene->swapCharSFX, 0);
+			// updates internal state
+			//selectedCharacterEntity->Update(App->GetDt());
 			break;
 		}
 	}
@@ -594,7 +623,7 @@ void PlayerEntityManager::SetPreviousCharacter()
 
 void PlayerEntityManager::SetNextCharacter()
 {
-	float current_frame = 0;
+	float current_frame = 0.f;
 	fPoint tempPosition;
 	int pointingDirectionTemp = 0;
 

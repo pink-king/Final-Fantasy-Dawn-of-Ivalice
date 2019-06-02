@@ -137,7 +137,13 @@ public:
 	uint level;
 	uint exp;
 	uint maxExpInLevel;
+
+public:
+	void LockPlayerInput();
+	void UnlockPlayerInput();
+
 private:
+	bool playerUpdateReady = true; // prevents to Update the player state
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
 

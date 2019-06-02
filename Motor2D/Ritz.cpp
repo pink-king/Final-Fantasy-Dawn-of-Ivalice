@@ -522,7 +522,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	}
 	// ------------------------------------------------------------
 
-	currentAnimation = &run[(int)facingDirection::SE];
+	currentAnimation = &idle[(int)facingDirection::S];
 
 	tpMaxDistance = 200.f;
 

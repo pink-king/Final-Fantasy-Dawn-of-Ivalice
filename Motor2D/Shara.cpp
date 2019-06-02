@@ -354,7 +354,7 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	
 	// ---------------------------------------------------------------------------
 	
-	currentAnimation = &run[(int)facingDirection::SE];
+	currentAnimation = &idle[(int)facingDirection::S];
 
 
 	dashMaxDistance = 120.f;

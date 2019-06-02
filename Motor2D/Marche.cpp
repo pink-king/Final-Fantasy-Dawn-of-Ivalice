@@ -583,7 +583,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// ------------------------------------------------------------------
 
-	currentAnimation = &run[(int)facingDirection::W];
+	currentAnimation = &idle[(int)facingDirection::S];
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
