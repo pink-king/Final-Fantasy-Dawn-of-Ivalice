@@ -57,7 +57,7 @@ void Door::Draw()
 bool Door::DoTriggerAction()
 {
 	active = true;
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		App->SaveGame("save_game.xml");
 		App->scene->ComeToDeath = true;
