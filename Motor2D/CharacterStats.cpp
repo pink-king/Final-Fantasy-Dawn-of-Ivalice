@@ -137,7 +137,7 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 						dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false; 
 						dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue), NULL, NULL);
 						dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
- 
+                        
 					}
 				}
 			}
@@ -163,7 +163,10 @@ void CharacterStats::SetNewStats()
 				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue -= dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue;
 
 			}
+			
+			    // TODO: if object has been picked without comparing, there are no new stats !!!!!!!!!!!
 
+		
 				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue += dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue; 
 				dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), NULL, NULL);
 
@@ -171,12 +174,55 @@ void CharacterStats::SetNewStats()
 				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true; 
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
 
+	
+		}
+	}
+
+}
+
+void CharacterStats::HideAllComparisonStats()
+{
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	{
+		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
+		{
+			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
+			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
 		}
 	}
 
 }
 
 
+void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values)
+{
+
+
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	{
+		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
+		{
+			for (uint i = 0; i < newStatsMappingPositions.size(); ++i)
+			{
+				if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
+				{
+					if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
+					{
+						dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
+						dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue + values.at(i);  // if buff is summative
+				
+					}
+				}
+			}
+
+		}
+	}
+
+}
 
 void CharacterStats::deGenerateCharacterStats()  // call it when closing inventory
 {

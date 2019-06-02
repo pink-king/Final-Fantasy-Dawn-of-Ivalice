@@ -59,9 +59,10 @@ public:
 	void deGenerateCharacterStats();
 	
 	void SetBaseStats(std::array<int, 5> newStatsMappingPositions);   // if Compare recieves a 1 in the mapping pos, change it, with the value at that pos
-	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});  
+	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
+	void GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	void SetNewStats();
-
+	void HideAllComparisonStats(); 
 
 
 

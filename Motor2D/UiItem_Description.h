@@ -75,6 +75,8 @@ public:
 	void HideAllComparisonLabels();
 	void SwitchCameraUsage();
 
+	void getItemBuffsAndPassThemToCharacterStatBlock(LootEntity* ent); 
+
 	void DeleteEverything();
 
 public:

@@ -487,7 +487,12 @@ void UiItem_Description::Draw(const float& dt)
 				{
 					if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
 					{
+						// get stats before equipping, so that they can be added 
+
+						getItemBuffsAndPassThemToCharacterStatBlock(this->callback);
 						App->scene->inventoryItem->De_______Equip(this->callback);
+
+					
 					}
 
 				}
@@ -843,9 +848,22 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 
 						ret = true;
+
+
+
+						if (App->scene->inventoryItem->enable)
+							App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);
+
 					}
+					else
+					{
+
+					if (App->scene->inventoryItem->enable)
+						App->scene->characterStatsItem->HideAllComparisonStats(); 
+                    }
 
 				}
+
 
 			}
 
@@ -854,8 +872,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 	}
 
 
-	if (App->scene->inventoryItem->enable)
-		App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);
+	
 
 	hasToCompare = false;
 
@@ -864,6 +881,86 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 }
 
+
+
+void UiItem_Description::getItemBuffsAndPassThemToCharacterStatBlock(LootEntity* ent)
+{
+	std::array<int, 5> characterStatsMapping = {};
+	std::array<int, 5> characterStatsValues = {};
+
+	float attack = 0.0f;
+	float resistance = 0.0f;
+	float cooldown = 0.0f;
+
+	float HP = 0.0f;
+	float velocity = 0.0f;
+
+	std::vector<Buff*>::iterator iter = ent->stats.begin();
+
+	if (this->descrType == descriptionType::WEAPON)
+	{
+		for (; iter != ent->stats.end(); ++iter)    // capture att and def 
+		{
+			if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+			{
+				attack = (*iter)->GetValue();
+
+				characterStatsMapping.at(0) = 1;
+				characterStatsValues.at(0) = attack;
+			}
+			else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+			{
+				resistance = (*iter)->GetValue();
+
+				characterStatsMapping.at(1) = 1;
+				characterStatsValues.at(1) = resistance;
+			}
+			else if ((*iter)->GetRol() == ROL::COOLDOWN)
+			{
+				cooldown = (*iter)->GetValue();
+
+				characterStatsMapping.at(2) = 1;
+				characterStatsValues.at(2) = cooldown;
+			}
+
+		}
+
+	}
+	else
+	{
+		for (; iter != ent->stats.end(); ++iter)   // capture def and other 2 possible rols
+		{
+			if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+			{
+				resistance = (*iter)->GetValue();
+
+				characterStatsMapping.at(1) = 1;
+				characterStatsValues.at(1) = resistance;
+			}
+			else if ((*iter)->GetRol() == ROL::HEALTH)
+			{
+				HP = (*iter)->GetValue();
+
+				characterStatsMapping.at(3) = 1;
+				characterStatsValues.at(3) = HP;
+			}
+			else if ((*iter)->GetRol() == ROL::VELOCITY)
+			{
+				velocity = (*iter)->GetValue();
+
+
+				characterStatsMapping.at(4) = 1;
+				characterStatsValues.at(4) = velocity;
+			}
+
+		}
+
+	}
+
+	App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
+
+
+}
 
 
 
