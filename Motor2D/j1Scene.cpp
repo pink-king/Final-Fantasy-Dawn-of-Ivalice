@@ -978,6 +978,8 @@ bool j1Scene::Update(float dt)
 
 		}
 
+		
+
 	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
