@@ -7,7 +7,7 @@
 #include "PlayerEntity.h"
 #include "j1PerfTimer.h"
 #include <random>
-
+#include <functional>
 //#include "pcg_random.hpp"
 #include "j1Scene.h"
 
@@ -96,6 +96,8 @@ public:
 public:
 	std::list<iPoint> groundTilePoints;
 	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_TILE_FALL];
+	iPoint adjacentTileNeighboursToGround2[NUM_NEIGH_TILE_FALL];
+
 	iPoint groundTileDestination;
 
 	iPoint Getoriginpos();
