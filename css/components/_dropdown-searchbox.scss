@@ -1,0 +1,40 @@
+.dropdown-search-box {
+    border-radius: 0;
+    padding: 10px;
+    margin-top: 21px;
+
+    &:after {
+        @extend %half-border;
+        left: 10px;
+        bottom: 10px;
+        height: 20px;
+    }
+    &:before {
+        @extend %half-border;
+        right: 10px;
+        bottom: 10px;
+        height: 20px;
+    }
+
+    .searchbox-caret {
+        @extend %icon;
+        font-size: 160%;
+        position: absolute;
+        top: -24px;
+        left: 5px;
+        color: $textShadow03;
+    }
+
+    .search-box, .search-box:focus {
+        border: none;
+        border-bottom: 1px solid $borderColor;
+        background-color: transparent;
+        color: $mainColor;
+        font-weight: 400;
+        font-size: 100%;
+        padding: 5px 10px;
+        position: relative;
+
+        @include mq-tablet { font-size: 130%; }
+    }
+}

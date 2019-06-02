@@ -1,0 +1,145 @@
+.btn {
+    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.35);
+    font-size: 90%;
+    border-radius: 0px;
+    font-weight: 400;
+    padding: 10px 15px 10px 15px;
+    text-decoration: none !important;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    transition: all 0.25s;
+    background-image: linear-gradient(to bottom, $buttonBorder01, $buttonBorder02);
+    background-image: -webkit-linear-gradient(top, $buttonBorder01, $buttonBorder02);
+    color: $buttonColor;
+    font-size: 24px;
+    line-height: 36px;
+    padding: 12px 69px;
+    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+    width: 100%;
+    background-size: 1px 200px;
+    border: 1px solid $buttonBorder01;
+
+    &:hover, &:active, &:focus {
+        color: $inputColor;
+        background-position: 100px;
+        background-image: linear-gradient(to bottom, $buttonBorder01, $buttonBorder02);
+        background-image: -webkit-linear-gradient(top, $buttonBorder01, $buttonBorder02);
+    }
+}
+
+.search-button {
+    @extend %icon;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    position: relative;
+    top: 4px;
+    text-shadow: 0 0 15px $textShadow01, 0px -5px 20px $textShadow02, 0 5px 20px $textShadow03;
+    color: $mainColor;
+    transition: color .33s;
+
+    &:hover {
+        color: $whiteColor;
+    }
+}
+
+// SPECIAL THANKS TO BLIZZARD //
+
+.button-game {
+    display: inline-block; 
+    font-size: 16px; 
+    line-height: 54px; 
+    padding: 0 3px; 
+    position: relative; 
+    text-align: center; 
+    width: 100%;
+
+    @include mq-ipad-pro-portrait {
+        font-size: 14px;
+    }  
+    @include mq-tablet {
+        font-size: 14px;
+    }
+    @include mq-max-smartphone {
+        font-size: 10px;
+    }
+    .button-game-bg-mid { 
+        background: $textureBtn repeat-x 0 0; 
+        color: $buttonColor; 
+        display: block; 
+        font-family: $mainFont; 
+        letter-spacing: 1px; 
+        font-weight:600; 
+        padding: 0 42px; 
+        position: relative; 
+        text-shadow: 0 0 8px $blackerColor; 
+        transition: color 0.2s; 
+    }
+    .button-game-bg-mid {
+        &:after { 
+            background: $textureBtn repeat-x 0 -54px; 
+            content: ""; 
+            height: 54px; 
+            left: 0; 
+            opacity: 0; 
+            position: absolute; 
+            right: 0; 
+            top: 0; 
+            transition: opacity 0.2s; 
+            -webkit-transform: translateZ(0);
+        }
+    }
+    &:hover {
+        text-decoration: none;
+            .button-game-bg-mid {
+                color: $inputColor; 
+            }
+    }
+    &:focus {
+        text-decoration: none; 
+    }
+    &:hover {
+        .button-game-bg-mid {
+            &:after { opacity: 1; }
+        }
+    }
+    .button-game-bg-mid > span {
+        position: relative; z-index: 1; 
+    }
+    .button-game-bg-left {
+        background: $textureBtn no-repeat 0 -108px; 
+        height: 54px; 
+        left: 0; 
+        position: absolute; 
+        top: 0; 
+        width: 51px; 
+        z-index: 1; 
+    }
+    .button-game-bg-right {
+        background: $textureBtn no-repeat 0 -162px;
+        height: 54px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 51px;
+        z-index: 1; 
+    }
+}
+
+.button-game-apple {
+    font-size: 150%;
+    top: 3px;
+    line-height: 100%;
+}
+
+.button-game-android {
+    font-size: 150%;
+    top: 4px;
+    line-height: 100%;
+}
+
+.button-game-steam {
+    font-size: 200%;
+    top: 8px;
+    line-height: 100%;
+}

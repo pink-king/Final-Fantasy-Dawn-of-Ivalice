@@ -1,0 +1,205 @@
+.gallery {
+    color: $whiteColor;
+    padding: 3% 0 0 0;
+    @include mq-large-desktop { padding: 1.5% 0; }
+    box-shadow: inset 0 10px 50px $blackerColor;
+    overflow: hidden;
+
+    .section-description {
+        margin: 1rem auto 3rem auto;
+    }
+
+    h2 { margin-bottom: 40px; }
+
+    #dragonic-carousel {
+        border: 0;
+        width: 100%;
+
+        @include mq-large-desktop {
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.65);
+            margin: 0 auto 4rem auto;
+            width: 1200px;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .carousel-caption {
+        padding: 10px;
+        font-size: 80%;
+        margin-bottom: 30px;
+
+        @include mq-max-smartphone {
+            display: none;
+        }
+
+        @include mq-tablet {
+            left: 10%;
+            right: 10%;
+            padding: 20px;
+            font-size: 100%;
+            margin-bottom: 55px;
+            text-shadow: 0 0 15px $textShadow01, 0px -5px 20px $textShadow02, 0 5px 20px $textShadow03;
+        }
+    }
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    display: block;
+    height: 56px;
+    opacity: 1;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    -webkit-transition: opacity .2s;
+    transition: opacity .2s;
+    width: 86px;
+
+    &:after {
+        bottom: 0;
+        content: "";
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        -webkit-transition: opacity .2s;
+        transition: opacity .2s;
+    }
+
+    @include transform(positionY(-40%));
+    @include mq-tablet { font-size: 400%; }
+    @include mq-desktop { font-size: 600%; }
+}
+
+.slider-arrow-left {
+    background: $textureSldrArrow no-repeat 0 0;
+
+    &:after {
+        background: $textureSldrArrow no-repeat -86px 0;
+    }
+
+    &:hover {
+        &:after {
+            opacity: 1;
+        }
+    }
+    @include mq-ipad-pro-portrait {
+        left: 70px;
+    }
+    @include mq-tablet {
+        left: 70px;
+    }
+    @include mq-desktop {
+        left: -28px;
+    }    
+    @include mq-max-smartphone {
+        left: 20px;
+    }
+}
+
+.slider-arrow-right {
+    background: $textureSldrArrow no-repeat -172px 0;
+
+    &:after {
+        background: $textureSldrArrow no-repeat -258px 0;   
+    }
+
+    &:hover {
+        &:after {
+            opacity: 1;
+        }
+    }
+    @include mq-ipad-pro-portrait {
+        right: -20px;
+    }  
+    @include mq-tablet {
+        right: -20px;
+    }
+    @include mq-desktop {
+        right: -114px;
+    }       
+    @include mq-max-smartphone {
+        right: -66px;
+    } 
+}
+
+.carousel-control {
+    opacity: 1;
+    transition: all 0.2s;
+    width: 0;
+
+        &:hover {
+            opacity: 1;
+        }
+}
+
+.carousel-indicators li {
+    border: 5px double $secondaryColor;
+}
+
+.carousel-indicators .active {
+    background-color: $blackerColor;
+}
+
+.modal-corner { 
+    background: $textureModalBorder01 no-repeat; 
+    position: absolute; 
+    height: 18px; 
+    width: 18px; 
+}
+.modal-corner-top-left { 
+    background-position: -1px -1px; 
+    left: -18px; 
+    top: -18px; 
+}
+.modal-corner-top-right { 
+    background-position: -19px -1px; 
+    right: -18px; 
+    top: -18px; 
+}
+.modal-corner-bottom-right { 
+    background-position: -19px -19px; 
+    bottom: -18px; 
+    right: -18px; 
+}
+.modal-corner-bottom-left { 
+    background-position: -1px -19px; 
+    bottom: -18px; 
+    left: -18px; 
+}
+
+.modal-border { 
+    position: absolute; 
+}
+.modal-border-top { 
+    background: $textureModalBorder02 0 0 repeat-x; 
+    height: 18px; 
+    left: 0; 
+    right: 0; 
+    top: -18px; 
+}
+.modal-border-right { 
+    background: $textureModalBorder01 -272px 0 repeat-y; 
+    bottom: 0; 
+    right: -18px; 
+    top: 0; 
+    width: 18px; 
+}
+.modal-border-bottom { 
+    background: $textureModalBorder02 0 -18px repeat-x; 
+    bottom: -18px; 
+    height: 18px; 
+    left: 0; 
+    right: 0; 
+}
+.modal-border-left { 
+    background: $textureModalBorder01 -254px 0 repeat-y; 
+    bottom: 0; 
+    left: -18px; 
+    top: 0; 
+    width: 18px; 
+}

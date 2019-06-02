@@ -1,0 +1,58 @@
+.features {
+    padding-top: 20px;
+}
+.features-img {
+	width: 100%;
+	border: 1px solid;
+    opacity: 0.5;
+    transition: all 0.5s;
+    box-shadow: 0px 0px 25px 0px $blackerColor;
+    @include mq-ipad-pro-portrait {
+        opacity: 1;
+    }  
+    @include mq-max-tablet {
+        opacity: 1;
+    }
+}
+.features-item {
+	.item-name-caption {
+        @extend %caption;
+	    background-color: $blackerColor;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+       	top: 0;
+       	border-radius: 0px;
+       	left: 0;
+       	display: none;
+    }
+	&:hover {
+		.features-img {
+			opacity: 1;
+    		border: 1px solid $imageBorder;
+    		box-shadow: 0px 0px 25px 0px $imageShadow;
+		}
+		h3 {
+			text-shadow: 0px 0px 4px $blackColor;
+		}
+		.features-p {
+		    color: $imageBorder;	
+		}
+	}
+}
+.features-p {
+	font-family: $secondaryFont;
+    color: $imageText;
+    font-size: 0.85em;
+    text-align: left;
+    transition: all 0.5s;
+    font-weight: 400;
+    line-height: 1.4rem;
+    @include mq-ipad-pro-portrait {
+        font-size: 0.8em;
+    }
+    @include mq-max-small-smartphone {
+        font-size: 0.9rem;
+    }     
+}
+h3 {
+	transition: all 0.5s;
+}

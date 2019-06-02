@@ -1,0 +1,73 @@
+
+//Layout
+html, body {
+    color: $blackColor;
+    font-size: 18px;
+    
+    @include mq-tablet {
+        font-size: 20px !important;
+        padding-right: 0px !important;
+    }
+
+    font-family: $mainFont;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+}
+
+section {
+    padding: 3% 1%;
+}
+
+//Headers
+h1 {
+    margin: 0;
+}
+
+h2 {
+    @extend %headers;
+    font-size: 180%;
+    color: $secondaryColor;
+    text-shadow: 0px 0px 6px $blackerColor;
+    @include mq-max-smartphone {
+        font-size: 190%;
+    }
+}
+
+h3 {
+    @extend %headers;
+    font-size: 150%;
+    font-weight: 600;
+    color: $tertiaryColor;
+    text-shadow: 0px 0px 4px $blackerColor;
+}
+
+h2, .h2 {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+h3, .h3 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+//Input
+input:focus, textarea:focus, button:focus {
+    outline: 0 !important;
+}
+
+//Description
+    .section-description {
+        margin: 1rem auto 0 auto;
+        width: 69%;
+        font-family: $secondaryFont;
+        color: $imageText;
+        font-size: 1em;
+        font-weight: 400;
+        text-align: center;
+        line-height: 1.6rem;
+
+            @include mq-max-tablet {
+                width: 85%;
+            }
+    }

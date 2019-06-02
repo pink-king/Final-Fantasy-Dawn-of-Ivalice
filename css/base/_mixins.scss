@@ -1,0 +1,49 @@
+@mixin mq-max-small-smartphone {
+  @media (max-width: #{$small-smartphone-width}) {
+    @content;
+  }
+}
+
+@mixin mq-max-smartphone {
+  @media (max-width: #{$smartphone-width}) {
+    @content;
+  }
+}
+
+@mixin mq-tablet {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin mq-max-tablet {
+  @media (max-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin mq-ipad-pro-portrait {
+  @media only screen and #{$ipad-pro-portrait-breakpoint} {
+   @content; 
+  }
+}
+
+@mixin mq-desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@mixin mq-large-desktop {
+  @media (min-width: #{$large-desktop-width}) {
+    @content;
+  }
+}
+
+@mixin absolute-center($top:auto, $left:auto) {
+    position:absolute;
+    top:$top;
+    left:$left;
+    -webkit-transform:translate(-50%, -50%);
+    transform:translate(-50%, -50%);
+}

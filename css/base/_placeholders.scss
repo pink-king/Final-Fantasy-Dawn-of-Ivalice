@@ -1,0 +1,34 @@
+%full-screen-bg {
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+}
+
+%headers {
+    font-weight: 300;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+%half-border {
+    content: " ";
+    background-color: $borderColor;
+    width: 1px;
+    position: absolute;
+}
+
+%icon {
+    color: white;
+    font-size: 130%;
+    padding: 8px 16px;
+}
+
+%caption {
+    border-radius: 5px;
+    color: white;
+    font-size: 80%;
+    font-weight: 400;
+    padding: 10px;
+    position: absolute;
+    z-index: 2;
+}

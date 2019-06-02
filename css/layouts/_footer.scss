@@ -1,0 +1,55 @@
+.footer {
+    font-family: $secondaryFont;
+    color: $mainColor !important;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+
+    a {
+        transition: all 0.33s;
+        @include mq-tablet { font-size: 100%; }
+        @include mq-desktop { font-size: 100%; }
+        color: $mainColor !important;
+        
+        &:hover, &:active {
+        text-shadow: 0 0 15px $textShadow01, 0px -5px 20px $textShadow02, 0 5px 20px $textShadow03;
+        color: $whiteColor !important; }
+        text-decoration: none;
+    }
+
+    .footer-nav {
+        text-align: center;
+        font-size: 80%;
+        @include mq-tablet { text-align: left; }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li { display: inline-block;
+                padding-right: 1rem;
+        }
+    }
+
+    .social-nav {
+        font-size: 120%;
+        text-align: center;
+        margin-top: 0.5rem;
+        @include mq-tablet { text-align: right; margin-top: 0; }
+
+        a {
+            padding: 0.5rem;
+            border: none !important;
+        }
+    }
+
+    .copyright {
+        font-family: $mainFont;
+        text-rendering: optimizeLegibility;
+        letter-spacing: 0.2rem;
+        text-align: center;
+        margin-top: 1.75rem;
+        color: $inputBorderTop;
+        font-size: 140%;
+    }
+}

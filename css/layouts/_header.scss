@@ -1,0 +1,58 @@
+header {
+    @extend %full-screen-bg;
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0, 0, 0, 0.05)), $textureMainBg;
+    box-shadow: inset 0 -10px 70px rgba(0, 0, 0, 0.75);
+    height: 75vh;
+    background-position: 75%;
+    @include mq-large-desktop {
+        background-attachment: fixed;
+    }
+    @include mq-max-tablet {
+        background-position: 25%;
+    }
+    @include mq-ipad-pro-portrait {
+        background-position: 25%;
+    }
+}
+
+.big-logo {
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    opacity:0;
+    -moz-transition: opacity 2s; 
+    -webkit-transition: opacity 2s;
+    -o-transition: opacity 2s;
+    transition: opacity 2s;
+    @include transform(translate(-50%, -90%));
+
+    width: 50%;
+    z-index: 0;
+
+    @include mq-max-tablet {
+        width: 80%;
+        top: 45%;
+        @include transform(translate(-50%, -65%));
+    }
+
+    @include mq-ipad-pro-portrait {
+        width: 75%;
+        top: 48%;
+    }
+
+    @include mq-max-smartphone {
+        width: 100%;
+    }
+}
+
+.social-nav-header {
+    @extend .social-nav;
+    left: 50%;
+    @include transform(translateX(-50%));
+    bottom: 55px;
+    display: none;
+    position: absolute;
+
+    @include mq-tablet { display: block; }
+}

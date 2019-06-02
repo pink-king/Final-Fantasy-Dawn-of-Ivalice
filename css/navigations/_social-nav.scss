@@ -1,0 +1,15 @@
+.social-nav {
+
+    a, a:hover, a:focus {
+        background-color: transparent !important;
+    }
+
+    .icon-social {
+        @extend %icon;
+        transition: all 0.25s;
+
+        &:hover, &:active {
+            color: $mainColor;
+        }
+    }
+}

@@ -1,0 +1,169 @@
+// === THEME ===
+// Allowed values: Medieval, SciFi, War
+$theme: Medieval;
+
+//colors;
+$blackColor: #383838;
+$blackerColor: #000000;
+$whiteColor: #ffffff;
+
+$mainColor: #c4ae78;
+$secondaryColor: #ecd19a;
+$secondaryColorHover: #f3e6d0;
+$tertiaryColor: #ad835a;
+$tertiaryColorHover: #be9d7c;
+
+$navBarBg: linear-gradient(rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.75));
+$borderColor: #3f2f29;
+$borderColorLight: #752b1a;
+$buttonColor: #f3aa55;
+$buttonBorder01: #b93a27;
+$buttonBorder02: #9e1e0b;
+$imageBorder: #9d9280;
+$imageText: #71675b;
+$imageShadow: #37271b;
+$imageShadowHover: rgba(97, 51, 40, 0.9);
+$imagePanel: rgba(24, 10, 7, 0.7);
+$textShadow01: #99774c;
+$textShadow02: #a17e51;
+$textShadow03: #96744a;
+$inputBg: #29221c; 
+$inputBorder: 1px solid #62351f; 
+$inputBorderTop: #734a32;
+$inputColor: #ffcb8d;
+$selectionBg: #b2321f;
+$testimonialsColor: #fffcd9;
+
+//fonts;
+$mainFont: "Cinzel Decorative", 'Palatino Light', Times, Times New Roman, Georgia, serif;
+$secondaryFont: Helvetica, Arial, sans-serif;
+$tertiaryFont: 'Palatino Light', Times, Times New Roman, Georgia, serif;
+
+//background images;
+$textureMainBg: url(../img/Dragonic.jpg);
+$textureBg01: url(../img/dark_wall.png);
+$textureBg02: url(../img/dark_leather.png);
+$textureBgDevs: url(../img/developers.jpg);
+$textureChecks: url(../img/checks.png);
+$textureDvdr01: url(../img/divider-sprite.png);
+$textureDvdr02: url(../img/blog-separator-2.png);
+$textureBtn: url(../img/button-sprite.png);
+$textureSldrArrow: url(../img/carousel-sprite.png);
+$textureVideoPlay: url(../img/video-play.png);
+$textureModalBorder01: url(../img/modal.png);
+$textureModalBorder02: url(../img/modal-frame.png);
+$textureVideoBorder01: url(../img/item-border-sprite.png);
+$textureVideoBorder02: url(../img/item-border-frame-sprite.png);
+$textureLogo: url(../img/logo-compact.png);
+
+@if $theme == SciFi {
+	$blackColor: #383838;
+	$blackerColor: #000000;
+	$whiteColor: #ffffff;
+
+	$mainColor: #c4ae78;
+	$secondaryColor: #ecd19a;
+	$secondaryColorHover: #f3e6d0;
+	$tertiaryColor: #ad835a;
+	$tertiaryColorHover: #be9d7c;
+
+	$navBarBg: linear-gradient(rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.75));
+	$borderColor: #3f2f29;
+	$borderColorLight: #752b1a;
+	$buttonColor: #f3aa55;
+	$buttonBorder01: #b93a27;
+	$buttonBorder02: #9e1e0b;
+	$imageBorder: #9d9280;
+	$imageText: #71675b;
+	$imageShadow: #37271b;
+	$imageShadowHover: rgba(97, 51, 40, 0.9);
+	$imagePanel: rgba(24, 10, 7, 0.7);
+	$textShadow01: #99774c;
+	$textShadow02: #a17e51;
+	$textShadow03: #96744a;
+	$inputBg: #29221c; 
+	$inputBorder: 1px solid #62351f; 
+	$inputBorderTop: #734a32;
+	$inputColor: #ffcb8d;
+	$selectionBg: #b2321f;
+	$testimonialsColor: #fffcd9;
+
+	$mainFont: "Cinzel", 'Palatino Light', Times, Times New Roman, Georgia, serif;
+	$secondaryFont: Helvetica, Arial, sans-serif;
+	$tertiaryFont: 'Palatino Light', Times, Times New Roman, Georgia, serif;
+
+	$textureMainBg: url(../img/Dragonic.jpg);
+	$textureBg01: url(../img/dark_wall.png);
+	$textureBg02: url(../img/dark_leather.png);
+	$textureBgDevs: url(../img/developers.jpg);
+	$textureChecks: url(../img/checks.png);
+	$textureDvdr01: url(../img/divider-sprite.png);
+	$textureDvdr02: url(../img/blog-separator-2.png);
+	$textureBtn: url(../img/button-sprite.png);
+	$textureSldrArrow: url(../img/anniversary-sprite.png);
+	$textureVideoPlay: url(../img/video-play.png);
+	$textureLgtbxBorder01: url(../img/lightbox.png);
+	$textureLgtbxBorder02: url(../img/lightbox-frame.png);
+	$textureVideoBorder01: url(../img/video-border-sprite.png);
+	$textureVideoBorder02: url(../img/video-border-frame-sprite.png);
+	$textureLogo: url(../img/logo-compact.png);
+} @else if $theme == War {
+	$blackColor: #383838;
+	$blackerColor: #000000;
+	$whiteColor: #ffffff;
+
+	$mainColor: #c4ae78;
+	$secondaryColor: #ecd19a;
+	$secondaryColorHover: #f3e6d0;
+	$tertiaryColor: #ad835a;
+	$tertiaryColorHover: #be9d7c;
+
+	$navBarBg: linear-gradient(rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.75));
+	$borderColor: #3f2f29;
+	$borderColorLight: #752b1a;
+	$buttonColor: #f3aa55;
+	$buttonBorder01: #b93a27;
+	$buttonBorder02: #9e1e0b;
+	$imageBorder: #9d9280;
+	$imageText: #71675b;
+	$imageShadow: #37271b;
+	$imageShadowHover: rgba(97, 51, 40, 0.9);
+	$imagePanel: rgba(24, 10, 7, 0.7);
+	$textShadow01: #99774c;
+	$textShadow02: #a17e51;
+	$textShadow03: #96744a;
+	$inputBg: #29221c; 
+	$inputBorder: 1px solid #62351f; 
+	$inputBorderTop: #734a32;
+	$inputColor: #ffcb8d;
+	$selectionBg: #b2321f;
+	$testimonialsColor: #fffcd9;
+
+	$mainFont: "Cinzel", 'Palatino Light', Times, Times New Roman, Georgia, serif;
+	$secondaryFont: Helvetica, Arial, sans-serif;
+	$tertiaryFont: 'Palatino Light', Times, Times New Roman, Georgia, serif;
+
+	$textureMainBg: url(../img/Dragonic.jpg);
+	$textureBg01: url(../img/dark_wall.png);
+	$textureBg02: url(../img/dark_leather.png);
+	$textureBgDevs: url(../img/developers.jpg);
+	$textureChecks: url(../img/checks.png);
+	$textureDvdr01: url(../img/divider-sprite.png);
+	$textureDvdr02: url(../img/blog-separator-2.png);
+	$textureBtn: url(../img/button-sprite.png);
+	$textureSldrArrow: url(../img/anniversary-sprite.png);
+	$textureVideoPlay: url(../img/video-play.png);
+	$textureLgtbxBorder01: url(../img/lightbox.png);
+	$textureLgtbxBorder02: url(../img/lightbox-frame.png);
+	$textureVideoBorder01: url(../img/video-border-sprite.png);
+	$textureVideoBorder02: url(../img/video-border-frame-sprite.png);
+	$textureLogo: url(../img/logo-compact.png);
+}
+
+//query sizes & mixins (based on Bootstrap 3 breakpoints);
+$small-smartphone-width: 320px;
+$smartphone-width: 480px;
+$tablet-width: 768px;
+$ipad-pro-portrait-breakpoint: "(min-device-width : 1024px) and (max-device-width : 1024px) and (min-device-height : 1366px) and (max-device-height : 1366px) and (min-width: 1024px) and (max-width: 1024px)";
+$desktop-width: 992px;
+$large-desktop-width: 1200px;

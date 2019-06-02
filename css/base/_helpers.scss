@@ -1,0 +1,132 @@
+.pattern {
+    background-image:
+        linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.55)), $textureBg01;
+}
+
+.pattern-dark {
+    background-image: $textureBg02;
+}
+
+.box {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    @include mq-max-tablet {
+        margin-top: 3rem;
+    }
+}
+
+.icon-big {
+    @extend %icon;
+    background-color: $mainColor;
+    border-radius: 50%;
+}
+
+/*
+    Hide the original radios and checkboxes
+    (but still accessible)
+
+    :not(#foo) > is a rule filter to block browsers
+                 that don't support that selector from
+                 applying rules they shouldn't
+
+*/
+label:not(#foo) > input[type='radio'],
+label:not(#foo) > input[type='checkbox'] {
+
+    /* Hide the input, but have it still be clickable */
+    opacity: 0;
+
+    float: right;
+    width: 18px;
+}
+
+label:not(#foo) > input[type='radio'] + span,
+label:not(#foo) > input[type='checkbox'] + span {
+    margin: 0;
+    clear: none;
+
+    /* Left padding makes room for image */
+    padding: 0px 48px 2px 24px;
+
+    /* Make look clickable because they are */
+    cursor: pointer;
+
+    background-image: $textureChecks;
+    background-size: 18px auto;
+    background-position: 0px -18px;
+    background-repeat: no-repeat;
+    height: 18px;
+}
+
+/*
+    Change from unchecked to checked graphic
+*/
+label:not(#foo) > input[type='radio']:checked + span {
+    background-image: $textureChecks;
+    background-size: 18px auto;
+    background-position: 0px -36px;
+    background-repeat: no-repeat;
+    height: 18px;
+}
+label:not(#foo) > input[type='checkbox']:checked + span {
+    background-image: $textureChecks;
+    background-size: 18px auto;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    height: 18px;
+}
+
+.Divider {
+    height: 55px;
+    margin: -18px -15px;
+    position: relative;
+    z-index: 1;
+
+    &:before {
+    	left: 0;
+    	margin-right: 82px;
+    	right: 50%;
+    	background: $textureDvdr01 repeat-x 50% 0;
+    	content: "";
+    	height: 55px;
+    	position: absolute;
+    	top: 0;
+    }
+    &:after {
+    	left: 50%;
+    	margin-left: 82px;
+    	right: 0;
+    	background: $textureDvdr01 repeat-x 50% 0;
+    	content: "";
+    	height: 55px;
+    	position: absolute;
+    	top: 0;
+    }
+}
+
+.Divider-rule {
+    background: $textureDvdr01 repeat-x 50% 100%;
+    border: 0;
+    height: 55px;
+    left: 50%;
+    margin: 0 0 0 -82px;
+    position: absolute;
+    top: 5px;
+    width: 164px;
+}
+
+::selection {
+    background: $selectionBg;
+    color: $inputColor;
+}
+
+::-moz-selection {
+    background: $selectionBg;
+    color: $inputColor;
+}
+
+option {
+    background: $selectionBg;
+    color: $inputColor;
+}

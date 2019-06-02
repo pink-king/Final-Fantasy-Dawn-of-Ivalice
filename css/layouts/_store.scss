@@ -1,0 +1,283 @@
+.store {
+    padding-top: 1.5%;
+    margin-bottom: 1.25rem;
+    @include mq-tablet { margin-bottom: 0.25rem; }
+
+    .items-container {
+        padding: 0 10%;
+        text-align: center;
+
+        @include mq-tablet {
+            padding: 0 0 0 8.33333333%;
+            text-align: left;
+        }
+    }
+}
+
+
+.panel-item__text { 
+    background: $imagePanel; 
+    bottom: 55px; 
+    left: 0; 
+    min-height: 54px;
+    padding: 16px 28px; 
+    position: absolute; 
+    right: 0; 
+    text-align: left;
+    border-right: 1px solid $borderColor; 
+    border-left: 1px solid $borderColor; 
+    transition: border 0.2s;
+}
+.panel-item__title {
+    color: $secondaryColor; 
+    text-align: left; 
+    font-size: 100%; 
+    font-weight: normal; 
+    line-height: 21px; 
+    margin: 3px 0 7px; 
+    transition: color 0.2s;
+    @include mq-ipad-pro-portrait {
+        font-size: 100%;
+    }
+    @include mq-tablet {
+        font-size: 100%;
+    } 
+}
+.panel-item__summary {  
+    line-height: 19px; 
+    margin: 4px 0; 
+    transition: color 0.2s; 
+    font: normal 16px/1.5 $secondaryFont; 
+    color: $tertiaryColor;
+}
+
+
+
+.bottom-wrapper {
+    background: $textureDvdr02 50% 100% no-repeat;
+    position: relative;
+}
+
+.gallery-item {
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.33);
+    transition: background-color 0.2s, box-shadow 0.2s;
+    background-color: $borderColor;
+    cursor: pointer;
+    padding: 1px;
+    margin-top: 25px; margin-bottom: 25px;
+
+    @include mq-tablet { margin-top: 8.33333333%; margin-bottom: 0; }
+
+    &:hover {
+        background-color: $borderColorLight;
+        box-shadow: 0 0 60px $imageShadowHover;
+            .panel-item__text { 
+                border-right: 1px solid $borderColorLight; 
+                border-left: 1px solid $borderColorLight;
+            }
+            .panel-item__title { 
+                color: $secondaryColorHover;
+            }
+            .panel-item__summary { 
+                color: $tertiaryColorHover;
+            }
+    }
+
+    img {
+        border-radius: inherit;
+        width: 100%;
+        height: auto;
+    }
+
+    .item-name-caption {
+        @extend %caption;
+        background-color: $blackerColor;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+        top: 0;
+        border-radius: 0px;
+        left: 0;
+        display: none;
+    }
+
+    .item-price-caption {
+        @extend %caption;
+        background-color: $blackerColor;
+        box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.25);
+        top: 0;
+        right: 0;
+        border-radius: 0px;
+        display: none;
+    }
+
+    .icon-caption {
+        //std props
+        border: 3px solid transparent;
+        border-radius: 50%;
+        display: block;
+        color: transparent;
+        position: absolute;
+        text-align: center;
+        transition: all 0.25s;
+        left: 50%;
+        top: 50%;
+        @include transform(translate(-50%, -50%));
+        //queryable props
+        font-size: 150%;
+        padding: 5px 15px;
+        @include mq-tablet {
+            font-size: 200%;
+            padding: 5px 20px;
+        }
+        @include mq-desktop {
+            font-size: 300%;
+            padding: 15px 35px;
+        }
+    }
+
+    &:after {
+        content: " ";
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.25s;
+    }
+}
+
+.modal {
+
+    padding-right: 0px !important;
+
+    .modal-header {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .modal-footer {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 1rem 1.33rem 1.33rem;
+    }
+
+    .modal-body {
+        font-size: 90%;
+        text-align: center;
+    }
+
+    img {
+        width: 400px;
+        height: auto;
+        margin-bottom: 15px;
+        display: inline-block;
+        @include mq-max-smartphone {
+            width: 80%;
+        }
+    }
+
+    .thumb-50 {
+        width: 50%;
+    }
+
+    #modal-price-tag {
+        border: none;
+        cursor: auto;
+        font-size: 180%;
+        color: $secondaryColor;
+        text-shadow: 0px 0px 6px $blackerColor;
+    }
+}
+
+.modal-open {
+    padding-right: 0px !important;
+}
+
+.img-thumbnail {
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid $borderColor;
+    border-radius: 0px;
+    box-shadow: 0px 0px 30px 0px $blackerColor;
+    margin: 1.33rem;
+}
+
+.modal-title {
+    margin: 1rem 0 0.75rem;
+    text-align: center;
+    color: $tertiaryColor;
+    font-size: 120%;
+}
+
+ul#model-feats {
+    margin: 1rem 0;
+    list-style: none;
+    padding: 0;
+    color: $tertiaryColor;    
+}
+
+.Video-corner {
+    background: $textureVideoBorder01 0 0 no-repeat;
+    position: absolute;
+    z-index: 100
+}
+.Video-corner--topLeft {
+    left: 0;
+    height: 15px;
+    top: 0;
+    width: 29px
+}
+.Video-corner--topRight {
+    background-position: -29px 0;
+    height: 14px;
+    right: 0;
+    top: 0;
+    width: 29px
+}
+.Video-corner--bottomRight {
+    background-position: -32px -14px;
+    bottom: 0;
+    height: 15px;
+    right: 0;
+    width: 26px
+}
+.Video-corner--bottomLeft {
+    background-position: 0 -14px;
+    bottom: 0;
+    height: 15px;
+    left: 0;
+    width: 26px
+}
+.Video-border {
+    position: absolute;
+    z-index: 100
+}
+.Video-border--top {
+    background: $textureVideoBorder02 0 0 repeat-x;
+    height: 8px;
+    left: 0;
+    right: 0;
+    top: 0
+}
+.Video-border--right {
+    background: $textureVideoBorder01 -69px 0 repeat-y;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    width: 11px
+}
+.Video-border--bottom {
+    background: $textureVideoBorder02 0 -8px repeat-x;
+    bottom: 0;
+    height: 8px;
+    left: 0;
+    right: 0
+}
+.Video-border--left {
+    background: $textureVideoBorder01 -58px 0 repeat-y;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    width: 11px
+}

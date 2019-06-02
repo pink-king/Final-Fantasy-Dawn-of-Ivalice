@@ -1,0 +1,83 @@
+.navbar-custom {
+    background: $navBarBg;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 3;
+}
+
+.navbar .container {
+    font-size: 14px !important;
+}
+
+.nav-logo {
+    width: 40px;
+    height: auto;
+}
+
+a.navbar-logo {
+    background-image: $textureLogo;
+    width: 50px;
+    height: 40px;
+    background-size: 50px auto;
+    padding: 0;
+    margin-top: 2px;
+
+    &:hover {
+        background-position: 0px -50px;
+    }
+}
+
+.custom-toggle-btn {
+    background-color: rgba(255, 255, 255, 0) !important;
+    border: none;
+    right: 5px;
+    top: -1px;
+    position: absolute;
+
+    .icon-bar {
+        margin: -5px -11px 6px 0px;
+        height: 3px;
+        width: 30px;
+        background-color: $secondaryColor !important;
+    }
+}
+
+#main-nav ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.plain-link {
+    font-family: $secondaryFont;
+    font-size: 0.9em;
+    margin: 0 auto;
+    padding: 5px 10px 5px 10px;
+    @include mq-tablet { padding: 0px 10px 0px 10px; }
+    @include mq-max-tablet {
+        border-bottom: 1px solid $blackColor;
+    }
+
+    a {
+        color: $mainColor !important;
+        font-size: 120%;
+        transition: all 0.33s;
+        @include mq-tablet { font-size: 100%; }
+        @include mq-desktop { font-size: 100%; }
+    }
+
+    &:hover {
+        text-shadow: 0 0 15px $textShadow01, 0px -5px 20px $textShadow02, 0 5px 20px $textShadow03;
+        a { color: $whiteColor !important; }
+    }
+}
+
+//scrollspy style
+.plain-link.active {
+    text-shadow: 0 0 15px $textShadow01, 0px -5px 20px $textShadow02, 0 5px 20px $textShadow03;
+    a {
+        background-color: transparent !important;
+        color: $whiteColor !important;
+    }
+}
+
+//expanded nav style
+.collapsing .plain-link a, .in .plain-link a { text-align: center; }
