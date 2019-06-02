@@ -45,6 +45,13 @@ PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, pos
 	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, ritz, " ", 12);
 	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::DEFENCE_ROL, shara, " ", 12);
 
+	// LOADS CONTROLLER BUTTON SCHEME
+	buttonSwapNext.button = SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+	buttonSwapPrev.button = SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+	/*buttonSwapNext.axis = SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERRIGHT;
+	buttonSwapPrev.axis = SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERLEFT;*/
+
+
 	Start();
 }
 
@@ -81,9 +88,6 @@ bool PlayerEntityManager::Start()
 	for (; item != characters.end(); ++item)
 		(*item)->Start();
 
-	
-	
-	
 	//vendor->generateVendorItems();  // at the start the vendor has a certain amout of items
 
 	return true;
@@ -524,7 +528,7 @@ bool PlayerEntityManager::SwapInputChecker()
 	// checks gamepad and swaps character
 	if (selectedCharacterEntity->inputReady)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN || App->input->GetControllerGeneralPress(buttonSwapPrev) == KEY_DOWN)
 		{
 
 			if (App->scene->inventory->enable)
@@ -548,7 +552,7 @@ bool PlayerEntityManager::SwapInputChecker()
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerGeneralPress(buttonSwapNext) == KEY_DOWN)
 		{
 			if (App->scene->inventory->enable)
 			{

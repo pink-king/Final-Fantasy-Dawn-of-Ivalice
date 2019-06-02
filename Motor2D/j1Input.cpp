@@ -313,6 +313,8 @@ bool j1Input::PreUpdate()
 		}
 	}
 
+	CheckGamepadWTFPressedInput();
+
 	return true;
 }
 
@@ -378,7 +380,71 @@ void j1Input::DoGamePadRumble(float strength, uint32 duration) const
 
 }
 
-j1KeyState j1Input::GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir joyButtonDir)
+j1KeyState j1Input::GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir joyButtonDir) const
 {
 	return joystick[(int)joystickSide * ((int)j1JoyDir::JOYSTICK_DIR_MAX) + (int)joyButtonDir];
+}
+
+// testing
+ControllerPressData j1Input::CheckGamepadWTFPressedInput()
+{
+	bool detectedPress = false;
+	bool isButton = false;
+	ControllerPressData ret;
+
+	// iterate throught all gamepad buttons and axis, on the first we found "down", return
+	// axis (this way only checks correctly the triggers, no joystick mapping is needed for remap player scheme)
+	int i = 0;
+	for (; i < SDL_CONTROLLER_AXIS_MAX; ++i)
+	{
+		if (controller_axis[i] == KEY_DOWN)
+		{
+			detectedPress = true;
+			break;
+		}
+	}
+
+	// buttons
+	if (detectedPress != true)
+	{
+		i = 0;
+		for (; i < SDL_CONTROLLER_BUTTON_MAX; ++i)
+		{
+			if (controller[i] == KEY_DOWN)
+			{
+				detectedPress = true;
+				isButton = true;
+				break;
+			}
+		}
+	}
+
+	if (detectedPress)
+	{
+		//ret.pressed = true;
+
+		if (!isButton)
+		{
+			ret.axis = SDL_GameControllerAxis(i);
+			LOG("axis pressed found");
+		}
+		else
+		{
+			//ret.isButton = true;
+			ret.button = SDL_GameControllerButton(i);
+			LOG("button pressed found");
+		}
+	}
+
+	return ret;
+}
+
+j1KeyState j1Input::GetControllerGeneralPress(ControllerPressData mappedButtonData) const // priority to assigned buttons first
+{
+	if (mappedButtonData.button != -1)
+		return controller[mappedButtonData.button];
+	else if (mappedButtonData.axis != -1)
+		return controller_axis[mappedButtonData.axis];
+	else
+		return j1KeyState::KEY_IDLE;
 }

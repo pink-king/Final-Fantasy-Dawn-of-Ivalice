@@ -44,6 +44,14 @@ enum j1JoyStickSide
 	JOY_MAX
 };
 
+struct ControllerPressData
+{
+	/*bool pressed = false;
+	bool isButton = false;*/
+	SDL_GameControllerButton button = SDL_GameControllerButton(-1);
+	SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1);
+};
+
 class j1Input : public j1Module
 {
 
@@ -91,7 +99,9 @@ public:
 		return controller_axis[id];
 	}
 
-	j1KeyState GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir joyButtonDir);
+	j1KeyState GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir joyButtonDir) const;
+
+	j1KeyState GetControllerGeneralPress(ControllerPressData mappedButtonData) const;
 
 
 	// Check if a certain window event happened
@@ -104,6 +114,8 @@ public:
 	uint GetCurrentMouseButtonDown(); 
 
 	void DoGamePadRumble(float strength, uint32 duration) const;
+
+	ControllerPressData CheckGamepadWTFPressedInput();
 
 private:
 	bool		windowEvents[WE_COUNT];
