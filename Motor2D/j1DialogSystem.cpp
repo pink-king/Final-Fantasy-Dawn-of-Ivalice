@@ -253,8 +253,8 @@ void j1DialogSystem::doDialogTypeLogic()
 					{
 						if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos)
 						{
-
 							App->SaveGame("save_game.xml");
+							App->HPManager->callSaveLabelSpawn(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x+5, App->entityFactory->player->selectedCharacterEntity->GetPosition().y-20));
 						}
 					}
 				

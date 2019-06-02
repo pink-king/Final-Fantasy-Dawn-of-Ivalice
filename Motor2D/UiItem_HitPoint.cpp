@@ -27,6 +27,7 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font*
 		newString.append(std::to_string((int)valueInfo.number));
 		texture = App->font->Print(newString.data(), color, font);
 	}
+	
 
 	else if (type == variant::number)
 	{
@@ -95,6 +96,10 @@ void UiItem_HitPoint::Draw(const float& dt)
 		else if (this->valueInformation.string == "BRUTAL")
 		{
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
+		}
+		else if (this->valueInformation.string == "SAVE")
+		{
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);  // rotate hitlabels
 		}
 
 
