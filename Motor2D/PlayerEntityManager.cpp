@@ -484,6 +484,7 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
+
 				}
 			}
 
@@ -494,6 +495,7 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+					App->scene->characterStatsItem->InitializeStats();
 				}
 
 			}
@@ -517,6 +519,7 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+					App->scene->characterStatsItem->InitializeStats();
 				}
 			
 			}
@@ -852,7 +855,6 @@ void PlayerEntityManager::AddItemToConsumables(LootEntity * entityLoot)
 {
 	consumables.push_back(entityLoot); 
 
-	int a = 0; 
 }
 
 void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)

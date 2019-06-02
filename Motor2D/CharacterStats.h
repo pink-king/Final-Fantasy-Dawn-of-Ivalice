@@ -3,6 +3,7 @@
 
 #include "UiItem.h"
 
+
 #include <map>
 #include <array>
 
@@ -15,6 +16,7 @@
 class UiItem_Image; 
 class UiItem_Label; 
 class UiItem_Description; 
+class LootEntity; 
 
 class CharacterStatBlock : public UiItem
 {
@@ -62,6 +64,7 @@ public:
 	void deGenerateCharacterStats();
 	
 	void InitializeStats();
+	void ResetDefaultStats(); 
 	void SetBaseStats();   // if Compare recieves a 1 in the mapping pos, change it, with the value at that pos
 	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	void GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
@@ -69,8 +72,7 @@ public:
 	void HideAllComparisonStats(); 
 	void ShowAllComparisonStats(); 
 	
-
-
+	void getItemBuffsAndCallStatComparison(LootEntity* ent);
 
 };
 

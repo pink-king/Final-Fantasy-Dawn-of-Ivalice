@@ -1689,7 +1689,6 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 
 				// character stats panel
 				characterStatsItem->generateCharacterStats(); 
-				int a = 0; 
 			}
 
 			else

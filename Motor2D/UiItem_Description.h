@@ -75,7 +75,7 @@ public:
 	void HideAllComparisonLabels();
 	void SwitchCameraUsage();
 
-	void getItemBuffsAndCallStatComparison(LootEntity* ent); 
+ 
 
 	void DeleteEverything();
 
