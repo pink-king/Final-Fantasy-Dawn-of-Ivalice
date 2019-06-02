@@ -274,6 +274,13 @@ bool j1Scene::Start()
 			if (lobbyState == LobbyState::PASSLVL1)
 				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
 
+			if (lobbyState == LobbyState::PASSLVL2 && ComeToPortal)
+			{
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
+				App->LoadGame("save_game.xml");
+				lobbyState = LobbyState::PASSLVL1;
+			}
+
 		}
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
@@ -294,7 +301,7 @@ bool j1Scene::Start()
 		
 		
 
-		if (ComeToPortal)
+		if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
 		{
 			ComeToPortal = false;
 			App->entityFactory->loadEnemies = false;
@@ -607,8 +614,8 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
-		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
-
+		lobbyState = LobbyState::PASSLVL2;
+		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::WIN, White);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;

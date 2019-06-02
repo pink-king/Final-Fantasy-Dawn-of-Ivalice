@@ -36,6 +36,7 @@ enum class LobbyState
 	ALLBLOCK,
 	TALKSTRANGER,
 	PASSLVL1,
+	PASSLVL2,
 
 	OUTGAME
 };
