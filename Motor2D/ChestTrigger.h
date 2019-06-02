@@ -11,11 +11,16 @@ public:
 	ChestTrigger(const fPoint& pos); 
 	~ChestTrigger();
 
+	void Draw();
+
 	bool DoTriggerAction() override; 
 	void AssignOwner(ChestAsset* owner);
 
 private: 
 	ChestAsset* myChest = nullptr;
+	Animation buttonA;
+
+	bool drawA = false;
 };
 
 

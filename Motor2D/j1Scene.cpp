@@ -263,23 +263,22 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreatePlayer({ 115, 240 });
 		
-		//AcceptUISFX_logic = false;
+		if (lobbyState == LobbyState::TALKSTRANGER)
+		{
 		
+
+			doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
+
+			if (lobbyState == LobbyState::PASSLVL1)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
+
+		}
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
-		//door triggers
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2,true);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2,false);
-
-		if (ComeToWin && previosState == SceneState::LEVEL1)
-			passLvl1 = true;
-
-		if(passLvl1)
-			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL1, Black, 2, true);
-		
-		//dialog triggers
-		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(6, 19).x - 5, App->map->SubTileMapToWorld(6, 19).y }, 1);
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(5, 18).x - 5, App->map->SubTileMapToWorld(5, 18).y }, 1);
 		strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
@@ -662,21 +661,22 @@ bool j1Scene::Update(float dt)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
-			if (door == nullptr)
-				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL1, Black, 2, true);
-
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (doorlvl2 == nullptr)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
+			if(firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 		}
-	}
-
-	if (state == SceneState::LOBBY)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+		if (lobbyState == LobbyState::TALKSTRANGER)
 		{
-			if (door == nullptr)
-				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::FIRINGRANGE, Black);
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 		}
 	}
-	
+
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//Mix_CloseAudio();

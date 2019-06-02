@@ -743,6 +743,7 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 	case TRIGGER_TYPE::CHEST:
 		ret = DBG_NEW ChestTrigger(fPoint(posX, posY));
 		entities.push_back(ret);
+		break;
 	case TRIGGER_TYPE::DOOR:
 		ret = DBG_NEW Door(posX, posY, scene, color, nSubtiles, lookLeft);
 		entities.push_back(ret);
