@@ -28,8 +28,9 @@ public:
 
 
 
-protected:
+public: 
 	std::string text;
+protected: 
 	std::string typewriter_text;
 	//std::string text_aux;
 	bool timer_typewriter = false;

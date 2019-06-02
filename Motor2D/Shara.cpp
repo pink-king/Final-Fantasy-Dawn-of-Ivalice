@@ -314,6 +314,8 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	maxEmitterDelayTime = 1000;
 
 	previousPos = position;
+
+	mySpeedModular = sqrt((characterBaseSpeed.x + characterBaseSpeed.y) * (characterBaseSpeed.x + characterBaseSpeed.y));
 }
 
 Shara::~Shara()

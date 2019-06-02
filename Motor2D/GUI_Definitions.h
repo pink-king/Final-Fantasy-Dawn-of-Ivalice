@@ -77,6 +77,7 @@ struct enemySkullIcon
 class GUI_Definitions
 {
 
+	
 
 };
 

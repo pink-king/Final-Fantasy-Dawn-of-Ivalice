@@ -486,6 +486,8 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.ultimate.cooldownTime = 10000; // death circle
 
 	previousPos = position;
+
+	mySpeedModular = sqrt((characterBaseSpeed.x + characterBaseSpeed.y) * (characterBaseSpeed.x + characterBaseSpeed.y));
 }
 
 Ritz::~Ritz()

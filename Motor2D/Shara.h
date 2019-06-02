@@ -27,6 +27,7 @@ private:
 public:
 	myClocks myUIClocks;
 
+
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 	Animation ultiCastAnim[(int)facingDirection::MAX];

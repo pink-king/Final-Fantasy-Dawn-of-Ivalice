@@ -28,6 +28,10 @@ private:
 public:
 	myClocks myUIClocks;
 
+
+
+
+
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 	fPoint attackPivotOffset[(int)facingDirection::MAX];

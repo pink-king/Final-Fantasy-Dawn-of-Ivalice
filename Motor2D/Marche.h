@@ -32,9 +32,12 @@ public:
     
 	myClocks myUIClocks;
 
-private:
+
+public: 
 	// BASE DAMAGE
 	int baseDamage;
+
+private: 
 	// BASIC ATTACK
 	SDL_Texture* basicAttackTex = nullptr;
 	Animation basicAttackAnim[(int)facingDirection::MAX][2];

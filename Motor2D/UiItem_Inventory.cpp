@@ -1085,6 +1085,9 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
 
 
+				// ADD NEW STATS TO THE PLAYER 
+				App->scene->characterStatsItem->SetNewStats(); 
+
 				if (!App->entityFactory->player->bagObjects.empty())
 				{
 					doBagScroll = true;
@@ -1182,6 +1185,12 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							{
 								doBagScroll = true;
 							}
+
+
+
+							// ADD NEW STATS TO THE PLAYER 
+							App->scene->characterStatsItem->SetNewStats();
+
 
 							break;
 						}

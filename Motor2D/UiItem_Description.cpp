@@ -595,6 +595,10 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	bool ret = false;
 
+	std::array<int, 5> characterStatsMapping = {};
+	std::array<int, 5> characterStatsValues = {};
+
+
 	if (!App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
@@ -646,14 +650,23 @@ bool UiItem_Description::ChangeComparisonLabels()
 								if ((*iter)->GetRol() == ROL::ATTACK_ROL)
 								{
 									attack = (*iter)->GetValue();
+
+									characterStatsMapping.at(0) = 1; 
+									characterStatsValues.at(0) = attack; 
 								}
 								else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 								{
 									resistance = (*iter)->GetValue();
+
+									characterStatsMapping.at(1) = 1;
+									characterStatsValues.at(1) = resistance;
 								}
 								else if ((*iter)->GetRol() == ROL::COOLDOWN)
 								{
 									cooldown = (*iter)->GetValue();
+
+									characterStatsMapping.at(2) = 1;
+									characterStatsValues.at(2) = cooldown;
 								}
 
 							}
@@ -722,14 +735,24 @@ bool UiItem_Description::ChangeComparisonLabels()
 								if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 								{
 									resistance = (*iter)->GetValue();
+
+									characterStatsMapping.at(1) = 1;
+									characterStatsValues.at(1) = resistance;
 								}
 								else if ((*iter)->GetRol() == ROL::HEALTH)
 								{
 									HP = (*iter)->GetValue();
+
+									characterStatsMapping.at(3) = 1;
+									characterStatsValues.at(3) = HP;
 								}
 								else if ((*iter)->GetRol() == ROL::VELOCITY)
 								{
 									velocity = (*iter)->GetValue();
+
+
+									characterStatsMapping.at(4) = 1;
+									characterStatsValues.at(4) = velocity;
 								}
 
 							}
@@ -831,6 +854,8 @@ bool UiItem_Description::ChangeComparisonLabels()
 	}
 
 
+	if (App->scene->inventoryItem->enable)
+		App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);
 
 	hasToCompare = false;
 
