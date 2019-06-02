@@ -279,7 +279,7 @@ bool j1Scene::Start()
 		
 		//dialog triggers
 		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(6, 19).x - 5, App->map->SubTileMapToWorld(6, 19).y }, 1);
-		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(12, 9).x, App->map->SubTileMapToWorld(12, 9).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+		strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;

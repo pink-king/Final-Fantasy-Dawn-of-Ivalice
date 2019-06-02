@@ -44,10 +44,9 @@ void Door::Draw()
 
 	if (active)
 	{
-		App->render->Blit(Atex, 
-			App->entityFactory->player->position.x + 15,
-			App->entityFactory->player->position.y - 10,
-			&current->GetCurrentFrame(), 1.0F);
+		App->render->Blit(Atex, position.x - 8, position.y - 59, &current->GetCurrentFrame(), 1.0F);
+	/*	App->entityFactory->player->position.x + 15,
+			App->entityFactory->player->position.y - 10,*/
 		active = false;
 	}
 

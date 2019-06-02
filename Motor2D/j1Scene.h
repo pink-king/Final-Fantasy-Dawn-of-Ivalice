@@ -220,6 +220,7 @@ public:
 	int previous_counter;
 	bool decreaseAlpha = false;
 	Trigger* door = nullptr;
+	Trigger* strangerDialog = nullptr;
 	j1Timer timeindmg;
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;
