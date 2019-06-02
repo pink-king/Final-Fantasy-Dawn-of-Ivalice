@@ -8,18 +8,20 @@ DialogTrigger::DialogTrigger(float posx, float posy, std::string Dtype, iPoint p
 	AssignInSubtiles(nSubtiles);
 	entityTex = App->entityFactory->interactiveStatesTex;
 
-	dialogSign.PushBack({ 32,128,32,32 });
-	dialogSign.PushBack({ 64,128,32,32 });
-	dialogSign.PushBack({ 96,128,32,32 });
 	dialogSign.PushBack({ 0,96,32,32 });
 	dialogSign.PushBack({ 32,96,32,32 });
 	dialogSign.PushBack({ 64,96,32,32 });
+	dialogSign.PushBack({ 96,96,32,32 });
+	dialogSign.PushBack({ 0,128,32,32 });
+	dialogSign.PushBack({ 32,128,32,32 });
+	dialogSign.PushBack({ 64,128,32,32 });
+	dialogSign.PushBack({ 96,128,32,32 });
+
 	dialogSign.speed = 10.0F;
-	dialogSign.loop = true;
+	//dialogSign.loop = true;
 
 	onTrigger.PushBack({96,64,32,32});
-	dialogSign.speed = 0.0F;
-	dialogSign.loop = false;
+	
 	if(pressA)
 		currentAnim = &dialogSign;
 }
@@ -49,6 +51,8 @@ void DialogTrigger::Draw()
 
 	if (App->scene->debugSubtiles)
 		DebugTrigger();
+
+	LOG("posstate: %i", posState.y);
 }
 
 
