@@ -538,7 +538,7 @@ void LootEntity::SetSplineToFall()
 {
 	//App->easing->CreateSpline((&float)position.y,)
 	int actualpos = position.y;
-	App->easing->CreateSpline(&actualpos, App->map->MapToWorld(groundTileDestination.x,groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
+	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x,groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
 }
 
 void LootEntity::SelectTileToGround()

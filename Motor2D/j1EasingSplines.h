@@ -35,7 +35,7 @@ struct EaseFunctions {
 };
 
 struct EaseSplineInfo {
-	int* position = nullptr;
+	float* position = nullptr;
 	TypeSpline type;
 	int initial_position;
 	int distance_to_travel;
@@ -47,7 +47,7 @@ struct EaseSplineInfo {
 
 	std::function<void()> fn;
 
-	EaseSplineInfo(int* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn) {
+	EaseSplineInfo(float* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn) {
 		this->position = position;
 		this->initial_position = *position;
 		this->distance_to_travel = target_position - *position;
@@ -74,7 +74,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	EaseSplineInfo* CreateSpline(int* position, int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn = nullptr);
+	EaseSplineInfo* CreateSpline(float* position, int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn = nullptr);
 
 private:
 

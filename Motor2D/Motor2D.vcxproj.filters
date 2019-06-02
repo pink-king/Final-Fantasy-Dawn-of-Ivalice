@@ -263,12 +263,14 @@
     <ClCompile Include="ChestTrigger.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClCompile>
-    <ClCompile Include="j1EasingSplines.cpp" />
     <ClCompile Include="Video.cpp">
       <Filter>Development\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="j1EasingSplines.cpp">
+      <Filter>Development\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -555,12 +557,14 @@
     <ClInclude Include="ChestTrigger.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
-    <ClInclude Include="j1EasingSplines.h" />
     <ClInclude Include="Video.h">
       <Filter>Development\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
       <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="j1EasingSplines.h">
+      <Filter>Development\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
