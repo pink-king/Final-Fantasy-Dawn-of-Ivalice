@@ -195,7 +195,7 @@ void CharacterStats::HideAllComparisonStats()
 
 }
 
-
+/*
 void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values)
 {
 
@@ -215,6 +215,7 @@ void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMapp
 						dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
 						dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue + values.at(i);  // if buff is summative
 				
+						int a = 0; 
 					}
 				}
 			}
@@ -222,7 +223,7 @@ void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMapp
 		}
 	}
 
-}
+}*/
 
 void CharacterStats::deGenerateCharacterStats()  // call it when closing inventory
 {

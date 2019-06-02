@@ -489,7 +489,7 @@ void UiItem_Description::Draw(const float& dt)
 					{
 						// get stats before equipping, so that they can be added 
 
-						getItemBuffsAndPassThemToCharacterStatBlock(this->callback);
+					
 						App->scene->inventoryItem->De_______Equip(this->callback);
 
 					
@@ -870,7 +870,31 @@ bool UiItem_Description::ChangeComparisonLabels()
 		}
 
 	}
+	else     // when no items are equipped but stats change !!!!
+	{
+		if (App->gui->selected_object == this->iconImageInventory)
+		{
 
+
+			if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
+				&& this->attachedCharacterString == "Marche")
+
+
+				|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
+					&& this->attachedCharacterString == "Ritz")
+
+				|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
+					&& this->attachedCharacterString == "Shara"))
+
+			{
+				getItemBuffsAndCallStatComparison(this->callback);
+
+			}
+		}
+
+		
+    
+    }
 
 	
 
@@ -883,7 +907,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 
 
-void UiItem_Description::getItemBuffsAndPassThemToCharacterStatBlock(LootEntity* ent)
+void UiItem_Description::getItemBuffsAndCallStatComparison(LootEntity* ent)
 {
 	std::array<int, 5> characterStatsMapping = {};
 	std::array<int, 5> characterStatsValues = {};
@@ -957,8 +981,8 @@ void UiItem_Description::getItemBuffsAndPassThemToCharacterStatBlock(LootEntity*
 
 	}
 
-	App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
-
+	//App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
+	App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);
 
 }
 
