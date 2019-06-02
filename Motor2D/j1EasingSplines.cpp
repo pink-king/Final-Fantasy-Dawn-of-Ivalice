@@ -59,7 +59,7 @@ bool j1EasingSplines::CleanUp()
 	return true;
 }
 
-EaseSplineInfo* j1EasingSplines::CreateSpline(int* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn)
+EaseSplineInfo* j1EasingSplines::CreateSpline(float* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn)
 {
 	std::list <EaseSplineInfo*>::iterator item = easing_splines.begin();
 	for (; item != easing_splines.end(); ++item) {
@@ -92,6 +92,7 @@ bool EaseSplineInfo::Update(float dt)
 		switch (type) {
 		case EASE: {
 			*position = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+			LOG("Ease positionX %i", &position);
 		} break;
 		case EASE_OUT_QUINT: {
 			*position = ease_function.EaseOutQuint(time_passed, initial_position, distance_to_travel, time_to_travel);
@@ -113,6 +114,8 @@ bool EaseSplineInfo::Update(float dt)
 		} break;
 		case EASE_OUT_BOUNCE: {
 			*position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
+			LOG("Ease positionY %i", &position);
+
 		} break;
 		default:
 			break;

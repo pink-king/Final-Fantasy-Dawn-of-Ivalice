@@ -195,6 +195,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 		{
 			App->scene->hit_counter -= 1;
 			App->scene->previous_counter = App->scene->hit_counter - 1;
+			App->scene->decreaseAlpha = false;
 		}
 
 		if (defender->life < defender->maxLife * 0.5f)

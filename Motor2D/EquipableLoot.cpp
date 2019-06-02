@@ -10,10 +10,16 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	originPos.x = position.x;
 	originPos.y = position.y;
 
+	
 	start = true;
 	checkgrounded = true;
 	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
+
+	
+
+	App->easing->CreateSpline(&position.x, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).x, 1000 ,TypeSpline::EASE);
+	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE);
 
 }
 
@@ -27,6 +33,11 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 	checkgrounded = true;
 	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
+
+	
+
+	App->easing->CreateSpline(&position.x, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).x, 1000, TypeSpline::EASE);
+	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE);
 }
 
 
@@ -38,6 +49,7 @@ Equipable::~Equipable()
 
 bool Equipable::Update(float dt)
 {
+	
 	//if (start)
 	//{
 	//	goalPos = SetDestinationPos(goalPos.x, goalPos.y);
@@ -61,32 +73,32 @@ bool Equipable::Update(float dt)
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
 		repositionDescription = true; 
 	}*/
-	float timepassed = SDL_GetTicks() - timeStarted;
-	GetDistanceTotravel();
-	if (timepassed < 1000)
-	{
-		LOG("preEase posX %f", position.x);
-		
-		position.x = Ease(timepassed, originPos.x, distanceTotravel.x, 1000);
-		LOG("Eased posX %f", position.x);
-		LOG("originPos.x %f", originPos.y);
-		LOG("DistanceToTravel.x %i", distanceTotravel.x);
-	}
+	//float timepassed = SDL_GetTicks() - timeStarted;
+	//GetDistanceTotravel();
+	//if (timepassed < 1000)
+	//{
+	//	LOG("preEase posX %f", position.x);
+	//	
+	//	position.x = Ease(timepassed, originPos.x, distanceTotravel.x, 1000);
+	//	LOG("Eased posX %f", position.x);
+	//	LOG("originPos.x %f", originPos.y);
+	//	LOG("DistanceToTravel.x %i", distanceTotravel.x);
+	//}
 
-	if (timepassed < 1000)
-	{
-		LOG("preEase posY %f", position.y);
-		position.y =  EaseOutBounce(timepassed, originPos.y, distanceTotravel.y, 1000);
-		LOG("Eased posY %f", position.y);
-		LOG("originPos.y %f", originPos.y);
-		LOG("DistanceToTravel.y %i", distanceTotravel.y);
-	}
-	if (timepassed < 1000)
-	{
-	//position.y = Ease(timepassed, originPos.y, distanceTotravel.y, 1500);
-	position.y = EaseOutCubic(timepassed, originPos.y, distanceTotravel.y, 900);
+	//if (timepassed < 1000)
+	//{
+	//	LOG("preEase posY %f", position.y);
+	//	position.y =  EaseOutBounce(timepassed, originPos.y, distanceTotravel.y, 1000);
+	//	LOG("Eased posY %f", position.y);
+	//	LOG("originPos.y %f", originPos.y);
+	//	LOG("DistanceToTravel.y %i", distanceTotravel.y);
+	//}
+	//if (timepassed < 1000)
+	//{
+	////position.y = Ease(timepassed, originPos.y, distanceTotravel.y, 1500);
+	//position.y = EaseOutCubic(timepassed, originPos.y, distanceTotravel.y, 900);
 
-	}
+	//}
 	
 
 	

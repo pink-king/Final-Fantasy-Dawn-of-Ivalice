@@ -31,6 +31,15 @@ enum class SceneState
 };
 
 
+enum class LobbyState
+{
+	ALLBLOCK,
+	TALKSTRANGER,
+	PASSLVL1,
+
+	OUTGAME
+};
+
 class j1Scene : public j1Module
 {
 public:
@@ -93,6 +102,7 @@ public:
 	bool exitGame = false;
 	SceneState state = SceneState::INTRO;
 	SceneState previosState = SceneState::LOBBY;
+	LobbyState lobbyState = LobbyState::ALLBLOCK;
 	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;
@@ -219,7 +229,9 @@ public:
 	int hit_counter;
 	int previous_counter;
 	bool decreaseAlpha = false;
-	Trigger* door = nullptr;
+	Trigger* doorlvl1 = nullptr;
+	Trigger* doorlvl2 = nullptr;
+	Trigger* firingrange = nullptr;
 	Trigger* strangerDialog = nullptr;
 	j1Timer timeindmg;
 	UiItem_Image* MarcheIcon = nullptr;
