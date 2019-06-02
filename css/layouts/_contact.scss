@@ -25,8 +25,8 @@
         -webkit-background-clip: padding-box;
         background-clip: padding-box;
         margin: 0;
-        background-color: $inputBg; 
-        border: $inputBorder; 
+        background-color: $inputBg;
+        border: $inputBorder;
         border-top-color: $inputBorderTop;
         color: $inputColor;
     }
@@ -43,8 +43,8 @@
         -webkit-background-clip: padding-box;
         background-clip: padding-box;
         margin: 0;
-        background-color: $inputBg; 
-        border: $inputBorder; 
+        background-color: $inputBg;
+        border: $inputBorder;
         border-top-color: $inputBorderTop;
         color: $inputColor;
         min-height: 7rem;
@@ -77,7 +77,7 @@
         }
     }
 
-    label { 
+    label {
         font-weight: 400;
         font-family: $secondaryFont;
         font-size: 70%;

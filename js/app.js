@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     /////////////////////////////////////
     //        CAROUSEL SWIPE           //
-    /////////////////////////////////////   
+    /////////////////////////////////////
     $("#dragonic-carousel").swiperight(function() {
     $(this).carousel('prev');
     });
@@ -77,15 +77,15 @@ $(document).ready(function() {
 
     $('.shop-modal-hide').on('click', function(){
         $('#shop-modal').modal('hide');
-    }); 
+    });
 
     /////////////////////////////////////
     //          GOOGLE MAPS            //
     /////////////////////////////////////
     var map = new GMaps({
         div: '#gmaps',
-        lat: 37.9838096,
-        lng: 23.7275388,
+        lat: 41.5632,
+        lng: 2.0089,
         zoom: 14
     });
 
@@ -95,11 +95,11 @@ $(document).ready(function() {
     map.setOptions({styles: styles});
 
     map.addMarker({
-        lat: 37.9838096,
-        lng: 23.7275388,
-        title: 'Athens HQ',
+        lat: 41.5632,
+        lng: 2.0089,
+        title: 'Terrassa',
         infoWindow: {
-            content: '<p>Our headquarters and main workshop situated in beautiful Athens &hearts; Come see us!</p>'
+            content: '<p>Helloudaaa &hearts; Come see us!</p>'
         }
     });
 
@@ -137,27 +137,27 @@ $(document).ready(function() {
 
     /////////////////////////////////////
     //   CHANGE CLASSES RESPONSIVE     //
-    /////////////////////////////////////  
+    /////////////////////////////////////
 $(window).resize(function(){
 var width = $(window).width();
 if(width >= 300 && width <= 1024){
     $('.item-1, .item-2, .item-3').removeClass('col-sm-3 col-xs-5').addClass('col-sm-5 col-xs-12');
     $('.features-item').removeClass('col-md-3').addClass('col-md-6');
     $('.item-3').removeClass('col-sm-offset-1').addClass('col-sm-offset-3');
-    $('.item-2').removeClass('col-xs-offset-2').addClass('col-xs-offset-0');       
+    $('.item-2').removeClass('col-xs-offset-2').addClass('col-xs-offset-0');
 }
 else{
     $('.item-1, .item-2, .item-3').removeClass('col-sm-5 col-xs-12').addClass('col-sm-3 col-xs-5');
     $('.features-item').removeClass('col-md-6').addClass('col-md-3');
     $('.item-3').removeClass('col-sm-offset-3').addClass('col-sm-offset-1');
-    $('.item-2').removeClass('col-xs-offset-0').addClass('col-xs-offset-2');        
+    $('.item-2').removeClass('col-xs-offset-0').addClass('col-xs-offset-2');
 }
 })
 .resize();//trigger the resize event on page load.
 
     /////////////////////////////////////
     //        STOP PINCH ZOOM          //
-    /////////////////////////////////////  
+    /////////////////////////////////////
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });

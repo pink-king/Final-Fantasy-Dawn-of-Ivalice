@@ -3,13 +3,13 @@
 html, body {
     color: $blackColor;
     font-size: 18px;
-    
+
     @include mq-tablet {
         font-size: 20px !important;
         padding-right: 0px !important;
     }
 
-    font-family: $mainFont;
+    font-family: serif;
     font-weight: 300;
     text-rendering: optimizeLegibility;
 }
@@ -26,6 +26,7 @@ h1 {
 h2 {
     @extend %headers;
     font-size: 180%;
+
     color: $secondaryColor;
     text-shadow: 0px 0px 6px $blackerColor;
     @include mq-max-smartphone {

@@ -2970,7 +2970,9 @@ header {
 h2, h3 {
   font-weight: 300;
   text-align: center;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+
+}
 
 .dropdown-search-box:after, .dropdown-search-box:before {
   content: " ";
@@ -3051,7 +3053,7 @@ input:focus, textarea:focus, button:focus {
   background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55)), url(../img/dark_wall.png); }
 
 .pattern-dark {
-  background-image: url(../img/dark_leather.png); }
+  background-image: url(../img/fondo_pixel2.png); }
 
 .box {
   margin-top: 1rem;
@@ -3171,7 +3173,7 @@ option {
   height: auto; }
 
 a.navbar-logo {
-  background-image: url(../img/logo-compact.png);
+  background-image: url(../img/logoPK3.png);
   width: 50px;
   height: 40px;
   background-size: 50px auto;
@@ -3390,9 +3392,9 @@ a.navbar-logo {
         font-size: 130%; } }
 
 header {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.05)), url(../img/Dragonic.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.05)), url(../img/fondo5.jpg);
   box-shadow: inset 0 -10px 70px rgba(0, 0, 0, 0.75);
-  height: 75vh;
+  height: 80vh;
   background-position: 75%; }
   @media (min-width: 1200px) {
     header {
@@ -3408,7 +3410,7 @@ header {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 55%;
+  top: 80%;
   opacity: 0;
   -moz-transition: opacity 2s;
   -webkit-transition: opacity 2s;
@@ -3863,7 +3865,7 @@ ul#model-feats {
   color: #ad835a; }
 
 .Video-corner {
-  background: url(../img/item-border-sprite.png) 0 0 no-repeat;
+  background: url(../img/items_border_pixel.png) 0 0 no-repeat;
   position: absolute;
   z-index: 100; }
 
@@ -3899,35 +3901,35 @@ ul#model-feats {
   z-index: 100; }
 
 .Video-border--top {
-  background: url(../img/item-border-frame-sprite.png) 0 0 repeat-x;
+  background: url(../img/item_border_pixel_frame.png) 0 0 repeat-x;
   height: 8px;
   left: 0;
   right: 0;
   top: 0; }
 
 .Video-border--right {
-  background: url(../img/item-border-sprite.png) -69px 0 repeat-y;
+  background: url(../img/items_border_pixel.png) -69px 0 repeat-y;
   bottom: 0;
   right: 0;
   top: 0;
   width: 11px; }
 
 .Video-border--bottom {
-  background: url(../img/item-border-frame-sprite.png) 0 -8px repeat-x;
+  background: url(../img/item_border_pixel_frame.png) 0 -8px repeat-x;
   bottom: 0;
   height: 8px;
   left: 0;
   right: 0; }
 
 .Video-border--left {
-  background: url(../img/item-border-sprite.png) -58px 0 repeat-y;
+  background: url(../img/items_border_pixel.png) -58px 0 repeat-y;
   bottom: 0;
   left: 0;
   top: 0;
   width: 11px; }
 
 .testimonials {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.25)), url(../img/developers.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.25)), url(../img/fondo_team2.png);
   background-size: cover;
   background-position: center center;
   box-shadow: inset 0 -10px 50px #000000;
@@ -3955,6 +3957,7 @@ ul#model-feats {
     height: 32px;
     line-height: 32px;
     text-transform: uppercase;
+    margin-top: 1rem;
     font-family: Helvetica, Arial, sans-serif;
     text-align: center; }
     @media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) and (min-device-height: 1366px) and (max-device-height: 1366px) and (min-width: 1024px) and (max-width: 1024px) {
@@ -4024,7 +4027,7 @@ ul#model-feats {
   .contact h2 {
     margin-bottom: 1.25rem; }
   .contact .section-description {
-    margin: 1rem auto 3rem auto; }
+    margin: 1rem auto 1rem auto; }
 
 .contact-form input {
   border-radius: 0px;
@@ -4229,3 +4232,49 @@ ul#model-feats {
     background-position: 0px -50px; }
 
 /*# sourceMappingURL=styles.css.map */
+.font{
+  font-size: 40px;
+
+
+}
+.font a{
+  transition: all 0.33s;
+  text-decoration: none;
+  color: rgba(255, 0, 0, 0.5);
+
+}
+
+
+.iconos{
+  font-size: 60px;
+  text-align: center;
+
+}
+
+.email{
+  font-size: 100px;
+  text-align: center;
+
+}
+.iconos a{
+  transition: all 0.33s;
+  text-decoration: none;
+  color: rgba(255, 0, 0, 0.5);
+
+}
+.email a{
+  transition: all 0.33s;
+  text-decoration: none;
+  color: rgba(255, 0, 0, 0.5);
+
+}
+
+.font a:hover{
+  text-shadow: 0 0 15px #99774c, 0px -5px 20px #a17e51, 0 5px 20px #96744a;
+  color: color: rgba(255, 0, 0, 1); }
+}
+
+.iconos a:hover{
+  text-shadow: 0 0 15px #99774c, 0px -5px 20px #a17e51, 0 5px 20px #96744a;
+  color: color: rgba(255, 0, 0, 1); }
+}

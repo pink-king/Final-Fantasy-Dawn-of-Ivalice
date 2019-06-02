@@ -95,7 +95,7 @@
     }
     @include mq-desktop {
         left: -28px;
-    }    
+    }
     @include mq-max-smartphone {
         left: 20px;
     }
@@ -105,7 +105,7 @@
     background: $textureSldrArrow no-repeat -172px 0;
 
     &:after {
-        background: $textureSldrArrow no-repeat -258px 0;   
+        background: $textureSldrArrow no-repeat -258px 0;
     }
 
     &:hover {
@@ -115,16 +115,16 @@
     }
     @include mq-ipad-pro-portrait {
         right: -20px;
-    }  
+    }
     @include mq-tablet {
         right: -20px;
     }
     @include mq-desktop {
         right: -114px;
-    }       
+    }
     @include mq-max-smartphone {
         right: -66px;
-    } 
+    }
 }
 
 .carousel-control {
@@ -145,61 +145,61 @@
     background-color: $blackerColor;
 }
 
-.modal-corner { 
-    background: $textureModalBorder01 no-repeat; 
-    position: absolute; 
-    height: 18px; 
-    width: 18px; 
+.modal-corner {
+    background: $textureModalBorder01 no-repeat;
+    position: absolute;
+    height: 18px;
+    width: 18px;
 }
-.modal-corner-top-left { 
-    background-position: -1px -1px; 
-    left: -18px; 
-    top: -18px; 
+.modal-corner-top-left {
+    background-position: -1px -1px;
+    left: -18px;
+    top: -18px;
 }
-.modal-corner-top-right { 
-    background-position: -19px -1px; 
-    right: -18px; 
-    top: -18px; 
+.modal-corner-top-right {
+    background-position: -19px -1px;
+    right: -18px;
+    top: -18px;
 }
-.modal-corner-bottom-right { 
-    background-position: -19px -19px; 
-    bottom: -18px; 
-    right: -18px; 
+.modal-corner-bottom-right {
+    background-position: -19px -19px;
+    bottom: -18px;
+    right: -18px;
 }
-.modal-corner-bottom-left { 
-    background-position: -1px -19px; 
-    bottom: -18px; 
-    left: -18px; 
+.modal-corner-bottom-left {
+    background-position: -1px -19px;
+    bottom: -18px;
+    left: -18px;
 }
 
-.modal-border { 
-    position: absolute; 
+.modal-border {
+    position: absolute;
 }
-.modal-border-top { 
-    background: $textureModalBorder02 0 0 repeat-x; 
-    height: 18px; 
-    left: 0; 
-    right: 0; 
-    top: -18px; 
+.modal-border-top {
+    background: $textureModalBorder02 0 0 repeat-x;
+    height: 18px;
+    left: 0;
+    right: 0;
+    top: -18px;
 }
-.modal-border-right { 
-    background: $textureModalBorder01 -272px 0 repeat-y; 
-    bottom: 0; 
-    right: -18px; 
-    top: 0; 
-    width: 18px; 
+.modal-border-right {
+    background: $textureModalBorder01 -272px 0 repeat-y;
+    bottom: 0;
+    right: -18px;
+    top: 0;
+    width: 18px;
 }
-.modal-border-bottom { 
-    background: $textureModalBorder02 0 -18px repeat-x; 
-    bottom: -18px; 
-    height: 18px; 
-    left: 0; 
-    right: 0; 
+.modal-border-bottom {
+    background: $textureModalBorder02 0 -18px repeat-x;
+    bottom: -18px;
+    height: 18px;
+    left: 0;
+    right: 0;
 }
-.modal-border-left { 
-    background: $textureModalBorder01 -254px 0 repeat-y; 
-    bottom: 0; 
-    left: -18px; 
-    top: 0; 
-    width: 18px; 
+.modal-border-left {
+    background: $textureModalBorder01 -254px 0 repeat-y;
+    bottom: 0;
+    left: -18px;
+    top: 0;
+    width: 18px;
 }

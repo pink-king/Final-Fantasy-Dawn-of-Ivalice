@@ -17,6 +17,7 @@
             margin-top: 10px;
             text-align: center;
 
+
             img {
                 margin: 15px 15px 0 0;
                 border: 1px solid $borderColorLight;
@@ -27,6 +28,8 @@
             }
 
         }
+
+
 
     p {
         color: $secondaryColor;
@@ -45,7 +48,7 @@
         }
         @include mq-max-small-smartphone {
             font-size: 16px;
-        }  
+        }
     }
 
     blockquote {
@@ -60,8 +63,8 @@
         @include mq-ipad-pro-portrait {
             font-size: 18px;
             line-height: 27px;
-        }  
-        
+        }
+
         @include mq-max-tablet {
             width: 75%;
             display: inline-block;

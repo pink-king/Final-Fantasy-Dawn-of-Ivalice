@@ -21,13 +21,13 @@ header {
     left: 50%;
     top: 55%;
     opacity:0;
-    -moz-transition: opacity 2s; 
+    -moz-transition: opacity 2s;
     -webkit-transition: opacity 2s;
     -o-transition: opacity 2s;
     transition: opacity 2s;
     @include transform(translate(-50%, -90%));
 
-    width: 50%;
+    width: 60%;
     z-index: 0;
 
     @include mq-max-tablet {
