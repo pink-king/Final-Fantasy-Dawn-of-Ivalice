@@ -762,11 +762,17 @@
       </images>
 
       <buttons>
+        <button name="button_backLobby" function = "GoBackToLobbyFromDeath">
+          <idleSec  x="856" y="2932" w="222" h="67"/>
+          <hoverSec x="856" y="2864" w="222" h="67" />
+          <clickSec x="856" y="3000" w="222" h="67" />
+          <position x="889" y="446"/>
+        </button>
         <button name="button_backMenu" function = "GoBackToStartMenuFromDeathWin">
           <idleSec  x="856" y="2728" w="222" h="67"/>
           <hoverSec x="856" y="2660" w="222" h="67" />
           <clickSec x="856" y="2796" w="222" h="67" />
-          <position x="889" y="446"/>
+          <position x="889" y="546"/>
         </button>
       </buttons>
     </DeathScreen>

@@ -61,8 +61,9 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 	if (functionName == "SocialMedia")
 		App->gui->SocialMedia(name_button);
 
-	if (functionName == "LoadGame")
+	if (functionName == "LoadGame" || functionName == "GoBackToLobbyFromDeath")
 	{
+		App->scene->deathPanel->enable = false;
 		App->scene->ComeToWin = true;
 		if (App->scene->previosState == SceneState::LEVEL1 || App->scene->previosState == SceneState::LEVEL2)
 			App->scene->ComeToPortal = true;

@@ -132,6 +132,7 @@ public:
 	void FpsCap();
 	void GoBackToGame();
 	void Credits();
+	
 	void SocialMedia(std::string &name);
 	void GoBackToStartMenu();
 	void GoBackToStartMenuFromDeathWin();

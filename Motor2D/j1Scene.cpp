@@ -656,6 +656,12 @@ bool j1Scene::Update(float dt)
 					uiRitz->enable = false;
 					uiShara->enable = false;
 				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
 				uiMarchePortrait->enable = true;
 				uiRitzPortrait->enable = false;
 				uiSharaPortrait->enable = false;
@@ -666,6 +672,12 @@ bool j1Scene::Update(float dt)
 				{
 					uiMarche->enable = false;
 					uiRitz->enable = true;
+					uiShara->enable = false;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
 					uiShara->enable = false;
 				}
 				uiMarchePortrait->enable = false;
@@ -679,6 +691,12 @@ bool j1Scene::Update(float dt)
 					uiMarche->enable = false;
 					uiRitz->enable = false;
 					uiShara->enable = true;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
 				}
 				uiMarchePortrait->enable = false;
 				uiRitzPortrait->enable = false;

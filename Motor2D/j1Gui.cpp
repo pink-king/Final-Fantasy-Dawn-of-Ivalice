@@ -865,6 +865,7 @@ void j1Gui::Credits()
 	App->scene->creditsPanel->enable = true;
 }
 
+
 void j1Gui::SocialMedia(std::string &name)
 {
 	if (name == "instagram")

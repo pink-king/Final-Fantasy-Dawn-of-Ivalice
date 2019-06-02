@@ -7,21 +7,10 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
+		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="101" />
-			<gold value="321" />
-			<equipedObjects>
-				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="noElement" objectType="weapon" lootType="equipable">
-					<rect x="64" y="96" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="multiplicative" elementType="poisonElement" rol="attack" value="0.25999999" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="15" />
-				</buffs>
-			</equipedObjects>
+			<life actualLife="144" />
+			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />
