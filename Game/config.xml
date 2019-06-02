@@ -658,7 +658,7 @@
           <idleSec  x="0" y="2942" w="464" h="27"/>
           <hoverSec x="288" y="2837" w="464" h="27" />
           <clickSec x="0" y="2942" w="464" h="27" />
-          <position x="111" y="404"/>
+          <position x="111" y="392"/>
         </button>
         <button name="Doctor" function = "SocialMedia">
           <idleSec  x="0" y="2970" w="403" h="18"/>
@@ -670,13 +670,13 @@
           <idleSec  x="0" y="2989" w="336" h="27"/>
           <hoverSec x="465" y="2942" w="336" h="27" />
           <clickSec x="0" y="2989" w="336" h="27" />
-          <position x="795" y="342"/>
+          <position x="795" y="392"/>
         </button>
       <button name="Gerard" function = "SocialMedia">
           <idleSec  x="0" y="3017" w="356" h="22"/>
           <hoverSec x="404" y="2970" w="356" h="22" />
           <clickSec x="0" y="3017" w="356" h="22" />
-          <position x="795" y="404"/>
+          <position x="795" y="342"/>
         </button>
       <button name="Pol" function = "SocialMedia">
           <idleSec  x="0" y="3040" w="336" h="18"/>
