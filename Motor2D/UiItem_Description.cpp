@@ -887,8 +887,13 @@ bool UiItem_Description::ChangeComparisonLabels()
 					&& this->attachedCharacterString == "Shara"))
 
 			{
+				App->scene->characterStatsItem->HideAllComparisonStats();
 				getItemBuffsAndCallStatComparison(this->callback);
 
+			}
+			else
+			{
+				App->scene->characterStatsItem->HideAllComparisonStats();
 			}
 		}
 
