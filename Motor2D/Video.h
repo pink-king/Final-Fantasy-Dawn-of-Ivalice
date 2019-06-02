@@ -16,6 +16,7 @@ struct AVPacketList;
 struct SDL_Mutex;
 struct SDL_cond;
 struct SDL_Thread;
+enum class SceneState; 
 
 struct PacketQueue {
 	AVPacketList *first_pkt, *last_pkt;
@@ -58,7 +59,7 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
-	int PlayVideo(std::string file_path);
+	int PlayVideo(std::string file_path, SceneState sceneAfterVideo);
 	bool Pause();
 	void CloseVideo();
 
@@ -84,6 +85,8 @@ public:
 	uint8_t audio_buf[(192000 * 3) / 2]; //buffer where we store the audio data
 	unsigned int audio_buf_size = 0;
 	unsigned int audio_buf_index = 0;
+
+	SceneState nextScene;
 
 private:
 	SDL_Texture* texture = nullptr;

@@ -25,6 +25,7 @@ extern "C" {
 #include "j1Scene.h"
 #include "j1TransitionManager.h"
 #include "Color.h"
+#include "j1ModuleCamera2D.h"
 
 #define DEFAULT_AUDIO_BUF_SIZE 1024
 #define MAX_AUDIOQ_SIZE (5 * 256 * 1024)
@@ -116,7 +117,7 @@ int ReadThread(void *param) {
 
 
 
-Video::Video()
+Video::Video() : nextScene(SceneState::MAX_STATES)
 {
 }
 
@@ -133,8 +134,6 @@ bool Video::Awake(pugi::xml_node&)
 bool Video::Start()
 {
 	//PlayVideo("videos/SurpriseMotherFucker.mp4");
-	PlayVideo("intro/PinkKingGamesIntro.mp4");
-	App->win->SetScale(1);
 
 	return true;
 }
@@ -188,8 +187,12 @@ bool Video::CleanUp()
 	return true;
 }
 
-int Video::PlayVideo(std::string file_path)
+int Video::PlayVideo(std::string file_path, SceneState sceneAfterVideo)
 {
+	nextScene = sceneAfterVideo; 
+	App->win->SetScale(1); 
+	App->camera2D->SetCameraPos(0, 0);
+
 	if (playing)
 	{
 		LOG("Already playing video");
@@ -389,7 +392,23 @@ void Video::CloseVideo()
 	quit = false;
 
 	App->win->SetScale(2);
-	App->transitionManager->CreateFadeTransition(0.5F, true, SceneState::STARTMENU, Black);
+
+	float transitionTime = 2.F; 
+	Color transitionColor = Black; 
+	
+	switch (nextScene)
+	{
+	case SceneState::STARTMENU:
+		transitionTime = 0.5F; 
+		transitionColor = Black;
+		break; 
+
+	case SceneState::LOBBY:
+		transitionTime = 2.F; 
+		transitionColor = White; 
+	}
+
+	App->transitionManager->CreateFadeTransition(transitionTime, true, nextScene, transitionColor);
 	//App->scene->LoadScene(SceneState::STARTMENU);
 
 	LOG("Video closed");

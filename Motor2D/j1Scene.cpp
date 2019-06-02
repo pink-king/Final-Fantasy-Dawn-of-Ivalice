@@ -26,7 +26,8 @@
 #include "j1TransitionManager.h"
 #include "NoWalkableTrigger.h"
 #include "WaveTrigger.h"
-#include"LootEntity.h"
+#include "LootEntity.h"
+#include "Video.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -381,6 +382,8 @@ bool j1Scene::Start()
 	}
 	if (state == SceneState::INTRO)
 	{
+		App->video->PlayVideo("intro/PinkKingGamesIntro.mp4", SceneState::STARTMENU);
+
 		// UI Crashes if not loaded this
 		App->gui->resetHoverSwapping = false;
 		if (!LoadedUi)
@@ -426,7 +429,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
-		App->audio->PlayMusic("audio/music/win.ogg", -1);
+		App->video->PlayVideo("intro/creditsVideo.mp4", SceneState::LOBBY);
+		//App->audio->PlayMusic("audio/music/win.ogg", -1);
 
 		if (ComeToDeath)
 		{
@@ -436,8 +440,17 @@ bool j1Scene::Start()
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 			inGamePanel->enable = false;
-		if (!winPanel->enable)
-			winPanel->enable = true;
+
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
+		
+		/*if (!winPanel->enable)
+			winPanel->enable = true;*/
+		
 	}
 
 	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
@@ -489,7 +502,10 @@ bool j1Scene::PreUpdate()
 	}
 	// FAKE KEYS FOR TESTING 
 
-
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		App->transitionManager->CreateFadeTransition(2.F, true, SceneState::WIN, White);
+	}
 
 
 
