@@ -17,15 +17,22 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	
 	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	level = 0;
-	adjacentTileNeighboursToGround[0] = { 0,-3 }; // N
-	adjacentTileNeighboursToGround[1] = { 0, 3 }; // S
-	adjacentTileNeighboursToGround[2] = { -3,0 }; // W
-	adjacentTileNeighboursToGround[3] = { 3,0 }; // E
-	adjacentTileNeighboursToGround[4] = { 3,-3 }; // NE
-	adjacentTileNeighboursToGround[5] = { -3,-3 }; // NW
-	adjacentTileNeighboursToGround[6] = { 3, 3 }; // SE
-	adjacentTileNeighboursToGround[7] = { -3,3 }; // SW
-
+	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
+	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
+	adjacentTileNeighboursToGround[2] = { -1,0 }; // W
+	adjacentTileNeighboursToGround[3] = { 1,0 }; // E
+	adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
+	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
+	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
+	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+	adjacentTileNeighboursToGround2[0] = { 0,-2 }; // N
+	adjacentTileNeighboursToGround2[1] = { 0, 2 }; // S
+	adjacentTileNeighboursToGround2[2] = { -2,0 }; // W
+	adjacentTileNeighboursToGround2[3] = { 2,0 }; // E
+	adjacentTileNeighboursToGround2[4] = { 2,-2 }; // NE
+	adjacentTileNeighboursToGround2[5] = { -2,-2 }; // NW
+	adjacentTileNeighboursToGround2[6] = { 2, 2 }; // SE
+	adjacentTileNeighboursToGround2[7] = { -2,2 }; // SW
 	GetGroundTilePoints();
 	SelectTileToGround();
 	/*int actualposX = position.x;
@@ -337,7 +344,7 @@ iPoint LootEntity::GetPosition()
 std::string LootEntity::GetName()
 {
 	return name;
-}
+}  
 
 LOOT_TYPE LootEntity::GetType()
 {
@@ -520,8 +527,6 @@ std::list<iPoint> LootEntity::GetGroundTilePoints()
 	
 	for (int i = 0; i < NUM_NEIGH_TILE_FALL; ++i)
 	{
-		App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
-		//iPoint tilePos = App->entityFactory->player->GetTilePos() + adjacentTileNeighboursToGround[i];
 
 		iPoint tilePos = App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
 
@@ -531,6 +536,22 @@ std::list<iPoint> LootEntity::GetGroundTilePoints()
 
 		}
 	}
+	if (groundTilePoints.size() == 0)
+	{
+		groundTilePoints.clear();
+
+		for (int i = 0; i < NUM_NEIGH_TILE_FALL; ++i)
+		{
+			
+			iPoint tilePos = App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround2[i];
+
+			if (App->pathfinding->IsWalkable(tilePos))
+			{
+				groundTilePoints.push_back(tilePos);
+
+			}
+		}
+	}
 	return groundTilePoints;
 }
 
@@ -538,21 +559,27 @@ void LootEntity::SetSplineToFall()
 {
 	//App->easing->CreateSpline((&float)position.y,)
 	int actualpos = position.y;
-	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x,groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
+	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x+1, groundTileDestination.y).y - pivot.y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
 }
 
 void LootEntity::SelectTileToGround()
 {
-	
+	LOG("lootEjection");
 	LOG("groundTile size %i", groundTilePoints.size());
-	int randVal = GetRandomValue(0, groundTilePoints.size());
-	int m=0;
+	int m;
+	if (groundTilePoints.size() == 0)
+		m = groundTilePoints.size();
+	else
+		m = groundTilePoints.size()-1;
+
+	int randVal = GetRandomValue(0, m);
+	m=0;
 
 	for (std::list<iPoint>::iterator iter = groundTilePoints.begin(); iter != groundTilePoints.end(); ++iter)
 	{
 		if (m == randVal)
 		{
-
+			// if randVal = 8 tiledestinatio gets fucked!!
 			
 			groundTileDestination = (*iter);
 			LOG("tw8");

@@ -37,7 +37,7 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 	
 
 	App->easing->CreateSpline(&position.x, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).x, 1000, TypeSpline::EASE);
-	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE);
+	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 
 

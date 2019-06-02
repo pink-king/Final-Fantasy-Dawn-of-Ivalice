@@ -379,6 +379,11 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 					}
 				}
 			
+				if (currentDialogType == "STRANGER")
+				{
+					App->scene->lobbyState = LobbyState::TALKSTRANGER;
+					//TODO: put audio
+				}
 				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
 				{
 					dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
