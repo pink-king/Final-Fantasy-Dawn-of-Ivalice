@@ -24,11 +24,12 @@ private:
 	UiItem_Label* newStat = nullptr;
 	uint baseStatValue;                      // some should be 1 or 2 decimal floats
 	uint newStatValue;
-	uint lastNewStatValue; 
+	uint lastNewStatValue = 0; 
 	UiItem_Label* changeStatArrows = nullptr;
 	/*UiItem_Image* changeStatArrows = nullptr;
 	UiItem_Image* changeStatIcon = nullptr;*/
 	uint mapPosition; 
+	bool AddedNewBuff = false; 
 
 public: 
 	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem* const parent) : BlockName(Name), baseStat(bStat),

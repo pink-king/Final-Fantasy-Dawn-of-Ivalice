@@ -851,18 +851,47 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 
 
-						if (App->scene->inventoryItem->enable)
-							App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);
+						/*if (App->scene->inventoryItem->enable)
+							App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);*/
 
 					}
 					else
 					{
 
-					if (App->scene->inventoryItem->enable)
-						App->scene->characterStatsItem->HideAllComparisonStats(); 
+				/*	if (App->scene->inventoryItem->enable)
+						App->scene->characterStatsItem->HideAllComparisonStats(); */
                     }
 
 				}
+
+
+
+
+				if (App->gui->selected_object == this->iconImageInventory)
+				{
+					int a = 0;
+
+					if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
+						&& this->attachedCharacterString == "Marche")
+
+
+						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz()
+							&& this->attachedCharacterString == "Ritz")
+
+						|| (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara()
+							&& this->attachedCharacterString == "Shara"))
+
+					{
+						App->scene->characterStatsItem->HideAllComparisonStats();
+						getItemBuffsAndCallStatComparison(this->callback);
+
+					}
+					else
+					{
+						App->scene->characterStatsItem->HideAllComparisonStats();
+					}
+				}
+
 
 
 			}
@@ -874,7 +903,6 @@ bool UiItem_Description::ChangeComparisonLabels()
 	{
 		if (App->gui->selected_object == this->iconImageInventory)
 		{
-
 
 			if ((App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche()   // right now, only resistance comparion label is checked
 				&& this->attachedCharacterString == "Marche")
