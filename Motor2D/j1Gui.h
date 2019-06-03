@@ -122,7 +122,7 @@ public:
 	UiItem_Inventory* AddInventory(UiItem* const parent);
 
 	CharacterStats* AddCharacterStatsItem(UiItem* const parent);
-	CharacterStatBlock* AddCharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, /*UiItem_Image* changeStatIcon,*/ UiItem* const parent);
+	CharacterStatBlock* AddCharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* changeStatIcon, UiItem* const parent);
 
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
