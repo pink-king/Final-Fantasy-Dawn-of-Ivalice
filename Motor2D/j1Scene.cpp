@@ -1145,6 +1145,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
 		int isTabbable = uiNode.child("flag").attribute("isTabbable").as_int();
+		int autorefresh = uiNode.child("flag").attribute("autorefresh").as_int();
 		int isSwappable = uiNode.child("flag").attribute("isSwappable").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
@@ -1179,14 +1180,13 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else
 		{                                  // this is useless now
-			if (isTabbable != 1)
+			
+			if (doNotCreate != "true")
 			{
-				if (doNotCreate != "true")
-				{
-					App->gui->AddImage(position, &section, name_image, parent, isSwappable, isTabbable);  // bug: an image is created as panel 
-				}
-		
+				App->gui->AddImage(position, &section, name_image, parent, isSwappable, isTabbable, autorefresh);  // bug: an image is created as panel 
 			}
+		
+			
 			else
 			{
 

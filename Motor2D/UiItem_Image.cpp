@@ -8,7 +8,7 @@
 
 
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::string& name, UiItem * const parent, bool swapPosition, bool isTabbable) : UiItem(position, name, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::string& name, UiItem * const parent, bool swapPosition, bool isTabbable, bool autorefresh) : UiItem(position, name, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
@@ -17,11 +17,11 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::strin
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
 	section_item = *section;
-	isTabbable_button = isTabbable;
+	
 
 	if (isTabbable == 1)
 	{
-		this->isTabbable = true;
+		tabbable = true;
 		autorefresh = true;
 	}
 
