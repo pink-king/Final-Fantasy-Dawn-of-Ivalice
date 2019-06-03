@@ -1208,6 +1208,49 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 
 
+		// character stats icons
+		if (name == "upgradeAttack")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.upgradeAttack = section; 
+		}
+		else if (name == "downgradeAttack")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.downgradeAttack = section;
+		}
+		else if (name == "upgradeDefense")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.upgradeDefense = section;
+		}
+		else if (name == "downgradeDefense")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.downgradeDefense = section;
+		}
+		else if (name == "upgradeCooldown")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.upgradeCooldown = section;
+		}
+		else if (name == "downgradeCooldown")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.downgradeCooldown = section;
+		}
+		else if (name == "upgradeHP")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.upgradeHP = section;
+		}
+		else if (name == "downgradeHP")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.downgradeHP = section;
+		}
+		else if (name == "upgradeVelocity")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.upgradeVelocity = section;
+		}
+		else if (name == "downgradeVelocity")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.downgradeVelocity = section;
+		}
+		
+
 	}
 
 

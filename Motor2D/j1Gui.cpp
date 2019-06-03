@@ -618,10 +618,10 @@ CharacterStats * j1Gui::AddCharacterStatsItem(UiItem * const parent)
 	return (CharacterStats*)newUIItem; 
 }
 
-CharacterStatBlock * j1Gui::AddCharacterStatBlock( UiItem_Label * Name, UiItem_Label * bStat, UiItem_Label * nStat, Uint8 bValue, Uint8 nValue, UiItem_Label * Arrows, UiItem* const parent)
+CharacterStatBlock * j1Gui::AddCharacterStatBlock( UiItem_Label * Name, UiItem_Label * bStat, UiItem_Label * nStat, Uint8 bValue, Uint8 nValue, UiItem_Label * Arrows, UiItem_Image* Icons, UiItem* const parent)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = DBG_NEW CharacterStatBlock(Name, bStat, nStat, bValue, nValue, Arrows, parent);
+	newUIItem = DBG_NEW CharacterStatBlock(Name, bStat, nStat, bValue, nValue, Arrows, Icons, parent);
 	ListItemUI.push_back(newUIItem);
 	return (CharacterStatBlock*)newUIItem;
 }

@@ -29,15 +29,14 @@ private:
 	uint newStatValue = 0;
 	uint lastNewStatValue = 0; 
 	UiItem_Label* changeStatArrows = nullptr;
-	/*UiItem_Image* changeStatArrows = nullptr;
-	UiItem_Image* changeStatIcon = nullptr;*/ 
+	UiItem_Image* changeStatIcon = nullptr;
 	uint mapPosition; 
 	bool AddedNewBuff = false; 
 
 
 public: 
-	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem* const parent) : BlockName(Name), baseStat(bStat),
-		newStat(nStat), baseStatValue(bValue), newStatValue(nValue), changeStatArrows(Arrows), UiItem(parent)
+	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* changeStatIcon, UiItem* const parent) : BlockName(Name), baseStat(bStat),
+		newStat(nStat), baseStatValue(bValue), newStatValue(nValue), changeStatArrows(Arrows), changeStatIcon(changeStatIcon), UiItem(parent)
 	{
 		this->guiType = GUI_TYPES::CHARACTERSTATBLOCK; 
 	}
@@ -67,7 +66,7 @@ public:
 	void ResetDefaultStats(); 
 	void SetBaseStats();   // if Compare recieves a 1 in the mapping pos, change it, with the value at that pos
 	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
-	void GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
+	//void GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	void SetNewStats();
 	void HideAllComparisonStats(); 
 	void ShowAllComparisonStats(); 

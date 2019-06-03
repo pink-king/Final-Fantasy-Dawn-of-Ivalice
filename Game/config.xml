@@ -108,7 +108,62 @@
 		    <donotdoitflag value ="true" />
         </image>
 		
-	
+		
+	    <image name="upgradeAttack">
+          <section x="2096" y="740" w="22" h="20"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		 <image name="downgradeAttack">
+          <section x="2159" y="740" w="22" h="20"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		 <image name="upgradeDefense">
+          <section x="2224" y="740" w="22" h="24"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		 <image name="downgradeDefense">
+          <section x="2288" y="740" w="22" h="24"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		<image name="upgradeCooldown">
+          <section x="2096" y="806" w="22" h="16"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		 <image name="downgradeCooldown">
+          <section x="2159" y="806" w="22" h="16"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		<image name="upgradeHP">
+          <section x="2350" y="742" w="26" h="18"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		 <image name="downgradeHP">
+          <section x="1902" y="804" w="26" h="18"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		
+		
+		<image name="upgradeVelocity">
+          <section x="1970" y="804" w="20" h="24"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		 <image name="downgradeVelocity">
+          <section x="2034" y="804" w="20" h="24"/>
+		    <donotdoitflag value ="true" />
+        </image>
+		
+		
+		
+		
 		
       </images>
 

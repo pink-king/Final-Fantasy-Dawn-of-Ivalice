@@ -74,6 +74,30 @@ struct enemySkullIcon
 	SDL_Rect BossEnemyRect;
 };
 
+
+struct CharacterStatIcon
+{
+	SDL_Rect upgrade;
+	SDL_Rect Downgrade;
+	std::string name; 
+	uint mapPos; 
+};
+
+
+claas upgradeCharacterStatsIcons
+{
+	
+	CharacterStatIcon attack; 
+    
+	CharacterStatIcon defense;
+	CharacterStatIcon cooldown;
+	CharacterStatIcon HP;
+	CharacterStatIcon velocity;
+
+
+};
+
+
 class GUI_Definitions
 {
 
