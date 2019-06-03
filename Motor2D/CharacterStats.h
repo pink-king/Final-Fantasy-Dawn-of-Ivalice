@@ -35,7 +35,7 @@ private:
 
 
 public: 
-	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* changeStatIcon, UiItem* const parent) : BlockName(Name), baseStat(bStat),
+	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, /*UiItem_Image* changeStatIcon,*/ UiItem* const parent) : BlockName(Name), baseStat(bStat),
 		newStat(nStat), baseStatValue(bValue), newStatValue(nValue), changeStatArrows(Arrows), changeStatIcon(changeStatIcon), UiItem(parent)
 	{
 		this->guiType = GUI_TYPES::CHARACTERSTATBLOCK; 

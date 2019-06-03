@@ -351,6 +351,7 @@ bool j1Scene::Start()
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
 			LoadCredits(sceneNode);
+			LoadControls(sceneNode);
 			LoadInventory(sceneNode);
 			LoadDeathScreen(sceneNode);
 			LoadWinScreen(sceneNode);
@@ -361,6 +362,7 @@ bool j1Scene::Start()
 		uiShara->enable = false;
 		uiRitz->enable = false;
 		creditsPanel->enable = false;
+		controlsPanel->enable = false;
 		uiMarchePortrait->enable = false;
 		uiSharaPortrait->enable = false;
 		uiRitzPortrait->enable = false;
@@ -1142,7 +1144,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
-		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
+		int isTabbable = uiNode.child("flag").attribute("isTabbable").as_int();
 		int isSwappable = uiNode.child("flag").attribute("isSwappable").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
@@ -1177,11 +1179,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else
 		{                                  // this is useless now
-			if (isPanel != 1)
+			if (isTabbable != 1)
 			{
 				if (doNotCreate != "true")
 				{
-					App->gui->AddImage(position, &section, name_image, parent, isSwappable, isPanel);  // bug: an image is created as panel 
+					App->gui->AddImage(position, &section, name_image, parent, isSwappable, isTabbable);  // bug: an image is created as panel 
 				}
 		
 			}
@@ -1208,10 +1210,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 
 
+
 		// character stats icons
 		if (name == "upgradeAttack")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.attack.upgrade = section; 
+			App->gui->upgradeCharacterStatsIconsRects.attack.upgrade = section;
 		}
 		else if (name == "downgradeAttack")
 		{
@@ -1249,7 +1252,6 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			App->gui->upgradeCharacterStatsIconsRects.velocity.Downgrade = section;
 		}
-		
 
 	}
 
@@ -1516,6 +1518,14 @@ bool j1Scene::LoadCredits(pugi::xml_node & nodeScene)
 	pugi::xml_node creditsNode = nodeScene.child("Credits");
 	creditsPanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(creditsPanel, creditsNode);
+	return true;
+}
+
+bool j1Scene::LoadControls(pugi::xml_node & nodeScene)
+{
+	pugi::xml_node controlsNode = nodeScene.child("Controls");
+	controlsPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(controlsPanel, controlsNode);
 	return true;
 }
 

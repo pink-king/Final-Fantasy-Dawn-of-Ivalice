@@ -58,6 +58,8 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->GoBackToStartMenuFromDeathWin();
 	if (functionName == "Credits")
 		App->gui->Credits();
+	if (functionName == "GoToControls")
+		App->gui->GoToControls();
 	if (functionName == "SocialMedia")
 		App->gui->SocialMedia(name_button);
 

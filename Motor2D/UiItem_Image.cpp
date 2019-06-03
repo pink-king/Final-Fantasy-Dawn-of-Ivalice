@@ -8,7 +8,7 @@
 
 
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::string& name, UiItem * const parent, bool swapPosition, bool isPanel) : UiItem(position, name, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::string& name, UiItem * const parent, bool swapPosition, bool isTabbable) : UiItem(position, name, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
@@ -18,9 +18,9 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::strin
 	this->hitBox.h = section->h;
 	section_item = *section;
 
-	if (isPanel == 1)
+	if (isTabbable == 1)
 	{
-		this->isPanel = true;
+		this->isTabbable = true;
 	}
 
 	// the parent

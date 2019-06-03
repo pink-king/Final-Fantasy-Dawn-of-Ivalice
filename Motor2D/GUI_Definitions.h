@@ -88,16 +88,16 @@ struct upgradeCharacterStatsIcons
 {
 
 
-	CharacterStatIcon attack; 
-    
+	CharacterStatIcon attack;
+
 	CharacterStatIcon defense;
 	CharacterStatIcon cooldown;
 	CharacterStatIcon HP;
 	CharacterStatIcon velocity;
 
-	std::map<int, CharacterStatIcon> mapPositions; 
+	std::map<int, CharacterStatIcon> mapPositions;
 
-	
+
 
 };
 

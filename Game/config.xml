@@ -629,7 +629,13 @@
           <idleSec  x="1079" y="2524" w="222" h="67"/>
           <hoverSec x="1079" y="2456" w="222" h="67" />
           <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="267" y="561"/>
+          <position x="267" y="591"/>
+        </button>
+        <button name="button_controls" function = "GoToControls">
+          <idleSec  x="1079" y="3136" w="222" h="67"/>
+          <hoverSec x="1079" y="3068" w="222" h="67" />
+          <clickSec x="1079" y="3204" w="222" h="67" />
+          <position x="267" y="491"/>
         </button>
       </buttons>
 
@@ -786,6 +792,31 @@
     
     </Credits>
 
+    
+    
+    <Controls>
+      
+      <images>
+        <image name="background">
+          <section x="1320" y="1" w="1280" h="720"/>
+          <position x="0" y="0"/>
+        </image>
+        
+      </images>
+
+      <buttons>
+        <button name="button_backSettings" function = "SettingsScreen">
+          <idleSec  x="1079" y="2524" w="222" h="67"/>
+          <hoverSec x="1079" y="2456" w="222" h="67" />
+          <clickSec x="1079" y="2592" w="222" h="67" />
+          <position x="267" y="591"/>
+        </button>
+      </buttons>
+      
+    </Controls>
+
+    
+    
     <Inventory>
       <images>
         <image name="bg_transparency">

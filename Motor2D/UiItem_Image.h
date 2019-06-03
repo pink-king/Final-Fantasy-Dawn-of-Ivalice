@@ -13,7 +13,7 @@ class UiItem_Image : public UiItem
 {
 
 public:
-	UiItem_Image(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition = false, bool isPanel = false);
+	UiItem_Image(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition = false, bool isTabbable = false);
 	UiItem_Image(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	//UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem_Image();
@@ -37,7 +37,7 @@ private:
 		this->hitBox.y = pos.y;
 	}
 
-	bool isPanel = false;
+	bool isTabbable = false;
 	SDL_Rect resizedRect;
 
 	SDL_Texture* newTex = nullptr;
