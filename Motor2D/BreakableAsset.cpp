@@ -3,7 +3,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 
-BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBroken) : isBroken(isBroken)
+BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBroken) : isBroken(isBroken), breakableType(type), j1Entity(ENTITY_TYPE::BREAKABLE_ASSET,pos.x,pos.y,"jar")
 {
 	switch (type)
 	{
@@ -54,13 +54,11 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 	else
 		currentAnimation = &idle; 
 
-	position.x = pos.x;
-	position.y = pos.y;
 
 	pivot.create(32, 44);
 	size.create(64, 64);
 
-	this->type = BREAKABLE_ASSET;
+
 	this->life = 1;
 	// When this entity is created, the Walkability Map is not created yet
 	//	App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
@@ -107,6 +105,20 @@ void BreakableAsset::Draw()
 	}
 	else App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &drawAtlasRect);
 
+}
+
+bool BreakableAsset::Load(pugi::xml_node &node)
+{
+	return true;
+}
+
+bool BreakableAsset::Save(pugi::xml_node &node) const
+{
+	node.append_attribute("type") = (int)breakableType;
+	node.append_attribute("posX") = (int)position.x;
+	node.append_attribute("posY") = (int)position.y;
+	node.append_attribute("broken") = isBroken;
+	return true;
 }
 
 void BreakableAsset::Break()

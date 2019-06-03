@@ -585,6 +585,9 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							destRect = { 386,847,64,64 };
 						}
 
+						if ((type == EnvironmentAssetsTypes::CHEST || type == EnvironmentAssetsTypes::BREAKABLE_ASSET || type == EnvironmentAssetsTypes::CHEST) && App->scene->ComeToPortal)
+							continue;
+						
 						App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType);
 
 					}

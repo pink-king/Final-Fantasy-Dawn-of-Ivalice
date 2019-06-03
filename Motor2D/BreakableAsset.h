@@ -18,12 +18,17 @@ public:
 
 	void Draw() override;
 
+	bool Load(pugi::xml_node&) override;
+	bool Save(pugi::xml_node&) const override;
+
 	void Break();
 
 private:
 
 	Animation idle;
 	Animation breaking;
+
+	BreakableType breakableType;
 
 	bool isAssigned = false;
 	bool isBroken = false;

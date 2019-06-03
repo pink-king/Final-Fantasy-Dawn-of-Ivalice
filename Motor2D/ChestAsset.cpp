@@ -4,7 +4,7 @@
 #include "j1PathFinding.h"
 #include "ChestTrigger.h"
 
-ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, bool isBossChest) : isOpened(isOpened), isBossChest(isBossChest)
+ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, bool isBossChest) : isOpened(isOpened), isBossChest(isBossChest), j1Entity(ENTITY_TYPE::CHEST, pos.x,pos.y,"chest")
 {
 	// Rect Pos.y -10 to align to center of the tile 
 	idle.PushBack({ 382, -10, 64, 64 });
@@ -23,11 +23,6 @@ ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, bool isBossChest) : is
 	}
 	else
 		currentAnimation = &idle;
-
-
-
-	position.x = pos.x;
-	position.y = pos.y;
 
 	SetPivot(32, 55);
 	size.create(64, 64);
@@ -69,6 +64,20 @@ void ChestAsset::Draw()
 	}
 	else
 		App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &currentAnimation->GetCurrentFrame());
+}
+
+bool ChestAsset::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+bool ChestAsset::Save(pugi::xml_node &node) const
+{
+	node.append_attribute("posX") = (int)position.x;
+	node.append_attribute("posY") = (int)position.y;
+	node.append_attribute("chestBoss") = isBossChest;
+	node.append_attribute("open") = isOpened;
+	return true;
 }
 
 void ChestAsset::OpenChest()

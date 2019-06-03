@@ -264,14 +264,13 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreatePlayer({ 115, 240 });
 		
-		if (lobbyState == LobbyState::TALKSTRANGER)
+		if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
 		{
-		
-
+	
 			doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
 			firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 
-			if (lobbyState == LobbyState::PASSLVL1)
+			if (lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
 				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
 
 			if (lobbyState == LobbyState::PASSLVL2 && ComeToPortal)
@@ -279,6 +278,13 @@ bool j1Scene::Start()
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
 				App->LoadGame("save_game.xml");
 				lobbyState = LobbyState::PASSLVL1;
+			}
+			if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
+			{
+				ComeToPortal = false;
+				App->entityFactory->loadEnemies = false;
+				App->LoadGame("Portal.xml");
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 			}
 
 		}
@@ -298,16 +304,6 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		
-		
-
-		if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
-		{
-			ComeToPortal = false;
-			App->entityFactory->loadEnemies = false;
-			App->LoadGame("Portal.xml");
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
-		}
 
 		if (ComeToDeath || ComeToWin)
 		{
@@ -615,7 +611,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
 		lobbyState = LobbyState::PASSLVL2;
-		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::WIN, White);
+		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;

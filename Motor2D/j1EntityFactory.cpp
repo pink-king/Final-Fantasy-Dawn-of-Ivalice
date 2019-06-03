@@ -346,6 +346,37 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			App->entityFactory->player->Load(characterPlayer);
 		}
 	}
+
+	for (pugi::xml_node characterbreakable = node.child("breakableAsset"); characterbreakable; characterbreakable = characterbreakable.next_sibling("breakableAsset"))
+	{
+		BreakableType breakableType;
+		int aux = characterbreakable.attribute("type").as_int();
+		switch (aux)
+		{
+		case 0:
+			breakableType = BreakableType::JAR;
+			break;
+		case 1:
+			breakableType = BreakableType::JARFULL;
+			break;
+		case 2:
+			breakableType = BreakableType::BARREL;
+			break;
+		default:
+			break;
+		}
+		iPoint pos;
+		pos.x = characterbreakable.attribute("posX").as_int();
+		pos.y = characterbreakable.attribute("posY").as_int();
+		CreateAsset(EnvironmentAssetsTypes::BREAKABLE_ASSET, pos, { 0,0,0,0 }, breakableType, characterbreakable.attribute("broken").as_bool());
+
+	}
+
+	for (pugi::xml_node characterChest = node.child("chest"); characterChest; characterChest = characterChest.next_sibling("chest"))
+	{
+		CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, !characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
+	}
+
 	return true;
 }
 
@@ -363,6 +394,17 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 		if ((*item)->type == ENTITY_TYPE::PLAYER)
 		{
 			pugi::xml_node nodeEntities = node.append_child("Players");
+			(*item)->Save(nodeEntities);
+		}
+
+		if ((*item)->type == ENTITY_TYPE::CHEST)
+		{
+			pugi::xml_node nodeEntities = node.append_child("chest");
+			(*item)->Save(nodeEntities);
+		}
+		if ((*item)->type == ENTITY_TYPE::BREAKABLE_ASSET)
+		{
+			pugi::xml_node nodeEntities = node.append_child("breakableAsset");
 			(*item)->Save(nodeEntities);
 		}
 	}
@@ -870,7 +912,7 @@ bool j1EntityFactory::isThisSubtileEnemyFree(const iPoint pos) const
 		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
 		{
 			if ((*entityIterator)->type == ENTITY_TYPE::ENEMY_TEST || (*entityIterator)->type == ENTITY_TYPE::ENEMY_BOMB || (*entityIterator)->type == ENTITY_TYPE::ENEMY_ARCHER || // ||other enemy types 
-				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS || (*entityIterator)->type == ENTITY_TYPE::ENEMY_DUMMY || (*entityIterator)->type == ENTITY_TYPE::BREAKABLE_ASSET)
+				(*entityIterator)->type == ENTITY_TYPE::FLOWERBOSS || (*entityIterator)->type == ENTITY_TYPE::ENEMY_DUMMY || (*entityIterator)->type == ENTITY_TYPE::BREAKABLE_ASSET )
 			{
 				ret = false;
 				break;

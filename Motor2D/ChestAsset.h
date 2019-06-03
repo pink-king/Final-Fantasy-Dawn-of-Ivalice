@@ -16,6 +16,9 @@ public:
 
 	void Draw() override;
 
+	bool Load(pugi::xml_node&) override;
+	bool Save(pugi::xml_node&) const override;
+
 	void SpawnLoot();
 	void OpenChest();
 
