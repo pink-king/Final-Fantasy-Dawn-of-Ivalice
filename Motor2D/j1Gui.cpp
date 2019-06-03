@@ -34,6 +34,21 @@ bool j1Gui::Start()
 	atlas = App->tex->Load(atlas_file_name.data());
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
 
+
+	// initialize icon map
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(0, upgradeCharacterStatsIconsRects.attack));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(1, upgradeCharacterStatsIconsRects.defense));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(2, upgradeCharacterStatsIconsRects.cooldown));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(3, upgradeCharacterStatsIconsRects.HP));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(4, upgradeCharacterStatsIconsRects.velocity));
+
+
+	upgradeCharacterStatsIconsRects.attack.mapPos = 0; 
+	upgradeCharacterStatsIconsRects.defense.mapPos = 1;
+	upgradeCharacterStatsIconsRects.cooldown.mapPos = 2;
+	upgradeCharacterStatsIconsRects.HP.mapPos = 3;
+	upgradeCharacterStatsIconsRects.velocity.mapPos = 4;
+
 	if (hurt_hud_tex == nullptr)
 		hurt_hud_tex = App->tex->Load("textures/hud dmg/playerhurt.png");
 

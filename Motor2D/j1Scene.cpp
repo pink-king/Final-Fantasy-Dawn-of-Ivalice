@@ -1211,43 +1211,43 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		// character stats icons
 		if (name == "upgradeAttack")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.upgradeAttack = section; 
+			App->gui->upgradeCharacterStatsIconsRects.attack.upgrade = section; 
 		}
 		else if (name == "downgradeAttack")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.downgradeAttack = section;
+			App->gui->upgradeCharacterStatsIconsRects.attack.Downgrade = section;
 		}
 		else if (name == "upgradeDefense")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.upgradeDefense = section;
+			App->gui->upgradeCharacterStatsIconsRects.defense.upgrade = section;
 		}
 		else if (name == "downgradeDefense")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.downgradeDefense = section;
+			App->gui->upgradeCharacterStatsIconsRects.defense.Downgrade = section;
 		}
 		else if (name == "upgradeCooldown")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.upgradeCooldown = section;
+			App->gui->upgradeCharacterStatsIconsRects.cooldown.upgrade = section;
 		}
 		else if (name == "downgradeCooldown")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.downgradeCooldown = section;
+			App->gui->upgradeCharacterStatsIconsRects.cooldown.Downgrade = section;
 		}
 		else if (name == "upgradeHP")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.upgradeHP = section;
+			App->gui->upgradeCharacterStatsIconsRects.HP.upgrade = section;
 		}
 		else if (name == "downgradeHP")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.downgradeHP = section;
+			App->gui->upgradeCharacterStatsIconsRects.HP.Downgrade = section;
 		}
 		else if (name == "upgradeVelocity")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.upgradeVelocity = section;
+			App->gui->upgradeCharacterStatsIconsRects.velocity.upgrade = section;
 		}
 		else if (name == "downgradeVelocity")
 		{
-			App->gui->upgradeCharacterStatsIconsRects.downgradeVelocity = section;
+			App->gui->upgradeCharacterStatsIconsRects.velocity.Downgrade = section;
 		}
 		
 

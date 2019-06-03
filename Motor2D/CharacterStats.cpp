@@ -56,8 +56,17 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		newStat->hasBeenSpawned = true;
 		newStat->hide = true;
 
+		std::string prankName = "akbar"; 
+		
+		
+		UiItem_Image* iconImage = App->gui->AddImage(currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 2.7f, ELEMENT_INSIDE_BLOCK_OFFSET_Y), 
+		&App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).upgrade, prankName, nullptr);
+		iconImage->hasBeenSpawned = true; 
+		iconImage->hide = true; 
+		
+
 	    
-		CharacterStatBlock* block =  App->gui->AddCharacterStatBlock(statName, baseStat, newStat, baseStatValue, newStatValue, Arrows, this);
+		CharacterStatBlock* block =  App->gui->AddCharacterStatBlock(statName, baseStat, newStat, baseStatValue, newStatValue, Arrows, iconImage, this);
 		block->mapPosition = i; 
 
 		statName->parent = block; 
@@ -68,6 +77,10 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		newStat->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
 		Arrows->parent = block;
 		Arrows->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
+		iconImage->parent = block; 
+		iconImage->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
+
+
 
     }
 	 
@@ -123,12 +136,12 @@ void CharacterStats::ResetDefaultStats()
 			dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), &c, NULL);
 			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue), &c, NULL);
 			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
-
+		
 
 			// hide 
 			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true; 
 			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true; 
-
+			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
 
 		}
 	}
@@ -190,9 +203,9 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 				{
 					if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
 					{
-						if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
-						{	//dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = values.at(i);  // if buff is summative
-							dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat = values.at(i);                  // capture this for later
+						if (newStatsMappingPositions.at(i) == 1)                      
+						{	
+							dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat = values.at(i);   // capture this for later
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
 
 							uint valueIfPickingObject = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue - dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue
@@ -202,19 +215,31 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 							if (valueIfPickingObject > dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
 							{
 								c = { 0, 255, 0, 255 };
+
+								// change the icon
+								dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->section = App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).upgrade;
 							}
 							else if (valueIfPickingObject <= dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
 							{
 								c = { 255, 0, 0, 255 };
+
+								// change the icon
+								dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->section = App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).Downgrade;
 							}
 
 
 							/*if (valueIfPickingObject != 0)
 							{*/
+							// change the new stat
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
 
+							// change the arrows
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
+
+							// change the icon
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = false; 
+						
 							//	}
 
 						
@@ -252,9 +277,10 @@ void CharacterStats::SetNewStats()
 
 				dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), NULL, NULL);
 
-
+				// hide new stat, arrows and icon
 				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
+				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
 
 
 				if (!dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
@@ -283,6 +309,7 @@ void CharacterStats::HideAllComparisonStats()
 		
 				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
+				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
 		
 		}
 	}
@@ -302,7 +329,7 @@ void CharacterStats::ShowAllComparisonStats()
 		
 				dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
 				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
-		
+				dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = false;
 		}
 	}
 
