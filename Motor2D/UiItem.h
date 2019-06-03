@@ -62,6 +62,8 @@ public:
 	bool slidable = false;
 	bool tabbed = false;
 	bool tabbable = false;
+	bool isTabbable_button = false;
+	bool autorefresh = false;
 	bool isNPCLabel = false;
 	bool enable = true;
 	bool hide = false;

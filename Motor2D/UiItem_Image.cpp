@@ -17,10 +17,12 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::strin
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
 	section_item = *section;
+	isTabbable_button = isTabbable;
 
 	if (isTabbable == 1)
 	{
 		this->isTabbable = true;
+		autorefresh = true;
 	}
 
 	// the parent
