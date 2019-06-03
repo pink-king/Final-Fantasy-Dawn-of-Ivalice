@@ -97,7 +97,7 @@ void UiItem::DrawUi(float dt)
 				}
 				++iter;
 			}
-			else
+			else if(!App->cleaningUp)
 			{
 				(*iter)->CleanUp();
 				delete (*iter);                                // destroy items that are to delete (like enemy health bars) 

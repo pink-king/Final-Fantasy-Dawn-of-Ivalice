@@ -205,6 +205,8 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 					{
 						if (newStatsMappingPositions.at(i) == 1)                      
 						{	
+							bool hide = false; 
+
 							dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat = values.at(i);   // capture this for later
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
 
@@ -219,26 +221,34 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 								// change the icon
 								dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->section = App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).upgrade;
 							}
-							else if (valueIfPickingObject <= dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
+							else if (valueIfPickingObject < dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
 							{
 								c = { 255, 0, 0, 255 };
 
 								// change the icon
 								dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->section = App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).Downgrade;
 							}
-
+							else  // if 0, hide all
+							{
+								hide = true; 
+							}
 
 							/*if (valueIfPickingObject != 0)
 							{*/
 							// change the new stat
-							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
-
+							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = hide;
+							if (!hide)
+								dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
+						
 							// change the arrows
-							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
-							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = hide;
+							if (!hide)
+								dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
 
 							// change the icon
-							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = false; 
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = hide;
+
+
 						
 							//	}
 
