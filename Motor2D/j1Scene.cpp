@@ -292,13 +292,6 @@ bool j1Scene::Start()
 				App->LoadGame("save_game.xml");
 				lobbyState = LobbyState::PASSLVL1;
 			}
-			else if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
-			{
-				ComeToPortal = false;
-				App->entityFactory->loadEnemies = false;
-				App->LoadGame("Portal.xml");
-				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
-			}
 
 		}
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);

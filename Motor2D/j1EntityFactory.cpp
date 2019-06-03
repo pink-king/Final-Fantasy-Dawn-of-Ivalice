@@ -374,7 +374,7 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 
 	for (pugi::xml_node characterChest = node.child("chest"); characterChest; characterChest = characterChest.next_sibling("chest"))
 	{
-		CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, !characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
+		CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
 	}
 
 	return true;
