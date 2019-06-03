@@ -462,6 +462,11 @@ j1KeyState j1Input::GetControllerGeneralPress(ControllerPressData mappedButtonDa
 
 bool j1Input::GenerateMapping()
 {
+	// character name to map data maps
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche", marcheMapInput));
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz", ritzMapInput));
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara", sharaMapInput));
+
 	// for shared buttons
 	generalMapInput.insert(std::pair<std::string, ControllerPressData&>("interact", gamepadScheme.sharedInput.interact));
 	generalMapInput.insert(std::pair<std::string, ControllerPressData&>("swap_next", gamepadScheme.sharedInput.swap_next));
@@ -490,11 +495,6 @@ bool j1Input::GenerateMapping()
 	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("special2", gamepadScheme.shara.special2));
 	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("ultimate", gamepadScheme.shara.ultimate));
 	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("aim", gamepadScheme.shara.aim));
-
-	// character name to map data maps
-	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>>("marche", marcheMapInput));
-	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>>("ritz", ritzMapInput));
-	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>>("shara", sharaMapInput));
 
 	return true;
 }
@@ -534,7 +534,7 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 	}
 	
 	// LOAD SPECIFIC characters schemes
-	for (std::map<std::string, std::map<std::string, ControllerPressData&>>::iterator it = characterNameToMapData.begin(); it != characterNameToMapData.end(); ++it )
+	for (std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it = characterNameToMapData.begin(); it != characterNameToMapData.end(); ++it )
 	{
 		pugi::xml_node charNode = node.child((*it).first.data()); // loads node with the same mapped name
 		if (charNode != NULL)

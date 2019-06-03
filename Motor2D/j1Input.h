@@ -165,7 +165,7 @@ public:
 	std::map<std::string, ControllerPressData&> marcheMapInput;
 	std::map<std::string, ControllerPressData&> ritzMapInput;
 	std::map<std::string, ControllerPressData&> sharaMapInput;
-	std::map<std::string, std::map<std::string, ControllerPressData&>> characterNameToMapData;
+	std::map<std::string, std::map<std::string, ControllerPressData&>&> characterNameToMapData;
 	GamepadControlScheme gamepadScheme;
 };
 
