@@ -771,7 +771,7 @@ Trigger * j1EntityFactory::CreateTrigger(TRIGGER_TYPE type, float posX, float po
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::NOWALKABLE:
-		ret = DBG_NEW NoWalkableTrigger(posX, posY);
+		ret = DBG_NEW NoWalkableTrigger(posX, posY,lookLeft, nSubtiles);
 		entities.push_back(ret);
 		break;
 	case TRIGGER_TYPE::EXITPORTAL:

@@ -191,6 +191,11 @@ bool j1Scene::Start()
 			ComeToDeath = false;
 			ComeToWin = false;
 		}
+
+		iPoint PosX = App->map->SubTileMapToWorld(88, 192);
+		NoWalkableTrigger* introTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y, SceneState::MAX_STATES, Black, 3, false);
+		introTrigger->CreateEntryWall(iPoint(44, 98));
+		introTrigger->CreateEntryWall(iPoint(45, 98));
 	}
 
 	if (state == SceneState::LEVEL2)
@@ -215,7 +220,7 @@ bool j1Scene::Start()
 		waveTrigg->CreateExitWall({ 22, 46 });
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
-		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y);
+		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
 		bossTrigger->CreateEntryWall(iPoint(37, 94));
 		bossTrigger->CreateEntryWall(iPoint(36, 94));
 		bossTrigger->CreateEntryWall(iPoint(35, 94));

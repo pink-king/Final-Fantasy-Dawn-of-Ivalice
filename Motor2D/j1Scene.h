@@ -99,8 +99,9 @@ public:
 	bool ComeToPortal = false;
 	bool ComeToDeath = false;
 	bool ComeToWin = false;
-	bool passLvl1 = false;
 	bool exitGame = false;
+
+	bool isSaved = false;
 	SceneState state = SceneState::INTRO;
 	SceneState previosState = SceneState::LOBBY;
 	LobbyState lobbyState = LobbyState::ALLBLOCK;
