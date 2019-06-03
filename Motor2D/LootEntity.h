@@ -84,13 +84,14 @@ public:
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
 	float LerpX(float actual, float destination, float t);
 	EQUIPABLE_TYPE GetEquipable();
-
-	
+	void ReRECTlootToLegRect(EQUIPABLE_TYPE equipable);
 
 	std::list<iPoint> GetGroundTilePoints();
 	void SetSplineToFall();
 	void SelectSubtileToGround();
 	bool CheckGrounded();
+
+
 public:
 	bool grounded;
 	std::list<iPoint> groundSubtilePoints;
@@ -106,6 +107,7 @@ public:
 	std::string lootname;
 
 	SDL_Rect loot_rect;
+	bool Legendari = false;
 	//SDL_Texture* goldTex;
 
 	uint level;
@@ -132,7 +134,6 @@ public:
 
 	bool clampedByCrosshair = false;
 	bool clampedByPlayerOnTop = false; 
-
 protected:
 
 	int dmg;
