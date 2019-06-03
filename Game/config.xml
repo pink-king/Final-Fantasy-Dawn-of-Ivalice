@@ -151,18 +151,31 @@
           <section x="426" y="1" w="54" h="54"/>
           <position x="102" y="635"/>
         </image>
-        <image name="tornado_marche">
+        <image name="ability2">
           <section x="536" y="1" w="54" h="54"/>
           <position x="226" y="635"/>
         </image>
-        <image name="scarWind_shara">
+        <image name="ability1">
           <section x="481" y="1" w="54" h="54"/>
           <position x="164" y="635"/>
         </image>
-        <image name="rage_marche">
+        <image name="ulti">
           <section x="591" y="1" w="54" h="54"/>
           <position x="288" y="635"/>
         </image>
+        <image name="chain2">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="226" y="635"/>
+        </image>
+        <image name="chain1">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="164" y="635"/>
+        </image>
+          <image name="chain3">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="288" y="635"/>
+        </image>
+        
        
         <image name="basic_button">
           <section x="346" y="6" w="24" h="24"/>
@@ -229,16 +242,29 @@
           <section x="426" y="111" w="54" h="54"/>
           <position x="102" y="635"/>
         </image>
-        <image name="fireArrow_shara">
+        <image name="ability1">
           <section x="481" y="111" w="54" h="54"/>
           <position x="164" y="635"/>
         </image>
-        <image name="contagious_shara">
+        <image name="ability2">
           <section x="536" y="111" w="54" h="54"/>
           <position x="226" y="635"/>
         </image>
-        <image name="skyShot_shara">
+        <image name="ulti">
           <section x="591" y="111" w="54" h="54"/>
+          <position x="288" y="635"/>
+        </image>
+        
+        <image name="chain1">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="164" y="635"/>
+        </image>
+        <image name="chain2">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="226" y="635"/>
+        </image>
+          <image name="chain3">
+          <section x="646" y="1" w="54" h="54"/>
           <position x="288" y="635"/>
         </image>
       
@@ -307,16 +333,29 @@
           <section x="426" y="56" w="54" h="54"/>
           <position x="102" y="635"/>
         </image>
-        <image name="teleport_ritz">
+        <image name="ability2">
           <section x="536" y="56" w="54" h="54"/>
           <position x="226" y="635"/>
         </image>
-        <image name="medusa_shara">
+        <image name="ability1">
           <section x="481" y="56" w="54" h="54"/>
           <position x="164" y="635"/>
         </image>
-        <image name="deathCircle_ritz">
+        <image name="ulti">
           <section x="591" y="56" w="54" h="54"/>
+          <position x="288" y="635"/>
+        </image>
+        
+        <image name="chain2">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="226" y="635"/>
+        </image>
+        <image name="chain1">
+          <section x="646" y="1" w="54" h="54"/>
+          <position x="164" y="635"/>
+        </image>
+          <image name="chain3">
+          <section x="646" y="1" w="54" h="54"/>
           <position x="288" y="635"/>
         </image>
         

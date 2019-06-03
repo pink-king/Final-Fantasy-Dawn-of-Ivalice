@@ -97,6 +97,7 @@ private:
 	consumableLabelPositions consumable_positions;
 	std::string str_potion;
 	std::string str_fenix_tail;
+	std::string name = "";
 
 
 

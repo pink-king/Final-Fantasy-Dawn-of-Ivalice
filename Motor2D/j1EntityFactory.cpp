@@ -37,6 +37,7 @@
 #include <ctime>
 #include <algorithm>
 #include "Boss_Flower.h"
+#include "j1Gui.h"
 
 
 
@@ -2083,7 +2084,24 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 			std::string dest = "LVL" + std::to_string(player->level) ;
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 
+			
+			
+			for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
+			{
 
+				if (player->level == 2 && (*item)->name=="chain1")
+				{
+					(*item)->to_delete = true;
+				}
+				else if (player->level == 3 && (*item)->name=="chain2")
+				{
+					(*item)->to_delete = true;
+				}
+				else if (player->level == 4 && (*item)->name=="chain3")
+				{
+					(*item)->to_delete = true;
+				}
+			}
 		}
 	}
 }

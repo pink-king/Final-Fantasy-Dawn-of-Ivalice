@@ -10,10 +10,23 @@
 #include "UiItem_CooldownClockManager.h"
 
 
-UiItem::UiItem(const iPoint& pos, UiItem* const parent)
+UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
+	if (parent != nullptr)
+		this->parent = parent;
+
+	this->function = function;
+
+	SDL_ShowCursor(SDL_DISABLE);
+}
+
+UiItem::UiItem(const iPoint& pos, std::string& name, UiItem* const parent)
+{
+	hitBox.x = pos.x;
+	hitBox.y = pos.y;
+	this->name = name;
 	if (parent != nullptr)
 		this->parent = parent;
 
@@ -44,7 +57,7 @@ UiItem::UiItem(const iPoint & pos, std::string & function, std::string& name, Ui
 		this->parent = parent;
 
 	this->function = function;
-	name_button = name;
+	this->name = name;
 	SDL_ShowCursor(SDL_DISABLE);
 }
 

@@ -145,6 +145,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				if (!first)
 				{
+					
 					item_pos.x = (*item)->hitBox.x;
 					item_pos.y = (*item)->hitBox.y;
 					first = true;
@@ -406,7 +407,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
 
-
+						
 					}
 				}
 
@@ -573,14 +574,14 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	return (UiItem_Label*)newUIItem;
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool swapPosition, bool isPanel)
+UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isPanel)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = DBG_NEW UiItem_Image(position, section, canvas, swapPosition, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, name, canvas, swapPosition, isPanel);
 	else
-		newUIItem = DBG_NEW UiItem_Image(position, section, parent, swapPosition, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, name, parent, swapPosition, isPanel);
 
 	ListItemUI.push_back(newUIItem);
 
