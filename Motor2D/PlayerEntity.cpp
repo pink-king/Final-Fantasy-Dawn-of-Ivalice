@@ -179,11 +179,29 @@ bool PlayerEntity::InputMovement(float dt)
 
 bool PlayerEntity::InputCombat()
 {
+	// links the controller scheme respect selected character
+	CharacterControlScheme* linkedScheme = nullptr;
+	switch (character)
+	{
+	case characterName::MARCHE:
+		linkedScheme = &App->input->gamepadScheme.marche;
+		break;
+	case characterName::RITZ:
+		linkedScheme = &App->input->gamepadScheme.ritz;
+		break;
+	case characterName::SHARA:
+		linkedScheme = &App->input->gamepadScheme.shara;
+		break;
+	default:
+		break;
+	}
+
+	// reset combat state
 	combat_state = combatState::IDLE;
 	
 	// aiming function ------
-	if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
-		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
+	if((App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_DOWN ||
+		App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_REPEAT && aiming == false) &&
 		character != characterName::MARCHE)
 		aiming = true;
 
@@ -194,41 +212,41 @@ bool PlayerEntity::InputCombat()
 	// ---------------------
 
 	// check ultimate trigger - marche without aim
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE  && (App->entityFactory->player->level >= 4 || App->buff->godMode))
+	if (App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && character == characterName::MARCHE  && (App->entityFactory->player->level >= 4 || App->buff->godMode))
 	{
 		combat_state = combatState::ULTIMATE;
 		//LOG("ULTIMATE");
 	}
-	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming  && (App->entityFactory->player->level >= 4 || App->buff->godMode))
+	else if (App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && aiming  && (App->entityFactory->player->level >= 4 || App->buff->godMode))
 		combat_state = combatState::ULTIMATE;
 
 
 	// check basic attack
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	if(App->input->GetControllerGeneralPress(linkedScheme->basic) == KEY_DOWN)
 	{
 		combat_state = combatState::BASIC;
 		LOG("BASIC");
 	}
 	
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN && (App->entityFactory->player->level >= 2 || App->buff->godMode))
+	if (App->input->GetControllerGeneralPress(linkedScheme->special1) == KEY_DOWN && (App->entityFactory->player->level >= 2 || App->buff->godMode))
 	{
 		combat_state = combatState::SPECIAL1;
 		LOG("SPECIAL1");
 	}
 	// special difference for "medusa work in progress cutre version"
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ && (App->entityFactory->player->level >= 3 || App->buff->godMode))
+	if (App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && character != characterName::RITZ && (App->entityFactory->player->level >= 3 || App->buff->godMode))
 	{
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
 	}
-	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode))
+	else if(App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode))
 		combat_state = combatState::SPECIAL2;
 		
 
 	// check dodge
 	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
 	{
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN)
 		{
 			combat_state = combatState::DODGE;
 			if (inputReady)
@@ -244,8 +262,8 @@ bool PlayerEntity::InputCombat()
 
 	if (aiming == true)
 	{
-		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP ||
-			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_IDLE)
+		if (App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_UP ||
+			App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_IDLE)
 		{
 			aiming = false;
 			return false;

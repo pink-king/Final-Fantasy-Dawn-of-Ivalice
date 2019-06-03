@@ -69,6 +69,10 @@ bool j1Input::Start()
 {
 
 	SDL_StopTextInput();
+
+	GenerateMapping();
+	LoadGamepadMapScheme("config/controllerMapping.xml");
+
 	return true;
 }
 
@@ -328,6 +332,13 @@ bool j1Input::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
 	//SDL_GameControllerClose(gamePad1);
 	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
+
+	// free maps
+	generalMapInput.clear();
+	marcheMapInput.clear();
+	ritzMapInput.clear();
+	sharaMapInput.clear();
+	characterNameToMapData.clear();
 	
 	return true;
 }
@@ -447,4 +458,105 @@ j1KeyState j1Input::GetControllerGeneralPress(ControllerPressData mappedButtonDa
 		return controller_axis[mappedButtonData.axis];
 	else
 		return j1KeyState::KEY_IDLE;
+}
+
+bool j1Input::GenerateMapping()
+{
+	// for shared buttons
+	generalMapInput.insert(std::pair<std::string, ControllerPressData&>("interact", gamepadScheme.sharedInput.interact));
+	generalMapInput.insert(std::pair<std::string, ControllerPressData&>("swap_next", gamepadScheme.sharedInput.swap_next));
+	generalMapInput.insert(std::pair<std::string, ControllerPressData&>("swap_prev", gamepadScheme.sharedInput.swap_prev));
+
+	// marche
+	marcheMapInput.insert(std::pair<std::string, ControllerPressData&>("basic", gamepadScheme.marche.basic));
+	marcheMapInput.insert(std::pair<std::string, ControllerPressData&>("dodge", gamepadScheme.marche.dodge));
+	marcheMapInput.insert(std::pair<std::string, ControllerPressData&>("special1", gamepadScheme.marche.special1));
+	marcheMapInput.insert(std::pair<std::string, ControllerPressData&>("special2", gamepadScheme.marche.special2));
+	marcheMapInput.insert(std::pair<std::string, ControllerPressData&>("ultimate", gamepadScheme.marche.ultimate));
+	marcheMapInput.insert(std::pair<std::string, ControllerPressData&>("aim", gamepadScheme.marche.aim));
+
+	// ritz
+	ritzMapInput.insert(std::pair<std::string, ControllerPressData&>("basic", gamepadScheme.ritz.basic));
+	ritzMapInput.insert(std::pair<std::string, ControllerPressData&>("dodge", gamepadScheme.ritz.dodge));
+	ritzMapInput.insert(std::pair<std::string, ControllerPressData&>("special1", gamepadScheme.ritz.special1));
+	ritzMapInput.insert(std::pair<std::string, ControllerPressData&>("special2", gamepadScheme.ritz.special2));
+	ritzMapInput.insert(std::pair<std::string, ControllerPressData&>("ultimate", gamepadScheme.ritz.ultimate));
+	ritzMapInput.insert(std::pair<std::string, ControllerPressData&>("aim", gamepadScheme.ritz.aim));
+
+	// shara
+	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("basic", gamepadScheme.shara.basic));
+	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("dodge", gamepadScheme.shara.dodge));
+	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("special1", gamepadScheme.shara.special1));
+	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("special2", gamepadScheme.shara.special2));
+	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("ultimate", gamepadScheme.shara.ultimate));
+	sharaMapInput.insert(std::pair<std::string, ControllerPressData&>("aim", gamepadScheme.shara.aim));
+
+	// character name to map data maps
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>>("marche", marcheMapInput));
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>>("ritz", ritzMapInput));
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>>("shara", sharaMapInput));
+
+	return true;
+}
+
+bool j1Input::LoadGamepadMapScheme(const char* path)
+{
+	pugi::xml_document inputDoc;
+	pugi::xml_node node;
+
+	pugi::xml_parse_result result = inputDoc.load_file(path);
+
+	if (result == NULL)
+		LOG("Could not load map xml file config/controllerMapping.xml pugi error: %s", result.description());
+	else
+		node = inputDoc.child("controller_mapping").child("current");
+
+	// LOAD shared scheme
+	pugi::xml_node general_node = node.child("general");
+	if (general_node != NULL)
+	{
+		for (pugi::xml_node sharedButtons = general_node.child("button"); sharedButtons; sharedButtons = sharedButtons.next_sibling("button"))
+		{
+			std::map<std::string, ControllerPressData&>::iterator it;
+			it = generalMapInput.find(sharedButtons.attribute("function").as_string());
+
+			if (it != generalMapInput.end()) // if found
+			{
+				// write values to data map
+				std::string buttonType = sharedButtons.attribute("type").as_string();
+
+				if (buttonType == "button")
+					(*it).second.button = SDL_GameControllerButton(sharedButtons.attribute("id").as_int());
+				else if (buttonType == "axis")
+					(*it).second.axis = SDL_GameControllerAxis(sharedButtons.attribute("id").as_int());
+			}
+		}
+	}
+	
+	// LOAD SPECIFIC characters schemes
+	for (std::map<std::string, std::map<std::string, ControllerPressData&>>::iterator it = characterNameToMapData.begin(); it != characterNameToMapData.end(); ++it )
+	{
+		pugi::xml_node charNode = node.child((*it).first.data()); // loads node with the same mapped name
+		if (charNode != NULL)
+		{
+			for (pugi::xml_node charButtons = charNode.child("button"); charButtons; charButtons = charButtons.next_sibling("button"))
+			{
+				std::map<std::string, ControllerPressData&>::iterator it2;
+				it2 = (*it).second.find(charButtons.attribute("function").as_string());
+
+				if (it2 != (*it).second.end())
+				{
+					// write values to data map
+					std::string buttonType = charButtons.attribute("type").as_string();
+
+					if (buttonType == "button")
+						(*it2).second.button = SDL_GameControllerButton(charButtons.attribute("id").as_int());
+					else if (buttonType == "axis")
+						(*it2).second.axis = SDL_GameControllerAxis(charButtons.attribute("id").as_int());
+				}
+			}
+		}
+	}
+
+	return true;
 }

@@ -143,8 +143,7 @@ public:
 	void UnlockPlayerInput();
 
 private:
-	ControllerPressData buttonSwapNext;
-	ControllerPressData buttonSwapPrev;
+
 	bool playerUpdateReady = true; // prevents to Update the player state
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;

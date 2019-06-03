@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "SDL/include/SDL_gamecontroller.h"
 #include "SDL/include/SDL_haptic.h"
+#include <map>
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
@@ -50,6 +51,31 @@ struct ControllerPressData
 	bool isButton = false;*/
 	SDL_GameControllerButton button = SDL_GameControllerButton(-1);
 	SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1);
+};
+
+struct SharedControlScheme
+{
+	ControllerPressData interact;
+	ControllerPressData swap_next;
+	ControllerPressData swap_prev;
+};
+
+struct CharacterControlScheme
+{
+	ControllerPressData basic;
+	ControllerPressData dodge;
+	ControllerPressData special1;
+	ControllerPressData special2;
+	ControllerPressData ultimate;
+	ControllerPressData aim;
+};
+
+struct GamepadControlScheme
+{
+	SharedControlScheme sharedInput;
+	CharacterControlScheme marche;
+	CharacterControlScheme ritz;
+	CharacterControlScheme shara;
 };
 
 class j1Input : public j1Module
@@ -117,6 +143,9 @@ public:
 
 	ControllerPressData CheckGamepadWTFPressedInput();
 
+	bool LoadGamepadMapScheme(const char* path);
+	bool GenerateMapping();
+
 private:
 	bool		windowEvents[WE_COUNT];
 	j1KeyState*	keyboard = nullptr;
@@ -132,8 +161,12 @@ private:
 	SDL_GameController* gamePad1 = nullptr;
 	SDL_Haptic* haptic = nullptr;
 public:
-	
-	
+	std::map<std::string, ControllerPressData&> generalMapInput;
+	std::map<std::string, ControllerPressData&> marcheMapInput;
+	std::map<std::string, ControllerPressData&> ritzMapInput;
+	std::map<std::string, ControllerPressData&> sharaMapInput;
+	std::map<std::string, std::map<std::string, ControllerPressData&>> characterNameToMapData;
+	GamepadControlScheme gamepadScheme;
 };
 
 #endif // __j1INPUT_H__
