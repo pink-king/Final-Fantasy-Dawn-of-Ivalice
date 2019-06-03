@@ -317,7 +317,15 @@ bool j1Input::PreUpdate()
 		}
 	}
 
+	// testing --------------
+
 	CheckGamepadWTFPressedInput();
+
+	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN)
+	{
+		gamepadScheme.marche.basic.button = SDL_CONTROLLER_BUTTON_A;
+		SaveGamepadMapScheme("config/controllerMapping.xml");
+	}
 
 	return true;
 }
@@ -416,7 +424,7 @@ ControllerPressData j1Input::CheckGamepadWTFPressedInput()
 	}
 
 	// buttons
-	if (detectedPress != true)
+	if (!detectedPress)
 	{
 		i = 0;
 		for (; i < SDL_CONTROLLER_BUTTON_MAX; ++i)
@@ -466,6 +474,7 @@ bool j1Input::GenerateMapping()
 	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche", marcheMapInput));
 	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz", ritzMapInput));
 	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara", sharaMapInput));
+	characterNameToMapData.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("general", generalMapInput));
 
 	// for shared buttons
 	generalMapInput.insert(std::pair<std::string, ControllerPressData&>("interact", gamepadScheme.sharedInput.interact));
@@ -557,6 +566,66 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 			}
 		}
 	}
+
+	return true;
+}
+
+bool j1Input::SaveGamepadMapScheme(const char* path)
+{
+	pugi::xml_document inputDoc;
+	pugi::xml_node node;
+
+	pugi::xml_parse_result result = inputDoc.load_file("config/controllerMapping.xml");
+
+	if (result == NULL)
+	{
+		LOG("Could not load map xml file config/controllerMapping.xml pugi error: %s", result.description());
+		return false;
+	}
+	else
+		node = inputDoc.child("controller_mapping").child("current"); // only overwrite the current scheme, never the default
+
+	// if the current node its not found, create it
+	if (node == NULL)
+	{
+		node = inputDoc.child("controller_mapping").append_child("current");
+		if (node.empty())
+			return false;
+	}
+
+	// SAVE ALL input ---------------------------------------------
+	// iterates all the mappings and so on
+	for (std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it = characterNameToMapData.begin(); it != characterNameToMapData.end(); ++it)
+	{
+		// search and remove duplicates
+		if (node.child((*it).first.data()))
+			node.remove_child((*it).first.data());
+
+		// adds new node
+		pugi::xml_node newButtonGroupNode = node.append_child((*it).first.data());
+		
+		// iterate thorught all current mapping
+		for (std::map<std::string, ControllerPressData&>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); ++it2)
+		{
+			// new button action
+			pugi::xml_node thisButton = newButtonGroupNode.append_child("button");
+			thisButton.append_attribute("function") = (*it2).first.data();
+
+			// check type of button
+			if ((*it2).second.button  != -1)
+			{
+				thisButton.append_attribute("type") = "button";
+				thisButton.append_attribute("id").set_value((*it2).second.button);
+			}
+			else if ((*it2).second.axis != -1)
+			{
+				thisButton.append_attribute("type") = "axis";
+				thisButton.append_attribute("id").set_value((*it2).second.axis);
+			}
+		}
+	}
+
+	inputDoc.save_file("config/controllerMapping.xml");
 
 	return true;
 }

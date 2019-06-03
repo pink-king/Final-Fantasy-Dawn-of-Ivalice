@@ -144,6 +144,7 @@ public:
 	ControllerPressData CheckGamepadWTFPressedInput();
 
 	bool LoadGamepadMapScheme(const char* path);
+	bool SaveGamepadMapScheme(const char* path);
 	bool GenerateMapping();
 
 private:
