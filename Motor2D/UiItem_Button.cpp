@@ -60,6 +60,10 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->gui->Credits();
 	if (functionName == "GoToControls")
 		App->gui->GoToControls();
+	if (functionName == "DefaultControls")
+	{
+
+	}
 	if (functionName == "SocialMedia")
 		App->gui->SocialMedia(name_button);
 
