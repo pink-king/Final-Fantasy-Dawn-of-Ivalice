@@ -138,6 +138,13 @@ bool j1Scene::Start()
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
 	
+	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
+	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
+	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
+	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
+
+
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
@@ -307,6 +314,7 @@ bool j1Scene::Start()
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
+
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
 
@@ -460,15 +468,6 @@ bool j1Scene::Start()
 			winPanel->enable = true;*/
 		
 	}
-
-	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
-	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
-	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
-	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
-
-
-
 
 	return true;
 }
