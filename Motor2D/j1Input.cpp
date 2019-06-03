@@ -655,7 +655,7 @@ const SDL_Rect& j1Input::GetSectionForElement(std::string name)
 		}
 		else if ((*it).second.axis != -1)
 		{
-			ret = ret = GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton(-1), (*it).second.axis);
+			ret = GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton(-1), (*it).second.axis);
 		}
 	}
 	
@@ -732,7 +732,7 @@ const SDL_Rect j1Input::GetAssociatedRectForThisGamepadInput(SDL_GameControllerB
 		// protection if not found
 		std::map<SDL_GameControllerAxis, SDL_Rect>::iterator it = guiAxisRectsMap.find(axis);
 		if(it != guiAxisRectsMap.end())
-			ret = guiAxisRectsMap.find(axis)->second;
+			ret = (*it).second;
 	}
 
 	return ret;
