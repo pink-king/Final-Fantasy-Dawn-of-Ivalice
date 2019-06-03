@@ -391,6 +391,59 @@ EQUIPABLE_TYPE LootEntity::GetEquipable()
 	return equipableType;
 }
 
+void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
+{
+	switch (equipable)
+	{
+	case EQUIPABLE_TYPE::SWORD:
+		loot_rect = { 353, 96, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		//353, 96
+		break;
+
+	case EQUIPABLE_TYPE::BOW:
+		loot_rect = { 34, 834, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		//34,834
+		break;
+
+	case EQUIPABLE_TYPE::ROD:
+		loot_rect = { 33, 738, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		//33 , 738
+		break;
+
+	case EQUIPABLE_TYPE::ARMOR:
+		loot_rect = { 128, 964, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		//128 , 964
+		break;
+
+	case EQUIPABLE_TYPE::VEST:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 95, 1409, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		//95,1409
+		break;
+
+
+	case EQUIPABLE_TYPE::MANTLE:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 446, 1408, 32, 32 };
+		SetPivot(16, 28);
+		size.create(32, 32);
+		//leg mantle x446,y1408
+
+		break;
+
+	}
+}
+
 
 
 std::list<iPoint> LootEntity::GetGroundTilePoints()

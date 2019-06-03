@@ -20,6 +20,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 
 Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
+	
 	ToSelectLootFunction(OBJ_TYPE);
 	equipableType = OBJ_TYPE;
 	manualCollectable = false;
@@ -103,6 +104,7 @@ void Equipable::SetEquipable()
 		loot_rect = { 64, 96, 32, 32 };
 		SetPivot(16, 28);
 		size.create(32, 32);
+		//353, 96
 		break;
 
 	case EQUIPABLE_TYPE::BOW:
@@ -110,6 +112,7 @@ void Equipable::SetEquipable()
 		loot_rect = { 194, 770, 32, 32 };
 		SetPivot(16, 16);
 		size.create(32, 32);
+		//34,834
 		break;
 
 	case EQUIPABLE_TYPE::ROD:
@@ -117,6 +120,7 @@ void Equipable::SetEquipable()
 		loot_rect = { 96, 736, 32, 32 };
 		SetPivot(16, 28);
 		size.create(32, 32);
+		//33 , 738
 		break;
 
 	case EQUIPABLE_TYPE::ARMOR:
@@ -124,6 +128,7 @@ void Equipable::SetEquipable()
 		loot_rect = { 128, 932, 32, 32 };
 		SetPivot(16, 28);
 		size.create(32, 32);
+		//128 , 964
 		break;
 
 	case EQUIPABLE_TYPE::VEST:
@@ -131,13 +136,17 @@ void Equipable::SetEquipable()
 		loot_rect = { 254, 1441, 32, 32};
 		SetPivot(16, 28);
 		size.create(32, 32);
+		//95,1409
 		break;
+
 
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 350, 1409, 32, 32 };
 		SetPivot(16, 28);
 		size.create(32, 32);
+		//leg mantle x446,y1408
+
 		break;
 
 	}
