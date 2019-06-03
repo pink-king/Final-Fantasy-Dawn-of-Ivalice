@@ -635,15 +635,6 @@ bool j1Scene::Update(float dt)
 		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateEntity(FLOWERBOSS, p.x, p.y, "flower_boss");
-	}
-
-
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
@@ -934,10 +925,10 @@ bool j1Scene::Update(float dt)
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->camera2D->camera.x, y - App->camera2D->camera.y);
-
-
 	iPoint coords = App->render->ScreenToWorld(x, y);
 
+
+	// -------------- Enemies -----------------
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		j1Entity* ent;
@@ -954,6 +945,13 @@ bool j1Scene::Update(float dt)
 	{
 		App->entityFactory->CreateEnemy(EnemyType::ARCHER, { coords.x,coords.y });
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+	{
+		App->entityFactory->CreateEntity(FLOWERBOSS, coords.x, coords.y, "flower_boss");
+	}
+
+	// ----------------------------------------
 
 
 	if (hackerMode)

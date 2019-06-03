@@ -92,8 +92,9 @@ void ChestAsset::SpawnLoot()
 {
 	if (isBossChest)
 	{
-		App->entityFactory->RepeatAmountofConsumables(15, GetPivotPos(), OBJECT_TYPE::GOLD);
-		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 3, GetPivotPos());
+		App->entityFactory->RepeatAmountofConsumables(35, GetPivotPos(), OBJECT_TYPE::GOLD);
+		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 5, GetPivotPos());
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->map->SubTileMapToWorld(82, 208).x, App->map->SubTileMapToWorld(82, 208).y, SceneState::WIN, White);
 	}
 	else
 	{
