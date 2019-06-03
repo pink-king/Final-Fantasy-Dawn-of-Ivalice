@@ -956,6 +956,12 @@
           <clickSec x="1079" y="2592" w="222" h="67" />
           <position x="940" y="593"/>
         </button>
+        <button name="button_default" function = "DefaultControls">
+          <idleSec  x="0" y="3097" w="220" h="43"/>
+          <hoverSec x="221" y="3097" w="220" h="43" />
+          <hoverSec x="221" y="3097" w="220" h="43" />
+          <position x="649" y="593"/>
+        </button>
       </buttons>
       
     </Controls>

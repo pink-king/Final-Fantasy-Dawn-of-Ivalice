@@ -85,6 +85,10 @@ void UiItem_Image::Draw(const float& dt)
 
 		if (!printFromLoot)
 		{
+			if (autorefresh)
+			{
+				//section = App->input->GetSectionForElement(name);
+			}
 			float speed = 0.0f;
 
 			if (!useCamera)
