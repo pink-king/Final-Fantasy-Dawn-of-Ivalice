@@ -257,6 +257,7 @@ void j1DialogSystem::doDialogTypeLogic()
 						{
 
 							App->SaveGame("save_game.xml");
+							App->scene->isSaved = true;
 						}
 					}
 				
@@ -395,6 +396,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			
 	    }
 	
+		
 }
 
 void j1DialogSystem::destroyNPCNameLabels(SceneState sc)
