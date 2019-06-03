@@ -196,10 +196,49 @@ bool UiItem_Label::TypeWriter()
 	return true;
 }
 
-bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* color, const TTF_Font* font)
+bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* color, const TTF_Font* font, uint numberOfDecimals)
 {
 	bool ret = false;
 
+	if (numberOfDecimals != NULL && numberOfDecimals > 0)
+	{
+		std::string newString = {}; 
+		uint decimals = 0; 
+		bool count = false; 
+
+		for (int i = 0; i < textIdle.size() - 1; ++i)
+		{
+			if (textIdle.at(i) == '.')
+			{
+				count = true; 
+			}
+
+			if (count)
+			{
+				if (decimals <= numberOfDecimals)
+				{
+				    
+				newString += textIdle.at(i);
+				decimals++;
+					
+				
+				}
+				else
+				{
+					break; 
+				}
+				
+			}
+			else
+			{
+				newString += textIdle.at(i);
+			}
+		}
+
+		textIdle.clear(); 
+		textIdle.append(newString); 
+	}
+	
 	SDL_Color col = (color != NULL) ? *color : this->color;
 	TTF_Font * f = (font != NULL) ? (TTF_Font *)font : this->font;
 
