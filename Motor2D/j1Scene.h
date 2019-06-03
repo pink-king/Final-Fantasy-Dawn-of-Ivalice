@@ -69,6 +69,7 @@ public:
 	UiItem* settingPanel = nullptr;
 	UiItem* pausePanel = nullptr;
 	UiItem* creditsPanel = nullptr;
+	UiItem* controlsPanel = nullptr;
 	UiItem* inventory = nullptr;
 	UiItem* deathPanel = nullptr;
 	UiItem* winPanel = nullptr;
@@ -202,6 +203,7 @@ private:
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
 	bool LoadCredits(pugi::xml_node& nodeScene);
+	bool LoadControls(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
 	bool LoadDeathScreen(pugi::xml_node& nodeScene);
 	bool LoadWinScreen(pugi::xml_node& nodeScene);

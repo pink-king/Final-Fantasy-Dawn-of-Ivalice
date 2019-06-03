@@ -84,7 +84,7 @@ struct CharacterStatIcon
 };
 
 
-claas upgradeCharacterStatsIcons
+class upgradeCharacterStatsIcons
 {
 	
 	CharacterStatIcon attack; 

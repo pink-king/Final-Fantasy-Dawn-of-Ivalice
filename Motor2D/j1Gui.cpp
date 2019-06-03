@@ -574,14 +574,14 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	return (UiItem_Label*)newUIItem;
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isPanel)
+UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isTabbable)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = DBG_NEW UiItem_Image(position, section, name, canvas, swapPosition, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, name, canvas, swapPosition, isTabbable);
 	else
-		newUIItem = DBG_NEW UiItem_Image(position, section, name, parent, swapPosition, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, name, parent, swapPosition, isTabbable);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -618,10 +618,10 @@ CharacterStats * j1Gui::AddCharacterStatsItem(UiItem * const parent)
 	return (CharacterStats*)newUIItem; 
 }
 
-CharacterStatBlock * j1Gui::AddCharacterStatBlock( UiItem_Label * Name, UiItem_Label * bStat, UiItem_Label * nStat, Uint8 bValue, Uint8 nValue, UiItem_Label * Arrows, UiItem_Image* Icons, UiItem* const parent)
+CharacterStatBlock * j1Gui::AddCharacterStatBlock( UiItem_Label * Name, UiItem_Label * bStat, UiItem_Label * nStat, Uint8 bValue, Uint8 nValue, UiItem_Label * Arrows,/* UiItem_Image* Icons,*/ UiItem* const parent)
 {
 	UiItem* newUIItem = nullptr;
-	newUIItem = DBG_NEW CharacterStatBlock(Name, bStat, nStat, bValue, nValue, Arrows, Icons, parent);
+	newUIItem = DBG_NEW CharacterStatBlock(Name, bStat, nStat, bValue, nValue, Arrows/*, Icons*/, parent);
 	ListItemUI.push_back(newUIItem);
 	return (CharacterStatBlock*)newUIItem;
 }
@@ -836,6 +836,7 @@ void j1Gui::SettingsScreen()
 {
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
+	App->scene->controlsPanel->enable = false;
 	App->scene->settingPanel->enable = true;
 }
 
@@ -864,6 +865,13 @@ void j1Gui::Credits()
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
 	App->scene->creditsPanel->enable = true;
+}
+
+void j1Gui::GoToControls()
+{
+	resetHoverSwapping = false;
+	App->scene->settingPanel->enable = false;
+	App->scene->controlsPanel->enable = true;
 }
 
 
