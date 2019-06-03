@@ -6,6 +6,7 @@
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1ParticlesClassic.h"
+#include "p2Defs.h"
 
 Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 {
@@ -13,21 +14,62 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	name.assign("Shara");
 
 	// TODO: import from xml
-	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/shara/Shara_run_WIP2.png");
 	dash_spritesheet = App->tex->Load("textures/characters/shara/Shara_dash_WIP.png");
-	ultiCastTex = App->tex->Load("textures/characters/shara/Shara_ultimate_animation.png");
+	ultiCastTex = App->tex->Load("textures/characters/shara/Shara_ultimate_animation2.png");
 	entityTex = spritesheet;
 
 	// TODO: improve this from xml and with for loop, just for testing now
 	// IDLE
-	idle[(int)facingDirection::N].PushBack({ 222,0,55,60 });
-	idle[(int)facingDirection::S].PushBack({ 0,0,55,60 });
-	idle[(int)facingDirection::E].PushBack({ 110,0,55,60 });
-	idle[(int)facingDirection::W].PushBack({ 110,0,55,60 }); // same as E but flipped - 4
-	idle[(int)facingDirection::NE].PushBack({ 165,0,55,60 });
-	idle[(int)facingDirection::SE].PushBack({ 55,0,55,60 });
-	idle[(int)facingDirection::SW].PushBack({ 55,0,55,60 }); // same as SE but flipped - 3
-	idle[(int)facingDirection::NW].PushBack({ 165,0,55,60 }); // same as NE but flipped - 7
+	float idleAnimSpeed = 7.f;
+	idle[(int)facingDirection::N].PushBack({ 330,240,55,60 });
+	idle[(int)facingDirection::N].PushBack({ 385,240,55,60 });
+	idle[(int)facingDirection::N].PushBack({ 440,240,55,60 });
+	idle[(int)facingDirection::N].PushBack({ 495,240,55,60 });
+	idle[(int)facingDirection::N].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::S].PushBack({ 330,0,55,60 });
+	idle[(int)facingDirection::S].PushBack({ 385,0,55,60 });
+	idle[(int)facingDirection::S].PushBack({ 440,0,55,60 });
+	idle[(int)facingDirection::S].PushBack({ 495,0,55,60 });
+	idle[(int)facingDirection::S].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::E].PushBack({ 330,120,55,60 });
+	idle[(int)facingDirection::E].PushBack({ 385,120,55,60 });
+	idle[(int)facingDirection::E].PushBack({ 440,120,55,60 });
+	idle[(int)facingDirection::E].PushBack({ 495,120,55,60 });
+	idle[(int)facingDirection::E].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::W].PushBack({ 330,120,55,60 }); // same as E but flipped - 4
+	idle[(int)facingDirection::W].PushBack({ 385,120,55,60 });
+	idle[(int)facingDirection::W].PushBack({ 440,120,55,60 });
+	idle[(int)facingDirection::W].PushBack({ 495,120,55,60 });
+	idle[(int)facingDirection::W].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::NE].PushBack({ 330,180,55,60 });
+	idle[(int)facingDirection::NE].PushBack({ 385,180,55,60 });
+	idle[(int)facingDirection::NE].PushBack({ 440,180,55,60 });
+	idle[(int)facingDirection::NE].PushBack({ 495,180,55,60 });
+	idle[(int)facingDirection::NE].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::NW].PushBack({ 330,180,55,60 }); // same as NE but flipped - 7
+	idle[(int)facingDirection::NW].PushBack({ 385,180,55,60 });
+	idle[(int)facingDirection::NW].PushBack({ 440,180,55,60 });
+	idle[(int)facingDirection::NW].PushBack({ 495,180,55,60 });
+	idle[(int)facingDirection::NW].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::SE].PushBack({ 330,60,55,60 });
+	idle[(int)facingDirection::SE].PushBack({ 385,60,55,60 });
+	idle[(int)facingDirection::SE].PushBack({ 440,60,55,60 });
+	idle[(int)facingDirection::SE].PushBack({ 495,60,55,60 });
+	idle[(int)facingDirection::SE].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::SW].PushBack({ 330,60,55,60 }); // same as SE but flipped - 3
+	idle[(int)facingDirection::SW].PushBack({ 385,60,55,60 });
+	idle[(int)facingDirection::SW].PushBack({ 440,60,55,60 });
+	idle[(int)facingDirection::SW].PushBack({ 495,60,55,60 });
+	idle[(int)facingDirection::SW].speed = idleAnimSpeed;
+
 	// one frame doesnt need speed
 	//idle[(int)facingDirection::N].speed = 10.0f;
 
@@ -301,16 +343,27 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	ultiCastAnim[(int)facingDirection::NW].speed = 15.F;
 	ultiCastAnim[(int)facingDirection::NW].loop = false;
 
+	ultiCastPivots[(int)facingDirection::S] = { 23.f, 61.f };
+	ultiCastPivots[(int)facingDirection::SE] = { 23.f, 61.f };
+	ultiCastPivots[(int)facingDirection::SW] = { 23.f, 61.f };
+	ultiCastPivots[(int)facingDirection::E] = { 23.f, 59.f };
+	ultiCastPivots[(int)facingDirection::W] = { 23.f, 59.f };
+	ultiCastPivots[(int)facingDirection::N] = { 25.f, 62.f };
+	ultiCastPivots[(int)facingDirection::NE] = { 24.f, 62.f };
+	ultiCastPivots[(int)facingDirection::NW] = { 22.f, 62.f };
+	
+	// ---------------------------------------------------------------------------
+	
+	currentAnimation = &idle[(int)facingDirection::S];
+
+
 	dashMaxDistance = 120.f;
-
-	currentAnimation = &run[(int)facingDirection::SE];
-
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
 	coolDownData.dodge.cooldownTime = 1500;
 	coolDownData.special1.cooldownTime = 500;
 	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 10000;
+	coolDownData.ultimate.cooldownTime = 8000;
 	maxEmitterDelayTime = 1000;
 
 	previousPos = position;
@@ -498,8 +551,7 @@ bool Shara::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			App->audio->PlayFx(App->scene->sharaAbility1);
-			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
-
+			SpawnArrowsInArch(GetShotDirection());
 			//App->audio->PlayFx(App->entityFactory->ritzAbility2, 0);
 
 			// add gui clock
@@ -566,6 +618,12 @@ bool Shara::Update(float dt)
 				// restart timer
 				coolDownData.ultimate.timer.Start();
 			}
+
+			// pivoting...
+			//reposition pos
+			transference_pivot = ultiCastPivots[pointingDir];
+			transference_pivot -= pivot;
+
 		}
 		break;
 
@@ -666,6 +724,56 @@ bool Shara::SetStopperState() // disable user player input and sets the facing d
 	}
 
 	return ret;
+}
+
+void Shara::SpawnArrowsInArch(const fPoint & destination) 
+{
+	// Spawn Main / Central Arrow
+	App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 120, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+
+	fPoint vec = destination - GetThrowingPos();
+	vec.Normalize(); 
+	
+	float offset = 20 * DEGTORAD; 
+	float angle = atan2f(vec.y, vec.x);
+
+	// Calculates arrows to throw depending on level 
+
+	uint arrows = App->entityFactory->player->level;	
+
+	if (arrows > 18)	// (max is 18, full cercle) (9 if you want semicercle)
+		arrows = 18;
+
+	if (arrows % 2 == 1)	// Makes them an even number
+		arrows--; 
+
+	uint arrowsOnSide = arrows / 2; 
+	
+	// Spawn arrows on the right side of the main arrow 
+
+	for (uint i = 1; i < arrowsOnSide + 1; ++i)
+	{	
+		float newAngle = angle + offset * i;
+
+		fPoint newDir;
+		newDir.x = cosf(newAngle);
+		newDir.y = sinf(newAngle);
+		newDir = newDir * 100000.F;
+		App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+	}
+
+	// Spawn arrows on the left side of the main arrow 
+
+	for (uint i = 1; i < arrowsOnSide + 1; ++i)
+	{
+		float newAngle = angle - offset * i;
+
+		fPoint newDir;
+		newDir.x = cosf(newAngle);
+		newDir.y = sinf(newAngle);
+		newDir = newDir * 100000.F;
+		App->entityFactory->CreateArrow(GetThrowingPos(), newDir, 120.F, this, PROJECTILE_TYPE::CONTAGIOUS_ARROW);
+	}
 }
 
 //bool Shara::CleanUp()

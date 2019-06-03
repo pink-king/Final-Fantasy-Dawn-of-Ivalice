@@ -4,6 +4,7 @@
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
+#include "j1PathFinding.h"
 
 Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 {
@@ -12,24 +13,62 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 
 	// TODO: import from xml
 	// from parent, parent deletes
-	spritesheet = App->tex->Load("textures/characters/ritz/Ritz_run_WIP.png");
+	spritesheet = App->tex->Load("textures/characters/ritz/Ritz_run_WIP2.png");
 	dash_spritesheet = App->tex->Load("textures/characters/ritz/Ritz_dash_WIP.png");
 	entityTex = spritesheet;
 	// own
 	attack1Tex = App->tex->Load("textures/characters/ritz/Ritz_basic_attack_2.png");
 	teleportTex = App->tex->Load("textures/characters/ritz/Ritz_teleport_WIP.png");
 
+	float idleAnimSpeed = 7.f;
 	// IDLE
-	idle[(int)facingDirection::N].PushBack({ 177,0,45,60 });
-	idle[(int)facingDirection::S].PushBack({ 0,0,45,60 });
-	idle[(int)facingDirection::E].PushBack({ 90,0,45,60 });
-	idle[(int)facingDirection::W].PushBack({ 90,0,45,60 }); // same as E but flipped - 4
-	idle[(int)facingDirection::NE].PushBack({ 135,0,45,60 });
-	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 });
-	idle[(int)facingDirection::SW].PushBack({ 45,0,45,60 }); // same as SE but flipped - 3
-	idle[(int)facingDirection::NW].PushBack({ 135,0,45,60 }); // same as NE but flipped - 7
-	// one frame doesnt need speed
-	//idle[(int)facingDirection::N].speed = 10.0f;
+	idle[(int)facingDirection::N].PushBack({ 270,240,45,60 });
+	idle[(int)facingDirection::N].PushBack({ 315,240,45,60 });
+	idle[(int)facingDirection::N].PushBack({ 360,240,45,60 });
+	idle[(int)facingDirection::N].PushBack({ 405,240,45,60 });
+	idle[(int)facingDirection::N].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::S].PushBack({ 270,0,45,60 });
+	idle[(int)facingDirection::S].PushBack({ 315,0,45,60 });
+	idle[(int)facingDirection::S].PushBack({ 360,0,45,60 });
+	idle[(int)facingDirection::S].PushBack({ 405,0,45,60 });
+	idle[(int)facingDirection::S].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::E].PushBack({ 270,120,45,60 });
+	idle[(int)facingDirection::E].PushBack({ 315,120,45,60 });
+	idle[(int)facingDirection::E].PushBack({ 360,120,45,60 });
+	idle[(int)facingDirection::E].PushBack({ 405,120,45,60 });
+	idle[(int)facingDirection::E].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::W].PushBack({ 270,120,45,60 });
+	idle[(int)facingDirection::W].PushBack({ 315,120,45,60 });
+	idle[(int)facingDirection::W].PushBack({ 360,120,45,60 });
+	idle[(int)facingDirection::W].PushBack({ 405,120,45,60 });
+	idle[(int)facingDirection::W].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::SE].PushBack({ 270,60,45,60 });
+	idle[(int)facingDirection::SE].PushBack({ 315,60,45,60 });
+	idle[(int)facingDirection::SE].PushBack({ 360,60,45,60 });
+	idle[(int)facingDirection::SE].PushBack({ 405,60,45,60 });
+	idle[(int)facingDirection::SE].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::SW].PushBack({ 270,60,45,60 });
+	idle[(int)facingDirection::SW].PushBack({ 315,60,45,60 });
+	idle[(int)facingDirection::SW].PushBack({ 360,60,45,60 });
+	idle[(int)facingDirection::SW].PushBack({ 405,60,45,60 });
+	idle[(int)facingDirection::SW].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::NE].PushBack({ 270,180,45,60 });
+	idle[(int)facingDirection::NE].PushBack({ 315,180,45,60 });
+	idle[(int)facingDirection::NE].PushBack({ 360,180,45,60 });
+	idle[(int)facingDirection::NE].PushBack({ 405,180,45,60 });
+	idle[(int)facingDirection::NE].speed = idleAnimSpeed;
+
+	idle[(int)facingDirection::NW].PushBack({ 270,180,45,60 });
+	idle[(int)facingDirection::NW].PushBack({ 315,180,45,60 });
+	idle[(int)facingDirection::NW].PushBack({ 360,180,45,60 });
+	idle[(int)facingDirection::NW].PushBack({ 405,180,45,60 });
+	idle[(int)facingDirection::NW].speed = idleAnimSpeed;
 
 	// RUN
 	run[(int)facingDirection::N].PushBack({ 0,180,45,60 });
@@ -336,14 +375,23 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 		attack1[i].loop = false;
 	}
 	// basic attack pivot offsets
-	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
+	/*attackPivotOffset[(int)facingDirection::SE] = { 17.f, 50.f };
 	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 50.f };
 	attackPivotOffset[(int)facingDirection::S] = { 22.f, 50.f };
 	attackPivotOffset[(int)facingDirection::N] = { 22.f, 50.f };
 	attackPivotOffset[(int)facingDirection::E] = { 9.f, 50.f };
 	attackPivotOffset[(int)facingDirection::W] = { 37.f, 50.f };
 	attackPivotOffset[(int)facingDirection::NE] = { 18.f, 51.f };
-	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };
+	attackPivotOffset[(int)facingDirection::NW] = { 28.f, 51.f };*/
+	// post workaround/new method
+	attackPivotOffset[(int)facingDirection::SE] = { 17.f, 49.f };
+	attackPivotOffset[(int)facingDirection::SW] = { 29.f, 49.f };
+	attackPivotOffset[(int)facingDirection::S] = { 23.f, 49.f };
+	attackPivotOffset[(int)facingDirection::N] = { 23.f, 49.f };
+	attackPivotOffset[(int)facingDirection::E] = { 11.f, 48.f };
+	attackPivotOffset[(int)facingDirection::W] = { 35.f, 48.f };
+	attackPivotOffset[(int)facingDirection::NE] = { 17.f, 49.f };
+	attackPivotOffset[(int)facingDirection::NW] = { 29.f, 49.f };
 
 	// TELEPORT
 	// -------------------------------------------------------------
@@ -474,7 +522,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	}
 	// ------------------------------------------------------------
 
-	currentAnimation = &run[(int)facingDirection::SE];
+	currentAnimation = &idle[(int)facingDirection::S];
 
 	tpMaxDistance = 200.f;
 
@@ -842,11 +890,32 @@ bool Ritz::SetStopperState() // disable user player input and sets the facing di
 
 fPoint Ritz::GetTeleportPos()
 {
-	fPoint tpFacingPos;
-	tpFacingPos = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
-	tpFacingPos = position + tpFacingPos * tpMaxDistance;
+	fPoint ret;
+	
+	// if destination is not walkable, go backwards till find a walkable pos and adds offset (between player pivot to collider radius)
+	// TODO: improve this going backwards on tile cells, we need to "plot" a line to grid between current pos to destination pos and checks this cells
+	// and only if the first destination is invalid
+	fPoint directionVector = { cosf(lastAxisMovAngle), sinf(lastAxisMovAngle) };
+	directionVector.Normalize();
+	fPoint checker;
+	int distMultiplier = (int)tpMaxDistance;
 
-	return tpFacingPos;
+	for (; distMultiplier >= 0; --distMultiplier)
+	{
+		checker = GetPivotPos() + directionVector * distMultiplier;
+		if (App->pathfinding->IsWalkable(App->map->WorldToMap(checker.x, checker.y)))
+		{
+			LOG("researched VALID");
+			break;
+		}
+	}
+
+	int playerVolumeOffset = 10;
+	int maxOffset = distMultiplier - playerVolumeOffset;
+	if (maxOffset <= 0) maxOffset = 0;
+	ret = position + directionVector * maxOffset;
+
+	return ret;
 }
 
 //bool Ritz::CleanUp()

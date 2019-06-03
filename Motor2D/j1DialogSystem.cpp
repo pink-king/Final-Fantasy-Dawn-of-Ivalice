@@ -59,13 +59,15 @@ bool j1DialogSystem::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 		{
+			SetCurrentDialog("BOSS");
+		}
+
+
+		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+		{
 			SetCurrentDialog("TUTORIAL");
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-		{
-			SetCurrentDialog("BOSS");
-		}
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
@@ -255,6 +257,7 @@ void j1DialogSystem::doDialogTypeLogic()
 						{
 
 							App->SaveGame("save_game.xml");
+							App->scene->isSaved = true;
 						}
 					}
 				
@@ -377,6 +380,11 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 					}
 				}
 			
+				if (currentDialogType == "STRANGER")
+				{
+					App->scene->lobbyState = LobbyState::TALKSTRANGER;
+					//TODO: put audio
+				}
 				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
 				{
 					dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
@@ -388,6 +396,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			
 	    }
 	
+		
 }
 
 void j1DialogSystem::destroyNPCNameLabels(SceneState sc)

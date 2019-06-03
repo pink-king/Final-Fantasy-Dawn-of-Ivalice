@@ -26,13 +26,14 @@
 #include "j1TransitionManager.h"
 #include "NoWalkableTrigger.h"
 #include "WaveTrigger.h"
-#include"LootEntity.h"
+#include "LootEntity.h"
+#include "Video.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
-	state = SceneState::STARTMENU;
+	state = SceneState::INTRO;
 }
 
 // Destructor
@@ -147,18 +148,12 @@ bool j1Scene::Start()
 		waveTrigg->CreateExitWall({ 13,3 });
 		waveTrigg->CreateExitWall({ 14,3 });
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White,3);
 
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { -1575.f, 2150.f };
-			App->entityFactory->player->GetShara()->position = { -1575.f, 2150.f };
-			App->entityFactory->player->GetRitz()->position = { -1575.f, 2150.f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ -1575, 2150 });
-		}
+		App->entityFactory->CreatePlayer({ -1575, 2150 });
+			
+		App->entityFactory->LoadSpawnGroups();
+
 		//App->entityFactory->CreatePlayer({ -209, 650 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ 3575, -3150 });
@@ -176,7 +171,6 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -186,21 +180,30 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
-		App->entityFactory->LoadSpawnGroups();
+
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+
+		iPoint PosX = App->map->SubTileMapToWorld(88, 192);
+		NoWalkableTrigger* introTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y, SceneState::MAX_STATES, Black, 3, false);
+		introTrigger->CreateEntryWall(iPoint(44, 98));
+		introTrigger->CreateEntryWall(iPoint(45, 98));
 	}
 
 	if (state == SceneState::LEVEL2)
 	{
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { -820.f, 3300.f };
-			App->entityFactory->player->GetShara()->position = { -820.f, 3300.f };
-			App->entityFactory->player->GetRitz()->position = { -820.f, 3300.f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ -820, 3300 });
-		}
+		
+		App->entityFactory->CreatePlayer({ -820, 3300 });
+		
+		App->entityFactory->LoadSpawnGroups();
 
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos(1800, -5000);
@@ -217,13 +220,11 @@ bool j1Scene::Start()
 		waveTrigg->CreateExitWall({ 22, 46 });
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
-		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y);
+		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
 		bossTrigger->CreateEntryWall(iPoint(37, 94));
 		bossTrigger->CreateEntryWall(iPoint(36, 94));
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
-
-		App->entityFactory->CreateDialogTrigger(PosX.x, PosX.y, "BOSS");     // boss dialog ready for lvl 2 interaction with boss
 
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
@@ -239,6 +240,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
+
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -248,32 +250,55 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
-		App->entityFactory->LoadSpawnGroups();
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+
 	}
 
 	if (state == SceneState::LOBBY)
 	{
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
-		if (App->entityFactory->player != nullptr)
+		App->entityFactory->CreatePlayer({ 115, 240 });
+		
+		if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
 		{
-			App->entityFactory->player->GetMarche()->position = { 115.f, 240.f };
-			App->entityFactory->player->GetShara()->position = { 115.f, 240.f };
-			App->entityFactory->player->GetRitz()->position = { 115.f, 240.f };
+	
+			doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
+
+			if (lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
+
+			if (lobbyState == LobbyState::PASSLVL2 && ComeToPortal)
+			{
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
+				App->LoadGame("save_game.xml");
+				lobbyState = LobbyState::PASSLVL1;
+			}
+			if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
+			{
+				ComeToPortal = false;
+				App->entityFactory->loadEnemies = false;
+				App->LoadGame("Portal.xml");
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+			}
+
 		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ 115, 240 });
-		}
-		//AcceptUISFX_logic = false;
-		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
-		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(5, 18).x - 5, App->map->SubTileMapToWorld(5, 18).y }, 1);
+		strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
 
-		if (ComeToWin)
-			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
 
@@ -284,39 +309,31 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		if (ComeToPortal)
+
+		if (ComeToDeath || ComeToWin)
 		{
-			ComeToPortal = false;
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+			App->LoadGame("save_game.xml");
 		}
 
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
 		App->camera2D->SetCameraPos({ 115, 240 });
-
-
-		// trigger to firing range
-
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 0, 195, SceneState::FIRINGRANGE, Black);
 
 
 	}
 
 	if (state == SceneState::FIRINGRANGE)
 	{
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 230, 730, SceneState::LOBBY, Black);    // TODO: adjust trigger to lobby
-		App->entityFactory->CreateDialogTrigger(90, 189, "TUTORIAL");   // todo: proper position 
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 340, 700, SceneState::LOBBY, Black,4);    // TODO: adjust trigger to lobby
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(26, 33).x, App->map->SubTileMapToWorld(26, 33).y, "TUTORIAL", { App->map->SubTileMapToWorld(23, 30).x, App->map->SubTileMapToWorld(23, 30).y },2);   // todo: proper position 
 
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
-		if (App->entityFactory->player != nullptr)
-		{
-			App->entityFactory->player->GetMarche()->position = { 115.f, 550.0f };
-			App->entityFactory->player->GetShara()->position = { 115.f, 550.0f };
-			App->entityFactory->player->GetRitz()->position = { 115.f, 550.0f };
-		}
-		else
-		{
-			App->entityFactory->CreatePlayer({ 115, 240 });
-		}
+		App->entityFactory->CreatePlayer({ 165, 580 });
+		
 		//AcceptUISFX_logic = false;
 		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
@@ -336,6 +353,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->camera2D->SetCameraPos({ 115, 240 });
 
+		App->LoadGame("save_game.xml");
 	}
 
 
@@ -368,7 +386,40 @@ bool j1Scene::Start()
 		deathPanel->enable = false;
 		winPanel->enable = false;
 
-		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
+		App->audio->PlayMusic("audio/music/menu_1.0.ogg"); // Added fade in
+	}
+	if (state == SceneState::INTRO)
+	{
+		App->video->PlayVideo("intro/PinkKingGamesIntro.mp4", SceneState::STARTMENU);
+
+		// UI Crashes if not loaded this
+		App->gui->resetHoverSwapping = false;
+		if (!LoadedUi)
+		{
+			LoadInGameUi(sceneNode);
+			LoadStartMenu(sceneNode);
+			LoadPlayerUi(sceneNode);
+			LoadSettings(sceneNode);
+			LoadPauseSettings(sceneNode);
+			LoadInventory(sceneNode);
+			LoadDeathScreen(sceneNode);
+			LoadWinScreen(sceneNode);
+			LoadedUi = true;
+		}
+
+		startMenu->enable = false;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
+		settingPanel->enable = false;
+		inGamePanel->enable = false;
+		pausePanel->enable = false;
+		inventory->enable = false;
+		deathPanel->enable = false;
+		winPanel->enable = false;
 	}
 
 	if (state == SceneState::DEATH)
@@ -386,7 +437,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
-		App->audio->PlayMusic("audio/music/win.ogg", -1);
+		App->video->PlayVideo("intro/creditsVideo.mp4", SceneState::LOBBY);
+		//App->audio->PlayMusic("audio/music/win.ogg", -1);
 
 		if (ComeToDeath)
 		{
@@ -396,8 +448,17 @@ bool j1Scene::Start()
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 			inGamePanel->enable = false;
-		if (!winPanel->enable)
-			winPanel->enable = true;
+
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
+		
+		/*if (!winPanel->enable)
+			winPanel->enable = true;*/
+		
 	}
 
 	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
@@ -449,7 +510,10 @@ bool j1Scene::PreUpdate()
 	}
 	// FAKE KEYS FOR TESTING 
 
-
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		App->transitionManager->CreateFadeTransition(2.F, true, SceneState::WIN, White);
+	}
 
 
 
@@ -495,27 +559,27 @@ bool j1Scene::Update(float dt)
 	// how to get joysticks for correct UI navigation/whatever needed situation examples --------
 	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN)
 	{
-		LOG("LEFT JOYSTICK, UP PRESS");
+		//LOG("LEFT JOYSTICK, UP PRESS");
 	}
 	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_DOWN)
 	{
-		LOG("LEFT JOYSTICK, RIGHT PRESS");
+		//LOG("LEFT JOYSTICK, RIGHT PRESS");
 	}
 	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_UP)
 	{
-		LOG("LEFT JOYSTICK, RIGHT UNPRESS");
+		//LOG("LEFT JOYSTICK, RIGHT UNPRESS");
 	}
 	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_LEFT) == KEY_DOWN)
 	{
-		LOG("RIGHT JOYSTICK, LEFT PRESS");
+		//LOG("RIGHT JOYSTICK, LEFT PRESS");
 	}
 	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_UP) == KEY_DOWN)
 	{
-		LOG("RIGHT JOYSTICK, UP PRESS");
+		//LOG("RIGHT JOYSTICK, UP PRESS");
 	}
 	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_DOWN) == KEY_REPEAT)
 	{
-		LOG("RIGHT JOYSTICK, DOWN REPEAT");
+		//LOG("RIGHT JOYSTICK, DOWN REPEAT");
 	}
 	// etc
 	// -------------------------------------------------------------------------------------------
@@ -530,10 +594,15 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
-		App->entityFactory->RepeatAmountofEquipable(5,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},EQUIPABLE_TYPE::ARMOR);
+		App->entityFactory->RepeatAmountofEquipable(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},EQUIPABLE_TYPE::ARMOR);
 		
 	}
-
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	{
+		
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::MANTLE);
+		//App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 10, { (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y });
+	}
 	App->tex->textures;
 	// map debug draw grids
 
@@ -546,8 +615,8 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
+		lobbyState = LobbyState::PASSLVL2;
 		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
-
 	}
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
@@ -616,20 +685,22 @@ bool j1Scene::Update(float dt)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
-			if (door == nullptr)
-				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (doorlvl2 == nullptr)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
+			if(firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
+		}
+		if (lobbyState == LobbyState::TALKSTRANGER)
+		{
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 		}
 	}
 
-	if (state == SceneState::LOBBY)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
-		{
-			if (door == nullptr)
-				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::FIRINGRANGE, Black);
-		}
-	}
-	
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//Mix_CloseAudio();
@@ -1352,10 +1423,13 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
+	
 	if (App->map->IsEnabled())
 		App->map->Disable();
 	if (App->attackManager->IsEnabled())
 		App->attackManager->Disable();
+	if (App->entityFactory->IsEnabled())
+		App->entityFactory->Disable();
 	if (App->pathfinding->IsEnabled())
 		App->pathfinding->Disable();
 	if (App->buff->IsEnabled())
@@ -1364,8 +1438,6 @@ void j1Scene::UnLoadScene()
 		App->camera2D->Disable();
 
 	App->audio->UnLoadAudio();
-	App->entityFactory->UnloadEntitiesWithoutPlayer();
-
 }
 
 void j1Scene::LoadScene(SceneState sceneState)
@@ -1379,8 +1451,6 @@ void j1Scene::LoadScene(SceneState sceneState)
 	{
 	case SceneState::STARTMENU:
 		state = SceneState::STARTMENU;
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		break;
 
 	case SceneState::LOBBY:
@@ -1459,20 +1529,11 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::DEATH:
 		state = SceneState::DEATH;
-		if (!App->camera2D->IsEnabled())
-			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
-		if (!App->camera2D->IsEnabled())
-			App->camera2D->Enable();
-		if (App->entityFactory->IsEnabled())
-			App->entityFactory->Disable();
 		ComeToWin = true;
-
 		break;
 
 	case SceneState::MAX_STATES:
@@ -1586,6 +1647,9 @@ bool j1Scene::DecideTexToPulse()
 		break;
 
 	case 1:
+	case 2:
+	case 3:
+
 		if (!App->scene->decreaseAlpha)
 		{
 			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaIncrease(hudAlphavalue[0], 0));
@@ -1600,8 +1664,9 @@ bool j1Scene::DecideTexToPulse()
 			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
 		}
 		break;
-
-	case 2:
+	case 4:
+	case 5:
+	case 6:
 		if (!App->scene->decreaseAlpha)
 		{
 			hudAlphavalue[0] = 255;
@@ -1617,7 +1682,9 @@ bool j1Scene::DecideTexToPulse()
 		}
 		break;
 
-	case 3:
+	case 7:
+	case 8:
+	case 9:
 		if (!App->scene->decreaseAlpha)
 		{
 			hudAlphavalue[0] = hudAlphavalue[1] = 255;
