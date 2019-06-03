@@ -3,7 +3,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 
-BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type)
+BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBroken) : isBroken(isBroken)
 {
 	switch (type)
 	{
@@ -45,8 +45,14 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type)
 		LOG("Not Correct Breakable Asset Constructed");
 		break;
 	}
-
-	currentAnimation = &idle;
+	
+	if (isBroken)
+	{
+		breaking.SetCurrentFrame(breaking.GetSize());
+		currentAnimation = &breaking;
+	}
+	else
+		currentAnimation = &idle; 
 
 	position.x = pos.x;
 	position.y = pos.y;

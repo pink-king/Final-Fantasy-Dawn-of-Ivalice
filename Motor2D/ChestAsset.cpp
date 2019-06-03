@@ -4,7 +4,7 @@
 #include "j1PathFinding.h"
 #include "ChestTrigger.h"
 
-ChestAsset::ChestAsset(const iPoint & pos, bool isBossChest) : isBossChest(isBossChest)
+ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, bool isBossChest) : isOpened(isOpened), isBossChest(isBossChest)
 {
 	// Rect Pos.y -10 to align to center of the tile 
 	idle.PushBack({ 382, -10, 64, 64 });
@@ -16,7 +16,15 @@ ChestAsset::ChestAsset(const iPoint & pos, bool isBossChest) : isBossChest(isBos
 
 	// Ready to add a "Boss Chest" animation 
 
-	currentAnimation = &idle;
+	if (isOpened)
+	{
+		opening.SetCurrentFrame(opening.GetSize());
+		currentAnimation = &opening;
+	}
+	else
+		currentAnimation = &idle;
+
+
 
 	position.x = pos.x;
 	position.y = pos.y;
@@ -35,17 +43,19 @@ bool ChestAsset::PreUpdate()
 	{
 		App->pathfinding->ActivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
 
-		ChestTrigger* myTrigger = dynamic_cast<ChestTrigger*>(App->entityFactory->CreateTrigger(TRIGGER_TYPE::CHEST, GetPivotPos().x, GetPivotPos().y));
-		if (myTrigger != nullptr)
-			myTrigger->AssignOwner(this);
-
+		if (!isOpened)
+		{
+			ChestTrigger* myTrigger = dynamic_cast<ChestTrigger*>(App->entityFactory->CreateTrigger(TRIGGER_TYPE::CHEST, GetPivotPos().x, GetPivotPos().y));
+			if (myTrigger != nullptr)
+				myTrigger->AssignOwner(this);
+		}
 		isAssigned = true;
 	}
 
-	if (isOpened && currentAnimation->Finished())
+	if (toSpawnLoot && currentAnimation->Finished())
 	{
 		SpawnLoot();
-		isOpened = false;
+		toSpawnLoot = false;
 	}
 
 	return true;
@@ -63,7 +73,7 @@ void ChestAsset::Draw()
 
 void ChestAsset::OpenChest()
 {
-	isOpened = true;
+	toSpawnLoot = true;
 	currentAnimation = &opening;
 	//SpawnLoot();
 	// TODO: Add SFX
