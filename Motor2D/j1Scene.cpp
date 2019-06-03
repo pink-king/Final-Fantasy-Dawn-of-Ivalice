@@ -287,11 +287,12 @@ bool j1Scene::Start()
 
 			if (lobbyState == LobbyState::PASSLVL2 && ComeToPortal)
 			{
+				ComeToPortal = false;
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
 				App->LoadGame("save_game.xml");
 				lobbyState = LobbyState::PASSLVL1;
 			}
-			if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
+			else if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
 			{
 				ComeToPortal = false;
 				App->entityFactory->loadEnemies = false;
