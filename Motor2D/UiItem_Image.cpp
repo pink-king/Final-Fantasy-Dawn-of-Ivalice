@@ -22,7 +22,11 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::strin
 	if (isTabbable == 1)
 	{
 		tabbable = true;
-		autorefresh = true;
+		
+	}
+	if (autorefresh == 1) 
+	{
+		this->autorefresh = true;
 	}
 
 	// the parent
