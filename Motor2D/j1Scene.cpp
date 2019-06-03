@@ -1526,6 +1526,7 @@ bool j1Scene::LoadControls(pugi::xml_node & nodeScene)
 	pugi::xml_node controlsNode = nodeScene.child("Controls");
 	controlsPanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(controlsPanel, controlsNode);
+	//App->scene->tab_controls=App->gui->AddImage
 	return true;
 }
 
