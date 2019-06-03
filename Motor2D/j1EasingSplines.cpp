@@ -16,7 +16,7 @@ j1EasingSplines::j1EasingSplines() : j1Module()
 // Destructor
 j1EasingSplines::~j1EasingSplines()
 {
-
+	
 }
 
 // Called each loop iteration
@@ -92,7 +92,6 @@ bool EaseSplineInfo::Update(float dt)
 		switch (type) {
 		case EASE: {
 			*position = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
-			LOG("Ease positionX %i", &position);
 		} break;
 		case EASE_OUT_QUINT: {
 			*position = ease_function.EaseOutQuint(time_passed, initial_position, distance_to_travel, time_to_travel);
@@ -114,8 +113,12 @@ bool EaseSplineInfo::Update(float dt)
 		} break;
 		case EASE_OUT_BOUNCE: {
 			*position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
-			LOG("Ease positionY %i", &position);
-
+		} break;
+		case EASE_OUT_EXPO: {
+			*position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_OUT_QUAD: {
+			*position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
 		} break;
 		default:
 			break;
@@ -195,4 +198,14 @@ int EaseFunctions::EaseOutBounce(float time_passed, int initial_position, int di
 		float postFix = time_passed -= (2.625f / 2.75f);
 		return distance_to_travel * (7.5625f * (postFix)* time_passed + .984375f) + initial_position;
 	}
+}
+
+int EaseFunctions::EaseOutExpo(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	return distance_to_travel  * pow(2, 10 * (time_passed / time_to_travel - 1)) + initial_position;
+}
+
+int EaseFunctions::EaseOutQuad(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
+{
+	return -distance_to_travel * (time_passed /= time_to_travel) * (time_passed - 2) + initial_position;
 }

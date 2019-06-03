@@ -8,34 +8,45 @@
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	SetConsumable();
-	originPos.x = position.x;
-	start = true;
-	checkgrounded = true;
+
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
+
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	SetConsumable(CONSUMABLE_TYPE::POTION);
-	originPos.x = position.x;
 	objectType = objectT;
-	start = true;
-	checkgrounded = true;
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
+
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	ToSelectLootFunction( objectT);
 	objectType = objectT;
-	start = true;
-	checkgrounded = true;
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
+
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 
 Consumable::~Consumable()
@@ -51,41 +62,21 @@ bool Consumable::Start()
 bool Consumable::Update(float dt)
 {
 	
-		if (start)
-		{
-			goalPos = SetDestinationPos(goalPos.x, goalPos.y);
-			start = false;
-			
-			
-			DecideExplosion();
-		}
 
-		dt = EaseOutBackBADvERSION(displacementTime.ReadMs())*0.000001;
-
-		if (displacementTime.ReadMs() <= 280)
-		{
-			ExplosionMaker(dt);
-			
-		}
-		else
-		{
-			grounded = true;
-			
-		}
 		/*else if (!repositionDescription)
 		{
 			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
 			repositionDescription = true;
 		}*/
 
-		if (checkgrounded && grounded)
+		if (grounded)
 		{
-			checkgrounded = false;
 			if (objectType == OBJECT_TYPE::POTIONS)
 				App->audio->PlayFx(App->scene->potionGroundSFX, 0);
 
 			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
 
+			grounded = false;
 			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL) //put phoenix tail  SXF
 		}
     

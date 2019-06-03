@@ -10,11 +10,12 @@
 #include <functional>
 //#include "pcg_random.hpp"
 #include "j1Scene.h"
+#include "j1EasingSplines.h"
 
 #include <string>
 #include "j1Gui.h"
 
-#define NUM_NEIGH_TILE_FALL 8
+#define NUM_NEIGH_SUBTILETILE_FALL 32
 
 struct SDL_Texture;
 
@@ -80,25 +81,23 @@ public:
 	int GetRandomValue(int min, int max);
 	//void GetAttributesForDescription(); 
 
-	float EaseOutBackBADvERSION(float t);
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
-	fPoint Lerp(fPoint actual, fPoint destination, float t);
 	float LerpX(float actual, float destination, float t);
-	fPoint SetDestinationPos(float x, float y);
 	EQUIPABLE_TYPE GetEquipable();
 
-	void DecideExplosion();
-	void ExplosionMaker(float dt);
+	
 
 	std::list<iPoint> GetGroundTilePoints();
 	void SetSplineToFall();
-	void SelectTileToGround();
+	void SelectSubtileToGround();
+	bool CheckGrounded();
 public:
-	std::list<iPoint> groundTilePoints;
-	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_TILE_FALL];
-	iPoint adjacentTileNeighboursToGround2[NUM_NEIGH_TILE_FALL];
+	bool grounded;
+	std::list<iPoint> groundSubtilePoints;
+	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_SUBTILETILE_FALL];
+	iPoint adjacentTileNeighboursToGround2[NUM_NEIGH_SUBTILETILE_FALL];
 
-	iPoint groundTileDestination;
+	iPoint groundSubtileDestination;
 
 	iPoint Getoriginpos();
 	iPoint GetFinalPos();
@@ -129,7 +128,7 @@ public:
 	// - - - - - - - The attached description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
 	bool spawnedDescription = false;
-	void CheckClampedCrossHairToSpawnDescription();
+	//void CheckClampedCrossHairToSpawnDescription();
 
 	bool clampedByCrosshair = false;
 	bool clampedByPlayerOnTop = false; 
@@ -138,44 +137,15 @@ protected:
 
 	int dmg;
 	std::string itemname;
-
-	bool endReached;
-	float initialPosX;
-	float initialPosY;
-	fPoint goalPos;
-	bool start;
-	bool grounded;
-	bool checkgrounded;
-protected:
-	iPoint originPos;
-	float timeTest;
-	float timeXmid;
-	float timeYmid;
-	float incrementY;
-	float incrementX;
-	float decrementY;
-	float decrementX;
-	j1PerfTimer displacementTime;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
-	int Ease(float time_passed, int initialpos, int distance_to_travel, float time_to_travel);
-	int EaseOutCubic(float time_passed, int initialpos, int distance_to_travel, float time_to_travel);
-	int EaseOutQuint(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int EaseInOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int EaseInBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int EaseOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int EaseInCubic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int EaseOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int OwnEaseOutQuartic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	//http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
-	//https://github.com/jesusgollonet/ofpennereasing/tree/master/PennerEasing
-	int EaseinBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
-	int EaseInOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	
+	
+	
 	iPoint distanceTotravel;
 	void GetDistanceTotravel();
 	std::random_device rd;
 	std::mt19937 engine;
-	float timeStarted = SDL_GetTicks();
 	//pcg_extras::seed_seq_from <std::random_device> seed_source;
 
 

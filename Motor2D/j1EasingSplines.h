@@ -5,6 +5,7 @@
 #include <list>
 #include "SDL/include/SDL_timer.h"
 #include <functional>
+#include <math.h>
 
 struct SDL_Texture;
 struct SDL_Rect;
@@ -19,7 +20,8 @@ enum TypeSpline {
 	EASE_IN_CUBIC,
 	EASE_OUT_CUBIC,
 	EASE_OUT_BOUNCE,
-
+	EASE_OUT_EXPO,
+	EASE_OUT_QUAD,
 	NONE_
 };
 
@@ -32,6 +34,10 @@ struct EaseFunctions {
 	int EaseInCubic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
 	int EaseOutCubic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
 	int EaseOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseOutExpo(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	int EaseOutQuad(float time_passed, int initial_position, int distance_to_travel, float time_to_travel);
+	//http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
+	//https://github.com/jesusgollonet/ofpennereasing/tree/master/PennerEasing
 };
 
 struct EaseSplineInfo {

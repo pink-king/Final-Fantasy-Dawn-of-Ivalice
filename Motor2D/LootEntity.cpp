@@ -15,7 +15,6 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	lootSubtile.y = posY;
 	engine.seed(rd());
 	
-	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	level = 0;
 	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
 	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
@@ -25,23 +24,32 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
 	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
 	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
-	adjacentTileNeighboursToGround2[0] = { 0,-2 }; // N
-	adjacentTileNeighboursToGround2[1] = { 0, 2 }; // S
-	adjacentTileNeighboursToGround2[2] = { -2,0 }; // W
-	adjacentTileNeighboursToGround2[3] = { 2,0 }; // E
-	adjacentTileNeighboursToGround2[4] = { 2,-2 }; // NE
-	adjacentTileNeighboursToGround2[5] = { -2,-2 }; // NW
-	adjacentTileNeighboursToGround2[6] = { 2, 2 }; // SE
-	adjacentTileNeighboursToGround2[7] = { -2,2 }; // SW
+	adjacentTileNeighboursToGround[8] = { 0,-2 }; // N
+	adjacentTileNeighboursToGround[9] = { 0, 2 }; // S
+	adjacentTileNeighboursToGround[10] = { -2,0 }; // W
+	adjacentTileNeighboursToGround[11] = { 2,0 }; // E
+	adjacentTileNeighboursToGround[12] = { 2,-2 }; // NE
+	adjacentTileNeighboursToGround[13] = { -2,-2 }; // NW
+	adjacentTileNeighboursToGround[14] = { 2, 2 }; // SE
+	adjacentTileNeighboursToGround[15] = { -2,2 }; // SW
+	adjacentTileNeighboursToGround[16] = { 0,-3 }; // N
+	adjacentTileNeighboursToGround[17] = { 0, 3 }; // S
+	adjacentTileNeighboursToGround[18] = { -3,0 }; // W
+	adjacentTileNeighboursToGround[19] = { 3,0 }; // E
+	adjacentTileNeighboursToGround[20] = { 3,-3 }; // NE
+	adjacentTileNeighboursToGround[21] = { -3,-3 }; // NW
+	adjacentTileNeighboursToGround[22] = { 3, 3 }; // SE
+	adjacentTileNeighboursToGround[23] = { -3,3 }; // SW
+	adjacentTileNeighboursToGround[24] = { 0,-4 }; // N
+	adjacentTileNeighboursToGround[25] = { 0, 4 }; // S
+	adjacentTileNeighboursToGround[26] = { -4,0 }; // W
+	adjacentTileNeighboursToGround[27] = { 4,0 }; // E
+	adjacentTileNeighboursToGround[28] = { 4,-4 }; // NE
+	adjacentTileNeighboursToGround[29] = { -4,-4 }; // NW
+	adjacentTileNeighboursToGround[30] = { 4, 4 }; // SE
+	adjacentTileNeighboursToGround[31] = { -4,4 }; // SW
 	GetGroundTilePoints();
-	SelectTileToGround();
-	/*int actualposX = position.x;
-	int actualposY = position.y;
-	iPoint dest = App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y);
-	
-	App->easing->CreateSpline(&actualposX, actualposX -1000, 1000, TypeSpline::EASE);
-
-	App->easing->CreateSpline(&actualposY, actualposY-1000,2000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall,this));*/
+	SelectSubtileToGround();
 }
 
 LootEntity::~LootEntity()
@@ -60,8 +68,7 @@ LootEntity::~LootEntity()
 bool LootEntity::Start()
 {
 	
-	start = true;
-	endReached = false;
+	
 	//adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
 	//adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
 	//adjacentTileNeighboursToGround[2] = { -1,0 }; // W
@@ -316,14 +323,7 @@ float LootEntity::LerpX(float origin, float destination, float t )
 {
 	return origin * (1 - t) + destination * t;
 }
-fPoint LootEntity::SetDestinationPos(float x, float y)
-{
-	
-	x = position.x + 128;
-	y = position.y;
 
-	return { x,y };
-}
 iPoint LootEntity::Getoriginpos()
 {
 	iPoint originPos = App->map->SubTileMapToWorld(lootSubtile.x, lootSubtile.y);
@@ -372,28 +372,6 @@ int LootEntity::GetRandomValue(int min, int max)
 	return ret;
 }
 
-float LootEntity::EaseOutBackBADvERSION(float t)
-{
-
-
-	
-
-	return 1 + (--t) * t * (2.70158 * t + 1.70158);
-
-
-}
-
-fPoint LootEntity::Lerp(fPoint origin, fPoint destination, float t)
-{
-	fPoint vector = origin * (1 - t) + destination * t;
-	float lengthmodule = std::sqrtf(vector.x*vector.x + vector.y*vector.y);
-	vector.x = vector.x / lengthmodule;
-	vector.y = vector.y / lengthmodule;
-	return vector;
-}
-
-
-
 void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item)
 {
 	stats.push_back(DBG_NEW Buff(type, character, stat, elementType, rol, value, item));
@@ -413,181 +391,66 @@ EQUIPABLE_TYPE LootEntity::GetEquipable()
 	return equipableType;
 }
 
-void LootEntity::DecideExplosion()
-{
-	EXPLOSION_DIRECTION  randVale;
-	int randVal = GetRandomValue(0, 6);
 
-	switch (randVal)
-	{
-
-	case 0:
-		randVale = EXPLOSION_DIRECTION::EAST;
-
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 170.0f;
-		incrementY = 2.8;
-		decrementY = 3.8;
-		break;
-
-	case 1:
-		randVale = EXPLOSION_DIRECTION::WEST;
-
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 170.0f;
-		incrementY = 2.8;
-		decrementY = 3.8;
-
-		break;
-	case 2:
-		randVale = EXPLOSION_DIRECTION::NORTHEAST;
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 200.0f;
-		incrementY = 2.8;
-		decrementY = 3.0;
-		break;
-
-	case 3:
-		randVale = EXPLOSION_DIRECTION::NORTHWEST;
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 200.0f;
-		incrementY = 2.8;
-		decrementY = 3.0;
-		break;
-	case 4:
-		randVale = EXPLOSION_DIRECTION::SOUTHEAST;
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 160.0f;
-		incrementY = 2.5;
-		decrementY = 3.8;
-		break;
-
-	case 5:
-		randVale = EXPLOSION_DIRECTION::SOUTHWEST;
-
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 160.0f;
-		incrementY = 2.5;
-		decrementY = 3.8;
-		break;
-
-	case 6:
-		timeXmid = 160.0f;
-		incrementX = -0.1f;
-		decrementX = -0.1f;
-		timeYmid = 80.0f;
-		incrementY = 2.0f;
-		decrementY = 3.0f;
-		break;
-	}
-	
-}
-
-void LootEntity::ExplosionMaker(float dt)
-{
-	timeTest = displacementTime.ReadMs()*0.001;
-	position.x = LerpX(position.x, goalPos.x, 0.0000009f);
-	if (displacementTime.ReadMs() <= timeXmid)
-	{
-		position.x += incrementX * dt;
-		LOG("positionX increment %i",position.x);
-	}
-	else position.x += decrementX * dt;
-
-	position.y = LerpX(position.y, goalPos.y, 0.0000009f);
-
-	if (displacementTime.ReadMs() <= timeYmid)
-	{
-		position.y = position.y + 0.707*timeTest*timeTest;
-		position.y -= incrementY;
-	}
-	else
-	{
-		position.y  - 0.070*timeTest*timeTest;
-		position.y += decrementY;
-	}
-	
-	
-}
 
 std::list<iPoint> LootEntity::GetGroundTilePoints()
 {
 	
-	for (int i = 0; i < NUM_NEIGH_TILE_FALL; ++i)
+	for (int i = 0; i < NUM_NEIGH_SUBTILETILE_FALL; ++i)
 	{
 
-		iPoint tilePos = App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
-
+		iPoint subtilePos = App->map->WorldToSubtileMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
+		iPoint temp;
+		temp = App->map->SubTileMapToWorld(subtilePos.x, subtilePos.y);
+		iPoint tilePos = App->map->WorldToMap(temp.x, temp.y);
 		if (App->pathfinding->IsWalkable(tilePos))
 		{
-			groundTilePoints.push_back(tilePos);
-
-		}
-	}
-	if (groundTilePoints.size() == 0)
-	{
-		groundTilePoints.clear();
-
-		for (int i = 0; i < NUM_NEIGH_TILE_FALL; ++i)
-		{
+			groundSubtilePoints.push_back(subtilePos);
 			
-			iPoint tilePos = App->map->WorldToMap(position.x, position.y) + adjacentTileNeighboursToGround2[i];
-
-			if (App->pathfinding->IsWalkable(tilePos))
-			{
-				groundTilePoints.push_back(tilePos);
-
-			}
 		}
 	}
-	return groundTilePoints;
+	
+	return groundSubtilePoints;
 }
 
 void LootEntity::SetSplineToFall()
 {
 	//App->easing->CreateSpline((&float)position.y,)
 	int actualpos = position.y;
-	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x+1, groundTileDestination.y).y - pivot.y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
+	App->easing->CreateSpline(&position.y, App->map->SubTileMapToWorld(groundSubtileDestination.x+1, groundSubtileDestination.y).y - pivot.y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
 }
 
-void LootEntity::SelectTileToGround()
+void LootEntity::SelectSubtileToGround()
 {
 	LOG("lootEjection");
-	LOG("groundTile size %i", groundTilePoints.size());
+	LOG("groundTile size %i", groundSubtilePoints.size());
 	int m;
-	if (groundTilePoints.size() == 0)
-		m = groundTilePoints.size();
+	if (groundSubtilePoints.size() == 0)
+		m = groundSubtilePoints.size();
 	else
-		m = groundTilePoints.size()-1;
+		m = groundSubtilePoints.size()-1;
 
 	int randVal = GetRandomValue(0, m);
 	m=0;
 
-	for (std::list<iPoint>::iterator iter = groundTilePoints.begin(); iter != groundTilePoints.end(); ++iter)
+	for (std::list<iPoint>::iterator iter = groundSubtilePoints.begin(); iter != groundSubtilePoints.end(); ++iter)
 	{
 		if (m == randVal)
 		{
 			// if randVal = 8 tiledestinatio gets fucked!!
 			
-			groundTileDestination = (*iter);
+			groundSubtileDestination = (*iter);
 			LOG("tw8");
 			break;
 
 		}
 		++m;
 	}
+}
+
+bool LootEntity::CheckGrounded()
+{
+	return grounded = true;
 }
 
 // TODO: why loot entity asks on every frame ?
@@ -638,88 +501,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 void LootEntity::GetDistanceTotravel()
 {
 	iPoint actual{ (int)position.x,(int)position.y };
-	distanceTotravel = App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y) - actual;
-}
-
-int LootEntity::Ease(float time_passed, int initialpos, int distance_to_travel, float time_to_travel)
-{
-	return distance_to_travel * (time_passed / time_to_travel) + initialpos;
-}
-int LootEntity::EaseOutQuint(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
-{
-	return distance_to_travel * ((time_passed = time_passed / time_to_travel - 1) * time_passed * time_passed * time_passed * time_passed + 1) + initial_position;
-}
-
-int LootEntity::EaseOutCubic(float time_passed, int initialpos, int distance_to_travel, float time_to_travel)
-{
-	return distance_to_travel * (time_passed /= time_to_travel) * time_passed * time_passed + initialpos;
+	distanceTotravel = App->map->MapToWorld(groundSubtileDestination.x, groundSubtileDestination.y) - actual;
 }
 
 
-
-int LootEntity::EaseInOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
-{
-	float s = 1.70158f;
-	if ((time_passed /= time_to_travel / 2) < 1) {
-		return distance_to_travel / 2 * (time_passed * time_passed * (((s *= (1.525f)) + 1) * time_passed - s)) + initial_position;
-	}
-	else {
-		float postFix = time_passed -= 2;
-		return distance_to_travel / 2 * ((postFix)* time_passed * (((s *= (1.525f)) + 1) * time_passed + s) + 2) + initial_position;
-	}
-}
-
-int LootEntity::EaseInBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
-{
-	float s = 2.70158f;
-	float postFix = time_passed /= time_to_travel;
-	return distance_to_travel * (postFix)* time_passed* ((s + 1) * time_passed - s) + initial_position;
-}
-
-int LootEntity::EaseOutBack(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
-{
-	float s = 1.10158f;
-	return distance_to_travel * ((time_passed = time_passed / time_to_travel - 1) * time_passed * ((s + 1) * time_passed + s) + 1) + initial_position;
-}
-
-int LootEntity::EaseInCubic(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
-{
-	return distance_to_travel * (time_passed /= time_to_travel) * time_passed * time_passed + initial_position;
-}
-
-int LootEntity::EaseOutBounce(float time_passed, int initial_position, int distance_to_travel, float time_to_travel)
-{
-	if ((time_passed /= time_to_travel) < (1 / 2.75f)) {
-		return distance_to_travel * (7.5625f * time_passed * time_passed) + initial_position;
-	}
-	else if (time_passed < (2 / 2.75f)) {
-		float postFix = time_passed -= (1.5f / 2.75f);
-		return distance_to_travel * (7.5625f * (postFix)* time_passed + .75f) + initial_position;
-	}
-	else if (time_passed < (2.5 / 2.75)) {
-		float postFix = time_passed -= (2.25f / 2.75f);
-		return distance_to_travel * (7.5625f * (postFix)* time_passed + .9375f) + initial_position;
-	}
-	else {
-		float postFix = time_passed -= (2.625f / 2.75f);
-		return distance_to_travel * (7.5625f * (postFix)* time_passed + .984375f) + initial_position;
-	}
-}
-
-int LootEntity::OwnEaseOutQuartic(float t, int b, int c, float d)
-{
-	int ts = (t /= d) * t;
-	int tc = ts * t;
-	return b + c * (1.5 * tc * ts + -1.1 * ts * ts + 0.7 * tc + -0.1 * t);
-}
-
-int LootEntity::EaseinBounce(float t, int b, int c, float d)
-{
-	return c - EaseOutBounce(d - t, 0, c, d) + b;
-}
-
-int LootEntity::EaseInOutBounce(float t, int b, int c, float d)
-{
-	if (t < d / 2) return EaseinBounce(t * 2, 0, c, d) * .5f + b;
-	else return EaseInOutBounce(t * 2 - d, 0, c, d) * .5f + c * .5f + b;
-}

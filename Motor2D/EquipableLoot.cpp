@@ -1,25 +1,20 @@
 #include "EquipableLoot.h"
 #include "j1Entity.h"
 #include "j1EntityFactory.h"
-#include "j1EasingSplines.h"
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
 	this->equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	SetEquipable();
-	originPos.x = position.x;
-	originPos.y = position.y;
-
-	
-	start = true;
-	checkgrounded = true;
 	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 
 	
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
 
-	App->easing->CreateSpline(&position.x, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).x, 1000 ,TypeSpline::EASE);
-	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_BOUNCE);
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 
 }
 
@@ -27,17 +22,16 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 {
 	ToSelectLootFunction(OBJ_TYPE);
 	equipableType = OBJ_TYPE;
-	originPos.x = position.x;
-	originPos.y = position.y;
-	start = true;
-	checkgrounded = true;
 	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 
 	
 
-	App->easing->CreateSpline(&position.x, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).x, 1000, TypeSpline::EASE);
-	App->easing->CreateSpline(&position.y, App->map->MapToWorld(groundTileDestination.x, groundTileDestination.y).y, 1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y-pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position)*0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 
 
@@ -49,63 +43,10 @@ Equipable::~Equipable()
 
 bool Equipable::Update(float dt)
 {
-	
-	//if (start)
-	//{
-	//	goalPos = SetDestinationPos(goalPos.x, goalPos.y);
-	//	start = false;
-	//	position.y + 5;
-
-	//	DecideExplosion();
-	//}
-
-	//dt = EaseOutBack(displacementTime.ReadMs())*0.000001; 
-
-	//if (displacementTime.ReadMs() <= 280)
-	//{
-	//	ExplosionMaker(dt);
-	//	/*LOG("displaced %f", position.x - originPos.x);
-	//	LOG("actual time %f", timeTest);*/
-	//}
-	//else grounded = true;
-	/*else if(!repositionDescription)
+	if (grounded)
 	{
-		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
-		repositionDescription = true; 
-	}*/
-	//float timepassed = SDL_GetTicks() - timeStarted;
-	//GetDistanceTotravel();
-	//if (timepassed < 1000)
-	//{
-	//	LOG("preEase posX %f", position.x);
-	//	
-	//	position.x = Ease(timepassed, originPos.x, distanceTotravel.x, 1000);
-	//	LOG("Eased posX %f", position.x);
-	//	LOG("originPos.x %f", originPos.y);
-	//	LOG("DistanceToTravel.x %i", distanceTotravel.x);
-	//}
-
-	//if (timepassed < 1000)
-	//{
-	//	LOG("preEase posY %f", position.y);
-	//	position.y =  EaseOutBounce(timepassed, originPos.y, distanceTotravel.y, 1000);
-	//	LOG("Eased posY %f", position.y);
-	//	LOG("originPos.y %f", originPos.y);
-	//	LOG("DistanceToTravel.y %i", distanceTotravel.y);
-	//}
-	//if (timepassed < 1000)
-	//{
-	////position.y = Ease(timepassed, originPos.y, distanceTotravel.y, 1500);
-	//position.y = EaseOutCubic(timepassed, originPos.y, distanceTotravel.y, 900);
-
-	//}
-	
-
-	
-	if (checkgrounded && grounded)
-	{
-		checkgrounded = false;
 		App->audio->PlayFx(App->scene->lootGroundSFX, 0);
+		grounded = false;
 	}
 	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
 		//CheckClampedCrossHairToSpawnDescription();
@@ -113,10 +54,7 @@ bool Equipable::Update(float dt)
 	return true;
 }
 
-//bool Equipable::CleanUp()
-//{
-//	return true;
-//}
+
 
 EQUIPABLE_TYPE Equipable::ChooseEquipable()
 {
