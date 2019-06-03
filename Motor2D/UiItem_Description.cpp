@@ -9,6 +9,7 @@
 #include "j1EntityFactory.h"
 #include "LootEntity.h"
 #include "j1DialogSystem.h"
+#include "CharacterStats.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
@@ -457,9 +458,14 @@ void UiItem_Description::Draw(const float& dt)
 			}
 			if (App->gui->selected_object == iconImageInventory)
 			{
+				// TODO: optimize this not every frame !!!
+				 if(!App->entityFactory->player->equipedObjects.empty())
+					 for (const auto& LootEntity : App->entityFactory->player->equipedObjects)
+						 if(this->callback == LootEntity)
+							 App->scene->characterStatsItem->HideAllComparisonStats();
 
-
-
+				
+			
 				if (this->name_object == "potion_1")
 				{
 					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
