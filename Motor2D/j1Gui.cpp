@@ -800,6 +800,7 @@ SDL_Texture* j1Gui::GetAtlas()
 void j1Gui::FadeToScene()
 {
 	resetHoverSwapping = false;
+	App->scene->lobbyState = LobbyState::ALLBLOCK;
 	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::LOBBY);
 }
 

@@ -272,6 +272,15 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
+		deathPanel->enable = false;
+
+
+		if (lobbyState == LobbyState::ALLBLOCK)
+		{
+			doorlvl1 = nullptr;
+			firingrange = nullptr;
+			doorlvl2 = nullptr;
+		}
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
 		App->entityFactory->CreatePlayer({ 115, 240 });
