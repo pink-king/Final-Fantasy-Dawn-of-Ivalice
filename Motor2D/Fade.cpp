@@ -34,17 +34,20 @@ void Fade::Action()
 {
 	DrawFadeRect(255.0F);
 
-	Transition::Action();
-
 	if (is_scene_change)
 	{
 		App->scene->LoadScene(scene_to_change);
+		//DrawFadeRect(255.0F);
 	}
+	Transition::Action();
 }
 
 void Fade::Exiting()
 {
 	float normalized_alpha = floor(LerpValue(percent, 255, 0));
+
+	if (normalized_alpha < 0)
+		normalized_alpha = 255;
 
 	DrawFadeRect(normalized_alpha);
 
