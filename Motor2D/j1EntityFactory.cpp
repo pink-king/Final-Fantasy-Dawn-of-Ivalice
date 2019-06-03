@@ -2089,17 +2089,17 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 			for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
 			{
 
-				if (player->level == 2 && (*item)->name=="chain")
+				if (player->level == 2 && (*item)->name=="chain1")
 				{
-
+					(*item)->to_delete = true;
 				}
-				else if (player->level == 3)
+				else if (player->level == 3 && (*item)->name=="chain2")
 				{
-
+					(*item)->to_delete = true;
 				}
-				else if (player->level == 4)
+				else if (player->level == 4 && (*item)->name=="chain3")
 				{
-
+					(*item)->to_delete = true;
 				}
 			}
 		}
