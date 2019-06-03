@@ -101,4 +101,5 @@ void ChestAsset::SpawnLoot()
 		App->entityFactory->RepeatAmountofConsumables(7, GetPivotPos(), OBJECT_TYPE::GOLD);
 		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 1, GetPivotPos());
 	}
+	isOpened = true;
 }
