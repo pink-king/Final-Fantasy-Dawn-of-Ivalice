@@ -798,79 +798,152 @@
       
       <images>
         <image name="background">
-          <section x="1320" y="1" w="1280" h="720"/>
+          <section x="1311" y="2374" w="1280" h="720"/>
           <position x="0" y="0"/>
         </image>
 
         <image name="basic_marche_button">
-          <section x="346" y="6" w="24" h="24"/>
-          <position x="55" y="608"/>
+          <section x="75" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="99"/>
         </image>
 
         <image name="dash_marche_button">
-          <section x="287" y="6" w="24" h="24"/>
-          <position x="117" y="608"/>
+          <section x="50" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="162"/>
         </image>
 
         <image name="ability1_marche_button">
-          <section x="228" y="38" w="24" h="24"/>
-          <position x="179" y="608"/>
+          <section x="125" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="219"/>
         </image>
         <image name="ability2_marche_button">
-          <section x="228" y="2" w="24" h="30"/>
-          <position x="241" y="602"/>
+          <section x="100" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="277"/>
         </image>
         <image name="ulti_marche_button">
-          <section x="287" y="32" w="21" h="30"/>
-          <position x="305" y="602"/>
+          <section x="25" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="334"/>
+        </image>
+        <image name="scope_marche_button">
+          <section x="0" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="392"/>
         </image>
 
+        
+        
 
         <image name="basic_shara_button">
-          <section x="346" y="6" w="24" h="24"/>
-          <position x="55" y="608"/>
+          <section x="75" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="940" y="99"/>
         </image>
 
         <image name="dash_shara_button">
-          <section x="287" y="6" w="24" h="24"/>
-          <position x="117" y="608"/>
+          <section x="50" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="940" y="162"/>
         </image>
 
         <image name="ability1_shara_button">
-          <section x="228" y="38" w="24" h="24"/>
-          <position x="179" y="608"/>
+          <section x="125" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="940" y="219"/>
         </image>
         <image name="ability2_shara_button">
-          <section x="228" y="2" w="24" h="30"/>
-          <position x="241" y="602"/>
+          <section x="100" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="940" y="277"/>
         </image>
         <image name="ulti_shara_button">
-          <section x="253" y="32" w="55" h="30"/>
-          <position x="288" y="602"/>
+          <section x="25" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="940" y="334"/>
+        </image>
+        <image name="scope_shara_button">
+          <section x="0" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="940" y="392"/>
         </image>
 
+        
+        
 
         <image name="basic_ritz_button">
-          <section x="346" y="6" w="24" h="24"/>
-          <position x="55" y="608"/>
+          <section x="75" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="658" y="99"/>
         </image>
 
         <image name="dash_ritz_button">
-          <section x="287" y="6" w="24" h="24"/>
-          <position x="117" y="608"/>
+          <section x="50" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="658" y="162"/>
         </image>
 
         <image name="ability1_ritz_button">
-          <section x="228" y="38" w="24" h="24"/>
-          <position x="179" y="608"/>
+          <section x="125" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="658" y="219"/>
         </image>
         <image name="ability2_ritz_button">
-          <section x="194" y="2" w="58" h="30"/>
-          <position x="224" y="602"/>
+          <section x="100" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="658" y="277"/>
         </image>
         <image name="ulti_ritz_button">
-          <section x="253" y="32" w="55" h="30"/>
-          <position x="288" y="602"/>
+          <section x="25" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="658" y="334"/>
+        </image>
+        <image name="scope_ritz_button">
+          <section x="0" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="658" y="392"/>
+        </image>
+
+
+
+        <image name="swapLeft">
+          <section x="244" y="525" w="30" h="19"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="540 "/>
+        </image>
+        <image name="swapRight">
+          <section x="244" y="545" w="30" h="19"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="484 "/>
+        </image>
+        <image name="interact">
+          <section x="150" y="0" w="24" h="30"/>
+          <flag  isTabbable="1" />
+          <flag  autorefresh="1" />
+          <position x="375" y="593 "/>
         </image>
         
         
@@ -881,7 +954,7 @@
           <idleSec  x="1079" y="2524" w="222" h="67"/>
           <hoverSec x="1079" y="2456" w="222" h="67" />
           <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="267" y="591"/>
+          <position x="940" y="593"/>
         </button>
       </buttons>
       
