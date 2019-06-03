@@ -313,7 +313,8 @@ bool j1Scene::Start()
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
-		App->audio->PlayFx(enterGameSFX, 0);
+		// This is when it enters, this is tenebrous, we dont need this in lobby
+		//App->audio->PlayFx(enterGameSFX, 0);
 
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
