@@ -850,7 +850,7 @@ void j1Gui::SettingsScreen()
 {
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
-//	App->scene->controlsPanel->enable = false;
+	App->scene->controlsPanel->enable = false;
 	App->scene->settingPanel->enable = true;
 }
 
