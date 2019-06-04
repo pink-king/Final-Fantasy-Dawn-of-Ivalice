@@ -22,9 +22,6 @@ private:
 	Animation openR;
 	Animation* currentAnim = nullptr;
 
-	Animation A;
-	Animation* current = nullptr;
-	SDL_Texture* Atex = nullptr;
 	bool active;
 };
 

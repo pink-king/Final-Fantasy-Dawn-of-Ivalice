@@ -488,7 +488,7 @@ void UiItem_Description::Draw(const float& dt)
 
 				RepositionAllElements(iPoint(staringPosition.x + 545, staringPosition.y + 20));
 
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 					if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
 					{

@@ -18,7 +18,6 @@ public:
 
 private: 
 	ChestAsset* myChest = nullptr;
-	Animation buttonA;
 
 	bool drawA = false;
 };

@@ -7,14 +7,6 @@ ChestTrigger::ChestTrigger(const fPoint & pos) : Trigger(TRIGGER_TYPE::CHEST, po
 {
 	nSubtiles = 2; 
 	AssignInSubtiles(nSubtiles);
-
-	entityTex = App->entityFactory->ButtonAtex;
-
-	buttonA.PushBack({ 0,0,15,15 });
-	buttonA.speed = 0.F;
-	buttonA.loop = false;
-	currentAnimation = &buttonA;
-
 }
 
 ChestTrigger::~ChestTrigger()
@@ -25,9 +17,11 @@ ChestTrigger::~ChestTrigger()
 
 void ChestTrigger::Draw()
 {
-	if (currentAnimation != nullptr && drawA)
+	if (drawA)
 	{
-		App->render->Blit(entityTex, position.x - 5, position.y - 50, &currentAnimation->GetCurrentFrame(), 1.0F);
+		App->render->Blit(App->gui->GetAtlas(), position.x - 5, position.y - 50, &App->input->GetAssociatedRectForThisGamepadInput(
+			App->input->gamepadScheme.sharedInput.interact.button,
+			App->input->gamepadScheme.sharedInput.interact.axis), 1.0F, SDL_FLIP_NONE, 0.5F);
 		drawA = false;
 	}
 	if (App->scene->debugSubtiles)
@@ -39,7 +33,7 @@ bool ChestTrigger::DoTriggerAction()
 {
 	drawA = true;
 
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		myChest->OpenChest(); 
 		to_delete = true; 
