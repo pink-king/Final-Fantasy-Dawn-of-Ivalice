@@ -335,6 +335,9 @@ bool j1Input::PreUpdate()
 	// testing --------------
 
 	//ListeningInputFor("marche_dash_button");
+	//ListeningInputFor("interact");
+	//ListeningInputFor("swap_next");
+	//ListeningInputFor("ritz_basic_button");
 
 	//if (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN)
 	//{
@@ -806,39 +809,72 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 
 		if (it != guiElemMapInput.end()) // if the element is found
 		{
-			// check for possible repetead key on shared scheme
-			for (std::map<std::string, ControllerPressData&>::iterator sharedIt = generalMapInput.begin(); sharedIt != generalMapInput.end(); ++sharedIt)
+			// first check if the input to be changed is from shared scheme, or characters scheme
+			// if are coming from characters, only we need to check the shared and specific character
+			// but if we are coming from shared, we need to check itself, and all characters
+			std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator genIt;
+			genIt = comparerGuiMapForRepeteadOnGroup.find(gui_elem_name);
+
+			if (&(*genIt).second == &generalMapInput) // if coming from shared
 			{
-				// check for all buttons and axis, if found repetead, write the old one
-				if ((*sharedIt).second.button == newMapping.button && newMapping.button != -1)
-					(*sharedIt).second.button = (*it).second.button;
-
-				if ((*sharedIt).second.axis == newMapping.axis && newMapping.axis != -1)
-					(*sharedIt).second.axis = (*it).second.axis;
-			}
-
-			// and checks for possible repetead key on this mapped scheme
-			std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2;
-			it2 = comparerGuiMapForRepeteadOnGroup.find(gui_elem_name);
-
-			if (it2 != comparerGuiMapForRepeteadOnGroup.end())
-			{
-				for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
+				// check all characters and itself
+				// characterNameToMapData contains all that we need
+				for (std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2 = characterNameToMapData.begin(); it2 != characterNameToMapData.end(); ++it2)
 				{
-					if (&(*it).second == &(*it3).second) // if the previous modified "button" is the same that we are currently checking, skip
-						continue;
+					// iterate all groups: general, marche,ritz and shara
+					for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
+					{
+						if (&(*it).second == &(*it3).second) // if the previous to be modified "button" is the same that we are currently checking, skip
+							continue;
 
-					// check for all buttons and axis, if found repetead, write the old one
-					if ((*it3).second.button == newMapping.button && newMapping.button != -1)
-						(*it3).second.button = (*it).second.button;
-					
-					if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
-						(*it3).second.axis = (*it).second.axis;
+						// check for all buttons and axis, if found repetead, write the old one
+						if ((*it3).second.button == newMapping.button && newMapping.button != -1)
+							(*it3).second.button = (*it).second.button;
+
+						if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
+							(*it3).second.axis = (*it).second.axis;
+					}
 				}
+				// and finally update the desired one
+				(*it).second.button = newMapping.button;
+				(*it).second.axis = newMapping.axis;
 			}
-			// and finally update the desired one
-			(*it).second.button = newMapping.button;
-			(*it).second.axis = newMapping.axis;
+			else
+			{
+				// check for possible repetead key on shared scheme
+				for (std::map<std::string, ControllerPressData&>::iterator sharedIt = generalMapInput.begin(); sharedIt != generalMapInput.end(); ++sharedIt)
+				{
+					// check for all buttons and axis, if found repetead, write the old one
+					if ((*sharedIt).second.button == newMapping.button && newMapping.button != -1)
+						(*sharedIt).second.button = (*it).second.button;
+
+					if ((*sharedIt).second.axis == newMapping.axis && newMapping.axis != -1)
+						(*sharedIt).second.axis = (*it).second.axis;
+				}
+
+				// and checks for possible repetead key on this mapped scheme
+				std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2;
+				it2 = comparerGuiMapForRepeteadOnGroup.find(gui_elem_name);
+
+				if (it2 != comparerGuiMapForRepeteadOnGroup.end())
+				{
+					for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
+					{
+						if (&(*it).second == &(*it3).second) // if the previous modified "button" is the same that we are currently checking, skip
+							continue;
+
+						// check for all buttons and axis, if found repetead, write the old one
+						if ((*it3).second.button == newMapping.button && newMapping.button != -1)
+							(*it3).second.button = (*it).second.button;
+
+						if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
+							(*it3).second.axis = (*it).second.axis;
+					}
+				}
+				// and finally update the desired one
+				(*it).second.button = newMapping.button;
+				(*it).second.axis = newMapping.axis;
+			}
 		}
 	}
 }
