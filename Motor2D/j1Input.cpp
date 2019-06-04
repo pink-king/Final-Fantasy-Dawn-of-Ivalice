@@ -346,10 +346,10 @@ bool j1Input::PreUpdate()
 	//	GetSectionForElement("marche_dash_button");
 	//}
 
-	//if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-	//{
-	//	gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_B;
-	//}
+	/*if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
+	}*/
 
 	return true;
 }
@@ -841,36 +841,72 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 			}
 			else
 			{
+				bool inputFoundOnShared = false;
 				// check for possible repetead key on shared scheme
 				for (std::map<std::string, ControllerPressData&>::iterator sharedIt = generalMapInput.begin(); sharedIt != generalMapInput.end(); ++sharedIt)
 				{
 					// check for all buttons and axis, if found repetead, write the old one
 					if ((*sharedIt).second.button == newMapping.button && newMapping.button != -1)
+					{
 						(*sharedIt).second.button = (*it).second.button;
+						inputFoundOnShared = true;
+					}
 
 					if ((*sharedIt).second.axis == newMapping.axis && newMapping.axis != -1)
-						(*sharedIt).second.axis = (*it).second.axis;
-				}
-
-				// and checks for possible repetead key on this mapped scheme
-				std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2;
-				it2 = comparerGuiMapForRepeteadOnGroup.find(gui_elem_name);
-
-				if (it2 != comparerGuiMapForRepeteadOnGroup.end())
-				{
-					for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
 					{
-						if (&(*it).second == &(*it3).second) // if the previous modified "button" is the same that we are currently checking, skip
+						(*sharedIt).second.axis = (*it).second.axis;
+						inputFoundOnShared = true;
+					}
+
+					
+				}
+				// check if enters on any condition above, if this, recheck all the players, except the shared scheme (already checked)
+				if (inputFoundOnShared)
+				{
+					for (std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2 = characterNameToMapData.begin(); it2 != characterNameToMapData.end(); ++it2)
+					{
+						if (&(*it2).second == &generalMapInput) // skip the general input scheme
 							continue;
 
-						// check for all buttons and axis, if found repetead, write the old one
-						if ((*it3).second.button == newMapping.button && newMapping.button != -1)
-							(*it3).second.button = (*it).second.button;
+						// iterate through accepted map (characters input map)
+						for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
+						{
+							if (&(*it).second == &(*it3).second) // if the previous modified "button" is the same that we are currently checking, skip
+								continue;
 
-						if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
-							(*it3).second.axis = (*it).second.axis;
+							// check for all buttons and axis, if found repetead, write the old one
+							if ((*it3).second.button == (*it).second.button && newMapping.button != -1)
+								(*it3).second.button = newMapping.button;
+
+							if ((*it3).second.axis == (*it).second.axis && newMapping.axis != -1)
+								(*it3).second.axis = newMapping.axis;
+						}
+
 					}
 				}
+				else // if not, recheck only the target scheme
+				{
+					// and checks for possible repetead key on this mapped scheme
+					std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2;
+					it2 = comparerGuiMapForRepeteadOnGroup.find(gui_elem_name);
+
+					if (it2 != comparerGuiMapForRepeteadOnGroup.end())
+					{
+						for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
+						{
+							if (&(*it).second == &(*it3).second) // if the previous modified "button" is the same that we are currently checking, skip
+								continue;
+
+							// check for all buttons and axis, if found repetead, write the old one
+							if ((*it3).second.button == newMapping.button && newMapping.button != -1)
+								(*it3).second.button = (*it).second.button;
+
+							if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
+								(*it3).second.axis = (*it).second.axis;
+						}
+					}
+				}
+
 				// and finally update the desired one
 				(*it).second.button = newMapping.button;
 				(*it).second.axis = newMapping.axis;

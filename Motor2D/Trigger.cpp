@@ -80,7 +80,6 @@ void Trigger::DeleteFromSubtiles(int numberOfSubtile)
 	for (std::vector<iPoint>::iterator iter = subTiles.begin(); iter != subTiles.end(); ++iter)
 	{
 		iPoint p = *iter;
-		//p = App->map->WorldToSubtileMap((int)(position.x + pivot.x), (int)(position.y + pivot.y));
 		App->entityFactory->DeleteEntityFromSubtilePos(this, p);
 	}
 }

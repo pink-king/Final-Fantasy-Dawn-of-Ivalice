@@ -932,7 +932,7 @@ void PlayerEntityManager::ConsumConsumable(LootEntity * consumable, j1Entity * e
 	
 		for (std::vector<LootEntity*>::iterator item = consumables.begin(); item != consumables.end(); ++item)
 		{
-			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS && App->entityFactory->player->life < App->entityFactory->player->maxLife)
+			if (consumable == *item && consumable->objectType == OBJECT_TYPE::POTIONS && App->entityFactory->player->life < App->entityFactory->player->maxLife && !App->entityFactory->player->isPotionActive)
 			{
 				App->audio->PlayFx(App->scene->consumHealPotion, 0);
 				for (std::vector<Buff*>::iterator iter = consumable->stats.begin(); iter != consumable->stats.end(); ++iter)
