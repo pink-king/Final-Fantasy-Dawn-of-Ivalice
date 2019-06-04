@@ -71,7 +71,7 @@ bool DialogTrigger::DoTriggerAction()
 	{
 		active = true;
 	}
-	if(((App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && pressA) || !pressA)
+	if(((App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && pressA) || !pressA)
 		App->dialog->SetCurrentDialog(dialogType.data());
 	if (!pressA)
 		to_delete = true;
