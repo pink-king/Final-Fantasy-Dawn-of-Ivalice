@@ -829,10 +829,10 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 
 						// check for all buttons and axis, if found repetead, write the old one
 						if ((*it3).second.button == newMapping.button && newMapping.button != -1)
-							(*it3).second.button = (*it).second.button;
+							(*it3).second = (*it).second;
 
 						if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
-							(*it3).second.axis = (*it).second.axis;
+							(*it3).second = (*it).second;
 					}
 				}
 				// and finally update the desired one
@@ -848,13 +848,13 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 					// check for all buttons and axis, if found repetead, write the old one
 					if ((*sharedIt).second.button == newMapping.button && newMapping.button != -1)
 					{
-						(*sharedIt).second.button = (*it).second.button;
+						(*sharedIt).second = (*it).second;
 						inputFoundOnShared = true;
 					}
 
 					if ((*sharedIt).second.axis == newMapping.axis && newMapping.axis != -1)
 					{
-						(*sharedIt).second.axis = (*it).second.axis;
+						(*sharedIt).second = (*it).second;
 						inputFoundOnShared = true;
 					}
 
@@ -875,11 +875,11 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 								continue;
 
 							// check for all buttons and axis, if found repetead, write the old one
-							if ((*it3).second.button == (*it).second.button && newMapping.button != -1)
-								(*it3).second.button = newMapping.button;
+							if ((*it3).second.button == (*it).second.button && (*it).second.button != -1)
+								(*it3).second = newMapping;
 
-							if ((*it3).second.axis == (*it).second.axis && newMapping.axis != -1)
-								(*it3).second.axis = newMapping.axis;
+							if ((*it3).second.axis == (*it).second.axis && (*it).second.axis != -1)
+								(*it3).second = newMapping;
 						}
 
 					}
@@ -899,10 +899,11 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 
 							// check for all buttons and axis, if found repetead, write the old one
 							if ((*it3).second.button == newMapping.button && newMapping.button != -1)
-								(*it3).second.button = (*it).second.button;
+								(*it3).second = (*it).second;
+							
 
 							if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
-								(*it3).second.axis = (*it).second.axis;
+								(*it3).second = (*it).second;
 						}
 					}
 				}
