@@ -850,7 +850,11 @@ void j1Gui::SettingsScreen()
 {
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
-	App->scene->controlsPanel->enable = false;
+	if (App->scene->controlsPanel->enable)
+	{
+		App->scene->controlsPanel->enable = false;
+		App->input->SaveGamepadMapScheme("config/controllerMapping.xml");
+	}
 	App->scene->settingPanel->enable = true;
 }
 
