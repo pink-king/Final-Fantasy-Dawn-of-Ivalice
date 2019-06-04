@@ -869,7 +869,7 @@ bool Marche::Update(float dt)
 		if (!App->gui->spawnedClocks.Marche.dodge)
 		{
 
-			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Marche", App->scene->inGamePanel);
+			myUIClocks.dodge = App->gui->AddClock(App->gui->allclocksData.dodge.position, &App->gui->allclocksData.dodge.section, "dodge", "Marche", App->scene->uiMarche);
 
 			App->gui->spawnedClocks.Marche.dodge = true;
 		}
