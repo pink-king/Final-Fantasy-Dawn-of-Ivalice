@@ -26,8 +26,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 	isVendorInventory = isVendor;
 
-	if (!isVendorInventory)
-	{
+	/*if (!isVendorInventory)
+	{*/
 
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
 		{
@@ -52,15 +52,15 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 		}
 
 
-	}
-	else
+	//}
+	if(isVendorInventory)
 	{
 		if(App->entityFactory->player->GetVendor()->firstTime)
 		App->entityFactory->player->GetVendor()->generateVendorItems();
 
-		App->scene->MarcheIcon->hide = true;
+		/*App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;
-		App->scene->RitzIcon->hide = true;
+		App->scene->RitzIcon->hide = true;*/
 	}
 
 
@@ -69,7 +69,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects   --> ONLY FOR PLAYER, NOT FOR VENDOR !!
 
 
-	if (!isVendorInventory && !App->entityFactory->player->equipedObjects.empty())
+	if (/*!isVendorInventory &&*/!App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
@@ -1166,8 +1166,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 			{
 				if ((*iter) == callback)
 				{
-					/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-					{*/
+					if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
+					{
 
 						if (DoPriceCalculations(callback))
 						{
@@ -1187,7 +1187,6 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							}
 
 
-
 							// ADD NEW STATS TO THE PLAYER 
 							App->scene->characterStatsItem->SetNewStats();
 
@@ -1195,7 +1194,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							break;
 						}
 						
-				//	}
+					}
 
 
 				}

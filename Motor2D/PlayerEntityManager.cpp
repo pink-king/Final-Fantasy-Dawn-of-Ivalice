@@ -481,23 +481,24 @@ bool PlayerEntityManager::SwapInputChecker()
 
 			if (App->scene->inventory->enable)
 			{
-				if (!App->scene->inventoryItem->isVendorInventory)
-				{
+				/*if (!App->scene->inventoryItem->isVendorInventory)
+				{*/
 					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
 
-				}
+				//}
 			}
 
 			SetPreviousCharacter();
 
 			if (App->scene->inventory->enable)
 			{
-				if (!App->scene->inventoryItem->isVendorInventory)
-				{
-					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					App->scene->characterStatsItem->InitializeStats();
-				}
+				/*if (!App->scene->inventoryItem->isVendorInventory)
+				{*/
+					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
+					//App->scene->characterStatsItem->InitializeStats();
+				//}
 
+				App->scene->characterStatsItem->InitializeStats();
 			}
 
 		}
@@ -506,21 +507,23 @@ bool PlayerEntityManager::SwapInputChecker()
 		{
 			if (App->scene->inventory->enable)
 			{
-				if (!App->scene->inventoryItem->isVendorInventory)
-				{
+				/*if (!App->scene->inventoryItem->isVendorInventory)
+				{*/
 					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
-				}
+				//}
 			}
 
 			SetNextCharacter();
 
 			if (App->scene->inventory->enable)
 			{
-				if (!App->scene->inventoryItem->isVendorInventory)
-				{
-					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					App->scene->characterStatsItem->InitializeStats();
-				}
+				/*if (!App->scene->inventoryItem->isVendorInventory)
+				{*/
+					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
+					//App->scene->characterStatsItem->InitializeStats();
+				//}
+
+				App->scene->characterStatsItem->InitializeStats();
 			
 			}
 
