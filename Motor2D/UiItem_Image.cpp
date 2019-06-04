@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include "j1Scene.h"
+#include "j1Input.h"
 #include "LootEntity.h"
 
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isTabbable, bool autorefresh) : UiItem(position, name, parent)
@@ -82,9 +83,9 @@ void UiItem_Image::Draw(const float& dt)
 
 		if (!printFromLoot)
 		{
-			if (autorefresh)
+			if (this->autorefresh)
 			{
-				//section = App->input->GetSectionForElement(name);
+				section = App->input->GetSectionForElement(this->name);
 			}
 			float speed = 0.0f;
 

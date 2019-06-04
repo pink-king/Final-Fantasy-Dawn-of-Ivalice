@@ -1232,6 +1232,10 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string doNotCreate = uiNode.child("donotdoitflag").attribute("value").as_string();
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
 		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
+		if (autorefresh == 1)
+		{
+			LOG("HHHHHHHHHHH");
+		}
 		if (lootFlag == "loot")
 		{
 
