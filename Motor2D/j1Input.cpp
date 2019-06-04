@@ -334,8 +334,6 @@ bool j1Input::PreUpdate()
 
 	// testing --------------
 
-	//CheckGamepadWTFPressedInput();
-
 	//ListeningInputFor("marche_dash_button");
 
 	//if (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN)
@@ -344,9 +342,6 @@ bool j1Input::PreUpdate()
 	//	//SaveGamepadMapScheme("config/controllerMapping.xml");
 	//	GetSectionForElement("marche_dash_button");
 	//}
-
-	//
-	//
 
 	//if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	//{
@@ -712,7 +707,38 @@ bool j1Input::GenerateGuiElemMapping() // to get associated controllerpress data
 	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_ultimate_button", gamepadScheme.shara.ultimate));
 	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_aim_button", gamepadScheme.shara.aim));
 
-	return true;
+	// map gui nomenclature to specific groups to compare repeteads when input is coming from gui menu
+
+	// marche
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche_basic_button", marcheMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche_dash_button", marcheMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche_special1_button", marcheMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche_special2_button", marcheMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche_ultimate_button", marcheMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("marche_aim_button", marcheMapInput));
+
+	// ritz
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz_basic_button", ritzMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz_dash_button", ritzMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz_special1_button", ritzMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz_special2_button", ritzMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz_ultimate_button", ritzMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("ritz_aim_button", ritzMapInput));
+	
+	// shara
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara_basic_button", sharaMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara_dash_button", sharaMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara_special1_button", sharaMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara_special2_button", sharaMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara_ultimate_button", sharaMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("shara_aim_button", sharaMapInput));
+	
+	// shared input
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("interact", generalMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("swap_next", generalMapInput));
+	comparerGuiMapForRepeteadOnGroup.insert(std::pair<std::string, std::map<std::string, ControllerPressData&>&>("swap_prev", generalMapInput));
+
+return true;
 }
 
 bool j1Input::GenerateGuiButtonsRectMapping()
@@ -749,7 +775,7 @@ const SDL_Rect j1Input::GetAssociatedRectForThisGamepadInput(SDL_GameControllerB
 	{
 		// protection if not found
 		std::map<SDL_GameControllerAxis, SDL_Rect>::iterator it = guiAxisRectsMap.find(axis);
-		if(it != guiAxisRectsMap.end())
+		if (it != guiAxisRectsMap.end())
 			ret = (*it).second;
 	}
 
@@ -761,7 +787,7 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 	// if any input is pressed
 	const ControllerPressData newMapping = CheckGamepadWTFPressedInput();
 	bool acceptedInput = false;
-	
+
 	// if receives a possible valid mapping
 	// filter with permitted input expected to change
 	if (newMapping.button != -1)
@@ -772,7 +798,7 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 	{
 		acceptedInput = axisPermittedMatrix[newMapping.axis];
 	}
-		
+
 	if (acceptedInput)
 	{
 		// gets the specific data to be changed
@@ -780,9 +806,39 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 
 		if (it != guiElemMapInput.end()) // if the element is found
 		{
+			// check for possible repetead key on shared scheme
+			for (std::map<std::string, ControllerPressData&>::iterator sharedIt = generalMapInput.begin(); sharedIt != generalMapInput.end(); ++sharedIt)
+			{
+				// check for all buttons and axis, if found repetead, write the old one
+				if ((*sharedIt).second.button == newMapping.button && newMapping.button != -1)
+					(*sharedIt).second.button = (*it).second.button;
+
+				if ((*sharedIt).second.axis == newMapping.axis && newMapping.axis != -1)
+					(*sharedIt).second.axis = (*it).second.axis;
+			}
+
+			// and checks for possible repetead key on this mapped scheme
+			std::map<std::string, std::map<std::string, ControllerPressData&>&>::iterator it2;
+			it2 = comparerGuiMapForRepeteadOnGroup.find(gui_elem_name);
+
+			if (it2 != comparerGuiMapForRepeteadOnGroup.end())
+			{
+				for (std::map<std::string, ControllerPressData&>::iterator it3 = (*it2).second.begin(); it3 != (*it2).second.end(); ++it3)
+				{
+					if (&(*it).second == &(*it3).second) // if the previous modified "button" is the same that we are currently checking, skip
+						continue;
+
+					// check for all buttons and axis, if found repetead, write the old one
+					if ((*it3).second.button == newMapping.button && newMapping.button != -1)
+						(*it3).second.button = (*it).second.button;
+					
+					if ((*it3).second.axis == newMapping.axis && newMapping.axis != -1)
+						(*it3).second.axis = (*it).second.axis;
+				}
+			}
+			// and finally update the desired one
 			(*it).second.button = newMapping.button;
 			(*it).second.axis = newMapping.axis;
 		}
 	}
-
 }
