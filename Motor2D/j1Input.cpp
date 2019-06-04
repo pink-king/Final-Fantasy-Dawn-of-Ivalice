@@ -700,18 +700,18 @@ bool j1Input::GenerateGuiElemMapping() // to get associated controllerpress data
 bool j1Input::GenerateGuiButtonsRectMapping()
 {
 	// buttons
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_A, { 150,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_B, { 180,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_X, { 0,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_Y, { 0,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, { 0,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, { 0,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_RIGHTSTICK, { 0,0,0,0 }));
-	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_LEFTSTICK, { 0,0,0,0 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_A, { 93,31,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_B, { 31,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_X, { 62,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_Y, { 63,31,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, { 124,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, { 155,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_RIGHTSTICK, { 93,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_LEFTSTICK, { 0,31,30,30 }));
 
 	// axis
-	guiAxisRectsMap.insert(std::pair<SDL_GameControllerAxis, SDL_Rect>(SDL_CONTROLLER_AXIS_TRIGGERLEFT, { 0,0,0,0 }));
-	guiAxisRectsMap.insert(std::pair<SDL_GameControllerAxis, SDL_Rect>(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, { 0,0,0,0 }));
+	guiAxisRectsMap.insert(std::pair<SDL_GameControllerAxis, SDL_Rect>(SDL_CONTROLLER_AXIS_TRIGGERLEFT, { 0,0,30,30 }));
+	guiAxisRectsMap.insert(std::pair<SDL_GameControllerAxis, SDL_Rect>(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, { 31,31,30,30 }));
 
 	return true;
 }
