@@ -148,12 +148,14 @@ public:
 	const SDL_Rect& GetSectionForElement(std::string name);
 	void ListeningInputFor(std::string name); // listen and change mapping input for gui controls keybinding
 
+	const SDL_Rect GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton button = SDL_GameControllerButton(-1),
+		SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1));
+
 private:
 	bool GenerateGuiButtonsRectMapping();
 	bool GenerateMapping();
 	bool GenerateGuiElemMapping();
-	const SDL_Rect GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton button = SDL_GameControllerButton(-1), 
-												  SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1));
+	
 
 private:
 	bool buttonPermittedMatrix[SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MAX] = { false };

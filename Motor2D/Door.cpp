@@ -19,17 +19,10 @@ Door::Door(float posx, float posy, SceneState scene, Color color, uint nSubtiles
 	openR.speed = 0.F;
 	openR.loop = false;
 
-	Atex = App->entityFactory->ButtonAtex;
-
 	if (lookLeft)
 		currentAnim = &openL;
 	else
 		currentAnim = &openR;
-
-	A.PushBack({ 0,0,15,15 });
-	A.speed = 0.F;
-	A.loop = false;
-	current = &A;
 }
 
 Door::~Door()
@@ -44,7 +37,9 @@ void Door::Draw()
 
 	if (active)
 	{
-		App->render->Blit(Atex, position.x - 8, position.y - 59, &current->GetCurrentFrame(), 1.0F);
+		App->render->Blit(App->gui->GetAtlas(), position.x - 8, position.y - 59, &App->input->GetAssociatedRectForThisGamepadInput(
+			App->input->gamepadScheme.sharedInput.interact.button,
+			App->input->gamepadScheme.sharedInput.interact.axis), 1.0F, SDL_FLIP_NONE, 0.5F);
 	/*	App->entityFactory->player->position.x + 15,
 			App->entityFactory->player->position.y - 10,*/
 		active = false;
@@ -57,7 +52,7 @@ void Door::Draw()
 bool Door::DoTriggerAction()
 {
 	active = true;
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		App->SaveGame("save_game.xml");
 		App->scene->ComeToDeath = true;

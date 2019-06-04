@@ -202,7 +202,7 @@ bool PlayerEntityManager::Update(float dt)
 					PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
 			}
 
-			if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN)
 			{
 				if (!App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame)
 				{
@@ -1211,7 +1211,7 @@ bool Crosshair::ManageInput(float dt)
 			{
 				
 				App->entityFactory->DoDescriptionComparison((LootEntity*)(clampedEntity));  // compare item with the current one
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+				if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN)
 				{
 					// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 					

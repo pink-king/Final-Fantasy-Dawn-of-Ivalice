@@ -97,7 +97,7 @@ bool j1DialogSystem::Update(float dt)
 					checkIfNPCFinishedTalking(); 
 
 				}
-				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				else if(App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 
 					doDialogTypeLogic();
