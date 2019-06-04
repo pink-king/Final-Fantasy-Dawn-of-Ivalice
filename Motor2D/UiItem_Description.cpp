@@ -491,15 +491,23 @@ void UiItem_Description::Draw(const float& dt)
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
-					if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
+					if (!App->scene->inventoryItem->isVendorInventory)
 					{
-						// get stats before equipping, so that they can be added 
+						if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
+						{
+							// get stats before equipping, so that they can be added 
 
-					
-						App->scene->inventoryItem->De_______Equip(this->callback);
 
-					
+							App->scene->inventoryItem->De_______Equip(this->callback);
+
+
+						}
 					}
+					else
+					{
+						App->scene->inventoryItem->De_______Equip(this->callback);
+					}
+				
 
 				}
 				/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
