@@ -2518,7 +2518,10 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 				++player->level;
 				player->exp -= player->maxExpInLevel;
 
-				
+				iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+					App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+
+				App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
 
 				player->GetVendor()->generateVendorItems(true);
 
