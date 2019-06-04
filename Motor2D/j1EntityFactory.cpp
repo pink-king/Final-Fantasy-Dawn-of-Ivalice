@@ -268,6 +268,8 @@ bool j1EntityFactory::CleanUp()
 	interactiveStatesTex = nullptr; 
 	App->tex->UnLoad(ButtonAtex);
 	interactiveStatesTex = nullptr;
+	App->tex->UnLoad(hallTex);
+	hallTex = nullptr;
 
 	player = nullptr;
 
