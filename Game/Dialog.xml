@@ -107,7 +107,7 @@
   </dialogtree>
 
 
-  <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godo"  NPCposX = "0" NPCposY = "0" NPCscene="FIRINGRANGE">
+  <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godot"  NPCposX = "-96" NPCposY = "480" NPCscene="FIRINGRANGE">
     <node line="Hello there, wanderer!" id="0">
       <option line="Your friend sent me here" nextnode="1"/>
       <option line="Woah, what is going on with that scarecrow" nextnode="2"/>
@@ -170,7 +170,7 @@
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
-    <node line="I, Godo, give life to inanimate objects!" id="12">
+    <node line="I, Godot, give life to inanimate objects!" id="12">
       <option line="Will you give anything for my journey?" nextnode="13"/>
       <option line="You and the scarecrow make a good couple, yes" nextnode="14"/>
     </node>

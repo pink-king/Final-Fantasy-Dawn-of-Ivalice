@@ -571,15 +571,20 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 		
 		if (tr->NPCName == "Stranger")
 		{
-			pos.x -= 110; 
-			pos.y -= 140; 
+		    pos.x -= 20; 
+			pos.y += 50; 
 		}
 		else if (tr->NPCName == "Vendor")
 		{
-			pos.x -= 160; 
-			pos.y -= 140;
+			pos.x -= 290; 
+			pos.y += 120;
 		}
-
+		else if (tr->NPCName == "Godot")
+		{
+			pos.x -= 120;
+			pos.y += 370;
+		}
+	
 		// TODO: tutorial npc, Godo 
 	
 		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
