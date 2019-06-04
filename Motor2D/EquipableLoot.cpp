@@ -10,7 +10,7 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	entityTex = App->entityFactory->lootItemsTex;
 
 	
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
@@ -28,11 +28,12 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 
 	
 
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y-pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position)*0.6,
 		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
+
 }
 
 
@@ -44,10 +45,10 @@ Equipable::~Equipable()
 
 bool Equipable::Update(float dt)
 {
-	if (grounded)
+ 	if ((position.y == App->map->SubTileMapToWorld(groundSubtileDestination.x+1, groundSubtileDestination.y-1).y - pivot.y)  && PlaySFXtime != 0 )
 	{
 		App->audio->PlayFx(App->scene->lootGroundSFX, 0);
-		grounded = false;
+		PlaySFXtime -= 1;
 	}
 	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
 		//CheckClampedCrossHairToSpawnDescription();

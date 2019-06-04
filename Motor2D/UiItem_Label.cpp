@@ -179,6 +179,8 @@ bool UiItem_Label::TypeWriter()
 		{
 			this->text = this->text + typewriter_text.at(counter_typewriter);
 			ChangeTextureIdle(this->text, NULL, NULL);
+			App->audio->PlayFx(App->scene->typeWriterSFX, 0);
+
 		}
 	}
 	

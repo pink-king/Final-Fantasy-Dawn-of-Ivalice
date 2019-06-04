@@ -32,6 +32,7 @@ private:
 
 	bool isAssigned = false;
 	bool isBroken = false;
+	bool PlaySFX = true;
 };
 
 

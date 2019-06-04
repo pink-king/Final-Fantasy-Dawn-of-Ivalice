@@ -259,6 +259,7 @@ void j1DialogSystem::doDialogTypeLogic()
 							App->SaveGame("save_game.xml");
 							App->HPManager->callSaveLabelSpawn(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x + 5, App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 20));
 							App->scene->isSaved = true;
+							App->audio->PlayFx(App->scene->savedSFX, 0);
 						}
 					}
 				
@@ -516,7 +517,6 @@ void j1DialogSystem::BlitDialog(int tr_id)
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)
 		characterLabel->tabbable = false; 
 		characterLabel->dialogPos = i; 
-
 		characterLabel->hide = true;  // hide until npc finishes talking
 		/*if(i == 0)
 		App->gui->resetHoverSwapping = false;   // assign the current UI selected object to the player first choice*/
@@ -590,7 +590,6 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
 		tr->myNPCLabels.nameLabel->hide = true; 
 		tr->myNPCLabels.nameLabel->useCamera = false; 
-
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
 		treeCount++; 

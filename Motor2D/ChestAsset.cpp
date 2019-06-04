@@ -50,6 +50,7 @@ bool ChestAsset::PreUpdate()
 	if (toSpawnLoot && currentAnimation->Finished())
 	{
 		SpawnLoot();
+		App->audio->PlayFx(App->scene->OpenChestSFX, 0);
 		toSpawnLoot = false;
 	}
 

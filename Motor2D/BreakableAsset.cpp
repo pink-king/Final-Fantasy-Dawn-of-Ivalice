@@ -66,6 +66,7 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 
 BreakableAsset::~BreakableAsset()
 {
+	App->audio->PlayFx(App->scene->jar_breakSFX, 0);
 }
 
 
@@ -88,6 +89,11 @@ bool BreakableAsset::Update(float dt)
 	if (to_die && !isBroken)
 		Break();
 
+	if (isBroken && PlaySFX)
+	{
+		App->audio->PlayFx(App->scene->jar_breakSFX, 0);
+		PlaySFX = false;
+	}
 	return true;
 }
 

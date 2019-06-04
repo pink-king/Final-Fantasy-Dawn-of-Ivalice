@@ -30,6 +30,7 @@ Door::Door(float posx, float posy, SceneState scene, Color color, uint nSubtiles
 	A.speed = 0.F;
 	A.loop = false;
 	current = &A;
+	App->audio->PlayFx(App->scene->open_doorSFX,0);
 }
 
 Door::~Door()

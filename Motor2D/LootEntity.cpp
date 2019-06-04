@@ -329,13 +329,7 @@ iPoint LootEntity::Getoriginpos()
 	iPoint originPos = App->map->SubTileMapToWorld(lootSubtile.x, lootSubtile.y);
 	return originPos;
 }
-iPoint LootEntity::GetFinalPos()
-{
-	iPoint finalPos = Getoriginpos();
 
-	return finalPos;
-
-}
 iPoint LootEntity::GetPosition()
 {
 	return (iPoint(position));
@@ -501,10 +495,7 @@ void LootEntity::SelectSubtileToGround()
 	}
 }
 
-bool LootEntity::CheckGrounded()
-{
-	return grounded = true;
-}
+
 
 // TODO: why loot entity asks on every frame ?
 // its not worth, what happen when we have a bunch of loots?

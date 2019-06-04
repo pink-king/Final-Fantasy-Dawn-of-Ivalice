@@ -93,7 +93,6 @@ public:
 
 
 public:
-	bool grounded;
 	std::list<iPoint> groundSubtilePoints;
 	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_SUBTILETILE_FALL];
 	iPoint adjacentTileNeighboursToGround2[NUM_NEIGH_SUBTILETILE_FALL];
@@ -101,7 +100,6 @@ public:
 	iPoint groundSubtileDestination;
 
 	iPoint Getoriginpos();
-	iPoint GetFinalPos();
 	iPoint lootSubtile;
 	iPoint loot_pos;
 	std::string lootname;
@@ -135,12 +133,11 @@ public:
 	bool clampedByCrosshair = false;
 	bool clampedByPlayerOnTop = false; 
 protected:
-
+	int PlaySFXtime = 5;
 	int dmg;
 	std::string itemname;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
-	
 	
 	
 	iPoint distanceTotravel;

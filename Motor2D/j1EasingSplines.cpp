@@ -88,7 +88,7 @@ bool EaseSplineInfo::Update(float dt)
 
 	float time_passed = SDL_GetTicks() - time_started;
 
-	if (time_passed < time_to_travel) {
+	if (time_passed < time_to_travel && !to_delete) {
 		switch (type) {
 		case EASE: {
 			*position = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);

@@ -13,7 +13,7 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 
 	entityTex = App->entityFactory->lootItemsTex;
 
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
@@ -28,7 +28,7 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 
 	entityTex = App->entityFactory->lootItemsTex;
 
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
@@ -42,7 +42,7 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOO
 
 	entityTex = App->entityFactory->lootItemsTex;
 
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE, std::bind(&LootEntity::CheckGrounded, this));
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
@@ -69,16 +69,19 @@ bool Consumable::Update(float dt)
 			repositionDescription = true;
 		}*/
 
-		if (grounded)
-		{
-			if (objectType == OBJECT_TYPE::POTIONS)
-				App->audio->PlayFx(App->scene->potionGroundSFX, 0);
+	if ((position.y == App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y - 1).y - pivot.y) && PlaySFXtime != 0)
+	{
+		if (objectType == OBJECT_TYPE::POTIONS)
+			App->audio->PlayFx(App->scene->potionGroundSFX, 0);
 
-			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
+		else if (objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
 
-			grounded = false;
-			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL) //put phoenix tail  SXF
-		}
+		else if(objectType == OBJECT_TYPE::PHOENIX_TAIL) App->audio->PlayFx(App->scene->potionGroundSFX, 0);
+
+		PlaySFXtime -= 1;
+	}
+
+	
     
 	return true;
 }

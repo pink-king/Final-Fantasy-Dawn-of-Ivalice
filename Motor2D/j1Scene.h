@@ -188,12 +188,16 @@ public:
 	unsigned int portal_mantain;
 	unsigned int portal_vanish;
 	unsigned int portal_travel; 
-
+	unsigned int open_doorSFX;
 	unsigned int pickLoot;
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
 	unsigned int pickPotion;
-
+	unsigned int typeWriterSFX;
+	unsigned int savedSFX;
+	unsigned int jar_breakSFX;
+	unsigned int OpenChestSFX;
+	
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

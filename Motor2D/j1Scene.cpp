@@ -143,7 +143,10 @@ bool j1Scene::Start()
 	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
 	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
 	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
-
+	typeWriterSFX = App->audio->LoadFx("audio/fx/scene/typewriterSFX.wav");
+	savedSFX = App->audio->LoadFx("audio/fx/UI/saveGame.wav");
+	jar_breakSFX = App->audio->LoadFx("audio/fx/loot/jarbroken.wav");
+	OpenChestSFX = App->audio->LoadFx("audio/fx/loot/chestOpen.wav");
 
 	if (state == SceneState::LEVEL1)
 	{
@@ -274,6 +277,7 @@ bool j1Scene::Start()
 	{
 		deathPanel->enable = false;
 
+		open_doorSFX = App->audio->LoadFx("audio/fx/scene/opendoor.wav");
 
 		if (lobbyState == LobbyState::ALLBLOCK)
 		{
@@ -651,10 +655,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
-	{
-		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
-	}
+
 
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
@@ -792,7 +793,7 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause)
 				{
-					Mix_PauseMusic();
+					//Mix_PauseMusic();
 					if (!pausePanel->enable)
 						App->audio->PlayFx(open_PauseMenuSFX, 0);
 
@@ -802,7 +803,7 @@ bool j1Scene::Update(float dt)
 				}
 				else
 				{
-					Mix_ResumeMusic();
+					//Mix_ResumeMusic();
 					App->gui->resetHoverSwapping = false;
 					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
