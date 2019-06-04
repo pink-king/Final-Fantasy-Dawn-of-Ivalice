@@ -990,7 +990,9 @@ bool j1Scene::Update(float dt)
 							App->gui->allclocksData.ulti.position.x += 909;
 							ulti = true;
 						}
+
 						(*item)->hitBox.x += 909;
+
 
 					}
 					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
