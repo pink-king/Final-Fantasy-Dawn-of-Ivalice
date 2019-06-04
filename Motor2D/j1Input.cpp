@@ -72,6 +72,8 @@ bool j1Input::Start()
 
 	GenerateMapping();
 	LoadGamepadMapScheme("config/controllerMapping.xml");
+	GenerateGuiElemMapping();
+	GenerateGuiButtonsRectMapping();
 
 	return true;
 }
@@ -321,11 +323,17 @@ bool j1Input::PreUpdate()
 
 	CheckGamepadWTFPressedInput();
 
-	if (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN)
-	{
-		gamepadScheme.marche.basic.button = SDL_CONTROLLER_BUTTON_A;
-		SaveGamepadMapScheme("config/controllerMapping.xml");
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN)
+	//{
+	//	/*gamepadScheme.marche.basic.button = SDL_CONTROLLER_BUTTON_A;
+	//	SaveGamepadMapScheme("config/controllerMapping.xml");*/
+	//	GetSectionForElement("marche_dash_button");
+	//}
+
+	//if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	//{
+	//	gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
+	//}
 
 	return true;
 }
@@ -628,4 +636,104 @@ bool j1Input::SaveGamepadMapScheme(const char* path)
 	inputDoc.save_file("config/controllerMapping.xml");
 
 	return true;
+}
+
+const SDL_Rect& j1Input::GetSectionForElement(std::string name)
+{
+	SDL_Rect ret = { 0,0,0,0 };
+
+	// get the associated button or axis
+	std::map<std::string, ControllerPressData&>::iterator it;
+	it = guiElemMapInput.find(name);
+
+	if (it != guiElemMapInput.end())
+	{
+		// get associated rect to this button
+		if ((*it).second.button != -1)
+		{
+			ret = GetAssociatedRectForThisGamepadInput((*it).second.button, SDL_GameControllerAxis(-1));
+		}
+		else if ((*it).second.axis != -1)
+		{
+			ret = GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton(-1), (*it).second.axis);
+		}
+	}
+	
+	return ret;
+}
+
+bool j1Input::GenerateGuiElemMapping() // to get associated controllerpress data to this actions
+{
+	// shared input relative to gui nomenclature
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("interact", gamepadScheme.sharedInput.interact));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("swap_next", gamepadScheme.sharedInput.swap_next));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("swap_prev", gamepadScheme.sharedInput.swap_prev));
+
+	// all pj input relative to gui nomenclature
+	// marche
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("marche_basic_button", gamepadScheme.marche.basic));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("marche_dash_button", gamepadScheme.marche.dodge));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("marche_special1_button", gamepadScheme.marche.special1));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("marche_special2_button", gamepadScheme.marche.special2));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("marche_ultimate_button", gamepadScheme.marche.ultimate));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("marche_aim_button", gamepadScheme.marche.aim));
+
+	// ritz
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("ritz_basic_button", gamepadScheme.ritz.basic));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("ritz_dash_button", gamepadScheme.ritz.dodge));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("ritz_special1_button", gamepadScheme.ritz.special1));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("ritz_special2_button", gamepadScheme.ritz.special2));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("ritz_ultimate_button", gamepadScheme.ritz.ultimate));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("ritz_aim_button", gamepadScheme.ritz.aim));
+
+	// shara
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_basic_button", gamepadScheme.shara.basic));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_dash_button", gamepadScheme.shara.dodge));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_special1_button", gamepadScheme.shara.special1));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_special2_button", gamepadScheme.shara.special2));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_ultimate_button", gamepadScheme.shara.ultimate));
+	guiElemMapInput.insert(std::pair<std::string, ControllerPressData&>("shara_aim_button", gamepadScheme.shara.aim));
+
+	return true;
+}
+
+bool j1Input::GenerateGuiButtonsRectMapping()
+{
+	// buttons
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_A, { 93,31,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_B, { 31,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_X, { 62,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_Y, { 63,31,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, { 124,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, { 155,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_RIGHTSTICK, { 93,0,30,30 }));
+	guiButtonRectsMap.insert(std::pair<SDL_GameControllerButton, SDL_Rect>(SDL_CONTROLLER_BUTTON_LEFTSTICK, { 0,31,30,30 }));
+
+	// axis
+	guiAxisRectsMap.insert(std::pair<SDL_GameControllerAxis, SDL_Rect>(SDL_CONTROLLER_AXIS_TRIGGERLEFT, { 0,0,30,30 }));
+	guiAxisRectsMap.insert(std::pair<SDL_GameControllerAxis, SDL_Rect>(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, { 31,31,30,30 }));
+
+	return true;
+}
+
+const SDL_Rect j1Input::GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton button, SDL_GameControllerAxis axis)
+{
+	SDL_Rect ret = { 0,0,0,0 };
+
+	if (button != -1)
+	{
+		// protection if not found
+		std::map<SDL_GameControllerButton, SDL_Rect>::iterator it = guiButtonRectsMap.find(button);
+		if (it != guiButtonRectsMap.end())
+			ret = (*it).second;
+	}
+	else if (axis != -1)
+	{
+		// protection if not found
+		std::map<SDL_GameControllerAxis, SDL_Rect>::iterator it = guiAxisRectsMap.find(axis);
+		if(it != guiAxisRectsMap.end())
+			ret = (*it).second;
+	}
+
+	return ret;
 }

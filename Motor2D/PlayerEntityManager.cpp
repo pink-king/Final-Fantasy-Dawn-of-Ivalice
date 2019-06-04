@@ -426,6 +426,8 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 
 	maxLife = 100;
 	life = maxLife - node.child("life").attribute("actualLife").as_float();
+	if (life <= 0)
+		life = 100;
 	
 	gold = node.child("gold").attribute("value").as_uint();
 

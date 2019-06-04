@@ -145,7 +145,14 @@ public:
 
 	bool LoadGamepadMapScheme(const char* path);
 	bool SaveGamepadMapScheme(const char* path);
+	const SDL_Rect& GetSectionForElement(std::string name);
+
+private:
+	bool GenerateGuiButtonsRectMapping();
 	bool GenerateMapping();
+	bool GenerateGuiElemMapping();
+	const SDL_Rect GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton button = SDL_GameControllerButton(-1), 
+												  SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1));
 
 private:
 	bool		windowEvents[WE_COUNT];
@@ -162,6 +169,9 @@ private:
 	SDL_GameController* gamePad1 = nullptr;
 	SDL_Haptic* haptic = nullptr;
 public:
+	std::map<SDL_GameControllerButton, SDL_Rect> guiButtonRectsMap;
+	std::map<SDL_GameControllerAxis, SDL_Rect> guiAxisRectsMap;
+	std::map<std::string, ControllerPressData&> guiElemMapInput;
 	std::map<std::string, ControllerPressData&> generalMapInput;
 	std::map<std::string, ControllerPressData&> marcheMapInput;
 	std::map<std::string, ControllerPressData&> ritzMapInput;
