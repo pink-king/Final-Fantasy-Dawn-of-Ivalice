@@ -3,6 +3,7 @@
 
 #include "j1App.h"
 #include "j1Fonts.h"
+#include "j1Gui.h"
 #include "j1Scene.h"
 #include "j1Textures.h"
 #include "j1Render.h"
@@ -152,6 +153,7 @@ void UiItem_Label::Draw(const float & dt)
 	{
 		TypeWriter();
 	}
+
 
 
 }

@@ -82,6 +82,8 @@ public:
 	UiItem_Label* phoenixIg_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
 	UiItem_Image* tab_controls = nullptr;
+	SDL_Rect tabSectionControls = { 791,1,46,46 };
+	std::string default_string = "";
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;
