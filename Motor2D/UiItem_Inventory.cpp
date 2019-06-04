@@ -978,8 +978,8 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 {
 
 
-	if (!isVendorInventory) {
-
+	/*if (!isVendorInventory) {*/
+	
 		if (!App->entityFactory->player->equipedObjects.empty())
 		{
 			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
@@ -1000,7 +1000,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 		}
 
-	}
+	//}
 
 
 }
@@ -1208,60 +1208,35 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											}
 										}
 
-
-
-										// delete item desciption so that it is not selected again
-										//makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
-
-
-
-										App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
-										App->audio->PlayFx(App->scene->purchase, 0);
-										App->entityFactory->player->AddItemToTheBag(callback);
-
-
-										if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
-										{
-											doBagScroll = true;
-										}
-
-
-										// ADD NEW STATS TO THE PLAYER 
-										App->scene->characterStatsItem->SetNewStats();
-
-
-										break;
 									}
 
 								}
 							}
 						}
-						else
+
+
+						if (DoPriceCalculations(callback))
 						{
-							if (DoPriceCalculations(callback))
+
+							successfulVendorToPlayer = true;
+
+
+							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
+							App->audio->PlayFx(App->scene->purchase, 0);
+							App->entityFactory->player->AddItemToTheBag(callback);
+
+
+							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
 							{
-
-								successfulVendorToPlayer = true;
-
-
-								App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
-								App->audio->PlayFx(App->scene->purchase, 0);
-								App->entityFactory->player->AddItemToTheBag(callback);
-
-
-								if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
-								{
-									doBagScroll = true;
-								}
-
-
-								// ADD NEW STATS TO THE PLAYER 
-								App->scene->characterStatsItem->SetNewStats();
-
-
-								break;
-
+								doBagScroll = true;
 							}
+
+
+							// ADD NEW STATS TO THE PLAYER 
+							App->scene->characterStatsItem->SetNewStats();
+
+
+							break;
 
 						}
 						
