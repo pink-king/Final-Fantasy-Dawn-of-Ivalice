@@ -305,6 +305,7 @@ bool j1Scene::Start()
 			{
 				ComeToPortal = false;
 				App->entityFactory->loadEnemies = false;
+				App->LoadGame("Portal.xml");
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 			}
 
