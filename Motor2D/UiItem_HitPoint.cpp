@@ -248,7 +248,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			}
 			else
 			{
-				alphaValue *= 3;
+				alphaValue *= 3.3f;
 			}
 
 			break;
@@ -263,7 +263,7 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			}
 			else
 			{
-				alphaValue /= 1.003f;
+			//	alphaValue /= 1.003f;
 			}
 
 			break;

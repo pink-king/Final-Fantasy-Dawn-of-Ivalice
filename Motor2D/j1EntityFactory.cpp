@@ -2518,12 +2518,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 				++player->level;
 				player->exp -= player->maxExpInLevel;
 
-				iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-					App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
-
-				App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
-
-				player->GetVendor()->generateVendorItems(true);
+				
 
 				//TODO: Put particles and lavel to levelUp
 				if (player->level < 20)
@@ -2531,6 +2526,11 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					std::string dest = "LVL" + std::to_string(player->level);
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 
+					iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+					App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
+
+					player->GetVendor()->generateVendorItems(true);
 					App->gui->healthBar->RecalculateSection();
 
 					for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)

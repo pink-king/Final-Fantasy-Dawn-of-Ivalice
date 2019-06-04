@@ -130,16 +130,19 @@ bool PlayerEntityManager::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN && level <= 20)
 	{
 		++level;
-		App->entityFactory->player->GetVendor()->generateVendorItems(true);
-
-
-		iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-			App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
-
-		App->HPManager->callLevelUpLabelSpawn(targetLabelPos, level);
+		
 
 		if (level < 20)
 		{
+
+			iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+				App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+			App->HPManager->callLevelUpLabelSpawn(targetLabelPos, level);
+
+			GetVendor()->generateVendorItems(true);
+			App->gui->healthBar->RecalculateSection();
+
+
 			std::string dest = "LVL" + std::to_string(level);
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 		}
