@@ -179,7 +179,7 @@ bool j1Scene::Start()
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
-		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
 
 		if (ComeToPortal)
 		{
@@ -1767,7 +1767,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		App->audio->PlayMusic("audio/music/level2.ogg");
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();

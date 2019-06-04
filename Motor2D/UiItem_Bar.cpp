@@ -98,7 +98,6 @@ void UiItem_Bar::DoLogicAbandoned() {
 	{
 		thumbReposition = !thumbReposition;
 	}
-	App->audio->PlayFx(App->scene->openInventorySFX, 0);
 	bar->section = this->section;
 	image_bar->section = this->image_idle;
 }
