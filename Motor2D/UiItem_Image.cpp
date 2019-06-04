@@ -117,6 +117,11 @@ void UiItem_Image::Draw(const float& dt)
 
 		App->scene->tab_controls->hitBox.x = App->gui->selected_object->hitBox.x - 8;
 		App->scene->tab_controls->hitBox.y = App->gui->selected_object->hitBox.y - 7;
+
+		if (App->gui->selected_object->autorefresh)
+		{
+			App->input->ListeningInputFor(this->name);
+		}
 	}
 }
 
