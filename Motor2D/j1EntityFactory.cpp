@@ -42,6 +42,7 @@
 #include <algorithm>
 #include "Boss_Flower.h"
 #include "j1EasingSplines.h"
+#include "j1Gui.h"
 
 
 j1EntityFactory::j1EntityFactory()
@@ -2446,7 +2447,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 			lootItem->MyDescription->iconImage->printFromLoot = true;
 			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
-
+			
 
 
 		}
@@ -2528,6 +2529,27 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 
 					App->gui->healthBar->RecalculateSection();
+
+					for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
+					{
+
+						if (player->level == 2 && (*item)->name == "chain1")
+						{
+							(*item)->to_delete = true;
+
+						}
+						else if (player->level == 3 && (*item)->name == "chain2")
+						{
+							(*item)->to_delete = true;
+
+						}
+						else if (player->level == 4 && (*item)->name == "chain3")
+						{
+							(*item)->to_delete = true;
+
+						}
+					}
+
 				}
 
 				else

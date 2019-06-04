@@ -17,9 +17,9 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 
-	dynamicImage = App->gui->AddImage(position, dynamicSection, this);
+	dynamicImage = App->gui->AddImage(position, dynamicSection, name, this);
 
-	damageImage = App->gui->AddImage(position + playerBarOffset, damageSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	damageImage = App->gui->AddImage(position + playerBarOffset, damageSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 	damageImage->hide = true;
 
 	maxSection = dynamicImage->section.w;
@@ -31,11 +31,11 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
-	staticImage = App->gui->AddImage(position, staticSection, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	staticImage = App->gui->AddImage(position, staticSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 
 	iPoint offset((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
 
-	dynamicImage = App->gui->AddImage(position + offset, dynamicSection, this);
+	dynamicImage = App->gui->AddImage(position + offset, dynamicSection, name, this);
 
 	maxSection = dynamicImage->section.w;
 
@@ -48,7 +48,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	bossSeparationWidth = maxSection / bossBarSeparations;  // divide bar in 4 sections
 
 
-	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth, offset.y), divSection, this);
+	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth, offset.y), divSection, name, this);
 
 	this->nameOnTop = App->gui->AddLabel(deliever->name, { 230, 240, 200, 255 }, App->font->piecesofEight36, iPoint(0, staticImage->hitBox.y - 40), this, false);
 
@@ -61,6 +61,14 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	this->dynamicImage->hide = true;
 	this->divisionImage->hide = true;
 	this->nameOnTop->hide = true;
+
+
+	// todo: skull 
+	skull = App->gui->AddImage(iPoint(dynamicImage->hitBox.x - 30, dynamicImage->hitBox.y), &App->gui->enemySkullInfo.BossEnemyRect, name, this);
+
+	skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+	skull->hitBox.y += skullOffset.y;
+	skull->hide = true;
 }
 
 
@@ -72,10 +80,10 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 
 	// rigth now only the dynamic is needed
-	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, dynamicSection->h / 2);
+	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, 10);
 
 	iPoint newPos(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
-	dynamicImage = App->gui->AddImage(newPos, dynamicSection, this);
+	dynamicImage = App->gui->AddImage(newPos, dynamicSection, name, this);
 
 	maxSection = dynamicImage->section.w;
 
@@ -86,8 +94,42 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 	enemyMaxLife = deliever->life;
 	dynamicImage->hide = true;
 
+	// skull
 
+
+
+	iPoint dynImPos = iPoint(dynamicImage->hitBox.x, dynamicImage->hitBox.y);
+
+	if (deliever->type == ENTITY_TYPE::ENEMY_BOMB || deliever->type == ENTITY_TYPE::ENEMY_TEST)
+	{
+		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.baseEnemyRect, name, this);
+
+		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+		spawnedSkull = true;
+
+	}
+	else if (deliever->type == ENTITY_TYPE::ENEMY_ARCHER)
+	{
+		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.strongEnemyRect, name, this);
+
+		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+		spawnedSkull = true;
+
+	}
+
+	//skull->hitBox.x += skullOffset.x;
+
+	// at the start, put the skull on top of the enemy: 
+	if (spawnedSkull)
+	{
+		skull->hitBox.x += dynamicImage->section.w / 2 - skull->section.w / 2;
+
+		skull->hitBox.y += skullOffset.y;
+
+		skull->hide = false;
+	}
 }
+
 
 UiItem_HealthBar::~UiItem_HealthBar()
 {
@@ -163,6 +205,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 			if (!startShowing && deliever->life < enemyMaxLife)
 			{
 				dynamicImage->hide = false;
+				skull->hide = false;
 				startShowing = true;
 			}
 
@@ -170,11 +213,14 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 				if (!App->scene->inventory->enable)
 				{
-					dynamicImage->hide = false;
+					dynamicImage->hide = false;             // CAUTION: dummies do not have skull
+					skull->hide = false;
 				}
 				else
 				{
 					dynamicImage->hide = true;
+					skull->hide = true;
+
 				}
 
 			}
@@ -210,18 +256,40 @@ void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 	this->dynamicImage->hide = false;
 	this->divisionImage->hide = false;
 	this->nameOnTop->hide = false;
+	// todo: skull
+	if (spawnedSkull)
+	this->skull->hide = false;
+
 
 }
 void UiItem_HealthBar::UpdatePos()
 {
 	BROFILER_CATEGORY("Healthbar Pos", Profiler::Color::MidnightBlue);
 
-	iPoint pos = App->render->WorldToScreen(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
+	iPoint pos = App->render->WorldToScreen(deliever->position.x + deliever->size.x / 2 - dynamicImage->section.w / 4, deliever->position.y - offsetFromEnemy.y);
 
 	dynamicImage->hitBox.x = pos.x;
 	dynamicImage->hitBox.y = pos.y;
 
+	if (spawnedSkull)
+	{
+		if (deliever->type != ENTITY_TYPE::FLOWERBOSS)
+		{
+			iPoint skullpos = App->render->WorldToScreen(deliever->position.x + deliever->size.x / 2 - skull->section.w / 4, deliever->position.y - offsetFromEnemy.y);
 
+			if (startShowing)
+			{
+				skull->hitBox.x = pos.x + skullOffset.x;
+				skull->hitBox.y = pos.y + skullOffset.y;
+
+			}
+			else
+			{
+				skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
+				skull->hitBox.y = skullpos.y + skullOffset.y;
+			}
+		}
+	}
 }
 
 void UiItem_HealthBar::CleanUp()

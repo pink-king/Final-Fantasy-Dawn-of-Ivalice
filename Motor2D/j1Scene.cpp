@@ -376,15 +376,20 @@ bool j1Scene::Start()
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
+			LoadCredits(sceneNode);
 			LoadInventory(sceneNode);
 			LoadDeathScreen(sceneNode);
 			LoadWinScreen(sceneNode);
+			LoadControls(sceneNode);
+
 			LoadedUi = true;
 		}
 		startMenu->enable = true;
 		uiMarche->enable = false;
 		uiShara->enable = false;
 		uiRitz->enable = false;
+	//	creditsPanel->enable = false;
+  //  	controlsPanel->enable = false;
 		uiMarchePortrait->enable = false;
 		uiSharaPortrait->enable = false;
 		uiRitzPortrait->enable = false;
@@ -594,7 +599,7 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
-		App->entityFactory->RepeatAmountofEquipable(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},EQUIPABLE_TYPE::ARMOR);
+		App->entityFactory->RepeatAmountofConsumables(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},OBJECT_TYPE::PHOENIX_TAIL);
 		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
@@ -715,6 +720,12 @@ bool j1Scene::Update(float dt)
 					uiRitz->enable = false;
 					uiShara->enable = false;
 				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
 				uiMarchePortrait->enable = true;
 				uiRitzPortrait->enable = false;
 				uiSharaPortrait->enable = false;
@@ -725,6 +736,12 @@ bool j1Scene::Update(float dt)
 				{
 					uiMarche->enable = false;
 					uiRitz->enable = true;
+					uiShara->enable = false;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
 					uiShara->enable = false;
 				}
 				uiMarchePortrait->enable = false;
@@ -738,6 +755,12 @@ bool j1Scene::Update(float dt)
 					uiMarche->enable = false;
 					uiRitz->enable = false;
 					uiShara->enable = true;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
 				}
 				uiMarchePortrait->enable = false;
 				uiRitzPortrait->enable = false;
@@ -898,6 +921,121 @@ bool j1Scene::Update(float dt)
 			App->gui->resetHoverSwapping = false;
 		}
 		////////////
+		potion_counterIg = 0;
+		phoenix_counterIg = 0;
+		for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin(); iter != App->entityFactory->player->consumables.end(); ++iter)
+		{
+			// Potions
+			if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
+			{
+				potion_counterIg++;
+				str_potionIg = "" + std::to_string(potion_counterIg);
+				potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+			}
+			if ((*iter)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				phoenix_counterIg++;
+				str_phoenixIg = "" + std::to_string(phoenix_counterIg);
+				phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+			}
+		}
+		if (potion_counterIg == 0)
+		{
+			str_potionIg = "";
+			potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+		}
+		if (phoenix_counterIg == 0)
+		{
+			str_phoenixIg = "";
+			phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+		}
+		if (App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN)
+		{
+			if (!swapAbilities)
+			{
+				for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+				{
+					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
+					{
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge)
+						{
+							App->gui->allclocksData.dodge.position.x += 909;
+							dodge = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1)
+						{
+							App->gui->allclocksData.ability1.position.x += 909;
+							ability1 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2)
+						{
+							App->gui->allclocksData.ability2.position.x += 909;
+							ability2 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti)
+						{
+							App->gui->allclocksData.ulti.position.x += 909;
+							ulti = true;
+						}
+						(*item)->hitBox.x += 909;
+
+					}
+					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
+					{
+						(*item)->hitBox.x -= 1088;
+					}
+
+
+
+				}
+				swapAbilities = true;
+				dodge = false;
+				ability1 = false;
+				ability2 = false;
+				ulti = false;
+			}
+			else
+			{
+				for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+				{
+					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
+					{
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge_rv)
+						{
+							App->gui->allclocksData.dodge.position.x -= 909;
+							dodge_rv = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1_rv)
+						{
+							App->gui->allclocksData.ability1.position.x -= 909;
+							ability1_rv = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2_rv)
+						{
+							App->gui->allclocksData.ability2.position.x -= 909;
+							ability2_rv = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti_rv)
+						{
+							App->gui->allclocksData.ulti.position.x -= 909;
+							ulti_rv = true;
+						}
+
+						(*item)->hitBox.x -= 909;
+					}
+					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
+					{
+						(*item)->hitBox.x += 1088;
+					}
+				}
+				swapAbilities = false;
+				dodge_rv = false;
+				ability1_rv = false;
+				ability2_rv = false;
+				ulti_rv = false;
+			}
+
+		}
 
 	}
 
@@ -1064,13 +1202,17 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
+		std::string name_image = uiNode.attribute("name").as_string();
+
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
-		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
+		int isTabbable = uiNode.child("flag").attribute("isTabbable").as_int();
+		int autorefresh = uiNode.child("flag").attribute("autorefresh").as_int();
+		int isSwappable = uiNode.child("flag").attribute("isSwappable").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
-
+		std::string doNotCreate = uiNode.child("donotdoitflag").attribute("value").as_string();
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
 		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
 		if (lootFlag == "loot")
@@ -1084,26 +1226,28 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else if (charFlag == "Marche")
 		{
-			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
+			MarcheIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (charFlag == "Ritz")
 		{
-			RitzIcon = App->gui->AddImage(position, &section, nullptr);
+			RitzIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (charFlag == "Shara")
 		{
-			SharaIcon = App->gui->AddImage(position, &section, nullptr);
+			SharaIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (lootFlag == "dialogueBox")
 		{
-			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, inGamePanel);
+			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, name_image, inGamePanel);
 			dialogueBox->hide = true;
 		}
 		else
 		{                                  // this is useless now
-			if (isPanel != 1)
+			
+
+			if (doNotCreate != "true")
 			{
-				App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
+				App->gui->AddImage(position, &section, name_image, parent, isSwappable, isTabbable, autorefresh);  // bug: an image is created as panel 
 			}
 			else
 			{
@@ -1112,8 +1256,62 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		}
 
+		// enemy skulls
+		std::string name = uiNode.attribute("name").as_string();
+		if (name == "skullBasic")
+		{
+			App->gui->enemySkullInfo.baseEnemyRect = section;
+		}
+		else if (name == "skullStrong")
+		{
+			App->gui->enemySkullInfo.strongEnemyRect = section;
+		}
+		else if (name == "skullBoss")
+		{
+			App->gui->enemySkullInfo.BossEnemyRect = section;
+		}
 
-
+		// character stats icons
+		if (name == "upgradeAttack")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.attack.upgrade = section;
+		}
+		else if (name == "downgradeAttack")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.attack.Downgrade = section;
+		}
+		else if (name == "upgradeDefense")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.defense.upgrade = section;
+		}
+		else if (name == "downgradeDefense")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.defense.Downgrade = section;
+		}
+		else if (name == "upgradeCooldown")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.cooldown.upgrade = section;
+		}
+		else if (name == "downgradeCooldown")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.cooldown.Downgrade = section;
+		}
+		else if (name == "upgradeHP")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.HP.upgrade = section;
+		}
+		else if (name == "downgradeHP")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.HP.Downgrade = section;
+		}
+		else if (name == "upgradeVelocity")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.velocity.upgrade = section;
+		}
+		else if (name == "downgradeVelocity")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.velocity.Downgrade = section;
+		}
 
 	}
 
@@ -1121,6 +1319,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	//button
 	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
@@ -1142,7 +1341,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 
 
-		App->gui->AddButton(position, functionPath, &sectionIdle, parent, sectionClick, sectionHove);
+		App->gui->AddButton(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove);
 	}
 
 	// labels
@@ -1194,6 +1393,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
@@ -1216,7 +1416,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			fontIndex,
 		};
 
-		App->gui->AddCheckbox(panelPosition, functionPath, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
+		App->gui->AddCheckbox(panelPosition, functionPath, name, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
 
 	}
 
@@ -1312,6 +1512,10 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
+	potionIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
+	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1115,628 }, inGamePanel);
+	potionIg_label->swapPosition = true;
+	phoenixIg_label->swapPosition = true;
 	return true;
 }
 
@@ -1369,6 +1573,14 @@ bool j1Scene::LoadPauseSettings(pugi::xml_node& nodeScene)
 	return true;
 }
 
+bool j1Scene::LoadCredits(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node creditsNode = nodeScene.child("Credits");
+	creditsPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(creditsPanel, creditsNode);
+	return true;
+}
+
 bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
@@ -1385,6 +1597,10 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	SharaIcon->hide = true;
 	RitzIcon->hide = true;
 
+	// TODO: Add character stats item; 
+
+	characterStatsItem = App->gui->AddCharacterStatsItem(inventoryItem);
+
 	return true;
 }
 
@@ -1400,6 +1616,16 @@ bool j1Scene::LoadWinScreen(pugi::xml_node& nodeScene)
 	pugi::xml_node winNode = nodeScene.child("WinScreen");
 	winPanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(winPanel, winNode);
+	return true;
+}
+
+bool j1Scene::LoadControls(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node controlsNode = nodeScene.child("Controls");
+	controlsPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(controlsPanel, controlsNode);
+	App->scene->tab_controls = App->gui->AddImage({ 361,92 }, &tabSectionControls, default_string, controlsPanel);
+
 	return true;
 }
 
@@ -1565,11 +1791,19 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				inventoryItem->LoadElements(onlyEquipped, isVendor);
 				App->audio->PlayFx(openInventorySFX, 0);
 
-
+				// PREVENT NPC LABEL OVERLAYING
+				App->dialog->hideAllNPCLabels(true);
+				// character stats panel
+				characterStatsItem->generateCharacterStats();
+				int a = 0;
 			}
 
 			else
 			{
+				// character stats panel
+				characterStatsItem->deGenerateCharacterStats();
+
+
 				App->audio->PlayFx(closeinventorySFX, 0);
 				inventory->enable = false;
 				inventoryItem->swappedBag = true;
@@ -1584,6 +1818,11 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				{
 					App->dialog->spawnDialoguesAfterInventory();
 				}
+
+				// PREVENT NPC LABEL OVERLAYING
+				App->dialog->hideAllNPCLabels(false);
+
+
 			}
 		}
 	}

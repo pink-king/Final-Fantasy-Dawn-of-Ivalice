@@ -6,20 +6,25 @@
 #include "j1Scene.h"
 #include "LootEntity.h"
 
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem*const parent, bool isPanel) : UiItem(position, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isTabbable, bool autorefresh) : UiItem(position, name, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
 
-
+	this->swapPosition = swapPosition;
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
+	section_item = *section;
 
-	if (isPanel == 1)
+	if (isTabbable == 1)
 	{
-		this->isPanel = true;
-	}
+		tabbable = true;
 
+	}
+	if (autorefresh == 1)
+	{
+		this->autorefresh = true;
+	}
 	// the parent
 	this->parent = parent;
 
@@ -77,6 +82,10 @@ void UiItem_Image::Draw(const float& dt)
 
 		if (!printFromLoot)
 		{
+			if (autorefresh)
+			{
+				//section = App->input->GetSectionForElement(name);
+			}
 			float speed = 0.0f;
 
 			if (!useCamera)
@@ -101,6 +110,12 @@ void UiItem_Image::Draw(const float& dt)
 			}
 		}
 
+	}
+	if (App->gui->selected_object == this)
+	{
+
+		App->scene->tab_controls->hitBox.x = App->gui->selected_object->hitBox.x - 8;
+		App->scene->tab_controls->hitBox.y = App->gui->selected_object->hitBox.y - 7;
 	}
 }
 

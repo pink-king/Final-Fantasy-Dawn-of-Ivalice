@@ -34,6 +34,20 @@ bool j1Gui::Start()
 	atlas = App->tex->Load(atlas_file_name.data());
 	lootTexture = App->tex->Load("textures/loot/loot_items.png");
 
+	// initialize icon map
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(0, upgradeCharacterStatsIconsRects.attack));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(1, upgradeCharacterStatsIconsRects.defense));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(2, upgradeCharacterStatsIconsRects.cooldown));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(3, upgradeCharacterStatsIconsRects.HP));
+	upgradeCharacterStatsIconsRects.mapPositions.insert(std::make_pair(4, upgradeCharacterStatsIconsRects.velocity));
+
+
+	upgradeCharacterStatsIconsRects.attack.mapPos = 0;
+	upgradeCharacterStatsIconsRects.defense.mapPos = 1;
+	upgradeCharacterStatsIconsRects.cooldown.mapPos = 2;
+	upgradeCharacterStatsIconsRects.HP.mapPos = 3;
+	upgradeCharacterStatsIconsRects.velocity.mapPos = 4;
+
 	if (hurt_hud_tex == nullptr)
 		hurt_hud_tex = App->tex->Load("textures/hud dmg/playerhurt.png");
 
@@ -112,7 +126,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
-				selected_object->state = IDLE;
+
+				if (function == "SocialMedia")
+					selected_object->state = HOVER;
+				else
+					selected_object->state = IDLE;
+
 				selected_object->tabbed = true;
 			}
 			break;
@@ -567,14 +586,14 @@ UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * fon
 	return (UiItem_Label*)newUIItem;
 }
 
-UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect * section, UiItem * const parent, bool isPanel)
+UiItem_Image* j1Gui::AddImage(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isTabbable, bool autorefresh)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = DBG_NEW UiItem_Image(position, section, canvas, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, name, canvas, swapPosition, isTabbable, autorefresh);
 	else
-		newUIItem = DBG_NEW UiItem_Image(position, section, parent, isPanel);
+		newUIItem = DBG_NEW UiItem_Image(position, section, name, parent, swapPosition, isTabbable, autorefresh);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -603,6 +622,24 @@ UiItem_Inventory* j1Gui::AddInventory(UiItem * const parent)
 	return (UiItem_Inventory*)newUIItem;
 }
 
+CharacterStats* j1Gui::AddCharacterStatsItem(UiItem* const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = DBG_NEW CharacterStats(parent);
+	ListItemUI.push_back(newUIItem);
+	return (CharacterStats*)newUIItem;
+}
+
+CharacterStatBlock* j1Gui::AddCharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* Icon, UiItem* const parent)
+{
+	UiItem* newUIItem = nullptr;
+	newUIItem = DBG_NEW CharacterStatBlock(Name, bStat, nStat, bValue, nValue, Arrows, Icon, parent);
+	ListItemUI.push_back(newUIItem);
+	return (CharacterStatBlock*)newUIItem;
+}
+
+// TODO: add character stat manager
+
 
 
 UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * section, const SDL_Rect * thumb_section, const SDL_Rect * image_idle, const SDL_Rect * image_hover, UiItem * const parent)
@@ -618,14 +655,14 @@ UiItem_Bar* j1Gui::AddBar(iPoint position, std::string name, const SDL_Rect * se
 
 
 
-UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover)
+UiItem_Button* j1Gui::AddButton(iPoint position, std::string function, std::string name, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click, const SDL_Rect* hover)
 {
 	UiItem* newUIItem = nullptr;
 
 	if (parent == NULL)
-		newUIItem = DBG_NEW UiItem_Button(position, function, idle, canvas, click, hover);
+		newUIItem = DBG_NEW UiItem_Button(position, function, name, idle, canvas, click, hover);
 	else
-		newUIItem = DBG_NEW UiItem_Button(position, function, idle, parent, click, hover);
+		newUIItem = DBG_NEW UiItem_Button(position, function, name, idle, parent, click, hover);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -649,11 +686,11 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string & function, const SDL_Rect * panel_section, const SDL_Rect * box_section, const SDL_Rect * tick_section, labelInfo * labelInfo, UiItem * const parent)
+UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string& function, std::string name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Checkbox(position, function, panel_section, box_section, tick_section, labelInfo, parent);
+	newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, panel_section, box_section, tick_section, labelInfo, parent);
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
@@ -812,6 +849,7 @@ void j1Gui::SettingsScreen()
 {
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
+//	App->scene->controlsPanel->enable = false;
 	App->scene->settingPanel->enable = true;
 }
 
@@ -819,6 +857,7 @@ void j1Gui::GoBackToMenu()
 {
 	resetHoverSwapping = false;
 	App->scene->settingPanel->enable = false;
+	App->scene->creditsPanel->enable = false;
 	App->scene->startMenu->enable = true;
 }
 
@@ -834,6 +873,72 @@ void j1Gui::GoBackToGame()
 	App->scene->pausePanel->enable = false;
 }
 
+void j1Gui::Credits()
+{
+	resetHoverSwapping = false;
+	App->scene->startMenu->enable = false;
+	App->scene->creditsPanel->enable = true;
+}
+
+void j1Gui::SocialMedia(std::string& name)
+{
+	if (name == "instagram")
+	{
+		ShellExecuteA(NULL, "open", "https://www.instagram.com/pinkking_games/?hl=es", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "youtube")
+	{
+		ShellExecuteA(NULL, "open", "https://www.youtube.com/channel/UCIPDvRkdBphrM7Lle0wrIcA", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "twitter")
+	{
+		ShellExecuteA(NULL, "open", "https://twitter.com/PinkKingGames", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "github")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/pink-king", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Sebastia")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/Sebi-Lopez", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Jose")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/peterMcP", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Carlos")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/CarlosUPC", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Doctor")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/thedoctormarc", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Didac")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/didaclis", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Gerard")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/GerardClotet", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+	if (name == "Pol")
+	{
+		ShellExecuteA(NULL, "open", "https://github.com/PolRecasensSarra", NULL, NULL, SW_SHOWNORMAL);
+
+	}
+}
+
 void j1Gui::GoBackToStartMenu()
 {
 	resetHoverSwapping = false;
@@ -846,5 +951,13 @@ void j1Gui::GoBackToStartMenuFromDeathWin()
 	resetHoverSwapping = false;
 	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
+
+void j1Gui::GoToControls()
+{
+	resetHoverSwapping = false;
+	App->scene->settingPanel->enable = false;
+	App->scene->controlsPanel->enable = true;
+}
+
 
 

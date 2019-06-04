@@ -272,6 +272,9 @@
     <ClCompile Include="j1EasingSplines.cpp">
       <Filter>Development\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterStats.cpp">
+      <Filter>Development\Modules\GUI\managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -565,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="j1EasingSplines.h">
       <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterStats.h">
+      <Filter>Development\Modules\GUI\managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

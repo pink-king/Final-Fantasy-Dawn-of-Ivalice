@@ -96,7 +96,10 @@ void UiItem_HitPoint::Draw(const float& dt)
 		{
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
 		}
-
+		else if (this->valueInformation.string == "SAVE")
+		{
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);  // rotate hitlabels
+		}
 
 		if (this->numerOrText == variant::wave)
 		{

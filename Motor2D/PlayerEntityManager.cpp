@@ -130,6 +130,7 @@ bool PlayerEntityManager::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN && level <= 20)
 	{
 		++level;
+		App->entityFactory->player->GetVendor()->generateVendorItems(true);
 
 		if (level < 20)
 		{
@@ -536,6 +537,8 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+					App->scene->characterStatsItem->InitializeStats();
+
 				}
 
 			}
@@ -559,6 +562,8 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
+					App->scene->characterStatsItem->InitializeStats();
+
 				}
 			
 			}
@@ -896,7 +901,6 @@ void PlayerEntityManager::AddItemToConsumables(LootEntity * entityLoot)
 {
 	consumables.push_back(entityLoot); 
 
-	int a = 0; 
 }
 
 void PlayerEntityManager::RemoveItemFromConsumables(LootEntity * entityLoot)

@@ -9,6 +9,7 @@
 #include "j1EntityFactory.h"
 #include "LootEntity.h"
 #include "j1DialogSystem.h"
+#include "CharacterStats.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
@@ -24,7 +25,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->guiType = GUI_TYPES::DESCRIPTION;
 
 	// common 
-	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, itemName, this);
 	panelWithButton->useCamera = false;
 
 	if (itemName.empty())
@@ -169,7 +170,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	this->guiType = GUI_TYPES::DESCRIPTION;
 
 	// common 
-	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, itemName, this);
 	panelWithButton->useCamera = false;
 
 	if (itemName.empty())
@@ -309,7 +310,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 
 	// common 
-	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, this);
+	panelWithButton = App->gui->AddImage(iPoint(0, 0), panelRect, itemName, this);
 	panelWithButton->useCamera = false;
 
 	if (itemName.empty())
@@ -414,7 +415,7 @@ void UiItem_Description::Draw(const float& dt)
 					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
 					for (; item != App->gui->ListItemUI.end(); ++item)
 					{
-						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 386)
+						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 863 && (*item)->hitBox.y == 381)
 						{
 							App->gui->selected_object = (*item);
 							foundPoti = true;
@@ -431,7 +432,7 @@ void UiItem_Description::Draw(const float& dt)
 
 						for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
 						{
-							if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 901 && (*item)->hitBox.y == 462)
+							if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 863 && (*item)->hitBox.y == 457)
 							{
 								App->gui->selected_object = (*item);
 								isAnyItemRemaining = true;
@@ -458,7 +459,11 @@ void UiItem_Description::Draw(const float& dt)
 			if (App->gui->selected_object == iconImageInventory)
 			{
 
-
+				// TODO: optimize this not every frame !!!
+				if (!App->entityFactory->player->equipedObjects.empty())
+					for (const auto& LootEntity : App->entityFactory->player->equipedObjects)
+						if (this->callback == LootEntity)
+							App->scene->characterStatsItem->HideAllComparisonStats();
 
 				if (this->name_object == "potion_1")
 				{
@@ -481,13 +486,18 @@ void UiItem_Description::Draw(const float& dt)
 
 				HideAllElements(false);
 
-				RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 20));
+				RepositionAllElements(iPoint(staringPosition.x + 545, staringPosition.y + 20));
 
 				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 					if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
 					{
+						// get stats before equipping, so that they can be added 
+
+
 						App->scene->inventoryItem->De_______Equip(this->callback);
+
+
 					}
 
 				}
@@ -523,7 +533,6 @@ void UiItem_Description::Draw(const float& dt)
 					{
 						HideAllComparisonLabels();   // hide equipped objects comparison
 					}
-
 				}*/
 
 
@@ -595,7 +604,11 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 	bool ret = false;
 
-  if (!App->entityFactory->player->equipedObjects.empty())
+	std::array<int, 5> characterStatsMapping = {};
+	std::array<int, 5> characterStatsValues = {};
+
+
+	if (!App->entityFactory->player->equipedObjects.empty())
 	{
 		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
 
@@ -604,12 +617,12 @@ bool UiItem_Description::ChangeComparisonLabels()
 			if ((*lootItem) != this->callback)  // do not compare with itself
 			{
 
-				float attack = 0.0f;
-				float resistance = 0.0f;
-				float cooldown = 0.0f;
+				int attack = 0;
+				int resistance = 0;
+				int cooldown = 0;
 
-				float HP = 0.0f;
-				float velocity = 0.0f;
+				int HP = 0;
+				int velocity = 0;
 
 
 				SDL_Color destColor = { 0, 0, 0, 255 };
@@ -646,14 +659,23 @@ bool UiItem_Description::ChangeComparisonLabels()
 								if ((*iter)->GetRol() == ROL::ATTACK_ROL)
 								{
 									attack = (*iter)->GetValue();
+
+									characterStatsMapping.at(0) = 1;
+									characterStatsValues.at(0) = attack;
 								}
 								else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 								{
 									resistance = (*iter)->GetValue();
+
+									characterStatsMapping.at(1) = 1;
+									characterStatsValues.at(1) = resistance;
 								}
 								else if ((*iter)->GetRol() == ROL::COOLDOWN)
 								{
 									cooldown = (*iter)->GetValue();
+
+									characterStatsMapping.at(2) = 1;
+									characterStatsValues.at(2) = cooldown;
 								}
 
 							}
@@ -722,14 +744,24 @@ bool UiItem_Description::ChangeComparisonLabels()
 								if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 								{
 									resistance = (*iter)->GetValue();
+
+									characterStatsMapping.at(1) = 1;
+									characterStatsValues.at(1) = resistance;
 								}
 								else if ((*iter)->GetRol() == ROL::HEALTH)
 								{
 									HP = (*iter)->GetValue();
+
+									characterStatsMapping.at(3) = 1;
+									characterStatsValues.at(3) = HP;
 								}
 								else if ((*iter)->GetRol() == ROL::VELOCITY)
 								{
 									velocity = (*iter)->GetValue();
+
+
+									characterStatsMapping.at(4) = 1;
+									characterStatsValues.at(4) = velocity;
 								}
 
 							}
@@ -820,13 +852,42 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 
 						ret = true;
+
+
+
+						/*if (App->scene->inventoryItem->enable)
+							App->scene->characterStatsItem->CompareStats(characterStatsMapping, characterStatsValues);*/
+
+					}
+					else
+					{
+
+						/*	if (App->scene->inventoryItem->enable)
+								App->scene->characterStatsItem->HideAllComparisonStats(); */
 					}
 
 				}
 
+
+
 			}
 
 		}
+
+	}
+	else     // when no items are equipped but stats change !!!!
+	{
+
+
+
+	}
+
+
+
+	if (App->gui->selected_object == this->iconImageInventory)
+	{
+
+		App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);          // CAUTIOn: if item is selected again, prevent calculating again (xd)
 
 	}
 
@@ -838,6 +899,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 	return ret;
 
 }
+
 
 
 
@@ -891,6 +953,7 @@ void UiItem_Description::SwitchCameraUsage()
 	{
 		this->effectLabel->useCamera = true;
 	}
+
 
 }
 

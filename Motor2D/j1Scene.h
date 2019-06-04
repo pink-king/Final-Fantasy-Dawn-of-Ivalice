@@ -11,6 +11,7 @@ class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
 class UiItem_Inventory;
+class CharacterStats;
 class UiItem;
 class PlayerEntityManager;
 enum class LOOT_TYPE;
@@ -79,19 +80,27 @@ public:
 	UiItem* startMenu = nullptr;
 	UiItem* settingPanel = nullptr;
 	UiItem* pausePanel = nullptr;
+	UiItem* creditsPanel = nullptr;
 	UiItem* inventory = nullptr;
 	UiItem* deathPanel = nullptr;
 	UiItem* winPanel = nullptr;
+	UiItem* controlsPanel = nullptr;
 	UiItem_Label* coins_label = nullptr;
 	UiItem_Label* wave_label = nullptr;
 	UiItem_Label* exp_label = nullptr;
 	UiItem_Label* coins_label_inventory = nullptr;
 	UiItem_Label* god_label = nullptr;
+	UiItem_Label* potionIg_label = nullptr;
+	UiItem_Label* phoenixIg_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
+	UiItem_Image* tab_controls = nullptr;
+	SDL_Rect tabSectionControls = { 791,1,46,46 };
+	std::string default_string = "";
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;
-	
+	CharacterStats* characterStatsItem = nullptr;
+
 	bool debug = false;
 	bool debugSubtiles = false; 
 	bool debugColl = false;
@@ -210,10 +219,12 @@ private:
 	bool LoadPlayerUi(pugi::xml_node& nodeScene);
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
+	bool LoadCredits(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
 	bool LoadDeathScreen(pugi::xml_node& nodeScene);
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
-	
+	bool LoadControls(pugi::xml_node& nodeScene);
+
 	PlayerEntityManager* player_selected = nullptr;
 
 	
@@ -240,7 +251,20 @@ public:
 	UiItem_Image* SharaIcon = nullptr;
 	UiItem_Image* RitzIcon = nullptr;
 	UiItem_Image* dialogueBox = nullptr;
-	
+	std::string str_potionIg;
+	std::string str_phoenixIg;
+	int potion_counterIg = 0;
+	int phoenix_counterIg = 0;
+	bool swapAbilities = false;
+	bool dodge = false;
+	bool ability1 = false;
+	bool ability2 = false;
+	bool ulti = false;
+
+	bool dodge_rv = false;
+	bool ability1_rv = false;
+	bool ability2_rv = false;
+	bool ulti_rv = false;
 };
 
 #endif // __j1SCENE_H__

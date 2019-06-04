@@ -11,6 +11,76 @@
 			<Experience level="1" exp="0" />
 			<life actualLife="0" />
 			<gold value="0" />
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

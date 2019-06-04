@@ -69,9 +69,10 @@ void UiItem_CooldownClock::DoLogic()
 
 	LastHeight = this->section.h;
 
-	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
+	if (App->entityFactory->player && ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
+		)
 	{
 
 		hide = false;

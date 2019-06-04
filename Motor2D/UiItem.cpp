@@ -10,10 +10,23 @@
 #include "UiItem_CooldownClockManager.h"
 
 
-UiItem::UiItem(const iPoint& pos, UiItem* const parent)
+UiItem::UiItem(const iPoint & pos, UiItem * const parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
+	if (parent != nullptr)
+		this->parent = parent;
+
+	this->function = function;
+
+	SDL_ShowCursor(SDL_DISABLE);
+}
+
+UiItem::UiItem(const iPoint& pos, std::string& name, UiItem* const parent)
+{
+	hitBox.x = pos.x;
+	hitBox.y = pos.y;
+	this->name = name;
 	if (parent != nullptr)
 		this->parent = parent;
 
@@ -36,7 +49,7 @@ UiItem::UiItem(UiItem * const parent)
 
 
 
-UiItem::UiItem(const iPoint & pos, std::string & function, UiItem * const parent) : parent(parent)
+UiItem::UiItem(const iPoint& pos, std::string& function, std::string& name, UiItem* const parent) : parent(parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
@@ -44,6 +57,8 @@ UiItem::UiItem(const iPoint & pos, std::string & function, UiItem * const parent
 		this->parent = parent;
 
 	this->function = function;
+
+	this->name = name;
 
 	SDL_ShowCursor(SDL_DISABLE);
 }
@@ -84,7 +99,8 @@ void UiItem::DrawUi(float dt)
 				}
 				++iter;
 			}
-			else
+			else if (!App->cleaningUp)
+
 			{
 				(*iter)->CleanUp();
 				delete (*iter);                                // destroy items that are to delete (like enemy health bars) 

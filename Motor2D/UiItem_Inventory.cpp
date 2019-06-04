@@ -14,7 +14,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
 	this->guiType = GUI_TYPES::INVENTORY;
-	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 126, startingPos.y + 267 }, &tab_image, parent);
+	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 133, startingPos.y + 275 }, &tab_image, this->name, parent);
 }
 
 
@@ -637,7 +637,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						De_______GenerateDescription((*iter), true);
 
-						iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 285) };
+						iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 285) };
 
 						potion_counter++;
 						
@@ -681,7 +681,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						De_______GenerateDescription((*iter), true);
 
-						iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 361) };
+						iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 361) };
 
 						fenix_counter++;
 
@@ -759,7 +759,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					De_______GenerateDescription((*iter), true);
 
 
-					iPoint position_1 = { (startingPos.x + 623), (startingPos.y + 285) };
+					iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 285) };
 
 					if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
 					{
@@ -932,7 +932,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 		{
 			// create a new description
 			App->entityFactory->GenerateDescriptionForLootItem(ent);
-			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 410, staringPosition.y + 30));
+			ent->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 545, staringPosition.y + 30));
 			ent->MyDescription->HideAllElements(false);
 
 			ent->spawnedDescription = true;
@@ -1084,6 +1084,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				}
 				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
 
+					// ADD NEW STATS TO THE PLAYER 
+				App->scene->characterStatsItem->SetNewStats();
 
 				if (!App->entityFactory->player->bagObjects.empty())
 				{
@@ -1182,6 +1184,10 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							{
 								doBagScroll = true;
 							}
+
+
+							// ADD NEW STATS TO THE PLAYER 
+							App->scene->characterStatsItem->SetNewStats();
 
 							break;
 						}

@@ -2,6 +2,7 @@
 #define GUI_DEFINITIONS_H
 
 #include "UiItem_CooldownClock.h"
+#include<map>
 
 /// GUI CPP 
 
@@ -65,6 +66,36 @@ struct bossLifeBarInfo
 	SDL_Rect staticSection;
 	SDL_Rect dynamicSection;
 	SDL_Rect divSection;
+};
+
+struct enemySkullIcon
+{
+	SDL_Rect baseEnemyRect;
+	SDL_Rect strongEnemyRect;
+	SDL_Rect BossEnemyRect;
+};
+
+
+struct CharacterStatIcon
+{
+	SDL_Rect upgrade;
+	SDL_Rect Downgrade;
+	uint mapPos;
+};
+
+
+struct upgradeCharacterStatsIcons
+{
+
+	CharacterStatIcon attack;
+
+	CharacterStatIcon defense;
+	CharacterStatIcon cooldown;
+	CharacterStatIcon HP;
+	CharacterStatIcon velocity;
+
+	std::map<int, CharacterStatIcon> mapPositions;
+
 };
 
 class GUI_Definitions

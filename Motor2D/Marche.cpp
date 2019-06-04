@@ -604,6 +604,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	characterBaseSpeed.x /= 1.2f;
 	characterBaseSpeed.y /= 1.2f;
 
+	mySpeedModular = sqrt((characterBaseSpeed.x + characterBaseSpeed.y) * (characterBaseSpeed.x + characterBaseSpeed.y));
+
 	//
 	//previousFrame = 1; // fake previousFrame to enter on first anim state
 
@@ -891,7 +893,7 @@ bool Marche::Update(float dt)
 			if (!App->gui->spawnedClocks.Marche.special1)
 			{
 
-				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Marche", App->scene->inGamePanel);
+				myUIClocks.special1 = App->gui->AddClock(App->gui->allclocksData.ability1.position, &App->gui->allclocksData.ability1.section, "special1", "Marche", App->scene->uiMarche);
 
 				App->gui->spawnedClocks.Marche.special1 = true;
 			}
@@ -920,7 +922,7 @@ bool Marche::Update(float dt)
 			if (!App->gui->spawnedClocks.Marche.special2)
 			{
 
-				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->inGamePanel);
+				myUIClocks.special2 = App->gui->AddClock(App->gui->allclocksData.ability2.position, &App->gui->allclocksData.ability2.section, "special2", "Marche", App->scene->uiMarche);
 
 				App->gui->spawnedClocks.Marche.special2 = true;
 			}
@@ -1057,7 +1059,7 @@ bool Marche::Update(float dt)
 			if (!App->gui->spawnedClocks.Marche.ulti)
 			{
 				
-				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->inGamePanel);
+				myUIClocks.ulti = App->gui->AddClock(App->gui->allclocksData.ulti.position, &App->gui->allclocksData.ulti.section, "ulti", "Marche", App->scene->uiMarche);
 
 				App->gui->spawnedClocks.Marche.ulti = true;
 			}

@@ -200,6 +200,17 @@ UiItem_HitPoint* UiItem_HitPointManager::callWaveLabelSpawn(iPoint pos, uint val
 	return nullptr;
 }
 
+UiItem_HitPoint* UiItem_HitPointManager::callSaveLabelSpawn(iPoint pos)
+{
+	valueInfo info = {
+		"SAVE",
+	};
+
+	App->gui->AddHitPointLabel2("SAVE", { 0, 255, 0, 255 }, App->font->openSansBold18, pos, nullptr, variant::text);
+
+	return nullptr;
+}
+
 
 void UiItem_HitPointManager::calculatePlayerCombo()
 {

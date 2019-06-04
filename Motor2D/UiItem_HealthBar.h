@@ -53,8 +53,15 @@ public:
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
+
+	//boss
 	UiItem_Image* divisionImage = nullptr;
 	UiItem_Label* nameOnTop = nullptr;
+
+	// boss and enemies
+	UiItem_Image* skull = nullptr;
+	iPoint skullOffset = iPoint(-25, 0);
+	std::string name = "";
 
 private:
 
@@ -71,6 +78,7 @@ private:
 	uint enemyMaxLife;
 	bool startShowing = false;
 
+	bool spawnedSkull = false;
 
 	iPoint playerBarOffset = { 28,11 };
 
