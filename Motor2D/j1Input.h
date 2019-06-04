@@ -172,6 +172,7 @@ private:
 	SDL_GameController* gamePad1 = nullptr;
 	SDL_Haptic* haptic = nullptr;
 private:
+	std::map<std::string, std::map<std::string, ControllerPressData&>&> comparerGuiMapForRepeteadOnGroup;
 	std::map<SDL_GameControllerButton, SDL_Rect> guiButtonRectsMap;
 	std::map<SDL_GameControllerAxis, SDL_Rect> guiAxisRectsMap;
 	std::map<std::string, ControllerPressData&> guiElemMapInput;
