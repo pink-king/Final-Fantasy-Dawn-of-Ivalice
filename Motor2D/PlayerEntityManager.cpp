@@ -132,6 +132,12 @@ bool PlayerEntityManager::Update(float dt)
 		++level;
 		App->entityFactory->player->GetVendor()->generateVendorItems(true);
 
+
+		iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+			App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+
+		App->HPManager->callLevelUpLabelSpawn(targetLabelPos, level);
+
 		if (level < 20)
 		{
 			std::string dest = "LVL" + std::to_string(level);
