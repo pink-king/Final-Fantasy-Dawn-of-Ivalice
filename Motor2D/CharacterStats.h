@@ -3,9 +3,10 @@
 
 #include "UiItem.h"
 
-
+#include <variant>
 #include <map>
 #include <array>
+
 
 #define START_BLOCK_POSITION_RELATIVE_TO_INVENTORY iPoint(650,150)
 #define STAT_BLOCK_SEPARATION_Y 40
@@ -24,7 +25,7 @@ private:
 	UiItem_Label* BlockName = nullptr;
 	UiItem_Label* baseStat = nullptr;
 	UiItem_Label* newStat = nullptr;
-	uint baseStatValue = 0;                      // some should be 1 or 2 decimal floats
+	uint baseStatValue = 0;                      // cooldown should be a 1 or 2 decimal float
 	uint candidateToNewStat = 0; 
 	uint newStatValue = 0;
 	uint lastNewStatValue = 0; 
@@ -40,7 +41,6 @@ public:
 	{
 		this->guiType = GUI_TYPES::CHARACTERSTATBLOCK; 
 	}
-	
 
 	friend class CharacterStats; 
 };
@@ -57,7 +57,7 @@ private:
 
 	std::map<int, std::string> positionMap;
 
-
+	
 public:
 	void generateCharacterStats();
 	void deGenerateCharacterStats();

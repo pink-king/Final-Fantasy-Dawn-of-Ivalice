@@ -254,6 +254,18 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 
 						
 						}
+						else   // if that stat remains uchanged, hide all, because it will still be active if it was compared with a previous item
+						{
+							// change the new stat
+							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
+						
+							// change the arrows
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
+
+							// change the icon
+							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
+
+						}
 		
 					}
 				}
