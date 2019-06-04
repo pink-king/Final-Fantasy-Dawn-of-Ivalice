@@ -264,7 +264,12 @@ bool j1EntityFactory::CleanUp()
 	portalTex = nullptr;
 	App->tex->UnLoad(campFireTex);
 	campFireTex = nullptr;
-
+	App->tex->UnLoad(interactiveStatesTex);
+	interactiveStatesTex = nullptr; 
+	App->tex->UnLoad(ButtonAtex);
+	interactiveStatesTex = nullptr;
+	App->tex->UnLoad(hallTex);
+	hallTex = nullptr;
 
 	player = nullptr;
 
