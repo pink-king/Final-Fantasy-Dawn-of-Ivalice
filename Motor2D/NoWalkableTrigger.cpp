@@ -38,7 +38,7 @@ bool NoWalkableTrigger::DoTriggerAction()
 			instantiationPoint.x -= 38;
 			App->entityFactory->CreateEntity(FLOWERBOSS, instantiationPoint.x, instantiationPoint.y, "flower_boss");
 			App->audio->PlayMusic("audio/music/bossmusic.ogg", -1);
-			App->entityFactory->CreateDialogTrigger(instantiationPoint.x, instantiationPoint.y, "BOSS", instantiationPoint, 10, false);     // boss dialog ready for lvl 2 interaction with boss
+			App->entityFactory->CreateDialogTrigger(instantiationPoint.x, instantiationPoint.y, "BOSS", { instantiationPoint.x - 2,instantiationPoint.y - 2}, 10, false);     // boss dialog ready for lvl 2 interaction with boss
 			if (!bossHall)
 				to_delete = true;
 		}
