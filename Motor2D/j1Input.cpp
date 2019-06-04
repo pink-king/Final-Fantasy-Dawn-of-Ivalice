@@ -67,13 +67,26 @@ bool j1Input::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Input::Start()
 {
-
 	SDL_StopTextInput();
 
 	GenerateMapping();
 	LoadGamepadMapScheme("config/controllerMapping.xml");
 	GenerateGuiElemMapping();
 	GenerateGuiButtonsRectMapping();
+
+	// define desired permitted keybinding from user input GUI
+	// buttons
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_A] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_B] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_X] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_Y] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_RIGHTSHOULDER] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_LEFTSHOULDER] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_RIGHTSTICK] = true;
+	buttonPermittedMatrix[SDL_CONTROLLER_BUTTON_LEFTSTICK] = true;
+	// axis
+	axisPermittedMatrix[SDL_CONTROLLER_AXIS_TRIGGERLEFT] = true;
+	axisPermittedMatrix[SDL_CONTROLLER_AXIS_TRIGGERRIGHT] = true;
 
 	return true;
 }
@@ -124,7 +137,7 @@ bool j1Input::PreUpdate()
 			else
 				controller_axis[i] = KEY_IDLE;
 		}
-		
+
 	}
 
 	// joystick axis pulsation -----------------------------------------------
@@ -145,12 +158,12 @@ bool j1Input::PreUpdate()
 	{
 		// we need to track for each axis two directions -/+
 		Sint16 joy_value = GetControllerAxis((SDL_GameControllerAxis)i); // filtered with dead zone too
-		
+
 		// negative values for "this" axis, ie: SDL_CONTROLLER_AXIS_LEFTX, directly to joydir enum order, dir "left"
 		// ie: SDL_CONTROLLER_AXIS_RIGHTX, axis direction counter = 2, pointing to joydir UP, wich needs a negative value from getaxis
 		// etc
 
-		if (joy_value < 0) 
+		if (joy_value < 0)
 		{
 			if (joystick[axis_direction_counter] == KEY_IDLE)
 				joystick[axis_direction_counter] = KEY_DOWN;
@@ -187,152 +200,157 @@ bool j1Input::PreUpdate()
 	}
 
 	// --------------------------------------------------------------
-	
+
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
-	for(int i = 0; i < MAX_KEYS; ++i)
+	for (int i = 0; i < MAX_KEYS; ++i)
 	{
-		if(keys[i] == 1)
+		if (keys[i] == 1)
 		{
-			if(keyboard[i] == KEY_IDLE)
+			if (keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
 			else
 				keyboard[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if(keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
 				keyboard[i] = KEY_UP;
 			else
 				keyboard[i] = KEY_IDLE;
 		}
 	}
 
-	for(int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
+	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
 	{
-		if(mouse_buttons[i] == KEY_DOWN)
+		if (mouse_buttons[i] == KEY_DOWN)
 			mouse_buttons[i] = KEY_REPEAT;
 
-		if(mouse_buttons[i] == KEY_UP)
+		if (mouse_buttons[i] == KEY_UP)
 			mouse_buttons[i] = KEY_IDLE;
 	}
 
-	while(SDL_PollEvent(&event) != 0)
+	while (SDL_PollEvent(&event) != 0)
 	{
-		switch(event.type)
+		switch (event.type)
 		{
-			case SDL_QUIT:
-				windowEvents[WE_QUIT] = true;
+		case SDL_QUIT:
+			windowEvents[WE_QUIT] = true;
 			break;
 
-			case SDL_WINDOWEVENT:
-				switch(event.window.event)
-				{
-					//case SDL_WINDOWEVENT_LEAVE:
-					case SDL_WINDOWEVENT_HIDDEN:
-					case SDL_WINDOWEVENT_MINIMIZED:
-					case SDL_WINDOWEVENT_FOCUS_LOST:
-					windowEvents[WE_HIDE] = true;
-					break;
-
-					//case SDL_WINDOWEVENT_ENTER:
-					case SDL_WINDOWEVENT_SHOWN:
-					case SDL_WINDOWEVENT_FOCUS_GAINED:
-					case SDL_WINDOWEVENT_MAXIMIZED:
-					case SDL_WINDOWEVENT_RESTORED:
-					windowEvents[WE_SHOW] = true;
-					break;
-				}
-			break;
-
-			case SDL_MOUSEBUTTONDOWN:
-				mouse_buttons[event.button.button - 1] = KEY_DOWN;
-				//LOG("Mouse button %d down", event.button.button-1);
-			break;
-
-			case SDL_MOUSEBUTTONUP:
-				mouse_buttons[event.button.button - 1] = KEY_UP;
-				//LOG("Mouse button %d up", event.button.button-1);
-			break;
-
-			case SDL_MOUSEMOTION:
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
 			{
-				int scale = App->win->GetScale();
-				mouse_motion_x = event.motion.xrel / scale;
-				mouse_motion_y = event.motion.yrel / scale;
-				mouse_x = event.motion.x / scale;
-				mouse_y = event.motion.y / scale;
-				//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
-			}
-			break;
+				//case SDL_WINDOWEVENT_LEAVE:
+			case SDL_WINDOWEVENT_HIDDEN:
+			case SDL_WINDOWEVENT_MINIMIZED:
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				windowEvents[WE_HIDE] = true;
+				break;
 
-			case SDL_CONTROLLERDEVICEADDED:
-			{
-				//Open the first available controller
-				for (int i = 0; i < SDL_NumJoysticks(); ++i) {
-					if (SDL_IsGameController(i)) {
-						gamePad1 = SDL_GameControllerOpen(i);
-						if (gamePad1) {
-
-							if (SDL_JoystickIsHaptic(SDL_GameControllerGetJoystick(gamePad1)) > 0)
-							{
-								haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(gamePad1));
-
-								if (haptic != nullptr)
-								{
-									LOG("HAPTIC SUCCESS");
-									//Get initialize rumble 
-									if (SDL_HapticRumbleInit(haptic) < 0) // initialize simple rumble
-									{
-										LOG("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
-									}
-
-									if (SDL_HapticRumblePlay(haptic, 0.3f, 1000) < 0)
-									{
-										LOG("rumble play error");
-									}
-								}
-							}
-							else
-							{
-								LOG("haptic error! SDL_Error: %s\n", SDL_GetError());
-							}
-						}
-						else {
-							LOG("gamepad awake assign failed");
-						}
-					}
-				}
+				//case SDL_WINDOWEVENT_ENTER:
+			case SDL_WINDOWEVENT_SHOWN:
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+			case SDL_WINDOWEVENT_MAXIMIZED:
+			case SDL_WINDOWEVENT_RESTORED:
+				windowEvents[WE_SHOW] = true;
 				break;
 			}
+			break;
 
-			case SDL_CONTROLLERDEVICEREMOVED:
-				LOG("disconnected gamepad");
-				if (gamePad1 != nullptr)
-				{
-					SDL_HapticClose(haptic);
-					haptic = nullptr;
-					SDL_GameControllerClose(gamePad1);
-					gamePad1 = nullptr;
-					break;
+		case SDL_MOUSEBUTTONDOWN:
+			mouse_buttons[event.button.button - 1] = KEY_DOWN;
+			//LOG("Mouse button %d down", event.button.button-1);
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			mouse_buttons[event.button.button - 1] = KEY_UP;
+			//LOG("Mouse button %d up", event.button.button-1);
+			break;
+
+		case SDL_MOUSEMOTION:
+		{
+			int scale = App->win->GetScale();
+			mouse_motion_x = event.motion.xrel / scale;
+			mouse_motion_y = event.motion.yrel / scale;
+			mouse_x = event.motion.x / scale;
+			mouse_y = event.motion.y / scale;
+			//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
+		}
+		break;
+
+		case SDL_CONTROLLERDEVICEADDED:
+		{
+			//Open the first available controller
+			for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+				if (SDL_IsGameController(i)) {
+					gamePad1 = SDL_GameControllerOpen(i);
+					if (gamePad1) {
+
+						if (SDL_JoystickIsHaptic(SDL_GameControllerGetJoystick(gamePad1)) > 0)
+						{
+							haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(gamePad1));
+
+							if (haptic != nullptr)
+							{
+								LOG("HAPTIC SUCCESS");
+								//Get initialize rumble 
+								if (SDL_HapticRumbleInit(haptic) < 0) // initialize simple rumble
+								{
+									LOG("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
+								}
+
+								if (SDL_HapticRumblePlay(haptic, 0.3f, 1000) < 0)
+								{
+									LOG("rumble play error");
+								}
+							}
+						}
+						else
+						{
+							LOG("haptic error! SDL_Error: %s\n", SDL_GetError());
+						}
+					}
+					else {
+						LOG("gamepad awake assign failed");
+					}
 				}
+			}
+			break;
+		}
+
+		case SDL_CONTROLLERDEVICEREMOVED:
+			LOG("disconnected gamepad");
+			if (gamePad1 != nullptr)
+			{
+				SDL_HapticClose(haptic);
+				haptic = nullptr;
+				SDL_GameControllerClose(gamePad1);
+				gamePad1 = nullptr;
+				break;
+			}
 		}
 	}
 
 	// testing --------------
 
-	CheckGamepadWTFPressedInput();
+	//CheckGamepadWTFPressedInput();
+
+	//ListeningInputFor("marche_dash_button");
 
 	//if (App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_DOWN)
 	//{
-	//	/*gamepadScheme.marche.basic.button = SDL_CONTROLLER_BUTTON_A;
-	//	SaveGamepadMapScheme("config/controllerMapping.xml");*/
+	//	//gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
+	//	//SaveGamepadMapScheme("config/controllerMapping.xml");
 	//	GetSectionForElement("marche_dash_button");
 	//}
 
+	//
+	//
+
 	//if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	//{
-	//	gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
+	//	gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_B;
 	//}
 
 	return true;
@@ -413,7 +431,7 @@ j1KeyState j1Input::GetJoystickPulsation(j1JoyStickSide joystickSide, j1JoyDir j
 }
 
 // testing
-ControllerPressData j1Input::CheckGamepadWTFPressedInput()
+const ControllerPressData& j1Input::CheckGamepadWTFPressedInput() const
 {
 	bool detectedPress = false;
 	bool isButton = false;
@@ -736,4 +754,35 @@ const SDL_Rect j1Input::GetAssociatedRectForThisGamepadInput(SDL_GameControllerB
 	}
 
 	return ret;
+}
+
+void j1Input::ListeningInputFor(std::string gui_elem_name)
+{
+	// if any input is pressed
+	const ControllerPressData newMapping = CheckGamepadWTFPressedInput();
+	bool acceptedInput = false;
+	
+	// if receives a possible valid mapping
+	// filter with permitted input expected to change
+	if (newMapping.button != -1)
+	{
+		acceptedInput = buttonPermittedMatrix[newMapping.button];
+	}
+	else if (newMapping.axis != -1)
+	{
+		acceptedInput = axisPermittedMatrix[newMapping.axis];
+	}
+		
+	if (acceptedInput)
+	{
+		// gets the specific data to be changed
+		std::map<std::string, ControllerPressData&>::iterator it = guiElemMapInput.find(gui_elem_name);
+
+		if (it != guiElemMapInput.end()) // if the element is found
+		{
+			(*it).second.button = newMapping.button;
+			(*it).second.axis = newMapping.axis;
+		}
+	}
+
 }
