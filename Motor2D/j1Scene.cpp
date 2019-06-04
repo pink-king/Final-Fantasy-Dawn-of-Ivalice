@@ -424,9 +424,11 @@ bool j1Scene::Start()
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
+			LoadCredits(sceneNode);
 			LoadInventory(sceneNode);
 			LoadDeathScreen(sceneNode);
 			LoadWinScreen(sceneNode);
+			LoadControls(sceneNode);
 			LoadedUi = true;
 		}
 
@@ -441,6 +443,8 @@ bool j1Scene::Start()
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
 		inventory->enable = false;
+		creditsPanel->enable = false;
+		controlsPanel->enable = false;
 		deathPanel->enable = false;
 		winPanel->enable = false;
 	}
