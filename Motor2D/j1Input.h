@@ -141,11 +141,12 @@ public:
 
 	void DoGamePadRumble(float strength, uint32 duration) const;
 
-	ControllerPressData CheckGamepadWTFPressedInput();
+	const ControllerPressData& CheckGamepadWTFPressedInput() const;
 
 	bool LoadGamepadMapScheme(const char* path);
 	bool SaveGamepadMapScheme(const char* path);
 	const SDL_Rect& GetSectionForElement(std::string name);
+	void ListeningInputFor(std::string name); // listen and change mapping input for gui controls keybinding
 
 private:
 	bool GenerateGuiButtonsRectMapping();
@@ -155,6 +156,8 @@ private:
 												  SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1));
 
 private:
+	bool buttonPermittedMatrix[SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MAX] = { false };
+	bool axisPermittedMatrix[SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_MAX] = { false };
 	bool		windowEvents[WE_COUNT];
 	j1KeyState*	keyboard = nullptr;
 	j1KeyState*	mouse_buttons = nullptr;
@@ -168,7 +171,7 @@ private:
 
 	SDL_GameController* gamePad1 = nullptr;
 	SDL_Haptic* haptic = nullptr;
-public:
+private:
 	std::map<SDL_GameControllerButton, SDL_Rect> guiButtonRectsMap;
 	std::map<SDL_GameControllerAxis, SDL_Rect> guiAxisRectsMap;
 	std::map<std::string, ControllerPressData&> guiElemMapInput;
@@ -177,6 +180,7 @@ public:
 	std::map<std::string, ControllerPressData&> ritzMapInput;
 	std::map<std::string, ControllerPressData&> sharaMapInput;
 	std::map<std::string, std::map<std::string, ControllerPressData&>&> characterNameToMapData;
+public:
 	GamepadControlScheme gamepadScheme;
 };
 
