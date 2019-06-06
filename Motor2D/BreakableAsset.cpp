@@ -55,7 +55,7 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 		currentAnimation = &idle; 
 
 
-	pivot.create(32, 44);
+	pivot.create(32, 50);
 	size.create(64, 64);
 
 
