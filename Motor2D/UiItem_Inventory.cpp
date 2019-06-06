@@ -26,8 +26,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 	isVendorInventory = isVendor;
 
-	if (!isVendorInventory)
-	{
+	/*if (!isVendorInventory)
+	{*/
 
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
 		{
@@ -52,15 +52,15 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 		}
 
 
-	}
-	else
+	
+	if(isVendorInventory)
 	{
 		if(App->entityFactory->player->GetVendor()->firstTime)
 		App->entityFactory->player->GetVendor()->generateVendorItems();
 
-		App->scene->MarcheIcon->hide = true;
+		/*App->scene->MarcheIcon->hide = true;
 		App->scene->SharaIcon->hide = true;
-		App->scene->RitzIcon->hide = true;
+		App->scene->RitzIcon->hide = true;*/
 	}
 
 
@@ -69,7 +69,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects   --> ONLY FOR PLAYER, NOT FOR VENDOR !!
 
 
-	if (!isVendorInventory && !App->entityFactory->player->equipedObjects.empty())
+	if (/*!isVendorInventory &&*/!App->entityFactory->player->equipedObjects.empty()) 
 	{
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
@@ -978,7 +978,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 {
 
 
-	if (!isVendorInventory) {
+	/*if (!isVendorInventory) {*/
 
 		if (!App->entityFactory->player->equipedObjects.empty())
 		{
@@ -1000,7 +1000,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 		}
 
-	}
+	//}
 
 
 }
@@ -1021,6 +1021,8 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 
 
 
+
+
 void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
@@ -1028,6 +1030,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 	BROFILER_CATEGORY("Inventory Equip", Profiler::Color::Olive);
 
 	bool doBagScroll = false;
+
+	bool successfulVendorToPlayer = false;
 
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
 	if (!isVendorInventory)
@@ -1084,7 +1088,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				}
 				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
 
-					// ADD NEW STATS TO THE PLAYER 
+
+				// ADD NEW STATS TO THE PLAYER 
 				App->scene->characterStatsItem->SetNewStats();
 
 				if (!App->entityFactory->player->bagObjects.empty())
@@ -1163,16 +1168,59 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 			for (; iter != App->entityFactory->player->GetVendor()->vBagObjects.end(); ++iter)
 			{
-				if ((*iter) == callback)
+				if ((*iter) == callback)                            // capture the vendor item
 				{
-					/*if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)       // Search only for the selected character's current items
-					{*/
+
+					if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+					{
+
+
+
+						if (!App->entityFactory->player->equipedObjects.empty())
+						{
+
+							std::vector<LootEntity*>::iterator iterPlayer = App->entityFactory->player->equipedObjects.begin();
+
+							for (; iterPlayer != App->entityFactory->player->equipedObjects.end(); ++iterPlayer)
+							{
+								if ((*iterPlayer)->character == App->entityFactory->player->selectedCharacterEntity)   // check they both have same attached character
+								{
+
+									if (DoPriceCalculations(callback))
+									{
+
+										successfulVendorToPlayer = true;
+
+										// Now, equipping from vendor is possible: remove player equipped pbject description, and equip vendor's item
+
+										if ((*iterPlayer)->MyDescription->myLootItemIsEquipped.state == ACTIVE)
+										{
+											if ((*iterPlayer)->GetObjectType() == callback->GetObjectType() && (*iterPlayer)->MyDescription->myLootItemIsEquipped.weapon)
+											{
+
+												De_______GenerateDescription((*iterPlayer), false);
+											}
+											else if ((*iterPlayer)->GetObjectType() == callback->GetObjectType() && (*iterPlayer)->MyDescription->myLootItemIsEquipped.armor)
+											{
+												De_______GenerateDescription((*iterPlayer), false);
+											}
+											else if ((*iterPlayer)->GetObjectType() == callback->GetObjectType() && (*iterPlayer)->MyDescription->myLootItemIsEquipped.head)
+											{
+												De_______GenerateDescription((*iterPlayer), false);
+											}
+										}
+
+									}
+
+								}
+							}
+						}
+
 
 						if (DoPriceCalculations(callback))
 						{
-							// delete item desciption so that it is not selected again
-							makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(callback);
 
+							successfulVendorToPlayer = true;
 
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
@@ -1189,10 +1237,12 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							// ADD NEW STATS TO THE PLAYER 
 							App->scene->characterStatsItem->SetNewStats();
 
+
 							break;
+
 						}
-						
-				//	}
+
+					}
 
 
 				}
@@ -1257,7 +1307,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		{
 		case OBJECT_TYPE::WEAPON_OBJECT:
 
-			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
+			if ((!isVendorInventory && !App->dialog->isDialogSequenceActive) || successfulVendorToPlayer)           // player to player 
 			{
 				callback->MyDescription->myLootItemIsEquipped.weapon = true;
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
@@ -1270,7 +1320,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 		case OBJECT_TYPE::ARMOR_OBJECT:
 
-			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
+			if ((!isVendorInventory && !App->dialog->isDialogSequenceActive) || successfulVendorToPlayer)            // player to player 
 			{
 				callback->MyDescription->myLootItemIsEquipped.armor = true;
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
@@ -1282,7 +1332,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 		case OBJECT_TYPE::HEAD_OBJECT:
 
-			if (!isVendorInventory && !App->dialog->isDialogSequenceActive)           // player to player 
+			if ((!isVendorInventory && !App->dialog->isDialogSequenceActive) || successfulVendorToPlayer)           // player to player 
 			{
 				callback->MyDescription->myLootItemIsEquipped.head = true;
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
@@ -1293,8 +1343,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 		}
 
-		if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
-			callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
+		//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
+		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
 	}
 
@@ -1345,8 +1395,10 @@ bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
 
 
 
-	return ret; 
+	return ret;
 }
+
+
 
 
 bool UiItem_Inventory::CheckMaxItems()
