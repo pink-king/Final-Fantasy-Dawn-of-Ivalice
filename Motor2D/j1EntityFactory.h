@@ -8,6 +8,7 @@
 #include "PlayerEntityManager.h"
 #include "WaveManager.h"
 #include <vector>
+#include <list>
 #include "Color.h"
 #include "j1Map.h"
 #include "ConsumableLoot.h"
@@ -195,7 +196,7 @@ public:
 	SDL_Texture*			ButtonAtex = nullptr;
 
 	std::vector<GroupInfo> spawngroups;
-	std::vector<j1Entity*>	entities;
+	std::list<j1Entity*>	entities;
 	bool justGold;
 	j1Timer alphaTimer;
 	

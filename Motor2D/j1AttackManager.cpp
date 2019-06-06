@@ -153,7 +153,6 @@ bool j1AttackManager::CleanUp()
 {
 	if (currentPropagationAttacks.size() > 0)
 	{
-		LOG("TODO");
 		for (std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin(); iter != currentPropagationAttacks.end();++iter)
 		{
 			delete *iter;
@@ -492,7 +491,7 @@ std::vector<j1Entity*>* attackData::GetInvolvedEntitiesFromSubtile(const iPoint 
 	{
 		if (temp->size() > 0)
 		{
-			LOG("vector with: %i entity/ies", temp->size());
+			//LOG("vector with: %i entity/ies", temp->size());
 			return temp;
 		}
 	}
@@ -691,7 +690,7 @@ bool j1AttackManager::DestroyAllMyCurrentAttacks(const j1Entity* me) const // on
 		}
 	}
 
-	LOG("unliked %i attacks", numCurrentAttacks);
+	//LOG("unliked %i attacks", numCurrentAttacks);
 
 	return ret;
 }

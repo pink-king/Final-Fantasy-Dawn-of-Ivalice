@@ -18,8 +18,8 @@
 	<current>
 		<general>
 			<button function="interact" type="button" id="0" />
-			<button function="swap_next" type="button" id="9" />
-			<button function="swap_prev" type="button" id="10" />
+			<button function="swap_next" type="button" id="10" />
+			<button function="swap_prev" type="button" id="9" />
 		</general>
 		<marche>
 			<button function="aim" type="axis" id="4" />
