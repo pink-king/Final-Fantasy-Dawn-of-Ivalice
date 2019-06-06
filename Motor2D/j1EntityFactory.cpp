@@ -64,7 +64,7 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 
 bool j1EntityFactory::Start()
 {
-	std::vector<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if((*item) != nullptr)
@@ -111,7 +111,7 @@ bool j1EntityFactory::PreUpdate()
 	bool ret = true;
 	
 	// logic / collisions
-	std::vector<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if ((*item) != nullptr)
@@ -128,7 +128,7 @@ bool j1EntityFactory::Update(float dt)
 	bool ret = true;
 	BROFILER_CATEGORY("Entities Update", Profiler::Color::Fuchsia);
 	
-	std::vector<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
 	{
 		if ((*item) != nullptr) 
@@ -191,7 +191,7 @@ bool j1EntityFactory::PostUpdate()
 {
 	BROFILER_CATEGORY("Entities PostUpdate", Profiler::Color::BurlyWood);
 
-	std::vector<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		(*item)->PostUpdate();
@@ -217,7 +217,7 @@ bool j1EntityFactory::CleanUp()
 {
 	bool ret = true;
 
-	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
+	std::list<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
 
 	while (entitiesItem != entities.rend())
 	{
@@ -295,7 +295,7 @@ bool j1EntityFactory::Load(pugi::xml_node &node)
 bool j1EntityFactory::Save(pugi::xml_node &node) const
 {
 	
-	std::vector<j1Entity*>::const_iterator item = entities.begin();
+	std::list<j1Entity*>::const_iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if ((*item)->type == ENTITY_TYPE::PLAYER)
@@ -389,7 +389,7 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 
 bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 {
-	std::vector<j1Entity*>::const_iterator item = entities.begin();
+	std::list<j1Entity*>::const_iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if (((*item)->type == ENTITY_TYPE::ENEMY_BOMB || (*item)->type == ENTITY_TYPE::ENEMY_TEST || (*item)->type == ENTITY_TYPE::ENEMY_ARCHER) && (*item) != nullptr)
@@ -424,7 +424,7 @@ j1Entity* j1EntityFactory::CreateEntity(ENTITY_TYPE type, int positionX, int pos
 {
 	j1Entity* ret = nullptr; 
 
-	std::vector<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if (*item == nullptr)
@@ -2263,7 +2263,7 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 {
 	j1Entity* play = nullptr;
-	std::vector<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
+	std::list<j1Entity*>::reverse_iterator entitiesItem = entities.rbegin();
 	while (entitiesItem != entities.rend())
 	{
 		if ((*entitiesItem) != nullptr)
