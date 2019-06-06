@@ -595,6 +595,10 @@ bool Ritz::Update(float dt)
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);
 	//LOG("Player pos: %f,%f | Tile pos: %i,%i",position.x, position.y, onTilePos.x, onTilePos.y);
 
+	// control linked projectile
+	if (CheckMyLastProjectile())
+		ControlMyOwnProjectile();
+
 	if (!isParalize)
 	{
 		if (inputReady)
@@ -662,8 +666,10 @@ bool Ritz::Update(float dt)
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 8)
 			{
 				// Launch attack
-				App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
-					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
+				lastProjectile = dynamic_cast<Projectile*>(App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
+					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT));
+				/*App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
+					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);*/
 
 				// change combat state to idle
 				combat_state = combatState::IDLE;
@@ -752,8 +758,10 @@ bool Ritz::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			//App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
-
+			//App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
+			
+			/*lastProjectile = dynamic_cast<Projectile*>(App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
+				100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT));*/
 			// add gui clock
 
 			if (!App->gui->spawnedClocks.Ritz.special2)
@@ -916,6 +924,35 @@ fPoint Ritz::GetTeleportPos()
 	ret = position + directionVector * maxOffset;
 
 	return ret;
+}
+
+bool Ritz::CheckMyLastProjectile()
+{
+	bool ret = false;
+
+	if (lastProjectile != nullptr)
+	{
+		if(lastProjectile->to_delete)
+		{
+			lastProjectile = nullptr;
+		}
+		else	
+			ret = true;
+	}
+
+	return ret;
+}
+
+void Ritz::ControlMyOwnProjectile()
+{
+	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTX);
+	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_RIGHTY);
+
+	if (xAxis > 0 || xAxis < 0 || yAxis > 0 || yAxis < 0)
+	{
+		 lastProjectile->SetNewDirection({ (float)xAxis, (float)yAxis });
+	}
+
 }
 
 //bool Ritz::CleanUp()

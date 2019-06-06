@@ -184,6 +184,8 @@ bool j1EntityFactory::Update(float dt)
 
 	}
 
+	//LOG("entities update size: %i", entities.size());
+
 	return ret;
 }
 
