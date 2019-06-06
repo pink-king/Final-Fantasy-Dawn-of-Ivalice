@@ -411,11 +411,11 @@ void UiItem_Description::Draw(const float& dt)
 				if (!tabOnConsumable)
 				{
 					bool isAnyItemRemaining = false;
-
+					c
 					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
 					for (; item != App->gui->ListItemUI.end(); ++item)
 					{
-						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 863 && (*item)->hitBox.y == 381)
+						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 859 && (*item)->hitBox.y == 381)
 						{
 							App->gui->selected_object = (*item);
 							foundPoti = true;
