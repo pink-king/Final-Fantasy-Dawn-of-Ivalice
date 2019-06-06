@@ -188,7 +188,8 @@ public:
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
 	SDL_Texture*			marcheTornadoTex = nullptr;
-	SDL_Texture*			lootItemsTex = nullptr; 
+	SDL_Texture*			lootItemsTex = nullptr;
+	SDL_Texture*			lootShadowTex = nullptr;
 	SDL_Texture*			portalTex = nullptr;
 	SDL_Texture*			campFireTex = nullptr;
 	SDL_Texture*			interactiveStatesTex = nullptr;

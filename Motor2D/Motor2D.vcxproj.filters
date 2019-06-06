@@ -623,9 +623,6 @@
     <Filter Include="Development\Modules\Entities\Loot">
       <UniqueIdentifier>{77f02563-eb8d-4f99-8b86-f5ffbb8defe3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Development\Modules\Entities\Player">
-      <UniqueIdentifier>{256d1d8e-5345-4274-865e-1d4e05e2127e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Development\Modules\Entities\Projectiles">
       <UniqueIdentifier>{823480df-95e3-4e4d-bfb4-b11b6492c5e9}</UniqueIdentifier>
     </Filter>
@@ -664,6 +661,9 @@
     </Filter>
     <Filter Include="Development\Modules\Entities\Props">
       <UniqueIdentifier>{d4c82fa6-af43-4716-af4b-adaa3a47c18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Modules\Entities\Player">
+      <UniqueIdentifier>{256d1d8e-5345-4274-865e-1d4e05e2127e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

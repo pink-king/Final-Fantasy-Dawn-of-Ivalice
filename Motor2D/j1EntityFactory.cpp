@@ -86,6 +86,7 @@ bool j1EntityFactory::Start()
 	portalTex = App->tex->Load("textures/map_props/portal/portal.png");
 	campFireTex = App->tex->Load("textures/map_props/bonfire/bonfire.png");
 	lootItemsTex = App->tex->Load("textures/loot/loot_items_32x32.png");
+	lootShadowTex = App->tex->Load("textures/characters/shadow_tile.png");
 	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
 	hallTex = App->tex->Load("maps/Tilesets/Main Hall/tileset_main_hall.png");
 	ButtonAtex = App->tex->Load("textures/interactable_states/button_a.png");
@@ -262,6 +263,8 @@ bool j1EntityFactory::CleanUp()
 	marcheTornadoTex = nullptr;
 	App->tex->UnLoad(lootItemsTex); 
 	lootItemsTex = nullptr;
+	App->tex->UnLoad(lootShadowTex);
+	lootShadowTex = nullptr;
 	App->tex->UnLoad(portalTex);
 	portalTex = nullptr;
 	App->tex->UnLoad(campFireTex);

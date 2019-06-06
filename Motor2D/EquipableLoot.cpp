@@ -9,7 +9,9 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 
-	
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
+
 	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
@@ -26,7 +28,8 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
 
-	
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
 
 	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
@@ -52,6 +55,7 @@ bool Equipable::Update(float dt)
 	}
 	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
 		//CheckClampedCrossHairToSpawnDescription();
+
 
 	return true;
 }

@@ -18,6 +18,8 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
 		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
 }
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
@@ -27,6 +29,8 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
 
 	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 
@@ -41,6 +45,9 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOO
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
+
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
 
 	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
 

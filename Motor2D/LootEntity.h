@@ -103,8 +103,10 @@ public:
 	iPoint lootSubtile;
 	iPoint loot_pos;
 	std::string lootname;
+	SDL_Texture* objShadow = nullptr;
 
 	SDL_Rect loot_rect;
+	SDL_Rect shadow_rect;
 	bool Legendari = false;
 	//SDL_Texture* goldTex;
 
@@ -145,7 +147,6 @@ protected:
 	std::random_device rd;
 	std::mt19937 engine;
 	//pcg_extras::seed_seq_from <std::random_device> seed_source;
-
 
 	
 };

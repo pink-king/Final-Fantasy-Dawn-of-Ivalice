@@ -50,6 +50,8 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	adjacentTileNeighboursToGround[31] = { -4,4 }; // SW
 	GetGroundTilePoints();
 	SelectSubtileToGround();
+
+	shadow_rect = { 0,0,32,32 };
 }
 
 LootEntity::~LootEntity()
@@ -377,6 +379,10 @@ void LootEntity::Draw()
 	//TO FIX only blits pivot
 	if (entityTex != nullptr)
 		App->render->Blit(entityTex, position.x, position.y, &loot_rect,1.0f);
+
+	if (objShadow != nullptr)
+		App->render->Blit(objShadow, position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y*.5f, &shadow_rect, 1.0f);
+	
 	//LOG("painting loot");
 }
 
