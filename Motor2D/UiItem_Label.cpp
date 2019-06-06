@@ -266,7 +266,7 @@ void UiItem_Label::DoLogicHovered()
 {
 	if (this->isDialog)
 	{
-		const SDL_Color c = { 180, 200, 22, 200 };
+		const SDL_Color c = { 180, 200, 22, 255 };
 		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
 	}
 }
@@ -277,7 +277,7 @@ void UiItem_Label::DoLogicAbandoned()
 {
 	if (this->isDialog)
 	{
-		const SDL_Color c = { 34, 200, 43, 255 };
+		const SDL_Color c = { 255, 255, 255, 255 };
 		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
 	}
 }

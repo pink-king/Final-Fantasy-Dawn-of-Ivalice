@@ -502,7 +502,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 
 	waitForNPCTalking = true; 
 
-	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(515, 510), App->scene->inGamePanel, true);
+	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {100, 200, 100, 255}, App->font->openSansBold18, iPoint(515, 510), App->scene->inGamePanel, true);
 	npcLabel->isDialog = true;
 	npcLabel->tabbable = false;
 	npcLabel->isNPCLabel = true;
@@ -511,7 +511,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 	int space = 513;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
 	{
-		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 34, 200, 43, 255 }, App->font->openSansBold18, iPoint(515, space += 21), App->scene->inGamePanel);
+		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(515, space += 21), App->scene->inGamePanel);
 		
 		
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)
