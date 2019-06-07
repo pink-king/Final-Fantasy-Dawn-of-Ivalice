@@ -59,15 +59,6 @@ public:
 	_TTF_Font*              shatterBoxx48 = nullptr;
 
 
-	_TTF_Font*			    knightsQuest18 = nullptr;
-	_TTF_Font*			    knightsQuest24 = nullptr;
-
-	_TTF_Font*			    weekSRB18 = nullptr;
-	_TTF_Font*			    weekSRB24 = nullptr;
-
-
-
-
 };
 
 

@@ -21,7 +21,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
-
+<<<<<<< HEAD
 
 	if(!onlyEquipped)
 		loadedInventoryLabelsFromStart = true;
@@ -30,12 +30,14 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	totalDeSpawnedInventoryIcons = 0; 
 	totalSpawnedItems = 0; 
 
-
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 	// - - - - - - - - - - character icons
 	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
 	isVendorInventory = isVendor;
 
+<<<<<<< HEAD
 	SDL_Color c = { 255, 255, 255, 255 }; 
 
 	if (!isVendorInventory)
@@ -69,7 +71,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 
 
-
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 	/*if (!isVendorInventory)
 	{*/
 
@@ -864,6 +867,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	return true;
 }
 
+<<<<<<< HEAD
 void UiItem_Inventory::despawnRubbish()
 {
 
@@ -884,6 +888,8 @@ void UiItem_Inventory::despawnRubbish()
 	
 
 }
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 
 void UiItem_Inventory::RepositionBagItems()
 {
@@ -1491,7 +1497,7 @@ bool UiItem_Inventory::CheckMaxItems()
 	}
 
 	return ret; 
-
+<<<<<<< HEAD
 }
 
 
@@ -1620,5 +1626,6 @@ void UiItem_Inventory::swapCharacterItemsWithoutSwappingCharacter(std::string na
 
 
 
-
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 }
