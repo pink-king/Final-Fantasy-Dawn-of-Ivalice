@@ -31,6 +31,7 @@ public:
 	iPoint GetPivotPos();
 	j1Entity* GetClampedEntity() const;
 private:
+	bool allowedClampedTypes[ENTITY_TYPE::MAX_TYPE] = { false };
 	bool ManageInput(float dt);
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
 	fPoint GetHeadingVector(float angle);
@@ -143,7 +144,6 @@ public:
 	void UnlockPlayerInput();
 
 private:
-
 	bool playerUpdateReady = true; // prevents to Update the player state
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
