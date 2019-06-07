@@ -92,6 +92,7 @@
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
+    <ClCompile Include="DialogTriggerVolatile.cpp" />
     <ClCompile Include="Dissolve.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EarthShaker.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
+    <ClInclude Include="DialogTriggerVolatile.h" />
     <ClInclude Include="Dissolve.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EarthShaker.h" />

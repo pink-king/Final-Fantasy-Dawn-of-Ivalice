@@ -275,6 +275,9 @@
     <ClCompile Include="CharacterStats.cpp">
       <Filter>Development\Modules\GUI\managers</Filter>
     </ClCompile>
+    <ClCompile Include="DialogTriggerVolatile.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -571,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="CharacterStats.h">
       <Filter>Development\Modules\GUI\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogTriggerVolatile.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
