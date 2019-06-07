@@ -716,3 +716,16 @@ fPoint PlayerEntity::GetShotDirection()
 
 	return destination;
 }
+
+void PlayerEntity::SetCoolDownTimers()
+{
+	cdata* _ptr = nullptr;
+
+	_ptr = &coolDownData.basic;
+
+	while (_ptr <= &coolDownData.ultimate)
+	{
+		(*_ptr).timer.started_at += (*_ptr).cooldownTime;
+		++_ptr;
+	}
+}

@@ -288,6 +288,8 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	whirlwindFireAnimExitLoop.PushBack({ 180,320, 180,80 });
 	whirlwindFireAnimExitLoop.speed = 10.f;
 	whirlwindFireAnimExitLoop.loop = false;
+	// force to be finished at start to evade post update condition at init
+	whirlwindFireAnimExitLoop.SetLoop(1);
 
 
 	// ------------------------------------------------------------------
@@ -591,12 +593,9 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.special1.cooldownTime = 5500;
 	coolDownData.special2.cooldownTime = 5500;
 	coolDownData.ultimate.cooldownTime = 10000;
-	// starts timers
-	coolDownData.basic.timer.Start();
-	coolDownData.dodge.timer.Start();
-	coolDownData.special1.timer.Start();
-	coolDownData.special2.timer.Start();
-	coolDownData.ultimate.timer.Start();
+
+	// set timers
+	SetCoolDownTimers();
 
 	previousPos = position;
 
@@ -616,7 +615,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
-	superTransMaxTimeSec = 7;
+	superTransMaxTimeSec = 7; 
 
 }
 
@@ -916,6 +915,8 @@ bool Marche::Update(float dt)
 			entityTex = whirlwindTex;
 			startFacingDirIndex = pointingDir;
 			whirlwindFirePos = position;
+			//
+			whirlwindFireAnimExitLoop.SetLoop(0);
 
 			// add gui clock
 
@@ -926,6 +927,7 @@ bool Marche::Update(float dt)
 
 				App->gui->spawnedClocks.Marche.special2 = true;
 			}
+		}
 		
 
 			if (!inputReady)
@@ -1041,7 +1043,8 @@ bool Marche::Update(float dt)
 				}
 
 			}
-		}
+
+		
 		break;
 
 	case combatState::ULTIMATE:

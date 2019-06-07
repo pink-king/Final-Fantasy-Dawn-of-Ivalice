@@ -533,6 +533,9 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.special2.cooldownTime = 2000; // Medusa
 	coolDownData.ultimate.cooldownTime = 10000; // death circle
 
+	// set timers
+	SetCoolDownTimers();
+
 	previousPos = position;
 	mySpeedModular = sqrt((characterBaseSpeed.x + characterBaseSpeed.y) * (characterBaseSpeed.x + characterBaseSpeed.y));
 
