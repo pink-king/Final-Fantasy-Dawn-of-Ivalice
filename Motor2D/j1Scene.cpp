@@ -984,12 +984,12 @@ bool j1Scene::Update(float dt)
 		}
 		if (potion_counterIg == 0)
 		{
-			str_potionIg = "";
+			str_potionIg = "0";
 			potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
 		}
 		if (phoenix_counterIg == 0)
 		{
-			str_phoenixIg = "";
+			str_phoenixIg = "0";
 			phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
 		}
 		if (App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN)
@@ -1561,8 +1561,8 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
-	potionIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
-	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1115,628 }, inGamePanel);
+	potionIg_label = App->gui->AddLabel("0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
+	phoenixIg_label = App->gui->AddLabel("0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1115,628 }, inGamePanel);
 	potionIg_label->swapPosition = true;
 	phoenixIg_label->swapPosition = true;
 	return true;
