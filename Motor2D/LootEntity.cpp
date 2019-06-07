@@ -376,14 +376,16 @@ void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string sta
 
 void LootEntity::Draw()
 {
-	//TO FIX only blits pivot
+	if (objShadow != nullptr && equipableType != EQUIPABLE_TYPE::SWORD)
+		App->render->Blit(objShadow, position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y * .5f, &shadow_rect, 1.0f);
+	else if (objShadow != nullptr)
+	{
+		App->render->Blit(objShadow, position.x+5, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y * .5f, &shadow_rect, 1.0f);
+	}
 	if (entityTex != nullptr)
 		App->render->Blit(entityTex, position.x, position.y, &loot_rect,1.0f);
 
-	if (objShadow != nullptr)
-		App->render->Blit(objShadow, position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y*.5f, &shadow_rect, 1.0f);
 	
-	//LOG("painting loot");
 }
 
 EQUIPABLE_TYPE LootEntity::GetEquipable()
@@ -397,7 +399,7 @@ void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
 	{
 	case EQUIPABLE_TYPE::SWORD:
 		loot_rect = { 353, 96, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 15);
 		size.create(32, 32);
 		//353, 96
 		break;
@@ -411,14 +413,14 @@ void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
 
 	case EQUIPABLE_TYPE::ROD:
 		loot_rect = { 33, 738, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//33 , 738
 		break;
 
 	case EQUIPABLE_TYPE::ARMOR:
 		loot_rect = { 128, 964, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//128 , 964
 		break;
@@ -426,7 +428,7 @@ void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 95, 1409, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//95,1409
 		break;
@@ -435,7 +437,7 @@ void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 446, 1408, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//leg mantle x446,y1408
 

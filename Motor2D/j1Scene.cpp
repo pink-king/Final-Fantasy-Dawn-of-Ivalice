@@ -626,7 +626,23 @@ bool j1Scene::Update(float dt)
 	{
 		
 		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::SWORD);
-		//App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 10, { (float)App->entityFactory->player->position.x ,(float)App->entityFactory->player->position.y });
+		/*App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::BOW);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ROD);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ARMOR);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::VEST);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::MANTLE);*/
+
+	/*	App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, OBJECT_TYPE::GOLD);
+		App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, OBJECT_TYPE::POTIONS);
+		App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, OBJECT_TYPE::PHOENIX_TAIL);*/
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::SWORD);
+	/*	App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::BOW);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ROD);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ARMOR);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::VEST);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::MANTLE);*/
+
+	
 	}
 	App->tex->textures;
 	// map debug draw grids
