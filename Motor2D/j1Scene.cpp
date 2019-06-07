@@ -237,11 +237,9 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
 
-		/*DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 5, nullptr);
-		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 5, dialogParent);*/
-		DialogTriggerVolatile* dialogParent1 = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(162, 222).x, App->map->SubTileMapToWorld(162, 222).y, "VENDOR", 4, nullptr);
-		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(180, 220).x, App->map->SubTileMapToWorld(180, 220).y, "VENDOR", 4, dialogParent1);
-
+		DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
+		
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
