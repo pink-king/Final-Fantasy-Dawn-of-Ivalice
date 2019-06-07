@@ -22,6 +22,7 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
 
+
 	totalDeSpawnedInventoryIcons = 0; 
 	totalSpawnedItems = 0; 
 
@@ -29,6 +30,30 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
 	isVendorInventory = isVendor;
+
+	SDL_Color c = { 255, 255, 255, 255 }; 
+
+	charNameLabel = App->gui->AddLabel(App->entityFactory->player->selectedCharacterEntity->name,
+		c, App->font->knightsQuest24, iPoint(startingPos.x + 265, startingPos.y + 50), this);
+
+	
+
+	if (isVendorInventory)
+	{
+		equippedLabel = App->gui->AddLabel("PLAYER", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("VENDOR", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		consumablesLabel->hide = true; 
+	}
+	else
+	{
+		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+	}
+
+
+
 
 	/*if (!isVendorInventory)
 	{*/
@@ -824,6 +849,16 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	return true;
 }
 
+void UiItem_Inventory::despawnRubbish()
+{
+
+	charNameLabel->to_delete = true; 
+	equippedLabel->to_delete = true;
+	bagLabel->to_delete = true;
+	consumablesLabel->to_delete = true;
+
+
+}
 
 void UiItem_Inventory::RepositionBagItems()
 {

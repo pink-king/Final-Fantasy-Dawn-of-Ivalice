@@ -38,7 +38,7 @@
 #include <algorithm>
 #include "Boss_Flower.h"
 #include "j1Gui.h"
-
+#include <assert.h>
 
 
 j1EntityFactory::j1EntityFactory()
@@ -1809,8 +1809,20 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 		}
 	}
 
+
+	assert(baseFinalPrice > 30);
+
+
 	item->price = baseFinalPrice * 0.85f;
-	item->vendorPrice = baseFinalPrice * 1.15f; 
+	item->vendorPrice = baseFinalPrice * 1.15f;
+
+
+	item->price = baseFinalPrice * 0.85f;
+	item->vendorPrice = baseFinalPrice * 1.15f;
+
+	assert(item->price > 30);
+	assert(item->vendorPrice > 30); 
+
 
 
 

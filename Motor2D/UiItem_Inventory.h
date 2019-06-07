@@ -63,6 +63,8 @@ public:
 
 	void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag); 
 
+	void despawnRubbish(); 
+
    
 
 public: 
@@ -107,7 +109,10 @@ private:
 	std::string str_fenix_tail;
 	std::string name = "";
 
-
+	UiItem_Label* charNameLabel = nullptr;
+	UiItem_Label* equippedLabel = nullptr;
+	UiItem_Label* bagLabel = nullptr;
+	UiItem_Label* consumablesLabel = nullptr;
 
 };
 
