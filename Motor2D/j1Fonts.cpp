@@ -53,7 +53,11 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 
 
 	knightsQuest18 = Load("fonts/knights-quest.regular/knights-quest.regular.ttf", 18);
-	knightsQuest24 = Load("fonts/knights-quest.regular/knights-quest.regular.ttf", 48);
+	knightsQuest24 = Load("fonts/knights-quest.regular/knights-quest.regular.ttf", 24);
+
+	weekSRB18 = Load("fonts/week-srb-regular/week-srb-regular.ttf", 18);
+	weekSRB24 = Load("fonts/week-srb-regular/week-srb-regular.ttf", 24);
+
 
 
 	return ret;

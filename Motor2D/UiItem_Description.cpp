@@ -914,7 +914,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 		else if (!App->scene->characterStatsItem->characterFakeSwapDone && !isEquipped)
 			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
-
+			
 	        
 		
 	}
