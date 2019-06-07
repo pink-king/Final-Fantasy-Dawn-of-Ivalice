@@ -1443,33 +1443,38 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 	// checkboxes
 
-	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
+	for (pugi::xml_node uiNode = node.child("checkboxes").child("checkbox"); uiNode; uiNode = uiNode.next_sibling("checkbox"))
 	{
 		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
-		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
-		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
-		SDL_Rect boxSection = { uiNode.child("boxSection").attribute("x").as_int(), uiNode.child("boxSection").attribute("y").as_int(), uiNode.child("boxSection").attribute("w").as_int(), uiNode.child("boxSection").attribute("h").as_int() };
-		SDL_Rect tickSection = { uiNode.child("tickSection").attribute("x").as_int(), uiNode.child("tickSection").attribute("y").as_int(), uiNode.child("tickSection").attribute("w").as_int(), uiNode.child("tickSection").attribute("h").as_int() };
+		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
+		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
+
+		pugi::xml_node hoverSecNode = uiNode.child("hoverSec");
+		SDL_Rect* sectionHove = nullptr;
+		if (hoverSecNode)
+		{
+			SDL_Rect hover = { hoverSecNode.attribute("x").as_int(), hoverSecNode.attribute("y").as_int(), hoverSecNode.attribute("w").as_int(), hoverSecNode.attribute("h").as_int() };
+			sectionHove = &hover;
+		}
+
+		SDL_Rect* sectionClick = nullptr;
+		if (pugi::xml_node clickSecNode = uiNode.child("clickSec"))
+		{
+			SDL_Rect click = { clickSecNode.attribute("x").as_int(), clickSecNode.attribute("y").as_int(), clickSecNode.attribute("w").as_int(), clickSecNode.attribute("h").as_int() };
+			sectionClick = &click;
+		}
+
+		SDL_Rect* sectionTick = nullptr;
+		if (pugi::xml_node tickSecNode = uiNode.child("tickSec"))
+		{
+			SDL_Rect tick = { tickSecNode.attribute("x").as_int(), tickSecNode.attribute("y").as_int(), tickSecNode.attribute("w").as_int(), tickSecNode.attribute("h").as_int() };
+			sectionTick = &tick;
+		}
 
 
-		// LABEL INSIDE CHECKBOX 
-		pugi::xml_node uiNode3 = uiNode.child("checkboxLabels").child("checkboxLabel");
 
-		std::string text = uiNode3.child("text").attribute("value").as_string();
-		uint fontIndex = uiNode3.child("font").attribute("value").as_uint();
-		uint fontSize = uiNode3.child("font").attribute("size").as_uint();
-		SDL_Color color = { uiNode3.child("color").attribute("R").as_uint(),uiNode3.child("color").attribute("G").as_uint(),uiNode3.child("color").attribute("B").as_uint(),uiNode3.child("color").attribute("A").as_uint() };
-
-
-		labelInfo labelInfo = {
-			text,
-			color ,
-			fontIndex,
-		};
-
-		App->gui->AddCheckbox(panelPosition, functionPath, name, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
-
+		App->gui->AddCheckbox(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove, sectionTick);
 	}
 
 

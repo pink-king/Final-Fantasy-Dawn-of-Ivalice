@@ -14,32 +14,39 @@
 #include <assert.h> 
 #include "j1Audio.h"
 
-UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string& function, std::string& name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent) :UiItem(position, function, name, parent)
+UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string& function, std::string& name, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click, const SDL_Rect* hover, const SDL_Rect* tick_section) :UiItem(position, function, name, parent)
 {
 
 	assert(parent != NULL);
+	frames[IDLE] = *idle;
 
-	this->panel_section = *panel_section;
-	this->captureIdleSection = *panel_section;
+	if (click)
+		frames[CLICK] = *click;
+	else
+		frames[CLICK] = *idle;
 
-	this->box_section = *box_section;
+	if (hover)
+		frames[HOVER] = *hover;
+	else
+		frames[HOVER] = *idle;
+
+	
+
+	
 	this->tick_section = *tick_section;
 	this->guiType = GUI_TYPES::CHECKBOX;
 
-	this->hitBox.x = position.x;
-	this->hitBox.y = position.y;
+	hitBox.x = position.x;
+	hitBox.y = position.y;
 
-	// do this in XML ? 
+	
 
-	int box_offset_y = 9;
-	int box_offset_x = 16;
-
-	iPoint boxPos(position.x + box_offset_x, position.y + box_offset_y);
+	
 
 	int tick_offset_y = 3;
 	int tick_offset_x = 3;
 
-	iPoint tickPos(boxPos.x + tick_offset_x, boxPos.y + tick_offset_y);
+	iPoint tickPos(position.x + tick_offset_x, position.y + tick_offset_y);
 
 
 	// - - - - - - - - - - - - - - - - - - - -
@@ -47,23 +54,16 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string& function, std::st
 
 
 
-	// panel 
-	panel = App->gui->AddImage(position, panel_section, name, this);
-
-	// box
-	box = App->gui->AddImage(boxPos, box_section, name, this);
+	
 
 	// tick
 	tick = App->gui->AddImage(tickPos, tick_section, name, this);
 	tick->hide = true;
 
 
-	// label    
-	uint offsetFromBox = 28;
-	iPoint labelPos(boxPos.x + offsetFromBox, boxPos.y);
+	
 
-	App->gui->AddLabel(labelInfo->labelText, labelInfo->labelColor, App->font->fonts.at(labelInfo->labelIndex), labelPos, parent);
-	// - - - - - - - - - - - - - - - - - - - -
+	
 
 
 
@@ -80,7 +80,7 @@ UiItem_Checkbox::~UiItem_Checkbox()
 void UiItem_Checkbox::Draw(const float & dt)
 {
 
-	//App->render->Blit(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, 0.0F, SDL_FLIP_NONE);
+	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }
 
 
@@ -94,26 +94,12 @@ void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 
 
 
-void UiItem_Checkbox::DoLogicHovered() {
-
-	panel->section.x = 284;
-	panel->section.y = 722;
-	panel->section.w = 220;
-	panel->section.h = 48;
-
-}
-
-void UiItem_Checkbox::DoLogicAbandoned() {
 
 
-	panel->section = this->captureIdleSection;
-}
 
 void UiItem_Checkbox::CleanUp()
 {
-	panel->to_delete = true;
-	box->to_delete = true;
-	label->to_delete = true;
+	
 	tick->to_delete = true;
 }
 
