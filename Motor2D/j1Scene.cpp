@@ -1839,13 +1839,11 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 
 			else
 			{
-<<<<<<< HEAD
+
 				inventoryItem->closing = true; 
 				inventoryItem->despawnRubbish();  // don't blame me for the name
 
 
-=======
->>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 				// character stats panel
 				characterStatsItem->deGenerateCharacterStats();
 

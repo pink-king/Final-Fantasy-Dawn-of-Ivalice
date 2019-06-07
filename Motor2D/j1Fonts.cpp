@@ -1,3 +1,4 @@
+
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
@@ -13,6 +14,7 @@ j1Fonts::j1Fonts() : j1Module()
 {
 	name.assign("fonts");
 }
+
 
 // Destructor
 j1Fonts::~j1Fonts()
@@ -48,8 +50,16 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	piecesofEight36 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 36);
 	piecesofEight48 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 48);
 
-	piecesofEight24= Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 24);
+	piecesofEight24 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 24);
 	piecesofEight18 = Load("fonts/Pieces_of_Eight/Pieces of Eight.ttf", 18);
+
+
+	knightsQuest18 = Load("fonts/knights-quest.regular/knights-quest.regular.ttf", 18);
+	knightsQuest24 = Load("fonts/knights-quest.regular/knights-quest.regular.ttf", 24);
+
+	weekSRB18 = Load("fonts/week-srb-regular/week-srb-regular.ttf", 18);
+	weekSRB24 = Load("fonts/week-srb-regular/week-srb-regular.ttf", 24);
+
 
 
 	return ret;

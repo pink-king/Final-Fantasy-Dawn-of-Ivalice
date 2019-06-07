@@ -55,20 +55,26 @@ public:
 
 	void makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(LootEntity*);
 
-	void RepositionBagItems(); 
+	void RepositionBagItems();
 
 	bool DoPriceCalculations(LootEntity*);
 
 	bool CheckMaxItems(); // use when buying and selling
 
-public: 
+	void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag);
 
-	bool drawTest = false; 
-		
-	bool loadedInventoryLabelsFromStart = false; 
+	void despawnRubbish();
 
-	bool createdLabels = false; 
-	bool isVendorInventory = false; 
+
+
+public:
+
+	bool drawTest = false;
+
+	bool loadedInventoryLabelsFromStart = false;
+
+	bool createdLabels = false;
+	bool isVendorInventory = false;
 	bool swappedBag = true;
 	bool swappedBag2 = false;
 	bool swappedBag3 = false;
@@ -83,10 +89,14 @@ public:
 	bool firstTimeSwappedBagLeftVendor = false;
 	bool firstTimeSwappedBagLeft3Vendor = false;
 
-	bool closing = false; 
+	bool closing = false;
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 247, 96 };
+
+
+	uint totalSpawnedItems = 0;
+	uint totalDeSpawnedInventoryIcons = 0;
 
 private:
 	SDL_Rect tab_image = { 726,1,64,64 };
@@ -95,15 +105,18 @@ private:
 	bool first_label_fenix = false;
 	int potion_counter = 1;
 	int fenix_counter = 1;
-	int vendor_potion_counter = 1; 
+	int vendor_potion_counter = 1;
 	UiItem_Label* potionLabel = nullptr;
 	UiItem_Label* fenixLabel = nullptr;
 	consumableLabelPositions consumable_positions;
 	std::string str_potion;
 	std::string str_fenix_tail;
-
 	std::string name = "";
 
+	UiItem_Label* charNameLabel = nullptr;
+	UiItem_Label* equippedLabel = nullptr;
+	UiItem_Label* bagLabel = nullptr;
+	UiItem_Label* consumablesLabel = nullptr;
 
 };
 
@@ -111,8 +124,4 @@ private:
 
 
 
-
-
-
-
-#endif
+#endif 

@@ -1,12 +1,12 @@
 #ifndef  _CHARACTER_STATS_H_
-
 #define _CHARACTER_STATS_H_
 
 #include "UiItem.h"
 
+#include <variant>
 #include <map>
 #include <array>
-#include <variant>
+
 
 #define START_BLOCK_POSITION_RELATIVE_TO_INVENTORY iPoint(650,150)
 #define STAT_BLOCK_SEPARATION_Y 40
@@ -34,13 +34,14 @@ private:
 	uint mapPosition;
 	bool AddedNewBuff = false;
 
+
 public:
 	CharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* changeStatIcon, UiItem* const parent) : BlockName(Name), baseStat(bStat),
 		newStat(nStat), baseStatValue(bValue), newStatValue(nValue), changeStatArrows(Arrows), changeStatIcon(changeStatIcon), UiItem(parent)
 	{
 		this->guiType = GUI_TYPES::CHARACTERSTATBLOCK;
-	}
 
+	}
 
 	friend class CharacterStats;
 };
@@ -62,19 +63,32 @@ public:
 	void generateCharacterStats();
 	void deGenerateCharacterStats();
 
-	void InitializeStats();
+	void InitializeStats(bool swappingCharacter = false);
 	void ResetDefaultStats();
+	void SetBaseStats();   // if Compare recieves a 1 in the mapping pos, change it, with the value at that pos
 	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
-	void SetBaseStats();   // if Compare recieves a 1 in the mapping pos, change it, with the value at that pos	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	//void GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	void SetNewStats();
 	void HideAllComparisonStats();
 	void ShowAllComparisonStats();
 
+	void getItemBuffsAndCallStatComparison(LootEntity*);
+
+	void ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(LootEntity*);
+
+	uint numberOfSpawnedStatItems = 0;
+
+	std::string characterTag = "nobody";
 
 
-	void getItemBuffsAndCallStatComparison(LootEntity* ent);
-
+	bool characterFakeSwapDone = false;
 };
 
+
+
+
+
+
+
 #endif // ! _CHARACTER_STATS_H_
+

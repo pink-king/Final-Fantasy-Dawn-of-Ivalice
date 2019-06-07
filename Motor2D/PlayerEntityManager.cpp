@@ -535,7 +535,7 @@ bool PlayerEntityManager::SwapInputChecker()
 
 			if (App->scene->inventory->enable)
 			{
-<<<<<<< HEAD
+
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
@@ -545,13 +545,13 @@ bool PlayerEntityManager::SwapInputChecker()
 			else
 			{
 				SetPreviousCharacter();
-=======
+
 				/*if (!App->scene->inventoryItem->isVendorInventory)
 				{*/
 				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
 
 			//}
->>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
+
 			}
 
 			
@@ -561,12 +561,12 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-<<<<<<< HEAD
+
 					App->scene->characterStatsItem->InitializeStats();
 					SetPreviousCharacter();
-=======
+
 					//App->scene->characterStatsItem->InitializeStats();
->>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
+
 				}
 				/*else
 				{
@@ -586,7 +586,7 @@ bool PlayerEntityManager::SwapInputChecker()
 		{
 			if (App->scene->inventory->enable)
 			{
-<<<<<<< HEAD
+
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
@@ -596,12 +596,12 @@ bool PlayerEntityManager::SwapInputChecker()
 			else
 			{
 				SetNextCharacter();
-=======
+
 				/*if (!App->scene->inventoryItem->isVendorInventory)
 				{*/
 				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
 			//}
->>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
+
 			}
 
 
@@ -611,12 +611,11 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-<<<<<<< HEAD
+
 				    App->scene->characterStatsItem->InitializeStats();
 					SetNextCharacter();
-=======
+
 					//App->scene->characterStatsItem->InitializeStats();
->>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 				}
 				/*else
 				{
