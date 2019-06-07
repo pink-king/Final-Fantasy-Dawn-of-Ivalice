@@ -68,6 +68,11 @@ bool j1DialogSystem::Update(float dt)
 			SetCurrentDialog("TUTORIAL");
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
+		{
+			SetCurrentDialog("PREBOSS");
+		}
+
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
@@ -224,7 +229,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL" || currentDialogType == "BOSS")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL" || currentDialogType == "BOSS" || currentDialogType == "PREBOSS")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
