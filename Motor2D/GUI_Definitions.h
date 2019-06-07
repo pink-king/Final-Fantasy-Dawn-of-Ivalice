@@ -2,6 +2,7 @@
 #define GUI_DEFINITIONS_H
 
 #include "UiItem_CooldownClock.h"
+#include<map>
 
 /// GUI CPP 
 
@@ -16,7 +17,7 @@ struct coolDownClockData
 struct theClocks
 {
 
-	coolDownClockData ability1, ability2, ulti, potion;
+	coolDownClockData ability1, ability2, ulti, potion,dodge;
 
 };
 
@@ -27,6 +28,7 @@ struct createdClocks {
 	bool special2 = false;
 	bool ulti = false;
 	bool potion = false;
+	bool dodge = false;
 };
 
 
@@ -43,6 +45,7 @@ struct myClocks {
 	UiItem_CooldownClock* special2 = nullptr;
 	UiItem_CooldownClock* ulti = nullptr;
 	UiItem_CooldownClock* potion = nullptr;
+	UiItem_CooldownClock* dodge = nullptr;
 };
 
 
@@ -58,6 +61,42 @@ struct enemyHealthBarInfo
 };
 
 
+struct bossLifeBarInfo
+{
+	SDL_Rect staticSection;
+	SDL_Rect dynamicSection;
+	SDL_Rect divSection;
+};
+
+struct enemySkullIcon
+{
+	SDL_Rect baseEnemyRect;
+	SDL_Rect strongEnemyRect;
+	SDL_Rect BossEnemyRect;
+};
+
+
+struct CharacterStatIcon
+{
+	SDL_Rect upgrade;
+	SDL_Rect Downgrade;
+	uint mapPos;
+};
+
+
+struct upgradeCharacterStatsIcons
+{
+
+	CharacterStatIcon attack;
+
+	CharacterStatIcon defense;
+	CharacterStatIcon cooldown;
+	CharacterStatIcon HP;
+	CharacterStatIcon velocity;
+
+	std::map<int, CharacterStatIcon> mapPositions;
+
+};
 
 class GUI_Definitions
 {

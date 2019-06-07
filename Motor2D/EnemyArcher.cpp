@@ -5,12 +5,12 @@
 EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
 {
 	LoadAnims();
-	App->audio->PlayFx(App->entityFactory->golem_spawnSFX, 0);
+	App->audio->PlayFx(App->scene->golem_spawnSFX, 0);
 }
 
 EnemyArcher::~EnemyArcher()
 {
-	App->audio->PlayFx(App->entityFactory->golem_deathSFX, 0);
+	App->audio->PlayFx(App->scene->golem_deathSFX, 0);
 }
 
 bool EnemyArcher::PreUpdate()
@@ -25,12 +25,17 @@ bool EnemyArcher::PreUpdate()
 
 bool EnemyArcher::Update(float dt)
 {
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 	if (!isParalize)
 	{
 		SetState(dt);
 	}
 
-	if (stat.size() != 0)
+	if (stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(this))
 		{

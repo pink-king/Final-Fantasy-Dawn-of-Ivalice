@@ -34,8 +34,8 @@ LobbyPortal::LobbyPortal(float posx, float posy, SceneState scene, Color color)
 	AssignInSubtiles(nSubtiles);
 
 	currentAnim = &idle;
-	App->audio->PlayFx(App->entityFactory->portal_appear, 0);
-	App->audio->PlayFx(App->entityFactory->portal_mantain, -1);
+	App->audio->PlayFx(App->scene->portal_appear, 0);
+	App->audio->PlayFx(App->scene->portal_mantain, -1);
 
 }
 
@@ -55,18 +55,21 @@ void LobbyPortal::Draw()
 {
 	if (currentAnim != nullptr)
 		App->render->Blit(entityTex, position.x - size.x / 2, position.y - size.y, &currentAnim->GetCurrentFrame(), 1.0F);
+	if (App->scene->debugSubtiles)
+		DebugTrigger();
 }
 
 bool LobbyPortal::DoTriggerAction()
 {
 	if (doit)
 	{
-		App->audio->PlayFx(App->entityFactory->portal_travel, 0);
-		App->entityFactory->player->to_delete = true;
+		App->SaveGame("save_game.xml");
+		App->audio->PlayFx(App->scene->portal_travel, 0);
 		currentAnim = &close;
 		App->scene->ComeToPortal = true;
 		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
 		App->scene->previosState = App->scene->state;
+		App->entityFactory->player->to_delete = true;
 		doit = false;
 	}
 	return true;

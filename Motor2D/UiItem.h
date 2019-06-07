@@ -26,6 +26,9 @@ enum GUI_TYPES
 	CLOCK,
 	DESCRIPTION,
 	INVENTORY,
+	CHARACTERSTATBLOCKLABEL,
+	CHARACTERSTATBLOCK,
+	CHARACTERSTATMANAGER,
 	UNKNOWN
 };
 
@@ -35,16 +38,19 @@ protected:
 	// UiItem* parent = NULL;
 public:
 	UiItem* parent = nullptr;
+	std::string name;
 
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;
 	std::string name_object;
 	SDL_Rect hitBox = { 0,0,0,0 };
+	SDL_Rect section_item = { 0,0,0,0 };
 	std::string function;
 	// p2Point<int> pivot = { 0,0 };
 	uint mouseButtonDown = 0;
 	UiItem(const iPoint& pos, UiItem* const parent);
-	UiItem(const iPoint& pos, std::string& function, UiItem* const parent);
+	UiItem(const iPoint& pos, std::string& name, UiItem* const parent);
+	UiItem(const iPoint& pos, std::string& function, std::string& name, UiItem* const parent);
 	UiItem(UiItem* const parent);
 	//UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem();
@@ -57,6 +63,7 @@ public:
 	bool slidable = false;
 	bool tabbed = false;
 	bool tabbable = false;
+	bool autorefresh = false;
 	bool isNPCLabel = false;
 	bool enable = true;
 	bool hide = false;
@@ -69,8 +76,10 @@ public:
 	iPoint prevTextDimension;
 	bool first_hitbox = false;
 	bool isDialog = false; 
-
 	bool changeTexture = false; 
+	bool swapPosition = false;
+	bool hasBeenSpawned = false;
+	bool isCharacterStat = false;
 
 	uint dialogPos = 666; 
 

@@ -21,7 +21,10 @@ public:
 private:
 	Animation idle;
 	Animation* currentAnim = nullptr;
+	Animation saveSign;
+	Animation sign;
 
+	SDL_Texture* signTex = nullptr;
 	bool isActive = false;
 };
 

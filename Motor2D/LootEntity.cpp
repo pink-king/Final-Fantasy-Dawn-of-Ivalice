@@ -5,8 +5,8 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1EntityFactory.h"
-
-
+#include "j1PathFinding.h"
+#include "j1EasingSplines.h"
 LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX, posY, "LootParent"), loot_type(type)
 {
 	
@@ -15,9 +15,43 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	lootSubtile.y = posY;
 	engine.seed(rd());
 	
-	//lootTexture = App->tex->Load("textures/loot/loot_items.png");
 	level = 0;
-	
+	adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
+	adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
+	adjacentTileNeighboursToGround[2] = { -1,0 }; // W
+	adjacentTileNeighboursToGround[3] = { 1,0 }; // E
+	adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
+	adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
+	adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
+	adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+	adjacentTileNeighboursToGround[8] = { 0,-2 }; // N
+	adjacentTileNeighboursToGround[9] = { 0, 2 }; // S
+	adjacentTileNeighboursToGround[10] = { -2,0 }; // W
+	adjacentTileNeighboursToGround[11] = { 2,0 }; // E
+	adjacentTileNeighboursToGround[12] = { 2,-2 }; // NE
+	adjacentTileNeighboursToGround[13] = { -2,-2 }; // NW
+	adjacentTileNeighboursToGround[14] = { 2, 2 }; // SE
+	adjacentTileNeighboursToGround[15] = { -2,2 }; // SW
+	adjacentTileNeighboursToGround[16] = { 0,-3 }; // N
+	adjacentTileNeighboursToGround[17] = { 0, 3 }; // S
+	adjacentTileNeighboursToGround[18] = { -3,0 }; // W
+	adjacentTileNeighboursToGround[19] = { 3,0 }; // E
+	adjacentTileNeighboursToGround[20] = { 3,-3 }; // NE
+	adjacentTileNeighboursToGround[21] = { -3,-3 }; // NW
+	adjacentTileNeighboursToGround[22] = { 3, 3 }; // SE
+	adjacentTileNeighboursToGround[23] = { -3,3 }; // SW
+	adjacentTileNeighboursToGround[24] = { 0,-4 }; // N
+	adjacentTileNeighboursToGround[25] = { 0, 4 }; // S
+	adjacentTileNeighboursToGround[26] = { -4,0 }; // W
+	adjacentTileNeighboursToGround[27] = { 4,0 }; // E
+	adjacentTileNeighboursToGround[28] = { 4,-4 }; // NE
+	adjacentTileNeighboursToGround[29] = { -4,-4 }; // NW
+	adjacentTileNeighboursToGround[30] = { 4, 4 }; // SE
+	adjacentTileNeighboursToGround[31] = { -4,4 }; // SW
+	GetGroundTilePoints();
+	SelectSubtileToGround();
+
+	shadow_rect = { 0,0,32,32 };
 }
 
 LootEntity::~LootEntity()
@@ -36,8 +70,16 @@ LootEntity::~LootEntity()
 bool LootEntity::Start()
 {
 	
-	start = true;
-	endReached = false;
+	
+	//adjacentTileNeighboursToGround[0] = { 0,-1 }; // N
+	//adjacentTileNeighboursToGround[1] = { 0, 1 }; // S
+	//adjacentTileNeighboursToGround[2] = { -1,0 }; // W
+	//adjacentTileNeighboursToGround[3] = { 1,0 }; // E
+	//adjacentTileNeighboursToGround[4] = { 1,-1 }; // NE
+	//adjacentTileNeighboursToGround[5] = { -1,-1 }; // NW
+	//adjacentTileNeighboursToGround[6] = { 1, 1 }; // SE
+	//adjacentTileNeighboursToGround[7] = { -1,1 }; // SW
+
 	
 	return true;
 }
@@ -283,26 +325,13 @@ float LootEntity::LerpX(float origin, float destination, float t )
 {
 	return origin * (1 - t) + destination * t;
 }
-fPoint LootEntity::SetDestinationPos(float x, float y)
-{
-	
-	x = position.x + 128;
-	y = position.y;
 
-	return { x,y };
-}
 iPoint LootEntity::Getoriginpos()
 {
 	iPoint originPos = App->map->SubTileMapToWorld(lootSubtile.x, lootSubtile.y);
 	return originPos;
 }
-iPoint LootEntity::GetFinalPos()
-{
-	iPoint finalPos = Getoriginpos();
 
-	return finalPos;
-
-}
 iPoint LootEntity::GetPosition()
 {
 	return (iPoint(position));
@@ -311,7 +340,7 @@ iPoint LootEntity::GetPosition()
 std::string LootEntity::GetName()
 {
 	return name;
-}
+}  
 
 LOOT_TYPE LootEntity::GetType()
 {
@@ -339,28 +368,6 @@ int LootEntity::GetRandomValue(int min, int max)
 	return ret;
 }
 
-float LootEntity::EaseOutBack(float t)
-{
-
-
-	
-
-	return 1 + (--t) * t * (2.70158 * t + 1.70158);
-
-
-}
-
-fPoint LootEntity::Lerp(fPoint origin, fPoint destination, float t)
-{
-	fPoint vector = origin * (1 - t) + destination * t;
-	float lengthmodule = std::sqrtf(vector.x*vector.x + vector.y*vector.y);
-	vector.x = vector.x / lengthmodule;
-	vector.y = vector.y / lengthmodule;
-	return vector;
-}
-
-
-
 void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item)
 {
 	stats.push_back(DBG_NEW Buff(type, character, stat, elementType, rol, value, item));
@@ -369,10 +376,16 @@ void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string sta
 
 void LootEntity::Draw()
 {
-	//TO FIX only blits pivot
+	if (objShadow != nullptr && equipableType != EQUIPABLE_TYPE::SWORD)
+		App->render->Blit(objShadow, position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y * .5f, &shadow_rect, 1.0f);
+	else if (objShadow != nullptr)
+	{
+		App->render->Blit(objShadow, position.x+5, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y * .5f, &shadow_rect, 1.0f);
+	}
 	if (entityTex != nullptr)
 		App->render->Blit(entityTex, position.x, position.y, &loot_rect,1.0f);
-	//LOG("painting loot");
+
+	
 }
 
 EQUIPABLE_TYPE LootEntity::GetEquipable()
@@ -380,118 +393,123 @@ EQUIPABLE_TYPE LootEntity::GetEquipable()
 	return equipableType;
 }
 
-void LootEntity::DecideExplosion()
+void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
 {
-	EXPLOSION_DIRECTION  randVale;
-	int randVal = GetRandomValue(0, 6);
-
-	switch (randVal)
+	switch (equipable)
 	{
-
-	case 0:
-		randVale = EXPLOSION_DIRECTION::EAST;
-
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 170.0f;
-		incrementY = 2.8;
-		decrementY = 3.8;
+	case EQUIPABLE_TYPE::SWORD:
+		loot_rect = { 353, 96, 32, 32 };
+		SetPivot(16, 15);
+		size.create(32, 32);
+		//353, 96
 		break;
 
-	case 1:
-		randVale = EXPLOSION_DIRECTION::WEST;
-
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 170.0f;
-		incrementY = 2.8;
-		decrementY = 3.8;
-
-		break;
-	case 2:
-		randVale = EXPLOSION_DIRECTION::NORTHEAST;
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 200.0f;
-		incrementY = 2.8;
-		decrementY = 3.0;
+	case EQUIPABLE_TYPE::BOW:
+		loot_rect = { 34, 834, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		//34,834
 		break;
 
-	case 3:
-		randVale = EXPLOSION_DIRECTION::NORTHWEST;
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 200.0f;
-		incrementY = 2.8;
-		decrementY = 3.0;
-		break;
-	case 4:
-		randVale = EXPLOSION_DIRECTION::SOUTHEAST;
-		timeXmid = 200.0f;
-		incrementX = 0.4;
-		decrementX = 0.2;
-		timeYmid = 160.0f;
-		incrementY = 2.5;
-		decrementY = 3.8;
+	case EQUIPABLE_TYPE::ROD:
+		loot_rect = { 33, 738, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		//33 , 738
 		break;
 
-	case 5:
-		randVale = EXPLOSION_DIRECTION::SOUTHWEST;
-
-		timeXmid = 200.0f;
-		incrementX = -0.4;
-		decrementX = -0.2;
-		timeYmid = 160.0f;
-		incrementY = 2.5;
-		decrementY = 3.8;
+	case EQUIPABLE_TYPE::ARMOR:
+		loot_rect = { 128, 964, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		//128 , 964
 		break;
 
-	case 6:
-		timeXmid = 160.0f;
-		incrementX = -0.1f;
-		decrementX = -0.1f;
-		timeYmid = 80.0f;
-		incrementY = 2.0f;
-		decrementY = 3.0f;
+	case EQUIPABLE_TYPE::VEST:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 95, 1409, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		//95,1409
 		break;
+
+
+	case EQUIPABLE_TYPE::MANTLE:
+		objectType = OBJECT_TYPE::ARMOR_OBJECT;
+		loot_rect = { 446, 1408, 32, 32 };
+		SetPivot(16, 16);
+		size.create(32, 32);
+		//leg mantle x446,y1408
+
+		break;
+
 	}
-	
 }
 
-void LootEntity::ExplosionMaker(float dt)
+
+
+std::list<iPoint> LootEntity::GetGroundTilePoints()
 {
-	timeTest = displacementTime.ReadMs()*0.001;
-	position.x = LerpX(position.x, goalPos.x, 0.0000009f);
-	if (displacementTime.ReadMs() <= timeXmid)
+	
+	for (int i = 0; i < NUM_NEIGH_SUBTILETILE_FALL; ++i)
 	{
-		position.x += incrementX * dt;
-	}
-	else position.x += decrementX * dt;
 
-	position.y = LerpX(position.y, goalPos.y, 0.0000009f);
-
-	if (displacementTime.ReadMs() <= timeYmid)
-	{
-		position.y = position.y + 0.707*timeTest*timeTest;
-		position.y -= incrementY;
+		iPoint subtilePos = App->map->WorldToSubtileMap(position.x, position.y) + adjacentTileNeighboursToGround[i];
+		iPoint temp;
+		temp = App->map->SubTileMapToWorld(subtilePos.x, subtilePos.y);
+		iPoint tilePos = App->map->WorldToMap(temp.x, temp.y);
+		if (App->pathfinding->IsWalkable(tilePos))
+		{
+			groundSubtilePoints.push_back(subtilePos);
+			
+		}
 	}
+	
+	return groundSubtilePoints;
+}
+
+void LootEntity::SetSplineToFall()
+{
+	//App->easing->CreateSpline((&float)position.y,)
+	int actualpos = position.y;
+	App->easing->CreateSpline(&position.y, App->map->SubTileMapToWorld(groundSubtileDestination.x+1, groundSubtileDestination.y).y - pivot.y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
+}
+
+void LootEntity::SelectSubtileToGround()
+{
+	LOG("lootEjection");
+	LOG("groundTile size %i", groundSubtilePoints.size());
+	int m;
+	if (groundSubtilePoints.size() == 0)
+		m = groundSubtilePoints.size();
 	else
+		m = groundSubtilePoints.size()-1;
+
+	int randVal = GetRandomValue(0, m);
+	m=0;
+
+	for (std::list<iPoint>::iterator iter = groundSubtilePoints.begin(); iter != groundSubtilePoints.end(); ++iter)
 	{
-		position.y  - 0.070*timeTest*timeTest;
-		position.y += decrementY;
+		if (m == randVal)
+		{
+			// if randVal = 8 tiledestinatio gets fucked!!
+			
+			groundSubtileDestination = (*iter);
+			LOG("tw8");
+			break;
+
+		}
+		++m;
 	}
-	
-	
 }
+
+
 
 // TODO: why loot entity asks on every frame ?
 // its not worth, what happen when we have a bunch of loots?
 // solution: only asks the player itself, or the crosshair instead
 
+/*
 void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this with player proximity instead of crosshair
 {
 	// if the crosshair focuses the item and description is hiden 
@@ -504,7 +522,7 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 		// create a new one
 		App->entityFactory->GenerateDescriptionForLootItem(this);
-		iPoint offset(-100, -this->MyDescription->panelWithButton->section.y - 200);
+		iPoint offset(-80, -this->MyDescription->panelWithButton->section.y - 180);
 		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y, true) + offset);
 		this->MyDescription->HideAllElements(false);
 
@@ -513,7 +531,9 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 	// if description is showing, but crosshair stops focusing item 
 
-	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() != this && !this->MyDescription->hide)
+	// this is preventing the player from picking loot by staying on top of it himself
+
+	if (spawnedDescription && App->entityFactory->player->GetCrosshair()->GetClampedEntity() && !this->MyDescription->hide)
 	{
 
 		// delete last descr
@@ -528,5 +548,12 @@ void LootEntity::CheckClampedCrossHairToSpawnDescription()  // TODO: Change this
 
 
 
+}*/
+
+void LootEntity::GetDistanceTotravel()
+{
+	iPoint actual{ (int)position.x,(int)position.y };
+	distanceTotravel = App->map->MapToWorld(groundSubtileDestination.x, groundSubtileDestination.y) - actual;
 }
+
 

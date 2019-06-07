@@ -7,6 +7,7 @@
 #include "UiItem_Image.h"
 #include "j1ParticlesClassic.h"
 #include "Brofiler/Brofiler.h"
+#include "Boss_Flower.h"
 
 j1BuffManager::j1BuffManager()
 {
@@ -41,7 +42,7 @@ bool j1BuffManager::Update(float dt)
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
 	{
 		godMode = !godMode;
 
@@ -167,38 +168,63 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 	// add always a hitpoint
 	// but if we have a previous one, unlink
 	if (attacker->type == ENTITY_TYPE::ENEMY_TEST)
-		App->audio->PlayFx(App->entityFactory->goblinAttack, 0);
+		App->audio->PlayFx(App->scene->goblinAttack, 0);
 
-	/*if (attacker->type == ENTITY_TYPE::PLAYER)
-		getPlayerandEnemyVec(attacker, defender);*/
+	
+	if (defender->type == ENTITY_TYPE::FLOWERBOSS)
+	{
+		dynamic_cast<FlowerBossEntity*>(defender)->myBossLifeBar->doDamageToBoss(lifeToSubstract);
+	}
 
 	if (defender->type == ENTITY_TYPE::PLAYER)
 	{
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
-		App->entityFactory->setPlayerDmageVec(getPlayerandEnemyVec(defender, attacker)); //vector to get player orientations from enemy
-		App->scene->previous_counter = App->scene->hit_counter;
-		App->scene->hit_counter += 1;
-		App->scene->decreaseAlpha = false;
+		/*-------- HURT HUD ---------*/
+		App->entityFactory->setPlayerDmageVec(getPlayerToEnemyVec(defender, attacker)); //vector to get player orientations from enemy
+
+		//-------->
+		if (App->scene->hit_counter < 3 && defender->life > defender->maxLife * 0.5f)
+		{
+			App->scene->previous_counter = App->scene->hit_counter;
+			App->scene->hit_counter += 1;
+			App->scene->decreaseAlpha = false;
+		}
+		else if (App->scene->hit_counter == 3 && defender->life > defender->maxLife * 0.5f)
+		{
+			App->scene->hit_counter -= 1;
+			App->scene->previous_counter = App->scene->hit_counter - 1;
+			App->scene->decreaseAlpha = false;
+		}
+
+		if (defender->life < defender->maxLife * 0.5f)
+		{
+			App->scene->previous_counter = App->scene->hit_counter;
+			App->scene->hit_counter += 1;
+			App->scene->decreaseAlpha = false;
+		}
+		//<-----------
+
 		App->entityFactory->pushEF = true;
 		App->input->DoGamePadRumble(200, 100);
 		App->camera2D->AddTrauma(0.5f);
 		App->scene->timeindmg.Start();
+		/*----------------------------*/
 
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
-			App->audio->PlayFx(App->entityFactory->marcheDamaged, 0);
+			App->audio->PlayFx(App->scene->marcheDamaged, 0);
 		}
 
 		else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
 		{
-			App->audio->PlayFx(App->entityFactory->RitzDamaged, 0);
+			App->audio->PlayFx(App->scene->RitzDamaged, 0);
 		}
 
 		else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
 		{
-			App->audio->PlayFx(App->entityFactory->SharaDamaged, 0);
+			App->audio->PlayFx(App->scene->SharaDamaged, 0);
 		}
 
 		if (defender->life <= 0)
@@ -213,8 +239,17 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 	bool playerAttacks = false;
 	if (attacker->type == ENTITY_TYPE::PLAYER)
-		playerAttacks = true;
+	{
+		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+		{
+			defender->entityPushback = true;
+			App->entityFactory->setPlayerDmageVec(getPlayerToEnemyVec(defender, attacker));
+			//defender->dmgEnemyVec = getPlayerToEnemyVec(defender, attacker);
 
+			//defender->entityPushback = false;
+		}
+		playerAttacks = true;
+	}
 	// Calling Hit point labels
 	switch (elementType)
 	{
@@ -240,7 +275,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 
 		
 																													  // but, enemy can die no
-	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER && !App->scene->ComeToDeath) // ONLY FOR DELETE
+	if (defender->life <= 0 && defender->type != ENTITY_TYPE::PLAYER) // ONLY FOR DELETE
 	{
 		RemoveBuff(defender);
 		entitiesTimeDamage.remove(defender);
@@ -256,10 +291,10 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 	else if (defender->life > 0 && attacker->type != ENTITY_TYPE::PLAYER)
 	{
 			if(App->entityFactory->GetRandomValue(1,2)==2 && defender->type == ENTITY_TYPE::ENEMY_TEST)
-				App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+				App->audio->PlayFx(App->scene->goblinDamaged, 0);
 
 			if (App->entityFactory->GetRandomValue(1, 2) == 2 && defender->type == ENTITY_TYPE::ENEMY_BOMB)
-				App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+				App->audio->PlayFx(App->scene->bombgetHitSFX, 0);
 
 		if (elementType == ELEMENTAL_TYPE::FIRE_ELEMENT && !defender->isBurned)
 		{
@@ -475,20 +510,21 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
-					if(player->coolDownData.basic.cooldownTime == 0)
-						player->coolDownData.basic.cooldownTime = 0;
+					if(player->coolDownData.basic.cooldownTime == 1)
+						player->coolDownData.basic.cooldownTime = 1;
 					player->coolDownData.dodge.cooldownTime *= value;
-					if (player->coolDownData.dodge.cooldownTime <= 0)
-						player->coolDownData.dodge.cooldownTime = 0;
+					if (player->coolDownData.dodge.cooldownTime <= 1)
+						player->coolDownData.dodge.cooldownTime = 1;
 					player->coolDownData.special1.cooldownTime *= value;
-					if (player->coolDownData.special1.cooldownTime <= 0)
-						player->coolDownData.special1.cooldownTime = 0;
+					if (player->coolDownData.special1.cooldownTime <= 1)
+						player->coolDownData.special1.cooldownTime = 1;
 					player->coolDownData.special2.cooldownTime *= value;
-					if (player->coolDownData.special2.cooldownTime <= 0)
-						player->coolDownData.special2.cooldownTime = 0;
+					if (player->coolDownData.special2.cooldownTime <= 1)
+						player->coolDownData.special2.cooldownTime = 1;
 					player->coolDownData.ultimate.cooldownTime *= value;
-					if (player->coolDownData.ultimate.cooldownTime <= 0)
-						player->coolDownData.ultimate.cooldownTime = 0;
+					if (player->coolDownData.ultimate.cooldownTime <= 1)
+						player->coolDownData.ultimate.cooldownTime = 1;
+
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{
@@ -592,6 +628,8 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->coolDownData.special1.cooldownTime /= buff->GetValue();
 				player->coolDownData.special2.cooldownTime /= buff->GetValue();
 				player->coolDownData.ultimate.cooldownTime /= buff->GetValue();
+
+
 			}
 			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
 			{
@@ -881,10 +919,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-							App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+							App->audio->PlayFx(App->scene->goblinDamaged, 0);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
-							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+							App->audio->PlayFx(App->scene->bombgetHitSFX, 0);
 						
 						//TODO: call create hitpoint label
 					}
@@ -918,9 +956,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						App->particles->AddParticle(App->particles->poison01, drawRectified.x + 15, drawRectified.y - entity->pivot.y*0.5, { 0,0 }, 0u);
 						App->audio->PlayFx(poisonedSFX, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
-								App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
+								App->audio->PlayFx(App->scene->goblinDamaged, 0);
 						if (entity->type == ENTITY_TYPE::ENEMY_BOMB)
-							App->audio->PlayFx(App->entityFactory->bombgetHitSFX, 0);
+							App->audio->PlayFx(App->scene->bombgetHitSFX, 0);
 						//TODO: call create hitpoint label
 
 						// Reset drawRectified
@@ -1097,33 +1135,19 @@ void j1BuffManager::AdjustEntityAnimationSpeed(j1Entity* entity)
 	}
 }
 
-fPoint j1BuffManager::getPlayerandEnemyVec(j1Entity* player, j1Entity* enemy)
+
+fPoint j1BuffManager::getPlayerToEnemyVec(j1Entity* origin, j1Entity* dest)
 {
 	fPoint vec;
 
-	enemy->GetPivotPos();
-	vec.x = player->GetPivotPos().x - enemy->GetPivotPos().x;
-	vec.y = player->GetPivotPos().y - enemy->GetPivotPos().y;
+	vec.x = origin->GetPivotPos().x - dest->GetPivotPos().x;
+	vec.y = origin->GetPivotPos().y - dest->GetPivotPos().y;
+	
+	vec.Normalize();
 	LOG("xlabel %f", vec.x);
 	LOG("ylabel %f", vec.y);
-
-	float vecModule = sqrt(vec.x * vec.x + vec.y * vec.y);
-	LOG("vecModule %f", vecModule);
-
-	fPoint unitVec;
-	unitVec.x = vec.x / vecModule;
-	unitVec.y = vec.y / vecModule;
-	LOG("u.x %f, u.y %f", unitVec.x, unitVec.y);
-	int xfactor, yfactor;
 	
-	
-	App->entityFactory->TranslateToRelativePlayerPos((iPoint)unitVec * 10);
-	
-
-	LOG("log from buffmanager getplayerEnemy");
-	return unitVec;
-
-
+	return vec;
 }
 
 bool j1BuffManager::Load(pugi::xml_node &node)

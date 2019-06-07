@@ -14,13 +14,13 @@
 #define boxSize 48                   
 #define boxSeparation iPoint(77,74)
 
-#define staringPosition iPoint(278, 101)
-#define tabOffset iPoint(15,17)
-#define tabOffsetPotion iPoint(23,18)
+#define staringPosition iPoint(247, 96)
+#define tabOffset iPoint(8,10)
+#define tabOffsetPotion iPoint(8,9)
 
 struct elementsStartingPositionsOffsets
 {
-	iPoint currentWeapon = iPoint(140, 30);
+	iPoint currentWeapon = iPoint(140, 102);
 	iPoint currentHead = iPoint(140, 102);
 	iPoint currentArmor = iPoint(140, 178);
 
@@ -28,7 +28,7 @@ struct elementsStartingPositionsOffsets
 };
 struct consumableLabelPositions
 {
-	iPoint potion1 = iPoint(928, 407);
+	iPoint potion1 = iPoint(897, 407);
 	iPoint fenix_tail = iPoint(928, 485);
 };
 
@@ -82,10 +82,10 @@ public:
 
 
 	elementsStartingPositionsOffsets initialPositionsOffsets;
-	iPoint startingPos = { 278, 101 };
+	iPoint startingPos = { 247, 96 };
 
 private:
-	SDL_Rect tab_image = { 726,1,69,70 };
+	SDL_Rect tab_image = { 726,1,64,64 };
 	bool first_potion = false;
 	bool first_label_potion = false;
 	bool first_label_fenix = false;
@@ -98,6 +98,7 @@ private:
 	std::string str_potion;
 	std::string str_fenix_tail;
 
+	std::string name = "";
 
 
 };

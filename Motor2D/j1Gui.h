@@ -18,6 +18,7 @@
 #include "GUI_Definitions.h"
 #include "UiItem_Description.h"
 #include "UiItem_Inventory.h"
+#include "CharacterStats.h"
 
 struct labelInfo
 {
@@ -96,11 +97,11 @@ public:
 	std::list<UiItem*>	ListItemUI;
 	UiItem* canvas = nullptr;
 	UiItem_Label* AddLabel(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, bool type_writer = false);
-	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, UiItem* const parent, bool isPanel = false);
+	UiItem_Image* AddImage(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition = false, bool isTabbable = false, bool autorefresh = false);
 	UiItem_Bar* AddBar(iPoint position, std::string name, const SDL_Rect* section, const SDL_Rect* thumb_section, const SDL_Rect* image_idle, const SDL_Rect* image_hover, UiItem* const parent); // , TypeBar type = VERTICAL);
-	UiItem_Button* AddButton(iPoint position, std::string function, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr);
+	UiItem_Button* AddButton(iPoint position, std::string function, std::string name, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr);
 	UiItem* AddEmptyElement(iPoint pos, UiItem* const parent = nullptr);
-	UiItem_Checkbox* AddCheckbox(iPoint position, std::string& function, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent = nullptr);
+	UiItem_Checkbox* AddCheckbox(iPoint position, std::string& function, std::string name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent = nullptr);
 
 	// TODO: AddHitPoint();
 	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
@@ -108,6 +109,7 @@ public:
 
 	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
 	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem* const parent = nullptr);
+	UiItem_HealthBar* AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent = nullptr); // boss
 
 	UiItem_CooldownClock* AddClock(iPoint position, SDL_Rect* section, std::string type, std::string charName, UiItem* const parent = nullptr);
 
@@ -119,6 +121,10 @@ public:
 	UiItem_Image* AddSpecialImage(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex = nullptr, UiItem_Description* myDescr = nullptr);
 	UiItem_Inventory* AddInventory(UiItem* const parent);
 
+	CharacterStats* AddCharacterStatsItem(UiItem* const parent);
+	CharacterStatBlock* AddCharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* changeStatIcon, UiItem* const parent);
+
+
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
 	void ExitGame();
@@ -126,8 +132,11 @@ public:
 	void GoBackToMenu();
 	void FpsCap();
 	void GoBackToGame();
+	void Credits();
+	void SocialMedia(std::string& name);
 	void GoBackToStartMenu();
 	void GoBackToStartMenuFromDeathWin();
+	void GoToControls();
 
 	UiItem_HealthBar* healthBar = nullptr;
 	SDL_Texture* lootTexture = nullptr;
@@ -145,6 +154,11 @@ public:
 	clockOwners spawnedClocks;
 	
 	enemyHealthBarInfo enemyLifeBarInfo;
+	enemySkullIcon enemySkullInfo;
+	bossLifeBarInfo bossHealthBarInfo;
+
+	upgradeCharacterStatsIcons upgradeCharacterStatsIconsRects;
+
 	SDL_Texture* hurt_hud_tex = nullptr;
 	SDL_Texture* hurt_hud_tex2 = nullptr;
 	SDL_Texture* hurt_hud_tex3 = nullptr;

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<controller_mapping>
+	<default>
+		<general>
+			<button function="interact" type="button" id="0" />
+			<button function="swap_next" type="button" id="10" />
+			<button function="swap_prev" type="button" id="9" />
+		</general>
+		<common>
+			<button function="basic" type="button" id="2" />
+			<button function="dodge" type="button" id="1" />
+			<button function="special1" type="button" id="3" />
+			<button function="special2" type="button" id="8" />
+			<button function="ultimate" type="axis" id="5" />
+			<button function="aim" type="axis" id="4" />
+		</common>
+	</default>
+	<current>
+		<general>
+			<button function="interact" type="button" id="0" />
+			<button function="swap_next" type="button" id="10" />
+			<button function="swap_prev" type="button" id="9" />
+		</general>
+		<marche>
+			<button function="aim" type="axis" id="4" />
+			<button function="basic" type="button" id="2" />
+			<button function="dodge" type="button" id="1" />
+			<button function="special1" type="button" id="3" />
+			<button function="special2" type="button" id="8" />
+			<button function="ultimate" type="axis" id="5" />
+		</marche>
+		<ritz>
+			<button function="aim" type="axis" id="4" />
+			<button function="basic" type="button" id="2" />
+			<button function="dodge" type="button" id="1" />
+			<button function="special1" type="button" id="3" />
+			<button function="special2" type="button" id="8" />
+			<button function="ultimate" type="axis" id="5" />
+		</ritz>
+		<shara>
+			<button function="aim" type="axis" id="4" />
+			<button function="basic" type="button" id="2" />
+			<button function="dodge" type="button" id="1" />
+			<button function="special1" type="button" id="3" />
+			<button function="special2" type="button" id="8" />
+			<button function="ultimate" type="axis" id="5" />
+		</shara>
+	</current>
+</controller_mapping>

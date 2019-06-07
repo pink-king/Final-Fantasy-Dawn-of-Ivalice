@@ -28,6 +28,17 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 
 	if (firstTime || playerLvlUp)
 	{
+		if (playerLvlUp)           // get rid of obsolete objects
+		{
+			for (auto& LootEntity : vBagObjects)
+			{
+				App->buff->RemoveItemStat(LootEntity);
+
+				App->scene->inventoryItem->De_______GenerateDescription(LootEntity, false);
+			}
+			vBagObjects.clear();
+		}
+
 		for (int i = 1; i <= numberOfEquip; ++i)
 		{
 			j1Entity* equipable = App->entityFactory->CreateLootType(0, 0, LOOT_TYPE::EQUIPABLE);
@@ -36,11 +47,15 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 
 		}
 
-		for (int i = 1; i <= numberOfPot; ++i)
+		if (vConsumables.size() < 10)
 		{
-			j1Entity* consumable = DBG_NEW Consumable(0,0, OBJECT_TYPE::POTIONS, CONSUMABLE_TYPE::POTION);
-			App->entityFactory->LoadLootData((LootEntity*)consumable, App->config);
-			EquipVendor((LootEntity*)consumable);
+			for (int i = 1; i <= numberOfPot; ++i)
+			{
+				j1Entity* consumable = DBG_NEW Consumable(0, 0, OBJECT_TYPE::POTIONS, CONSUMABLE_TYPE::POTION);
+				App->entityFactory->LoadLootData((LootEntity*)consumable, App->config);
+				EquipVendor((LootEntity*)consumable);
+
+			}
 
 		}
 

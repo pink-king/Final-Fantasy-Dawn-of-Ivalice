@@ -75,6 +75,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -82,12 +83,17 @@
     <ClCompile Include="BossEmmiter.cpp" />
     <ClCompile Include="BossEmmiterArrow.cpp" />
     <ClCompile Include="Boss_Flower.cpp" />
+    <ClCompile Include="BreakableAsset.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="CharacterStats.cpp" />
+    <ClCompile Include="ChestAsset.cpp" />
+    <ClCompile Include="ChestTrigger.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
     <ClCompile Include="Dissolve.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EarthShaker.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Emmiter.cpp" />
@@ -95,6 +101,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyBomb.cpp" />
+    <ClCompile Include="EnemyDummy.cpp" />
     <ClCompile Include="EnemyProjectile.cpp" />
     <ClCompile Include="EnemyTest.cpp" />
     <ClCompile Include="EquipableLoot.cpp" />
@@ -105,6 +112,7 @@
     <ClCompile Include="j1AttackManager.cpp" />
     <ClCompile Include="j1BuffManager.cpp" />
     <ClCompile Include="j1DialogSystem.cpp" />
+    <ClCompile Include="j1EasingSplines.cpp" />
     <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1EntityFactory.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
@@ -159,6 +167,7 @@
     <ClCompile Include="UiItem_Label.cpp" />
     <ClCompile Include="UiItem_Bar.cpp" />
     <ClCompile Include="DialogTrigger.cpp" />
+    <ClCompile Include="Video.cpp" />
     <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WaveTrigger.cpp" />
     <ClCompile Include="WinTrigger.cpp" />
@@ -168,12 +177,17 @@
     <ClInclude Include="BossEmmiter.h" />
     <ClInclude Include="BossEmmiterArrow.h" />
     <ClInclude Include="Boss_Flower.h" />
+    <ClInclude Include="BreakableAsset.h" />
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="CharacterStats.h" />
+    <ClInclude Include="ChestAsset.h" />
+    <ClInclude Include="ChestTrigger.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
     <ClInclude Include="Dissolve.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EarthShaker.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Emmiter.h" />
@@ -181,6 +195,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyBomb.h" />
+    <ClInclude Include="EnemyDummy.h" />
     <ClInclude Include="EnemyProjectile.h" />
     <ClInclude Include="EnemyTest.h" />
     <ClInclude Include="EquipableLoot.h" />
@@ -192,6 +207,7 @@
     <ClInclude Include="j1AttackManager.h" />
     <ClInclude Include="j1BuffManager.h" />
     <ClInclude Include="j1DialogSystem.h" />
+    <ClInclude Include="j1EasingSplines.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityFactory.h" />
     <ClInclude Include="j1Fonts.h" />
@@ -252,6 +268,7 @@
     <ClInclude Include="UiItem_Label.h" />
     <ClInclude Include="UiItem_Bar.h" />
     <ClInclude Include="DialogTrigger.h" />
+    <ClInclude Include="Video.h" />
     <ClInclude Include="WaveManager.h" />
     <ClInclude Include="WaveTrigger.h" />
     <ClInclude Include="WinTrigger.h" />
@@ -260,6 +277,7 @@
     <Xml Include="..\Game\config.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="..\Game\Dialog.xml" />
     <Xml Include="..\Game\Portal.xml">
       <SubType>Designer</SubType>
     </Xml>

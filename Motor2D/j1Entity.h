@@ -31,11 +31,15 @@ enum ENTITY_TYPE  // todo, pass to class
 		WAVE_MANAGER,
 		FLOWERBOSS,
 		ENEMY_ARCHER,
+		ENEMY_DUMMY,
 		//etc
 		LOOT,
 		PROJECTILE,
-
+		BREAKABLE_ASSET,
 		TRIGGER,
+
+		CHEST,
+
 		// LAST
 		MAX_TYPE
 	};
@@ -156,10 +160,10 @@ public:
 	
 	bool					manualCollectable;
 	int						value;
+	bool					entityPushback = false;
 
 
-
-	fPoint dmgDestinationPos;
+	fPoint					dmgEnemyVec;
 	j1Timer					alphaTimer;
 protected:
 	iPoint imOnTile;

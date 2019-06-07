@@ -18,14 +18,14 @@ GolemProjectile::GolemProjectile(fPoint pos, fPoint destination, uint speed, con
 	size.create(32, 32);
 	// TODO: Add different SFX
 	//App->audio->PlayFx(App->entityFactory->sharaBasic);
-	App->audio->PlayFx(App->entityFactory->golem_spawnAttackSFX, 0);
+	App->audio->PlayFx(App->scene->golem_spawnAttackSFX, 0);
 	// Important for aiming offset
 	SetInitially();
 }
 
 GolemProjectile::~GolemProjectile()
 {
-	App->audio->PlayFx(App->entityFactory->golem_impactWallSFX, 0);
+	App->audio->PlayFx(App->scene->golem_impactWallSFX, 0);
 	
 }
 
@@ -71,7 +71,7 @@ bool GolemProjectile::Contact()
 	App->input->DoGamePadRumble(0.35f, 100);*/
 
 	App->particles->AddParticle(App->particles->blood02, GetPivotPos().x - 10, GetPivotPos().y - 10);
-	App->audio->PlayFx(App->entityFactory->basicBodyImp, 0);
+	App->audio->PlayFx(App->scene->basicBodyImp, 0);
 
 	to_delete = true;
 

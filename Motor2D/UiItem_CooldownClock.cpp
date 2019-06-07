@@ -69,9 +69,10 @@ void UiItem_CooldownClock::DoLogic()
 
 	LastHeight = this->section.h;
 
-	if ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
+	if (App->entityFactory->player && ((App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && keepAnEye.character == "Marche")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && keepAnEye.character == "Ritz")
 		|| (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && keepAnEye.character == "Shara"))
+		)
 	{
 
 		hide = false;
@@ -133,6 +134,27 @@ void UiItem_CooldownClock::DoLogic()
 				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.cooldownTime / maxHeight;
 
 				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.ultimate.timer.Read() / proportion;
+
+				heightDiff = LastHeight - this->section.h;
+
+				this->hitBox.y += heightDiff;
+			}
+			else
+			{
+				Restart();    //dont't call it if it is already called from the player
+			}
+		}
+
+		// dodge
+		// ulti 
+		if (keepAnEye.ability == "dodge")
+		{
+			if (App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.timer.Read()
+				< App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.cooldownTime)
+			{
+				proportion = App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.cooldownTime / maxHeight;
+
+				this->section.h = maxHeight - App->entityFactory->player->selectedCharacterEntity->coolDownData.dodge.timer.Read() / proportion;
 
 				heightDiff = LastHeight - this->section.h;
 

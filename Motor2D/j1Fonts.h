@@ -44,6 +44,7 @@ public:
 
 
 	_TTF_Font*				default = nullptr;
+	_TTF_Font*			    openSansBold12 = nullptr;
 	_TTF_Font*			    openSansBold18 = nullptr;
 	_TTF_Font*			    openSansBold36 = nullptr;
 	_TTF_Font*			    openSansSemiBold24 = nullptr;

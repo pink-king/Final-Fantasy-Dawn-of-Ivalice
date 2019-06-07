@@ -28,7 +28,7 @@ EnemyBomb::~EnemyBomb()
 
 bool EnemyBomb::Start()
 {
-	App->audio->PlayFx(App->entityFactory->BombDeathSFX, 0);
+	App->audio->PlayFx(App->scene->BombDeathSFX, 0);
 	return true;
 }
 bool EnemyBomb::PreUpdate()
@@ -45,12 +45,16 @@ bool EnemyBomb::PreUpdate()
 }
 bool EnemyBomb::Update(float dt)
 {
-	
+	if (entityPushback)
+	{
+		DoPushback();
+		entityPushback = false;
+	}
 
 	if(!isParalize)
 		SetState(dt);
 	
-	if (stat.size() != 0 )
+	if (stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(this))
 		{
@@ -234,6 +238,7 @@ void EnemyBomb::SetState(float dt)
 		{
 			App->particles->AddParticle(App->particles->explosion01, position.x - 10, position.y - 10);
 			App->particles->AddParticle(App->particles->explosion03, position.x - 12, position.y - 10); // Nice combo here
+			App->audio->PlayFx(App->scene->bombExplodeSFX, 0);
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);		
 			exploded = true; 
@@ -251,7 +256,7 @@ void EnemyBomb::SetState(float dt)
 
 			App->attackManager->AddPropagationAttack(this, GetSubtilePos(), propagationType::BFS,
 				damageType::DIRECT, ELEMENTAL_TYPE::FIRE_ELEMENT, baseDamage, 6, 60, true);
-			App->audio->PlayFx(App->entityFactory->bombExplodeSFX, 0);
+			App->audio->PlayFx(App->scene->bombExplodeSFX, 0);
 			exploded = true;
 		}
 

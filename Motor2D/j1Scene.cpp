@@ -26,12 +26,14 @@
 #include "j1TransitionManager.h"
 #include "NoWalkableTrigger.h"
 #include "WaveTrigger.h"
+#include "LootEntity.h"
+#include "Video.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
-	state = SceneState::STARTMENU;
+	state = SceneState::INTRO;
 }
 
 // Destructor
@@ -50,9 +52,10 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
+	LType = LOOT_TYPE::CONSUMABLE;
 	debug = false;
-	
-	if(debug_tex == nullptr)
+
+	if (debug_tex == nullptr)
 		debug_tex = App->tex->Load("maps/path2.png");
 
 	hit_counter = 0;
@@ -62,20 +65,105 @@ bool j1Scene::Start()
 	purchase = App->audio->LoadFx("audio/fx/UI/purchase.wav");
 	sell = App->audio->LoadFx("audio/fx/UI/sell.wav");
 	switch_page = App->audio->LoadFx("audio/fx/UI/switch_page.wav");
+	// Load SFX
+	lootGroundSFX = App->audio->LoadFx("audio/fx/loot/lootgrounded.wav");
+	potionGroundSFX = App->audio->LoadFx("audio/fx/loot/potion_grounded.wav");
+	coinGroundedSFX = App->audio->LoadFx("audio/fx/loot/coinGrounded.wav");
+	swapCharSFX = App->audio->LoadFx("audio/fx/Player/swapChar.wav");
+	stepSFX = App->audio->LoadFx("audio/fx/Player/footstep-on-stone.wav");
+	enemySpawn = App->audio->LoadFx("audio/fx/enemySpawnTest.wav");
+	goblinDetection = App->audio->LoadFx("audio/fx/goblin_detection.wav");
+
+	marcheDamaged = App->audio->LoadFx("audio/fx/Player/Marche/Marche_damaged.wav");
+	marcheBasic = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic1Grunt.wav");
+	marcheBasic2 = App->audio->LoadFx("audio/fx/Player/Marche/marche_basic2Grunt.wav");
+	marcheAbility2 = App->audio->LoadFx("audio/fx/Player/Marche/marche_tornado.wav");
+	marcheUltimateScream = App->audio->LoadFx("audio/fx/Player/Marche/marcheUltimate.wav");
+	marcheAbility1 = App->audio->LoadFx("audio/fx/Player/Marche/marche_ability1.wav");
+	marcheEarthShakeSFX = App->audio->LoadFx("audio/fx/Player/Marche/marche_earthShake.wav");
+	marcheTornadoExplosion = App->audio->LoadFx("audio/fx/Player/Marche/marche_tornado_explosion.wav");
+
+	RitzDamaged = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_damaged.wav");
+	RitzBasic = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic.wav");
+	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic_hit.wav");
+	RitzMedusa = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_medusa.wav");
+	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_Ability2.wav");
+	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_teleport.wav");
+	RitzUltimate = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_ultimateTest2.wav");
+
+
+	SharaDamaged = App->audio->LoadFx("audio/fx/Player/Shara/Shara_damaged.wav");
+	sharaBasic = App->audio->LoadFx("audio/fx/Player/Shara/sharaBasic.wav");
+	basicBodyImp = App->audio->LoadFx("audio/fx/Player/Shara/arrow_impactBody.wav");
+	strech_Shoot = App->audio->LoadFx("audio/fx/Player/Shara/strech&shoot.wav");
+	SharaUltimateWoosh = App->audio->LoadFx("audio/fx/Player/Shara/Shara_ultimate_woosh.wav");
+	emitter_explodeFire = App->audio->LoadFx("audio/fx/Player/Shara/SharaUltimateGrounding.wav");
+	sharaAbility1 = App->audio->LoadFx("audio/fx/Player/Shara/shara_ability1.wav");
+	sharaBasic_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/SharaBasicImpact.wav");
+	sharaAbility1_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/sharaAbility1_impactswall.wav");
+	sharaAbility2_ImpactsWall = App->audio->LoadFx("audio/fx/Player/Shara/sharaAbility2_impactswall.wav");
+	sharaAbility2_shoot = App->audio->LoadFx("audio/fx/Player/Shara/SharaAbility2Shoot.wav");
+
+	dash = App->audio->LoadFx("audio/fx/Player/dash.wav");
+
+	goblinDamaged = App->audio->LoadFx("audio/fx/goblin_damaged.wav");
+	goblinDeath = App->audio->LoadFx("audio/fx/goblin_death.wav");
+	goblinLaugh = App->audio->LoadFx("audio/fx/goblin_laugh.wav");
+
+	BombDeathSFX = App->audio->LoadFx("audio/fx/Enemies/bombDeath.wav");
+	bombgetHitSFX = App->audio->LoadFx("audio/fx/Enemies/bombgetHit.wav");
+	bombExplodeSFX = App->audio->LoadFx("audio/fx/Enemies/bomb_explode.wav");
+
+	golem_deathSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_death.wav");
+	golem_impactWallSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_impactWall.wav");
+	golem_spawnSFX = App->audio->LoadFx("audio/fx/Enemies/golem/golem_spawn.wav");
+	golem_spawnAttackSFX = App->audio->LoadFx("audio/fx/Enemies/golem/spawn_attack.wav");
+
+	wave_end = App->audio->LoadFx("audio/fx/Enemies/wave/wave_end.wav");
+	wave_start = App->audio->LoadFx("audio/fx/Enemies/wave/wave_start.wav");
+	wave_respawn = App->audio->LoadFx("audio/fx/Enemies/wave/wave_spawn.wav");
+
+	boss_flower_basic = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basic.wav");
+	boss_flower_BasicImpWall = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_basicImpWall.wav");
+	boss_flower_deathCirc = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_deathcircle_SFX.wav");
+	boss_flower_death = App->audio->LoadFx("audio/fx/Enemies/boss_flower/BF_dead.wav");
+
+	portal_appear = App->audio->LoadFx("audio/fx/Portal/portal_appear.wav");
+	portal_mantain = App->audio->LoadFx("audio/fx/Portal/portal_mantain.wav");
+	portal_vanish = App->audio->LoadFx("audio/fx/Portal/portal_vanish.wav");
+	portal_travel = App->audio->LoadFx("audio/fx/Portal/portal_travel.wav");
+
+	pickLoot = App->audio->LoadFx("audio/fx/Player/pickLoot.wav");
+	pickGold = App->audio->LoadFx("audio/fx/Player/pickGold.wav");
+	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
+	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
+	
+	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
+	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
+	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
+	enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
+	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
+	typeWriterSFX = App->audio->LoadFx("audio/fx/scene/typewriterSFX.wav");
+	savedSFX = App->audio->LoadFx("audio/fx/UI/saveGame.wav");
+	jar_breakSFX = App->audio->LoadFx("audio/fx/loot/jarbroken.wav");
+	OpenChestSFX = App->audio->LoadFx("audio/fx/loot/chestOpen.wav");
 
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
 		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
-		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1); 
+		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1);
 		waveTrigg->CreateEntryWall(iPoint(16, 22));
 		waveTrigg->CreateEntryWall(iPoint(17, 22));
 		waveTrigg->CreateExitWall({ 13,3 });
 		waveTrigg->CreateExitWall({ 14,3 });
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White,3);
 
-		App->entityFactory->CreatePlayer({ -1575, 2150 });   //Proper Start of the level
+		App->entityFactory->CreatePlayer({ -1575, 2150 });
+			
+		App->entityFactory->LoadSpawnGroups();
+
 		//App->entityFactory->CreatePlayer({ -209, 650 });
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos({ 3575, -3150 });
@@ -83,18 +171,16 @@ bool j1Scene::Start()
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
+		uiMarchePortrait->enable = true;
+		uiSharaPortrait->enable = true;
+		uiRitzPortrait->enable = true;
 		uiRitz->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
-		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
 
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-			ComeToDeath = false;
-		}
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -104,17 +190,37 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+
+		iPoint PosX = App->map->SubTileMapToWorld(88, 192);
+		NoWalkableTrigger* introTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y, SceneState::MAX_STATES, Black, 3, false);
+		introTrigger->CreateEntryWall(iPoint(44, 98));
+		introTrigger->CreateEntryWall(iPoint(45, 98));
 	}
 
 	if (state == SceneState::LEVEL2)
 	{
-		App->entityFactory->CreatePlayer({ -820,3300 });
+		
+		App->entityFactory->CreatePlayer({ -820, 3300 });
+		
+		App->entityFactory->LoadSpawnGroups();
+
 		App->entityFactory->loadEnemies = true;
 		App->camera2D->SetCameraPos(1800, -5000);
 
 		iPoint tileSize = { 32,32 };
 		SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
-		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25,26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
+		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25, 26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
 		waveTrigg->CreateEntryWall(iPoint(33, 22));
 		waveTrigg->CreateEntryWall(iPoint(33, 21));
 		waveTrigg->CreateEntryWall(iPoint(33, 20));
@@ -124,17 +230,19 @@ bool j1Scene::Start()
 		waveTrigg->CreateExitWall({ 22, 46 });
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
-		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y);
+		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
 		bossTrigger->CreateEntryWall(iPoint(37, 94));
 		bossTrigger->CreateEntryWall(iPoint(36, 94));
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
-		
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
 		uiShara->enable = true;
+		uiMarchePortrait->enable = true;
+		uiSharaPortrait->enable = true;
+		uiRitzPortrait->enable = true;
 		uiRitz->enable = true;
 		settingPanel->enable = false;
 		startMenu->enable = false;
@@ -142,11 +250,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-			ComeToDeath = false;
-		}
+
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -156,26 +260,115 @@ bool j1Scene::Start()
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
 			ComeToPortal = false;
 		}
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+
 	}
 
 	if (state == SceneState::LOBBY)
 	{
+		deathPanel->enable = false;
 
-		App->audio->PlayMusic("audio/music/main_hall.ogg",-1);
+		open_doorSFX = App->audio->LoadFx("audio/fx/scene/opendoor.wav");
+
+		if (lobbyState == LobbyState::ALLBLOCK)
+		{
+			doorlvl1 = nullptr;
+			firingrange = nullptr;
+			doorlvl2 = nullptr;
+		}
+		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
+
 		App->entityFactory->CreatePlayer({ 115, 240 });
+		
+		if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
+		{
+	
+			doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 
-		//AcceptUISFX_logic = false;
-		App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");
-		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE,105, 385);
+			if (lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
 
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 250, 180, SceneState::LEVEL1, Black);
+			if (lobbyState == LobbyState::PASSLVL2 && ComeToPortal)
+			{
+				ComeToPortal = false;
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
+				App->LoadGame("save_game.xml");
+				lobbyState = LobbyState::PASSLVL1;
+			}
+			else if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
+			{
+				ComeToPortal = false;
+				App->entityFactory->loadEnemies = false;
+				App->LoadGame("Portal.xml");
+				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+			}
 
-		if(ComeToWin)
-			door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+		}
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
+
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(5, 18).x - 5, App->map->SubTileMapToWorld(5, 18).y }, 1);
+		strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+
+
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
-	
+
+		
+		settingPanel->enable = false;
+		startMenu->enable = false;
+
+		// This is when it enters, this is tenebrous, we dont need this in lobby
+		//App->audio->PlayFx(enterGameSFX, 0);
+
+		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
+
+
+		if (ComeToDeath || ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
+		}
+
+		if (ComeToWin)
+		{
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+		App->camera2D->SetCameraPos({ 115, 240 });
+
+
+	}
+
+	if (state == SceneState::FIRINGRANGE)
+	{
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 340, 700, SceneState::LOBBY, Black,4);    // TODO: adjust trigger to lobby
+		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(26, 33).x, App->map->SubTileMapToWorld(26, 33).y, "TUTORIAL", { App->map->SubTileMapToWorld(23, 30).x, App->map->SubTileMapToWorld(23, 30).y },2);   // todo: proper position 
+
+		
+
+		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
+
+		App->entityFactory->CreatePlayer({ 165, 580 });
+		
+		//AcceptUISFX_logic = false;
+		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
+		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
+
+		
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-240.F, 401.F));
+
+		App->entityFactory->loadEnemies = false;
+		inGamePanel->enable = true;
+
 		uiMarche->enable = true;
 		uiShara->enable = true;
 		uiRitz->enable = true;
@@ -183,24 +376,11 @@ bool j1Scene::Start()
 		startMenu->enable = false;
 
 		App->audio->PlayFx(enterGameSFX, 0);
-		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-			ComeToDeath = false;
-		}
-		if (ComeToPortal)
-		{
-			
-			App->LoadGame("Portal.xml");
-			ComeToPortal = false;
-			App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+		App->camera2D->SetCameraPos({ 115, 240 });
 
-		}
-
-		App->camera2D->SetCameraPos({(int)App->entityFactory->player->position.x + App->camera2D->camera.w/4, (int)App->entityFactory->player->position.y - App->camera2D->camera.h/2});
-		
+		App->LoadGame("save_game.xml");
 	}
+
 
 	if (state == SceneState::STARTMENU)
 	{
@@ -212,15 +392,23 @@ bool j1Scene::Start()
 			LoadPlayerUi(sceneNode);
 			LoadSettings(sceneNode);
 			LoadPauseSettings(sceneNode);
+			LoadCredits(sceneNode);
 			LoadInventory(sceneNode);
 			LoadDeathScreen(sceneNode);
 			LoadWinScreen(sceneNode);
+			LoadControls(sceneNode);
+
 			LoadedUi = true;
 		}
 		startMenu->enable = true;
 		uiMarche->enable = false;
 		uiShara->enable = false;
 		uiRitz->enable = false;
+	//	creditsPanel->enable = false;
+  //  	controlsPanel->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
 		settingPanel->enable = false;
 		inGamePanel->enable = false;
 		pausePanel->enable = false;
@@ -228,7 +416,44 @@ bool j1Scene::Start()
 		deathPanel->enable = false;
 		winPanel->enable = false;
 
-		App->audio->PlayMusic("audio/music/menu_1.0.ogg", -1);
+		App->audio->PlayMusic("audio/music/menu_1.0.ogg"); // Added fade in
+	}
+	if (state == SceneState::INTRO)
+	{
+		App->video->PlayVideo("intro/PinkKingGamesIntro.mp4", SceneState::STARTMENU);
+
+		// UI Crashes if not loaded this
+		App->gui->resetHoverSwapping = false;
+		if (!LoadedUi)
+		{
+			LoadInGameUi(sceneNode);
+			LoadStartMenu(sceneNode);
+			LoadPlayerUi(sceneNode);
+			LoadSettings(sceneNode);
+			LoadPauseSettings(sceneNode);
+			LoadCredits(sceneNode);
+			LoadInventory(sceneNode);
+			LoadDeathScreen(sceneNode);
+			LoadWinScreen(sceneNode);
+			LoadControls(sceneNode);
+			LoadedUi = true;
+		}
+
+		startMenu->enable = false;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
+		settingPanel->enable = false;
+		inGamePanel->enable = false;
+		pausePanel->enable = false;
+		inventory->enable = false;
+		creditsPanel->enable = false;
+		controlsPanel->enable = false;
+		deathPanel->enable = false;
+		winPanel->enable = false;
 	}
 
 	if (state == SceneState::DEATH)
@@ -236,9 +461,9 @@ bool j1Scene::Start()
 		App->audio->PlayFx(playerDeath, 0);
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
-		inGamePanel->enable = false;
+			inGamePanel->enable = false;
 		if (!deathPanel->enable)
-		deathPanel->enable = true;
+			deathPanel->enable = true;
 
 		ComeToDeath = true;
 		isDeath = false;
@@ -246,7 +471,8 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
-		App->audio->PlayMusic("audio/music/win.ogg", -1);
+		App->video->PlayVideo("intro/creditsVideo.mp4", SceneState::LOBBY);
+		//App->audio->PlayMusic("audio/music/win.ogg", -1);
 
 		if (ComeToDeath)
 		{
@@ -256,15 +482,19 @@ bool j1Scene::Start()
 		App->gui->resetHoverSwapping = false;
 		if (inGamePanel->enable)
 			inGamePanel->enable = false;
-		if (!winPanel->enable)
-			winPanel->enable = true;
+
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
+		
+		/*if (!winPanel->enable)
+			winPanel->enable = true;*/
+		
 	}
 
-		openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
-		closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
-		open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
-		enterGameSFX = App->audio->LoadFx("audio/fx/UI/AcceptEnterGame.wav");
-		playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 	return true;
 }
 
@@ -285,7 +515,7 @@ bool j1Scene::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		App->win->SetScale(2);
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) //if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->map->ToggleDebugDraw();
 		debug = !debug;
@@ -305,8 +535,11 @@ bool j1Scene::PreUpdate()
 	}
 	// FAKE KEYS FOR TESTING 
 
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		App->transitionManager->CreateFadeTransition(2.F, true, SceneState::WIN, White);
+	}
 
-	
 
 
 	//if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)     
@@ -328,7 +561,7 @@ bool j1Scene::PreUpdate()
 		else
 			LOG("subtile NOT empty");
 
-		 //DEBUG attack propagation!
+		//DEBUG attack propagation!
 		App->attackManager->AddPropagationAttack(
 			App->entityFactory->player->GetSelectedCharacterEntity(), // from entity
 			{ entitySubTilePoint.x,entitySubTilePoint.y }, // impact position, (on subtilemap units)
@@ -341,62 +574,105 @@ bool j1Scene::PreUpdate()
 			true); // if this attack instantate particles of the elemental type while propagating
 		App->camera2D->AddTrauma(0.7f);
 	}
-	
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	// how to get joysticks for correct UI navigation/whatever needed situation examples --------
+	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN)
+	{
+		//LOG("LEFT JOYSTICK, UP PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_DOWN)
+	{
+		//LOG("LEFT JOYSTICK, RIGHT PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_RIGHT) == KEY_UP)
+	{
+		//LOG("LEFT JOYSTICK, RIGHT UNPRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_LEFT) == KEY_DOWN)
+	{
+		//LOG("RIGHT JOYSTICK, LEFT PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_UP) == KEY_DOWN)
+	{
+		//LOG("RIGHT JOYSTICK, UP PRESS");
+	}
+	if (App->input->GetJoystickPulsation(JOY_STICK_RIGHT, JOYSTICK_DIR_DOWN) == KEY_REPEAT)
+	{
+		//LOG("RIGHT JOYSTICK, DOWN REPEAT");
+	}
+	// etc
+	// -------------------------------------------------------------------------------------------
+
 	int mx, my;
-	
+
 	App->input->GetMousePosition(mx, my);
 	iPoint mousePos = App->render->ScreenToWorld(mx, my);
 	//LOG("mousePos: %i,%i", mousePos.x, mousePos.y);
 	mousePos = App->map->WorldToMap(mousePos.x, mousePos.y);
 	//LOG("mousePosMap: %i,%i", mousePos.x, mousePos.y);
 	
+	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	{
+		App->entityFactory->RepeatAmountofConsumables(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},OBJECT_TYPE::PHOENIX_TAIL);
+		
+	}
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
+	{
+		
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::SWORD);
+		/*App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::BOW);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ROD);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ARMOR);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::VEST);
+		App->entityFactory->CreateLegendariEquipable({ (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::MANTLE);*/
+
+	/*	App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, OBJECT_TYPE::GOLD);
+		App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, OBJECT_TYPE::POTIONS);
+		App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->GetPivotPos().x ,(float)App->entityFactory->player->GetPivotPos().y }, OBJECT_TYPE::PHOENIX_TAIL);*/
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::SWORD);
+	/*	App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::BOW);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ROD);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::ARMOR);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::VEST);
+		App->entityFactory->RepeatAmountofEquipable(1, { (float)App->entityFactory->player->GetPivotPos().x, (float)App->entityFactory->player->GetPivotPos().y }, EQUIPABLE_TYPE::MANTLE);*/
+
+	
+	}
 	App->tex->textures;
 	// map debug draw grids
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
-	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
-	
+
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
+		lobbyState = LobbyState::PASSLVL2;
 		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
-
 	}
-	if(App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
 		App->camera2D->camera.y += 1000 * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
 		App->camera2D->camera.y -= 1000 * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 		App->camera2D->camera.x += 1000 * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 		App->camera2D->camera.x -= 1000 * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
-	{
-		App->gui->AddLabel("Hola buenos dias Carlos", { 255,255,255,255 }, App->font->openSansBold36, { 300,200 }, inGamePanel, true);
-	}
-	
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		App->entityFactory->CreateEntity(FLOWERBOSS, p.x, p.y, "flower_boss");
-	}
 
-	
+
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
 	{
@@ -409,40 +685,61 @@ bool j1Scene::Update(float dt)
 		}
 		else
 		{
-			
+
 			state = SceneState::LEVEL1;
-			
+
 		}
 
 	}
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint coords = App->render->ScreenToWorld(x, y);
+		App->entityFactory->CreateLoot(coords.x, coords.y);
+	}
 	if (state == SceneState::STARTMENU)
 	{
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
+		volume_bar_ig->thumb->hitBox.x = volume_bar->thumb->hitBox.x + 263;
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
 		//settingPanel->enable = false;
+		fx_bar_ig->thumb->hitBox.x = fx_bar->thumb->hitBox.x + 263;
 	}
-	
+
 	if (state == SceneState::LOBBY)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
-			if(door == nullptr)
-				door = App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 350, 230, SceneState::LEVEL2, Black);
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (doorlvl2 == nullptr)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
+			if(firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
+		}
+		if (lobbyState == LobbyState::TALKSTRANGER)
+		{
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 		}
 	}
-	
-	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY)
+
+	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//Mix_CloseAudio();
 		//if()
-		result_volume = volume_bar->GetBarValue();
+		result_volume = volume_bar_ig->GetBarValue();
 		App->audio->SetVolume(result_volume);
-		result_fx = fx_bar->GetBarValue();
+		volume_bar->thumb->hitBox.x = volume_bar_ig->thumb->hitBox.x - 263;
+		result_fx = fx_bar_ig->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
+		fx_bar->thumb->hitBox.x = fx_bar_ig->thumb->hitBox.x - 263;
 
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
@@ -450,24 +747,57 @@ bool j1Scene::Update(float dt)
 			//settingPanel->enable = false;
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
 			{
-				//LOG("marche");
-				uiMarche->enable = true;
-				uiRitz->enable = false;
-				uiShara->enable = false;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = true;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = true;
+				uiRitzPortrait->enable = false;
+				uiSharaPortrait->enable = false;
 			}
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::RITZ && inGamePanel->enable)
 			{
-				//LOG("marche");
-				uiMarche->enable = false;
-				uiRitz->enable = true;
-				uiShara->enable = false;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = true;
+					uiShara->enable = false;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = false;
+				uiRitzPortrait->enable = true;
+				uiSharaPortrait->enable = false;
 			}
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::SHARA && inGamePanel->enable)
 			{
-				//LOG("marche");
-				uiMarche->enable = false;
-				uiRitz->enable = false;
-				uiShara->enable = true;
+				if (state != SceneState::LOBBY)
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = true;
+				}
+				else
+				{
+					uiMarche->enable = false;
+					uiRitz->enable = false;
+					uiShara->enable = false;
+				}
+				uiMarchePortrait->enable = false;
+				uiRitzPortrait->enable = false;
+				uiSharaPortrait->enable = true;
 			}
 		}
 
@@ -479,7 +809,7 @@ bool j1Scene::Update(float dt)
 				App->pause = !App->pause;
 				if (App->pause)
 				{
-					Mix_PauseMusic();
+					//Mix_PauseMusic();
 					if (!pausePanel->enable)
 						App->audio->PlayFx(open_PauseMenuSFX, 0);
 
@@ -489,7 +819,7 @@ bool j1Scene::Update(float dt)
 				}
 				else
 				{
-					Mix_ResumeMusic();
+					//Mix_ResumeMusic();
 					App->gui->resetHoverSwapping = false;
 					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
@@ -624,9 +954,126 @@ bool j1Scene::Update(float dt)
 			App->gui->resetHoverSwapping = false;
 		}
 		////////////
+		potion_counterIg = 0;
+		phoenix_counterIg = 0;
+		for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->consumables.begin(); iter != App->entityFactory->player->consumables.end(); ++iter)
+		{
+			// Potions
+			if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
+			{
+				potion_counterIg++;
+				str_potionIg = "" + std::to_string(potion_counterIg);
+				potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+			}
+			if ((*iter)->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				phoenix_counterIg++;
+				str_phoenixIg = "" + std::to_string(phoenix_counterIg);
+				phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+			}
+		}
+		if (potion_counterIg == 0)
+		{
+			str_potionIg = "";
+			potionIg_label->ChangeTextureIdle(str_potionIg, NULL, NULL);
+		}
+		if (phoenix_counterIg == 0)
+		{
+			str_phoenixIg = "";
+			phoenixIg_label->ChangeTextureIdle(str_phoenixIg, NULL, NULL);
+		}
+		if (App->input->GetKey(SDL_SCANCODE_KP_7) == KEY_DOWN)
+		{
+			if (!swapAbilities)
+			{
+				for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+				{
+					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
+					{
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge)
+						{
+							App->gui->allclocksData.dodge.position.x += 909;
+							dodge = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1)
+						{
+							App->gui->allclocksData.ability1.position.x += 909;
+							ability1 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2)
+						{
+							App->gui->allclocksData.ability2.position.x += 909;
+							ability2 = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti)
+						{
+							App->gui->allclocksData.ulti.position.x += 909;
+							ulti = true;
+						}
+
+						(*item)->hitBox.x += 909;
+
+
+					}
+					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
+					{
+						(*item)->hitBox.x -= 1088;
+					}
+
+
+
+				}
+				swapAbilities = true;
+				dodge = false;
+				ability1 = false;
+				ability2 = false;
+				ulti = false;
+			}
+			else
+			{
+				for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); ++item)
+				{
+					if ((*item)->parent == uiMarche || (*item)->parent == uiRitz || (*item)->parent == uiShara)
+					{
+						if ((!App->gui->spawnedClocks.Marche.dodge || !App->gui->spawnedClocks.Ritz.dodge || !App->gui->spawnedClocks.Shara.dodge) && !dodge_rv)
+						{
+							App->gui->allclocksData.dodge.position.x -= 909;
+							dodge_rv = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special1 || !App->gui->spawnedClocks.Ritz.special1 || !App->gui->spawnedClocks.Shara.special1) && !ability1_rv)
+						{
+							App->gui->allclocksData.ability1.position.x -= 909;
+							ability1_rv = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.special2 || !App->gui->spawnedClocks.Ritz.special2 || !App->gui->spawnedClocks.Shara.special2) && !ability2_rv)
+						{
+							App->gui->allclocksData.ability2.position.x -= 909;
+							ability2_rv = true;
+						}
+						else if ((!App->gui->spawnedClocks.Marche.ulti || !App->gui->spawnedClocks.Ritz.ulti || !App->gui->spawnedClocks.Shara.ulti) && !ulti_rv)
+						{
+							App->gui->allclocksData.ulti.position.x -= 909;
+							ulti_rv = true;
+						}
+
+						(*item)->hitBox.x -= 909;
+					}
+					if ((*item)->parent == inGamePanel && (*item)->swapPosition)
+					{
+						(*item)->hitBox.x += 1088;
+					}
+				}
+				swapAbilities = false;
+				dodge_rv = false;
+				ability1_rv = false;
+				ability2_rv = false;
+				ulti_rv = false;
+			}
+
+		}
 
 	}
-	 
+
 	//if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 	//{
 	//	App->entityFactory->player->life -= 20;
@@ -645,20 +1092,20 @@ bool j1Scene::Update(float dt)
 
 	/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		App->loot->trigger = true;*/
-	if(App->map->active)
+	if (App->map->active)
 		App->map->Draw();
 
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->camera2D->camera.x, y - App->camera2D->camera.y);
-
-
 	iPoint coords = App->render->ScreenToWorld(x, y);
 
+
+	// -------------- Enemies -----------------
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		j1Entity* ent; 
-		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y }); 
+		j1Entity* ent;
+		ent = App->entityFactory->CreateEnemy(EnemyType::TEST, { coords.x,coords.y });
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
@@ -666,13 +1113,20 @@ bool j1Scene::Update(float dt)
 		j1Entity* ent;
 		ent = App->entityFactory->CreateEnemy(EnemyType::BOMB, { coords.x,coords.y });
 	}
-	
+
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 	{
 		App->entityFactory->CreateEnemy(EnemyType::ARCHER, { coords.x,coords.y });
 	}
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+	{
+		App->entityFactory->CreateEntity(FLOWERBOSS, coords.x, coords.y, "flower_boss");
+	}
+
+	// ----------------------------------------
+
+
 	if (hackerMode)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
@@ -690,13 +1144,13 @@ bool j1Scene::Update(float dt)
 
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 		{
-		
+
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::CONTAGIOUS_ARROW);
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
 		{
-			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(),PROJECTILE_TYPE::BASIC_ARROW);
+			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 100, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::BASIC_ARROW);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
@@ -718,7 +1172,7 @@ bool j1Scene::Update(float dt)
 			App->entityFactory->CreateArrow(App->entityFactory->player->GetSelectedCharacterEntity()->GetThrowingPos(), fPoint{ (float)coords.x, (float)coords.y }, 170, App->entityFactory->player->GetSelectedCharacterEntity(), PROJECTILE_TYPE::FIRE_ARROW);
 		}
 	}
-	
+
 	if (App->entityFactory->player != nullptr && (state == SceneState::LEVEL1 || state == SceneState::LEVEL2))
 	{
 		if (isDeath)
@@ -730,13 +1184,13 @@ bool j1Scene::Update(float dt)
 			App->SaveGame("save_game.xml");
 			isDeath = false;
 			ComeToDeath = true;
-			App->transitionManager->CreateFadeTransition(1.F,true,SceneState::DEATH);
+			App->transitionManager->CreateFadeTransition(1.F, true, SceneState::DEATH);
 		}
 	}
 
 	App->win->ClearTitle();
 
-	
+
 
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_DOWN)
@@ -749,7 +1203,7 @@ bool j1Scene::Update(float dt)
 	}
 
 
-	
+
 	return true;
 }
 
@@ -758,7 +1212,7 @@ bool j1Scene::PostUpdate()
 {
 	bool ret = true;
 	DecideTexToPulse();
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
 	if (exitGame)
@@ -770,9 +1224,9 @@ bool j1Scene::PostUpdate()
 // Called before quitting
 bool j1Scene::CleanUp()
 {
-	App->tex->UnLoad(debug_tex); 
+	App->tex->UnLoad(debug_tex);
 	debug_tex = nullptr;
-	
+
 	LOG("Freeing scene");
 	return true;
 }
@@ -783,15 +1237,23 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	// images
 	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
+		std::string name_image = uiNode.attribute("name").as_string();
+
 		SDL_Rect section = { uiNode.child("section").attribute("x").as_int(), uiNode.child("section").attribute("y").as_int(), uiNode.child("section").attribute("w").as_int(), uiNode.child("section").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
 
-		int isPanel = uiNode.child("flag").attribute("isPanel").as_int();
+		int isTabbable = uiNode.child("flag").attribute("isTabbable").as_int();
+		int autorefresh = uiNode.child("flag").attribute("autorefresh").as_int();
+		int isSwappable = uiNode.child("flag").attribute("isSwappable").as_int();
 		std::string panelName = uiNode.child("flag").attribute("panelName").as_string();
 
-
+		std::string doNotCreate = uiNode.child("donotdoitflag").attribute("value").as_string();
 		std::string lootFlag = uiNode.child("flag").attribute("value").as_string();
 		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
+		if (autorefresh == 1)
+		{
+			LOG("HHHHHHHHHHH");
+		}
 		if (lootFlag == "loot")
 		{
 
@@ -803,26 +1265,28 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else if (charFlag == "Marche")
 		{
-			MarcheIcon = App->gui->AddImage(position, &section, nullptr);
+			MarcheIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (charFlag == "Ritz")
 		{
-			RitzIcon = App->gui->AddImage(position, &section, nullptr);
+			RitzIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (charFlag == "Shara")
 		{
-			SharaIcon = App->gui->AddImage(position, &section, nullptr);
+			SharaIcon = App->gui->AddImage(position, &section, name_image, nullptr);
 		}
 		else if (lootFlag == "dialogueBox")
 		{
-			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, inGamePanel);
-			dialogueBox->hide = true; 
+			dialogueBox = App->gui->AddImage(iPoint(500, 500), &section, name_image, inGamePanel);
+			dialogueBox->hide = true;
 		}
 		else
 		{                                  // this is useless now
-			if (isPanel != 1)
+			
+
+			if (doNotCreate != "true")
 			{
-				App->gui->AddImage(position, &section, parent, isPanel);  // bug: an image is created as panel 
+				App->gui->AddImage(position, &section, name_image, parent, isSwappable, isTabbable, autorefresh);  // bug: an image is created as panel 
 			}
 			else
 			{
@@ -831,8 +1295,62 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		}
 
+		// enemy skulls
+		std::string name = uiNode.attribute("name").as_string();
+		if (name == "skullBasic")
+		{
+			App->gui->enemySkullInfo.baseEnemyRect = section;
+		}
+		else if (name == "skullStrong")
+		{
+			App->gui->enemySkullInfo.strongEnemyRect = section;
+		}
+		else if (name == "skullBoss")
+		{
+			App->gui->enemySkullInfo.BossEnemyRect = section;
+		}
 
-
+		// character stats icons
+		if (name == "upgradeAttack")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.attack.upgrade = section;
+		}
+		else if (name == "downgradeAttack")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.attack.Downgrade = section;
+		}
+		else if (name == "upgradeDefense")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.defense.upgrade = section;
+		}
+		else if (name == "downgradeDefense")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.defense.Downgrade = section;
+		}
+		else if (name == "upgradeCooldown")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.cooldown.upgrade = section;
+		}
+		else if (name == "downgradeCooldown")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.cooldown.Downgrade = section;
+		}
+		else if (name == "upgradeHP")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.HP.upgrade = section;
+		}
+		else if (name == "downgradeHP")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.HP.Downgrade = section;
+		}
+		else if (name == "upgradeVelocity")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.velocity.upgrade = section;
+		}
+		else if (name == "downgradeVelocity")
+		{
+			App->gui->upgradeCharacterStatsIconsRects.velocity.Downgrade = section;
+		}
 
 	}
 
@@ -840,6 +1358,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 	//button
 	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
 		iPoint position = { uiNode.child("position").attribute("x").as_int(), uiNode.child("position").attribute("y").as_int() };
@@ -861,7 +1380,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 
 
-		App->gui->AddButton(position, functionPath, &sectionIdle, parent, sectionClick, sectionHove);
+		App->gui->AddButton(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove);
 	}
 
 	// labels
@@ -873,7 +1392,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		SDL_Color color = { uiNode.child("color").attribute("R").as_uint(),uiNode.child("color").attribute("G").as_uint(),uiNode.child("color").attribute("B").as_uint(),uiNode.child("color").attribute("A").as_uint() };
 		const char* path = uiNode.child("path").attribute("p").as_string();
 		uint size = uiNode.child("size").attribute("s").as_int();
-		
+
 
 		App->gui->AddLabel(text.data(), color, App->font->Load(path, size), position, parent);
 
@@ -898,6 +1417,14 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			fx_bar = slider_volume;
 		}
+		if (name == "volumeSliderInGame")
+		{
+			volume_bar_ig = slider_volume;
+		}
+		if (name == "fxSliderInGame")
+		{
+			fx_bar_ig = slider_volume;
+		}
 	}
 
 
@@ -905,6 +1432,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 	for (pugi::xml_node uiNode = node.child("PanelCheckboxes").child("PanelCheckbox"); uiNode; uiNode = uiNode.next_sibling("PanelCheckbox"))
 	{
+		std::string name = uiNode.attribute("name").as_string();
 		std::string functionPath = uiNode.attribute("function").as_string();
 		iPoint panelPosition = { uiNode.child("panelPosition").attribute("x").as_int(), uiNode.child("panelPosition").attribute("y").as_int() };
 		SDL_Rect panelSection = { uiNode.child("panelSection").attribute("x").as_int(), uiNode.child("panelSection").attribute("y").as_int(), uiNode.child("panelSection").attribute("w").as_int(), uiNode.child("panelSection").attribute("h").as_int() };
@@ -927,7 +1455,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			fontIndex,
 		};
 
-		App->gui->AddCheckbox(panelPosition, functionPath, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
+		App->gui->AddCheckbox(panelPosition, functionPath, name, &panelSection, &boxSection, &tickSection, &labelInfo, parent);
 
 	}
 
@@ -952,6 +1480,15 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		else if (variant == "enemy")
 		{
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
+		}
+		else if (variant == "boss")
+		{
+			App->gui->bossHealthBarInfo.dynamicSection = dynamicSection;
+
+			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
+			App->gui->bossHealthBarInfo.staticSection = staticSection;
+			SDL_Rect divSection = { uiNode.child("divSection").attribute("x").as_int(), uiNode.child("divSection").attribute("y").as_int(), uiNode.child("divSection").attribute("w").as_int(), uiNode.child("divSection").attribute("h").as_int() };
+			App->gui->bossHealthBarInfo.divSection = divSection;
 		}
 
 	}
@@ -992,6 +1529,13 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		}
 
+		else if (type == "dodge")
+		{
+			App->gui->allclocksData.dodge.position = position;
+			App->gui->allclocksData.dodge.section = section;
+			App->gui->allclocksData.dodge.type = type;
+		}
+
 	}
 
 }
@@ -1007,6 +1551,10 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
+	potionIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
+	phoenixIg_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1115,628 }, inGamePanel);
+	potionIg_label->swapPosition = true;
+	phoenixIg_label->swapPosition = true;
 	return true;
 }
 
@@ -1033,6 +1581,18 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	uiRitz = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitz, ritzNode);
 
+	pugi::xml_node marchePNode = nodeScene.child("InGameUiMP");
+	uiMarchePortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiMarchePortrait, marchePNode);
+
+	pugi::xml_node sharaPNode = nodeScene.child("InGameUiSP");
+	uiSharaPortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiSharaPortrait, sharaPNode);
+
+	pugi::xml_node ritzPNode = nodeScene.child("InGameUiRP");
+	uiRitzPortrait = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(uiRitzPortrait, ritzPNode);
+
 	return true;
 }
 
@@ -1052,6 +1612,14 @@ bool j1Scene::LoadPauseSettings(pugi::xml_node& nodeScene)
 	return true;
 }
 
+bool j1Scene::LoadCredits(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node creditsNode = nodeScene.child("Credits");
+	creditsPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(creditsPanel, creditsNode);
+	return true;
+}
+
 bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node inventoryNode = nodeScene.child("Inventory");
@@ -1068,6 +1636,10 @@ bool j1Scene::LoadInventory(pugi::xml_node& nodeScene)
 	SharaIcon->hide = true;
 	RitzIcon->hide = true;
 
+	// TODO: Add character stats item; 
+
+	characterStatsItem = App->gui->AddCharacterStatsItem(inventoryItem);
+
 	return true;
 }
 
@@ -1083,6 +1655,16 @@ bool j1Scene::LoadWinScreen(pugi::xml_node& nodeScene)
 	pugi::xml_node winNode = nodeScene.child("WinScreen");
 	winPanel = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(winPanel, winNode);
+	return true;
+}
+
+bool j1Scene::LoadControls(pugi::xml_node& nodeScene)
+{
+	pugi::xml_node controlsNode = nodeScene.child("Controls");
+	controlsPanel = App->gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(controlsPanel, controlsNode);
+	App->scene->tab_controls = App->gui->AddImage({ 361,92 }, &tabSectionControls, default_string, controlsPanel);
+
 	return true;
 }
 
@@ -1104,6 +1686,7 @@ void j1Scene::LoadNewMap(const char* mapName)
 
 void j1Scene::UnLoadScene()
 {
+	
 	if (App->map->IsEnabled())
 		App->map->Disable();
 	if (App->attackManager->IsEnabled())
@@ -1118,12 +1701,14 @@ void j1Scene::UnLoadScene()
 		App->camera2D->Disable();
 
 	App->audio->UnLoadAudio();
-
 }
 
 void j1Scene::LoadScene(SceneState sceneState)
 {
+	App->dialog->destroyNPCNameLabels(state);
+
 	UnLoadScene();
+
 
 	switch (sceneState)
 	{
@@ -1133,6 +1718,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
+
 		if (!App->attackManager->IsEnabled())
 			App->attackManager->Enable();
 		if (!App->pathfinding->IsEnabled())
@@ -1146,8 +1732,32 @@ void j1Scene::LoadScene(SceneState sceneState)
 			App->map->active = true;
 			LoadNewMap("maps/mainhall.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		}
-		App->entityFactory->Enable();
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
 		break;
+
+	case SceneState::FIRINGRANGE:
+		state = SceneState::FIRINGRANGE;
+
+		if (!App->attackManager->IsEnabled())
+			App->attackManager->Enable();
+		if (!App->pathfinding->IsEnabled())
+			App->pathfinding->Enable();
+		if (!App->camera2D->IsEnabled())
+			App->camera2D->Enable();
+		if (!App->buff->IsEnabled())
+			App->buff->Enable();
+		if (!App->map->IsEnabled())
+		{
+			App->map->active = true;
+			LoadNewMap("maps/FiringRange.tmx");
+		}
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
+		break;
+
+
+
 	case SceneState::LEVEL1:
 
 		state = SceneState::LEVEL1;
@@ -1158,7 +1768,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
 		//LoadNewMap("maps/Level2.tmx");
-		App->entityFactory->Enable();
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
 		// create player for testing purposes here
 		//App->entityFactory->CreatePlayer({ -1563, 1000 });
 		//App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 336, 264, SceneState::WIN, White);
@@ -1172,24 +1783,20 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->camera2D->Enable();
 		App->buff->Enable();
 		App->map->active = true;
-		App->audio->PlayMusic("audio/music/level2.ogg");
+		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
-		App->entityFactory->Enable();
+		if (!App->entityFactory->IsEnabled())
+			App->entityFactory->Enable();
 		// create player for testing purposes here
 		break;
 
 	case SceneState::DEATH:
 		state = SceneState::DEATH;
-		if (!App->camera2D->IsEnabled())
-		App->camera2D->Enable();
 		break;
 
 	case SceneState::WIN:
 		state = SceneState::WIN;
-		if (!App->camera2D->IsEnabled())
-		App->camera2D->Enable();
 		ComeToWin = true;
-
 		break;
 
 	case SceneState::MAX_STATES:
@@ -1199,49 +1806,65 @@ void j1Scene::LoadScene(SceneState sceneState)
 	}
 
 	Start();
+
+	App->dialog->createNPCNameLabels(state);
+
 }
 
 
 
 void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 {
-	
-		if (!pausePanel->enable)
+
+	if (!pausePanel->enable)
+	{
+		if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
 		{
-			if (!App->dialog->isDialogInScreen)  // dont open if inventory in vendor dialog sequence active, open it later
+			App->pause = !App->pause;
+			if (App->pause && !pausePanel->enable)
 			{
-				App->pause = !App->pause;
-				if (App->pause && !pausePanel->enable)
+
+				inventory->enable = true;
+				App->gui->resetHoverSwapping = false;
+
+				inventoryItem->LoadElements(onlyEquipped, isVendor);
+				App->audio->PlayFx(openInventorySFX, 0);
+
+				// PREVENT NPC LABEL OVERLAYING
+				App->dialog->hideAllNPCLabels(true);
+				// character stats panel
+				characterStatsItem->generateCharacterStats();
+				int a = 0;
+			}
+
+			else
+			{
+				// character stats panel
+				characterStatsItem->deGenerateCharacterStats();
+
+
+				App->audio->PlayFx(closeinventorySFX, 0);
+				inventory->enable = false;
+				inventoryItem->swappedBag = true;
+				inventoryItem->swappedBag2 = false;
+				inventoryItem->swappedBag3 = false;
+				inventoryItem->swappedBagVendor = true;
+				inventoryItem->swappedBag2Vendor = false;
+				inventoryItem->swappedBag3Vendor = false;
+
+
+				if (App->dialog->isDialogSequenceActive)
 				{
-
-					inventory->enable = true;
-					App->gui->resetHoverSwapping = false;
-
-					inventoryItem->LoadElements(onlyEquipped, isVendor);
-					App->audio->PlayFx(openInventorySFX, 0);
-
-
+					App->dialog->spawnDialoguesAfterInventory();
 				}
 
-				else
-				{
-					App->audio->PlayFx(closeinventorySFX, 0);
-					inventory->enable = false;
-					inventoryItem->swappedBag = true;
-					inventoryItem->swappedBag2 = false;
-					inventoryItem->swappedBag3 = false;
-					inventoryItem->swappedBagVendor = true;
-					inventoryItem->swappedBag2Vendor = false;
-					inventoryItem->swappedBag3Vendor = false;
+				// PREVENT NPC LABEL OVERLAYING
+				App->dialog->hideAllNPCLabels(false);
 
 
-					if (App->dialog->isDialogSequenceActive)
-					{
-						App->dialog->spawnDialoguesAfterInventory();
-					}
-				}
 			}
 		}
+	}
 
 }
 
@@ -1300,6 +1923,9 @@ bool j1Scene::DecideTexToPulse()
 		break;
 
 	case 1:
+	case 2:
+	case 3:
+
 		if (!App->scene->decreaseAlpha)
 		{
 			App->render->SetTextureAlpha(App->gui->hurt_hud_tex, AlphaIncrease(hudAlphavalue[0], 0));
@@ -1314,8 +1940,9 @@ bool j1Scene::DecideTexToPulse()
 			App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 0);
 		}
 		break;
-
-	case 2:
+	case 4:
+	case 5:
+	case 6:
 		if (!App->scene->decreaseAlpha)
 		{
 			hudAlphavalue[0] = 255;
@@ -1331,7 +1958,9 @@ bool j1Scene::DecideTexToPulse()
 		}
 		break;
 
-	case 3:
+	case 7:
+	case 8:
+	case 9:
 		if (!App->scene->decreaseAlpha)
 		{
 			hudAlphavalue[0] = hudAlphavalue[1] = 255;
@@ -1354,7 +1983,7 @@ bool j1Scene::DecideTexToPulse()
 		App->render->SetTextureAlpha(App->gui->hurt_hud_tex, 255);
 		App->render->SetTextureAlpha(App->gui->hurt_hud_tex2, 255);
 		App->render->SetTextureAlpha(App->gui->hurt_hud_tex3, 255);
-		if(timeindmg.Read() > 3000)
+		if (timeindmg.Read() > 3000)
 			hit_counter -= 1;
 		decreaseAlpha = true;
 		//App->entityFactory->alphaTimer.Start();

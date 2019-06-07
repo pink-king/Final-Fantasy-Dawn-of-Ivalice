@@ -2,6 +2,7 @@
 #define _TRIGGER_H_
 
 #include "j1Entity.h"
+#include <vector>
 
 enum class TRIGGER_TYPE
 {
@@ -13,6 +14,9 @@ enum class TRIGGER_TYPE
 	DIALOG,
 	SAVE,
 	WAVE,
+	CHEST, 
+	DOOR,
+	// ---
 	NO_TRIGGER
 };
 
@@ -23,6 +27,8 @@ public:
 	~Trigger();
 
 	virtual bool Update(float dt);
+
+	void DebugTrigger();
 
 	virtual void Draw();
 
@@ -39,6 +45,9 @@ public:
 
 protected:
 	int nSubtiles;
+	SDL_Texture* debugSubtile = nullptr;
+
+	std::vector<iPoint> subTiles;
 };
 
 

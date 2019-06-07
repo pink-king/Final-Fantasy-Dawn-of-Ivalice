@@ -30,7 +30,7 @@ ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint sp
 
 	SetPivot(32, 8);
 	size.create(64, 16);
-	App->audio->PlayFx(App->entityFactory->sharaAbility2_shoot, 0);
+	App->audio->PlayFx(App->scene->sharaAbility2_shoot, 0);
 
 	timer.Start();
 
@@ -41,8 +41,8 @@ ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint sp
 ContagiousFireArrow::~ContagiousFireArrow()
 {
 	if(wallImpact)
-		App->audio->PlayFx(App->entityFactory->sharaAbility2_ImpactsWall, 0);
-	LOG("Bye Contagiousarrow!");
+		App->audio->PlayFx(App->scene->sharaAbility2_ImpactsWall, 0);
+	//LOG("Bye Contagiousarrow!");
 }
 
 bool ContagiousFireArrow::PreUpdate()
@@ -52,14 +52,14 @@ bool ContagiousFireArrow::PreUpdate()
 		
 		to_explode = true;
 		
-		LOG("fire arrow audio played");
+		//LOG("fire arrow audio played");
 	}
 
 	if (OnCollisionWithWall())
 	{
 		wallImpact = true;
 		to_explode = true;
-		LOG("contagious wall");
+		//LOG("contagious wall");
 	}
 	return true;
 }
@@ -91,7 +91,7 @@ bool ContagiousFireArrow::Explode()
 	App->camera2D->AddTrauma(35.f / 100.f);
 	App->input->DoGamePadRumble(0.35f, 100);
 
-	App->audio->PlayFx(App->entityFactory->sharaAbility1, 0);
+	App->audio->PlayFx(App->scene->sharaAbility1, 0);
 	App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
 	/*App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 30, GetPivotPos().y - 30);
 		App->particles->AddParticle(App->particles->explosion02, GetPivotPos().x - 45, GetPivotPos().y - 40, { 0, 0 }, 200);

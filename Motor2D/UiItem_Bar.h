@@ -18,7 +18,6 @@ class UiItem_Bar :public UiItem
 {
 protected:
 	TypeBar type = HORIZONTAL;
-	UiItem_Image* thumb = nullptr;
 	UiItem_Image* image_bar = nullptr;
 	UiItem_Image* bar = nullptr;
 	SDL_Rect section;
@@ -37,6 +36,8 @@ public:
 	void Draw(const float& dt);
 	float GetBarValue();
 
+public:
+	UiItem_Image* thumb = nullptr;
 
 private:
 	bool thumbReposition = false;

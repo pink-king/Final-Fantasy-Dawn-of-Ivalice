@@ -8,13 +8,13 @@ WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1
 {
 	App->scene->wave_label->hide = false;
 	//Add SFX spawn
-	App->audio->PlayFx(App->entityFactory->wave_start, 0);
+	App->audio->PlayFx(App->scene->wave_start, 0);
 }
 
 WaveManager::~WaveManager()
 {
 	App->scene->wave_label->hide = true;
-	App->audio->PlayFx(App->entityFactory->wave_end, 0);
+	App->audio->PlayFx(App->scene->wave_end, 0);
 
 	// associate trigger delete
 	if (associatedTrigger != nullptr)
@@ -28,8 +28,10 @@ WaveManager::~WaveManager()
 		dynamic_cast<j1Entity*>(*iter)->to_delete = true;
 	}
 
+
 	alive.clear();
 
+	App->entityFactory->waveManager = nullptr;
 }
 
 bool WaveManager::Start()
@@ -51,7 +53,7 @@ bool WaveManager::PreUpdate()
 		// Add sfx of wave over
 		if (currentWave <= maxWaves && !toCreateNextWave)
 		{
-			App->audio->PlayFx(App->entityFactory->wave_respawn, 0);
+			App->audio->PlayFx(App->scene->wave_respawn, 0);
 			toCreateNextWave = true;
 			nextWaveData = LoadNextWaveData(currentWave);
 			timer.Start();

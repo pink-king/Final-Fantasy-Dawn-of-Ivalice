@@ -20,7 +20,7 @@ UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font*
 		newString.append(valueInfo.string);
 		texture = App->font->Print(newString.data(), color, font);
 	}
-	else if (type == variant::wave)
+	else if (type == variant::wave || type == variant::levelUp)
 	{
 		std::string newString(valueInfo.string);
 		newString.append(" ");
@@ -84,7 +84,7 @@ void UiItem_HitPoint::Draw(const float& dt)
 
 	if (!App->scene->inventory->enable)
 	{
-		if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+		if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
 		{
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
 		}
@@ -96,12 +96,11 @@ void UiItem_HitPoint::Draw(const float& dt)
 		{
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
 		}
-
-
-		if (this->numerOrText == variant::wave)
+		else if (this->valueInformation.string == "SAVE")
 		{
-			LOG("VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWE");
+			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);  // rotate hitlabels
 		}
+
 	}
 
 
@@ -125,7 +124,7 @@ lifeState UiItem_HitPoint::returnLifeState() {
 		maxLife = NUMBER_LIFE;
 		middlelife = middeLife;
 	}
-	else if (this->numerOrText == variant::wave)
+	else if (this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
 	{
 		maxLife = WAVE_LIFE;
 		middlelife = middlelifewave;
@@ -170,7 +169,7 @@ lifeState UiItem_HitPoint::returnLifeState() {
 void UiItem_HitPoint::CleanUp()
 {
 
-	if (this->numerOrText == variant::text || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+	if (this->numerOrText == variant::text || this->numerOrText == variant::gold || this->numerOrText == variant::wave || this->numerOrText == variant::levelUp || this->numerOrText == variant::save)
 	{
 		App->HPManager->labelsSpawned.totalLabels--;
 	}
@@ -202,7 +201,7 @@ void UiItem_HitPoint::updateHitPointSizes()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			if (this->numerOrText != variant::wave)
+			if (this->numerOrText != variant::wave || this->numerOrText == variant::levelUp)
 				scaleFactor *= 1.03f;
 			else
 				scaleFactor *= 1.05f;
@@ -219,7 +218,7 @@ void UiItem_HitPoint::updateHitPointSizes()
 			break;
 		case fadeOut:
 
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
 			{
 				scaleFactor /= 1.02f;
 			}
@@ -243,13 +242,13 @@ void UiItem_HitPoint::updateHitPointOpacities()
 		switch (returnLifeState())
 		{
 		case fadeIn:
-			if (this->numerOrText != variant::wave)
+			if (this->numerOrText != variant::wave && this->numerOrText != variant::levelUp)
 			{
 				alphaValue *= 3;
 			}
 			else
 			{
-				alphaValue *= 5;
+				alphaValue *= 3.3f;
 			}
 
 			break;
@@ -258,13 +257,13 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			{
 				alphaValue /= 1.1f;
 			}
-			else if (this->numerOrText != variant::wave)
+			else if (this->numerOrText != variant::wave && this->numerOrText != variant::levelUp)
 			{
 				alphaValue /= 1.01f;
 			}
 			else
 			{
-				alphaValue /= 1.003f;
+			//	alphaValue /= 1.003f;
 			}
 
 			break;
@@ -273,13 +272,13 @@ void UiItem_HitPoint::updateHitPointOpacities()
 			{
 				alphaValue /= 1.7f;
 			}
-			else if (this->numerOrText != variant::wave)
+			else if (this->numerOrText != variant::wave && this->numerOrText != variant::levelUp)
 			{
 				alphaValue /= 1.1f;
 			}
 			else
 			{
-				alphaValue /= 1.02f;
+			    alphaValue /= 1.02f;
 			}
 			break;
 		}
