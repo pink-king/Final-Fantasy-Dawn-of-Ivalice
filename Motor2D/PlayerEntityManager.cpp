@@ -1118,6 +1118,16 @@ Crosshair::Crosshair()
 	loopAnim.PushBack({ 279,139,216,63 });
 	loopAnim.speed = 10.0f;
 
+	// allowed clamped entities matrix
+	allowedClampedTypes[ENTITY_TYPE::BREAKABLE_ASSET] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_ARCHER] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_BOMB] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_ARCHER] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_DUMMY] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_TEST] = true;
+	allowedClampedTypes[ENTITY_TYPE::FLOWERBOSS] = true;
+	allowedClampedTypes[ENTITY_TYPE::LOOT] = true;
+
 	pivotOffset.create(36, 10);
 
 	maxRadiusDistance = 160.f;//110.0f; // world coords.
@@ -1429,7 +1439,7 @@ j1Entity* Crosshair::SearchForTargetOnThisSubtile(const iPoint subtile) const
 
 		for (; subIter != subtileVec->end(); ++subIter)
 		{
-			if ((*subIter)->type != ENTITY_TYPE::PLAYER && (*subIter)->type != ENTITY_TYPE::PROJECTILE && (*subIter)->type != ENTITY_TYPE::TRIGGER)
+			if (allowedClampedTypes[(*subIter)->type])
 			{
 				//LOG("enemy found");
 				ret = (*subIter);
