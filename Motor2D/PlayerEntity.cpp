@@ -213,41 +213,41 @@ bool PlayerEntity::InputCombat()
 
 	// check ultimate trigger - marche without aim
 
-	if ((App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && character == characterName::MARCHE  && (App->entityFactory->player->level >= 4 || App->buff->godMode) && !App->scene->inventory->enable && !App->scene->pausePanel->enable))
+	if ((App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && character == characterName::MARCHE  && (App->entityFactory->player->level >= 4 || App->buff->godMode)) )
 	{
 		combat_state = combatState::ULTIMATE;
 		//LOG("ULTIMATE");
 	}
-	else if ((App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && aiming  && (App->entityFactory->player->level >= 4 || App->buff->godMode)) && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	else if ((App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && aiming  && (App->entityFactory->player->level >= 4 || App->buff->godMode)) )
 		combat_state = combatState::ULTIMATE;
 
 
 	// check basic attack
-	if(App->input->GetControllerGeneralPress(linkedScheme->basic) == KEY_DOWN && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	if(App->input->GetControllerGeneralPress(linkedScheme->basic) == KEY_DOWN)
 	{
 		combat_state = combatState::BASIC;
 		LOG("BASIC");
 	}
 	
-	if (App->input->GetControllerGeneralPress(linkedScheme->special1) == KEY_DOWN && (App->entityFactory->player->level >= 2 || App->buff->godMode) && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	if (App->input->GetControllerGeneralPress(linkedScheme->special1) == KEY_DOWN && (App->entityFactory->player->level >= 2 || App->buff->godMode))
 	{
 		combat_state = combatState::SPECIAL1;
 		LOG("SPECIAL1");
 	}
 	// special difference for "medusa work in progress cutre version"
-	if (App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && character != characterName::RITZ && (App->entityFactory->player->level >= 3 || App->buff->godMode) && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	if (App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && character != characterName::RITZ && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
 	{
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
 	}
-	else if(App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode) && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	else if(App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
 		combat_state = combatState::SPECIAL2;
 		
 
 	// check dodge
 	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
 	{
-		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN )
 		{
 			combat_state = combatState::DODGE;
 			if (inputReady)
