@@ -107,8 +107,7 @@ public:
 
 	SDL_Rect loot_rect;
 	SDL_Rect shadow_rect;
-	bool Legendari = false;
-	//SDL_Texture* goldTex;
+	
 
 	uint level;
 

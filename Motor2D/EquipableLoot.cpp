@@ -107,7 +107,7 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 64, 96, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//353, 96
 		break;
@@ -123,7 +123,7 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::ROD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 96, 736, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//33 , 738
 		break;
@@ -131,7 +131,7 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::ARMOR:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 128, 932, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//128 , 964
 		break;
@@ -139,7 +139,7 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 254, 1441, 32, 32};
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//95,1409
 		break;
@@ -148,7 +148,7 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 350, 1409, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		//leg mantle x446,y1408
 
@@ -164,7 +164,7 @@ void Equipable::ToSelectLootFunction(EQUIPABLE_TYPE type)
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 64, 96, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
@@ -178,28 +178,28 @@ void Equipable::ToSelectLootFunction(EQUIPABLE_TYPE type)
 	case EQUIPABLE_TYPE::ROD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 96, 736, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::ARMOR:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 128, 932, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 254, 1441, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 350, 1409, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 

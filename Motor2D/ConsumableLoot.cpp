@@ -103,7 +103,7 @@ void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
 		loot_rect = { 448,1568,32,32 };
 		size.create(32, 32);
 
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 
 		break;
 
@@ -113,7 +113,7 @@ void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
 			lootname.assign("potion");
 			name.assign("potion");
 			size.create(32, 32);
-			SetPivot(16, 16);
+			SetPivot(16, 17);
 		break;
 
 	case OBJECT_TYPE::PHOENIX_TAIL:
@@ -121,7 +121,7 @@ void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
 		size.create(32, 32);
-		SetPivot(16, 30);
+		SetPivot(16, 16);
 		break;
 
 	default:
@@ -180,7 +180,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		loot_rect = { 448,1568,32,32 };
 		size.create(32, 32);
 
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 
 		break;
 
@@ -193,7 +193,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 			lootname.assign("potion");
 			name.assign("potion");
 			size.create(32, 32);
-			SetPivot(16, 16);
+			SetPivot(16, 17);
 			break;
 		default:
 			break;
@@ -205,7 +205,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
 		size.create(32, 32);
-		SetPivot(16, 30);
+		SetPivot(16, 16);
 		break;
 
 	default:
