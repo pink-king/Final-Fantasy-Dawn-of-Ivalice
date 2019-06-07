@@ -304,28 +304,28 @@ bool PlayerEntityManager::Update(float dt)
 		consumables.clear();
 	}
 
-	if (marche->stat.size() != 0)
+	if (marche->stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(marche))
 		{
 			App->buff->entitiesTimeDamage.remove(marche);
 		}
 	}
-	if (ritz->stat.size() != 0)
+	if (ritz->stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(ritz))
 		{
 			App->buff->entitiesTimeDamage.remove(ritz);
 		}
 	}
-	if (shara->stat.size() != 0)
+	if (shara->stat.size() != 0 && !App->pause )
 	{
 		if (App->buff->DamageInTime(shara))
 		{
 			App->buff->entitiesTimeDamage.remove(shara);
 		}
 	}
-	if (stat.size() != 0)
+	if (stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(this))
 		{
