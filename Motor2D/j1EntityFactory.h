@@ -15,6 +15,9 @@
 #include "EquipableLoot.h"
 
 #include "Projectile.h"
+
+class DialogTriggerVolatile;
+
 struct GroupInfo {
 	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies, uint level)
 		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies), groupLevel(level) {}
@@ -103,6 +106,7 @@ public:
 	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0, bool lookLeft = true);
 	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
 	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger,iPoint posState, uint nSubtiles = 0, bool pressA = true);
+	Trigger* CreateDialogTriggerVolatile(float posX, float posY, std::string Dtrigger, uint nSubtiles = 0, DialogTriggerVolatile* parent = nullptr);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);

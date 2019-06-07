@@ -43,6 +43,7 @@
 #include "Boss_Flower.h"
 #include "j1EasingSplines.h"
 #include "j1Gui.h"
+#include "DialogTriggerVolatile.h"
 
 
 j1EntityFactory::j1EntityFactory()
@@ -821,6 +822,15 @@ Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::strin
 {
 	Trigger* ret = nullptr;
 	ret = new DialogTrigger(posX, posY, Dtrigger, posState, nSubtiles,pressA);
+	entities.push_back(ret);
+
+	return ret;
+}
+
+Trigger * j1EntityFactory::CreateDialogTriggerVolatile(float posX, float posY, std::string Dtrigger, uint nSubtiles, DialogTriggerVolatile * parent)
+{
+	Trigger* ret = nullptr;
+	ret = new DialogTriggerVolatile(posX, posY, Dtrigger, nSubtiles, parent);
 	entities.push_back(ret);
 
 	return ret;
