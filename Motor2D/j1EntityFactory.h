@@ -149,7 +149,7 @@ public:
 	void RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type);//Create the amount of the same Equipable with random values for each entity
 	void CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type);
 	bool LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& config);
-	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config, bool preventLegendary = false);
 	void CreateLootStats(LootEntity* lootEntity);
 
 	int GetRandomValue(int min, int max);
