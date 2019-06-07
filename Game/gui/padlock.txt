@@ -1,1 +1,0 @@
-grid rects: 85 x 85 px

@@ -87,7 +87,8 @@ public:
 
 	void destroyNPCNameLabels(SceneState scene); 
 	void createNPCNameLabels(SceneState scene);
-	void hideAllNPCLabels(bool);
+
+	void hideAllNPCLabels(bool); 
 	// - - - - - - - - - - - - - - - - - - - - for inventory logic 
 
 	bool isDialogInScreen = false; 

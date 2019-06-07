@@ -2,8 +2,8 @@
 #define GUI_DEFINITIONS_H
 
 #include "UiItem_CooldownClock.h"
-#include<map>
 
+#include<map>
 /// GUI CPP 
 
 // - - - - - - - the following two methods are only meant for loading the xml data - - - - - - - 
@@ -70,7 +70,7 @@ struct bossLifeBarInfo
 
 struct enemySkullIcon
 {
-	SDL_Rect baseEnemyRect;
+	SDL_Rect baseEnemyRect; 
 	SDL_Rect strongEnemyRect;
 	SDL_Rect BossEnemyRect;
 };
@@ -79,13 +79,14 @@ struct enemySkullIcon
 struct CharacterStatIcon
 {
 	SDL_Rect upgrade;
-	SDL_Rect Downgrade;
-	uint mapPos;
+	SDL_Rect Downgrade; 
+	uint mapPos; 
 };
 
 
 struct upgradeCharacterStatsIcons
 {
+
 
 	CharacterStatIcon attack;
 
@@ -96,11 +97,15 @@ struct upgradeCharacterStatsIcons
 
 	std::map<int, CharacterStatIcon> mapPositions;
 
+
+
 };
+
 
 class GUI_Definitions
 {
 
+	
 
 };
 

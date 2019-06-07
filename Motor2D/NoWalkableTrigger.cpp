@@ -2,9 +2,9 @@
 #include "j1PathFinding.h"
 #include "j1EntityFactory.h"
 
-NoWalkableTrigger::NoWalkableTrigger(float posx, float posy, bool bossHall, uint nSubtiles) : Trigger(TRIGGER_TYPE::NOWALKABLE, posx, posy, "noWalkable"), bossHall(bossHall)
+NoWalkableTrigger::NoWalkableTrigger(float posx, float posy) : Trigger(TRIGGER_TYPE::NOWALKABLE, posx, posy, "noWalkable")
 {
-	AssignInSubtiles(nSubtiles);
+	AssignInSubtiles(11);
 }
 
 NoWalkableTrigger::~NoWalkableTrigger()
@@ -23,25 +23,19 @@ NoWalkableTrigger::~NoWalkableTrigger()
 		App->pathfinding->DeactivateTile({ (*exitWallPositionsIter).x, (*exitWallPositionsIter).y });
 
 	// check this
-
-	DeleteFromSubtiles(nSubtiles);
+	DeleteFromSubtiles(11);
 }
 
 bool NoWalkableTrigger::DoTriggerAction()
 {
 	if (!isActivated)
 	{
-		if (bossHall)
-		{
-			iPoint instantiationPoint = App->map->MapToWorld(42, 109);
-			instantiationPoint.x -= 34;
-			instantiationPoint.x -= 38;
-			App->entityFactory->CreateEntity(FLOWERBOSS, instantiationPoint.x, instantiationPoint.y, "flower_boss");
-			App->audio->PlayMusic("audio/music/bossmusic.ogg", -1);
-			App->entityFactory->CreateDialogTrigger(instantiationPoint.x, instantiationPoint.y, "BOSS", { instantiationPoint.x - 2,instantiationPoint.y - 2}, 10, false);     // boss dialog ready for lvl 2 interaction with boss
-			if (!bossHall)
-				to_delete = true;
-		}
+		iPoint instantiationPoint = App->map->MapToWorld( 42,109 );
+		instantiationPoint.x -= 34;
+		instantiationPoint.x -= 38;
+		App->entityFactory->CreateEntity(FLOWERBOSS, instantiationPoint.x, instantiationPoint.y, "flower_boss");
+		App->audio->PlayMusic("audio/music/bossmusic.ogg", -1);
+
 		CreateWalls();
 		isActivated = true;
 	}
@@ -75,12 +69,7 @@ void NoWalkableTrigger::CreateWalls()
 		App->pathfinding->ActivateTile({ (*iter).x, (*iter).y });
 		iPoint wallPoint = App->map->MapToWorld((*iter).x, (*iter).y);
 		wallPoint.y -= 16; // sprite offset
-		SDL_Rect rect;
-		if (bossHall)
-			rect = { 0,873,64,64 };
-		else
-			rect = { 0,384,64,64 };
-		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, rect);
+		App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
 	}
 
 	// exit walls

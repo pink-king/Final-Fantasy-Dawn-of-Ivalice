@@ -124,7 +124,6 @@ public:
 	CharacterStats* AddCharacterStatsItem(UiItem* const parent);
 	CharacterStatBlock* AddCharacterStatBlock(UiItem_Label* Name, UiItem_Label* bStat, UiItem_Label* nStat, Uint8 bValue, Uint8 nValue, UiItem_Label* Arrows, UiItem_Image* changeStatIcon, UiItem* const parent);
 
-
 	SDL_Texture* GetAtlas();
 	void FadeToScene();
 	void ExitGame();
@@ -133,10 +132,11 @@ public:
 	void FpsCap();
 	void GoBackToGame();
 	void Credits();
-	void SocialMedia(std::string& name);
+	void GoToControls();
+	
+	void SocialMedia(std::string &name);
 	void GoBackToStartMenu();
 	void GoBackToStartMenuFromDeathWin();
-	void GoToControls();
 
 	UiItem_HealthBar* healthBar = nullptr;
 	SDL_Texture* lootTexture = nullptr;
@@ -147,6 +147,7 @@ private:
 	bool debug_ = false;
 public:
 	UiItem* selected_object = nullptr;
+	UiItem* last_selected_object = nullptr;
 
 public:
 	bool resetHoverSwapping = false;
@@ -154,10 +155,12 @@ public:
 	clockOwners spawnedClocks;
 	
 	enemyHealthBarInfo enemyLifeBarInfo;
-	enemySkullIcon enemySkullInfo;
 	bossLifeBarInfo bossHealthBarInfo;
+	enemySkullIcon enemySkullInfo; 
 
-	upgradeCharacterStatsIcons upgradeCharacterStatsIconsRects;
+	upgradeCharacterStatsIcons upgradeCharacterStatsIconsRects; 
+
+	
 
 	SDL_Texture* hurt_hud_tex = nullptr;
 	SDL_Texture* hurt_hud_tex2 = nullptr;

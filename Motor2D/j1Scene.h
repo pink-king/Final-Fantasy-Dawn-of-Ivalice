@@ -11,7 +11,7 @@ class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
 class UiItem_Inventory;
-class CharacterStats;
+class CharacterStats; 
 class UiItem;
 class PlayerEntityManager;
 enum class LOOT_TYPE;
@@ -26,21 +26,9 @@ enum class SceneState
 	WIN,
 	LOBBY,
 	FIRINGRANGE,
-	INTRO, 
-
 	MAX_STATES
 };
 
-
-enum class LobbyState
-{
-	ALLBLOCK,
-	TALKSTRANGER,
-	PASSLVL1,
-	PASSLVL2,
-
-	OUTGAME
-};
 
 class j1Scene : public j1Module
 {
@@ -81,10 +69,10 @@ public:
 	UiItem* settingPanel = nullptr;
 	UiItem* pausePanel = nullptr;
 	UiItem* creditsPanel = nullptr;
+	UiItem* controlsPanel = nullptr;
 	UiItem* inventory = nullptr;
 	UiItem* deathPanel = nullptr;
 	UiItem* winPanel = nullptr;
-	UiItem* controlsPanel = nullptr;
 	UiItem_Label* coins_label = nullptr;
 	UiItem_Label* wave_label = nullptr;
 	UiItem_Label* exp_label = nullptr;
@@ -99,7 +87,7 @@ public:
 	SDL_Rect lootPanelRect;
 	SDL_Rect lootPanelRectNoButton;
 	UiItem_Inventory* inventoryItem = nullptr;
-	CharacterStats* characterStatsItem = nullptr;
+	CharacterStats* characterStatsItem = nullptr; 
 
 	bool debug = false;
 	bool debugSubtiles = false; 
@@ -108,12 +96,10 @@ public:
 	bool ComeToPortal = false;
 	bool ComeToDeath = false;
 	bool ComeToWin = false;
-	bool exitGame = false;
 
-	bool isSaved = false;
-	SceneState state = SceneState::INTRO;
+	bool exitGame = false;
+	SceneState state = SceneState::STARTMENU;
 	SceneState previosState = SceneState::LOBBY;
-	LobbyState lobbyState = LobbyState::ALLBLOCK;
 	fPoint portalPos;
 	bool isDeath = false;
 	bool paused;
@@ -188,16 +174,12 @@ public:
 	unsigned int portal_mantain;
 	unsigned int portal_vanish;
 	unsigned int portal_travel; 
-	unsigned int open_doorSFX;
+
 	unsigned int pickLoot;
 	unsigned int pickGold;
 	unsigned int consumHealPotion;
 	unsigned int pickPotion;
-	unsigned int typeWriterSFX;
-	unsigned int savedSFX;
-	unsigned int jar_breakSFX;
-	unsigned int OpenChestSFX;
-	
+
 private:
 	SDL_Texture* debug_tex = nullptr;
 	
@@ -224,11 +206,11 @@ private:
 	bool LoadSettings(pugi::xml_node& nodeScene);
 	bool LoadPauseSettings(pugi::xml_node& nodeScene);
 	bool LoadCredits(pugi::xml_node& nodeScene);
+	bool LoadControls(pugi::xml_node& nodeScene);
 	bool LoadInventory(pugi::xml_node& nodeScene);
 	bool LoadDeathScreen(pugi::xml_node& nodeScene);
 	bool LoadWinScreen(pugi::xml_node& nodeScene);
-	bool LoadControls(pugi::xml_node& nodeScene);
-
+	
 	PlayerEntityManager* player_selected = nullptr;
 
 	
@@ -246,10 +228,7 @@ public:
 	int hit_counter;
 	int previous_counter;
 	bool decreaseAlpha = false;
-	Trigger* doorlvl1 = nullptr;
-	Trigger* doorlvl2 = nullptr;
-	Trigger* firingrange = nullptr;
-	Trigger* strangerDialog = nullptr;
+	Trigger* door = nullptr;
 	j1Timer timeindmg;
 	UiItem_Image* MarcheIcon = nullptr;
 	UiItem_Image* SharaIcon = nullptr;
@@ -269,6 +248,7 @@ public:
 	bool ability1_rv = false;
 	bool ability2_rv = false;
 	bool ulti_rv = false;
+	
 };
 
 #endif // __j1SCENE_H__

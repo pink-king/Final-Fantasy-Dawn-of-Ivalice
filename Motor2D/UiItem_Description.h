@@ -6,11 +6,18 @@
 #include "j1Textures.h"
 #include <cstdint>
 #include <string.h>
+#include "CharacterStats.h"
+#include "j1Scene.h"
+#include "j1App.h"
+
 // #include "j1Entity.h"
 
 
 class UiItem_Image;
 class UiItem_Label;
+
+class UiItem_Inventory; 
+class CharacterStats; 
 
 struct EquipmentStatType
 {
@@ -74,6 +81,8 @@ public:
 	bool ChangeComparisonLabels();
 	void HideAllComparisonLabels();
 	void SwitchCameraUsage();
+
+ 
 
 	void DeleteEverything();
 
@@ -147,6 +156,13 @@ public:
 	// flag
 	bool hasToCompare = true;
 
+
+
+	void LastHoveredCharacterStatSwapReset()
+	{
+		App->scene->characterStatsItem->characterFakeSwapDone = false; 
+	}
+
 private:
 
 	EquipmentStatType equipmentLootInfo;
@@ -154,6 +170,9 @@ private:
 	descriptionType descrType;
 	bool tabOnConsumable = false;
 	bool foundPoti = false;
+
+
+
 };
 
 #endif

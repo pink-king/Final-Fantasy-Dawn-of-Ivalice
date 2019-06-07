@@ -21,66 +21,28 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	name.assign("Marche");
 
 	// TODO: import from xml
-	spritesheet = runTexTempPtr = App->tex->Load("textures/characters/marche/Marche_run_WIP2.png");
+	spritesheet = runTexTempPtr = App->tex->Load("textures/characters/marche/Marche_run_WIP.png");
 	dash_spritesheet = App->tex->Load("textures/characters/marche/Marche_dash_WIP.png");
 	whirlwindTex = App->tex->Load("textures/characters/marche/Marche_tornado_bodySpin_WIP.png");
 	whirlwindFireTex = App->tex->Load("textures/spells/Marche_attacks/Marche_tornado_twisterSpinx2.png");
 	basicAttackTex = basicAttackTexPtr = App->tex->Load("textures/characters/marche/marche_basic_attack_WIP.png");
 	superAttackTex = App->tex->Load("textures/characters/marche/marche_ultimate_basic_attack_WIP.png");
-	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run2.png");
+	superRunTex = App->tex->Load("textures/characters/marche/Marche_ultimate_run.png");
 	superTransTex = App->tex->Load("textures/characters/marche/marche_ultimate_animation_WIP.png");
 	entityTex = spritesheet;
 
-	float idleAnimSpeed = 7.f;
 	// IDLE
-	idle[(int)facingDirection::N].PushBack({ 270,240,45,60 });
-	idle[(int)facingDirection::N].PushBack({ 315,240,45,60 });
-	idle[(int)facingDirection::N].PushBack({ 360,240,45,60 });
-	idle[(int)facingDirection::N].PushBack({ 405,240,45,60 });
-	idle[(int)facingDirection::N].speed = idleAnimSpeed;
 
-	idle[(int)facingDirection::S].PushBack({ 270,0,45,60 });
-	idle[(int)facingDirection::S].PushBack({ 315,0,45,60 });
-	idle[(int)facingDirection::S].PushBack({ 360,0,45,60 });
-	idle[(int)facingDirection::S].PushBack({ 405,0,45,60 });
-	idle[(int)facingDirection::S].speed = idleAnimSpeed;
-
-	idle[(int)facingDirection::E].PushBack({ 270,120,45,60 });
-	idle[(int)facingDirection::E].PushBack({ 315,120,45,60 });
-	idle[(int)facingDirection::E].PushBack({ 360,120,45,60 });
-	idle[(int)facingDirection::E].PushBack({ 405,120,45,60 });
-	idle[(int)facingDirection::E].speed = idleAnimSpeed;
-
-	idle[(int)facingDirection::W].PushBack({ 270,120,45,60 });
-	idle[(int)facingDirection::W].PushBack({ 315,120,45,60 });
-	idle[(int)facingDirection::W].PushBack({ 360,120,45,60 });
-	idle[(int)facingDirection::W].PushBack({ 405,120,45,60 });
-	idle[(int)facingDirection::W].speed = idleAnimSpeed;
-
-	idle[(int)facingDirection::SE].PushBack({ 270,60,45,60 });
-	idle[(int)facingDirection::SE].PushBack({ 315,60,45,60 });
-	idle[(int)facingDirection::SE].PushBack({ 360,60,45,60 });
-	idle[(int)facingDirection::SE].PushBack({ 405,60,45,60 });
-	idle[(int)facingDirection::SE].speed = idleAnimSpeed;
-
-	idle[(int)facingDirection::SW].PushBack({ 270,60,45,60 });
-	idle[(int)facingDirection::SW].PushBack({ 315,60,45,60 });
-	idle[(int)facingDirection::SW].PushBack({ 360,60,45,60 });
-	idle[(int)facingDirection::SW].PushBack({ 405,60,45,60 });
-	idle[(int)facingDirection::SW].speed = idleAnimSpeed;
-
-	idle[(int)facingDirection::NE].PushBack({ 270,180,45,60 });
-	idle[(int)facingDirection::NE].PushBack({ 315,180,45,60 });
-	idle[(int)facingDirection::NE].PushBack({ 360,180,45,60 });
-	idle[(int)facingDirection::NE].PushBack({ 405,180,45,60 });
-	idle[(int)facingDirection::NE].speed = idleAnimSpeed;
-
-	idle[(int)facingDirection::NW].PushBack({ 270,180,45,60 });
-	idle[(int)facingDirection::NW].PushBack({ 315,180,45,60 });
-	idle[(int)facingDirection::NW].PushBack({ 360,180,45,60 });
-	idle[(int)facingDirection::NW].PushBack({ 405,180,45,60 });
-	idle[(int)facingDirection::NW].speed = idleAnimSpeed;
-
+	idle[(int)facingDirection::N].PushBack({ 177,0,45,60 });
+	idle[(int)facingDirection::S].PushBack({ 0,0,45,60 });
+	idle[(int)facingDirection::E].PushBack({ 90,0,45,60 });
+	idle[(int)facingDirection::W].PushBack({ 90,0,45,60 }); // same as E but flipped - 4
+	idle[(int)facingDirection::NE].PushBack({ 135,0,45,60 });
+	idle[(int)facingDirection::SE].PushBack({ 45,0,45,60 }); 
+	idle[(int)facingDirection::SW].PushBack({ 45,0,45,60 }); // same as SE but flipped - 3
+	idle[(int)facingDirection::NW].PushBack({ 135,0,45,60 }); // same as NE but flipped - 7
+	// one frame doesnt need speed
+	//idle[(int)facingDirection::N].speed = 10.0f;
 
 	// RUN
 
@@ -148,7 +110,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	run[(int)facingDirection::NW].PushBack({ 225,300,45,60 });
 	run[(int)facingDirection::NW].speed = 10.0f;
 
-	//run->speed = 10.0f;
+	run->speed = 10.0f;
 	// DASH
 
 	dash[(int)facingDirection::E].PushBack({ 0,0,95,110 });
@@ -583,7 +545,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// ------------------------------------------------------------------
 
-	currentAnimation = &idle[(int)facingDirection::S];
+	currentAnimation = &run[(int)facingDirection::W];
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
@@ -604,6 +566,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	characterBaseSpeed.x /= 1.2f;
 	characterBaseSpeed.y /= 1.2f;
 
+
 	mySpeedModular = sqrt((characterBaseSpeed.x + characterBaseSpeed.y) * (characterBaseSpeed.x + characterBaseSpeed.y));
 
 	//
@@ -616,7 +579,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
-	superTransMaxTimeSec = 7;
+	superTransMaxTimeSec = 4;
 
 }
 
@@ -801,8 +764,8 @@ bool Marche::Update(float dt)
 			//App->attackManager->AddPropagationAttack(this, App->entityFactory->player->GetCrossHairSubtile(), propagationType::BFS, 10, 7, 40);
 			// TODO: Adds a camera shaking based on "x" needed data from attack components
 			// same applies when we receive damage
-			//App->camera2D->AddTrauma(10.0f / 100.f);
-			//App->input->DoGamePadRumble(0.3f, 100);
+			App->camera2D->AddTrauma(10.0f / 100.f);
+			App->input->DoGamePadRumble(0.3f, 100);
 
 		}
 
@@ -820,11 +783,11 @@ bool Marche::Update(float dt)
 						damageType::DIRECT,
 						ELEMENTAL_TYPE::NO_ELEMENT,
 						baseDamage,
-						3, 30, false);
+						2, 30, false);
 
 					// FINAL RUMBLE AND SHAKE
-					App->camera2D->AddTrauma(0.10f);
-					App->input->DoGamePadRumble(0.25f, 250);
+					App->camera2D->AddTrauma(0.45f);
+					App->input->DoGamePadRumble(0.4f, 300);
 
 					// force change state
 					combat_state = combatState::IDLE;
@@ -839,11 +802,11 @@ bool Marche::Update(float dt)
 					damageType::DIRECT,
 					ELEMENTAL_TYPE::NO_ELEMENT,
 					baseDamage * 2, // TODO: PASS parameter basedamage from attackdata from attack manager to float
-					4, 20, false);
+					3, 20, false);
 
 				// FINAL RUMBLE AND SHAKE
-				App->camera2D->AddTrauma(0.38f);
-				App->input->DoGamePadRumble(0.45f, 250);
+				App->camera2D->AddTrauma(0.65f);
+				App->input->DoGamePadRumble(0.8f, 300);
 
 				// force change state
 				combat_state = combatState::IDLE;
@@ -1012,10 +975,10 @@ bool Marche::Update(float dt)
 								damageType::DIRECT,
 								ELEMENTAL_TYPE::FIRE_ELEMENT,
 								whirlwindWhileLoopDMG,
-								5, 30, true);
+								3, 30, true);
 
 							// camera shake and rumble
-							App->camera2D->AddTrauma(0.13f);
+							App->camera2D->AddTrauma(0.3f);
 							App->input->DoGamePadRumble(0.4f, whirlwindCadence* 0.9f);
 
 							// instantiate or not a random tornado

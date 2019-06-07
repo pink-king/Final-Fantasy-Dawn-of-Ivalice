@@ -37,6 +37,7 @@ private:
 		this->hitBox.y = pos.y;
 	}
 
+	
 	SDL_Rect resizedRect;
 
 	SDL_Texture* newTex = nullptr;

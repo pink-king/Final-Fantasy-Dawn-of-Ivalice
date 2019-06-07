@@ -8,7 +8,7 @@
 class WinTrigger : public Trigger
 {
 public:
-	WinTrigger(float posx, float posy, SceneState scene, Color color, uint nSubtiles);
+	WinTrigger(float posx, float posy, SceneState scene, Color color);
 	~WinTrigger();
 
 	virtual bool DoTriggerAction();

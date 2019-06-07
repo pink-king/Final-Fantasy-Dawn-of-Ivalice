@@ -33,7 +33,6 @@ enum variant {
 	gold,
 	wave,
 	save,
-	levelUp,
 };
 
 class UiItem_HitPoint : public UiItem

@@ -22,7 +22,7 @@ struct wall
 class NoWalkableTrigger : public Trigger
 {
 public:
-	NoWalkableTrigger(float posx, float posy, bool bossHall, uint nSubtiles);
+	NoWalkableTrigger(float posx, float posy);
 	~NoWalkableTrigger();
 
 	bool DoTriggerAction();
@@ -36,7 +36,7 @@ public:
 private:
 	std::vector<wall*> wallsvec;
 	bool isActivated = false;
-	bool bossHall;
+
 	uint level = 1;
 
 	j1Entity* waveEntity = nullptr;

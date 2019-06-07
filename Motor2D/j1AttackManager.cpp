@@ -22,7 +22,6 @@ j1AttackManager::j1AttackManager()
 	matrix[PLAYER][ENEMY_ARCHER] = true;
 	matrix[PLAYER][FLOWERBOSS] = true;
 	matrix[PLAYER][ENEMY_DUMMY] = true;
-	matrix[PLAYER][BREAKABLE_ASSET] = true;
 
 	matrix[ENEMY_BOMB][ENEMY_BOMB] = false;
 	matrix[ENEMY_BOMB][PLAYER] = true;
@@ -30,7 +29,6 @@ j1AttackManager::j1AttackManager()
 	matrix[ENEMY_BOMB][ENEMY_ARCHER] = false;
 	matrix[ENEMY_BOMB][FLOWERBOSS] = false;
 	matrix[ENEMY_BOMB][ENEMY_DUMMY] = false;
-	matrix[ENEMY_BOMB][BREAKABLE_ASSET] = true;
 
 	matrix[ENEMY_TEST][PLAYER] = true;
 	matrix[ENEMY_TEST][ENEMY_BOMB] = false;
@@ -38,7 +36,6 @@ j1AttackManager::j1AttackManager()
 	matrix[ENEMY_TEST][ENEMY_ARCHER] = false;
 	matrix[ENEMY_TEST][FLOWERBOSS] = false;
 	matrix[ENEMY_TEST][ENEMY_DUMMY] = false;
-	matrix[ENEMY_TEST][BREAKABLE_ASSET] = true;
 
 	matrix[ENEMY_ARCHER][PLAYER] = true;
 	matrix[ENEMY_ARCHER][ENEMY_BOMB] = false;
@@ -46,7 +43,6 @@ j1AttackManager::j1AttackManager()
 	matrix[ENEMY_ARCHER][ENEMY_ARCHER] = false;
 	matrix[ENEMY_ARCHER][FLOWERBOSS] = false;
 	matrix[ENEMY_ARCHER][ENEMY_DUMMY] = false;
-	matrix[ENEMY_ARCHER][BREAKABLE_ASSET] = true;
 
 	matrix[FLOWERBOSS][PLAYER] = true;
 	matrix[FLOWERBOSS][ENEMY_BOMB] = false;
@@ -54,23 +50,13 @@ j1AttackManager::j1AttackManager()
 	matrix[FLOWERBOSS][ENEMY_ARCHER] = false;
 	matrix[FLOWERBOSS][FLOWERBOSS] = false;
 	matrix[FLOWERBOSS][ENEMY_DUMMY] = false;
-	matrix[FLOWERBOSS][BREAKABLE_ASSET] = true;
+
 
 	matrix[ENEMY_DUMMY][PLAYER] = true; 
 	matrix[ENEMY_DUMMY][ENEMY_BOMB] = false;
 	matrix[ENEMY_DUMMY][ENEMY_TEST] = false;
 	matrix[ENEMY_DUMMY][ENEMY_ARCHER] = false;
 	matrix[ENEMY_DUMMY][FLOWERBOSS] = false;
-	matrix[ENEMY_DUMMY][ENEMY_DUMMY] = false;
-	matrix[ENEMY_DUMMY][BREAKABLE_ASSET] = false;
-
-	matrix[BREAKABLE_ASSET][PLAYER] = false;
-	matrix[BREAKABLE_ASSET][ENEMY_BOMB] = false;
-	matrix[BREAKABLE_ASSET][ENEMY_TEST] = false;
-	matrix[BREAKABLE_ASSET][ENEMY_ARCHER] = false;
-	matrix[BREAKABLE_ASSET][FLOWERBOSS] = false;
-	matrix[BREAKABLE_ASSET][ENEMY_DUMMY] = false;
-	matrix[BREAKABLE_ASSET][BREAKABLE_ASSET] = false;
 }
 
 j1AttackManager::~j1AttackManager()
@@ -124,7 +110,7 @@ bool j1AttackManager::Update(float dt)
 		}
 		else
 		{
-			//LOG("Involved %i entities", (*attacksDataIterator)->combo);
+			LOG("Involved %i entities", (*attacksDataIterator)->combo);
 			delete(*attacksDataIterator);
 			(*attacksDataIterator) = nullptr;
 			attacksDataIterator = currentPropagationAttacks.erase(attacksDataIterator);
@@ -153,6 +139,7 @@ bool j1AttackManager::CleanUp()
 {
 	if (currentPropagationAttacks.size() > 0)
 	{
+		LOG("TODO");
 		for (std::vector<attackData*>::iterator iter = currentPropagationAttacks.begin(); iter != currentPropagationAttacks.end();++iter)
 		{
 			delete *iter;
@@ -491,7 +478,7 @@ std::vector<j1Entity*>* attackData::GetInvolvedEntitiesFromSubtile(const iPoint 
 	{
 		if (temp->size() > 0)
 		{
-			//LOG("vector with: %i entity/ies", temp->size());
+			LOG("vector with: %i entity/ies", temp->size());
 			return temp;
 		}
 	}
@@ -515,7 +502,7 @@ void attackData::CheckEntitiesFromSubtileStep()
 			std::vector<j1Entity*>::iterator invoterator = involvedEntities->begin();
 			for (; invoterator != involvedEntities->end(); ++invoterator)
 			{
-				//LOG("Entity name %s", (*invoterator)->name.begin());
+				LOG("Entity name %s", (*invoterator)->name.begin());
 
 				// filter an add the target entities to final queue
 				AddEntityToQueueFiltered((*invoterator));
@@ -690,7 +677,7 @@ bool j1AttackManager::DestroyAllMyCurrentAttacks(const j1Entity* me) const // on
 		}
 	}
 
-	//LOG("unliked %i attacks", numCurrentAttacks);
+	LOG("unliked %i attacks", numCurrentAttacks);
 
 	return ret;
 }

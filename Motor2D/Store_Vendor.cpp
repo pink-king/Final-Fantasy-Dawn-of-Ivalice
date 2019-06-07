@@ -28,15 +28,15 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 
 	if (firstTime || playerLvlUp)
 	{
+
 		if (playerLvlUp)           // get rid of obsolete objects
 		{
 			for (auto& LootEntity : vBagObjects)
 			{
 				App->buff->RemoveItemStat(LootEntity);
-
-				App->scene->inventoryItem->De_______GenerateDescription(LootEntity, false);
+				App->scene->inventoryItem->De_______GenerateDescription(LootEntity, false); 
 			}
-			vBagObjects.clear();
+			vBagObjects.clear(); 
 		}
 
 		for (int i = 1; i <= numberOfEquip; ++i)
@@ -58,6 +58,7 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 			}
 
 		}
+	
 
 		if(firstTime)
 		firstTime = false;

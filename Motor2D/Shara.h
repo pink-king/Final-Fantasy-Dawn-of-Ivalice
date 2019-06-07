@@ -23,14 +23,13 @@ public:
 
 private:
 	bool SetStopperState();
-	void SpawnArrowsInArch(const fPoint& destination); 
 
 public:
 	myClocks myUIClocks;
 
+
 private:
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
-	fPoint ultiCastPivots[(int)facingDirection::MAX];
 	Animation ultiCastAnim[(int)facingDirection::MAX];
 	SDL_Texture* ultiCastTex = nullptr;
 	// TODO

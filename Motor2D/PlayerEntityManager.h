@@ -137,14 +137,7 @@ public:
 	uint level;
 	uint exp;
 	uint maxExpInLevel;
-
-public:
-	void LockPlayerInput();
-	void UnlockPlayerInput();
-
 private:
-
-	bool playerUpdateReady = true; // prevents to Update the player state
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
 
@@ -166,14 +159,12 @@ private:
 	bool consumPhoenix = false;
 
 	
-	
-	
+
+
 	// vendor
 	Vendor* vendor = nullptr; 
-
-public: 
 	LootEntity* lastHoveredLootItem = nullptr;
-	bool usedButtonAToPickLootWithCrosshairLastFrame = false;
+
 	
 };
 

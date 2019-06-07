@@ -3,10 +3,10 @@
 
 #include "j1App.h"
 #include "j1Fonts.h"
+#include "j1Gui.h"
 #include "j1Scene.h"
 #include "j1Textures.h"
 #include "j1Render.h"
-#include "j1Gui.h"
 #include <assert.h>
 
 
@@ -89,7 +89,6 @@ void UiItem_Label::Draw(const float & dt)
 
 			if (!useCamera)
 				speed = 1.0f;
-			
 
 			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
 			if (textureDimensions.x != prevTextDimension.x)
@@ -141,6 +140,7 @@ void UiItem_Label::Draw(const float & dt)
 			if (!useCamera)
 				speed = 1.0f;
 
+			
 			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 		}
 	}
@@ -153,6 +153,7 @@ void UiItem_Label::Draw(const float & dt)
 	{
 		TypeWriter();
 	}
+
 
 
 }
@@ -179,8 +180,6 @@ bool UiItem_Label::TypeWriter()
 		{
 			this->text = this->text + typewriter_text.at(counter_typewriter);
 			ChangeTextureIdle(this->text, NULL, NULL);
-			App->audio->PlayFx(App->scene->typeWriterSFX, 0);
-
 		}
 	}
 	
@@ -205,32 +204,32 @@ bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* colo
 
 	if (numberOfDecimals != NULL && numberOfDecimals > 0)
 	{
-		std::string newString = {};
-		uint decimals = 0;
-		bool count = false;
+		std::string newString = {}; 
+		uint decimals = 0; 
+		bool count = false; 
 
 		for (int i = 0; i < textIdle.size() - 1; ++i)
 		{
 			if (textIdle.at(i) == '.')
 			{
-				count = true;
+				count = true; 
 			}
 
 			if (count)
 			{
 				if (decimals <= numberOfDecimals)
 				{
-
-					newString += textIdle.at(i);
-					decimals++;
-
-
+				    
+				newString += textIdle.at(i);
+				decimals++;
+					
+				
 				}
 				else
 				{
-					break;
+					break; 
 				}
-
+				
 			}
 			else
 			{
@@ -238,10 +237,10 @@ bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* colo
 			}
 		}
 
-		textIdle.clear();
-		textIdle.append(newString);
+		textIdle.clear(); 
+		textIdle.append(newString); 
 	}
-
+	
 	SDL_Color col = (color != NULL) ? *color : this->color;
 	TTF_Font * f = (font != NULL) ? (TTF_Font *)font : this->font;
 
@@ -266,7 +265,7 @@ void UiItem_Label::DoLogicHovered()
 {
 	if (this->isDialog)
 	{
-		const SDL_Color c = { 180, 200, 22, 255 };
+		const SDL_Color c = { 180, 200, 22, 200 };
 		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
 	}
 }
@@ -277,7 +276,7 @@ void UiItem_Label::DoLogicAbandoned()
 {
 	if (this->isDialog)
 	{
-		const SDL_Color c = { 255, 255, 255, 255 };
+		const SDL_Color c = { 34, 200, 43, 255 };
 		ChangeTextureIdle(this->text, &c, App->font->openSansBold18);
 	}
 }

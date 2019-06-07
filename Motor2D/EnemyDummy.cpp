@@ -12,8 +12,6 @@ EnemyDummy::EnemyDummy(const iPoint & pos) : Enemy(pos, 0, 0, 0, 0, 0, true, ENT
 
 	//SetPivot(13, 46); // Armor
 	SetPivot(17, 45); // ScareCrow
-	size.create(35, 52);
-
 	position -= pivot; 
 
 	life = maxLife;

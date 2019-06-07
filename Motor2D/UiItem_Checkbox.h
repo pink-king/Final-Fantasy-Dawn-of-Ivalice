@@ -29,7 +29,7 @@ protected:
 	void DoLogicAbandoned();
 	void CleanUp();
 public:
-	UiItem_Checkbox(iPoint position, std::string& function, std::string& name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent = nullptr);
+	UiItem_Checkbox(iPoint position, std::string &function, std::string &name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
 	~UiItem_Checkbox();
 	void Draw(const float& dt);
 

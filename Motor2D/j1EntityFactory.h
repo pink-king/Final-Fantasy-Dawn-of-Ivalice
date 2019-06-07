@@ -8,7 +8,6 @@
 #include "PlayerEntityManager.h"
 #include "WaveManager.h"
 #include <vector>
-#include <list>
 #include "Color.h"
 #include "j1Map.h"
 #include "ConsumableLoot.h"
@@ -16,14 +15,13 @@
 
 #include "Projectile.h"
 struct GroupInfo {
-	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies, uint level)
-		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies), groupLevel(level) {}
+	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies)
+		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies) {}
 
 	std::vector<EnemyType> types;
 	SDL_Rect zone = { 0, 0, 0, 0 };
 	uint minEnemies;
 	uint maxEnemies;
-	uint groupLevel; 
 };
 
 enum class EnvironmentAssetsTypes
@@ -32,22 +30,9 @@ enum class EnvironmentAssetsTypes
 	WALL,
 	TRIGGERWALL,
 	WALL1,
-	BREAKABLE_ASSET,
-	CHEST,
 	// ---
 	MAX
 };
-
-enum class BreakableType
-{
-	JAR,
-	JARFULL,
-	BARREL,
-
-	//---
-	NO_BREAKABLE_TYPE
-};
-
 
 struct entityDataMap
 {
@@ -91,7 +76,7 @@ public:
 	WaveManager* CreateWave(const SDL_Rect& zone, uint numWaves, WAVE_TYPE wave, j1Entity* linkedTrigger = nullptr);
 	j1Entity* CreateEntity(ENTITY_TYPE type, int positionX, int positionY, std::string name);
 	Enemy* CreateEnemy(EnemyType etype, iPoint pos, bool dummy = false);
-	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum, uint groupLevel = 0);
+	void CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum);
 	void LoadSpawnGroups();
 	
 	j1Entity* CreateArrow(fPoint pos, fPoint destination, uint speed, const j1Entity* owner, PROJECTILE_TYPE type, uint lifeTime = 0);
@@ -100,9 +85,9 @@ public:
 	LootEntity* CreateLoot( int posX, int posY);
 	LootEntity* CreateGold(int posX, int posY);
 
-	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0, bool lookLeft = true);
+	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black);
 	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
-	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger,iPoint posState, uint nSubtiles = 0, bool pressA = true);
+	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
@@ -138,15 +123,13 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, bool isBossChest = false);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
 	void RandomAmountofLoot(LOOT_TYPE LootType, int amount, fPoint pos); //create the amount and type of randomLoot 
 	void RepeatAmountofConsumables(int amount, fPoint pos, OBJECT_TYPE type);//Create the amount of the same Consumable with random values for gold
 	void RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type);//Create the amount of the same Equipable with random values for each entity
-	void CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type);
-	bool LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& config);
 	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
 	void CreateLootStats(LootEntity* lootEntity);
 
@@ -188,16 +171,12 @@ public:
 	SDL_Texture*			ritzUltimateTex = nullptr; 
 	SDL_Texture*			ritzBasicTex = nullptr; 
 	SDL_Texture*			marcheTornadoTex = nullptr;
-	SDL_Texture*			lootItemsTex = nullptr;
-	SDL_Texture*			lootShadowTex = nullptr;
+	SDL_Texture*			lootItemsTex = nullptr; 
 	SDL_Texture*			portalTex = nullptr;
 	SDL_Texture*			campFireTex = nullptr;
-	SDL_Texture*			interactiveStatesTex = nullptr;
-	SDL_Texture*			hallTex = nullptr;
-	SDL_Texture*			ButtonAtex = nullptr;
 
 	std::vector<GroupInfo> spawngroups;
-	std::list<j1Entity*>	entities;
+	std::vector<j1Entity*>	entities;
 	bool justGold;
 	j1Timer alphaTimer;
 	

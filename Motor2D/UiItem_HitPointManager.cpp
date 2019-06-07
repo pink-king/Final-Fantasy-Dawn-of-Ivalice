@@ -56,8 +56,7 @@ bool UiItem_HitPointManager::Update(float dt)
 			}
 			else
 			{
-				if ((*hitPointIterator)->numerOrText != variant::gold && (*hitPointIterator)->numerOrText != variant::wave
-					&& (*hitPointIterator)->numerOrText != variant::save && (*hitPointIterator)->numerOrText != variant::levelUp)                    // don't consider gold labels
+				if ((*hitPointIterator)->numerOrText != variant::gold && (*hitPointIterator)->numerOrText != variant::wave)                    // don't consider gold labels
 					labelScoreAccum -= (*hitPointIterator)->valueInformation.number;
 			}
 
@@ -201,7 +200,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callWaveLabelSpawn(iPoint pos, uint val
 	return nullptr;
 }
 
-UiItem_HitPoint* UiItem_HitPointManager::callSaveLabelSpawn(iPoint pos)
+UiItem_HitPoint * UiItem_HitPointManager::callSaveLabelSpawn(iPoint pos)
 {
 	valueInfo info = {
 		"SAVE",
@@ -212,18 +211,6 @@ UiItem_HitPoint* UiItem_HitPointManager::callSaveLabelSpawn(iPoint pos)
 	return nullptr;
 }
 
-
-UiItem_HitPoint* UiItem_HitPointManager::callLevelUpLabelSpawn(iPoint pos, uint value)
-{
-	valueInfo info = {
-		"LEVEL",
-		value,
-	};
-
-	App->gui->AddHitPointLabel(info, { 255, 255, 200, 255 }, App->font->piecesofEight48, pos, nullptr, variant::levelUp);
-
-	return nullptr;
-}
 
 void UiItem_HitPointManager::calculatePlayerCombo()
 {

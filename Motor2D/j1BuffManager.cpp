@@ -181,36 +181,14 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 		App->gui->healthBar->damageInform.doDamage = true;
 		App->gui->healthBar->damageInform.damageValue = lifeToSubstract;
 
-		/*-------- HURT HUD ---------*/
 		App->entityFactory->setPlayerDmageVec(getPlayerToEnemyVec(defender, attacker)); //vector to get player orientations from enemy
-
-		//-------->
-		if (App->scene->hit_counter < 3 && defender->life > defender->maxLife * 0.5f)
-		{
-			App->scene->previous_counter = App->scene->hit_counter;
-			App->scene->hit_counter += 1;
-			App->scene->decreaseAlpha = false;
-		}
-		else if (App->scene->hit_counter == 3 && defender->life > defender->maxLife * 0.5f)
-		{
-			App->scene->hit_counter -= 1;
-			App->scene->previous_counter = App->scene->hit_counter - 1;
-			App->scene->decreaseAlpha = false;
-		}
-
-		if (defender->life < defender->maxLife * 0.5f)
-		{
-			App->scene->previous_counter = App->scene->hit_counter;
-			App->scene->hit_counter += 1;
-			App->scene->decreaseAlpha = false;
-		}
-		//<-----------
-
+		App->scene->previous_counter = App->scene->hit_counter;
+		App->scene->hit_counter += 1;
+		App->scene->decreaseAlpha = false;
 		App->entityFactory->pushEF = true;
 		App->input->DoGamePadRumble(200, 100);
 		App->camera2D->AddTrauma(0.5f);
 		App->scene->timeindmg.Start();
-		/*----------------------------*/
 
 		if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
 		{
@@ -510,21 +488,20 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 				if (type == BUFF_TYPE::MULTIPLICATIVE)
 				{
 					player->coolDownData.basic.cooldownTime *= value;
-					if(player->coolDownData.basic.cooldownTime == 1)
-						player->coolDownData.basic.cooldownTime = 1;
+					if(player->coolDownData.basic.cooldownTime == 0)
+						player->coolDownData.basic.cooldownTime = 0;
 					player->coolDownData.dodge.cooldownTime *= value;
-					if (player->coolDownData.dodge.cooldownTime <= 1)
-						player->coolDownData.dodge.cooldownTime = 1;
+					if (player->coolDownData.dodge.cooldownTime <= 0)
+						player->coolDownData.dodge.cooldownTime = 0;
 					player->coolDownData.special1.cooldownTime *= value;
-					if (player->coolDownData.special1.cooldownTime <= 1)
-						player->coolDownData.special1.cooldownTime = 1;
+					if (player->coolDownData.special1.cooldownTime <= 0)
+						player->coolDownData.special1.cooldownTime = 0;
 					player->coolDownData.special2.cooldownTime *= value;
-					if (player->coolDownData.special2.cooldownTime <= 1)
-						player->coolDownData.special2.cooldownTime = 1;
+					if (player->coolDownData.special2.cooldownTime <= 0)
+						player->coolDownData.special2.cooldownTime = 0;
 					player->coolDownData.ultimate.cooldownTime *= value;
-					if (player->coolDownData.ultimate.cooldownTime <= 1)
-						player->coolDownData.ultimate.cooldownTime = 1;
-
+					if (player->coolDownData.ultimate.cooldownTime <= 0)
+						player->coolDownData.ultimate.cooldownTime = 0;
 				}
 				else if (type == BUFF_TYPE::ADDITIVE)
 				{
@@ -628,8 +605,6 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				player->coolDownData.special1.cooldownTime /= buff->GetValue();
 				player->coolDownData.special2.cooldownTime /= buff->GetValue();
 				player->coolDownData.ultimate.cooldownTime /= buff->GetValue();
-
-
 			}
 			else if (buff->GetType() == BUFF_TYPE::ADDITIVE)
 			{

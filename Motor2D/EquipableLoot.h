@@ -3,7 +3,16 @@
 
 #include "LootEntity.h"
 
-
+//enum class EQUIPABLE_TYPE
+//{
+//	SWORD,
+//	BOW,
+//	ROD,
+//	ARMOR,
+//	VEST,
+//	MANTLE
+//	
+//};
 
 class Equipable : public LootEntity
 {

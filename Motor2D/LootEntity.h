@@ -7,15 +7,13 @@
 #include "PlayerEntity.h"
 #include "j1PerfTimer.h"
 #include <random>
-#include <functional>
+
 //#include "pcg_random.hpp"
 #include "j1Scene.h"
-#include "j1EasingSplines.h"
 
 #include <string>
 #include "j1Gui.h"
 
-#define NUM_NEIGH_SUBTILETILE_FALL 32
 
 struct SDL_Texture;
 
@@ -81,33 +79,24 @@ public:
 	int GetRandomValue(int min, int max);
 	//void GetAttributesForDescription(); 
 
+	float EaseOutBack(float t);
 	void CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item);
+	fPoint Lerp(fPoint actual, fPoint destination, float t);
 	float LerpX(float actual, float destination, float t);
+	fPoint SetDestinationPos(float x, float y);
 	EQUIPABLE_TYPE GetEquipable();
-	void ReRECTlootToLegRect(EQUIPABLE_TYPE equipable);
 
-	std::list<iPoint> GetGroundTilePoints();
-	void SetSplineToFall();
-	void SelectSubtileToGround();
-	bool CheckGrounded();
-
-
+	void DecideExplosion();
+	void ExplosionMaker(float dt);
 public:
-	std::list<iPoint> groundSubtilePoints;
-	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_SUBTILETILE_FALL];
-	iPoint adjacentTileNeighboursToGround2[NUM_NEIGH_SUBTILETILE_FALL];
-
-	iPoint groundSubtileDestination;
-
 	iPoint Getoriginpos();
+	iPoint GetFinalPos();
 	iPoint lootSubtile;
 	iPoint loot_pos;
 	std::string lootname;
-	SDL_Texture* objShadow = nullptr;
 
 	SDL_Rect loot_rect;
-	SDL_Rect shadow_rect;
-	
+	//SDL_Texture* goldTex;
 
 	uint level;
 
@@ -129,22 +118,37 @@ public:
 	// - - - - - - - The attached description  - - - - - - - // 
 	UiItem_Description* MyDescription = nullptr; 
 	bool spawnedDescription = false;
-	//void CheckClampedCrossHairToSpawnDescription();
+	void CheckClampedCrossHairToSpawnDescription();
 
 	bool clampedByCrosshair = false;
-	bool clampedByPlayerOnTop = false; 
+
 protected:
-	int PlaySFXtime = 5;
+
 	int dmg;
 	std::string itemname;
+
+	bool endReached;
+	float initialPosX;
+	float initialPosY;
+	fPoint goalPos;
+	bool start;
+	bool grounded;
+	bool checkgrounded;
+protected:
+	iPoint originPos;
+	float timeTest;
+	float timeXmid;
+	float timeYmid;
+	float incrementY;
+	float incrementX;
+	float decrementY;
+	float decrementX;
+	j1PerfTimer displacementTime;
 	LOOT_TYPE loot_type = LOOT_TYPE::NO_LOOT;
 
-	
-	
-	iPoint distanceTotravel;
-	void GetDistanceTotravel();
 	std::random_device rd;
 	std::mt19937 engine;
+	
 	//pcg_extras::seed_seq_from <std::random_device> seed_source;
 
 	

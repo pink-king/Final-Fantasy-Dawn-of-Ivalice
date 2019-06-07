@@ -44,7 +44,6 @@ public:
 	void DamageQuadReset();
 	void doDamageToBoss(uint lifeToSubstract);
 	void UpdatePos();
-	void RecalculateSection(); 
 
 	void CleanUp();
 	void ShowBossBarWhenDialogIsOver();
@@ -54,15 +53,14 @@ public:
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
 
-	//boss
+	// boss
 	UiItem_Image* divisionImage = nullptr;
 	UiItem_Label* nameOnTop = nullptr;
 
 	// boss and enemies
-	UiItem_Image* skull = nullptr;
-	iPoint skullOffset = iPoint(-25, 0);
+	UiItem_Image* skull = nullptr; 
+	iPoint skullOffset = iPoint(-25,0); 
 	std::string name = "";
-
 private:
 
 	uint maxSection = 0;
@@ -78,7 +76,8 @@ private:
 	uint enemyMaxLife;
 	bool startShowing = false;
 
-	bool spawnedSkull = false;
+	bool spawnedSkull = false; 
+
 
 	iPoint playerBarOffset = { 28,11 };
 

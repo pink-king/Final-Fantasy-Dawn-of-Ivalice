@@ -8,52 +8,33 @@
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	SetConsumable();
-
+	originPos.x = position.x;
+	start = true;
+	checkgrounded = true;
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
-
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
-
-	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
-		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
-		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
-	objShadow = App->entityFactory->lootShadowTex;
-	App->render->SetTextureAlpha(objShadow, 190);
 }
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	SetConsumable(CONSUMABLE_TYPE::POTION);
-	objectType = objectT;
+	originPos.x = position.x;
+	start = true;
+	checkgrounded = true;
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
-	objShadow = App->entityFactory->lootShadowTex;
-	App->render->SetTextureAlpha(objShadow, 190);
-
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
-
-	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
-		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
-		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
 	ToSelectLootFunction( objectT);
-	objectType = objectT;
+
+	start = true;
+	checkgrounded = true;
 	manualCollectable = true;
 
 	entityTex = App->entityFactory->lootItemsTex;
-
-	objShadow = App->entityFactory->lootShadowTex;
-	App->render->SetTextureAlpha(objShadow, 190);
-
-	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
-
-	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
-		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
-		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
 }
 
 Consumable::~Consumable()
@@ -69,26 +50,43 @@ bool Consumable::Start()
 bool Consumable::Update(float dt)
 {
 	
+		if (start)
+		{
+			goalPos = SetDestinationPos(goalPos.x, goalPos.y);
+			start = false;
+			
+			
+			DecideExplosion();
+		}
 
+		dt = EaseOutBack(displacementTime.ReadMs())*0.000001;
+
+		if (displacementTime.ReadMs() <= 280)
+		{
+			ExplosionMaker(dt);
+			
+		}
+		else
+		{
+			grounded = true;
+			
+		}
 		/*else if (!repositionDescription)
 		{
 			this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
 			repositionDescription = true;
 		}*/
 
-	if ((position.y == App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y - 1).y - pivot.y) && PlaySFXtime != 0)
-	{
-		if (objectType == OBJECT_TYPE::POTIONS)
-			App->audio->PlayFx(App->scene->potionGroundSFX, 0);
+		if (checkgrounded && grounded)
+		{
+			checkgrounded = false;
+			if (objectType == OBJECT_TYPE::POTIONS)
+				App->audio->PlayFx(App->scene->potionGroundSFX, 0);
 
-		else if (objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
+			else if(objectType == OBJECT_TYPE::GOLD) App->audio->PlayFx(App->scene->coinGroundedSFX, 0);
 
-		else if(objectType == OBJECT_TYPE::PHOENIX_TAIL) App->audio->PlayFx(App->scene->potionGroundSFX, 0);
-
-		PlaySFXtime -= 1;
-	}
-
-	
+			//else if(objectType == OBJECT_TYPE::PHOENIX_TAIL) //put phoenix tail  SXF
+		}
     
 	return true;
 }
@@ -103,7 +101,7 @@ void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
 		loot_rect = { 448,1568,32,32 };
 		size.create(32, 32);
 
-		SetPivot(16, 16);
+		SetPivot(16, 28);
 
 		break;
 
@@ -113,7 +111,7 @@ void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
 			lootname.assign("potion");
 			name.assign("potion");
 			size.create(32, 32);
-			SetPivot(16, 17);
+			SetPivot(16, 16);
 		break;
 
 	case OBJECT_TYPE::PHOENIX_TAIL:
@@ -121,7 +119,7 @@ void Consumable::ToSelectLootFunction(OBJECT_TYPE type)
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
 		size.create(32, 32);
-		SetPivot(16, 16);
+		SetPivot(16, 30);
 		break;
 
 	default:
@@ -180,7 +178,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		loot_rect = { 448,1568,32,32 };
 		size.create(32, 32);
 
-		SetPivot(16, 16);
+		SetPivot(16, 28);
 
 		break;
 
@@ -193,7 +191,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 			lootname.assign("potion");
 			name.assign("potion");
 			size.create(32, 32);
-			SetPivot(16, 17);
+			SetPivot(16, 16);
 			break;
 		default:
 			break;
@@ -205,7 +203,7 @@ void Consumable::SetConsumable(CONSUMABLE_TYPE type)
 		lootname.assign("phoenixTail");
 		name.assign("phoenixTail");
 		size.create(32, 32);
-		SetPivot(16, 16);
+		SetPivot(16, 30);
 		break;
 
 	default:

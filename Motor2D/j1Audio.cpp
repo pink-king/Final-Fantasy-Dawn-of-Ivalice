@@ -9,7 +9,7 @@
 
 j1Audio::j1Audio() : j1Module()
 {
-	music = nullptr;
+	music = NULL;
 	name.assign("audio");
 }
 
