@@ -1726,6 +1726,8 @@ void j1Scene::UnLoadScene()
 		App->buff->Disable();
 	if (App->camera2D->IsEnabled())
 		App->camera2D->Disable();
+	if (App->easing->IsEnabled());
+		App->easing->Disable();
 
 	App->audio->UnLoadAudio();
 }
@@ -1746,6 +1748,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
 
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->attackManager->IsEnabled())
 			App->attackManager->Enable();
 		if (!App->pathfinding->IsEnabled())
@@ -1779,6 +1783,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 			App->map->active = true;
 			LoadNewMap("maps/FiringRange.tmx");
 		}
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		break;
@@ -1795,6 +1801,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
 		//LoadNewMap("maps/Level2.tmx");
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		// create player for testing purposes here
@@ -1812,6 +1820,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		// create player for testing purposes here

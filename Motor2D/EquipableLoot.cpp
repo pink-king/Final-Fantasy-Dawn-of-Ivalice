@@ -4,6 +4,8 @@
 
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
+	shadowcastdelay.Start();
+
 	this->equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	SetEquipable();
 	manualCollectable = false;
@@ -22,7 +24,8 @@ Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX
 
 Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
-	
+	shadowcastdelay.Start();
+
 	ToSelectLootFunction(OBJ_TYPE);
 	equipableType = OBJ_TYPE;
 	manualCollectable = false;
@@ -36,8 +39,7 @@ Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOO
 	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y-pivot.y)
 		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position)*0.6,
 		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
-
-}
+ }
 
 
 Equipable::~Equipable()

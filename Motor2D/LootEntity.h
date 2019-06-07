@@ -89,7 +89,6 @@ public:
 	std::list<iPoint> GetGroundTilePoints();
 	void SetSplineToFall();
 	void SelectSubtileToGround();
-	bool CheckGrounded();
 
 
 public:
@@ -107,7 +106,8 @@ public:
 
 	SDL_Rect loot_rect;
 	SDL_Rect shadow_rect;
-	
+	j1Timer shadowcastdelay;
+
 
 	uint level;
 
@@ -133,6 +133,7 @@ public:
 
 	bool clampedByCrosshair = false;
 	bool clampedByPlayerOnTop = false; 
+
 protected:
 	int PlaySFXtime = 5;
 	int dmg;

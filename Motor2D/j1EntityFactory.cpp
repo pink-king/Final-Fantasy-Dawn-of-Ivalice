@@ -65,7 +65,7 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 
 bool j1EntityFactory::Start()
 {
-	std::list<j1Entity*>::iterator item = entities.begin();
+ 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if((*item) != nullptr)

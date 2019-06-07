@@ -2,7 +2,7 @@
 #define _EQUIPABLELOOT_H__
 
 #include "LootEntity.h"
-
+#include"j1Timer.h"
 
 
 class Equipable : public LootEntity
