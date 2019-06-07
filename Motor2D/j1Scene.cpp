@@ -237,11 +237,9 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
 
-		/*DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 5, nullptr);
-		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 5, dialogParent);*/
-		DialogTriggerVolatile* dialogParent1 = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(162, 222).x, App->map->SubTileMapToWorld(162, 222).y, "VENDOR", 4, nullptr);
-		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(180, 220).x, App->map->SubTileMapToWorld(180, 220).y, "VENDOR", 4, dialogParent1);
-
+		DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
+		
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -1472,17 +1470,19 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 
 		SDL_Rect tick;
+		iPoint tick_pos;
 		std::string name_tick;
 		if (pugi::xml_node tickSecNode = uiNode.child("tickSec"))
 		{
 			tick = { tickSecNode.attribute("x").as_int(), tickSecNode.attribute("y").as_int(), tickSecNode.attribute("w").as_int(), tickSecNode.attribute("h").as_int() };
 			name_tick = "tick";
+			tick_pos = { position.x + 14, position.y + 11 };
 		}
 
 
 		
 		App->gui->AddCheckbox(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove, &tick);
-		tick_image = App->gui->AddImage(position, &tick, name_tick, parent);
+		tick_image = App->gui->AddImage(tick_pos, &tick, name_tick, parent);
 	}
 
 

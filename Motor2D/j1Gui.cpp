@@ -115,10 +115,11 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 			{
 				selected_object->state = CLICK;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
+				
 			}
 
 			break;

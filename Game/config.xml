@@ -640,10 +640,10 @@
       
       <checkboxes>
         <checkbox name="checkbox_prove" function = "FpsCap">
-          <idleSec  x="293" y="667" w="200" h="36"/>
-          <hoverSec x="293" y="728" w="200" h="36" />
-          <clickSec x="293" y="667" w="200" h="36" />
-          <tickSec  x="555" y="678" w="18" h="18" />
+          <idleSec  x="1079" y="3275" w="179" h="41"/>
+          <hoverSec x="1079" y="3319" w="179" h="41" />
+          <clickSec x="1079" y="3363" w="179" h="41" />
+          <tickSec  x="126" y="33" w="19" h="18" />
           <position x="600" y="491"/>
         </checkbox>
       </checkboxes>
