@@ -708,6 +708,10 @@ bool j1Scene::Update(float dt)
 		App->audio->SetFxVolume(result_fx);
 		//settingPanel->enable = false;
 		fx_bar_ig->thumb->hitBox.x = fx_bar->thumb->hitBox.x + 263;
+		if (settingPanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			App->gui->GoBackToMenu();
+		}
 	}
 
 	if (state == SceneState::LOBBY)
@@ -837,6 +841,8 @@ bool j1Scene::Update(float dt)
 			App->gui->GoBackToGame();
 
 		}
+
+		
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) //|| App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
