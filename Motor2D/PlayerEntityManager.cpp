@@ -145,6 +145,26 @@ bool PlayerEntityManager::Update(float dt)
 
 			std::string dest = "LVL" + std::to_string(level);
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+			for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
+			{
+
+				if (level == 2 && (*item)->name == "chain1")
+				{
+					(*item)->to_delete = true;
+
+				}
+				else if (level == 3 && (*item)->name == "chain2")
+				{
+					(*item)->to_delete = true;
+
+				}
+				else if (level == 4 && (*item)->name == "chain3")
+				{
+					(*item)->to_delete = true;
+
+				}
+			}
 		}
 
 		else
