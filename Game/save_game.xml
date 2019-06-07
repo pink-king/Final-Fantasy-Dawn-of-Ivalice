@@ -7,144 +7,10 @@
 	<map />
 	<scene />
 	<entities>
-		<Entities player="ritz">
-			<Experience level="4" exp="0" />
-			<life actualLife="288" />
-			<gold value="7219" />
-			<bagObjects>
-				<data name="legendary_stick" level="1" characterObject="Ritz" equipableType="rod" elementalType="fireElement" objectType="weapon" lootType="equipable">
-					<rect x="96" y="736" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="fireElement" rol="attack" value="25" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="0.769999981" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="vest_1" level="2" characterObject="Ritz" equipableType="mantle" elementalType="noElement" objectType="armor" lootType="equipable">
-					<rect x="350" y="1409" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="defence" value="40" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="18" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="legendary_vest" level="1" characterObject="Ritz" equipableType="mantle" elementalType="noElement" objectType="armor" lootType="equipable">
-					<rect x="350" y="1409" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="defence" value="26" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.150000006" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="health" value="17" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="armor_2" level="2" characterObject="Marche" equipableType="armor" elementalType="fireElement" objectType="armor" lootType="equipable">
-					<rect x="128" y="932" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="26" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.239999995" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="legendary_stick" level="5" characterObject="Ritz" equipableType="rod" elementalType="poisonElement" objectType="weapon" lootType="equipable">
-					<rect x="96" y="736" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="poisonElement" rol="attack" value="85" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="1.09000003" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="stick_2" level="4" characterObject="Ritz" equipableType="rod" elementalType="allElement" objectType="weapon" lootType="equipable">
-					<rect x="96" y="736" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="allElement" rol="attack" value="40" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="multiplicative" elementType="noElement" rol="cooldown" value="1.19000006" />
-				</buffs>
-			</bagObjects>
-			<bagObjects>
-				<data name="armor_2" level="3" characterObject="Marche" equipableType="armor" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="128" y="932" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="poisonElement" rol="defence" value="31" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.25999999" />
-				</buffs>
-			</bagObjects>
-			<equipedObjects>
-				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="allElement" objectType="armor" lootType="equipable">
-					<rect x="254" y="1441" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="allElement" rol="defence" value="18.5" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.150000006" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="stick_1" level="2" characterObject="Ritz" equipableType="rod" elementalType="noElement" objectType="weapon" lootType="equipable">
-					<rect x="96" y="736" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="iceElement" rol="attack" value="40" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="vest_2" level="1" characterObject="Ritz" equipableType="mantle" elementalType="iceElement" objectType="armor" lootType="equipable">
-					<rect x="350" y="1409" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="iceElement" rol="defence" value="29" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.150000006" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="legendary_armor" level="2" characterObject="Marche" equipableType="armor" elementalType="allElement" objectType="armor" lootType="equipable">
-					<rect x="128" y="932" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Marche" type="additive" elementType="allElement" rol="defence" value="26" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="velocity" value="0.239999995" />
-				</buffs>
-				<buffs>
-					<data character="Marche" type="additive" elementType="noElement" rol="health" value="21" />
-				</buffs>
-			</equipedObjects>
-			<consumableObjects>
-				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
-					<rect x="416" y="1568" w="32" h="32" />
-				</data>
-			</consumableObjects>
-			<consumableObjects>
-				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
-					<rect x="416" y="1568" w="32" h="32" />
-				</data>
-			</consumableObjects>
+		<Entities player="marche">
+			<Experience level="1" exp="0" />
+			<life actualLife="0" />
+			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />
@@ -156,6 +22,8 @@
 	<ModuleCamera2D />
 	<HPLabelManager />
 	<:anonymous />
+	<:anonymous />
+	<easingsplines />
 	<:anonymous />
 	<renderer>
 		<camera />

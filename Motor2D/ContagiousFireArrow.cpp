@@ -42,7 +42,7 @@ ContagiousFireArrow::~ContagiousFireArrow()
 {
 	if(wallImpact)
 		App->audio->PlayFx(App->scene->sharaAbility2_ImpactsWall, 0);
-	LOG("Bye Contagiousarrow!");
+	//LOG("Bye Contagiousarrow!");
 }
 
 bool ContagiousFireArrow::PreUpdate()
@@ -52,14 +52,14 @@ bool ContagiousFireArrow::PreUpdate()
 		
 		to_explode = true;
 		
-		LOG("fire arrow audio played");
+		//LOG("fire arrow audio played");
 	}
 
 	if (OnCollisionWithWall())
 	{
 		wallImpact = true;
 		to_explode = true;
-		LOG("contagious wall");
+		//LOG("contagious wall");
 	}
 	return true;
 }

@@ -23,7 +23,7 @@ enum MainState
 {
 	CREATE = 1,
 	AWAKE,
-	START,
+	ALLBLOCK,
 	LOOP,
 	CLEAN,
 	FAIL,
@@ -60,7 +60,7 @@ int main(int argc, char* args[])
 			case AWAKE:
 			LOG("AWAKE PHASE ===============================");
 			if(App->Awake() == true)
-				state = START;
+				state = ALLBLOCK;
 			else
 			{
 				LOG("ERROR: Awake failed");
@@ -70,7 +70,7 @@ int main(int argc, char* args[])
 			break;
 
 			// Call all modules before first frame  ----------------------------
-			case START:
+			case ALLBLOCK:
 			LOG("START PHASE ===============================");
 			if(App->Start() == true)
 			{

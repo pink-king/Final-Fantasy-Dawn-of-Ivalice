@@ -61,12 +61,6 @@ public:
 
 	bool CheckMaxItems(); // use when buying and selling
 
-	void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag); 
-
-	void despawnRubbish(); 
-
-   
-
 public: 
 
 	bool drawTest = false;
@@ -90,10 +84,6 @@ public:
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 247, 96 };
 
-
-	uint totalSpawnedItems = 0; 
-	uint totalDeSpawnedInventoryIcons = 0; 
-
 private:
 	SDL_Rect tab_image = { 726,1,64,64 };
 	bool first_potion = false;
@@ -107,12 +97,9 @@ private:
 	consumableLabelPositions consumable_positions;
 	std::string str_potion;
 	std::string str_fenix_tail;
+
 	std::string name = "";
 
-	UiItem_Label* charNameLabel = nullptr;
-	UiItem_Label* equippedLabel = nullptr;
-	UiItem_Label* bagLabel = nullptr;
-	UiItem_Label* consumablesLabel = nullptr;
 
 };
 

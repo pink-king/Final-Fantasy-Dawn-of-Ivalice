@@ -97,7 +97,6 @@ public:
 	coolDown coolDownData;
 	float lastAnimationSpeed;
 	bool inputReady = true;
-
 	float mySpeedModular;
 protected:
 	fPoint GetShotDirection();
