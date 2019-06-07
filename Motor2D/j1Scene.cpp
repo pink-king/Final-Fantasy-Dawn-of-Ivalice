@@ -1733,7 +1733,7 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 			App->pause = !App->pause;
 			if (App->pause && !pausePanel->enable)
 			{
-				inventoryItem->closing = false; 
+
 				inventory->enable = true;
 				App->gui->resetHoverSwapping = false;
 
@@ -1750,7 +1750,7 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 
 			else
 			{
-				inventoryItem->closing = true; 
+
 				inventoryItem->despawnRubbish();  // don't blame me for the name
 
 
