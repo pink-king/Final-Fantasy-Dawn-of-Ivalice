@@ -1717,7 +1717,7 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 
 
 
-bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
+bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config, bool preventLegendary)
 {
 	int randID = 0;
 	int id;
@@ -1742,7 +1742,11 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 
 	case OBJECT_TYPE::WEAPON_OBJECT:
 
-		randID = GetRandomValue(1, 3);
+		if(!preventLegendary)
+			randID = GetRandomValue(1, 3);
+		else
+			randID = GetRandomValue(1, 2);
+		
 
 		switch (GetRandomValue(1, 12))
 		{
@@ -1926,7 +1930,11 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 			break;
 		}
 	case OBJECT_TYPE::ARMOR_OBJECT:
-		randID = GetRandomValue(1, 3);
+
+		if (!preventLegendary)
+			randID = GetRandomValue(1, 3);
+		else
+			randID = GetRandomValue(1, 2);
 
 		switch (GetRandomValue(1, 12))
 		{
@@ -2599,4 +2607,14 @@ fPoint j1EntityFactory::getplayerDamagevec()
 void j1EntityFactory::setPlayerDmageVec(fPoint unitari)
 {
 	dmg_vec = unitari;
+}
+
+
+void j1EntityFactory::setCurrentEnemiesToAGivenState(EnemyState state)
+{
+	for (auto& entity : entities)
+		if (entity->isDynamicEnemy)
+			dynamic_cast<Enemy*>(entity)->state = state; 
+
+	// TODO: add this condition --> if(dynamic_cast<Enemy*>(entity)->isInRange)
 }

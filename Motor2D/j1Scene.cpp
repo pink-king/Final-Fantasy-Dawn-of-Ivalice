@@ -1471,16 +1471,18 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			sectionClick = &click;
 		}
 
-		SDL_Rect* sectionTick = nullptr;
+		SDL_Rect tick;
+		std::string name_tick;
 		if (pugi::xml_node tickSecNode = uiNode.child("tickSec"))
 		{
-			SDL_Rect tick = { tickSecNode.attribute("x").as_int(), tickSecNode.attribute("y").as_int(), tickSecNode.attribute("w").as_int(), tickSecNode.attribute("h").as_int() };
-			sectionTick = &tick;
+			tick = { tickSecNode.attribute("x").as_int(), tickSecNode.attribute("y").as_int(), tickSecNode.attribute("w").as_int(), tickSecNode.attribute("h").as_int() };
+			name_tick = "tick";
 		}
 
 
-
-		App->gui->AddCheckbox(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove, sectionTick);
+		
+		App->gui->AddCheckbox(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove, &tick);
+		tick_image = App->gui->AddImage(position, &tick, name_tick, parent);
 	}
 
 

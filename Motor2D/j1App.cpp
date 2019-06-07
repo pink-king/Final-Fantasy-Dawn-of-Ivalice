@@ -527,3 +527,8 @@ float j1App::GetDt()
 //{
 //	return seconds_since_startup;
 //}
+
+pugi::xml_node j1App::GetConfigForChild(const char* child) const
+{
+	return config.child(child);
+}

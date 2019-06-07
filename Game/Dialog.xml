@@ -188,9 +188,9 @@
       <option line="Right, and where are items stored?" nextnode="8"/>
     </node>
 
-	
-	
-	
+
+  </dialogtree>
+  
   <dialogtree treeid="5" treeName="PREBOSS">
      <node line="Death has come to you, evildoer" id="0">
       <option line="Who is talking?" nextnode="1"/>
@@ -221,16 +221,13 @@
       <option line="I am coming for you" nextnode="666"/>
    </node>
    
-   <node line="You will fall with me" id="6">
+   <node line="Withdraw, insolent, you will fall with me!" id="6">
       <option line="Let us fall together, then" nextnode="666"/>
    </node>
    
 
   </dialogtree>
 
-
-
-  </dialogtree>
 
 
 

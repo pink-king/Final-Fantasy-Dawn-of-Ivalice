@@ -41,34 +41,10 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string& function, std::st
 
 	
 
-	
-
-	int tick_offset_y = 3;
-	int tick_offset_x = 3;
-
-	iPoint tickPos(position.x + tick_offset_x, position.y + tick_offset_y);
-
-
-	// - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-	
-
-	// tick
-	tick = App->gui->AddImage(tickPos, tick_section, name, this);
-	tick->hide = true;
-
-
-	
-
-	
-
-
-
 	// the parent
 	this->parent = parent;
+
+
 
 }
 
@@ -86,7 +62,11 @@ void UiItem_Checkbox::Draw(const float & dt)
 
 void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 
-	tick->hide = !tick->hide;
+	if (App->scene->tick_image->hide)
+		App->scene->tick_image->hide = false;
+	else
+		App->scene->tick_image->hide = true;
+
 	if (functionName == "FpsCap")
 		App->gui->FpsCap();
 	App->audio->PlayFx(App->scene->acceptUI, 0);
@@ -100,7 +80,7 @@ void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 void UiItem_Checkbox::CleanUp()
 {
 	
-	tick->to_delete = true;
+	//tick->to_delete = true;
 }
 
 

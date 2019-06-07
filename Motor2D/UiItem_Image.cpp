@@ -26,6 +26,8 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, std::string
 	{
 		this->autorefresh = true;
 	}
+	if (name == "tick")
+		this->hide = true;
 	// the parent
 	this->parent = parent;
 
@@ -91,7 +93,7 @@ void UiItem_Image::Draw(const float& dt)
 
 			if (!useCamera)
 				speed = 1.0f;
-
+			
 			App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &this->section, speed, 1.0f, 0.0f, resizedRect);
 		}
 		else

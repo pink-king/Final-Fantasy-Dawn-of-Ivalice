@@ -46,4 +46,5 @@
 			<button function="ultimate" type="axis" id="5" />
 		</shara>
 	</current>
+	<aimToggle value="true" />
 </controller_mapping>

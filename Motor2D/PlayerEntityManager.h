@@ -144,6 +144,7 @@ public:
 	void UnlockPlayerInput();
 
 private:
+	bool toggleAim = false;
 	bool playerUpdateReady = true; // prevents to Update the player state
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
