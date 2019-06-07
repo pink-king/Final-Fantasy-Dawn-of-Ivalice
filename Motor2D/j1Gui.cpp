@@ -699,15 +699,21 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string& function, std::string name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent)
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, std::string function, std::string name, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, const SDL_Rect * tick_section)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, panel_section, box_section, tick_section, labelInfo, parent);
+	if (parent == NULL)
+		newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, idle, canvas, click, hover, tick_section);
+	else
+		newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, idle, parent, click, hover, tick_section);
+
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
 }
+
+
 
 UiItem_HitPoint* j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, variant type)
 {

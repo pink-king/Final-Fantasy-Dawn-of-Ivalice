@@ -620,24 +620,7 @@
 
       </panelBars>
 
-      <PanelCheckboxes>
-        <!--
-        <PanelCheckbox name="test_checkbox" function = "FpsCap">
-          <panelPosition x="588" y="473"/>
-          <panelSection x="293" y="666" w="200" h="36"/>
-          <boxSection x="518" y="673" w="25" h="25"/>
-          <tickSection x="555" y="678" w="18" h="18"/>
-          <font value = "Open_Sans Bold"/>
-          <checkboxLabels>
-            <checkboxLabel name="labelInsideCheckbox">
-              <text value = "FPS Cap"/>
-              <color R="0" G="0" B="0" A="255"/>
-              <font value = "1" size = "18"/>
-            </checkboxLabel>
-          </checkboxLabels>
-        </PanelCheckbox>
--->
-      </PanelCheckboxes>
+      
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
@@ -653,6 +636,17 @@
           <position x="267" y="491"/>
         </button>
       </buttons>
+      
+      
+      <checkboxes>
+        <checkbox name="checkbox_prove" function = "FpsCap">
+          <idleSec  x="293" y="667" w="200" h="36"/>
+          <hoverSec x="293" y="728" w="200" h="36" />
+          <clickSec x="293" y="667" w="200" h="36" />
+          <tickSec  x="555" y="678" w="18" h="18" />
+          <position x="600" y="491"/>
+        </checkbox>
+      </checkboxes>
 
     </Settings>
 
