@@ -28,8 +28,8 @@ struct elementsStartingPositionsOffsets
 };
 struct consumableLabelPositions
 {
-	iPoint potion1 = iPoint(897, 407);
-	iPoint fenix_tail = iPoint(928, 485);
+	iPoint potion1 = iPoint(890, 407);
+	iPoint fenix_tail = iPoint(890, 485);
 };
 
 

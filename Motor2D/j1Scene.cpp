@@ -824,6 +824,7 @@ bool j1Scene::Update(float dt)
 					pausePanel->enable = true;
 					paused = true;
 					App->gui->resetHoverSwapping = false;
+					App->entityFactory->player->LockPlayerInput();
 				}
 				else
 				{
@@ -831,6 +832,7 @@ bool j1Scene::Update(float dt)
 					App->gui->resetHoverSwapping = false;
 					App->gui->selected_object->state = IDLE;
 					App->gui->selected_object = nullptr;
+					
 					App->gui->GoBackToGame();
 				}
 			}
@@ -842,6 +844,7 @@ bool j1Scene::Update(float dt)
 			App->gui->resetHoverSwapping = false;
 			App->gui->selected_object->state = IDLE;
 			App->gui->selected_object = nullptr;
+			
 			App->gui->GoBackToGame();
 
 		}
@@ -1846,6 +1849,7 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				// character stats panel
 				characterStatsItem->generateCharacterStats();
 				int a = 0;
+				App->entityFactory->player->LockPlayerInput();
 			}
 
 			else
@@ -1872,7 +1876,7 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				// PREVENT NPC LABEL OVERLAYING
 				App->dialog->hideAllNPCLabels(false);
 
-
+				App->entityFactory->player->UnlockPlayerInput();
 			}
 		}
 	}

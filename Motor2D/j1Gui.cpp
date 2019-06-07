@@ -8,6 +8,7 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "j1TransitionManager.h"
+#include "j1EntityFactory.h"
 #include "p2Log.h"
 #include "Brofiler/Brofiler.h"
 
@@ -888,6 +889,7 @@ void j1Gui::GoBackToGame()
 {
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
+	App->entityFactory->player->UnlockPlayerInput();
 }
 
 void j1Gui::Credits()

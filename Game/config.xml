@@ -605,16 +605,16 @@
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="267" y="297"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="470" y="481" w="55" h="53"/>
-          <image_hover x="219" y="566" w="56" h="54"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="267" y="394"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="504" y="722" w="58" h="59"/>
-          <image_hover x="221" y="721" w="61" h="61"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
@@ -686,16 +686,17 @@
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="530" y="237"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="470" y="481" w="55" h="53"/>
-          <image_hover x="219" y="566" w="56" h="54"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
+         
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSliderInGame">
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="530" y="334"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="504" y="722" w="58" h="59"/>
-          <image_hover x="221" y="721" w="61" h="61"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
