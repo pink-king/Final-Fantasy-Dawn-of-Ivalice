@@ -712,6 +712,10 @@ bool j1Scene::Update(float dt)
 		{
 			App->gui->GoBackToMenu();
 		}
+		if (creditsPanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			App->gui->GoBackToMenu();
+		}
 	}
 
 	if (state == SceneState::LOBBY)
