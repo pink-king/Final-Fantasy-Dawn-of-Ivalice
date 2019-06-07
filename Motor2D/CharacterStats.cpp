@@ -4,9 +4,6 @@
 #include "p2Log.h"
 #include "j1EntityFactory.h"
 #include "UiItem_Description.h"
-#include "Marche.h"
-#include "Ritz.h"
-#include "Shara.h"
 
 CharacterStats::CharacterStats(UiItem* const parent) :UiItem(parent)
 {
@@ -59,6 +56,7 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		newStat->hasBeenSpawned = true;
 		newStat->hide = true;
 
+
 		std::string prankName = "akbar";
 
 
@@ -66,8 +64,6 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 			&App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).upgrade, prankName, nullptr);
 		iconImage->hasBeenSpawned = true;
 		iconImage->hide = true;
-
-
 
 		CharacterStatBlock* block = App->gui->AddCharacterStatBlock(statName, baseStat, newStat, baseStatValue, newStatValue, Arrows, iconImage, this);
 		block->mapPosition = i;
@@ -80,94 +76,14 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		newStat->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
 		Arrows->parent = block;
 		Arrows->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
+
 		iconImage->parent = block;
 		iconImage->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
-
-
-
-		numberOfSpawnedStatItems += 6;
-		LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
-
 	}
-
-
-
-	characterTag = App->entityFactory->player->selectedCharacterEntity->name;
-
 
 	InitializeStats();
 
 }
-
-
-void CharacterStats::InitializeStats(bool swappingCharacter)
-{
-
-	ResetDefaultStats();    // useful when swapping characters
-
-	SetBaseStats();
-
-	if (!App->entityFactory->player->equipedObjects.empty())
-	{
-		for (auto& item : App->entityFactory->player->equipedObjects)
-		{
-
-			if (!App->scene->inventoryItem->isVendorInventory)
-			{
-				if (App->entityFactory->player->selectedCharacterEntity == item->character)
-
-				{
-					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
-					SetNewStats();
-				}
-			}
-			else
-			{
-				if (!swappingCharacter)
-					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS
-
-
-				SetNewStats();
-			}
-		}
-
-
-	}
-
-
-}
-
-
-void CharacterStats::ResetDefaultStats()
-{
-	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
-
-	for (; iter != App->gui->ListItemUI.end(); ++iter)
-	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK)
-		{
-			// values to 0 
-			dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = 0;
-			dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = 0;
-			dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = 0;
-			dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat = 0;
-
-			// idle textures
-			SDL_Color c = { 255, 255, 255, 255 };
-			dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), &c, NULL);
-			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue), &c, NULL);
-			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
-
-
-			// hide 
-			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
-			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
-			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
-
-		}
-	}
-}
-
 
 void CharacterStats::SetBaseStats()
 {
@@ -187,17 +103,7 @@ void CharacterStats::SetBaseStats()
 			}
 			else if (dynamic_cast<CharacterStatBlock*>(*iter)->BlockName->text == "VELOCITY")
 			{
-
-				if (characterTag == App->entityFactory->player->GetRitz()->name)
-					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetRitz())->mySpeedModular;
-				else if (characterTag == App->entityFactory->player->GetMarche()->name)
-					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetMarche())->mySpeedModular;
-				else if (characterTag == App->entityFactory->player->GetShara()->name)
-					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetShara())->mySpeedModular;
-
-
-
-
+				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = App->entityFactory->player->selectedCharacterEntity->mySpeedModular;
 			}
 
 
@@ -248,14 +154,12 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 						if (valueIfPickingObject > dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
 						{
 							c = { 0, 255, 0, 255 };
-
 							// change the icon
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->section = App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).upgrade;
 						}
 						else if (valueIfPickingObject < dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue)
 						{
 							c = { 255, 0, 0, 255 };
-
 							// change the icon
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->section = App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).Downgrade;
 						}
@@ -272,14 +176,14 @@ void CharacterStats::CompareStats(std::array<int, 5> newStatsMappingPositions, s
 							dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(valueIfPickingObject), &c, NULL);
 
 						// change the arrows
+
 						dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = hide;
 						if (!hide)
 							dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
 
+
 						// change the icon
 						dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = hide;
-
-
 
 						//	}
 
@@ -331,6 +235,7 @@ void CharacterStats::SetNewStats()
 			dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), NULL, NULL);
 
 			// hide new stat, arrows and icon
+
 			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
 			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
 			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
@@ -342,7 +247,6 @@ void CharacterStats::SetNewStats()
 
 			//	if (dynamic_cast<CharacterStatBlock*>(*iter)->AddedNewBuff)
 			dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
-
 
 
 		}
@@ -383,76 +287,8 @@ void CharacterStats::ShowAllComparisonStats()
 			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = false;
 			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = false;
 			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = false;
+
 		}
-	}
-
-}
-
-
-/*
-void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values)
-{
-	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
-	for (; iter != App->gui->ListItemUI.end(); ++iter)
-	{
-		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
-		{
-			for (uint i = 0; i < newStatsMappingPositions.size(); ++i)
-			{
-				if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
-				{
-					if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
-					{
-						dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
-						dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue + values.at(i);  // if buff is summative
-
-					}
-				}
-			}
-		}
-	}
-}*/
-
-void CharacterStats::deGenerateCharacterStats()  // call it when closing inventory
-{
-	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
-
-
-	/*	for (; iter != App->gui->ListItemUI.end();)
-		{
-			if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK)
-			{
-
-				delete (*iter);
-				(*iter) = nullptr;
-				iter = App->gui->ListItemUI.erase(iter);
-
-			}
-			else if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
-			{
-				delete (*iter);
-				(*iter) = nullptr;
-				iter = App->gui->ListItemUI.erase(iter);
-			}
-			else
-			{
-				iter++;
-			}
-
-		}*/
-
-	for (; iter != App->gui->ListItemUI.end(); ++iter)
-	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
-		{
-			(*iter)->to_delete = true;
-
-
-
-			numberOfSpawnedStatItems--;
-			LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
-		}
-
 	}
 
 }
@@ -460,97 +296,8 @@ void CharacterStats::deGenerateCharacterStats()  // call it when closing invento
 void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 {
 
-	if (App->scene->inventoryItem->isVendorInventory)
-		ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(ent);
+	if (App->entityFactory->player->selectedCharacterEntity == ent->character)
 
-	if (!App->scene->inventoryItem->isVendorInventory)
-	{
-		if (App->entityFactory->player->selectedCharacterEntity == ent->character)
-
-		{
-
-			std::array<int, 5> characterStatsMapping = {};
-			std::array<int, 5> characterStatsValues = {};
-
-			int attack = 0;
-			int resistance = 0;
-			int cooldown = 0;
-
-			int HP = 0;
-			int velocity = 0;
-
-			std::vector<Buff*>::iterator iter = ent->stats.begin();
-
-			if (ent->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
-			{
-				for (; iter != ent->stats.end(); ++iter)    // capture att and def 
-				{
-					if ((*iter)->GetRol() == ROL::ATTACK_ROL)
-					{
-						attack = (int)(*iter)->GetValue();
-
-						characterStatsMapping.at(0) = 1;
-						characterStatsValues.at(0) = attack;
-					}
-					else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-					{
-						resistance = (int)(*iter)->GetValue();
-
-						characterStatsMapping.at(1) = 1;
-						characterStatsValues.at(1) = resistance;
-					}
-					else if ((*iter)->GetRol() == ROL::COOLDOWN)
-					{
-						cooldown = (int)(*iter)->GetValue();
-
-						characterStatsMapping.at(2) = 1;
-						characterStatsValues.at(2) = cooldown;
-					}
-
-				}
-
-			}
-			else if (ent->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT)
-			{
-				for (; iter != ent->stats.end(); ++iter)   // capture def and other 2 possible rols
-				{
-					if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
-					{
-						resistance = (int)(*iter)->GetValue();
-
-						characterStatsMapping.at(1) = 1;
-						characterStatsValues.at(1) = resistance;
-					}
-					else if ((*iter)->GetRol() == ROL::HEALTH)
-					{
-						HP = (*iter)->GetValue();
-
-						characterStatsMapping.at(3) = 1;
-						characterStatsValues.at(3) = HP;
-					}
-					else if ((*iter)->GetRol() == ROL::VELOCITY)
-					{
-						velocity = (int)(*iter)->GetValue();
-
-
-						characterStatsMapping.at(4) = 1;
-						characterStatsValues.at(4) = velocity;
-					}
-
-				}
-
-			}
-
-			//App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
-			CompareStats(characterStatsMapping, characterStatsValues);
-		}
-		else
-		{
-			HideAllComparisonStats();
-		}
-
-	}
-	else
 	{
 
 		std::array<int, 5> characterStatsMapping = {};
@@ -627,33 +374,120 @@ void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 
 		//App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
 		CompareStats(characterStatsMapping, characterStatsValues);
-
-
 	}
-
-
-
-
-
-
-
-}
-
-
-void CharacterStats::ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(LootEntity* ent)
-{
-
-	if (!characterFakeSwapDone)
+	else
 	{
-		App->scene->inventoryItem->swapCharacterItemsWithoutSwappingCharacter(ent->character->name);
-		characterTag = ent->character->name;
-		InitializeStats(true);
+		HideAllComparisonStats();
+	}
+}
 
-		characterFakeSwapDone = true;
+
+/*
+void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values)
+{
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	{
+		if ((*iter)->parent->guiType == GUI_TYPES::CHARACTERSTATMANAGER)
+		{
+			for (uint i = 0; i < newStatsMappingPositions.size(); ++i)
+			{
+				if (dynamic_cast<CharacterStatBlock*>(*iter)->mapPosition == i)
+				{
+					if (newStatsMappingPositions.at(i) == 1)                       // TODO: GREEN AND RED ACCORDING TO UPGRADE OR DOWNGRADE
+					{
+						dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue;  // we will need to substract this later
+						dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue + values.at(i);  // if buff is summative
+
+					}
+				}
+			}
+		}
+	}
+}*/
+
+void CharacterStats::deGenerateCharacterStats()  // call it when closing inventory
+{
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+
+	/*for (; iter != App->gui->ListItemUI.end();)
+	{
+		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+		{
+			iter = App->gui->ListItemUI.erase(iter);
+			delete (*iter);
+			(*iter) = nullptr;
+
+		}
+		else
+		{
+			iter++;
+		}
+	}*/
+
+	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	{
+		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+		{
+			(*iter)->to_delete = true;
+
+		}
 
 	}
 
-
 }
+
+void CharacterStats::InitializeStats()
+{
+	ResetDefaultStats();    // useful when swapping characters
+
+	SetBaseStats();
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		for (auto& item : App->entityFactory->player->equipedObjects)
+		{
+			if (App->entityFactory->player->selectedCharacterEntity == item->character)
+
+			{
+				getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+				SetNewStats();
+			}
+		}
+	}
+}
+
+
+void CharacterStats::ResetDefaultStats()
+{
+	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
+
+	for (; iter != App->gui->ListItemUI.end(); ++iter)
+	{
+		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK)
+		{
+			// values to 0 
+			dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = 0;
+			dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue = 0;
+			dynamic_cast<CharacterStatBlock*>(*iter)->lastNewStatValue = 0;
+			dynamic_cast<CharacterStatBlock*>(*iter)->candidateToNewStat = 0;
+
+			// idle textures
+			SDL_Color c = { 255, 255, 255, 255 };
+			dynamic_cast<CharacterStatBlock*>(*iter)->baseStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue), &c, NULL);
+			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->ChangeTextureIdle(std::to_string(dynamic_cast<CharacterStatBlock*>(*iter)->newStatValue), &c, NULL);
+			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->ChangeTextureIdle(">>", &c, NULL);
+
+
+			// hide 
+			dynamic_cast<CharacterStatBlock*>(*iter)->newStat->hide = true;
+			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatArrows->hide = true;
+			dynamic_cast<CharacterStatBlock*>(*iter)->changeStatIcon->hide = true;
+
+		}
+	}
+}
+
 
 // TODO: remember to clean the map in the global ui item clean up
