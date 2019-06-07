@@ -147,6 +147,9 @@ public:
 	bool SaveGamepadMapScheme(const char* path);
 	const SDL_Rect& GetSectionForElement(std::string name);
 	void ListeningInputFor(std::string name); // listen and change mapping input for gui controls keybinding
+	bool IsAimToggled() const;
+	void ToggleAimON();
+	void ToggleAimOFF();
 
 	const SDL_Rect GetAssociatedRectForThisGamepadInput(SDL_GameControllerButton button = SDL_GameControllerButton(-1),
 		SDL_GameControllerAxis axis = SDL_GameControllerAxis(-1));
@@ -158,6 +161,7 @@ private:
 	
 
 private:
+	bool aimToggled = false;
 	bool buttonPermittedMatrix[SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MAX] = { false };
 	bool axisPermittedMatrix[SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_MAX] = { false };
 	bool		windowEvents[WE_COUNT];

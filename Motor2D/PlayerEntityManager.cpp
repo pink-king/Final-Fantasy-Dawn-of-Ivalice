@@ -120,7 +120,7 @@ bool PlayerEntityManager::Update(float dt)
 	position = selectedCharacterEntity->position;
 	lastCharHeadingAngle = selectedCharacterEntity->GetLastHeadingAngle();
 
-	if (selectedCharacterEntity->IsAiming())
+	if (selectedCharacterEntity->IsAiming() && selectedCharacterEntity->character != characterName::MARCHE)
 	{
 		crossHair->Update(dt);
 	}

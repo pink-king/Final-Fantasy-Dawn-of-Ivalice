@@ -200,14 +200,17 @@ bool PlayerEntity::InputCombat()
 	combat_state = combatState::IDLE;
 	
 	// aiming function ------
-	if((App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_DOWN ||
-		App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_REPEAT && aiming == false) &&
-		character != characterName::MARCHE)
-		aiming = true;
-
-	// double check for marche
-	if (character == characterName::MARCHE && aiming)
-		aiming = false;
+	if (!App->input->IsAimToggled())
+	{
+		if ((App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_DOWN ||
+			App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_REPEAT && aiming == false))
+			aiming = true;
+	}
+	else
+	{
+		if (App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_DOWN)
+			aiming = !aiming;
+	}
 
 	// ---------------------
 
@@ -261,13 +264,16 @@ bool PlayerEntity::InputCombat()
 		}
 	}
 
-	if (aiming == true)
+	if (!App->input->IsAimToggled())
 	{
-		if (App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_UP ||
-			App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_IDLE)
+		if (aiming == true)
 		{
-			aiming = false;
-			return false;
+			if (App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_UP ||
+				App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_IDLE)
+			{
+				aiming = false;
+				return false;
+			}
 		}
 	}
 
