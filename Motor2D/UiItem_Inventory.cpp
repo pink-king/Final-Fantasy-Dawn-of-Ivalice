@@ -14,13 +14,14 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
 	this->guiType = GUI_TYPES::INVENTORY;
-	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 133, startingPos.y + 275 }, &tab_image,this->name, parent);
+	App->scene->tab_inventory = App->gui->AddImage({ startingPos.x + 133, startingPos.y + 275 }, &tab_image, this->name, parent);
 }
 
 
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
+<<<<<<< HEAD
 
 	if(!onlyEquipped)
 		loadedInventoryLabelsFromStart = true;
@@ -29,11 +30,14 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	totalDeSpawnedInventoryIcons = 0; 
 	totalSpawnedItems = 0; 
 
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 	// - - - - - - - - - - character icons
 	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
 	isVendorInventory = isVendor;
 
+<<<<<<< HEAD
 	SDL_Color c = { 255, 255, 255, 255 }; 
 
 	if (!isVendorInventory)
@@ -67,6 +71,8 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 
 
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 	/*if (!isVendorInventory)
 	{*/
 
@@ -93,7 +99,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 		}
 
 
-	//}
+	
 	if(isVendorInventory)
 	{
 		if(App->entityFactory->player->GetVendor()->firstTime)
@@ -110,7 +116,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	// - - - - - - - - - - - - - - - - - - - - - - - - - -  equipped objects   --> ONLY FOR PLAYER, NOT FOR VENDOR !!
 
 
-	if (/*!isVendorInventory &&*/!App->entityFactory->player->equipedObjects.empty())
+	if (/*!isVendorInventory &&*/!App->entityFactory->player->equipedObjects.empty()) 
 	{
 		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
@@ -678,7 +684,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						De_______GenerateDescription((*iter), true);
 
-						iPoint position_1 = { (startingPos.x + 616), (startingPos.y + 285) };
+						iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 285) };
 
 						potion_counter++;
 						
@@ -722,7 +728,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						De_______GenerateDescription((*iter), true);
 
-						iPoint position_1 = { (startingPos.x + 616), (startingPos.y + 361) };
+						iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 361) };
 
 						fenix_counter++;
 
@@ -800,7 +806,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					De_______GenerateDescription((*iter), true);
 
 
-					iPoint position_1 = { (startingPos.x + 616), (startingPos.y + 285) };
+					iPoint position_1 = { (startingPos.x + 612), (startingPos.y + 285) };
 
 					if ((*iter)->objectType == OBJECT_TYPE::POTIONS)
 					{
@@ -861,6 +867,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	return true;
 }
 
+<<<<<<< HEAD
 void UiItem_Inventory::despawnRubbish()
 {
 
@@ -881,6 +888,8 @@ void UiItem_Inventory::despawnRubbish()
 	
 
 }
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 
 void UiItem_Inventory::RepositionBagItems()
 {
@@ -998,11 +1007,7 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 			ent->spawnedDescription = true;
 
-			totalSpawnedItems++;
-			LOG("_______________________________________________   total descriptions: %i", totalSpawnedItems);
-
-
-			
+			LOG("_______________________________________________   spawned description");
 		}
 		else
 		{
@@ -1030,9 +1035,8 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 			ent->spawnedDescription = false;
 
 
-			totalSpawnedItems--;
-			LOG("_______________________________________________   total descriptions: %i", totalSpawnedItems);
 
+			LOG("_______________________________________________   Deleted description");
 
 		}
 	}
@@ -1045,7 +1049,7 @@ void UiItem_Inventory::callDeleteWhenSwitchingCharacters()
 
 
 	/*if (!isVendorInventory) {*/
-	
+
 		if (!App->entityFactory->player->equipedObjects.empty())
 		{
 			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
@@ -1093,6 +1097,8 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 
 
 
+
+
 void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
@@ -1101,7 +1107,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 	bool doBagScroll = false;
 
-	bool successfulVendorToPlayer = false; 
+	bool successfulVendorToPlayer = false;
 
 	// 1) Check that both the item that wants to be equipped and the already equipped one belong to the current player
 	if (!isVendorInventory)
@@ -1160,7 +1166,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 				// ADD NEW STATS TO THE PLAYER 
-				App->scene->characterStatsItem->SetNewStats(); 
+				App->scene->characterStatsItem->SetNewStats();
 
 				if (!App->entityFactory->player->bagObjects.empty())
 				{
@@ -1241,10 +1247,10 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				if ((*iter) == callback)                            // capture the vendor item
 				{
 
-					/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)       
-					{*/
+					if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+					{
 
-						
+
 
 						if (!App->entityFactory->player->equipedObjects.empty())
 						{
@@ -1253,7 +1259,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							for (; iterPlayer != App->entityFactory->player->equipedObjects.end(); ++iterPlayer)
 							{
-								if ((*iterPlayer)->character->name == App->scene->characterStatsItem->characterTag)   // check they both have same attached character
+								if ((*iterPlayer)->character == App->entityFactory->player->selectedCharacterEntity)   // check they both have same attached character
 								{
 
 									if (DoPriceCalculations(callback))
@@ -1278,8 +1284,6 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											{
 												De_______GenerateDescription((*iterPlayer), false);
 											}
-
-											break; 
 										}
 
 									}
@@ -1313,8 +1317,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 							break;
 
 						}
-						
-					//}
+
+					}
 
 
 				}
@@ -1373,8 +1377,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 
-	/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-	{*/
+	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+	{
 		switch (callback->GetObjectType())
 		{
 		case OBJECT_TYPE::WEAPON_OBJECT:
@@ -1383,9 +1387,9 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 			{
 				callback->MyDescription->myLootItemIsEquipped.weapon = true;
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
-		    	callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 			}
-	
+
 
 			break;
 
@@ -1410,15 +1414,15 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				callback->MyDescription->iconImageInventory->hitBox.x = startingPos.x + initialPositionsOffsets.currentHead.x;
 				callback->MyDescription->iconImageInventory->hitBox.y = startingPos.y + initialPositionsOffsets.currentHead.y;
 			}
-		
+
 			break;
 
 		}
 
-	//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
-			callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
+		//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
+		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
-//	}
+	}
 
 
 	if (doBagScroll)
@@ -1467,8 +1471,10 @@ bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
 
 
 
-	return ret; 
+	return ret;
 }
+
+
 
 
 bool UiItem_Inventory::CheckMaxItems()
@@ -1491,6 +1497,7 @@ bool UiItem_Inventory::CheckMaxItems()
 	}
 
 	return ret; 
+<<<<<<< HEAD
 }
 
 
@@ -1619,4 +1626,6 @@ void UiItem_Inventory::swapCharacterItemsWithoutSwappingCharacter(std::string na
 
 
 
+=======
+>>>>>>> ee89ab384d7ea1cd4bbcacebcf7e15af79f7db4f
 }

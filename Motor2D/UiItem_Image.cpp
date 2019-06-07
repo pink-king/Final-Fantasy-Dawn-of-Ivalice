@@ -4,11 +4,10 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include "j1Scene.h"
+#include "j1Input.h"
 #include "LootEntity.h"
 
-
-
-UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::string& name, UiItem * const parent, bool swapPosition, bool isTabbable, bool autorefresh) : UiItem(position, name, parent)
+UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isTabbable, bool autorefresh) : UiItem(position, name, parent)
 {
 	this->section = *section;
 	this->guiType = GUI_TYPES::IMAGE;
@@ -17,18 +16,16 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::strin
 	this->hitBox.w = section->w;
 	this->hitBox.h = section->h;
 	section_item = *section;
-	
 
 	if (isTabbable == 1)
 	{
 		tabbable = true;
-		
+
 	}
-	if (autorefresh == 1) 
+	if (autorefresh == 1)
 	{
 		this->autorefresh = true;
 	}
-
 	// the parent
 	this->parent = parent;
 
@@ -36,6 +33,7 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect * section, std::strin
 
 	this->hitBox.x = position.x;
 	this->hitBox.y = position.y;
+
 }
 
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, UiItem* const parent, SDL_Texture* newTex, UiItem_Description* myDescr) : UiItem(position, parent)
@@ -85,9 +83,9 @@ void UiItem_Image::Draw(const float& dt)
 
 		if (!printFromLoot)
 		{
-			if (autorefresh)
+			if (this->autorefresh)
 			{
-				//section = App->input->GetSectionForElement(name);
+				section = App->input->GetSectionForElement(this->name);
 			}
 			float speed = 0.0f;
 
@@ -114,12 +112,16 @@ void UiItem_Image::Draw(const float& dt)
 		}
 
 	}
-
 	if (App->gui->selected_object == this)
 	{
-		
+
 		App->scene->tab_controls->hitBox.x = App->gui->selected_object->hitBox.x - 8;
 		App->scene->tab_controls->hitBox.y = App->gui->selected_object->hitBox.y - 7;
+
+		if (App->gui->selected_object->autorefresh)
+		{
+			App->input->ListeningInputFor(this->name);
+		}
 	}
 }
 

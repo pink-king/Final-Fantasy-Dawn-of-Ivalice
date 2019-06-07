@@ -59,23 +59,35 @@ void Portal::Draw()
 {
 	if (currentAnim != nullptr)
 		App->render->Blit(entityTex, position.x - size.x / 2, position.y - size.y, &currentAnim->GetCurrentFrame(), 1.0F);
+	if (App->scene->debugSubtiles)
+		DebugTrigger();
 }
 
 
 bool Portal::DoTriggerAction()
 {
-	App->scene->portalPos = { position.x,position.y + 16 };
-
-	if (doit)
+	App->scene->ComeToPortal = true;
+	if (scene == SceneState::LOBBY)
 	{
-		App->audio->PlayFx(App->scene->portal_travel, 0);
-		//App->scene->portalPos = App->entityFactory->player->position;
-		App->SaveGame("Portal.xml");
-		App->scene->ComeToPortal = true;
-		App->pause = true;
-		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
-		App->scene->previosState = App->scene->state;
-		doit = false;
+		App->scene->portalPos = { position.x,position.y + 16 };
+		if (doit)
+		{
+			App->entityFactory->player->to_delete = true;
+			App->SaveGame("Portal.xml");
+			App->pause = true;
+			App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
+			App->scene->previosState = App->scene->state;
+			doit = false;
+		}
+	}
+	else
+	{
+		if (doit)
+		{
+			App->SaveGame("save_game.xml");
+			App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
+			doit = false;
+		}
 	}
 	return true;
 }

@@ -2,26 +2,41 @@
 #include "j1Entity.h"
 #include "j1EntityFactory.h"
 
-
 Equipable::Equipable(int posX, int posY) : LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
 	this->equipableType = EQUIPABLE_TYPE::NO_EQUIPABLE;
 	SetEquipable();
-	originPos.x = position.x;
-	start = true;
-	checkgrounded = true;
-	manualCollectable = true;
+	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
+
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
+
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
+
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y - pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position) * 0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
+
 }
 
 Equipable::Equipable(int posX, int posY, EQUIPABLE_TYPE OBJ_TYPE):LootEntity(LOOT_TYPE::EQUIPABLE, posX, posY)
 {
+	
 	ToSelectLootFunction(OBJ_TYPE);
-	originPos.x = position.x;
-	start = true;
-	checkgrounded = true;
-	manualCollectable = true;
+	equipableType = OBJ_TYPE;
+	manualCollectable = false;
 	entityTex = App->entityFactory->lootItemsTex;
+
+	objShadow = App->entityFactory->lootShadowTex;
+	App->render->SetTextureAlpha(objShadow, 190);
+
+	App->easing->CreateSpline(&position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).x - pivot.x, 2000, TypeSpline::EASE);
+
+	App->easing->CreateSpline(&position.y, (App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).y-pivot.y)
+		- App->map->SubTileMapToWorld(groundSubtileDestination.x, groundSubtileDestination.y).DistanceTo((iPoint)position)*0.6,
+		1000, TypeSpline::EASE_OUT_CUBIC, std::bind(&LootEntity::SetSplineToFall, this));
+
 }
 
 
@@ -33,52 +48,19 @@ Equipable::~Equipable()
 
 bool Equipable::Update(float dt)
 {
-	if (start)
+ 	if ((position.y == App->map->SubTileMapToWorld(groundSubtileDestination.x+1, groundSubtileDestination.y-1).y - pivot.y)  && PlaySFXtime != 0 )
 	{
-		goalPos = SetDestinationPos(goalPos.x, goalPos.y);
-		start = false;
-		position.y + 5;
-
-		DecideExplosion();
-	}
-
-	dt = EaseOutBack(displacementTime.ReadMs())*0.000001; 
-
-	if (displacementTime.ReadMs() <= 280)
-	{
-		ExplosionMaker(dt);
-		/*LOG("displaced %f", position.x - originPos.x);
-		LOG("actual time %f", timeTest);*/
-	}
-	else grounded = true;
-	/*else if(!repositionDescription)
-	{
-		this->MyDescription->RepositionAllElements(App->render->WorldToScreen(this->GetPosition().x, this->GetPosition().y));   // what here?? :/
-		repositionDescription = true; 
-	}*/
-
-
-	/*if (!spawnedDescription)
-	{*/
-		
-	//}
-
-	
-	if (checkgrounded && grounded)
-	{
-		checkgrounded = false;
 		App->audio->PlayFx(App->scene->lootGroundSFX, 0);
+		PlaySFXtime -= 1;
 	}
 	//if (App->entityFactory->player->selectedCharacterEntity->IsAiming())
-		CheckClampedCrossHairToSpawnDescription();
+		//CheckClampedCrossHairToSpawnDescription();
+
 
 	return true;
 }
 
-//bool Equipable::CleanUp()
-//{
-//	return true;
-//}
+
 
 EQUIPABLE_TYPE Equipable::ChooseEquipable()
 {
@@ -125,8 +107,9 @@ void Equipable::SetEquipable()
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 64, 96, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
+		//353, 96
 		break;
 
 	case EQUIPABLE_TYPE::BOW:
@@ -134,34 +117,41 @@ void Equipable::SetEquipable()
 		loot_rect = { 194, 770, 32, 32 };
 		SetPivot(16, 16);
 		size.create(32, 32);
+		//34,834
 		break;
 
 	case EQUIPABLE_TYPE::ROD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 96, 736, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
+		//33 , 738
 		break;
 
 	case EQUIPABLE_TYPE::ARMOR:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 128, 932, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
+		//128 , 964
 		break;
 
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 254, 1441, 32, 32};
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
+		//95,1409
 		break;
+
 
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 350, 1409, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
+		//leg mantle x446,y1408
+
 		break;
 
 	}
@@ -174,7 +164,7 @@ void Equipable::ToSelectLootFunction(EQUIPABLE_TYPE type)
 	case EQUIPABLE_TYPE::SWORD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 64, 96, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
@@ -188,28 +178,28 @@ void Equipable::ToSelectLootFunction(EQUIPABLE_TYPE type)
 	case EQUIPABLE_TYPE::ROD:
 		objectType = OBJECT_TYPE::WEAPON_OBJECT;
 		loot_rect = { 96, 736, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::ARMOR:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 128, 932, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::VEST:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 254, 1441, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 
 	case EQUIPABLE_TYPE::MANTLE:
 		objectType = OBJECT_TYPE::ARMOR_OBJECT;
 		loot_rect = { 350, 1409, 32, 32 };
-		SetPivot(16, 28);
+		SetPivot(16, 16);
 		size.create(32, 32);
 		break;
 

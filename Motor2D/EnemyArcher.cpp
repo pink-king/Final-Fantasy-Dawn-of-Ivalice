@@ -35,7 +35,7 @@ bool EnemyArcher::Update(float dt)
 		SetState(dt);
 	}
 
-	if (stat.size() != 0)
+	if (stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(this))
 		{

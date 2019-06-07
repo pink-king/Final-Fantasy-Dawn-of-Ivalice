@@ -17,9 +17,9 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 
-	dynamicImage = App->gui->AddImage(position, dynamicSection,name, this);
+	dynamicImage = App->gui->AddImage(position, dynamicSection, name, this);
 
-	damageImage = App->gui->AddImage(position + playerBarOffset, damageSection,name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	damageImage = App->gui->AddImage(position + playerBarOffset, damageSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 	damageImage->hide = true;
 
 	maxSection = dynamicImage->section.w;
@@ -31,7 +31,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
-	staticImage = App->gui->AddImage(position, staticSection,name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	staticImage = App->gui->AddImage(position, staticSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 
 	iPoint offset((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
 
@@ -64,13 +64,11 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 	// todo: skull 
-	skull = App->gui->AddImage(iPoint(dynamicImage->hitBox.x - 30, dynamicImage->hitBox.y ), &App->gui->enemySkullInfo.BossEnemyRect, name, this);
+	skull = App->gui->AddImage(iPoint(dynamicImage->hitBox.x - 30, dynamicImage->hitBox.y), &App->gui->enemySkullInfo.BossEnemyRect, name, this);
 
 	skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
 	skull->hitBox.y += skullOffset.y;
-	skull->hide = true; 
-
-
+	skull->hide = true;
 }
 
 
@@ -98,29 +96,30 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 	// skull
 
-	iPoint dynImPos = iPoint(dynamicImage->hitBox.x, dynamicImage->hitBox.y); 
+
+
+	iPoint dynImPos = iPoint(dynamicImage->hitBox.x, dynamicImage->hitBox.y);
 
 	if (deliever->type == ENTITY_TYPE::ENEMY_BOMB || deliever->type == ENTITY_TYPE::ENEMY_TEST)
 	{
 		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.baseEnemyRect, name, this);
 
 		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
+		spawnedSkull = true;
 
-		spawnedSkull = true; 
 	}
-	else if(deliever->type == ENTITY_TYPE::ENEMY_ARCHER)
+	else if (deliever->type == ENTITY_TYPE::ENEMY_ARCHER)
 	{
 		skull = App->gui->AddImage(dynImPos, &App->gui->enemySkullInfo.strongEnemyRect, name, this);
-		
-		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
 
+		skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
 		spawnedSkull = true;
+
 	}
 
 	//skull->hitBox.x += skullOffset.x;
 
 	// at the start, put the skull on top of the enemy: 
-
 	if (spawnedSkull)
 	{
 		skull->hitBox.x += dynamicImage->section.w / 2 - skull->section.w / 2;
@@ -129,7 +128,7 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 
 		skull->hide = false;
 	}
-	}
+}
 
 
 UiItem_HealthBar::~UiItem_HealthBar()
@@ -220,7 +219,8 @@ void UiItem_HealthBar::Draw(const float& dt)
 				else
 				{
 					dynamicImage->hide = true;
-					skull->hide = true; 
+					skull->hide = true;
+
 				}
 
 			}
@@ -244,6 +244,11 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 }
 
+void UiItem_HealthBar::RecalculateSection()
+{
+	conversionFactor = maxSection / App->entityFactory->player->life;
+}
+
 void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 {
 
@@ -251,10 +256,10 @@ void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 	this->dynamicImage->hide = false;
 	this->divisionImage->hide = false;
 	this->nameOnTop->hide = false;
-
 	// todo: skull
-	if(spawnedSkull)
-	this->skull->hide = false; 
+	if (spawnedSkull)
+	this->skull->hide = false;
+
 
 }
 void UiItem_HealthBar::UpdatePos()
@@ -283,15 +288,8 @@ void UiItem_HealthBar::UpdatePos()
 				skull->hitBox.x = skullpos.x; // +dynamicImage->section.w / 2 - skull->section.w / 2;
 				skull->hitBox.y = skullpos.y + skullOffset.y;
 			}
-
 		}
-
 	}
-
-
-
-
-
 }
 
 void UiItem_HealthBar::CleanUp()

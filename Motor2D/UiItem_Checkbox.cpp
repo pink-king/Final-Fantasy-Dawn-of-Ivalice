@@ -14,7 +14,7 @@
 #include <assert.h> 
 #include "j1Audio.h"
 
-UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string &function, std::string &name, const SDL_Rect * panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem * const parent) :UiItem(position, function, name, parent)
+UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string& function, std::string& name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent) :UiItem(position, function, name, parent)
 {
 
 	assert(parent != NULL);
@@ -48,13 +48,13 @@ UiItem_Checkbox::UiItem_Checkbox(iPoint position, std::string &function, std::st
 
 
 	// panel 
-	panel = App->gui->AddImage(position, panel_section,name, this);
+	panel = App->gui->AddImage(position, panel_section, name, this);
 
 	// box
-	box = App->gui->AddImage(boxPos, box_section,name, this);
+	box = App->gui->AddImage(boxPos, box_section, name, this);
 
 	// tick
-	tick = App->gui->AddImage(tickPos, tick_section,name, this);
+	tick = App->gui->AddImage(tickPos, tick_section, name, this);
 	tick->hide = true;
 
 

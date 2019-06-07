@@ -49,7 +49,7 @@ UiItem::UiItem(UiItem * const parent)
 
 
 
-UiItem::UiItem(const iPoint & pos, std::string & function, std::string& name, UiItem * const parent) : parent(parent)
+UiItem::UiItem(const iPoint& pos, std::string& function, std::string& name, UiItem* const parent) : parent(parent)
 {
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
@@ -57,7 +57,9 @@ UiItem::UiItem(const iPoint & pos, std::string & function, std::string& name, Ui
 		this->parent = parent;
 
 	this->function = function;
+
 	this->name = name;
+
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
@@ -68,7 +70,7 @@ UiItem::UiItem(const iPoint & pos, std::string & function, std::string& name, Ui
 
 UiItem::~UiItem()
 {
-	LOG("destroyed UI item somewhere");
+	//LOG("destroyed UI item somewhere");
 
 }
 
@@ -97,7 +99,8 @@ void UiItem::DrawUi(float dt)
 				}
 				++iter;
 			}
-			else if(!App->cleaningUp)
+			else if (!App->cleaningUp)
+
 			{
 				(*iter)->CleanUp();
 				delete (*iter);                                // destroy items that are to delete (like enemy health bars) 

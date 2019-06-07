@@ -47,10 +47,14 @@ ExitPortal::~ExitPortal()
 bool ExitPortal::Update(float dt)
 {
 	if (timer.Read() > 500)
+	{
 		App->pause = false;
-
-	if (idle.Finished())
+	}
+	if (idle.Finished() && currentAnim == &idle)
+	{
+		App->LoadGame("save_game.xml");
 		currentAnim = &close;
+	}
 	if (close.Finished())
 	{
 		to_delete = true;
@@ -62,6 +66,8 @@ void ExitPortal::Draw()
 {
 	if (currentAnim != nullptr)
 		App->render->Blit(entityTex, position.x - size.x / 2, position.y - size.y, &currentAnim->GetCurrentFrame(), 1.0F);
+	if (App->scene->debugSubtiles)
+		DebugTrigger();
 }
 
 bool ExitPortal::DoTriggerAction()
