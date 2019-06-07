@@ -248,7 +248,7 @@ bool PlayerEntity::InputCombat()
 		
 
 	// check dodge
-	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
+	if (coolDownData.dodge.timer.Read() >= coolDownData.dodge.cooldownTime)
 	{
 		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN )
 		{
@@ -725,7 +725,7 @@ void PlayerEntity::SetCoolDownTimers()
 
 	while (_ptr <= &coolDownData.ultimate)
 	{
-		(*_ptr).timer.started_at += (*_ptr).cooldownTime;
+		(*_ptr).timer.started_at -= (*_ptr).cooldownTime;
 		++_ptr;
 	}
 }
