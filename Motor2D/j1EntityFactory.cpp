@@ -2590,3 +2590,13 @@ void j1EntityFactory::setPlayerDmageVec(fPoint unitari)
 {
 	dmg_vec = unitari;
 }
+
+
+void j1EntityFactory::setCurrentEnemiesToAGivenState(EnemyState state)
+{
+	for (auto& entity : entities)
+		if (entity->isDynamicEnemy)
+			dynamic_cast<Enemy*>(entity)->state = state; 
+
+	// TODO: add this condition --> if(dynamic_cast<Enemy*>(entity)->isInRange)
+}

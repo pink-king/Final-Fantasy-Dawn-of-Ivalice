@@ -127,6 +127,8 @@ public:
 	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
+
+	void setCurrentEnemiesToAGivenState(EnemyState state); 
 	
 	// Subyacent subtiles functions
 

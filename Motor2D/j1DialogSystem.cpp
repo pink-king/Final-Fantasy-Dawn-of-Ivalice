@@ -304,6 +304,10 @@ void j1DialogSystem::SetCurrentDialog(std::string callback)
 
 		spawnDialogSequence = true;
 	}
+
+
+	if (currentDialogType == "PREBOSS")
+		App->entityFactory->setCurrentEnemiesToAGivenState(EnemyState::MENTAL_EMBOLIA); 
 	
 
 }
@@ -399,6 +403,8 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				}
 
 
+				if (currentDialogType == "PREBOSS")
+					App->entityFactory->setCurrentEnemiesToAGivenState(EnemyState::IDLE);
 			}
 			
 	    }
