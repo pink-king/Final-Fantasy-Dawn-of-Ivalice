@@ -21,6 +21,10 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
+
+	totalDeSpawnedInventoryIcons = 0; 
+	totalSpawnedItems = 0; 
+
 	// - - - - - - - - - - character icons
 	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
@@ -937,7 +941,11 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 			ent->spawnedDescription = true;
 
-			LOG("_______________________________________________   spawned description");
+			totalSpawnedItems++;
+			LOG("_______________________________________________   total descriptions: %i", totalSpawnedItems);
+
+
+			
 		}
 		else
 		{
@@ -965,8 +973,9 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 			ent->spawnedDescription = false;
 
 
+			totalSpawnedItems--;
+			LOG("_______________________________________________   total descriptions: %i", totalSpawnedItems);
 
-			LOG("_______________________________________________   Deleted description");
 
 		}
 	}

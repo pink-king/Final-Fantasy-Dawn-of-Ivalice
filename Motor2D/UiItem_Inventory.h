@@ -84,6 +84,10 @@ public:
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 247, 96 };
 
+
+	uint totalSpawnedItems = 0; 
+	uint totalDeSpawnedInventoryIcons = 0; 
+
 private:
 	SDL_Rect tab_image = { 726,1,64,64 };
 	bool first_potion = false;

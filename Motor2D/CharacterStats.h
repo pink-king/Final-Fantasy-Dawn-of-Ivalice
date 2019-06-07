@@ -40,6 +40,7 @@ public:
 		newStat(nStat), baseStatValue(bValue), newStatValue(nValue), changeStatArrows(Arrows), changeStatIcon(changeStatIcon), UiItem(parent)
 	{
 		this->guiType = GUI_TYPES::CHARACTERSTATBLOCK; 
+
 	}
 
 	friend class CharacterStats; 
@@ -72,6 +73,10 @@ public:
 	void ShowAllComparisonStats(); 
 	
 	void getItemBuffsAndCallStatComparison(LootEntity* ent);
+
+
+	uint numberOfSpawnedStatItems = 0; 
+
 
 };
 

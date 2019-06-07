@@ -555,6 +555,7 @@ void j1Gui::destroyElement(UiItem * elem)
 
 			item = ListItemUI.erase(item);
 
+			break; 
 		}
 
 	}

@@ -12,6 +12,8 @@
 class UiItem_Image;
 class UiItem_Label;
 
+class UiItem_Inventory; 
+
 struct EquipmentStatType
 {
 	int HP = 0;

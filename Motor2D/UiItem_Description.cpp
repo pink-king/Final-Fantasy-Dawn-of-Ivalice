@@ -1173,6 +1173,9 @@ void UiItem_Description::DeleteEverything()
 	if (spawnedInventoryImage)
 	{
 		App->gui->destroyElement(this->iconImageInventory);
+
+		App->scene->inventoryItem->totalDeSpawnedInventoryIcons++; 
+		LOG("_______________________________________________   total despawned icons: %i", App->scene->inventoryItem->totalDeSpawnedInventoryIcons);
 	}
 
 	if (this->descrType == descriptionType::WEAPON)

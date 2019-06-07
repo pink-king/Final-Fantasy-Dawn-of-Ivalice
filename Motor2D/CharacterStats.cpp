@@ -82,6 +82,9 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 
 
+		numberOfSpawnedStatItems += 6; 
+		LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
+
     }
 	 
 
@@ -392,21 +395,29 @@ void CharacterStats::deGenerateCharacterStats()  // call it when closing invento
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin(); 
 
 
-	/*for (; iter != App->gui->ListItemUI.end();)
+/*	for (; iter != App->gui->ListItemUI.end();)
 	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK)
 		{
-			iter = App->gui->ListItemUI.erase(iter);
+		
 			delete (*iter);
 			(*iter) = nullptr;
+			iter = App->gui->ListItemUI.erase(iter);
 		
+		}
+		else if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+		{
+			delete (*iter);
+			(*iter) = nullptr;
+			iter = App->gui->ListItemUI.erase(iter);
+
 		}
 		else
 		{
 			iter++; 
 		}
-
-	}*/
+		*/
+	}
 
 	for (; iter != App->gui->ListItemUI.end(); ++iter)
 	{
@@ -414,6 +425,10 @@ void CharacterStats::deGenerateCharacterStats()  // call it when closing invento
 		{
 			(*iter)->to_delete = true; 
 
+
+
+			numberOfSpawnedStatItems--; 
+			LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems); 
 		}
 
 	}
