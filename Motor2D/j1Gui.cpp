@@ -237,7 +237,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the right to a list
+						if ((*item)->name != "button_loadGame")
+							candidates.push_back(*item);    // add objects on the right to a list
 
 					}
 				}
@@ -288,7 +289,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the left to a list
+						if ((*item)->name != "button_loadGame")
+							candidates.push_back(*item);       // add objects on the left to a list
 
 					}
 				}
@@ -343,7 +345,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 							selected_object->DoLogicAbandoned();
 							App->audio->PlayFx(App->scene->selectUI, 0);
 
-							candidates.push_back(*item);       // add objects on the right to a list
+							if ((*item)->name != "button_loadGame")
+								candidates.push_back(*item);       // add objects on the right to a list
 
 						
 					
@@ -397,7 +400,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the right to a list
+						if ((*item)->name != "button_loadGame")
+							candidates.push_back(*item);       // add objects on the right to a list
 
 					}
 				}
