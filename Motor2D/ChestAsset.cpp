@@ -22,6 +22,8 @@ ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, bool isBossChest) : is
 		// Rect Pos.y -4 to align to center of the tile 
 		idle.PushBack({ 574, 380, 64, 64 });
 		opening.PushBack({ 638, 380, 64, 64 });
+		opening.PushBack({ 638, 380, 64, 64 });
+		opening.speed = 10.F;
 		opening.loop = false;
 	}
 	
