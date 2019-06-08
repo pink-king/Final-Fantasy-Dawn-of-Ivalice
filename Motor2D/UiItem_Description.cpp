@@ -1158,49 +1158,68 @@ void UiItem_Description::DeleteEverything()
 	// TODO: put the lootentity pointer to nullptr ??? careful; 
 
 	App->gui->destroyElement(this->iconImage);
+	this->iconImage = nullptr;
 	App->gui->destroyElement(this->panelWithButton);
+	this->panelWithButton = nullptr;
 	App->gui->destroyElement(this->name);
-
+	this->name = nullptr;
 	App->gui->destroyElement(this->price);
-
+	this->price = nullptr;
 	// TODO: delete the icon image in the inventory only if it exists
-	//this->iconImageInventory->to_delete = true;
-
+	
 	if (spawnedInventoryImage)
 	{
 		App->gui->destroyElement(this->iconImageInventory);
+		this->iconImageInventory = nullptr;
 	}
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
 
 		App->gui->destroyElement(this->level);
+		this->level = nullptr;
 		App->gui->destroyElement(this->damageLabel);
+		this->damageLabel = nullptr;
 		App->gui->destroyElement(this->resistanceLabel);
+		this->resistanceLabel = nullptr;
 		App->gui->destroyElement(this->cooldownLabel);
+		this->cooldownLabel = nullptr;
 		App->gui->destroyElement(this->attachedCharacter);
+		this->attachedCharacter = nullptr;
 
 		App->gui->destroyElement(this->damageComparisonLabel.label);
+		this->damageComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);
+		this->resistanceComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->cooldownComparisonLabel.label);
+		this->cooldownComparisonLabel.label = nullptr;
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
 		App->gui->destroyElement(this->level);
+		this->level = nullptr;
 		App->gui->destroyElement(this->attachedCharacter);
+		this->attachedCharacter = nullptr;
 		App->gui->destroyElement(this->resistanceLabel);
+		this->resistanceLabel = nullptr;
 		App->gui->destroyElement(this->HPLabel);
+		this->HPLabel = nullptr;
 		App->gui->destroyElement(this->VelocityLabel);
+		this->VelocityLabel = nullptr;
 
 
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+		this->resistanceComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->HPComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+		this->HPComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->velocityComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+		this->velocityComparisonLabel.label = nullptr;
 
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
 		App->gui->destroyElement(this->effectLabel);
+		this->effectLabel = nullptr;
 	}
 
 	App->gui->destroyElement(this);

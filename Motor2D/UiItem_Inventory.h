@@ -64,6 +64,7 @@ public:
 public: 
 
 	bool drawTest = false;
+	bool firstSwapedCharacter = false;
 
 	bool isVendorInventory = false; 
 	bool swappedBag = true;
