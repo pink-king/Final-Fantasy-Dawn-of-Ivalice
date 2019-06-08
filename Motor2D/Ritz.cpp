@@ -761,7 +761,7 @@ bool Ritz::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			//App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
-			//App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
+			App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 70, this, PROJECTILE_TYPE::WHISPER_OF_ICE, 5000u);
 			
 			/*lastProjectile = dynamic_cast<Projectile*>(App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
 				100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT));*/
