@@ -1692,11 +1692,50 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	uiRitzPortrait = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitzPortrait, ritzPNode);
 
-	chain1.PushBack({ 646,1, 54,54 });
-	chain1.PushBack({ 571,192, 54,54 });
-	chain1.PushBack({ 672,194, 54,54 });
-	chain1.PushBack({ 773,194, 54,54 });
-	chain1.speed = 10.0f;
+	chain1.PushBack({ 1876,885,69,73 });
+	chain1.PushBack({ 1946,885,69,73 });
+	chain1.PushBack({ 2016,885,69,73 });
+	chain1.PushBack({ 2086,885,69,73 });
+	chain1.PushBack({ 2156,885,69,73 });
+	chain1.PushBack({ 2226,885,69,73 });
+	chain1.PushBack({ 2296,885,69,73 });
+	chain1.PushBack({ 2366,885,69,73 });
+	chain1.PushBack({ 2436,885,69,73 });
+	chain1.PushBack({ 2506,885,69,73 });
+	chain1.PushBack({ 1891,959,69,73 });
+	chain1.loop = false;
+	chain1.speed = 8.0f;
+
+	chain2.PushBack({ 1876,885,69,73 });
+	chain2.PushBack({ 1946,885,69,73 });
+	chain2.PushBack({ 2016,885,69,73 });
+	chain2.PushBack({ 2086,885,69,73 });
+	chain2.PushBack({ 2156,885,69,73 });
+	chain2.PushBack({ 2226,885,69,73 });
+	chain2.PushBack({ 2296,885,69,73 });
+	chain2.PushBack({ 2366,885,69,73 });
+	chain2.PushBack({ 2436,885,69,73 });
+	chain2.PushBack({ 2506,885,69,73 });
+	chain2.PushBack({ 1891,959,69,73 });
+	chain2.loop = false;
+	chain2.speed = 8.0f;
+
+	chain3.PushBack({ 1876,885,69,73 });
+	chain3.PushBack({ 1946,885,69,73 });
+	chain3.PushBack({ 2016,885,69,73 });
+	chain3.PushBack({ 2086,885,69,73 });
+	chain3.PushBack({ 2156,885,69,73 });
+	chain3.PushBack({ 2226,885,69,73 });
+	chain3.PushBack({ 2296,885,69,73 });
+	chain3.PushBack({ 2366,885,69,73 });
+	chain3.PushBack({ 2436,885,69,73 });
+	chain3.PushBack({ 2506,885,69,73 });
+	chain3.PushBack({ 1891,959,69,73 });
+	chain3.loop = false;
+	chain3.speed = 8.0f;
+
+	
+
 	return true;
 }
 
@@ -2226,10 +2265,31 @@ void j1Scene::UpdateConsumable()
 
 bool j1Scene::executeAnimChain()
 {
-	
-		App->render->BlitGui(App->gui->GetAtlas(), 226, 635, &chain1.GetCurrentFrame(), 0.0F);
+	if (App->entityFactory->player->level == 2)
+	{
+		
 		if (chain1.Finished())
 			canExecuteChainAnim = false;
+		else
+			App->render->BlitGui(App->gui->GetAtlas(), 149, 616, &chain1.GetCurrentFrame(), 0.0F);
+
+	}
+	else if (App->entityFactory->player->level == 3)
+	{
+		
+		if (chain2.Finished())
+			canExecuteChainAnim = false;
+		else
+			App->render->BlitGui(App->gui->GetAtlas(), 211, 616, &chain2.GetCurrentFrame(), 0.0F);
+	}
+	else if (App->entityFactory->player->level == 4)
+	{
+		
+		if (chain3.Finished())
+			canExecuteChainAnim = false;
+		else
+			App->render->BlitGui(App->gui->GetAtlas(), 273, 616, &chain3.GetCurrentFrame(), 0.0F);
+	}
 	
 	return true;
 }

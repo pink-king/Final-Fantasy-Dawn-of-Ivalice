@@ -2640,12 +2640,12 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 						else if (player->level == 3 && (*item)->name == "chain2")
 						{
 							(*item)->to_delete = true;
-
+							App->scene->canExecuteChainAnim = true;
 						}
 						else if (player->level == 4 && (*item)->name == "chain3")
 						{
 							(*item)->to_delete = true;
-
+							App->scene->canExecuteChainAnim = true;
 						}
 					}
 

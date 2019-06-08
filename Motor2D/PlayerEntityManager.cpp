@@ -176,12 +176,12 @@ bool PlayerEntityManager::Update(float dt)
 				else if (level == 3 && (*item)->name == "chain2")
 				{
 					(*item)->to_delete = true;
-
+					App->scene->canExecuteChainAnim = true;
 				}
 				else if (level == 4 && (*item)->name == "chain3")
 				{
 					(*item)->to_delete = true;
-
+					App->scene->canExecuteChainAnim = true;
 				}
 			}
 		}
