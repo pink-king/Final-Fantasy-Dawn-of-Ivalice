@@ -369,7 +369,10 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 				breakableType = BreakableType::JARFULL;
 				break;
 			case 2:
-				breakableType = BreakableType::BARREL;
+				breakableType = BreakableType::BARREL_1;
+				break;
+			case 3: 
+				breakableType = BreakableType::BARREL_2;
 				break;
 			default:
 				break;

@@ -566,6 +566,16 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
 							breakableType = BreakableType::JARFULL;
 						}
+						else if (wallTypeName == "barrel1")
+						{
+							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
+							breakableType = BreakableType::BARREL_1;
+						}
+						else if (wallTypeName == "barrel2")
+						{
+							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
+							breakableType = BreakableType::BARREL_2;
+						}
 						else if (wallTypeName == "chest" || wallTypeName == "superChest")
 						{
 							type = EnvironmentAssetsTypes::CHEST;

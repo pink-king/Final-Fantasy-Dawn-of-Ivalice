@@ -785,10 +785,10 @@ bool j1Scene::Update(float dt)
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//debug tp
-		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 			DebugTP(SceneState::LOBBY, LvlPart::NO_PART);
 
-		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 			DebugTP(SceneState::FIRINGRANGE, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
@@ -797,7 +797,7 @@ bool j1Scene::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
 			DebugTP(SceneState::LEVEL1, LvlPart::WAVES);
 
-		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 			DebugTP(SceneState::LEVEL2, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
