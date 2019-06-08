@@ -250,7 +250,7 @@ bool PlayerEntity::InputCombat()
 	// check dodge
 	if (coolDownData.dodge.timer.Read() >= coolDownData.dodge.cooldownTime)
 	{
-		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN )
+		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN)
 		{
 			combat_state = combatState::DODGE;
 			if (inputReady)

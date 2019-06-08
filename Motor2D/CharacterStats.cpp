@@ -39,23 +39,23 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 		std::string name = positionMap.at(i);
 
-		UiItem_Label* statName = App->gui->AddLabel(name, { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos, nullptr);
+		UiItem_Label* statName = App->gui->AddLabel(name, { 255, 255, 255, 255 }, App->font->knightsQuest18, currentBlockPos, nullptr);
 		statName->hasBeenSpawned = true;
 
 		float baseStatValue;
 		float newStatValue;
 		baseStatValue = newStatValue = 0;   // TODO: get base buffs from player 
 
-		UiItem_Label* baseStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(0, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
+		UiItem_Label* baseStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->knightsQuest18, currentBlockPos + iPoint(0, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
 		baseStat->hasBeenSpawned = true;
 
 		// upon creation, there is not comparison stat 
-		UiItem_Label* Arrows = App->gui->AddLabel(">>", { 255, 0, 0, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
+		UiItem_Label* Arrows = App->gui->AddLabel(">>", { 255, 0, 0, 255 }, App->font->knightsQuest18, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
 		Arrows->hasBeenSpawned = true;
 		Arrows->hide = true;
 
 		// upon creation, there is not comparison stat
-		UiItem_Label* newStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->openSansBold12, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 1.8f, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
+		UiItem_Label* newStat = App->gui->AddLabel("0", { 255, 255, 255, 255 }, App->font->knightsQuest18, currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 1.8f, ELEMENT_INSIDE_BLOCK_OFFSET_Y), nullptr);
 		newStat->hasBeenSpawned = true;
 		newStat->hide = true;
 
@@ -63,7 +63,7 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 		std::string prankName = "akbar";
 
 
-		UiItem_Image* iconImage = App->gui->AddImage(currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 2.7f, ELEMENT_INSIDE_BLOCK_OFFSET_Y),
+		UiItem_Image* iconImage = App->gui->AddImage(currentBlockPos + iPoint(ELEMENT_INSIDE_BLOCK_SEPARATION_X * 2.9f, ELEMENT_INSIDE_BLOCK_OFFSET_Y),
 			&App->gui->upgradeCharacterStatsIconsRects.mapPositions.at(i).upgrade, prankName, nullptr);
 		iconImage->hasBeenSpawned = true;
 		iconImage->hide = true;

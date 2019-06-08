@@ -185,7 +185,6 @@ bool j1Scene::Start()
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
-
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -1648,7 +1647,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	coins_label = App->gui->AddLabel("0 x", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1080,26 }, inGamePanel);
 	coins_label->name = "coinsLabel";
 	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1150,107 }, inGamePanel);
-	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->openSansBold18, { 1185, 695 }, inGamePanel);
+	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->knightsQuest24, { 1185, 695 }, inGamePanel);
 	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
@@ -2184,10 +2183,12 @@ ConsumableStats j1Scene::GetConsumableInfo(LootEntity* consumable)
 
 	consumStats.distance_to_travel.x = App->entityFactory->player->position.x + 50 - consumStats.position.x;//bag screen pos
 	consumStats.distance_to_travel.y = App->entityFactory->player->position.y - 50 - consumStats.position.y;
-
-
-	App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 500, 1200, EASE_OUT_CUBIC,true);
-	App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y - 200, 1200, EASE_OUT_CUBIC,false);
+	int a = App->render->camera->x + App->render->camera->w;
+	int b = App->render->camera->y + App->render->camera->h;
+	LOG("camerapos %i %i", App->render->camera->x, App->render->camera->y);
+	LOG("camerapos + W H %i %i ", a, b);
+	App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 700, 700, EASE,true);
+	App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y-600, 700, EASE_IN_OUT_BACK,false);
 	return consumStats;
 }
 
@@ -2201,7 +2202,7 @@ void j1Scene::UpdateConsumable()
 	for (std::list<ConsumableStats>::iterator iter = consumableinfo.begin(); iter != consumableinfo.end(); ++iter)
 	{
 		
-		if ((*iter).actualTime.Read() < 1200)
+		if ((*iter).actualTime.Read() < 700)
 		{
 			
 			
