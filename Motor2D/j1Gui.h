@@ -73,6 +73,8 @@ struct myClocks {
 struct theClocks;
 struct clockOwners;
 
+struct EquipmentStatType; 
+
 class j1Gui : public j1Module
 {
 public:
@@ -149,6 +151,7 @@ private:
 	bool debug_ = false;
 public:
 	UiItem* selected_object = nullptr;
+	UiItem* last_selected_object = nullptr;
 
 public:
 	bool resetHoverSwapping = false;

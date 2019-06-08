@@ -2016,6 +2016,8 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 
 			else
 			{
+				inventoryItem->despawnRubbish();  // don't blame me for the name
+
 				// character stats panel
 				characterStatsItem->deGenerateCharacterStats();
 

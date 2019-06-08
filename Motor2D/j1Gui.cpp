@@ -102,6 +102,11 @@ void j1Gui::DoLogicSelected() {
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
+	bool succeed = false;
+	// check something here hahah :) 
+
+	if (selected_object)
+		last_selected_object = selected_object;
 
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
 
@@ -172,6 +177,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					selected_object->state = HOVER;
 					selected_object->tabbed = true;
 					setClicked = true;
+					succeed = true;
+
 				}
 				else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
 				{
@@ -185,6 +192,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					selected_object->state = HOVER;
 					selected_object->tabbed = true;
 					setClicked = true;
+					succeed = true;
 				}
 			}
 		}
@@ -268,7 +276,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
 
-
+						succeed = true;
 					}
 				}
 
@@ -320,6 +328,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);           // make the closest item be the current one 
+						succeed = true;
+
 					}
 
 				}
@@ -380,7 +390,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
-
+						succeed = true;
 
 					}
 				}
@@ -436,7 +446,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
-
+						succeed = true;
 
 					}
 				}
@@ -451,7 +461,17 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 
 
+	if (succeed)
+	{
+		if (last_selected_object && last_selected_object->guiType == GUI_TYPES::IMAGE)
+		{
+			if (App->scene->inventory->enable)
+			{
+				dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+			}
+		}
 
+	}
 
 }
 
@@ -568,6 +588,7 @@ void j1Gui::destroyElement(UiItem * elem)
 			delete (*item);
 			*item = nullptr;
 			item = ListItemUI.erase(item);
+			break;
 
 		}
 

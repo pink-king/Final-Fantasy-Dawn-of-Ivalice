@@ -21,10 +21,34 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
+	totalDeSpawnedInventoryIcons = 0;
+	totalSpawnedItems = 0;
 	// - - - - - - - - - - character icons
 	BROFILER_CATEGORY("Inventory Load Elements", Profiler::Color::Olive);
 
 	isVendorInventory = isVendor;
+
+	SDL_Color c = { 255, 255, 255, 255 };
+
+	charNameLabel = App->gui->AddLabel(App->entityFactory->player->selectedCharacterEntity->name,
+		c, App->font->knightsQuest24, iPoint(startingPos.x + 265, startingPos.y + 50), this);
+
+
+
+	if (isVendorInventory)
+	{
+		equippedLabel = App->gui->AddLabel("PLAYER", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("VENDOR", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		consumablesLabel->hide = true;
+	}
+	else
+	{
+		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+	}
+
 
 	/*if (!isVendorInventory)
 	{*/
@@ -917,12 +941,14 @@ void UiItem_Inventory::RepositionBagItems()
 					position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
 				}
 
-				if ((*iter)->MyDescription->iconImageInventory->tabbable)
+				if ((*iter)->MyDescription != nullptr)
 				{
-					(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
-					(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+					if ((*iter)->MyDescription->iconImageInventory->tabbable)
+					{
+						(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
+						(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+					}
 				}
-
 
 				i++;
 
@@ -955,7 +981,8 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 			ent->spawnedDescription = true;
 
-			LOG("_______________________________________________   spawned description");
+			totalSpawnedItems++;
+			LOG("_______________________________________________   total descriptions: %i", totalSpawnedItems);
 		}
 		else
 		{
@@ -984,7 +1011,8 @@ void UiItem_Inventory::De_______GenerateDescription(LootEntity * ent, bool first
 
 
 
-			LOG("_______________________________________________   Deleted description");
+			totalSpawnedItems--;
+			LOG("_______________________________________________   total descriptions: %i", totalSpawnedItems);
 
 		}
 	}
@@ -1189,8 +1217,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				if ((*iter) == callback)                            // capture the vendor item
 				{
 
-					if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-					{
+					/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+					{*/
 
 
 
@@ -1201,7 +1229,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							for (; iterPlayer != App->entityFactory->player->equipedObjects.end(); ++iterPlayer)
 							{
-								if ((*iterPlayer)->character == App->entityFactory->player->selectedCharacterEntity)   // check they both have same attached character
+								if ((*iterPlayer)->character->name == App->scene->characterStatsItem->characterTag)   // check they both have same attached character
 								{
 
 									if (DoPriceCalculations(callback))
@@ -1226,6 +1254,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											{
 												De_______GenerateDescription((*iterPlayer), false);
 											}
+											break;
 										}
 
 									}
@@ -1243,13 +1272,15 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
-							App->entityFactory->player->AddItemToTheBag(callback);
+						//	App->entityFactory->player->AddItemToTheBag(callback);
 
 
 							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
 							{
 								doBagScroll = true;
 							}
+
+							App->entityFactory->player->AddItemToTheBag(callback);
 
 
 							// ADD NEW STATS TO THE PLAYER 
@@ -1260,7 +1291,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 						}
 
-					}
+					//}
 
 
 				}
@@ -1319,8 +1350,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 
-	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-	{
+	/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+	{*/
 		switch (callback->GetObjectType())
 		{
 		case OBJECT_TYPE::WEAPON_OBJECT:
@@ -1364,7 +1395,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
 		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
-	}
+	//}
 
 
 	if (doBagScroll)
@@ -1439,4 +1470,120 @@ bool UiItem_Inventory::CheckMaxItems()
 	}
 
 	return ret; 
+}
+
+void UiItem_Inventory::swapCharacterItemsWithoutSwappingCharacter(std::string name)
+{
+	callDeleteWhenSwitchingCharacters();
+
+
+	if (name == "Marche")
+	{
+		App->scene->MarcheIcon->hide = false;
+		App->scene->SharaIcon->hide = true;
+		App->scene->RitzIcon->hide = true;
+	}
+
+	else if (name == "Shara")
+	{
+		App->scene->MarcheIcon->hide = true;
+		App->scene->SharaIcon->hide = false;
+		App->scene->RitzIcon->hide = true;
+	}
+
+
+	else if (name == "Ritz")
+	{
+		App->scene->MarcheIcon->hide = true;
+		App->scene->SharaIcon->hide = true;
+		App->scene->RitzIcon->hide = false;
+	}
+
+
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
+
+		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+		{
+
+
+			iPoint destPos = {};
+
+			if ((*iter)->character->name == name)                                         // Not selected character, but hovered item's attached character
+			{
+
+
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
+
+
+				// current weapon, armor and head have a target position each
+				switch ((*iter)->GetObjectType())
+				{
+				case OBJECT_TYPE::WEAPON_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+
+					(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
+					break;
+				case OBJECT_TYPE::ARMOR_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+
+					(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
+					break;
+				case OBJECT_TYPE::HEAD_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+
+					(*iter)->MyDescription->myLootItemIsEquipped.head = true;
+					break;
+
+
+				}
+
+				// create the icon image directly in that desired slot (aka position) 
+
+
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+					(*iter)->MyDescription->spawnedInventoryImage = true;
+					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
+				}
+				else
+				{
+					(*iter)->MyDescription->HideAllElements(false);
+					(*iter)->MyDescription->iconImageInventory->tabbable = true;
+				}
+
+
+
+			}
+			/*else
+			{
+			if ((*iter)->MyDescription->spawnedInventoryImage)
+			{
+			(*iter)->MyDescription->HideAllElements(true);
+			(*iter)->MyDescription->iconImageInventory->hide = true;
+			}
+			}*/
+
+
+
+		}
+	}
+}
+
+void UiItem_Inventory::despawnRubbish()
+{
+	charNameLabel->to_delete = true;
+	equippedLabel->to_delete = true;
+	bagLabel->to_delete = true;
+	consumablesLabel->to_delete = true;
 }

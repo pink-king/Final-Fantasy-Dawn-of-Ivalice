@@ -898,8 +898,23 @@ bool UiItem_Description::ChangeComparisonLabels()
 	if (App->gui->selected_object == this->iconImageInventory)
 	{
 
-		App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);          // CAUTIOn: if item is selected again, prevent calculating again (xd)
+		bool isEquipped = false;
 
+		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
+
+		for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
+		{
+
+			if ((*lootItem) == this->callback)
+				isEquipped = true;
+
+		}
+
+		if (!App->scene->inventoryItem->isVendorInventory)
+			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
+
+		else if (!App->scene->characterStatsItem->characterFakeSwapDone && !isEquipped)
+			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
 	}
 
 
@@ -1176,6 +1191,8 @@ void UiItem_Description::DeleteEverything()
 	
 	if (spawnedInventoryImage)
 	{
+		App->scene->inventoryItem->totalDeSpawnedInventoryIcons++;
+		LOG("_______________________________________________   total despawned icons: %i", App->scene->inventoryItem->totalDeSpawnedInventoryIcons);
 		App->gui->destroyElement(this->iconImageInventory);
 	}
 
@@ -1213,4 +1230,9 @@ void UiItem_Description::DeleteEverything()
 
 	App->gui->destroyElement(this);
 
+}
+
+void UiItem_Description::LastHoveredCharacterStatSwapReset()
+{
+	App->scene->characterStatsItem->characterFakeSwapDone = false;
 }

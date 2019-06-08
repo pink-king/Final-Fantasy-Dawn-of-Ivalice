@@ -563,59 +563,74 @@ bool PlayerEntityManager::SwapInputChecker()
 
 			if (App->scene->inventory->enable)
 			{
-				/*if (!App->scene->inventoryItem->isVendorInventory)
-				{*/
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
-
-			//}
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
+					SetPreviousCharacter();
+				}
+			}
+			else
+			{
+				SetPreviousCharacter();
 			}
 
-			SetPreviousCharacter();
+
 
 			if (App->scene->inventory->enable)
 			{
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					//App->scene->characterStatsItem->InitializeStats();
+					App->scene->characterStatsItem->InitializeStats();
+					SetPreviousCharacter();
 				}
-				else
+				/*else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
-				}
+				}*/
 
 
-				App->scene->characterStatsItem->InitializeStats();
 			}
-
+			else
+			{
+				SetPreviousCharacter();
+			}
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 		{
 			if (App->scene->inventory->enable)
 			{
-				/*if (!App->scene->inventoryItem->isVendorInventory)
-				{*/
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
-			//}
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
+					SetNextCharacter();
+				}
+			}
+			else
+			{
+				SetNextCharacter();
 			}
 
-			SetNextCharacter();
+
 
 			if (App->scene->inventory->enable)
 			{
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					//App->scene->characterStatsItem->InitializeStats();
+					App->scene->characterStatsItem->InitializeStats();
+					SetNextCharacter();
 				}
-				else
+				/*else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
-				}
+				}*/
 
-				App->scene->characterStatsItem->InitializeStats();
-
+			}
+			else
+			{
+				SetNextCharacter();
 			}
 
 		}
