@@ -92,6 +92,7 @@ bool j1EntityFactory::Start()
 	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
 	hallTex = App->tex->Load("maps/Tilesets/Main Hall/tileset_main_hall.png");
 	ButtonAtex = App->tex->Load("textures/interactable_states/button_a.png");
+	iceTornadoTex = App->tex->Load("textures/spells/Ritz_attacks/ritz_tornado_whispersOfIce_wip.png");
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -277,7 +278,9 @@ bool j1EntityFactory::CleanUp()
 	interactiveStatesTex = nullptr;
 	App->tex->UnLoad(hallTex);
 	hallTex = nullptr;
-
+	App->tex->UnLoad(iceTornadoTex);
+	iceTornadoTex = nullptr;
+	
 	player = nullptr;
 
 	return ret;
