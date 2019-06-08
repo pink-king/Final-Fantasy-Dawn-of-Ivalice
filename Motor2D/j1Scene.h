@@ -253,7 +253,6 @@ public:
 	ConsumableStats GetConsumableInfo(LootEntity* consumable);
 	void UpdateConsumable();
 	std::list<ConsumableStats> consumableinfo;
-	SDL_Texture* ConsumableTravelTex;
 public:
 	float hudAlphavalue[3];
 	int hit_counter;
