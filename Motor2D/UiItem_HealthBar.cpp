@@ -73,6 +73,8 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	skullOffset.y = -(skull->section.h / 2 - dynamicImage->section.h / 2);
 	skull->hitBox.y += skullOffset.y;
 	skull->hide = true;
+
+	spawnedSkull = true; 
 }
 
 
