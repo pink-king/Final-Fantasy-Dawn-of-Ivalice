@@ -708,11 +708,11 @@ bool j1Scene::Update(float dt)
 	{
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
-		volume_bar_ig->thumb->hitBox.x = volume_bar->thumb->hitBox.x + 263;
+		
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
 		//settingPanel->enable = false;
-		fx_bar_ig->thumb->hitBox.x = fx_bar->thumb->hitBox.x + 263;
+	
 		if (settingPanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			App->gui->GoBackToMenu();
@@ -747,12 +747,11 @@ bool j1Scene::Update(float dt)
 	{
 		//Mix_CloseAudio();
 		//if()
-		result_volume = volume_bar_ig->GetBarValue();
+		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
-		volume_bar->thumb->hitBox.x = volume_bar_ig->thumb->hitBox.x - 263;
-		result_fx = fx_bar_ig->GetBarValue();
+		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
-		fx_bar->thumb->hitBox.x = fx_bar_ig->thumb->hitBox.x - 263;
+	
 
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
@@ -1444,14 +1443,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			fx_bar = slider_volume;
 		}
-		if (name == "volumeSliderInGame")
-		{
-			volume_bar_ig = slider_volume;
-		}
-		if (name == "fxSliderInGame")
-		{
-			fx_bar_ig = slider_volume;
-		}
+		
 	}
 
 
