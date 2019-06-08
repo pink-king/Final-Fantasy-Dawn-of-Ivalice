@@ -829,6 +829,8 @@ bool j1Scene::Update(float dt)
 					paused = true;
 					App->gui->resetHoverSwapping = false;
 					App->entityFactory->player->LockPlayerInput();
+
+					//App->gui->HideInGameEnemyUI(true);
 				}
 				else
 				{
@@ -838,6 +840,8 @@ bool j1Scene::Update(float dt)
 					App->gui->selected_object = nullptr;
 					
 					App->gui->GoBackToGame();
+
+					//App->gui->HideInGameEnemyUI(false);
 				}
 			}
 		}
@@ -1500,8 +1504,11 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 
 		if (variant == "player")
 		{
+			SDL_Rect staticSection = { uiNode.child("test").attribute("x").as_int(), uiNode.child("test").attribute("y").as_int(), uiNode.child("test").attribute("w").as_int(), uiNode.child("test").attribute("h").as_int() };
+
 			SDL_Rect damageSection = { uiNode.child("damageSection").attribute("x").as_int(), uiNode.child("damageSection").attribute("y").as_int(), uiNode.child("damageSection").attribute("w").as_int(), uiNode.child("damageSection").attribute("h").as_int() };
-			App->gui->healthBar = App->gui->AddHealthBar(position, &dynamicSection, &damageSection, type::player, inGamePanel);
+			
+			App->gui->healthBar = App->gui->AddHealthBar(position, &dynamicSection, &damageSection, &staticSection, type::player, inGamePanel);
 		}
 		else if (variant == "enemy")
 		{
