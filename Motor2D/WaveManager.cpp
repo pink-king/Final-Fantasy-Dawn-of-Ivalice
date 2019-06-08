@@ -224,7 +224,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 			data.zombieChances = 0;
 		}
 		break;
-
+		
 	case 6:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{

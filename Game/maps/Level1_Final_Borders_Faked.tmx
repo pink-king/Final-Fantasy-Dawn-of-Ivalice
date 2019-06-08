@@ -9,7 +9,7 @@
  <tileset firstgid="305" name="dungeon_props" tilewidth="64" tileheight="64" tilecount="88" columns="8">
   <image source="../textures/map_props/dungeon/dungeon_props.png" width="512" height="712"/>
  </tileset>
- <layer id="7" name="graphics" width="100" height="100">
+ <layer id="7" name="graphics" width="100" height="100" visible="0">
   <properties>
    <property name="Nodraw" type="int" value="0"/>
   </properties>
@@ -10016,7 +10016,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="9" name="graphics 2" width="100" height="100">
+ <layer id="9" name="graphics 2" width="100" height="100" visible="0">
   <data>
    <tile/>
    <tile/>
@@ -20022,7 +20022,7 @@
  </layer>
  <group id="3" name="Assets">
   <group id="4" name="walls">
-   <layer id="6" name="onlyVisualTiledFeedback" width="100" height="100">
+   <layer id="6" name="onlyVisualTiledFeedback" width="100" height="100" visible="0">
     <data>
      <tile/>
      <tile/>
@@ -31701,8 +31701,6 @@
    <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
-   <tile gid="334"/>
-   <tile gid="334"/>
    <tile/>
    <tile/>
    <tile/>
@@ -31722,6 +31720,14 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="269"/>
+   <tile gid="269"/>
+   <tile gid="269"/>
+   <tile gid="269"/>
+   <tile gid="269"/>
+   <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
@@ -31757,12 +31763,6 @@
    <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
-   <tile gid="269"/>
-   <tile gid="269"/>
-   <tile gid="269"/>
-   <tile gid="269"/>
-   <tile gid="269"/>
-   <tile gid="269"/>
    <tile/>
    <tile/>
    <tile/>
@@ -31801,7 +31801,7 @@
    <tile gid="269"/>
    <tile gid="269"/>
    <tile gid="269"/>
-   <tile gid="334"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
