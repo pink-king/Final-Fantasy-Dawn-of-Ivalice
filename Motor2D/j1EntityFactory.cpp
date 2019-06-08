@@ -385,6 +385,30 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 		{
 			CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
 		}
+
+		for (pugi::xml_node characterTrigger = node.child("trigger"); characterTrigger; characterTrigger = characterTrigger.next_sibling("trigger"))
+		{
+			if(characterTrigger.attribute("type").as_int() == 6)
+			{
+			
+			}
+			else if (characterTrigger.attribute("type").as_int() == 8)
+			{
+				SDL_Rect waveZone = {characterTrigger.attribute("zoneX").as_int(),characterTrigger.attribute("zoneY").as_int() ,characterTrigger.attribute("zoneW").as_int() ,characterTrigger.attribute("zoneH").as_int() };
+				WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(characterTrigger.attribute("posX").as_int(), characterTrigger.attribute("posY").as_int()), waveZone, characterTrigger.attribute("level").as_int());
+				
+				for (pugi::xml_node entryWall = characterTrigger.child("entrytWall"); entryWall; entryWall = entryWall.next_sibling("entrytWall"))
+				{
+					waveTrigg->CreateEntryWall(iPoint(entryWall.attribute("posX").as_int(), entryWall.attribute("posY").as_int()));
+				}
+
+				for (pugi::xml_node exitWall = characterTrigger.child("exitWall"); exitWall; exitWall = exitWall.next_sibling("exitWall"))
+				{
+					waveTrigg->CreateExitWall(iPoint(exitWall.attribute("posX").as_int(), exitWall.attribute("posY").as_int()));
+				}
+			}
+			
+		}
 	}
 	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
 	{
@@ -424,6 +448,12 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 		if ((*item)->type == ENTITY_TYPE::BREAKABLE_ASSET)
 		{
 			pugi::xml_node nodeEntities = node.append_child("breakableAsset");
+			(*item)->Save(nodeEntities);
+		}
+
+		if ((*item)->type == ENTITY_TYPE::TRIGGER)
+		{
+			pugi::xml_node nodeEntities = node.append_child("trigger");
 			(*item)->Save(nodeEntities);
 		}
 	}

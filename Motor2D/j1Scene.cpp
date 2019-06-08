@@ -152,17 +152,21 @@ bool j1Scene::Start()
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
-		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
-		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1);
-		waveTrigg->CreateEntryWall(iPoint(16, 22));
-		waveTrigg->CreateEntryWall(iPoint(17, 22));
-		waveTrigg->CreateExitWall({ 13,3 });
-		waveTrigg->CreateExitWall({ 14,3 });
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White,3);
 
 		App->entityFactory->CreatePlayer({ -1575, 2150 });
 			
+		if (!ComeToPortal)
+		{
+			SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
+			WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1);
+			waveTrigg->CreateEntryWall(iPoint(16, 22));
+			waveTrigg->CreateEntryWall(iPoint(17, 22));
+			waveTrigg->CreateExitWall({ 13,3 });
+			waveTrigg->CreateExitWall({ 14,3 });
+		}
+
 		App->entityFactory->LoadSpawnGroups();
 
 		//App->entityFactory->CreatePlayer({ -209, 650 });
@@ -189,6 +193,17 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
+
+			App->pathfinding->ActivateTile({ 16,22 });
+			iPoint wallPoint = App->map->MapToWorld(16, 22);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+
+			App->pathfinding->ActivateTile({ 17,22 });
+			wallPoint = App->map->MapToWorld(17, 22);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+
 			ComeToPortal = false;
 		}
 
@@ -220,15 +235,19 @@ bool j1Scene::Start()
 		App->camera2D->SetCameraPos(1800, -5000);
 
 		iPoint tileSize = { 32,32 };
-		SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
-		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25, 26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
-		waveTrigg->CreateEntryWall(iPoint(33, 22));
-		waveTrigg->CreateEntryWall(iPoint(33, 21));
-		waveTrigg->CreateEntryWall(iPoint(33, 20));
-		waveTrigg->CreateExitWall({ 19, 46 });
-		waveTrigg->CreateExitWall({ 20, 46 });
-		waveTrigg->CreateExitWall({ 21, 46 });
-		waveTrigg->CreateExitWall({ 22, 46 });
+		
+		if (!ComeToPortal)
+		{
+			SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
+			WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25, 26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
+			waveTrigg->CreateEntryWall(iPoint(33, 22));
+			waveTrigg->CreateEntryWall(iPoint(33, 21));
+			waveTrigg->CreateEntryWall(iPoint(33, 20));
+			waveTrigg->CreateExitWall({ 19, 46 });
+			waveTrigg->CreateExitWall({ 20, 46 });
+			waveTrigg->CreateExitWall({ 21, 46 });
+			waveTrigg->CreateExitWall({ 22, 46 });
+		}
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
 		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
@@ -263,6 +282,22 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
+
+			App->pathfinding->ActivateTile({ 33,22 });
+			iPoint wallPoint = App->map->MapToWorld(33, 22);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
+
+			App->pathfinding->ActivateTile({ 33,21 });
+			wallPoint = App->map->MapToWorld(33, 21);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
+
+			App->pathfinding->ActivateTile({ 33,20 });
+			wallPoint = App->map->MapToWorld(33, 20);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
+
 			ComeToPortal = false;
 		}
 		if (ComeToDeath || ComeToWin)
@@ -318,6 +353,17 @@ bool j1Scene::Start()
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 			}
 
+			if (ComeToDeath || ComeToWin)
+			{
+				App->LoadGame("save_game.xml");
+			}
+
+			if (ComeToWin)
+			{
+				ComeToDeath = false;
+				ComeToWin = false;
+			}
+
 		}
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
@@ -337,17 +383,6 @@ bool j1Scene::Start()
 
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-		}
-
-		if (ComeToWin)
-		{
-			ComeToDeath = false;
-			ComeToWin = false;
-		}
 		App->camera2D->SetCameraPos({ 115, 240 });
 
 
@@ -661,7 +696,6 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
-		lobbyState = LobbyState::PASSLVL2;
 		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
