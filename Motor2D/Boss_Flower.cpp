@@ -247,7 +247,7 @@ FlowerBossEntity::~FlowerBossEntity()
 
 	// ---------- Win State Hardcoded when boss dies ------------------
 	
-	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, App->map->MapToWorld(GetTilePos().x, GetTilePos().y) + iPoint(0,-16), { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, false, true); 
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, App->map->MapToWorld(GetTilePos().x, GetTilePos().y) + iPoint(0,-16), { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, false, ChestType::BOSS); 
 	App->scene->lobbyState = LobbyState::PASSLVL2;
 	// -----------------------------------------------------------------
 

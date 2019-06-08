@@ -383,7 +383,8 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 
 		for (pugi::xml_node characterChest = node.child("chest"); characterChest; characterChest = characterChest.next_sibling("chest"))
 		{
-			CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
+			ChestType chestType = (ChestType)characterChest.attribute("chestType").as_int();;
+			CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), chestType);
 		}
 		
 		DialogTriggerVolatile* dialogParent = nullptr;
@@ -1236,7 +1237,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBroken, bool isBossChest)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBroken, ChestType chestType)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1258,7 +1259,7 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::CHEST:
-		assetEntity = DBG_NEW ChestAsset(worldPos, isBroken, isBossChest);
+		assetEntity = DBG_NEW ChestAsset(worldPos, isBroken, chestType);
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::MAX:
@@ -1419,10 +1420,15 @@ void j1EntityFactory::RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_
 	}
 }
 
-void j1EntityFactory::CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type)
+void j1EntityFactory::CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type = EQUIPABLE_TYPE::NO_EQUIPABLE)
 {
 	j1Entity* ret = nullptr;
-	switch (type)
+	EQUIPABLE_TYPE eqType = type; 
+
+	if (eqType == EQUIPABLE_TYPE::NO_EQUIPABLE)
+		eqType = (EQUIPABLE_TYPE)CreateRandomBetween(0, (uint)EQUIPABLE_TYPE::NO_EQUIPABLE);
+
+	switch (eqType)
 	{
 
 	case EQUIPABLE_TYPE::SWORD:
