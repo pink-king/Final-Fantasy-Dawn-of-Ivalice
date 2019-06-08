@@ -247,6 +247,10 @@ bool j1Scene::Start()
 			waveTrigg->CreateExitWall({ 20, 46 });
 			waveTrigg->CreateExitWall({ 21, 46 });
 			waveTrigg->CreateExitWall({ 22, 46 });
+
+			DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+			App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
+
 		}
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
@@ -256,10 +260,7 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
-
-		DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
-		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
-		
+	
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -761,6 +762,7 @@ bool j1Scene::Update(float dt)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
+			lobbyState = LobbyState::PASSLVL1;
 			if (doorlvl1 == nullptr)
 				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
 			if (doorlvl2 == nullptr)

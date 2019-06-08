@@ -385,12 +385,14 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 		{
 			CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
 		}
-
+		
+		DialogTriggerVolatile* dialogParent = nullptr;
 		for (pugi::xml_node characterTrigger = node.child("trigger"); characterTrigger; characterTrigger = characterTrigger.next_sibling("trigger"))
 		{
-			if(characterTrigger.attribute("type").as_int() == 6)
+			if(characterTrigger.attribute("type").as_int() == 6 && dialogParent == nullptr)
 			{
-			
+				DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+				App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
 			}
 			else if (characterTrigger.attribute("type").as_int() == 8)
 			{
