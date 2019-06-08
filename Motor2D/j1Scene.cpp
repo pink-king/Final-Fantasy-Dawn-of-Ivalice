@@ -185,7 +185,6 @@ bool j1Scene::Start()
 
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->audio->PlayMusic("audio/music/FFDI_Theme_14.ogg", -1);
-
 		if (ComeToPortal)
 		{
 			App->LoadGame("Portal.xml");
@@ -2184,10 +2183,12 @@ ConsumableStats j1Scene::GetConsumableInfo(LootEntity* consumable)
 
 	consumStats.distance_to_travel.x = App->entityFactory->player->position.x + 50 - consumStats.position.x;//bag screen pos
 	consumStats.distance_to_travel.y = App->entityFactory->player->position.y - 50 - consumStats.position.y;
-
-
-	App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 500, 1200, EASE_OUT_CUBIC,true);
-	App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y - 200, 1200, EASE_OUT_CUBIC,false);
+	int a = App->render->camera->x + App->render->camera->w;
+	int b = App->render->camera->y + App->render->camera->h;
+	LOG("camerapos %i %i", App->render->camera->x, App->render->camera->y);
+	LOG("camerapos + W H %i %i ", a, b);
+	App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 700, 700, EASE,true);
+	App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y-600, 700, EASE_IN_OUT_BACK,false);
 	return consumStats;
 }
 
@@ -2201,7 +2202,7 @@ void j1Scene::UpdateConsumable()
 	for (std::list<ConsumableStats>::iterator iter = consumableinfo.begin(); iter != consumableinfo.end(); ++iter)
 	{
 		
-		if ((*iter).actualTime.Read() < 1200)
+		if ((*iter).actualTime.Read() < 700)
 		{
 			
 			
