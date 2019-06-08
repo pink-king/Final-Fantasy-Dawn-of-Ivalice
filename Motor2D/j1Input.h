@@ -120,6 +120,8 @@ public:
 		return controller[id];
 	}
 
+	void SetControllerButtonState(int button, j1KeyState state);
+
 	j1KeyState GetControllerAxisPulsation(int id) const
 	{
 		return controller_axis[id];

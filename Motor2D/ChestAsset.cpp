@@ -9,15 +9,17 @@ ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, ChestType type) : isOp
 	switch (type)
 	{
 	case ChestType::BOSS:
-		idle.PushBack({ 382, -10, 64, 64 });
-		opening.PushBack({ 446, -10, 64, 64 });
-		opening.PushBack({ 510, -10, 64, 64 });
-		opening.PushBack({ 574, -10, 64, 64 });
+
+		idle.PushBack({ 256 + 384, 192 - 10, 64, 64 });
+		opening.PushBack({ 320 + 384, 192 - 10, 64, 64 });
+		opening.PushBack({ 384 + 384, 192 - 10, 64, 64 });
+		opening.PushBack({ 448 + 384, 192 - 10, 64, 64 });
 		opening.speed = 10.F;
 		opening.loop = false;
 		break; 
 
 	case ChestType::NORMAL:
+		// Rect.y - 4
 		idle.PushBack({ 574, 380, 64, 64 });
 		opening.PushBack({ 638, 380, 64, 64 });
 		opening.PushBack({ 638, 380, 64, 64 });
@@ -26,8 +28,12 @@ ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, ChestType type) : isOp
 		break;
 
 	case ChestType::SILVER:
-
-
+		idle.PushBack({ 256 + 384, 256 - 10, 64, 64 });
+		opening.PushBack({ 320 + 384, 256 - 10, 64, 64 });
+		opening.PushBack({ 384 + 384, 256 - 10, 64, 64 });
+		opening.PushBack({ 448 + 384, 256 - 10, 64, 64 });
+		opening.speed = 10.F;
+		opening.loop = false;
 		break; 
 
 	default: 
@@ -80,7 +86,7 @@ void ChestAsset::Draw()
 {
 	if (entityTex != nullptr) // if we have any specific linked texture
 	{
-		App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame());
 	}
 	else
 		App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &currentAnimation->GetCurrentFrame());

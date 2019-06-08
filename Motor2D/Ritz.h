@@ -21,17 +21,20 @@ public:
 	//virtual bool CleanUp();
 
 	// functionality ------
+	bool CheckMyLastProjectile();
+
 private:
 	bool SetStopperState();
 	fPoint GetTeleportPos();
-	bool CheckMyLastProjectile();
 	void ControlMyOwnProjectile();
 
-	bool dodgedtest=false;
-public:
+	bool dodgedtest=false; // wtf is this
+
+	// clocks
 	myClocks myUIClocks;
 
 private:
+
 	fPoint dashPivotOffset[(int)facingDirection::MAX][4];
 	fPoint attackPivotOffset[(int)facingDirection::MAX];
 	Animation attack1[(int)facingDirection::MAX];
@@ -39,12 +42,12 @@ private:
 	SDL_Texture* attack1Tex = nullptr;
 	SDL_Texture* teleportTex = nullptr;
 
+	float tpMaxDistance;
+
 	// testing for new possible incoming attack, whispers of ice 
 	// (similar to tornado but controllable last launched attack and freeze all on its own way)
 	// this have a limit of affected enemy units (for evade op), but if it touches a wall its destroy
 	Projectile* lastProjectile = nullptr;
-
-	float tpMaxDistance;
 
 };
 

@@ -39,14 +39,14 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	{
 		equippedLabel = App->gui->AddLabel("PLAYER", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
 		bagLabel = App->gui->AddLabel("VENDOR", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
-		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 280), this);
 		consumablesLabel->hide = true;
 	}
 	else
 	{
-		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
-		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
-		consumablesLabel = App->gui->AddLabel("CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 25, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 10, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("POTIONS", c, App->font->knightsQuest24, iPoint(startingPos.x + 690, startingPos.y + 280), this);
 	}
 
 
@@ -705,7 +705,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						if (!first_label_potion)
 						{
-							potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.potion1, this);
+							potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->knightsQuest24, consumable_positions.potion1, this);
 							first_label_potion = true;
 						}
 						else
@@ -749,7 +749,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 						if (!first_label_fenix)
 						{
-							fenixLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.fenix_tail, this);
+							fenixLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->knightsQuest24, consumable_positions.fenix_tail, this);
 							first_label_fenix = true;
 						}
 						else
@@ -829,7 +829,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 					if (!first_label_potion)
 					{
-						potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->openSansBold18, consumable_positions.potion1, this);
+						potionLabel = App->gui->AddLabel("1", { 255, 255, 255, 255 }, App->font->knightsQuest24, consumable_positions.potion1, this);
 						first_label_potion = true;
 					}
 					else

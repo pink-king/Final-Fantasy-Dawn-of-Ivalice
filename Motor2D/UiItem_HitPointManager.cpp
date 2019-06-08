@@ -207,7 +207,7 @@ UiItem_HitPoint* UiItem_HitPointManager::callSaveLabelSpawn(iPoint pos)
 		"SAVE",
 	};
 
-	App->gui->AddHitPointLabel2("SAVE", { 0, 255, 0, 255 }, App->font->openSansBold18, pos, nullptr, variant::text);
+	App->gui->AddHitPointLabel2("SAVE", { 0, 255, 0, 255 }, App->font->knightsQuest24, pos, nullptr, variant::text);
 
 	return nullptr;
 }

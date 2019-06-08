@@ -61,9 +61,12 @@ Enemy::~Enemy()
 			if (lifeBar != nullptr)
 			{
 				lifeBar->deliever = nullptr;
-				lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
-				lifeBar->to_delete = true;
-				lifeBar->skull->to_delete = true;
+				//lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
+				//lifeBar->to_delete = true;
+				//lifeBar->skull->to_delete = true;
+				App->gui->destroyElement(lifeBar->skull);
+				App->gui->destroyElement(lifeBar->dynamicImage);
+				App->gui->destroyElement(lifeBar);
 			}
 		}
 		LOG("parent enemy bye");

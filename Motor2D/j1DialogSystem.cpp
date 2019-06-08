@@ -451,7 +451,7 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 		{
 			if (dialogTrees[j]->NPCscene == "LOBBY")
 			{
-				//dialogTrees[j]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[j]->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
+				//dialogTrees[j]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[j]->NPCName, { 255, 255, 255, 255 }, App->font->knightsQuest24, { 0,0 }, App->scene->inGamePanel);
 				if (!dialogTrees[j]->firstInteraction) 
 					dialogTrees[j]->myNPCLabels.nameLabel->hide = false;   // show npc name after first interaction
 			
@@ -513,7 +513,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 
 	waitForNPCTalking = true; 
 
-	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {100, 200, 100, 255}, App->font->openSansBold18, iPoint(515, 510), App->scene->inGamePanel, true);
+	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {100, 200, 100, 255}, App->font->knightsQuest24, iPoint(515, 510), App->scene->inGamePanel, true);
 	npcLabel->isDialog = true;
 	npcLabel->tabbable = false;
 	npcLabel->isNPCLabel = true;
@@ -522,7 +522,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 	int space = 513;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
 	{
-		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(515, space += 21), App->scene->inGamePanel);
+		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(515, space += 21), App->scene->inGamePanel);
 		
 		
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)
@@ -536,7 +536,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 	
 	/*if (tr_id != 666)
 	{
-		dialogTrees[tr_id]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[tr_id]->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, { 0,0 }, App->scene->inGamePanel);
+		dialogTrees[tr_id]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[tr_id]->NPCName, { 255, 255, 255, 255 }, App->font->knightsQuest24, { 0,0 }, App->scene->inGamePanel);
 	}*/
 
 
@@ -598,7 +598,7 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	
 		// TODO: tutorial npc, Godo 
 	
-		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
+		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->knightsQuest24, pos, App->scene->inGamePanel);
 		tr->myNPCLabels.nameLabel->hide = true; 
 		tr->myNPCLabels.nameLabel->useCamera = false; 
 		LoadTreeData(t, tr);

@@ -33,13 +33,13 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name";
 	}
 
-	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	name->useCamera = false;
 
 
 	std::string lvlString("LVL ");
 	lvlString.append(std::to_string((int)level));
-	this->level = App->gui->AddLabel(lvlString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->level = App->gui->AddLabel(lvlString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 
 	this->level->useCamera = false;
 
@@ -48,7 +48,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 	std::string resString("DEF: ");
 	resString.append(std::to_string((int)Value));
-	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 
 	resistanceLabel->useCamera = false;
 
@@ -61,14 +61,14 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 	HPString.append(std::to_string((int)variableType.HP));
 
 
-	HPLabel = App->gui->AddLabel(HPString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	HPLabel = App->gui->AddLabel(HPString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	HPLabel->useCamera = false;
 
 
 	std::string VelocityString("VEL: ");
 	VelocityString.append(std::to_string((int)variableType.velocity));
 
-	VelocityLabel = App->gui->AddLabel(VelocityString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	VelocityLabel = App->gui->AddLabel(VelocityString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	VelocityLabel->useCamera = false;
 
 
@@ -120,24 +120,24 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		velocityComparisonLabel.type = "vest";
 	}
 
-	this->attachedCharacter = App->gui->AddLabel(attachedCharacterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->attachedCharacter = App->gui->AddLabel(attachedCharacterString, { 200, 200, 200, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	attachedCharacter->useCamera = false;
 
 
 	// the label with the "+6" etc
 
 	resistanceComparisonLabel.text = " ";
-	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	resistanceComparisonLabel.label->useCamera = false;
 
 
 	HPComparisonLabel.text = " ";
-	HPComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	HPComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	HPComparisonLabel.label->useCamera = false;
 
 
 	velocityComparisonLabel.text = " ";
-	velocityComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	velocityComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	velocityComparisonLabel.label->useCamera = false;
 
 
@@ -151,7 +151,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		std::string PriceString("Price: ");
 		PriceString.append(std::to_string((int)price));
 
-		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 		this->price->hide = true;
 		this->price->useCamera = false; 
 	}
@@ -179,34 +179,34 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name";
 	}
 
-	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	name->useCamera = false;
 
 
 	std::string lvlString("LVL ");
 	lvlString.append(std::to_string((int)level));
-	this->level = App->gui->AddLabel(lvlString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->level = App->gui->AddLabel(lvlString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 
 	this->level->useCamera = false;
 
 	// - - - - - - - - - - - - - - - - - - 
 	std::string dmgString("DMG: ");
 	dmgString.append(std::to_string((int)Attack));
-	damageLabel = App->gui->AddLabel(dmgString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	damageLabel = App->gui->AddLabel(dmgString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 
 	damageLabel->useCamera = false;
 
 
 	std::string resString("RES: ");
 	resString.append(std::to_string((int)resistance));
-	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceLabel = App->gui->AddLabel(resString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 
 	resistanceLabel->useCamera = false;
 
 
 	std::string coolString("COOL: ");
 	coolString.append(std::to_string((int)cooldown));
-	cooldownLabel = App->gui->AddLabel(coolString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	cooldownLabel = App->gui->AddLabel(coolString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 
 	cooldownLabel->useCamera = false;
 
@@ -254,24 +254,24 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		cooldownComparisonLabel.type = "bow";
 	}
 
-	this->attachedCharacter = App->gui->AddLabel(attachedCharacterString, { 200, 200, 200, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	this->attachedCharacter = App->gui->AddLabel(attachedCharacterString, { 200, 200, 200, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	attachedCharacter->useCamera = false;
 
 
 	// the label with the "+6" etc
 
 	damageComparisonLabel.text = " ";
-	damageComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	damageComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	damageComparisonLabel.label->useCamera = false;
 
 
 	resistanceComparisonLabel.text = " ";
-	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	resistanceComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	resistanceComparisonLabel.label->useCamera = false;
 
 
 	cooldownComparisonLabel.text = " ";
-	cooldownComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	cooldownComparisonLabel.label = App->gui->AddLabel(" ", { 0, 0, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	cooldownComparisonLabel.label->useCamera = false;
 
 
@@ -281,7 +281,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		std::string PriceString("Price: ");
 		PriceString.append(std::to_string((int)price));
 
-		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 		this->price->hide = true;
 
 
@@ -322,7 +322,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		itemName = "Item has no name";
 	}
 
-	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+	name = App->gui->AddLabel(itemName, { 255, 69, 0, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 	name->useCamera = false;
 
 	// TODO: effect: 
@@ -336,14 +336,14 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		hpString.append(std::to_string((int)HPandTime.y));
 		hpString.append(" sec");
 
-		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 		effectLabel->useCamera = false;
 
 	}
 	else if (callback->objectType == OBJECT_TYPE::PHOENIX_TAIL)
 	{
 		std::string hpString("Go to hall / level");
-		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		effectLabel = App->gui->AddLabel(hpString, { 255, 255, 255, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 		effectLabel->useCamera = false;
 
 	}
@@ -358,7 +358,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		std::string PriceString("Price: ");
 		PriceString.append(std::to_string((int)price));
 
-		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
+		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->knightsQuest24, iPoint(0, 0), this);
 		this->price->hide = true;
 
 		this->price->useCamera = false; 
@@ -714,7 +714,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							dmgString.append(std::to_string((int)this->damageComparisonLabel.value));
 
-							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->openSansBold18);
+							this->damageComparisonLabel.label->ChangeTextureIdle(dmgString, &destColor, App->font->knightsQuest24);
 
 
 							// - - - - - - - - - - - - - -  COOLDOWN
@@ -740,7 +740,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							coolString.append(std::to_string((int)this->cooldownComparisonLabel.value));
 
-							this->cooldownComparisonLabel.label->ChangeTextureIdle(coolString, &destColor, App->font->openSansBold18);
+							this->cooldownComparisonLabel.label->ChangeTextureIdle(coolString, &destColor, App->font->knightsQuest24);
 
 
 
@@ -803,7 +803,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							hpString.append(std::to_string((int)this->HPComparisonLabel.value));
 
-							this->HPComparisonLabel.label->ChangeTextureIdle(hpString, &destColor, App->font->openSansBold18);
+							this->HPComparisonLabel.label->ChangeTextureIdle(hpString, &destColor, App->font->knightsQuest24);
 
 
 							// - - - - - - - - - - - - - -  VELOCITY
@@ -829,7 +829,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 							velString.append(std::to_string((int)this->velocityComparisonLabel.value));
 
-							this->velocityComparisonLabel.label->ChangeTextureIdle(velString, &destColor, App->font->openSansBold18);
+							this->velocityComparisonLabel.label->ChangeTextureIdle(velString, &destColor, App->font->knightsQuest24);
 
 
 
@@ -859,7 +859,7 @@ bool UiItem_Description::ChangeComparisonLabels()
 
 						resString.append((std::to_string((int)this->resistanceComparisonLabel.value)));
 
-						this->resistanceComparisonLabel.label->ChangeTextureIdle(resString, &destColor, App->font->openSansBold18);
+						this->resistanceComparisonLabel.label->ChangeTextureIdle(resString, &destColor, App->font->knightsQuest24);
 
 
 						ret = true;
@@ -1101,20 +1101,20 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 		if (App->scene->inventory->enable)
 		{
-			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
 			this->cooldownComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 		else
 		{
-			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->cooldownComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 
@@ -1135,21 +1135,21 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 		if (App->scene->inventory->enable)
 		{
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->HPComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->velocityComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 		else
 		{
 
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->HPComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->velocityComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 

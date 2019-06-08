@@ -113,9 +113,20 @@ bool PlayerEntityManager::Update(float dt)
 			UnlockPlayerInput();
 	}
 
+	// ALWAYS check ritz last projectile if ritz its not selected
+	// check if the player is not Ritz and she has a linked projectile protection
+	if (selectedCharacterEntity->character != characterName::RITZ)
+	{
+		ritz->CheckMyLastProjectile();
+	}
+
 	SwapInputChecker(); // checks gamepad "shoulders" triggers input
-	if(playerUpdateReady)
+
+	if (playerUpdateReady)
+	{
+		// update character
 		selectedCharacterEntity->Update(dt);
+	}
 	// update selected character position to its "manager" position
 	position = selectedCharacterEntity->position;
 	lastCharHeadingAngle = selectedCharacterEntity->GetLastHeadingAngle();
@@ -453,6 +464,12 @@ void PlayerEntityManager::LockPlayerInput()
 void PlayerEntityManager::UnlockPlayerInput()
 {
 	playerUpdateReady = true;
+
+	// checks conflict key for back and dash while returns to updates the player on same frame
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	{
+		App->input->SetControllerButtonState(SDL_CONTROLLER_BUTTON_B, KEY_UP); // trick
+	}
 }
 
 bool PlayerEntityManager::Load(pugi::xml_node &node)
