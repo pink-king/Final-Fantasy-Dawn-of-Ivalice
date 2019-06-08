@@ -1176,6 +1176,8 @@ void UiItem_Description::DeleteEverything()
 	
 	if (spawnedInventoryImage)
 	{
+		App->scene->inventoryItem->totalDeSpawnedInventoryIcons++;
+		LOG("_______________________________________________   total despawned icons: %i", App->scene->inventoryItem->totalDeSpawnedInventoryIcons);
 		App->gui->destroyElement(this->iconImageInventory);
 	}
 

@@ -79,6 +79,10 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 		iconImage->parent = block;
 		iconImage->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
+
+		numberOfSpawnedStatItems += 6;
+		LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
+
 	}
 
 	InitializeStats();
@@ -411,30 +415,42 @@ void CharacterStats::deGenerateCharacterStats()  // call it when closing invento
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
 
-	/*for (; iter != App->gui->ListItemUI.end();)
-	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+	/*	for (; iter != App->gui->ListItemUI.end();)
 		{
-			iter = App->gui->ListItemUI.erase(iter);
-			delete (*iter);
-			(*iter) = nullptr;
+			if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK)
+			{
+
+				delete (*iter);
+				(*iter) = nullptr;
+				iter = App->gui->ListItemUI.erase(iter);
+
+			}
+			else if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+			{
+				delete (*iter);
+				(*iter) = nullptr;
+				iter = App->gui->ListItemUI.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+			*/
+	//}Estaba sin comentar y daba error abajo
+
+		for (; iter != App->gui->ListItemUI.end(); ++iter)
+		{
+			if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+			{
+				(*iter)->to_delete = true;
+
+
+
+				numberOfSpawnedStatItems--;
+				LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
+			}
 
 		}
-		else
-		{
-			iter++;
-		}
-	}*/
-
-	for (; iter != App->gui->ListItemUI.end(); ++iter)
-	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
-		{
-			(*iter)->to_delete = true;
-
-		}
-
-	}
 
 }
 

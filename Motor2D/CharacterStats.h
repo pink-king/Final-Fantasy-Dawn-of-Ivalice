@@ -74,6 +74,7 @@ public:
 
 
 	void getItemBuffsAndCallStatComparison(LootEntity* ent);
+	uint numberOfSpawnedStatItems = 0;
 
 };
 
