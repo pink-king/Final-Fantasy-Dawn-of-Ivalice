@@ -594,6 +594,33 @@ void j1Gui::deleteCurrentDialogs()
 	}
 
 }
+/*
+void j1Gui::HideInGameEnemyUI(bool hide)
+{
+	for (auto& item : ListItemUI)
+		if (item->guiType == GUI_TYPES::HITPOINT || item->guiType == GUI_TYPES::HEALTHBAR || item->parent->guiType == GUI_TYPES::HEALTHBAR)
+		{
+			if (item->parent->guiType == GUI_TYPES::HEALTHBAR)
+			{
+				if (dynamic_cast<UiItem_HealthBar*>(item->parent)->variantType == type::enemy)
+					if (dynamic_cast<UiItem_HealthBar*>(item->parent)->skull == item)
+					{
+						item->hide = hide;           // always hide skull
+						int a = 0; 
+					}	
+					else if (dynamic_cast<UiItem_HealthBar*>(item->parent)->startShowing)
+						item->hide = hide;             // hide healthbar section only is started showing			
+				
+			}
+			else
+				item->hide = hide;
+			
+		}
+			
+
+		
+
+}*/
 
 
 UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, bool type_writer)

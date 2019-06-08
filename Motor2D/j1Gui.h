@@ -92,6 +92,8 @@ public:
 	void destroyElement(UiItem*);
 	void deleteCurrentDialogs(); 
 
+//	void HideInGameEnemyUI(bool); 
+
 	// TODO: add destroy element, IMPORTANT!! ---> hitpoint labels are destroyed in hitpoint label manager
 
 	std::list<UiItem*>	ListItemUI;

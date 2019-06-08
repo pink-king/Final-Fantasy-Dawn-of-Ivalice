@@ -70,15 +70,18 @@ private:
 	float conversionFactor = 0.0f;
 
 	bool recuperating = false;
-	type variantType;
+
 	j1PerfTimer damageBarTimer;
 
 
 	iPoint offsetFromEnemy;
 	uint enemyMaxLife;
-	bool startShowing = false;
 
+public: 
+	bool startShowing = false;
 	bool spawnedSkull = false;
+	type variantType;
+private: 
 
 	iPoint playerBarOffset = { 28,11 };
 

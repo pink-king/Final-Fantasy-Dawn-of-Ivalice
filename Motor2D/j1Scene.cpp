@@ -829,6 +829,8 @@ bool j1Scene::Update(float dt)
 					paused = true;
 					App->gui->resetHoverSwapping = false;
 					App->entityFactory->player->LockPlayerInput();
+
+					//App->gui->HideInGameEnemyUI(true);
 				}
 				else
 				{
@@ -838,6 +840,8 @@ bool j1Scene::Update(float dt)
 					App->gui->selected_object = nullptr;
 					
 					App->gui->GoBackToGame();
+
+					//App->gui->HideInGameEnemyUI(false);
 				}
 			}
 		}

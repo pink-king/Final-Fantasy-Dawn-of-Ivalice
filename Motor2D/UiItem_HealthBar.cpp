@@ -8,6 +8,7 @@
 #include "PlayerEntityManager.h"
 #include "j1Fonts.h"
 #include "Brofiler/Brofiler.h"
+#include "j1DialogSystem.h"
 
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent) : UiItem(position, parent)
 {
@@ -211,7 +212,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 			if (startShowing) {
 
-				if (!App->scene->inventory->enable)
+				if (!App->scene->inventory->enable && !App->scene->pausePanel->enable && !App->dialog->isDialogSequenceActive)
 				{
 					dynamicImage->hide = false;             // CAUTION: dummies do not have skull
 					skull->hide = false;
@@ -223,6 +224,18 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 				}
 
+			}
+			else
+			{
+				if (!App->scene->inventory->enable && !App->scene->pausePanel->enable && !App->dialog->isDialogSequenceActive)
+				{
+					skull->hide = false;
+				}
+				else
+				{
+					skull->hide = true;
+
+				}
 			}
 
 
@@ -258,7 +271,8 @@ void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
 	this->nameOnTop->hide = false;
 	// todo: skull
 	if (spawnedSkull)
-	this->skull->hide = false;
+		this->skull->hide = false;
+
 
 
 }
