@@ -7,7 +7,6 @@
 #include <cstdint>
 #include <string.h>
 #include "CharacterStats.h"
-#include "j1Scene.h"
 #include "j1App.h"
 // #include "j1Entity.h"
 
@@ -54,6 +53,8 @@ struct currenEquipped
 
 
 class LootEntity;
+
+
 struct comparisonLabel
 {
 	UiItem_Label* label = nullptr;
@@ -151,10 +152,8 @@ public:
 
 	// flag
 	bool hasToCompare = true;
-	void LastHoveredCharacterStatSwapReset()
-	{
-		App->scene->characterStatsItem->characterFakeSwapDone = false;
-	}
+	void LastHoveredCharacterStatSwapReset(); 
+
 private:
 
 	EquipmentStatType equipmentLootInfo;

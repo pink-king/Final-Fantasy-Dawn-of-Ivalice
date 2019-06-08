@@ -73,6 +73,8 @@ struct myClocks {
 struct theClocks;
 struct clockOwners;
 
+struct EquipmentStatType; 
+
 class j1Gui : public j1Module
 {
 public:

@@ -1231,3 +1231,8 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this);
 
 }
+
+void UiItem_Description::LastHoveredCharacterStatSwapReset()
+{
+	App->scene->characterStatsItem->characterFakeSwapDone = false;
+}
