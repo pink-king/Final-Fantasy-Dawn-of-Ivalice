@@ -319,6 +319,9 @@ bool j1Scene::Start()
 		deathPanel->enable = false;
 
 		open_doorSFX = App->audio->LoadFx("audio/fx/scene/opendoor.wav");
+		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
+
+		App->entityFactory->CreatePlayer({ 115, 240 });
 
 		if (lobbyState == LobbyState::ALLBLOCK)
 		{
@@ -326,11 +329,8 @@ bool j1Scene::Start()
 			firingrange = nullptr;
 			doorlvl2 = nullptr;
 		}
-		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
-
-		App->entityFactory->CreatePlayer({ 115, 240 });
 		
-		if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
+		else if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
 		{
 	
 			doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
@@ -881,6 +881,7 @@ bool j1Scene::Update(float dt)
 				}
 			}
 		}
+		
 		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			App->pause = false;
@@ -893,7 +894,10 @@ bool j1Scene::Update(float dt)
 
 		}
 
-		
+		if (settingPanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			App->gui->GoBackToMenu();
+		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) //|| App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
