@@ -583,6 +583,7 @@ void j1Gui::deleteCurrentDialogs()
 		{
 			if ((*item)->isDialog)
 			{
+				(*item)->CleanUp(); 
 				delete (*item);
 				item = ListItemUI.erase(item);
 			}
