@@ -97,7 +97,7 @@ bool EnemyTest::Update(float dt)
 		}*/
 	}
 
-	if (stat.size() != 0)
+	if (stat.size() != 0 && !App->pause)
 	{
 		if (App->buff->DamageInTime(this))
 		{

@@ -13,7 +13,7 @@ protected:
 	std::string name_button;
 
 public:
-	UiItem_Button(iPoint position, std::string &function, std::string &name, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click = nullptr, const SDL_Rect * hover = nullptr);
+	UiItem_Button(iPoint position, std::string& function, std::string& name, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr);
 	void AddFuntion(std::string & string);
 	void DoLogicClicked(std::string &functionName);
 	void Draw(const float&);

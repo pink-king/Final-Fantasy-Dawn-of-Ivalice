@@ -29,8 +29,10 @@ WaveManager::~WaveManager()
 		dynamic_cast<j1Entity*>(*iter)->to_delete = true;
 	}
 
+
 	alive.clear();
 
+	App->entityFactory->waveManager = nullptr;
 }
 
 bool WaveManager::Start()

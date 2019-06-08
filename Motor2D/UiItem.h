@@ -39,6 +39,7 @@ protected:
 public:
 	UiItem* parent = nullptr;
 	std::string name;
+
 	UI_STATES state = IDLE;
 	GUI_TYPES guiType = UNKNOWN;
 	std::string name_object;
@@ -75,10 +76,10 @@ public:
 	iPoint prevTextDimension;
 	bool first_hitbox = false;
 	bool isDialog = false; 
-	bool swapPosition = false;
 	bool changeTexture = false; 
-	bool hasBeenSpawned = false; 
-	bool isCharacterStat = false; 
+	bool swapPosition = false;
+	bool hasBeenSpawned = false;
+	bool isCharacterStat = false;
 
 	uint dialogPos = 666; 
 

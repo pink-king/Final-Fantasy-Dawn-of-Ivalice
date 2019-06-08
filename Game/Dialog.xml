@@ -107,7 +107,7 @@
   </dialogtree>
 
 
-  <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godo"  NPCposX = "0" NPCposY = "0" NPCscene="FIRINGRANGE">
+  <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godot"  NPCposX = "-96" NPCposY = "480" NPCscene="FIRINGRANGE">
     <node line="Hello there, wanderer!" id="0">
       <option line="Your friend sent me here" nextnode="1"/>
       <option line="Woah, what is going on with that scarecrow" nextnode="2"/>
@@ -135,23 +135,23 @@
 
     <node line="LT and move the scope with the left joystick" id="5">
       <option line="Good, I want to know about other capabilities" nextnode="4"/>
-	  <option line="I want to know about you" nextnode="12"/>
+      <option line="I want to know about you" nextnode="12"/>
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
     <node line="Monsters drop them. Pick them with the scope" id="6">
-	  <option line="How can I do that?" nextnode="15"/>
+      <option line="How can I do that?" nextnode="15"/>
       <option line="So... the scope is attracted to them?" nextnode="7"/>
     </node>
 
     <node line="Yes, and you can also pick them staying on top" id="7">
-	  <option line="So, if I use the scope, how does it work?" nextnode="15"/>
+      <option line="So, if I use the scope, how does it work?" nextnode="15"/>
       <option line="Where are they stored?" nextnode="8"/>
     </node>
 
     <node line="Press BACK to see them, or go to the shop!!" id="8">
       <option line="Good, I want to know about other capabilities" nextnode="4"/>
-	  <option line="I want to know about you" nextnode="12"/>
+      <option line="I want to know about you" nextnode="12"/>
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
@@ -170,7 +170,7 @@
       <option line="I will test the knowledge now" nextnode="666"/>
     </node>
 
-    <node line="I, Godo, give life to inanimate objects!" id="12">
+    <node line="I, Godot, give life to inanimate objects!" id="12">
       <option line="Will you give anything for my journey?" nextnode="13"/>
       <option line="You and the scarecrow make a good couple, yes" nextnode="14"/>
     </node>
@@ -183,8 +183,8 @@
       <option line="Farewell" nextnode="666"/>
       <option line="So long" nextnode="666"/>
     </node>
-	
-   <node line="LT and move the scope with the left joystick" id="15">
+
+    <node line="LT and move the scope with the left joystick" id="15">
       <option line="Right, and where are items stored?" nextnode="8"/>
     </node>
 
@@ -225,7 +225,6 @@
       <option line="Let us fall together, then" nextnode="666"/>
    </node>
    
-
 
   </dialogtree>
 

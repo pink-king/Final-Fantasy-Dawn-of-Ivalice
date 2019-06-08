@@ -21,7 +21,7 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 	this->attackPerS = 1.F / attackSpeed;
 
 
-	if(this->type != ENTITY_TYPE::ENEMY_DUMMY)
+	if (this->type != ENTITY_TYPE::ENEMY_DUMMY)
 	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
 
 
@@ -56,7 +56,6 @@ Enemy::~Enemy()
 
 	if (!App->cleaningUp)    // When closing the App, Gui cpp already deletes the healthbar before this. Prevent invalid accesses
 	{
-
 		if (this->type != ENTITY_TYPE::ENEMY_DUMMY)
 		{
 			if (lifeBar != nullptr)
@@ -64,12 +63,10 @@ Enemy::~Enemy()
 				lifeBar->deliever = nullptr;
 				lifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 				lifeBar->to_delete = true;
-
 				lifeBar->skull->to_delete = true;
 			}
-			LOG("parent enemy bye");
 		}
-	
+		LOG("parent enemy bye");
 	}
 }
 
