@@ -31,7 +31,7 @@ WhisperOfIce::~WhisperOfIce()
 
 bool WhisperOfIce::PreUpdate()
 {
-	if (timer.Read() > lifeTime && OnCollisionWithWall())
+	if (timer.Read() > lifeTime || OnCollisionWithWall())
 		to_explode = true; 
 
 	return false;
@@ -53,7 +53,10 @@ bool WhisperOfIce::Update(float dt)
 		currentAnimation = &loopingAnim; 
 
 	if (to_explode)
-		currentAnimation = &endingAnim; 
+	{
+		//currentAnimation = &endingAnim;  // 
+		to_delete = true; 
+	}
 
 
 	return true;
@@ -78,7 +81,7 @@ void WhisperOfIce::Propagate()
 	// TODO: Add SFX
 
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::ICE_ELEMENT, 10, 4, 120, true, true);
+		damageType::INTIME, ELEMENTAL_TYPE::ICE_ELEMENT, 1, 4, 160, true, true);
 	App->camera2D->AddTrauma(0.08F);
 	App->input->DoGamePadRumble(0.1F, 200);
 }
