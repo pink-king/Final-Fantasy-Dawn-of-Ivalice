@@ -148,6 +148,7 @@ bool j1Scene::Start()
 	jar_breakSFX = App->audio->LoadFx("audio/fx/loot/jarbroken.wav");
 	OpenChestSFX = App->audio->LoadFx("audio/fx/loot/chestOpen.wav");
 
+	
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
@@ -1117,7 +1118,7 @@ bool j1Scene::Update(float dt)
 	iPoint map_coordinates = App->map->WorldToMap(x - App->camera2D->camera.x, y - App->camera2D->camera.y);
 	iPoint coords = App->render->ScreenToWorld(x, y);
 
-
+	
 	// -------------- Enemies -----------------
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
@@ -1220,7 +1221,7 @@ bool j1Scene::Update(float dt)
 	}
 
 
-
+	UpdateConsumable();
 	return true;
 }
 
@@ -1243,6 +1244,11 @@ bool j1Scene::CleanUp()
 {
 	App->tex->UnLoad(debug_tex);
 	debug_tex = nullptr;
+
+
+
+	LOG("consumableInfo Size %i", consumableinfo.size());
+	consumableinfo.clear();
 
 	LOG("Freeing scene");
 	return true;
@@ -2028,4 +2034,49 @@ bool j1Scene::DecideTexToPulse()
 		break;
 	}
 	return true;
+}
+
+ConsumableStats j1Scene::GetConsumableInfo(LootEntity* consumable)
+{
+	ConsumableStats consumStats;
+	consumStats.position = consumable->position;
+	consumStats.initialPos = consumStats.position;
+	consumStats.rect = consumable->loot_rect;
+	consumStats.actualTime.Start();
+	
+	LOG("OriginPos X %f", consumStats.position.x);
+	LOG("OriginPos X %f", consumStats.position.y);
+
+	return consumStats;
+}
+
+
+
+void j1Scene::UpdateConsumable()
+{
+	iPoint mPos = App->render->ScreenToWorld(448, 106);
+//	LOG("mPOS %i %i", App->render->ScreenToWorld(448, 106));
+	for (std::list<ConsumableStats>::iterator iter = consumableinfo.begin(); iter != consumableinfo.end(); ++iter)
+	{
+		
+		if ((*iter).actualTime.Read() < 2000)
+		{
+			
+			(*iter).distance_to_travel.x = mPos.x - (*iter).position.x;//bag screen pos
+			(*iter).distance_to_travel.y = mPos.y - (*iter).position.y;
+			(*iter).position.x += (*iter).distance_to_travel.x * ((*iter).actualTime.Read()/2000) + (*iter).initialPos.x*0.2; //distance_to_travel * (time_passed / time_to_travel) + initial_position;
+			(*iter).position.y -= (*iter).distance_to_travel.y * ((*iter).actualTime.Read() / 2000) + (*iter).initialPos.y*0.07;
+			LOG("valoresX %f", (*iter).position.x);
+			LOG("valoresY %f", (*iter).position.y);
+			
+
+			App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).rect);
+			LOG("");
+		}
+
+		else
+		{
+			consumableinfo.pop_front();
+		}
+	}
 }
