@@ -1304,8 +1304,7 @@ bool j1Scene::PostUpdate()
 	if (exitGame)
 		return false;
 
-	if (canExecuteChainAnim)
-		executeAnimChain();
+	
 
 	return ret;
 }
@@ -1697,7 +1696,7 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	chain1.PushBack({ 571,192, 54,54 });
 	chain1.PushBack({ 672,194, 54,54 });
 	chain1.PushBack({ 773,194, 54,54 });
-
+	chain1.speed = 10.0f;
 	return true;
 }
 
@@ -2228,7 +2227,7 @@ void j1Scene::UpdateConsumable()
 bool j1Scene::executeAnimChain()
 {
 	
-		App->render->BlitGui(App->gui->GetAtlas(), 226, 635, &chain1.GetCurrentFrame());
+		App->render->BlitGui(App->gui->GetAtlas(), 226, 635, &chain1.GetCurrentFrame(), 0.0F);
 		if (chain1.Finished())
 			canExecuteChainAnim = false;
 	

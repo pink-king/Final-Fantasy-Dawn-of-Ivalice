@@ -503,6 +503,10 @@ bool j1Gui::PostUpdate()
 	}
 
 	canvas->DrawUi(dt);
+
+	if (App->scene->canExecuteChainAnim)
+		App->scene->executeAnimChain();
+
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
