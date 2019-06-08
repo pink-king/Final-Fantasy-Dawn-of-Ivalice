@@ -243,8 +243,8 @@ bool PlayerEntity::InputCombat()
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
 	}
-	else if(App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
-		combat_state = combatState::SPECIAL2;
+	/*else if(App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
+		combat_state = combatState::SPECIAL2;*/
 		
 
 	// check dodge

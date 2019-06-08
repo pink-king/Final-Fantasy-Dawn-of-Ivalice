@@ -152,17 +152,21 @@ bool j1Scene::Start()
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
-		SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
-		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1);
-		waveTrigg->CreateEntryWall(iPoint(16, 22));
-		waveTrigg->CreateEntryWall(iPoint(17, 22));
-		waveTrigg->CreateExitWall({ 13,3 });
-		waveTrigg->CreateExitWall({ 14,3 });
 
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, App->map->MapToWorld(15, 2).x, App->map->MapToWorld(15, 2).y, SceneState::LOBBY, White,3);
 
 		App->entityFactory->CreatePlayer({ -1575, 2150 });
 			
+		if (!ComeToPortal)
+		{
+			SDL_Rect waveZone = { 11 * tileSize.x, 5 * tileSize.y, 10 * tileSize.x, 15 * tileSize.y };
+			WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(-14, 511), waveZone, 1);
+			waveTrigg->CreateEntryWall(iPoint(16, 22));
+			waveTrigg->CreateEntryWall(iPoint(17, 22));
+			waveTrigg->CreateExitWall({ 13,3 });
+			waveTrigg->CreateExitWall({ 14,3 });
+		}
+
 		App->entityFactory->LoadSpawnGroups();
 
 		//App->entityFactory->CreatePlayer({ -209, 650 });
@@ -189,6 +193,17 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
+
+			App->pathfinding->ActivateTile({ 16,22 });
+			iPoint wallPoint = App->map->MapToWorld(16, 22);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+
+			App->pathfinding->ActivateTile({ 17,22 });
+			wallPoint = App->map->MapToWorld(17, 22);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,384,64,64 });
+
 			ComeToPortal = false;
 		}
 
@@ -220,15 +235,23 @@ bool j1Scene::Start()
 		App->camera2D->SetCameraPos(1800, -5000);
 
 		iPoint tileSize = { 32,32 };
-		SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
-		WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25, 26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
-		waveTrigg->CreateEntryWall(iPoint(33, 22));
-		waveTrigg->CreateEntryWall(iPoint(33, 21));
-		waveTrigg->CreateEntryWall(iPoint(33, 20));
-		waveTrigg->CreateExitWall({ 19, 46 });
-		waveTrigg->CreateExitWall({ 20, 46 });
-		waveTrigg->CreateExitWall({ 21, 46 });
-		waveTrigg->CreateExitWall({ 22, 46 });
+		
+		if (!ComeToPortal)
+		{
+			SDL_Rect waveZone = { 17 * tileSize.x, 25 * tileSize.y, 8 * tileSize.x, 14 * tileSize.y };
+			WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(App->map->MapToWorld(25, 26).x, App->map->MapToWorld(25, 26).y), waveZone, 2);
+			waveTrigg->CreateEntryWall(iPoint(33, 22));
+			waveTrigg->CreateEntryWall(iPoint(33, 21));
+			waveTrigg->CreateEntryWall(iPoint(33, 20));
+			waveTrigg->CreateExitWall({ 19, 46 });
+			waveTrigg->CreateExitWall({ 20, 46 });
+			waveTrigg->CreateExitWall({ 21, 46 });
+			waveTrigg->CreateExitWall({ 22, 46 });
+
+			DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+			App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
+
+		}
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
 		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
@@ -237,10 +260,7 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
-
-		DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
-		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
-		
+	
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -263,6 +283,22 @@ bool j1Scene::Start()
 			App->entityFactory->player->GetShara()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->player->GetRitz()->position = { portalPos.x,portalPos.y - 32 };
 			App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, portalPos.x, portalPos.y);
+
+			App->pathfinding->ActivateTile({ 33,22 });
+			iPoint wallPoint = App->map->MapToWorld(33, 22);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
+
+			App->pathfinding->ActivateTile({ 33,21 });
+			wallPoint = App->map->MapToWorld(33, 21);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
+
+			App->pathfinding->ActivateTile({ 33,20 });
+			wallPoint = App->map->MapToWorld(33, 20);
+			wallPoint.y -= 16; // sprite offset
+			App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, { wallPoint.x, wallPoint.y }, { 0,873,64,64 });
+
 			ComeToPortal = false;
 		}
 		if (ComeToDeath || ComeToWin)
@@ -280,9 +316,11 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-		deathPanel->enable = false;
 
 		open_doorSFX = App->audio->LoadFx("audio/fx/scene/opendoor.wav");
+		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
+
+		App->entityFactory->CreatePlayer({ 115, 240 });
 
 		if (lobbyState == LobbyState::ALLBLOCK)
 		{
@@ -290,11 +328,8 @@ bool j1Scene::Start()
 			firingrange = nullptr;
 			doorlvl2 = nullptr;
 		}
-		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
-
-		App->entityFactory->CreatePlayer({ 115, 240 });
 		
-		if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
+		else if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
 		{
 	
 			doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
@@ -318,6 +353,17 @@ bool j1Scene::Start()
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
 			}
 
+			if (ComeToDeath || ComeToWin)
+			{
+				App->LoadGame("save_game.xml");
+			}
+
+			if (ComeToWin)
+			{
+				ComeToDeath = false;
+				ComeToWin = false;
+			}
+
 		}
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
@@ -327,8 +373,6 @@ bool j1Scene::Start()
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
-
-		
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
@@ -337,17 +381,6 @@ bool j1Scene::Start()
 
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
-
-		if (ComeToDeath || ComeToWin)
-		{
-			App->LoadGame("save_game.xml");
-		}
-
-		if (ComeToWin)
-		{
-			ComeToDeath = false;
-			ComeToWin = false;
-		}
 		App->camera2D->SetCameraPos({ 115, 240 });
 
 
@@ -469,6 +502,12 @@ bool j1Scene::Start()
 			inGamePanel->enable = false;
 		if (!deathPanel->enable)
 			deathPanel->enable = true;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
 
 		ComeToDeath = true;
 		isDeath = false;
@@ -485,8 +524,9 @@ bool j1Scene::Start()
 		}
 
 		App->gui->resetHoverSwapping = false;
-		if (inGamePanel->enable)
-			inGamePanel->enable = false;
+	
+
+		inGamePanel->enable = false;
 
 		uiMarche->enable = false;
 		uiShara->enable = false;
@@ -661,7 +701,6 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 	{
-		lobbyState = LobbyState::PASSLVL2;
 		Trigger* trigger = App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->entityFactory->player->position.x, App->entityFactory->player->position.y, SceneState::LOBBY, White);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_REPEAT)
@@ -708,11 +747,11 @@ bool j1Scene::Update(float dt)
 	{
 		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
-		volume_bar_ig->thumb->hitBox.x = volume_bar->thumb->hitBox.x + 263;
+		
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
 		//settingPanel->enable = false;
-		fx_bar_ig->thumb->hitBox.x = fx_bar->thumb->hitBox.x + 263;
+	
 		if (settingPanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			App->gui->GoBackToMenu();
@@ -727,6 +766,7 @@ bool j1Scene::Update(float dt)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
+			lobbyState = LobbyState::PASSLVL1;
 			if (doorlvl1 == nullptr)
 				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
 			if (doorlvl2 == nullptr)
@@ -745,14 +785,35 @@ bool j1Scene::Update(float dt)
 
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
+		//debug tp
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+			DebugTP(SceneState::LOBBY, LvlPart::NO_PART);
+
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+			DebugTP(SceneState::FIRINGRANGE, LvlPart::NO_PART);
+
+		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL1, LvlPart::START);
+
+		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL1, LvlPart::WAVES);
+
+		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL2, LvlPart::START);
+
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL2, LvlPart::WAVES);
+
+		if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL2, LvlPart::BOSS);
+
 		//Mix_CloseAudio();
 		//if()
-		result_volume = volume_bar_ig->GetBarValue();
+		result_volume = volume_bar->GetBarValue();
 		App->audio->SetVolume(result_volume);
-		volume_bar->thumb->hitBox.x = volume_bar_ig->thumb->hitBox.x - 263;
-		result_fx = fx_bar_ig->GetBarValue();
+		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
-		fx_bar->thumb->hitBox.x = fx_bar_ig->thumb->hitBox.x - 263;
+	
 
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
@@ -846,6 +907,7 @@ bool j1Scene::Update(float dt)
 				}
 			}
 		}
+		
 		if (pausePanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			App->pause = false;
@@ -858,7 +920,10 @@ bool j1Scene::Update(float dt)
 
 		}
 
-		
+		if (settingPanel->enable &&  App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		{
+			App->gui->GoBackToMenu();
+		}
 
 		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) //|| App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		{
@@ -1444,14 +1509,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		{
 			fx_bar = slider_volume;
 		}
-		if (name == "volumeSliderInGame")
-		{
-			volume_bar_ig = slider_volume;
-		}
-		if (name == "fxSliderInGame")
-		{
-			fx_bar_ig = slider_volume;
-		}
+		
 	}
 
 
@@ -1862,6 +1920,66 @@ void j1Scene::LoadScene(SceneState sceneState)
 }
 
 
+
+void j1Scene::DebugTP(SceneState const &futureScene, LvlPart const &lvlPart)
+{
+	if (futureScene != state)
+	{
+		LoadScene(futureScene);
+	}
+	switch (futureScene)
+	{
+	case SceneState::STARTMENU:
+		break;
+	case SceneState::LEVEL1:
+		if (lvlPart == LvlPart::START)
+		{
+			App->entityFactory->player->GetMarche()->position = { -1575.F, 2150.F };
+			App->entityFactory->player->GetShara()->position = { -1575.F, 2150.F };
+			App->entityFactory->player->GetRitz()->position = { -1575.F, 2150.F };
+		}
+		else if (lvlPart == LvlPart::WAVES)
+		{
+			App->entityFactory->player->GetMarche()->position = (fPoint)App->map->SubTileMapToWorld(30, 44);
+			App->entityFactory->player->GetShara()->position = (fPoint)App->map->SubTileMapToWorld(30, 44);
+			App->entityFactory->player->GetRitz()->position = (fPoint)App->map->SubTileMapToWorld(30, 44);
+		}
+		break;
+	case SceneState::LEVEL2:
+		if (lvlPart == LvlPart::START)
+		{
+			App->entityFactory->player->GetMarche()->position = { -820, 3300 };
+			App->entityFactory->player->GetShara()->position = { -820, 3300 };
+			App->entityFactory->player->GetRitz()->position = { -820, 3300 };
+		}
+		else if (lvlPart == LvlPart::WAVES)
+		{
+			App->entityFactory->player->GetMarche()->position = (fPoint)App->map->SubTileMapToWorld(70, 42);
+			App->entityFactory->player->GetShara()->position = (fPoint)App->map->SubTileMapToWorld(70, 42);
+			App->entityFactory->player->GetRitz()->position = (fPoint)App->map->SubTileMapToWorld(70, 42);
+		}
+		else if (lvlPart == LvlPart::BOSS)
+		{
+			App->entityFactory->player->GetMarche()->position = (fPoint)App->map->SubTileMapToWorld(70, 182);
+			App->entityFactory->player->GetShara()->position = (fPoint)App->map->SubTileMapToWorld(70, 182);
+			App->entityFactory->player->GetRitz()->position = (fPoint)App->map->SubTileMapToWorld(70, 182);
+		}
+		break;
+	case SceneState::LOBBY:
+		App->entityFactory->player->GetMarche()->position = { 115, 240 };
+		App->entityFactory->player->GetShara()->position = { 115, 240 };
+		App->entityFactory->player->GetRitz()->position = { 115, 240 };
+		break;
+	case SceneState::FIRINGRANGE:
+		App->entityFactory->player->GetMarche()->position = { 165, 580 };
+		App->entityFactory->player->GetShara()->position = { 165, 580 };
+		App->entityFactory->player->GetRitz()->position = { 165, 580 };
+		break;
+	default:
+		break;
+	}
+	App->camera2D->SetCameraPos(App->entityFactory->player->GetMarche()->position.x, App->entityFactory->player->GetMarche()->position.y);
+}
 
 void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 {

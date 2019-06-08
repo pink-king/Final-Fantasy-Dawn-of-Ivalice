@@ -14,7 +14,7 @@ WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1
 
 WaveManager::~WaveManager()
 {
-	App->scene->wave_label->hide = true;
+	
 	App->audio->PlayFx(App->scene->wave_end, 0);
 
 	// associate trigger delete
@@ -71,7 +71,7 @@ bool WaveManager::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
 	{
-		to_delete = true;
+		to_finish = true;
 	}
 
 	if (toCreateNextWave)
@@ -224,7 +224,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 			data.zombieChances = 0;
 		}
 		break;
-
+		
 	case 6:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
@@ -377,14 +377,16 @@ void WaveManager::Finish()
 {
 	// What happens when the waves are completed - i. e. open doors, spawn legendary loot etc...
 	iPoint targetChestPos = iPoint(0, 0); 
+
 	if (App->scene->state == SceneState::LEVEL1)
 		targetChestPos = App->map->MapToWorld(14, 7); 
-	else
+
+	else if(App->scene->state == SceneState::LEVEL2)
 		targetChestPos = App->map->MapToWorld(14, 34);
 
-	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE);
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, false, ChestType::SILVER);
 
-
+	App->scene->wave_label->hide = true;
 }
 
 bool WaveManager::Load(pugi::xml_node&)

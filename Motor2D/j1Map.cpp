@@ -490,7 +490,7 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						
 						SDL_Rect destRect = { 0 }; 
 						EnvironmentAssetsTypes type = EnvironmentAssetsTypes::WALL; // by default WALL
-						BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE; 
+						BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE;
 						// check different types of walls
 					/*	if (wallTypeName == "wall1")
 						{
@@ -591,7 +591,7 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						if (wallTypeName != "superChest")
 							App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType);
 						else
-							App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType, false, true);
+							App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType, false, ChestType::SILVER);
 					
 
 					}

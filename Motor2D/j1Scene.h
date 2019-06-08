@@ -52,6 +52,15 @@ enum class LobbyState
 	OUTGAME
 };
 
+enum class LvlPart
+{
+	START,
+	WAVES,
+	BOSS,
+	NO_PART
+};
+
+
 class j1Scene : public j1Module
 {
 public:
@@ -78,6 +87,8 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+	void DebugTP(SceneState const &futureScene, LvlPart const &lvlPart = LvlPart::NO_PART);
 
 public:
 	UiItem* inGamePanel = nullptr;
@@ -216,8 +227,6 @@ private:
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
-	UiItem_Bar* volume_bar_ig = nullptr;
-	UiItem_Bar* fx_bar_ig = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
 	SDL_Rect inventory_transparency = { 0,0,1280,720 };
@@ -242,7 +251,6 @@ private:
 
 	PlayerEntityManager* player_selected = nullptr;
 
-	
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
