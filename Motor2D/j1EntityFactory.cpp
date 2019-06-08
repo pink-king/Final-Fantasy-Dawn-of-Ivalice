@@ -2370,9 +2370,6 @@ void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 
 }
 
-
-
-
 int j1EntityFactory::GetRandomValue(int min, int max)
 {
 	static std::default_random_engine generator;
