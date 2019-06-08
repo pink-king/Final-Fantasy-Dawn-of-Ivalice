@@ -6,14 +6,27 @@
 
 ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, bool isBossChest) : isOpened(isOpened), isBossChest(isBossChest), j1Entity(ENTITY_TYPE::CHEST, pos.x,pos.y,"chest")
 {
-	// Rect Pos.y -10 to align to center of the tile 
-	idle.PushBack({ 382, -10, 64, 64 });
-	opening.PushBack({ 446, -10, 64, 64 });
-	opening.PushBack({ 510, -10, 64, 64 });
-	opening.PushBack({ 574, -10, 64, 64 });
-	opening.speed = 10.F;
-	opening.loop = false;
-
+	
+	if (isBossChest)
+	{
+		// Rect Pos.y -10 to align to center of the tile 
+		idle.PushBack({ 382, -10, 64, 64 });
+		opening.PushBack({ 446, -10, 64, 64 });
+		opening.PushBack({ 510, -10, 64, 64 });
+		opening.PushBack({ 574, -10, 64, 64 });
+		opening.speed = 10.F;
+		opening.loop = false;
+	}
+	else
+	{
+		// Rect Pos.y -4 to align to center of the tile 
+		idle.PushBack({ 574, 380, 64, 64 });
+		opening.PushBack({ 638, 380, 64, 64 });
+		opening.PushBack({ 638, 380, 64, 64 });
+		opening.speed = 10.F;
+		opening.loop = false;
+	}
+	
 	// Ready to add a "Boss Chest" animation 
 
 	if (isOpened)
@@ -50,7 +63,6 @@ bool ChestAsset::PreUpdate()
 	if (toSpawnLoot && currentAnimation->Finished())
 	{
 		SpawnLoot();
-		App->audio->PlayFx(App->scene->OpenChestSFX, 0);
 		toSpawnLoot = false;
 	}
 
@@ -85,6 +97,7 @@ void ChestAsset::OpenChest()
 {
 	toSpawnLoot = true;
 	currentAnimation = &opening;
+	App->audio->PlayFx(App->scene->OpenChestSFX, 0);
 	//SpawnLoot();
 	// TODO: Add SFX
 }

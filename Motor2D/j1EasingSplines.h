@@ -74,6 +74,7 @@ public:
 	// Destructor
 	virtual ~j1EasingSplines();
 
+	
 	// Called each loop iteration
 	bool Update(float dt);
 
@@ -81,7 +82,7 @@ public:
 	bool CleanUp();
 
 	EaseSplineInfo* CreateSpline(float* position, int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn = nullptr);
-
+	
 private:
 
 	std::list<EaseSplineInfo*> easing_splines;

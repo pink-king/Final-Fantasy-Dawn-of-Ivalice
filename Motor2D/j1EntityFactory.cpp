@@ -44,6 +44,9 @@
 #include "j1EasingSplines.h"
 #include "j1Gui.h"
 #include <assert.h>
+#include "DialogTriggerVolatile.h"
+#include "WhisperOfIce.h"
+
 
 
 j1EntityFactory::j1EntityFactory()
@@ -65,7 +68,7 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 
 bool j1EntityFactory::Start()
 {
-	std::list<j1Entity*>::iterator item = entities.begin();
+ 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if((*item) != nullptr)
@@ -91,6 +94,7 @@ bool j1EntityFactory::Start()
 	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
 	hallTex = App->tex->Load("maps/Tilesets/Main Hall/tileset_main_hall.png");
 	ButtonAtex = App->tex->Load("textures/interactable_states/button_a.png");
+	iceTornadoTex = App->tex->Load("textures/spells/Ritz_attacks/ritz_tornado_whispersOfIce_wip.png");
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -276,7 +280,9 @@ bool j1EntityFactory::CleanUp()
 	interactiveStatesTex = nullptr;
 	App->tex->UnLoad(hallTex);
 	hallTex = nullptr;
-
+	App->tex->UnLoad(iceTornadoTex);
+	iceTornadoTex = nullptr;
+	
 	player = nullptr;
 
 	return ret;
@@ -692,18 +698,27 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
+
 	case PROJECTILE_TYPE::GOLEM_ARROW:
 		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
+
 	case PROJECTILE_TYPE::BOSS_EMMITER:
 		/*ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
 		entities.push_back(ret);*/
 		break;
+
 	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
 		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::WHISPER_OF_ICE: 
+		ret = DBG_NEW WhisperOfIce(pos, destination, speed, lifeTime, owner);
+		entities.push_back(ret);
+		break; 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -822,6 +837,15 @@ Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::strin
 {
 	Trigger* ret = nullptr;
 	ret = new DialogTrigger(posX, posY, Dtrigger, posState, nSubtiles,pressA);
+	entities.push_back(ret);
+
+	return ret;
+}
+
+Trigger * j1EntityFactory::CreateDialogTriggerVolatile(float posX, float posY, std::string Dtrigger, uint nSubtiles, DialogTriggerVolatile * parent)
+{
+	Trigger* ret = nullptr;
+	ret = new DialogTriggerVolatile(posX, posY, Dtrigger, nSubtiles, parent);
 	entities.push_back(ret);
 
 	return ret;

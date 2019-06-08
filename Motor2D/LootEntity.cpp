@@ -371,17 +371,17 @@ int LootEntity::GetRandomValue(int min, int max)
 void LootEntity::CreateBuff(BUFF_TYPE type, j1Entity* character, std::string stat, ELEMENTAL_TYPE elementType, ROL rol, float value, LootEntity* item)
 {
 	stats.push_back(DBG_NEW Buff(type, character, stat, elementType, rol, value, item));
-
 }
 
 void LootEntity::Draw()
 {
-	if (objShadow != nullptr && equipableType != EQUIPABLE_TYPE::SWORD)
+	if (objShadow != nullptr && equipableType != EQUIPABLE_TYPE::SWORD&& shadowcastdelay.Read() > 50)
 		App->render->Blit(objShadow, position.x, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y * .5f, &shadow_rect, 1.0f);
-	else if (objShadow != nullptr)
+	else if (objShadow != nullptr && shadowcastdelay.Read() >50)
 	{
 		App->render->Blit(objShadow, position.x+5, App->map->SubTileMapToWorld(groundSubtileDestination.x + 1, groundSubtileDestination.y).y - pivot.y * .5f, &shadow_rect, 1.0f);
 	}
+	
 	if (entityTex != nullptr)
 		App->render->Blit(entityTex, position.x, position.y, &loot_rect,1.0f);
 

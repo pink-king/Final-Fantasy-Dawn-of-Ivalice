@@ -236,6 +236,10 @@ bool j1Scene::Start()
 		bossTrigger->CreateEntryWall(iPoint(35, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
 
+
+		DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+		App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
+		
 		//AcceptUISFX_logic = false;
 		inGamePanel->enable = true;
 		uiMarche->enable = true;
@@ -1465,16 +1469,20 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			sectionClick = &click;
 		}
 
-		SDL_Rect* sectionTick = nullptr;
+		SDL_Rect tick;
+		iPoint tick_pos;
+		std::string name_tick;
 		if (pugi::xml_node tickSecNode = uiNode.child("tickSec"))
 		{
-			SDL_Rect tick = { tickSecNode.attribute("x").as_int(), tickSecNode.attribute("y").as_int(), tickSecNode.attribute("w").as_int(), tickSecNode.attribute("h").as_int() };
-			sectionTick = &tick;
+			tick = { tickSecNode.attribute("x").as_int(), tickSecNode.attribute("y").as_int(), tickSecNode.attribute("w").as_int(), tickSecNode.attribute("h").as_int() };
+			name_tick = "tick";
+			tick_pos = { position.x + 14, position.y + 11 };
 		}
 
 
-
-		App->gui->AddCheckbox(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove, sectionTick);
+		
+		App->gui->AddCheckbox(position, functionPath, name, &sectionIdle, parent, sectionClick, sectionHove, &tick);
+		tick_image = App->gui->AddImage(tick_pos, &tick, name_tick, parent);
 	}
 
 
@@ -1718,6 +1726,8 @@ void j1Scene::UnLoadScene()
 		App->buff->Disable();
 	if (App->camera2D->IsEnabled())
 		App->camera2D->Disable();
+	if (App->easing->IsEnabled());
+		App->easing->Disable();
 
 	App->audio->UnLoadAudio();
 }
@@ -1738,6 +1748,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 	case SceneState::LOBBY:
 		state = SceneState::LOBBY;
 
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->attackManager->IsEnabled())
 			App->attackManager->Enable();
 		if (!App->pathfinding->IsEnabled())
@@ -1771,6 +1783,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 			App->map->active = true;
 			LoadNewMap("maps/FiringRange.tmx");
 		}
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		break;
@@ -1787,6 +1801,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		LoadNewMap("maps/Level1_Final_Borders_Faked.tmx");
 		//LoadNewMap("maps/Level2.tmx");
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		// create player for testing purposes here
@@ -1804,6 +1820,8 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->map->active = true;
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg");
 		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		if (!App->easing->IsEnabled())
+			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
 			App->entityFactory->Enable();
 		// create player for testing purposes here

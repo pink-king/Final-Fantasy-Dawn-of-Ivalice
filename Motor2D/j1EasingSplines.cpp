@@ -10,7 +10,7 @@
 j1EasingSplines::j1EasingSplines() : j1Module()
 {
 	name.assign("easingsplines");
-
+	LOG("Construct Spline Module");
 }
 
 // Destructor
@@ -55,6 +55,8 @@ bool j1EasingSplines::CleanUp()
 	}
 
 	easing_splines.clear();
+
+	LOG("CleanUp Spline Module");
 
 	return true;
 }
