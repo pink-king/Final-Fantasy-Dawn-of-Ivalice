@@ -135,7 +135,7 @@ void UiItem_Image::CleanUp()
 
 	if (newTex != nullptr)
 	{
-		App->tex->UnLoad(newTex);
+		//App->tex->UnLoad(newTex);
 		newTex = nullptr;
 	}
 }
