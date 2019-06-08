@@ -792,7 +792,7 @@ bool j1Scene::Update(float dt)
 		result_fx = fx_bar->GetBarValue();
 		App->audio->SetFxVolume(result_fx);
 	
-
+		
 
 		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
 		{
@@ -1283,6 +1283,9 @@ bool j1Scene::PostUpdate()
 	if (exitGame)
 		return false;
 
+	if (canExecuteChainAnim)
+		executeAnimChain();
+
 	return ret;
 }
 
@@ -1668,6 +1671,11 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	pugi::xml_node ritzPNode = nodeScene.child("InGameUiRP");
 	uiRitzPortrait = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitzPortrait, ritzPNode);
+
+	chain1.PushBack({ 646,1, 54,54 });
+	chain1.PushBack({ 571,192, 54,54 });
+	chain1.PushBack({ 672,194, 54,54 });
+	chain1.PushBack({ 773,194, 54,54 });
 
 	return true;
 }
@@ -2130,4 +2138,14 @@ void j1Scene::UpdateConsumable()
 			consumableinfo.pop_front();
 		}
 	}
+}
+
+bool j1Scene::executeAnimChain()
+{
+	
+		App->render->BlitGui(App->gui->GetAtlas(), 226, 635, &chain1.GetCurrentFrame());
+		if (chain1.Finished())
+			canExecuteChainAnim = false;
+	
+	return true;
 }

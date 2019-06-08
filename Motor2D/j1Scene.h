@@ -279,6 +279,9 @@ public:
 	bool ability1_rv = false;
 	bool ability2_rv = false;
 	bool ulti_rv = false;
+	Animation chain1;
+	bool executeAnimChain();
+	bool canExecuteChainAnim = false;
 };
 
 #endif // __j1SCENE_H__
