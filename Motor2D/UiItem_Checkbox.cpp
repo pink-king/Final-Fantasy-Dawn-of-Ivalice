@@ -67,8 +67,9 @@ void UiItem_Checkbox::DoLogicClicked(std::string &functionName) {
 	else
 		App->scene->tick_image->hide = true;
 
-	if (functionName == "FpsCap")
-		App->gui->FpsCap();
+	if (functionName == "AimToggle")
+		App->gui->AimToggle();
+
 	App->audio->PlayFx(App->scene->acceptUI, 0);
 }
 
