@@ -61,8 +61,9 @@ struct EaseSplineInfo {
 		this->time_to_travel = time_to_travel;
 		this->fn = fn;
 		time_started = SDL_GetTicks();
+		
 	}
-
+	
 };
 
 class j1EasingSplines : public j1Module
@@ -73,7 +74,7 @@ public:
 
 	// Destructor
 	virtual ~j1EasingSplines();
-
+	
 	
 	// Called each loop iteration
 	bool Update(float dt);

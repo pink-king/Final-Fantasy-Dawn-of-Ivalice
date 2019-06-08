@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 #include "j1Timer.h"
+#include <list>
+#include "LootEntity.h"
 #define MAX_ALPHA 255
 
 struct SDL_Texture;
@@ -17,6 +19,14 @@ class PlayerEntityManager;
 enum class LOOT_TYPE;
 class Trigger;
 
+struct ConsumableStats
+{
+	SDL_Rect rect;
+	fPoint position;
+	j1Timer actualTime;
+	fPoint distance_to_travel;
+	fPoint initialPos;
+};
 enum class SceneState
 {
 	STARTMENU,
@@ -240,8 +250,10 @@ public:
 	float AlphaDecrease(float alphavalue, int counter);
 	float AlphaIncrease(float alphavalue, int counter);
 	bool DecideTexToPulse();
-	
-
+	ConsumableStats GetConsumableInfo(LootEntity* consumable);
+	void UpdateConsumable();
+	std::list<ConsumableStats> consumableinfo;
+	SDL_Texture* ConsumableTravelTex;
 public:
 	float hudAlphavalue[3];
 	int hit_counter;
