@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include <string>
 #include "p2Log.h"
-
+#include "j1Scene.h"
 #include "Brofiler/Brofiler.h"
 
 j1EasingSplines::j1EasingSplines() : j1Module()
@@ -37,6 +37,19 @@ bool j1EasingSplines::Update(float dt)
 
 	easing_splines.remove(nullptr);
 
+
+	std::list<EaseSplineInfov2*>::iterator item2 = easing_splinesv2.begin();
+
+	for (; item2 != easing_splinesv2.end(); ++item2) {
+		if (*item2 != nullptr) {
+			if (!(*item2)->Update(dt)) {
+				delete(*item2);
+				(*item2) = nullptr;
+			}
+		}
+	}
+
+	easing_splinesv2.remove(nullptr);
 	return true;
 }
 
@@ -51,6 +64,15 @@ bool j1EasingSplines::CleanUp()
 		if (*item != nullptr) {
 			delete(*item);
 			(*item) = nullptr;
+		}
+	}
+
+	std::list<EaseSplineInfov2*>::iterator item2 = easing_splinesv2.begin();
+
+	for (; item2 != easing_splinesv2.end(); ++item2) {
+		if (*item2 != nullptr) {
+			delete(*item2);
+			(*item2) = nullptr;
 		}
 	}
 
@@ -81,7 +103,108 @@ EaseSplineInfo* j1EasingSplines::CreateSpline(float* position, const int target_
 	return info;
 }
 
+EaseSplineInfov2* j1EasingSplines::CreateSplineV2(float position, int target_position, const float time_to_travel, TypeSpline type,bool axis, std::function<void()> fn)
+{
+	std::list <EaseSplineInfov2*>::iterator item = easing_splinesv2.begin();
+	for (; item != easing_splinesv2.end(); ++item) {
+		if ((*item) != nullptr && (*item)->position == position) {
+			(*item)->to_delete = true;
+			break;
+		}
+	}
 
+	EaseSplineInfov2* info = DBG_NEW EaseSplineInfov2(position, target_position, time_to_travel, type, axis, fn);
+
+	if (info != nullptr)
+		easing_splinesv2.push_back(info);
+	else
+		LOG("Could not create the Spline...");
+
+	return info;
+}
+
+
+bool EaseSplineInfov2::Update(float dt)
+{
+
+	bool ret = true;
+
+	float time_passed = SDL_GetTicks() - time_started;
+
+	if (time_passed < time_to_travel && !to_delete) {
+		switch (type) {
+		case EASE: {
+			for (std::list<ConsumableStats>::iterator iter = App->scene->consumableinfo.begin(); iter != App->scene->consumableinfo.end(); ++iter)
+			{
+				if (axis)
+				{
+					(*iter).position.x = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+					LOG("positionY", (*iter).position.x);
+				}
+				else if (!axis)
+				{
+					(*iter).position.y = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+					LOG("positionY", (*iter).position.y);
+				}
+
+			}
+			position = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_OUT_QUINT: {
+			position = ease_function.EaseOutQuint(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_IN_OUT_BACK: {
+			position = ease_function.EaseInOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_IN_BACK: {
+			position = ease_function.EaseInBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_OUT_BACK: {
+			position = ease_function.EaseOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_IN_CUBIC: {
+			position = ease_function.EaseInCubic(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_OUT_CUBIC: {
+
+			for (std::list<ConsumableStats>::iterator iter = App->scene->consumableinfo.begin(); iter != App->scene->consumableinfo.end(); ++iter)
+			{
+				if (axis)
+				{
+					(*iter).position.x = ease_function.EaseOutCubic(time_passed, initial_position, distance_to_travel, time_to_travel);
+				}
+				else if (!axis)
+				{
+					(*iter).position.y = ease_function.EaseOutCubic(time_passed, initial_position, distance_to_travel, time_to_travel);
+				}
+
+			}
+			position = ease_function.EaseOutCubic(time_passed, initial_position, distance_to_travel, time_to_travel);
+			
+		} break;
+		case EASE_OUT_BOUNCE: {
+			position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_OUT_EXPO: {
+			position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		case EASE_OUT_QUAD: {
+			position = ease_function.EaseOutBounce(time_passed, initial_position, distance_to_travel, time_to_travel);
+		} break;
+		default:
+			break;
+		}
+	}
+	else {
+		if (fn != nullptr)
+			this->fn();
+		to_delete = true;
+		ret = false;
+	}
+
+
+	return ret;
+}
 
 
 bool EaseSplineInfo::Update(float dt)
@@ -211,3 +334,4 @@ int EaseFunctions::EaseOutQuad(float time_passed, int initial_position, int dist
 {
 	return -distance_to_travel * (time_passed /= time_to_travel) * (time_passed - 2) + initial_position;
 }
+
