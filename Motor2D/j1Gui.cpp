@@ -463,9 +463,9 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	if (succeed)
 	{
-		if (last_selected_object && last_selected_object->guiType == GUI_TYPES::IMAGE)
+		if (last_selected_object)
 		{
-			if (last_selected_object->parent)
+			if (last_selected_object->parent && last_selected_object->guiType == GUI_TYPES::IMAGE)
 			{
 				if (App->scene->inventory->enable)
 				{
