@@ -125,11 +125,16 @@ void BreakableAsset::Break()
 {
 	isBroken = true;
 	currentAnimation = &breaking;
-	App->entityFactory->RepeatAmountofConsumables(4, GetPivotPos(), OBJECT_TYPE::GOLD); 
-	App->entityFactory->RepeatAmountofConsumables(1, GetPivotPos(), OBJECT_TYPE::POTIONS);
+
+	if (App->entityFactory->GetRandomValue(1, 3) == 1)
+	{
+		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(3, 5), GetPivotPos(), OBJECT_TYPE::GOLD);
+		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(0, 1), GetPivotPos(), OBJECT_TYPE::POTIONS);
+	}
 	
 	if(breakableType == BreakableType::JAR || breakableType == BreakableType::JARFULL)
 		App->audio->PlayFx(App->scene->jar_breakSFX, 0);
+
 	else
 	{
 		// TODO:: Add barrel SFX
