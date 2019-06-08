@@ -901,6 +901,7 @@ void j1Gui::SettingsScreen()
 {
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
+	App->scene->pausePanel->enable = false;
 	if (App->scene->controlsPanel->enable)
 	{
 		App->scene->controlsPanel->enable = false;
@@ -914,7 +915,22 @@ void j1Gui::GoBackToMenu()
 	resetHoverSwapping = false;
 	App->scene->settingPanel->enable = false;
 	App->scene->creditsPanel->enable = false;
-	App->scene->startMenu->enable = true;
+	if (App->scene->state == SceneState::FIRINGRANGE || App->scene->state == SceneState::LOBBY || App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2)
+	{
+		App->pause = true;
+				
+		if (!App->scene->pausePanel->enable)
+		{
+
+			App->scene->pausePanel->enable = true;
+			App->scene->paused = true;
+			App->gui->resetHoverSwapping = false;
+			App->entityFactory->player->LockPlayerInput();
+
+		}		
+	}
+	else
+		App->scene->startMenu->enable = true;
 }
 
 void j1Gui::AimToggle()
