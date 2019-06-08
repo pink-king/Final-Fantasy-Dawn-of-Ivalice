@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="847">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="853">
  <tileset firstgid="1" name="tileset_level_1" tilewidth="64" tileheight="64" tilecount="240" columns="15">
   <image source="Tilesets/Level 1/tileset_level_1.png" width="1021" height="1024"/>
  </tileset>
@@ -30712,6 +30712,10 @@
     <object id="844" name="ceramicNo" x="768" y="1792" width="32" height="32"/>
     <object id="845" name="ceramicNo" x="800" y="1792" width="32" height="32"/>
     <object id="846" name="chest" x="1312" y="2624" width="32" height="32"/>
+    <object id="848" name="chest" x="992" y="1792" width="32" height="32"/>
+    <object id="849" x="256" y="2037.33"/>
+    <object id="850" x="298" y="2078"/>
+    <object id="851" x="321.333" y="2110.67"/>
    </objectgroup>
   </group>
  </group>
