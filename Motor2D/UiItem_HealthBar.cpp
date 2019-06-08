@@ -162,6 +162,9 @@ void UiItem_HealthBar::Draw(const float& dt)
 		lastSection = dynamicImage->section.w;
 		
 		uint value = conversionFactor * App->entityFactory->player->life + playerBarOffset.x;
+         
+		uint staticValue = conversionFactor * App->entityFactory->player->life + 2; // offset
+	
 
 		if (App->entityFactory->player->life <= 0)
 		{
@@ -169,7 +172,13 @@ void UiItem_HealthBar::Draw(const float& dt)
 		}
 		else
 		{
+
 			dynamicImage->section.w = value;
+
+			if(staticValue > staticImage->section.w)
+				staticImage->section.w = staticValue;    // also increase max static image x
+		
+
 		}
 		
 
