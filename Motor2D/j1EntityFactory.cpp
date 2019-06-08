@@ -2579,7 +2579,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					App->win->GetWindowSize(width, height);
 
 					iPoint targetLabelPos = iPoint((width / 2) - 150, 50);
-					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, level);
+					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
 
 					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
 
