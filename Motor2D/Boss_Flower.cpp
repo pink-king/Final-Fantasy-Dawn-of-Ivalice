@@ -259,15 +259,22 @@ FlowerBossEntity::~FlowerBossEntity()
 	{
 		if (myBossLifeBar != nullptr)
 		{
-			myBossLifeBar->deliever = nullptr;
+			/*myBossLifeBar->deliever = nullptr;
 			myBossLifeBar->dynamicImage->to_delete = true;          // deleted in uitemcpp draw
 			myBossLifeBar->staticImage->to_delete = true;
-			myBossLifeBar->divisionImage->to_delete = true;
+			myBossLifeBar->->to_delete = true;
 			myBossLifeBar->nameOnTop->to_delete = true;
-			myBossLifeBar->skull->to_delete = true; 
+			myBossLifeBar->skull->to_delete = true;*/ 
 
-			// TDDO: skull
-			myBossLifeBar->to_delete = true;
+			App->gui->destroyElement(myBossLifeBar->dynamicImage); 
+			App->gui->destroyElement(myBossLifeBar->staticImage);
+			App->gui->destroyElement(myBossLifeBar->divisionImage);
+			App->gui->destroyElement(myBossLifeBar->nameOnTop);
+			App->gui->destroyElement(myBossLifeBar->skull);
+
+			App->gui->destroyElement(myBossLifeBar);
+		
+			//myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");
 	}
