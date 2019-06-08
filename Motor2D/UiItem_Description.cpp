@@ -153,6 +153,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+		this->price->useCamera = false; 
 	}
 }
 
@@ -282,6 +283,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+
+		this->price->useCamera = false;
 	}
 
 }
@@ -356,6 +360,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+		this->price->useCamera = false; 
 	}
 }
 
@@ -562,7 +568,6 @@ void UiItem_Description::Draw(const float& dt)
 
 
 		}
-
 
 
 	}
@@ -1031,11 +1036,16 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
 
+	/*if (App->scene->inventory->enable)
+	{*/
+		int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
 
-	int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
+		this->price->hitBox.x = destPricePosX;
+		this->price->hitBox.y = referencePanelPosition.y + 190;
 
-	this->price->hitBox.x = destPricePosX;
-	this->price->hitBox.y = referencePanelPosition.y + 190;
+	//}
+	
+
 
 	if (this->descrType != descriptionType::POTION)
 	{
