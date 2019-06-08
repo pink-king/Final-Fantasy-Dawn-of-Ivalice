@@ -63,6 +63,8 @@ public:
 
 	void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag);
 
+	void despawnRubbish();
+
 public: 
 
 	bool drawTest = false;
@@ -106,6 +108,10 @@ private:
 
 	std::string name = "";
 
+	UiItem_Label* charNameLabel = nullptr;
+	UiItem_Label* equippedLabel = nullptr;
+	UiItem_Label* bagLabel = nullptr;
+	UiItem_Label* consumablesLabel = nullptr;
 
 };
 
