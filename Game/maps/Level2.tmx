@@ -56232,7 +56232,7 @@
     <object id="1829" name="chest" x="1984" y="2784" width="32" height="32"/>
     <object id="1830" name="chest" x="3424" y="2368" width="32" height="32"/>
     <object id="1831" name="chest" x="2368" y="1568" width="32" height="32"/>
-    <object id="1833" name="chest" x="2912" y="192" width="32" height="32"/>
+    <object id="1833" name="superChest" x="2912" y="192" width="32" height="32"/>
    </objectgroup>
   </group>
  </group>
