@@ -938,7 +938,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBagVendor = false;
 				inventoryItem->swappedBag2Vendor = true;
 				inventoryItem->swappedBag3Vendor = false;
-				inventoryItem->firstTimeSwappedBagVendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = true;
 				inventoryItem->firstTimeSwappedBagLeftVendor = false;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
@@ -967,7 +967,7 @@ bool j1Scene::Update(float dt)
 				inventoryItem->swappedBagVendor = false;
 				inventoryItem->swappedBag2Vendor = true;
 				inventoryItem->swappedBag3Vendor = false;
-				inventoryItem->firstTimeSwappedBagVendor = false;
+				inventoryItem->firstTimeSwappedBagVendor = true;
 				inventoryItem->firstTimeSwappedBagLeft3Vendor = false;
 				inventoryItem->LoadElements(false, true);
 				App->audio->PlayFx(switch_page, 0);

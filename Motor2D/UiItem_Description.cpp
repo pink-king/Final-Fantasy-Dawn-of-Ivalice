@@ -1168,6 +1168,7 @@ void UiItem_Description::DeleteEverything()
 	// TODO: put the lootentity pointer to nullptr ??? careful; 
 
 	App->gui->destroyElement(this->iconImage);
+	this->iconImage->to_delete = true;
 	this->iconImage = nullptr;
 	App->gui->destroyElement(this->panelWithButton);
 	this->panelWithButton = nullptr;
