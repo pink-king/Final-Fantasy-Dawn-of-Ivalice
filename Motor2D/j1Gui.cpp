@@ -959,7 +959,7 @@ void j1Gui::GoBackToMenu()
 
 void j1Gui::AimToggle()
 {
-	if (App->scene->tick_image->hide)
+	if (App->input->IsAimToggled())
 		App->input->ToggleAimOFF();
 		
 	else
