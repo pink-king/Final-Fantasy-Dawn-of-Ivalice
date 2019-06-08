@@ -43,6 +43,7 @@
 #include "Boss_Flower.h"
 #include "j1EasingSplines.h"
 #include "j1Gui.h"
+#include <assert.h>
 
 
 j1EntityFactory::j1EntityFactory()
@@ -2112,6 +2113,9 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 	if (lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
 		MagicPriceCalculator(lootEntity);
 
+
+	assert(lootEntity->price > 20);
+
 	return true;
 }
 
@@ -2269,7 +2273,7 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 	item->vendorPrice = baseFinalPrice * 1.15f; 
 
 
-
+	assert(item->price > 20); 
 
 }
 
