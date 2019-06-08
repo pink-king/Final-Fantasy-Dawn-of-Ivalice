@@ -465,9 +465,12 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	{
 		if (last_selected_object && last_selected_object->guiType == GUI_TYPES::IMAGE)
 		{
-			if (App->scene->inventory->enable)
+			if (last_selected_object->parent)
 			{
-				dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+				if (App->scene->inventory->enable)
+				{
+					dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+				}
 			}
 		}
 
@@ -957,10 +960,10 @@ void j1Gui::GoBackToMenu()
 void j1Gui::AimToggle()
 {
 	if (App->scene->tick_image->hide)
-		App->input->ToggleAimON();
+		App->input->ToggleAimOFF();
 		
 	else
-		App->input->ToggleAimOFF();
+		App->input->ToggleAimON();
 }
 
 
