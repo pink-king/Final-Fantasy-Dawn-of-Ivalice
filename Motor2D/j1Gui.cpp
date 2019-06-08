@@ -890,11 +890,16 @@ void j1Gui::GoBackToMenu()
 	App->scene->startMenu->enable = true;
 }
 
-void j1Gui::FpsCap()
+void j1Gui::AimToggle()
 {
-
-
+	if (App->scene->tick_image->hide)
+		App->input->ToggleAimON();
+		
+	else
+		App->input->ToggleAimOFF();
 }
+
+
 
 void j1Gui::GoBackToGame()
 {

@@ -929,7 +929,7 @@
       
       
         <checkboxes>
-        <checkbox name="checkbox_prove" function = "FpsCap">
+        <checkbox name="checkbox_prove" function = "AimToggle">
           <idleSec  x="1079" y="3275" w="179" h="41"/>
           <hoverSec x="1079" y="3319" w="179" h="41" />
           <clickSec x="1079" y="3363" w="179" h="41" />

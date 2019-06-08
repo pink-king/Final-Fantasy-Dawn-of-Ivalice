@@ -130,7 +130,7 @@ public:
 	void ExitGame();
 	void SettingsScreen();
 	void GoBackToMenu();
-	void FpsCap();
+	void AimToggle();
 	void GoBackToGame();
 	void Credits();
 	void SocialMedia(std::string& name);
