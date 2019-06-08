@@ -576,7 +576,7 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					//App->scene->characterStatsItem->InitializeStats();
+					App->scene->characterStatsItem->InitializeStats();
 				}
 				else
 				{
@@ -584,7 +584,6 @@ bool PlayerEntityManager::SwapInputChecker()
 				}
 
 
-				App->scene->characterStatsItem->InitializeStats();
 			}
 
 		}
@@ -606,14 +605,13 @@ bool PlayerEntityManager::SwapInputChecker()
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					//App->scene->characterStatsItem->InitializeStats();
+					App->scene->characterStatsItem->InitializeStats();
 				}
 				else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
 				}
 
-				App->scene->characterStatsItem->InitializeStats();
 
 			}
 
