@@ -14,7 +14,7 @@ WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1
 
 WaveManager::~WaveManager()
 {
-	App->scene->wave_label->hide = true;
+	
 	App->audio->PlayFx(App->scene->wave_end, 0);
 
 	// associate trigger delete
@@ -386,7 +386,7 @@ void WaveManager::Finish()
 
 	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE);
 
-
+	App->scene->wave_label->hide = true;
 }
 
 bool WaveManager::Load(pugi::xml_node&)
