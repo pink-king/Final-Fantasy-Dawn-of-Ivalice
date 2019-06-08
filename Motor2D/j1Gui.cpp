@@ -1027,6 +1027,7 @@ void j1Gui::GoBackToStartMenu()
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
+	App->scene->deathPanel->enable = false;
 	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
 

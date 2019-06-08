@@ -316,7 +316,6 @@ bool j1Scene::Start()
 
 	if (state == SceneState::LOBBY)
 	{
-		deathPanel->enable = false;
 
 		open_doorSFX = App->audio->LoadFx("audio/fx/scene/opendoor.wav");
 
@@ -374,8 +373,6 @@ bool j1Scene::Start()
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
-
-		
 		settingPanel->enable = false;
 		startMenu->enable = false;
 
@@ -505,6 +502,12 @@ bool j1Scene::Start()
 			inGamePanel->enable = false;
 		if (!deathPanel->enable)
 			deathPanel->enable = true;
+		uiMarche->enable = false;
+		uiShara->enable = false;
+		uiRitz->enable = false;
+		uiMarchePortrait->enable = false;
+		uiSharaPortrait->enable = false;
+		uiRitzPortrait->enable = false;
 
 		ComeToDeath = true;
 		isDeath = false;
@@ -521,8 +524,9 @@ bool j1Scene::Start()
 		}
 
 		App->gui->resetHoverSwapping = false;
-		if (inGamePanel->enable)
-			inGamePanel->enable = false;
+	
+
+		inGamePanel->enable = false;
 
 		uiMarche->enable = false;
 		uiShara->enable = false;
