@@ -135,8 +135,15 @@ bool PlayerEntityManager::Update(float dt)
 		if (level < 20)
 		{
 
-			iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-				App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+		/*	iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+				App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);*/
+
+			uint width, height; 
+			width = height = 0; 
+
+			App->win->GetWindowSize(width, height); 
+
+			iPoint targetLabelPos = iPoint((width / 2) - 150, 50);
 			App->HPManager->callLevelUpLabelSpawn(targetLabelPos, level);
 
 			GetVendor()->generateVendorItems(true);

@@ -220,6 +220,8 @@ UiItem_HitPoint* UiItem_HitPointManager::callLevelUpLabelSpawn(iPoint pos, uint 
 		value,
 	};
 
+	
+
 	App->gui->AddHitPointLabel(info, { 255, 255, 200, 255 }, App->font->piecesofEight48, pos, nullptr, variant::levelUp);
 
 	return nullptr;

@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "j1App.h"
 #include "j1BuffManager.h"
+#include "j1Window.h"
 
 WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1Entity* associatedTrigger) : associatedTrigger(associatedTrigger),spawnZone(zone), maxWaves(numWaves + 1), currentWave(1), type(type), j1Entity(ENTITY_TYPE::WAVE_MANAGER, zone.x, zone.y, "WaveManager")
 {
@@ -92,8 +93,15 @@ bool WaveManager::Update(float dt)
 
 void WaveManager::SpawnCurrentWaveLabel()
 {
-	iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-		App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+	/*iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+		App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);*/
+
+	uint width, height;
+	width = height = 0;
+
+	App->win->GetWindowSize(width, height);
+
+	iPoint targetLabelPos = iPoint((width / 2) - 150, 50);
 
 	App->HPManager->callWaveLabelSpawn(targetLabelPos, currentWave);
 }
@@ -368,6 +376,15 @@ bool WaveManager::isWaveOver() const
 void WaveManager::Finish()
 {
 	// What happens when the waves are completed - i. e. open doors, spawn legendary loot etc...
+	iPoint targetChestPos = iPoint(0, 0); 
+	if (App->scene->state == SceneState::LEVEL1)
+		targetChestPos = App->map->MapToWorld(14, 7); 
+	else
+		targetChestPos = App->map->MapToWorld(14, 34);
+
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE);
+
+
 }
 
 bool WaveManager::Load(pugi::xml_node&)
