@@ -128,7 +128,7 @@ void BreakableAsset::Break()
 
 	if (App->entityFactory->GetRandomValue(1, 3) == 1)
 	{
-		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(3, 5), GetPivotPos(), OBJECT_TYPE::GOLD);
+		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(2, 4), GetPivotPos(), OBJECT_TYPE::GOLD);
 		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(0, 1), GetPivotPos(), OBJECT_TYPE::POTIONS);
 	}
 	
