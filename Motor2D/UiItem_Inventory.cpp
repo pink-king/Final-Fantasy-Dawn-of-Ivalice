@@ -941,12 +941,14 @@ void UiItem_Inventory::RepositionBagItems()
 					position = { (startingPos.x + 140 + i * boxSeparation.x), (startingPos.y + 284) + j * boxSeparation.y };
 				}
 
-				if ((*iter)->MyDescription->iconImageInventory->tabbable)
+				if ((*iter)->MyDescription != nullptr)
 				{
-					(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
-					(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+					if ((*iter)->MyDescription->iconImageInventory->tabbable)
+					{
+						(*iter)->MyDescription->iconImageInventory->hitBox.x = position.x;   // ignore the bag object hidden not available
+						(*iter)->MyDescription->iconImageInventory->hitBox.y = position.y;
+					}
 				}
-
 
 				i++;
 
@@ -1270,13 +1272,15 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
-							App->entityFactory->player->AddItemToTheBag(callback);
+						//	App->entityFactory->player->AddItemToTheBag(callback);
 
 
 							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
 							{
 								doBagScroll = true;
 							}
+
+							App->entityFactory->player->AddItemToTheBag(callback);
 
 
 							// ADD NEW STATS TO THE PLAYER 
