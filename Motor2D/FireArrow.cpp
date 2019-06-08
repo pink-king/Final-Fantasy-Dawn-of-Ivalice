@@ -32,6 +32,9 @@ FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity 
 	timer.Start();
 	// Important for aiming offset
 	SetInitially();
+
+	this->speed = 140; 
+
 }
 
 FireArrow::~FireArrow()
