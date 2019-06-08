@@ -955,3 +955,8 @@ void j1Input::ToggleAimOFF()
 {
 	aimToggled = false;
 }
+
+void j1Input::SetControllerButtonState(int button, j1KeyState state)
+{
+	controller[button] = state;
+}

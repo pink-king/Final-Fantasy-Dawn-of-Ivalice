@@ -464,6 +464,12 @@ void PlayerEntityManager::LockPlayerInput()
 void PlayerEntityManager::UnlockPlayerInput()
 {
 	playerUpdateReady = true;
+
+	// checks conflict key for back and dash while returns to updates the player on same frame
+	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	{
+		App->input->SetControllerButtonState(SDL_CONTROLLER_BUTTON_B, KEY_UP); // trick
+	}
 }
 
 bool PlayerEntityManager::Load(pugi::xml_node &node)
