@@ -785,6 +785,28 @@ bool j1Scene::Update(float dt)
 
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
+		//debug tp
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+			DebugTP(SceneState::LOBBY, LvlPart::NO_PART);
+
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+			DebugTP(SceneState::FIRINGRANGE, LvlPart::NO_PART);
+
+		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL1, LvlPart::START);
+
+		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL1, LvlPart::WAVES);
+
+		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL2, LvlPart::START);
+
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL2, LvlPart::WAVES);
+
+		if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
+			DebugTP(SceneState::LEVEL2, LvlPart::BOSS);
+
 		//Mix_CloseAudio();
 		//if()
 		result_volume = volume_bar->GetBarValue();
@@ -1906,6 +1928,66 @@ void j1Scene::LoadScene(SceneState sceneState)
 }
 
 
+
+void j1Scene::DebugTP(SceneState const &futureScene, LvlPart const &lvlPart)
+{
+	if (futureScene != state)
+	{
+		LoadScene(futureScene);
+	}
+	switch (futureScene)
+	{
+	case SceneState::STARTMENU:
+		break;
+	case SceneState::LEVEL1:
+		if (lvlPart == LvlPart::START)
+		{
+			App->entityFactory->player->GetMarche()->position = { -1575.F, 2150.F };
+			App->entityFactory->player->GetShara()->position = { -1575.F, 2150.F };
+			App->entityFactory->player->GetRitz()->position = { -1575.F, 2150.F };
+		}
+		else if (lvlPart == LvlPart::WAVES)
+		{
+			App->entityFactory->player->GetMarche()->position = (fPoint)App->map->SubTileMapToWorld(30, 44);
+			App->entityFactory->player->GetShara()->position = (fPoint)App->map->SubTileMapToWorld(30, 44);
+			App->entityFactory->player->GetRitz()->position = (fPoint)App->map->SubTileMapToWorld(30, 44);
+		}
+		break;
+	case SceneState::LEVEL2:
+		if (lvlPart == LvlPart::START)
+		{
+			App->entityFactory->player->GetMarche()->position = { -820, 3300 };
+			App->entityFactory->player->GetShara()->position = { -820, 3300 };
+			App->entityFactory->player->GetRitz()->position = { -820, 3300 };
+		}
+		else if (lvlPart == LvlPart::WAVES)
+		{
+			App->entityFactory->player->GetMarche()->position = (fPoint)App->map->SubTileMapToWorld(70, 42);
+			App->entityFactory->player->GetShara()->position = (fPoint)App->map->SubTileMapToWorld(70, 42);
+			App->entityFactory->player->GetRitz()->position = (fPoint)App->map->SubTileMapToWorld(70, 42);
+		}
+		else if (lvlPart == LvlPart::BOSS)
+		{
+			App->entityFactory->player->GetMarche()->position = (fPoint)App->map->SubTileMapToWorld(70, 182);
+			App->entityFactory->player->GetShara()->position = (fPoint)App->map->SubTileMapToWorld(70, 182);
+			App->entityFactory->player->GetRitz()->position = (fPoint)App->map->SubTileMapToWorld(70, 182);
+		}
+		break;
+	case SceneState::LOBBY:
+		App->entityFactory->player->GetMarche()->position = { 115, 240 };
+		App->entityFactory->player->GetShara()->position = { 115, 240 };
+		App->entityFactory->player->GetRitz()->position = { 115, 240 };
+		break;
+	case SceneState::FIRINGRANGE:
+		App->entityFactory->player->GetMarche()->position = { 165, 580 };
+		App->entityFactory->player->GetShara()->position = { 165, 580 };
+		App->entityFactory->player->GetRitz()->position = { 165, 580 };
+		break;
+	default:
+		break;
+	}
+	App->camera2D->SetCameraPos(App->entityFactory->player->GetMarche()->position.x, App->entityFactory->player->GetMarche()->position.y);
+}
 
 void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 {

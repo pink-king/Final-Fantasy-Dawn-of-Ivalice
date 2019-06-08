@@ -17,6 +17,7 @@
 #include "Projectile.h"
 
 class DialogTriggerVolatile;
+enum class ChestType; 
 
 struct GroupInfo {
 	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies, uint level)
@@ -27,6 +28,14 @@ struct GroupInfo {
 	uint minEnemies;
 	uint maxEnemies;
 	uint groupLevel; 
+};
+
+enum class ChestType {
+	NORMAL,
+	SILVER,
+	BOSS,
+	// ---
+	NOCHEST
 };
 
 enum class EnvironmentAssetsTypes
@@ -50,7 +59,6 @@ enum class BreakableType
 	//---
 	NO_BREAKABLE_TYPE
 };
-
 
 struct entityDataMap
 {
@@ -144,7 +152,7 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, bool isBossChest = false);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, ChestType chestType = ChestType::NORMAL);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 

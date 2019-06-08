@@ -71,7 +71,7 @@ bool WaveManager::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
 	{
-		to_delete = true;
+		to_finish = true;
 	}
 
 	if (toCreateNextWave)
@@ -384,7 +384,7 @@ void WaveManager::Finish()
 	else if(App->scene->state == SceneState::LEVEL2)
 		targetChestPos = App->map->MapToWorld(14, 34);
 
-	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE);
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, false, ChestType::SILVER);
 
 	App->scene->wave_label->hide = true;
 }

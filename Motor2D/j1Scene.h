@@ -52,6 +52,15 @@ enum class LobbyState
 	OUTGAME
 };
 
+enum class LvlPart
+{
+	START,
+	WAVES,
+	BOSS,
+	NO_PART
+};
+
+
 class j1Scene : public j1Module
 {
 public:
@@ -78,6 +87,8 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+	void DebugTP(SceneState const &futureScene, LvlPart const &lvlPart = LvlPart::NO_PART);
 
 public:
 	UiItem* inGamePanel = nullptr;
@@ -240,7 +251,6 @@ private:
 
 	PlayerEntityManager* player_selected = nullptr;
 
-	
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
