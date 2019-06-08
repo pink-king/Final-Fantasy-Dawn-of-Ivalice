@@ -565,9 +565,9 @@ void j1Gui::destroyElement(UiItem * elem)
 	{
 		if (elem != nullptr && (*item) == elem)
 		{
+			
 			delete (*item);
 			*item = nullptr;
-
 			item = ListItemUI.erase(item);
 
 		}
@@ -594,6 +594,33 @@ void j1Gui::deleteCurrentDialogs()
 	}
 
 }
+/*
+void j1Gui::HideInGameEnemyUI(bool hide)
+{
+	for (auto& item : ListItemUI)
+		if (item->guiType == GUI_TYPES::HITPOINT || item->guiType == GUI_TYPES::HEALTHBAR || item->parent->guiType == GUI_TYPES::HEALTHBAR)
+		{
+			if (item->parent->guiType == GUI_TYPES::HEALTHBAR)
+			{
+				if (dynamic_cast<UiItem_HealthBar*>(item->parent)->variantType == type::enemy)
+					if (dynamic_cast<UiItem_HealthBar*>(item->parent)->skull == item)
+					{
+						item->hide = hide;           // always hide skull
+						int a = 0; 
+					}	
+					else if (dynamic_cast<UiItem_HealthBar*>(item->parent)->startShowing)
+						item->hide = hide;             // hide healthbar section only is started showing			
+				
+			}
+			else
+				item->hide = hide;
+			
+		}
+			
+
+		
+
+}*/
 
 
 UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, bool type_writer)
@@ -755,11 +782,11 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, type variant, UiItem * const parent) // , TypeBar type)
+UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, const SDL_Rect* staticSection, type variant, UiItem * const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, staticSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -890,11 +917,16 @@ void j1Gui::GoBackToMenu()
 	App->scene->startMenu->enable = true;
 }
 
-void j1Gui::FpsCap()
+void j1Gui::AimToggle()
 {
-
-
+	if (App->scene->tick_image->hide)
+		App->input->ToggleAimON();
+		
+	else
+		App->input->ToggleAimOFF();
 }
+
+
 
 void j1Gui::GoBackToGame()
 {

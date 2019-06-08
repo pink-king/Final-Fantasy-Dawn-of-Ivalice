@@ -238,7 +238,7 @@ bool PlayerEntity::InputCombat()
 		LOG("SPECIAL1");
 	}
 	// special difference for "medusa work in progress cutre version"
-	if (App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && character != characterName::RITZ && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
+	if (App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
 	{
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
@@ -248,7 +248,7 @@ bool PlayerEntity::InputCombat()
 		
 
 	// check dodge
-	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
+	if (coolDownData.dodge.timer.Read() >= coolDownData.dodge.cooldownTime)
 	{
 		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN )
 		{
@@ -725,7 +725,7 @@ void PlayerEntity::SetCoolDownTimers()
 
 	while (_ptr <= &coolDownData.ultimate)
 	{
-		(*_ptr).timer.started_at += (*_ptr).cooldownTime;
+		(*_ptr).timer.started_at -= (*_ptr).cooldownTime;
 		++_ptr;
 	}
 }

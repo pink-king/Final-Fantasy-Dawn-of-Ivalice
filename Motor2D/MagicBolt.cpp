@@ -75,7 +75,7 @@ bool MagicBolt::CleanUp()
 
 bool MagicBolt::PreUpdate()
 {
-	if (OnCollisionWithEnemy() || OnCollisionWithWall()) {
+	if (OnCollisionWithEnemy(1) || OnCollisionWithWall()) {
 		to_explode = true;
 		
 	}

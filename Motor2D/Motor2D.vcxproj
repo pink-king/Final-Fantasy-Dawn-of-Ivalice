@@ -171,6 +171,7 @@
     <ClCompile Include="Video.cpp" />
     <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WaveTrigger.cpp" />
+    <ClCompile Include="WhisperOfIce.cpp" />
     <ClCompile Include="WinTrigger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -273,6 +274,7 @@
     <ClInclude Include="Video.h" />
     <ClInclude Include="WaveManager.h" />
     <ClInclude Include="WaveTrigger.h" />
+    <ClInclude Include="WhisperOfIce.h" />
     <ClInclude Include="WinTrigger.h" />
   </ItemGroup>
   <ItemGroup>

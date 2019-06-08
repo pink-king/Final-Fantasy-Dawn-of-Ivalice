@@ -153,6 +153,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+		this->price->useCamera = false; 
 	}
 }
 
@@ -282,6 +283,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+
+		this->price->useCamera = false;
 	}
 
 }
@@ -356,6 +360,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+		this->price->useCamera = false; 
 	}
 }
 
@@ -562,7 +568,6 @@ void UiItem_Description::Draw(const float& dt)
 
 
 		}
-
 
 
 	}
@@ -1031,11 +1036,16 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
 
+	/*if (App->scene->inventory->enable)
+	{*/
+		int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
 
-	int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
+		this->price->hitBox.x = destPricePosX;
+		this->price->hitBox.y = referencePanelPosition.y + 190;
 
-	this->price->hitBox.x = destPricePosX;
-	this->price->hitBox.y = referencePanelPosition.y + 190;
+	//}
+	
+
 
 	if (this->descrType != descriptionType::POTION)
 	{
@@ -1158,49 +1168,68 @@ void UiItem_Description::DeleteEverything()
 	// TODO: put the lootentity pointer to nullptr ??? careful; 
 
 	App->gui->destroyElement(this->iconImage);
+	this->iconImage = nullptr;
 	App->gui->destroyElement(this->panelWithButton);
+	this->panelWithButton = nullptr;
 	App->gui->destroyElement(this->name);
-
+	this->name = nullptr;
 	App->gui->destroyElement(this->price);
-
+	this->price = nullptr;
 	// TODO: delete the icon image in the inventory only if it exists
-	//this->iconImageInventory->to_delete = true;
-
+	
 	if (spawnedInventoryImage)
 	{
 		App->gui->destroyElement(this->iconImageInventory);
+		this->iconImageInventory = nullptr;
 	}
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
 
 		App->gui->destroyElement(this->level);
+		this->level = nullptr;
 		App->gui->destroyElement(this->damageLabel);
+		this->damageLabel = nullptr;
 		App->gui->destroyElement(this->resistanceLabel);
+		this->resistanceLabel = nullptr;
 		App->gui->destroyElement(this->cooldownLabel);
+		this->cooldownLabel = nullptr;
 		App->gui->destroyElement(this->attachedCharacter);
+		this->attachedCharacter = nullptr;
 
 		App->gui->destroyElement(this->damageComparisonLabel.label);
+		this->damageComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);
+		this->resistanceComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->cooldownComparisonLabel.label);
+		this->cooldownComparisonLabel.label = nullptr;
 	}
 	else if (this->descrType == descriptionType::EQUIPMENT)
 	{
 		App->gui->destroyElement(this->level);
+		this->level = nullptr;
 		App->gui->destroyElement(this->attachedCharacter);
+		this->attachedCharacter = nullptr;
 		App->gui->destroyElement(this->resistanceLabel);
+		this->resistanceLabel = nullptr;
 		App->gui->destroyElement(this->HPLabel);
+		this->HPLabel = nullptr;
 		App->gui->destroyElement(this->VelocityLabel);
+		this->VelocityLabel = nullptr;
 
 
 		App->gui->destroyElement(this->resistanceComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+		this->resistanceComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->HPComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+		this->HPComparisonLabel.label = nullptr;
 		App->gui->destroyElement(this->velocityComparisonLabel.label);  // ADD HP AND VELOCITY LABELS
+		this->velocityComparisonLabel.label = nullptr;
 
 	}
 	else if (this->descrType == descriptionType::POTION)
 	{
 		App->gui->destroyElement(this->effectLabel);
+		this->effectLabel = nullptr;
 	}
 
 	App->gui->destroyElement(this);

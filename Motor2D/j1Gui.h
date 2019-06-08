@@ -92,6 +92,8 @@ public:
 	void destroyElement(UiItem*);
 	void deleteCurrentDialogs(); 
 
+//	void HideInGameEnemyUI(bool); 
+
 	// TODO: add destroy element, IMPORTANT!! ---> hitpoint labels are destroyed in hitpoint label manager
 
 	std::list<UiItem*>	ListItemUI;
@@ -107,7 +109,7 @@ public:
 	UiItem_HitPoint* AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
 	UiItem_HitPoint* AddHitPointLabel2(std::string text, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type);
 
-	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent = nullptr);
+	UiItem_HealthBar* AddHealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, const SDL_Rect* staticSection, type variant, UiItem* const parent = nullptr);
 	UiItem_HealthBar* AddHealthBarToEnemy(const SDL_Rect* dynamicSection, type variant, j1Entity* deliever, UiItem* const parent = nullptr);
 	UiItem_HealthBar* AddHealthBarToBoss(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent = nullptr); // boss
 
@@ -130,7 +132,7 @@ public:
 	void ExitGame();
 	void SettingsScreen();
 	void GoBackToMenu();
-	void FpsCap();
+	void AimToggle();
 	void GoBackToGame();
 	void Credits();
 	void SocialMedia(std::string& name);

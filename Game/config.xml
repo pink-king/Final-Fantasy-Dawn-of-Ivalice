@@ -172,8 +172,9 @@
 
       <healthbars>
         <healthbar name="life_bar">
-          <dynamicSection x="0" y="432" w="153" h="31"/>
-          <damageSection x="28" y="414" w="126" h="16"/>
+	    <test x="25" y="461" w="156" h="19"/>
+          <dynamicSection x="0" y="425" w="153" h="31"/>
+          <damageSection x="28" y="407" w="126" h="16"/>
           <position x="32" y="150"/>
           <type value="player"/>
         </healthbar>
@@ -636,17 +637,6 @@
           <position x="267" y="491"/>
         </button>
       </buttons>
-      
-      
-      <checkboxes>
-        <checkbox name="checkbox_prove" function = "FpsCap">
-          <idleSec  x="1079" y="3275" w="179" h="41"/>
-          <hoverSec x="1079" y="3319" w="179" h="41" />
-          <clickSec x="1079" y="3363" w="179" h="41" />
-          <tickSec  x="126" y="33" w="19" h="18" />
-          <position x="600" y="491"/>
-        </checkbox>
-      </checkboxes>
 
     </Settings>
 
@@ -937,6 +927,18 @@
 
 
       </images>
+      
+      
+        <checkboxes>
+        <checkbox name="checkbox_prove" function = "AimToggle">
+          <idleSec  x="1079" y="3275" w="179" h="41"/>
+          <hoverSec x="1079" y="3319" w="179" h="41" />
+          <clickSec x="1079" y="3363" w="179" h="41" />
+          <tickSec  x="126" y="33" w="19" h="18" />
+          <position x="652" y="484"/>
+        </checkbox>
+      </checkboxes>
+            
 
       <buttons>
         <button name="button_backSettings" function = "SettingsScreen">
@@ -949,7 +951,7 @@
           <idleSec  x="0" y="3097" w="220" h="43"/>
           <hoverSec x="221" y="3097" w="220" h="43" />
           <hoverSec x="221" y="3097" w="220" h="43" />
-          <position x="649" y="593"/>
+          <position x="652" y="593"/>
         </button>
       </buttons>
 

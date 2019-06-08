@@ -28,7 +28,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 	/*if (!isVendorInventory)
 	{*/
-
+	firstSwapedCharacter = false;
 		if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE)
 		{
 			App->scene->MarcheIcon->hide = false;
@@ -71,79 +71,92 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 
 	if (/*!isVendorInventory &&*/!App->entityFactory->player->equipedObjects.empty()) 
 	{
-		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
-
-		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+		if (!firstSwapedCharacter)
 		{
+			for (std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin(); iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+			{
+				if ((*iter)->MyDescription != nullptr)
+					De_______GenerateDescription((*iter), false);
+			}
+			firstSwapedCharacter = true;
+		}
 
+		if (firstSwapedCharacter)
+		{
+			std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
 
-			iPoint destPos = {};
-
-			if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
+			for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
 			{
 
 
-				// first generate description if it does not have it or if it was deleted ingame
+				iPoint destPos = {};
 
-				De_______GenerateDescription((*iter), true);
-
-
-				// current weapon, armor and head have a target position each
-				switch ((*iter)->GetObjectType())
+				if ((*iter)->character == App->entityFactory->player->selectedCharacterEntity)  // Only load the selected character current items
 				{
-				case OBJECT_TYPE::WEAPON_OBJECT:
-					destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
-					destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
 
-					(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
-					break;
-				case OBJECT_TYPE::ARMOR_OBJECT:
-					destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
-					destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
 
-					(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
-					break;
-				case OBJECT_TYPE::HEAD_OBJECT:
-					destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
-					destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+					// first generate description if it does not have it or if it was deleted ingame
 
-					(*iter)->MyDescription->myLootItemIsEquipped.head = true;
-					break;
+					De_______GenerateDescription((*iter), true);
+
+
+					// current weapon, armor and head have a target position each
+					switch ((*iter)->GetObjectType())
+					{
+					case OBJECT_TYPE::WEAPON_OBJECT:
+						destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+						destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+
+						(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
+						break;
+					case OBJECT_TYPE::ARMOR_OBJECT:
+						destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+						destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+
+						(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
+						break;
+					case OBJECT_TYPE::HEAD_OBJECT:
+						destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+						destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+
+						(*iter)->MyDescription->myLootItemIsEquipped.head = true;
+						break;
+
+
+					}
+
+					// create the icon image directly in that desired slot (aka position) 
+
+
+					if (!(*iter)->MyDescription->spawnedInventoryImage)
+					{
+						(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+						(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+						(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+						(*iter)->MyDescription->spawnedInventoryImage = true;
+						(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
+					}
+					else
+					{
+						(*iter)->MyDescription->HideAllElements(false);
+						(*iter)->MyDescription->iconImageInventory->tabbable = true;
+					}
+
 
 
 				}
-
-				// create the icon image directly in that desired slot (aka position) 
-
-
-				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				/*else
 				{
-					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
-					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
-					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
-					(*iter)->MyDescription->spawnedInventoryImage = true;
-					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
-				}
-				else
+				if ((*iter)->MyDescription->spawnedInventoryImage)
 				{
-					(*iter)->MyDescription->HideAllElements(false);
-					(*iter)->MyDescription->iconImageInventory->tabbable = true;
+				(*iter)->MyDescription->HideAllElements(true);
+				(*iter)->MyDescription->iconImageInventory->hide = true;
 				}
+				}*/
 
 
 
 			}
-			/*else
-			{
-			if ((*iter)->MyDescription->spawnedInventoryImage)
-			{
-			(*iter)->MyDescription->HideAllElements(true);
-			(*iter)->MyDescription->iconImageInventory->hide = true;
-			}
-			}*/
-
-
-
 		}
 	}
 

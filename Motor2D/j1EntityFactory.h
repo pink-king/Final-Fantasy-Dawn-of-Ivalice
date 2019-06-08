@@ -201,6 +201,7 @@ public:
 	SDL_Texture*			interactiveStatesTex = nullptr;
 	SDL_Texture*			hallTex = nullptr;
 	SDL_Texture*			ButtonAtex = nullptr;
+	SDL_Texture*			iceTornadoTex = nullptr; 
 
 	std::vector<GroupInfo> spawngroups;
 	std::list<j1Entity*>	entities;

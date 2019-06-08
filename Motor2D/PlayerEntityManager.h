@@ -51,8 +51,8 @@ private:
 	fPoint sensitivitySpeed = { 5.f,5.f };
 	bool clamped = false; // following a enemy entity
 	float maxRadiusDistance;
+	iPoint subtileCheckRadius[9];
 
-	
 };
 
 

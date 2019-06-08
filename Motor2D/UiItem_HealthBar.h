@@ -33,7 +33,7 @@ class UiItem_HealthBar : public UiItem
 {
 
 public:
-	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent); // player
+	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, const SDL_Rect* staticSection, type variant, UiItem* const parent); // player
 	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent); // boss
 	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever); // enemies
 	~UiItem_HealthBar();
@@ -70,15 +70,18 @@ private:
 	float conversionFactor = 0.0f;
 
 	bool recuperating = false;
-	type variantType;
+
 	j1PerfTimer damageBarTimer;
 
 
 	iPoint offsetFromEnemy;
 	uint enemyMaxLife;
-	bool startShowing = false;
 
+public: 
+	bool startShowing = false;
 	bool spawnedSkull = false;
+	type variantType;
+private: 
 
 	iPoint playerBarOffset = { 28,11 };
 

@@ -43,7 +43,10 @@
 #include "Boss_Flower.h"
 #include "j1EasingSplines.h"
 #include "j1Gui.h"
+#include <assert.h>
 #include "DialogTriggerVolatile.h"
+#include "WhisperOfIce.h"
+
 
 
 j1EntityFactory::j1EntityFactory()
@@ -91,6 +94,7 @@ bool j1EntityFactory::Start()
 	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
 	hallTex = App->tex->Load("maps/Tilesets/Main Hall/tileset_main_hall.png");
 	ButtonAtex = App->tex->Load("textures/interactable_states/button_a.png");
+	iceTornadoTex = App->tex->Load("textures/spells/Ritz_attacks/ritz_tornado_whispersOfIce_wip.png");
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -276,7 +280,9 @@ bool j1EntityFactory::CleanUp()
 	interactiveStatesTex = nullptr;
 	App->tex->UnLoad(hallTex);
 	hallTex = nullptr;
-
+	App->tex->UnLoad(iceTornadoTex);
+	iceTornadoTex = nullptr;
+	
 	player = nullptr;
 
 	return ret;
@@ -692,18 +698,27 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
+
 	case PROJECTILE_TYPE::GOLEM_ARROW:
 		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
+
 	case PROJECTILE_TYPE::BOSS_EMMITER:
 		/*ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
 		entities.push_back(ret);*/
 		break;
+
 	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
 		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::WHISPER_OF_ICE: 
+		ret = DBG_NEW WhisperOfIce(pos, destination, speed, lifeTime, owner);
+		entities.push_back(ret);
+		break; 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -2122,6 +2137,9 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 	if (lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
 		MagicPriceCalculator(lootEntity);
 
+
+	assert(lootEntity->price > 20);
+
 	return true;
 }
 
@@ -2279,7 +2297,7 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 	item->vendorPrice = baseFinalPrice * 1.15f; 
 
 
-
+	assert(item->price > 20); 
 
 }
 
