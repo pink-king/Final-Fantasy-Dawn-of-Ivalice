@@ -624,9 +624,12 @@ void CharacterStats::ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(L
 
 	if (!characterFakeSwapDone)
 	{
-		App->scene->inventoryItem->swapCharacterItemsWithoutSwappingCharacter(ent->character->name);
-		characterTag = ent->character->name;
-		InitializeStats(true);
+		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
+		{
+			App->scene->inventoryItem->swapCharacterItemsWithoutSwappingCharacter(ent->character->name);
+			characterTag = ent->character->name;
+			InitializeStats(true);
+		}
 
 		characterFakeSwapDone = true;
 

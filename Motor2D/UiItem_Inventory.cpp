@@ -31,22 +31,22 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	SDL_Color c = { 255, 255, 255, 255 };
 
 	charNameLabel = App->gui->AddLabel(App->entityFactory->player->selectedCharacterEntity->name,
-		c, App->font->knightsQuest24, iPoint(startingPos.x + 265, startingPos.y + 50), this);
+		c, App->font->weekSRB18, iPoint(startingPos.x + 265, startingPos.y + 50), this);
 
 
 
 	if (isVendorInventory)
 	{
-		equippedLabel = App->gui->AddLabel("PLAYER", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
-		bagLabel = App->gui->AddLabel("VENDOR", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
-		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		equippedLabel = App->gui->AddLabel("PLAYER", c, App->font->weekSRB18, iPoint(startingPos.x + 30, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("VENDOR", c, App->font->weekSRB18, iPoint(startingPos.x + 30, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->weekSRB18, iPoint(startingPos.x + 500, startingPos.y + 300), this);
 		consumablesLabel->hide = true;
 	}
 	else
 	{
-		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
-		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
-		consumablesLabel = App->gui->AddLabel("CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->weekSRB18, iPoint(startingPos.x + 30, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->weekSRB18, iPoint(startingPos.x + 30, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("CONSUMABLES", c, App->font->weekSRB18, iPoint(startingPos.x + 500, startingPos.y + 300), this);
 	}
 
 
