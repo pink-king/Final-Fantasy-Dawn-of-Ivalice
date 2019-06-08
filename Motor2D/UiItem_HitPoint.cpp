@@ -85,9 +85,13 @@ void UiItem_HitPoint::Draw(const float& dt)
 	if (!App->scene->inventory->enable && !App->scene->pausePanel->enable && !App->dialog->isDialogSequenceActive)
 	{
 		
-			if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
 			{
 				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
+			}
+			else if (this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
+			{
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor);
 			}
 			else if (this->valueInformation.string == "FIERCE")
 			{
