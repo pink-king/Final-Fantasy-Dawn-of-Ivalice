@@ -14,7 +14,8 @@ WaveTrigger::~WaveTrigger()
 	std::list<j1Entity*>::iterator wallsIter = exit_wall_entities.begin();
 	for (; wallsIter != exit_wall_entities.end(); ++wallsIter)
 	{
-		(*wallsIter)->to_delete = true;
+		if((*wallsIter) != nullptr)
+			(*wallsIter)->to_delete = true;
 	}
 	exit_wall_entities.clear();
 

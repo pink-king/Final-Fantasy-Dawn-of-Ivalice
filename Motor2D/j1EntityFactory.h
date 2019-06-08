@@ -51,7 +51,6 @@ enum class BreakableType
 	NO_BREAKABLE_TYPE
 };
 
-
 struct entityDataMap
 {
 	std::vector<j1Entity*> entities;
