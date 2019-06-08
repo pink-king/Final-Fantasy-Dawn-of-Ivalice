@@ -82,6 +82,36 @@ bool WaveTrigger::Update(float dt)
 	return true;
 }
 
+bool WaveTrigger::Save(pugi::xml_node &node) const
+{
+	node.append_attribute("type") = (int)triggerType;
+	node.append_attribute("posX") = (int)position.x;
+	node.append_attribute("posY") = (int)position.y;
+
+	node.append_attribute("zoneX") = waveZone.x;
+	node.append_attribute("zoneY") = waveZone.y;
+	node.append_attribute("zoneW") = waveZone.w;
+	node.append_attribute("zoneH") = waveZone.h;
+
+	node.append_attribute("level") = level;
+
+	std::list<iPoint>::const_iterator iter = entry_wall_map_positions.begin();
+	for (; iter != entry_wall_map_positions.end(); ++iter)
+	{
+		pugi::xml_node nodeEntryWall = node.append_child("entrytWall");
+		nodeEntryWall.append_attribute("posX") = (int)(*iter).x;
+		nodeEntryWall.append_attribute("posY") = (int)(*iter).y;
+	}
+
+	for (iter = exit_wall_map_positions.begin(); iter != exit_wall_map_positions.end(); ++iter)
+	{
+		pugi::xml_node nodeExitWall = node.append_child("exitWall");
+		nodeExitWall.append_attribute("posX") = (int)(*iter).x;
+		nodeExitWall.append_attribute("posY") = (int)(*iter).y;
+	}
+	return true;
+}
+
 void WaveTrigger::CreateExitWall(iPoint pos)
 {
 	exit_wall_map_positions.push_back(pos);
