@@ -376,6 +376,15 @@ bool WaveManager::isWaveOver() const
 void WaveManager::Finish()
 {
 	// What happens when the waves are completed - i. e. open doors, spawn legendary loot etc...
+	iPoint targetChestPos = iPoint(0, 0); 
+	if (App->scene->state == SceneState::LEVEL1)
+		targetChestPos = App->map->MapToWorld(14, 17); 
+	else
+		targetChestPos = App->map->MapToWorld(14, 17);
+
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE);
+
+
 }
 
 bool WaveManager::Load(pugi::xml_node&)
