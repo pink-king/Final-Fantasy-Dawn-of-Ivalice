@@ -589,7 +589,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 3000; // DODGE cooldown, restarts when dodge finishes
+	coolDownData.dodge.cooldownTime = 4000; // DODGE cooldown, restarts when dodge finishes
 	coolDownData.special1.cooldownTime = 5500;
 	coolDownData.special2.cooldownTime = 5500;
 	coolDownData.ultimate.cooldownTime = 10000;
