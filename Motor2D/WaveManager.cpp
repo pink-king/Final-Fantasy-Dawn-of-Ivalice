@@ -14,7 +14,7 @@ WaveManager::WaveManager(const SDL_Rect& zone, uint numWaves, WAVE_TYPE type, j1
 
 WaveManager::~WaveManager()
 {
-	App->scene->wave_label->hide = true;
+	
 	App->audio->PlayFx(App->scene->wave_end, 0);
 
 	// associate trigger delete
@@ -224,7 +224,7 @@ WaveData WaveManager::LoadNextWaveData(uint waveNumber)
 			data.zombieChances = 0;
 		}
 		break;
-
+		
 	case 6:
 		if (type == WAVE_TYPE::LEVEL_1)
 		{
@@ -376,6 +376,17 @@ bool WaveManager::isWaveOver() const
 void WaveManager::Finish()
 {
 	// What happens when the waves are completed - i. e. open doors, spawn legendary loot etc...
+	iPoint targetChestPos = iPoint(0, 0); 
+
+	if (App->scene->state == SceneState::LEVEL1)
+		targetChestPos = App->map->MapToWorld(14, 7); 
+
+	else if(App->scene->state == SceneState::LEVEL2)
+		targetChestPos = App->map->MapToWorld(14, 34);
+
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE);
+
+	App->scene->wave_label->hide = true;
 }
 
 bool WaveManager::Load(pugi::xml_node&)

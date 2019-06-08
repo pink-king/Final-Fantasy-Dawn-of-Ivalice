@@ -2088,6 +2088,12 @@ ConsumableStats j1Scene::GetConsumableInfo(LootEntity* consumable)
 	LOG("OriginPos X %f", consumStats.position.x);
 	LOG("OriginPos X %f", consumStats.position.y);
 
+	consumStats.distance_to_travel.x = App->entityFactory->player->position.x + 50 - consumStats.position.x;//bag screen pos
+	consumStats.distance_to_travel.y = App->entityFactory->player->position.y - 50 - consumStats.position.y;
+
+
+	App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 500, 1200, EASE_OUT_CUBIC,true);
+	App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y - 200, 1200, EASE_OUT_CUBIC,false);
 	return consumStats;
 }
 
@@ -2096,17 +2102,19 @@ ConsumableStats j1Scene::GetConsumableInfo(LootEntity* consumable)
 void j1Scene::UpdateConsumable()
 {
 	iPoint mPos = App->render->ScreenToWorld(448, 106);
+	int time_to_travel=2000;
 //	LOG("mPOS %i %i", App->render->ScreenToWorld(448, 106));
 	for (std::list<ConsumableStats>::iterator iter = consumableinfo.begin(); iter != consumableinfo.end(); ++iter)
 	{
 		
-		if ((*iter).actualTime.Read() < 2000)
+		if ((*iter).actualTime.Read() < 1200)
 		{
 			
-			(*iter).distance_to_travel.x = mPos.x - (*iter).position.x;//bag screen pos
-			(*iter).distance_to_travel.y = mPos.y - (*iter).position.y;
-			(*iter).position.x += (*iter).distance_to_travel.x * ((*iter).actualTime.Read()/2000) + (*iter).initialPos.x*0.2; //distance_to_travel * (time_passed / time_to_travel) + initial_position;
-			(*iter).position.y -= (*iter).distance_to_travel.y * ((*iter).actualTime.Read() / 2000) + (*iter).initialPos.y*0.07;
+			
+			//(*iter).position.x -= (*iter).distance_to_travel.x * ((*iter).actualTime.Read()/2000) + (*iter).initialPos.x*0.02; //distance_to_travel * (time_passed / time_to_travel) + initial_position;
+			//(*iter).position.y -= (*iter).distance_to_travel.y * ((*iter).actualTime.Read() / 2000) + (*iter).initialPos.y*0.01;
+
+			//(*iter).position.y -= (*iter).distance_to_travel.y * ( (*iter).actualTime.Read() = (*iter).actualTime.Read()/ time_to_travel) + (*iter).initialPos.y * 0.01;
 			LOG("valoresX %f", (*iter).position.x);
 			LOG("valoresY %f", (*iter).position.y);
 			

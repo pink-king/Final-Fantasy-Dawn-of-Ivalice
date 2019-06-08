@@ -46,7 +46,7 @@
 #include <assert.h>
 #include "DialogTriggerVolatile.h"
 #include "WhisperOfIce.h"
-
+#include "j1Window.h"
 
 
 j1EntityFactory::j1EntityFactory()
@@ -2603,8 +2603,14 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					std::string dest = "LVL" + std::to_string(player->level);
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 
-					iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-					App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+					uint width, height;
+					width = height = 0;
+
+					App->win->GetWindowSize(width, height);
+
+					iPoint targetLabelPos = iPoint((width / 2) - 150, 50);
+					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
+
 					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
 
 					player->GetVendor()->generateVendorItems(true);
