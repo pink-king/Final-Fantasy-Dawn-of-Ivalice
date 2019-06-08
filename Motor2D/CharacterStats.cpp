@@ -7,7 +7,7 @@
 #include "Marche.h"
 #include "Ritz.h"
 #include "Shara.h"
-
+#include <assert.h>
 CharacterStats::CharacterStats(UiItem* const parent) :UiItem(parent)
 {
 	this->parent = parent;
