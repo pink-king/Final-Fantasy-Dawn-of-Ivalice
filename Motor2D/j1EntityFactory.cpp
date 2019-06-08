@@ -46,7 +46,7 @@
 #include <assert.h>
 #include "DialogTriggerVolatile.h"
 #include "WhisperOfIce.h"
-
+#include "j1Window.h"
 
 
 j1EntityFactory::j1EntityFactory()
