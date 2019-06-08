@@ -35,11 +35,11 @@ public:
 	void SetInitially();
 	bool PostUpdate() override;		// Checks if its too far from the player and deletes it
 	void SetNewDirection(const fPoint& newdir);		
-	bool OnCollisionWithEnemy();	
 	float SetMyAngleRotation(const fPoint& direction);	// Useful for render rotations
 	bool TooFarAway() const;
-	bool OnCollisionWithWall() const;
-	bool OnCollisionWithPlayer() const; 
+	bool OnCollisionWithEnemy(const int& radius = 0) const;
+	bool OnCollisionWithWall(const int& radius = 0) const;
+	bool OnCollisionWithPlayer(const int& radius = 0) const;
 	bool ReachedDestiny() const; // Needs to take a look to the initial direction (vertical cases)
 	void Draw() override;
 

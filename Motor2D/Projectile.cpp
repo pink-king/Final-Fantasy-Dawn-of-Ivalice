@@ -46,11 +46,6 @@ void Projectile::SetNewDirection(const fPoint & newdir)
 	direction.Normalize(); 
 }
 
-bool Projectile::OnCollisionWithEnemy()
-{
-	return (!App->entityFactory->isThisSubtileEnemyFree(GetSubtilePos()));
-}
-
 float Projectile::SetMyAngleRotation(const fPoint & direction)
 {
 	return RADTODEG * atan2f(direction.y, direction.x);
@@ -62,14 +57,55 @@ bool Projectile::TooFarAway() const
 	return (App->entityFactory->player->GetPivotPos().DistanceManhattan(GetPivotPos()) > DESTRUCTIONRANGE);
 }
 
-bool Projectile::OnCollisionWithWall() const
+bool Projectile::OnCollisionWithEnemy(const int & radius) const
 {
-	return (!App->pathfinding->IsWalkable(GetTilePos()));
+	if(radius == 0)
+		return (!App->entityFactory->isThisSubtileEnemyFree(GetSubtilePos()));
+
+	for (int i = -radius; i <= radius; ++i)
+	{
+		for (int j = -radius; j <= radius; ++j)
+		{
+			iPoint checkPos = GetSubtilePos() + iPoint(i, j);
+			if (!App->entityFactory->isThisSubtileEnemyFree(checkPos))
+				return true; 
+		}
+	}
+	return false;
 }
 
-bool Projectile::OnCollisionWithPlayer() const
+bool Projectile::OnCollisionWithWall(const int & radius) const
 {
-	return (!App->entityFactory->isThisSubtilePlayerFree(GetSubtilePos()));
+	if(radius == 0)
+		return (!App->pathfinding->IsWalkable(GetTilePos()));
+
+	for (int i = -radius; i <= radius; ++i)
+	{
+		for (int j = -radius; j <= radius; ++j)
+		{
+			iPoint mySubtile = GetSubtilePos() + iPoint(i, j);
+			iPoint myTilePos = App->map->SubTileMapToWorld(mySubtile.x, mySubtile.y);
+			if (!App->pathfinding->IsWalkable(App->map->WorldToMap(myTilePos.x + 8, myTilePos.y + 8)))
+				return true; 	
+		}
+	}
+	return false;
+}
+
+bool Projectile::OnCollisionWithPlayer(const int & radius) const
+{
+	if(radius == 0)
+		return (!App->entityFactory->isThisSubtilePlayerFree(GetSubtilePos()));
+
+	for (int i = -radius; i <= radius; ++i)
+	{
+		for (int j = -radius; j <= radius; ++j)
+		{
+			if (!App->entityFactory->isThisSubtilePlayerFree(GetSubtilePos() + iPoint(i, j)))
+				return true;
+		}
+	}
+	return false;
 }
 
 bool Projectile::ReachedDestiny() const
