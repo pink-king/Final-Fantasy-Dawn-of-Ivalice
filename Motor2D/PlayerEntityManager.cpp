@@ -822,12 +822,14 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
 			{
 				App->audio->PlayFx(App->scene->pickPotion, 0);
+				App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
 				consumables.push_back(entityLoot);
 			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::PHOENIX_TAIL)
 			{
 				App->audio->PlayFx(App->scene->pickPotion, 0);
+				App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
 				consumables.push_back(entityLoot);
 			}
 

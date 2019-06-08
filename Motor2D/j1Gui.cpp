@@ -565,7 +565,7 @@ void j1Gui::destroyElement(UiItem * elem)
 	{
 		if (elem != nullptr && (*item) == elem)
 		{
-			
+			(*item)->CleanUp(); 
 			delete (*item);
 			*item = nullptr;
 			item = ListItemUI.erase(item);
