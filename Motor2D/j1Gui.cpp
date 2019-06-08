@@ -547,7 +547,6 @@ bool j1Gui::CleanUp()
 		if ((*item) != nullptr)
 		{
 			(*item)->CleanUp();
-			ListItemUI.remove(*item);
 			delete *item;
 			*item = nullptr;
 		}
