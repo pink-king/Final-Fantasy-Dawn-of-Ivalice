@@ -1101,20 +1101,20 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 		if (App->scene->inventory->enable)
 		{
-			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 170;
 			this->cooldownComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 		else
 		{
-			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->damageComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->damageComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->cooldownComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->cooldownComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 
@@ -1135,21 +1135,21 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 		if (App->scene->inventory->enable)
 		{
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->HPComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->velocityComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 		else
 		{
 
-			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->resistanceComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->resistanceComparisonLabel.label->hitBox.y = referencePanelPosition.y + 70;
-			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->HPComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->HPComparisonLabel.label->hitBox.y = referencePanelPosition.y + 100;
-			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 164;
+			this->velocityComparisonLabel.label->hitBox.x = referencePanelPosition.x + 167;
 			this->velocityComparisonLabel.label->hitBox.y = referencePanelPosition.y + 130;
 		}
 

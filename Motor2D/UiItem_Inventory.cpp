@@ -39,14 +39,14 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 	{
 		equippedLabel = App->gui->AddLabel("PLAYER", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
 		bagLabel = App->gui->AddLabel("VENDOR", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
-		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		consumablesLabel = App->gui->AddLabel("VENDOR CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 280), this);
 		consumablesLabel->hide = true;
 	}
 	else
 	{
-		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 80), this);
-		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 30, startingPos.y + 280), this);
-		consumablesLabel = App->gui->AddLabel("CONSUMABLES", c, App->font->knightsQuest24, iPoint(startingPos.x + 500, startingPos.y + 300), this);
+		equippedLabel = App->gui->AddLabel("EQUIPPED", c, App->font->knightsQuest24, iPoint(startingPos.x + 25, startingPos.y + 80), this);
+		bagLabel = App->gui->AddLabel("EQUIPPABLE", c, App->font->knightsQuest24, iPoint(startingPos.x + 10, startingPos.y + 280), this);
+		consumablesLabel = App->gui->AddLabel("POTIONS", c, App->font->knightsQuest24, iPoint(startingPos.x + 690, startingPos.y + 280), this);
 	}
 
 
