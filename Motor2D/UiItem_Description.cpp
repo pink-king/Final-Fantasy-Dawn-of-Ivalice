@@ -153,6 +153,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+		this->price->useCamera = false; 
 	}
 }
 
@@ -282,6 +283,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+
+		this->price->useCamera = false;
 	}
 
 }
@@ -356,6 +360,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+		this->price->useCamera = false; 
 	}
 }
 
@@ -562,7 +568,6 @@ void UiItem_Description::Draw(const float& dt)
 
 
 		}
-
 
 
 	}
@@ -893,8 +898,23 @@ bool UiItem_Description::ChangeComparisonLabels()
 	if (App->gui->selected_object == this->iconImageInventory)
 	{
 
-		App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);          // CAUTIOn: if item is selected again, prevent calculating again (xd)
+		bool isEquipped = false;
 
+		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
+
+		for (; lootItem != App->entityFactory->player->equipedObjects.end(); ++lootItem)
+		{
+
+			if ((*lootItem) == this->callback)
+				isEquipped = true;
+
+		}
+
+		if (!App->scene->inventoryItem->isVendorInventory)
+			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
+
+		else if (!App->scene->characterStatsItem->characterFakeSwapDone && !isEquipped)
+			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
 	}
 
 
@@ -1031,11 +1051,16 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
 
+	/*if (App->scene->inventory->enable)
+	{*/
+		int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
 
-	int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
+		this->price->hitBox.x = destPricePosX;
+		this->price->hitBox.y = referencePanelPosition.y + 190;
 
-	this->price->hitBox.x = destPricePosX;
-	this->price->hitBox.y = referencePanelPosition.y + 190;
+	//}
+	
+
 
 	if (this->descrType != descriptionType::POTION)
 	{
@@ -1160,14 +1185,14 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this->iconImage);
 	App->gui->destroyElement(this->panelWithButton);
 	App->gui->destroyElement(this->name);
-
 	App->gui->destroyElement(this->price);
 
 	// TODO: delete the icon image in the inventory only if it exists
-	//this->iconImageInventory->to_delete = true;
-
+	
 	if (spawnedInventoryImage)
 	{
+		App->scene->inventoryItem->totalDeSpawnedInventoryIcons++;
+		LOG("_______________________________________________   total despawned icons: %i", App->scene->inventoryItem->totalDeSpawnedInventoryIcons);
 		App->gui->destroyElement(this->iconImageInventory);
 	}
 
@@ -1205,4 +1230,9 @@ void UiItem_Description::DeleteEverything()
 
 	App->gui->destroyElement(this);
 
+}
+
+void UiItem_Description::LastHoveredCharacterStatSwapReset()
+{
+	App->scene->characterStatsItem->characterFakeSwapDone = false;
 }

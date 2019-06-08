@@ -4,6 +4,9 @@
 #include "p2Log.h"
 #include "j1EntityFactory.h"
 #include "UiItem_Description.h"
+#include "Marche.h"
+#include "Ritz.h"
+#include "Shara.h"
 
 CharacterStats::CharacterStats(UiItem* const parent) :UiItem(parent)
 {
@@ -79,7 +82,14 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 		iconImage->parent = block;
 		iconImage->guiType = GUI_TYPES::CHARACTERSTATBLOCKLABEL;
+
+		numberOfSpawnedStatItems += 6;
+		LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
+
 	}
+
+	characterTag = App->entityFactory->player->selectedCharacterEntity->name;
+
 
 	InitializeStats();
 
@@ -103,7 +113,12 @@ void CharacterStats::SetBaseStats()
 			}
 			else if (dynamic_cast<CharacterStatBlock*>(*iter)->BlockName->text == "VELOCITY")
 			{
-				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = App->entityFactory->player->selectedCharacterEntity->mySpeedModular;
+				if (characterTag == App->entityFactory->player->GetRitz()->name)
+					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetRitz())->mySpeedModular;
+				else if (characterTag == App->entityFactory->player->GetMarche()->name)
+					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetMarche())->mySpeedModular;
+				else if (characterTag == App->entityFactory->player->GetShara()->name)
+					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetShara())->mySpeedModular;
 			}
 
 
@@ -296,8 +311,97 @@ void CharacterStats::ShowAllComparisonStats()
 void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 {
 
-	if (App->entityFactory->player->selectedCharacterEntity == ent->character)
+	if (App->scene->inventoryItem->isVendorInventory)
+		ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(ent);
 
+	if (!App->scene->inventoryItem->isVendorInventory)
+	{
+		if (App->entityFactory->player->selectedCharacterEntity == ent->character)
+
+		{
+
+			std::array<int, 5> characterStatsMapping = {};
+			std::array<int, 5> characterStatsValues = {};
+
+			int attack = 0;
+			int resistance = 0;
+			int cooldown = 0;
+
+			int HP = 0;
+			int velocity = 0;
+
+			std::vector<Buff*>::iterator iter = ent->stats.begin();
+
+			if (ent->GetObjectType() == OBJECT_TYPE::WEAPON_OBJECT)
+			{
+				for (; iter != ent->stats.end(); ++iter)    // capture att and def 
+				{
+					if ((*iter)->GetRol() == ROL::ATTACK_ROL)
+					{
+						attack = (int)(*iter)->GetValue();
+
+						characterStatsMapping.at(0) = 1;
+						characterStatsValues.at(0) = attack;
+					}
+					else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+					{
+						resistance = (int)(*iter)->GetValue();
+
+						characterStatsMapping.at(1) = 1;
+						characterStatsValues.at(1) = resistance;
+					}
+					else if ((*iter)->GetRol() == ROL::COOLDOWN)
+					{
+						cooldown = (int)(*iter)->GetValue();
+
+						characterStatsMapping.at(2) = 1;
+						characterStatsValues.at(2) = cooldown;
+					}
+
+				}
+
+			}
+			else if (ent->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT)
+			{
+				for (; iter != ent->stats.end(); ++iter)   // capture def and other 2 possible rols
+				{
+					if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
+					{
+						resistance = (int)(*iter)->GetValue();
+
+						characterStatsMapping.at(1) = 1;
+						characterStatsValues.at(1) = resistance;
+					}
+					else if ((*iter)->GetRol() == ROL::HEALTH)
+					{
+						HP = (*iter)->GetValue();
+
+						characterStatsMapping.at(3) = 1;
+						characterStatsValues.at(3) = HP;
+					}
+					else if ((*iter)->GetRol() == ROL::VELOCITY)
+					{
+						velocity = (int)(*iter)->GetValue();
+
+
+						characterStatsMapping.at(4) = 1;
+						characterStatsValues.at(4) = velocity;
+					}
+
+				}
+
+			}
+
+			//App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
+			CompareStats(characterStatsMapping, characterStatsValues);
+		}
+		else
+		{
+			HideAllComparisonStats();
+		}
+
+	}
+	else
 	{
 
 		std::array<int, 5> characterStatsMapping = {};
@@ -374,13 +478,17 @@ void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 
 		//App->scene->characterStatsItem->GetNewStatsWithoutComparing(characterStatsMapping, characterStatsValues);
 		CompareStats(characterStatsMapping, characterStatsValues);
-	}
-	else
-	{
-		HideAllComparisonStats();
-	}
-}
 
+
+	}
+
+
+
+
+
+
+
+}
 
 /*
 void CharacterStats::GetNewStatsWithoutComparing(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values)
@@ -411,34 +519,46 @@ void CharacterStats::deGenerateCharacterStats()  // call it when closing invento
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
 
 
-	/*for (; iter != App->gui->ListItemUI.end();)
-	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+	/*	for (; iter != App->gui->ListItemUI.end();)
 		{
-			iter = App->gui->ListItemUI.erase(iter);
-			delete (*iter);
-			(*iter) = nullptr;
+			if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK)
+			{
+
+				delete (*iter);
+				(*iter) = nullptr;
+				iter = App->gui->ListItemUI.erase(iter);
+
+			}
+			else if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+			{
+				delete (*iter);
+				(*iter) = nullptr;
+				iter = App->gui->ListItemUI.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+			*/
+	//}Estaba sin comentar y daba error abajo
+
+		for (; iter != App->gui->ListItemUI.end(); ++iter)
+		{
+			if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
+			{
+				(*iter)->to_delete = true;
+
+
+
+				numberOfSpawnedStatItems--;
+				LOG("___________________________________________________________________________________ STAT ITMES %i", numberOfSpawnedStatItems);
+			}
 
 		}
-		else
-		{
-			iter++;
-		}
-	}*/
-
-	for (; iter != App->gui->ListItemUI.end(); ++iter)
-	{
-		if ((*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCK || (*iter)->guiType == GUI_TYPES::CHARACTERSTATBLOCKLABEL)
-		{
-			(*iter)->to_delete = true;
-
-		}
-
-	}
 
 }
 
-void CharacterStats::InitializeStats()
+void CharacterStats::InitializeStats(bool swappingCharacter)
 {
 	ResetDefaultStats();    // useful when swapping characters
 
@@ -448,10 +568,20 @@ void CharacterStats::InitializeStats()
 	{
 		for (auto& item : App->entityFactory->player->equipedObjects)
 		{
-			if (App->entityFactory->player->selectedCharacterEntity == item->character)
-
+			if (!App->scene->inventoryItem->isVendorInventory)
 			{
-				getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+				if (App->entityFactory->player->selectedCharacterEntity == item->character)
+
+				{
+					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+					SetNewStats();
+				}
+			}
+			else
+			{
+				if (!swappingCharacter)
+					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
+
 				SetNewStats();
 			}
 		}
@@ -489,5 +619,20 @@ void CharacterStats::ResetDefaultStats()
 	}
 }
 
+void CharacterStats::ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(LootEntity* ent)
+{
+
+	if (!characterFakeSwapDone)
+	{
+		App->scene->inventoryItem->swapCharacterItemsWithoutSwappingCharacter(ent->character->name);
+		characterTag = ent->character->name;
+		InitializeStats(true);
+
+		characterFakeSwapDone = true;
+
+	}
+
+
+}
 
 // TODO: remember to clean the map in the global ui item clean up

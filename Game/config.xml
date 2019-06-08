@@ -172,8 +172,9 @@
 
       <healthbars>
         <healthbar name="life_bar">
-          <dynamicSection x="0" y="432" w="153" h="31"/>
-          <damageSection x="28" y="414" w="126" h="16"/>
+	    <test x="25" y="461" w="156" h="19"/>
+          <dynamicSection x="0" y="425" w="153" h="31"/>
+          <damageSection x="28" y="407" w="126" h="16"/>
           <position x="32" y="150"/>
           <type value="player"/>
         </healthbar>
@@ -605,39 +606,22 @@
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="267" y="297"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="470" y="481" w="55" h="53"/>
-          <image_hover x="219" y="566" w="56" h="54"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSlider">
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="267" y="394"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="504" y="722" w="58" h="59"/>
-          <image_hover x="221" y="721" w="61" h="61"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
       </panelBars>
 
-      <PanelCheckboxes>
-        <!--
-        <PanelCheckbox name="test_checkbox" function = "FpsCap">
-          <panelPosition x="588" y="473"/>
-          <panelSection x="293" y="666" w="200" h="36"/>
-          <boxSection x="518" y="673" w="25" h="25"/>
-          <tickSection x="555" y="678" w="18" h="18"/>
-          <font value = "Open_Sans Bold"/>
-          <checkboxLabels>
-            <checkboxLabel name="labelInsideCheckbox">
-              <text value = "FPS Cap"/>
-              <color R="0" G="0" B="0" A="255"/>
-              <font value = "1" size = "18"/>
-            </checkboxLabel>
-          </checkboxLabels>
-        </PanelCheckbox>
--->
-      </PanelCheckboxes>
+      
 
       <buttons>
         <button name="button_backMenu" function = "GoBackToMenu">
@@ -680,39 +664,47 @@
         </label>
       </labels>
 
+      <!--
       <panelBars>
 
         <panelBar name="volumeSliderInGame">
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="530" y="237"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="470" y="481" w="55" h="53"/>
-          <image_hover x="219" y="566" w="56" h="54"/>
+          <image_idle x="504" y="722" w="58" h="59"/>
+          <image_hover x="221" y="721" w="61" h="61"/>
+         
           <type value = "HORIZONTAL"/>
         </panelBar>
         <panelBar name="fxSliderInGame">
           <section_bar x="1101" y="610" w="215" h="34"/>
           <position x="530" y="334"/>
           <section_thumb x="1150" y="558" w="42" h="42"/>
-          <image_idle x="504" y="722" w="58" h="59"/>
-          <image_hover x="221" y="721" w="61" h="61"/>
+          <image_idle x="470" y="481" w="55" h="53"/>
+          <image_hover x="219" y="566" w="56" h="54"/>
           <type value = "HORIZONTAL"/>
         </panelBar>
 
       </panelBars>
-
+-->
       <buttons>
+         <button name="button_settings" function = "SettingsScreen">
+          <idleSec  x="1079" y="2320" w="222" h="67"/>
+          <hoverSec x="1079" y="2252" w="222" h="67" />
+          <clickSec x="1079" y="2388" w="222" h="67" />
+          <position x="530" y="300"/>
+        </button>
         <button name="button_backMenu" function = "GoBackToStartMenu">
           <idleSec  x="856" y="2728" w="222" h="67"/>
           <hoverSec x="856" y="2660" w="222" h="67" />
           <clickSec x="856" y="2796" w="222" h="67" />
-          <position x="530" y="551"/>
+          <position x="530" y="522"/>
         </button>
         <button name="button_backGame" function = "GoBackToGame">
           <idleSec  x="1079" y="2524" w="222" h="67"/>
           <hoverSec x="1079" y="2456" w="222" h="67" />
           <clickSec x="1079" y="2592" w="222" h="67" />
-          <position x="530" y="440"/>
+          <position x="530" y="411"/>
         </button>
       </buttons>
 
@@ -942,6 +934,18 @@
 
 
       </images>
+      
+      
+        <checkboxes>
+        <checkbox name="checkbox_prove" function = "AimToggle">
+          <idleSec  x="1079" y="3275" w="179" h="41"/>
+          <hoverSec x="1079" y="3319" w="179" h="41" />
+          <clickSec x="1079" y="3363" w="179" h="41" />
+          <tickSec  x="126" y="33" w="19" h="18" />
+          <position x="652" y="484"/>
+        </checkbox>
+      </checkboxes>
+            
 
       <buttons>
         <button name="button_backSettings" function = "SettingsScreen">
@@ -951,10 +955,10 @@
           <position x="934" y="593"/>
         </button>
         <button name="button_default" function = "DefaultControls">
-          <idleSec  x="0" y="3097" w="220" h="43"/>
-          <hoverSec x="221" y="3097" w="220" h="43" />
-          <hoverSec x="221" y="3097" w="220" h="43" />
-          <position x="649" y="593"/>
+          <idleSec  x="856" y="3136" w="222" h="67"/>
+          <hoverSec x="856" y="3068" w="222" h="67" />
+          <hoverSec x="856" y="3204" w="222" h="67" />
+          <position x="652" y="593"/>
         </button>
       </buttons>
 

@@ -346,10 +346,11 @@ bool j1Input::PreUpdate()
 	//	GetSectionForElement("marche_dash_button");
 	//}
 
-	/*if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-	{
-		gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
-	}*/
+	//if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	//{
+	//	//gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
+	//	SaveGamepadMapScheme("config/controllerMapping.xml");
+	//}
 
 	return true;
 }
@@ -591,6 +592,16 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 		}
 	}
 
+	// LOAD TOGGLE flag
+	node = inputDoc.child("controller_mapping").child("aimToggle");
+	
+	if (node != NULL)
+	{
+		aimToggled = node.attribute("value").as_bool(false);
+	}
+	else
+		LOG("aimToggle child not found on config");
+
 	return true;
 }
 
@@ -647,6 +658,20 @@ bool j1Input::SaveGamepadMapScheme(const char* path)
 				thisButton.append_attribute("id").set_value((*it2).second.axis);
 			}
 		}
+	}
+
+	// save aimToggle
+	node = inputDoc.child("controller_mapping").child("aimToggle");
+	if (node == NULL)
+	{
+		node = inputDoc.child("controller_mapping").append_child("aimToggle");
+		if (node.empty())
+			return false;
+	}
+	else
+	{
+		node.remove_attribute("value");
+		node.append_attribute("value") = aimToggled;
 	}
 
 	inputDoc.save_file("config/controllerMapping.xml");
@@ -914,4 +939,19 @@ void j1Input::ListeningInputFor(std::string gui_elem_name)
 			}
 		}
 	}
+}
+
+bool j1Input::IsAimToggled() const
+{
+	return aimToggled;
+}
+
+void j1Input::ToggleAimON()
+{
+	aimToggled = true;
+}
+
+void j1Input::ToggleAimOFF()
+{
+	aimToggled = false;
 }

@@ -32,6 +32,9 @@ FireArrow::FireArrow(fPoint pos, fPoint destination, uint speed, const j1Entity 
 	timer.Start();
 	// Important for aiming offset
 	SetInitially();
+
+	this->speed = 140; 
+
 }
 
 FireArrow::~FireArrow()
@@ -47,7 +50,7 @@ FireArrow::~FireArrow()
 bool FireArrow::PreUpdate()
 {
 
-	if (OnCollisionWithEnemy() && !attacked)
+	if (OnCollisionWithEnemy(1) && !attacked)
 	{
 		Pierce();
 		attacked = true;
@@ -65,7 +68,7 @@ bool FireArrow::PreUpdate()
 	if (changedSubtile)
 	{
 		attacked = false;
-		LOG("Changed Subtile");
+		//LOG("Changed Subtile");
 	}
 
 	return true;

@@ -68,6 +68,7 @@ public:
 	void SaveGame(const char* file) const;
 	void GetSaveGames(std::list<std::string>& list_to_fill) const;
 
+	pugi::xml_node GetConfigForChild(const char* child) const;
 
 	float GetDt();
 	//float GetGameTime();

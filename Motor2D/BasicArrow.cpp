@@ -25,6 +25,9 @@ BasicArrow::BasicArrow(fPoint pos, fPoint destination, uint speed, const j1Entit
 
 	// Important for aiming offset
 	SetInitially();
+
+
+	this->speed = 200;
 }
 
 BasicArrow::~BasicArrow()

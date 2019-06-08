@@ -92,7 +92,7 @@ void UiItem_Label::Draw(const float & dt)
 			
 
 			SDL_QueryTexture(texture, NULL, NULL, &textureDimensions.x, &textureDimensions.y);
-			if (textureDimensions.x != prevTextDimension.x)
+			if (textureDimensions.x != prevTextDimension.x && this->name=="coinsLabel")
 			{
 				if (textureDimensions.x == 33)
 				{

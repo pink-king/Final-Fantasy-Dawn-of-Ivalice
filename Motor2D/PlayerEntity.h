@@ -43,15 +43,15 @@ enum class characterName
 	SHARA
 };
 
+struct cdata
+{
+	uint32 cooldownTime;
+	j1Timer timer;
+};
+
 struct coolDown
 {
-	struct data
-	{
-		uint32 cooldownTime;
-		j1Timer timer;
-	};
-
-	data basic,dodge,special1,special2,ultimate;
+	cdata basic,dodge,special1,special2,ultimate;
 };
 
 class PlayerEntity : public j1Entity
@@ -101,6 +101,7 @@ public:
 protected:
 	fPoint GetShotDirection();
 	void DoDash();
+	void SetCoolDownTimers();
 
 	
 	float dashMaxDistance;

@@ -18,6 +18,7 @@ EnemyTest::EnemyTest(iPoint position, uint speed, uint detectionRange, uint atta
 {
 	to_die = false;
 	LoadAnims(); 
+	this->isDynamicEnemy = true;
 }
 
 // Standard stats
@@ -26,6 +27,7 @@ EnemyTest::EnemyTest(iPoint position, bool dummy) : Enemy(position, 100, 10, 1, 
 {
 	to_die = false;
 	LoadAnims();
+	this->isDynamicEnemy = true;
 }
 
 EnemyTest::~EnemyTest()
@@ -36,6 +38,8 @@ EnemyTest::~EnemyTest()
 
 bool EnemyTest::Start()
 {
+
+
 	
 	return true;
 }
@@ -286,6 +290,12 @@ void EnemyTest::SetState(float dt)
 			cont = 0;
 			//LOG("Gave a free pass!");
 		}
+		break;
+	}
+
+	case EnemyState::MENTAL_EMBOLIA:
+	{
+		currentAnimation = &idle[pointingDir];
 		break;
 	}
 	case EnemyState::DYING:

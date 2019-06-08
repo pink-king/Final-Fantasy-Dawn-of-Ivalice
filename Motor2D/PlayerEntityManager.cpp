@@ -120,7 +120,7 @@ bool PlayerEntityManager::Update(float dt)
 	position = selectedCharacterEntity->position;
 	lastCharHeadingAngle = selectedCharacterEntity->GetLastHeadingAngle();
 
-	if (selectedCharacterEntity->IsAiming())
+	if (selectedCharacterEntity->IsAiming() && selectedCharacterEntity->character != characterName::MARCHE)
 	{
 		crossHair->Update(dt);
 	}
@@ -135,8 +135,15 @@ bool PlayerEntityManager::Update(float dt)
 		if (level < 20)
 		{
 
-			iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-				App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+		/*	iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
+				App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);*/
+
+			uint width, height; 
+			width = height = 0; 
+
+			App->win->GetWindowSize(width, height); 
+
+			iPoint targetLabelPos = iPoint((width / 2) - 150, 50);
 			App->HPManager->callLevelUpLabelSpawn(targetLabelPos, level);
 
 			GetVendor()->generateVendorItems(true);
@@ -145,6 +152,27 @@ bool PlayerEntityManager::Update(float dt)
 
 			std::string dest = "LVL" + std::to_string(level);
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+			for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
+			{
+
+				if (level == 2 && (*item)->name == "chain1")
+				{
+					(*item)->to_delete = true;
+					App->scene->canExecuteChainAnim = true;
+
+				}
+				else if (level == 3 && (*item)->name == "chain2")
+				{
+					(*item)->to_delete = true;
+
+				}
+				else if (level == 4 && (*item)->name == "chain3")
+				{
+					(*item)->to_delete = true;
+
+				}
+			}
 		}
 
 		else
@@ -535,59 +563,74 @@ bool PlayerEntityManager::SwapInputChecker()
 
 			if (App->scene->inventory->enable)
 			{
-				/*if (!App->scene->inventoryItem->isVendorInventory)
-				{*/
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
-
-			//}
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
+					SetPreviousCharacter();
+				}
+			}
+			else
+			{
+				SetPreviousCharacter();
 			}
 
-			SetPreviousCharacter();
+
 
 			if (App->scene->inventory->enable)
 			{
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					//App->scene->characterStatsItem->InitializeStats();
+					App->scene->characterStatsItem->InitializeStats();
+					SetPreviousCharacter();
 				}
-				else
+				/*else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
-				}
+				}*/
 
 
-				App->scene->characterStatsItem->InitializeStats();
 			}
-
+			else
+			{
+				SetPreviousCharacter();
+			}
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 		{
 			if (App->scene->inventory->enable)
 			{
-				/*if (!App->scene->inventoryItem->isVendorInventory)
-				{*/
-				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
-			//}
+				if (!App->scene->inventoryItem->isVendorInventory)
+				{
+					App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
+					SetNextCharacter();
+				}
+			}
+			else
+			{
+				SetNextCharacter();
 			}
 
-			SetNextCharacter();
+
 
 			if (App->scene->inventory->enable)
 			{
 				if (!App->scene->inventoryItem->isVendorInventory)
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
-					//App->scene->characterStatsItem->InitializeStats();
+					App->scene->characterStatsItem->InitializeStats();
+					SetNextCharacter();
 				}
-				else
+				/*else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
-				}
+				}*/
 
-				App->scene->characterStatsItem->InitializeStats();
-
+			}
+			else
+			{
+				SetNextCharacter();
 			}
 
 		}
@@ -802,12 +845,14 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			if (entityLoot->GetObjectType() == OBJECT_TYPE::POTIONS)
 			{
 				App->audio->PlayFx(App->scene->pickPotion, 0);
+				App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
 				consumables.push_back(entityLoot);
 			}
 
 			else if (entityLoot->GetObjectType() == OBJECT_TYPE::PHOENIX_TAIL)
 			{
 				App->audio->PlayFx(App->scene->pickPotion, 0);
+				App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
 				consumables.push_back(entityLoot);
 			}
 
@@ -1098,7 +1143,27 @@ Crosshair::Crosshair()
 	loopAnim.PushBack({ 279,139,216,63 });
 	loopAnim.speed = 10.0f;
 
+	// allowed clamped entities matrix
+	allowedClampedTypes[ENTITY_TYPE::BREAKABLE_ASSET] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_ARCHER] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_BOMB] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_ARCHER] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_DUMMY] = true;
+	allowedClampedTypes[ENTITY_TYPE::ENEMY_TEST] = true;
+	allowedClampedTypes[ENTITY_TYPE::FLOWERBOSS] = true;
+	allowedClampedTypes[ENTITY_TYPE::LOOT] = true;
+
 	pivotOffset.create(36, 10);
+
+	subtileCheckRadius[0] = { 0,-1 }; // N
+	subtileCheckRadius[1] = { 1,-1 }; // NE
+	subtileCheckRadius[2] = { 1,0 }; // E
+	subtileCheckRadius[3] = { 1, 1 }; // SE
+	subtileCheckRadius[4] = { 0,1 }; // S
+	subtileCheckRadius[5] = { -1,1 }; // SW
+	subtileCheckRadius[6] = { -1,0 }; // W
+	subtileCheckRadius[7] = { -1,-1 }; // NW
+	subtileCheckRadius[8] = { 0,0 }; // C
 
 	maxRadiusDistance = 160.f;//110.0f; // world coords.
 
@@ -1317,9 +1382,6 @@ bool Crosshair::ManageInput(float dt)
 	}
 
 
-	
-
-
 	// Clamp position to limited radius
 	// get distance from player to this point
 	iPoint crossPivotPos = GetPivotPos();
@@ -1400,22 +1462,37 @@ iPoint Crosshair::GetSubtilePoint()
 j1Entity* Crosshair::SearchForTargetOnThisSubtile(const iPoint subtile) const
 {
 	j1Entity* ret = nullptr;
-	
-	std::vector<j1Entity*>* subtileVec = App->entityFactory->GetSubtileEntityVectorAt(subtile);
 
-	if (subtileVec != NULL)
+	for (int i = 0; i < 9; ++i)
 	{
-		std::vector<j1Entity*>::iterator subIter = subtileVec->begin();
+		std::vector<j1Entity*>* subtileVec = App->entityFactory->GetSubtileEntityVectorAt(subtile + subtileCheckRadius[i]);
 
-		for (; subIter != subtileVec->end(); ++subIter)
+		if (subtileVec != NULL)
 		{
-			if ((*subIter)->type != ENTITY_TYPE::PLAYER && (*subIter)->type != ENTITY_TYPE::PROJECTILE && (*subIter)->type != ENTITY_TYPE::TRIGGER)
+			std::vector<j1Entity*>::iterator subIter = subtileVec->begin();
+
+			for (; subIter != subtileVec->end(); ++subIter)
 			{
-				//LOG("enemy found");
-				ret = (*subIter);
-				break;
+				if (allowedClampedTypes[(*subIter)->type])
+				{
+					if ((*subIter)->type == ENTITY_TYPE::LOOT)
+					{
+						if (dynamic_cast<LootEntity*>(*subIter)->objectType == OBJECT_TYPE::GOLD ||
+							dynamic_cast<LootEntity*>(*subIter)->objectType == OBJECT_TYPE::PHOENIX_TAIL ||
+							dynamic_cast<LootEntity*>(*subIter)->objectType == OBJECT_TYPE::POTIONS)
+						{
+							continue;
+						}
+					}
+		
+					ret = (*subIter);
+					break;
+				}
 			}
 		}
+
+		if (ret != nullptr)
+			break;
 	}
 
 	return ret;

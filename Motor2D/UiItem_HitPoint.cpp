@@ -7,6 +7,7 @@
 #include "p2Log.h"
 #include "j1Scene.h"
 #include "Brofiler/Brofiler.h"
+#include "j1DialogSystem.h"
 
 UiItem_HitPoint::UiItem_HitPoint(valueInfo valueInfo, SDL_Color color, TTF_Font* font, p2Point<int> position, UiItem* const parent, variant type) :UiItem(position, parent)
 {
@@ -81,29 +82,32 @@ void UiItem_HitPoint::Draw(const float& dt)
 	// TODO: blit hitPoints with an extra value: the scaling
 
 	returnLifeState();
-
-	if (!App->scene->inventory->enable)
+	if (!App->scene->inventory->enable && !App->scene->pausePanel->enable && !App->dialog->isDialogSequenceActive)
 	{
-		if (this->numerOrText == variant::number || this->numerOrText == variant::gold || this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
-		{
-			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
-		}
-		else if (this->valueInformation.string == "FIERCE")
-		{
-			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, -10.0f);  // rotate hitlabels
-		}
-		else if (this->valueInformation.string == "BRUTAL")
-		{
-			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
-		}
-		else if (this->valueInformation.string == "SAVE")
-		{
-			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);  // rotate hitlabels
-		}
+		
+			if (this->numerOrText == variant::number || this->numerOrText == variant::gold)
+			{
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 1.0F, scaleFactor, 0.0f);
+			}
+			else if (this->numerOrText == variant::wave || this->numerOrText == variant::levelUp)
+			{
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor);
+			}
+			else if (this->valueInformation.string == "FIERCE")
+			{
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, -10.0f);  // rotate hitlabels
+			}
+			else if (this->valueInformation.string == "BRUTAL")
+			{
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 10.0f);  // rotate hitlabels
+			}
+			else if (this->valueInformation.string == "SAVE")
+			{
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, 0.0F, scaleFactor, 0.0f);  // rotate hitlabels
+			}
+
 
 	}
-
-
 
 
 }

@@ -35,7 +35,8 @@ enum class EnemyState
 	CHECK,
 	ATTACK,
 	DYING,
-	MAX
+	MAX,
+	MENTAL_EMBOLIA,
 };
 
 enum class EnemyType
@@ -94,6 +95,8 @@ public:
 	uint level;
 	bool inWave = false;
 
+
+
 protected:
 	std::vector<iPoint> path_to_follow;
 
@@ -119,6 +122,9 @@ protected:
 
 	//bool to_die = false;
 	bool dummy = false; 
+
+
+	friend class j1EntityFactory;
 };
 
 #endif

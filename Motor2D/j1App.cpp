@@ -83,7 +83,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(HPManager);
 	AddModule(dialog);
 	AddModule(transitionManager);
-	AddModule(easing);
+	modules.push_back(easing);
 	AddModule(video);
 	// render last to swap buffer
 	AddModule(render);
@@ -527,3 +527,8 @@ float j1App::GetDt()
 //{
 //	return seconds_since_startup;
 //}
+
+pugi::xml_node j1App::GetConfigForChild(const char* child) const
+{
+	return config.child(child);
+}

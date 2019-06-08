@@ -189,8 +189,45 @@
     </node>
 
 
+  </dialogtree>
+  
+  <dialogtree treeid="5" treeName="PREBOSS">
+     <node line="Death has come to you, evildoer" id="0">
+      <option line="Who is talking?" nextnode="1"/>
+      <option line="Show yourself, I can't see you!" nextnode="1"/>
+   </node>
+   
+    <node line="Look around you, in the floor" id="1">
+      <option line="I see some... Plants?" nextnode="2"/>
+    </node>
+   
+   <node line="Yes, I have left you a track..." id="2">
+      <option line="What for?" nextnode="3"/>
+	  <option line="You better show me your intentions, before..." nextnode="4"/>
+   </node>
+   
+   <node line="Follow the plants, come to me. I will show you" id="3">
+	  <option line="You have menaced me. Be prepared" nextnode="5"/>
+   </node>
+   
+   
+   <node line="The dawn of Ivalice has arrived!" id="4">
+      <option line="I will know the truth after slaying you" nextnode="6"/>
+   </node>
+   
+   
+    <node line="You shall fall before me" id="5">
+	  <option line="What are you talking about?" nextnode="4"/>
+      <option line="I am coming for you" nextnode="666"/>
+   </node>
+   
+   <node line="Withdraw, insolent, you will fall with me!" id="6">
+      <option line="Let us fall together, then" nextnode="666"/>
+   </node>
+   
 
   </dialogtree>
+
 
 
 

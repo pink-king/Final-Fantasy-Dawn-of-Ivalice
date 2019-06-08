@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 #include "j1Timer.h"
+#include <list>
+#include "LootEntity.h"
 #define MAX_ALPHA 255
 
 struct SDL_Texture;
@@ -17,6 +19,14 @@ class PlayerEntityManager;
 enum class LOOT_TYPE;
 class Trigger;
 
+struct ConsumableStats
+{
+	SDL_Rect rect;
+	fPoint position;
+	j1Timer actualTime;
+	fPoint distance_to_travel;
+	fPoint initialPos;
+};
 enum class SceneState
 {
 	STARTMENU,
@@ -41,6 +51,15 @@ enum class LobbyState
 
 	OUTGAME
 };
+
+enum class LvlPart
+{
+	START,
+	WAVES,
+	BOSS,
+	NO_PART
+};
+
 
 class j1Scene : public j1Module
 {
@@ -69,6 +88,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void DebugTP(SceneState const &futureScene, LvlPart const &lvlPart = LvlPart::NO_PART);
+
 public:
 	UiItem* inGamePanel = nullptr;
 	UiItem* uiMarche = nullptr;
@@ -94,6 +115,7 @@ public:
 	UiItem_Label* phoenixIg_label = nullptr;
 	UiItem_Image* tab_inventory = nullptr;
 	UiItem_Image* tab_controls = nullptr;
+	UiItem_Image* tick_image = nullptr;
 	SDL_Rect tabSectionControls = { 791,1,46,46 };
 	std::string default_string = "";
 	SDL_Rect lootPanelRect;
@@ -205,8 +227,6 @@ private:
 	bool LoadedUi = false;
 	UiItem_Bar* volume_bar = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
-	UiItem_Bar* volume_bar_ig = nullptr;
-	UiItem_Bar* fx_bar_ig = nullptr;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
 	SDL_Rect inventory_transparency = { 0,0,1280,720 };
@@ -231,7 +251,6 @@ private:
 
 	PlayerEntityManager* player_selected = nullptr;
 
-	
 
 public: 
 	void DoOpenInventory(bool onlyEquipped = false, bool isVendor = false); 
@@ -239,8 +258,9 @@ public:
 	float AlphaDecrease(float alphavalue, int counter);
 	float AlphaIncrease(float alphavalue, int counter);
 	bool DecideTexToPulse();
-	
-
+	ConsumableStats GetConsumableInfo(LootEntity* consumable);
+	void UpdateConsumable();
+	std::list<ConsumableStats> consumableinfo;
 public:
 	float hudAlphavalue[3];
 	int hit_counter;
@@ -269,6 +289,9 @@ public:
 	bool ability1_rv = false;
 	bool ability2_rv = false;
 	bool ulti_rv = false;
+	Animation chain1;
+	bool executeAnimChain();
+	bool canExecuteChainAnim = false;
 };
 
 #endif // __j1SCENE_H__

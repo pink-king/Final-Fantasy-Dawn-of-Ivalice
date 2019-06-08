@@ -528,10 +528,13 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0; // basic magic ball
-	coolDownData.dodge.cooldownTime = 1500;
+	coolDownData.dodge.cooldownTime = 3000;
 	coolDownData.special1.cooldownTime = 5500; // TELEPORT
 	coolDownData.special2.cooldownTime = 2000; // Medusa
 	coolDownData.ultimate.cooldownTime = 10000; // death circle
+
+	// set timers
+	SetCoolDownTimers();
 
 	previousPos = position;
 	mySpeedModular = sqrt((characterBaseSpeed.x + characterBaseSpeed.y) * (characterBaseSpeed.x + characterBaseSpeed.y));
@@ -666,8 +669,8 @@ bool Ritz::Update(float dt)
 			if ((int)currentAnimation->GetCurrentFloatFrame() >= 8)
 			{
 				// Launch attack
-				lastProjectile = dynamic_cast<Projectile*>(App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
-					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT));
+				App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
+					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);
 				/*App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
 					100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT);*/
 
@@ -758,7 +761,7 @@ bool Ritz::Update(float dt)
 		{
 			coolDownData.special2.timer.Start();
 			//App->audio->PlayFx(App->entityFactory->RitzAbility2, 0);
-			//App->entityFactory->CreateArrow(App->entityFactory->player->GetCrossHairPivotPos().Return_fPoint(), { 0,0 }, 0, this, PROJECTILE_TYPE::MEDUSA);
+			lastProjectile = dynamic_cast<Projectile*>(App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(), 70, this, PROJECTILE_TYPE::WHISPER_OF_ICE, 5000u));
 			
 			/*lastProjectile = dynamic_cast<Projectile*>(App->entityFactory->CreateArrow(GetThrowingPos(), GetShotDirection(),
 				100, App->entityFactory->player->GetRitz(), PROJECTILE_TYPE::MAGIC_BOLT));*/

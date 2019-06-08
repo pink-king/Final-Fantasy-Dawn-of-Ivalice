@@ -8,6 +8,7 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "j1TransitionManager.h"
+#include "j1EntityFactory.h"
 #include "p2Log.h"
 #include "Brofiler/Brofiler.h"
 
@@ -101,6 +102,11 @@ void j1Gui::DoLogicSelected() {
 void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 
+	bool succeed = false;
+	// check something here hahah :) 
+
+	if (selected_object)
+		last_selected_object = selected_object;
 
 	// INPUT - - - - - - - - - - - - - - - - - - - - -
 
@@ -110,10 +116,15 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 		{
 
 		case GUI_TYPES::CHECKBOX:
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
+			{
+				selected_object->state = CLICK;
+			}
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				std::string function = selected_object->function;
 				selected_object->DoLogicClicked(function);
+				
 			}
 
 			break;
@@ -166,6 +177,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					selected_object->state = HOVER;
 					selected_object->tabbed = true;
 					setClicked = true;
+					succeed = true;
+
 				}
 				else if (first && (*item)->hitBox.x <= item_pos.x && (*item)->hitBox.y <= item_pos.y)
 				{
@@ -179,6 +192,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					selected_object->state = HOVER;
 					selected_object->tabbed = true;
 					setClicked = true;
+					succeed = true;
 				}
 			}
 		}
@@ -237,7 +251,10 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the right to a list
+						if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+							candidates.push_back(*item);
+						else if((*item)->name != "button_loadGame")
+							candidates.push_back(*item);    // add objects on the right to a list
 
 					}
 				}
@@ -259,7 +276,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
 
-
+						succeed = true;
 					}
 				}
 
@@ -287,8 +304,10 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
-
-						candidates.push_back(*item);       // add objects on the left to a list
+						if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+							candidates.push_back(*item);
+						else if ((*item)->name != "button_loadGame")
+							candidates.push_back(*item);       // add objects on the left to a list
 
 					}
 				}
@@ -309,6 +328,8 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);           // make the closest item be the current one 
+						succeed = true;
+
 					}
 
 				}
@@ -343,7 +364,10 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 							selected_object->DoLogicAbandoned();
 							App->audio->PlayFx(App->scene->selectUI, 0);
 
-							candidates.push_back(*item);       // add objects on the right to a list
+							if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+								candidates.push_back(*item);
+							else if ((*item)->name != "button_loadGame")
+								candidates.push_back(*item);       // add objects on the right to a list
 
 						
 					
@@ -366,7 +390,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
-
+						succeed = true;
 
 					}
 				}
@@ -397,7 +421,11 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						candidates.push_back(*item);       // add objects on the right to a list
+						if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+							candidates.push_back(*item);
+						else if ((*item)->name != "button_loadGame")
+							candidates.push_back(*item);
+							       // add objects on the right to a list
 
 					}
 				}
@@ -418,7 +446,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 					{
 						distanceToBeat = currentDistance;
 						selected_object = (*item);                     // make the closest item be the current one 
-
+						succeed = true;
 
 					}
 				}
@@ -433,7 +461,17 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 
 
+	if (succeed)
+	{
+		if (last_selected_object && last_selected_object->guiType == GUI_TYPES::IMAGE)
+		{
+			if (App->scene->inventory->enable)
+			{
+				dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+			}
+		}
 
+	}
 
 }
 
@@ -529,7 +567,6 @@ bool j1Gui::CleanUp()
 		if ((*item) != nullptr)
 		{
 			(*item)->CleanUp();
-			ListItemUI.remove(*item);
 			delete *item;
 			*item = nullptr;
 		}
@@ -547,10 +584,11 @@ void j1Gui::destroyElement(UiItem * elem)
 	{
 		if (elem != nullptr && (*item) == elem)
 		{
+			(*item)->CleanUp(); 
 			delete (*item);
 			*item = nullptr;
-
 			item = ListItemUI.erase(item);
+			break;
 
 		}
 
@@ -565,6 +603,7 @@ void j1Gui::deleteCurrentDialogs()
 		{
 			if ((*item)->isDialog)
 			{
+				(*item)->CleanUp(); 
 				delete (*item);
 				item = ListItemUI.erase(item);
 			}
@@ -576,6 +615,33 @@ void j1Gui::deleteCurrentDialogs()
 	}
 
 }
+/*
+void j1Gui::HideInGameEnemyUI(bool hide)
+{
+	for (auto& item : ListItemUI)
+		if (item->guiType == GUI_TYPES::HITPOINT || item->guiType == GUI_TYPES::HEALTHBAR || item->parent->guiType == GUI_TYPES::HEALTHBAR)
+		{
+			if (item->parent->guiType == GUI_TYPES::HEALTHBAR)
+			{
+				if (dynamic_cast<UiItem_HealthBar*>(item->parent)->variantType == type::enemy)
+					if (dynamic_cast<UiItem_HealthBar*>(item->parent)->skull == item)
+					{
+						item->hide = hide;           // always hide skull
+						int a = 0; 
+					}	
+					else if (dynamic_cast<UiItem_HealthBar*>(item->parent)->startShowing)
+						item->hide = hide;             // hide healthbar section only is started showing			
+				
+			}
+			else
+				item->hide = hide;
+			
+		}
+			
+
+		
+
+}*/
 
 
 UiItem_Label * j1Gui::AddLabel(std::string text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, bool type_writer)
@@ -686,15 +752,21 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return newUIItem;
 }
 
-UiItem_Checkbox* j1Gui::AddCheckbox(iPoint position, std::string& function, std::string name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem* const parent)
+UiItem_Checkbox * j1Gui::AddCheckbox(iPoint position, std::string function, std::string name, const SDL_Rect * idle, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, const SDL_Rect * tick_section)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, panel_section, box_section, tick_section, labelInfo, parent);
+	if (parent == NULL)
+		newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, idle, canvas, click, hover, tick_section);
+	else
+		newUIItem = DBG_NEW UiItem_Checkbox(position, function, name, idle, parent, click, hover, tick_section);
+
 	ListItemUI.push_back(newUIItem);
 
 	return (UiItem_Checkbox*)newUIItem;
 }
+
+
 
 UiItem_HitPoint* j1Gui::AddHitPointLabel(valueInfo valueInfo, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent, variant type)
 {
@@ -731,11 +803,11 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, type variant, UiItem * const parent) // , TypeBar type)
+UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, const SDL_Rect* staticSection, type variant, UiItem * const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, staticSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 
@@ -850,6 +922,7 @@ void j1Gui::SettingsScreen()
 {
 	resetHoverSwapping = false;
 	App->scene->startMenu->enable = false;
+	App->scene->pausePanel->enable = false;
 	if (App->scene->controlsPanel->enable)
 	{
 		App->scene->controlsPanel->enable = false;
@@ -863,19 +936,40 @@ void j1Gui::GoBackToMenu()
 	resetHoverSwapping = false;
 	App->scene->settingPanel->enable = false;
 	App->scene->creditsPanel->enable = false;
-	App->scene->startMenu->enable = true;
+	if (App->scene->state == SceneState::FIRINGRANGE || App->scene->state == SceneState::LOBBY || App->scene->state == SceneState::LEVEL1 || App->scene->state == SceneState::LEVEL2)
+	{
+		App->pause = true;
+				
+		if (!App->scene->pausePanel->enable)
+		{
+
+			App->scene->pausePanel->enable = true;
+			App->scene->paused = true;
+			App->gui->resetHoverSwapping = false;
+			App->entityFactory->player->LockPlayerInput();
+
+		}		
+	}
+	else
+		App->scene->startMenu->enable = true;
 }
 
-void j1Gui::FpsCap()
+void j1Gui::AimToggle()
 {
-
-
+	if (App->scene->tick_image->hide)
+		App->input->ToggleAimON();
+		
+	else
+		App->input->ToggleAimOFF();
 }
+
+
 
 void j1Gui::GoBackToGame()
 {
 	App->pause = false;
 	App->scene->pausePanel->enable = false;
+	App->entityFactory->player->UnlockPlayerInput();
 }
 
 void j1Gui::Credits()
@@ -954,6 +1048,7 @@ void j1Gui::GoBackToStartMenu()
 void j1Gui::GoBackToStartMenuFromDeathWin()
 {
 	resetHoverSwapping = false;
+	App->scene->deathPanel->enable = false;
 	App->transitionManager->CreateFadeTransition(1.F, true, SceneState::STARTMENU);
 }
 

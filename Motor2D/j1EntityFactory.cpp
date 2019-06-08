@@ -43,7 +43,11 @@
 #include "Boss_Flower.h"
 #include "j1EasingSplines.h"
 #include "j1Gui.h"
+#include "DialogTriggerVolatile.h"
+#include "WhisperOfIce.h"
+#include "j1Window.h"
 
+#include <assert.h>
 
 j1EntityFactory::j1EntityFactory()
 {
@@ -64,7 +68,7 @@ bool j1EntityFactory::Awake(pugi::xml_node & node)
 
 bool j1EntityFactory::Start()
 {
-	std::list<j1Entity*>::iterator item = entities.begin();
+ 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
 		if((*item) != nullptr)
@@ -90,6 +94,7 @@ bool j1EntityFactory::Start()
 	interactiveStatesTex = App->tex->Load("textures/interactable_states/interactable_states.png");
 	hallTex = App->tex->Load("maps/Tilesets/Main Hall/tileset_main_hall.png");
 	ButtonAtex = App->tex->Load("textures/interactable_states/button_a.png");
+	iceTornadoTex = App->tex->Load("textures/spells/Ritz_attacks/ritz_tornado_whispersOfIce_wip.png");
 
 	gen.seed(rd()); //Standard mersenne_twister_engine seeded with rd()
 	justGold = false;
@@ -275,7 +280,9 @@ bool j1EntityFactory::CleanUp()
 	interactiveStatesTex = nullptr;
 	App->tex->UnLoad(hallTex);
 	hallTex = nullptr;
-
+	App->tex->UnLoad(iceTornadoTex);
+	iceTornadoTex = nullptr;
+	
 	player = nullptr;
 
 	return ret;
@@ -376,7 +383,34 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 
 		for (pugi::xml_node characterChest = node.child("chest"); characterChest; characterChest = characterChest.next_sibling("chest"))
 		{
-			CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), characterChest.attribute("chestBoss").as_bool());
+			ChestType chestType = (ChestType)characterChest.attribute("chestType").as_int();;
+			CreateAsset(EnvironmentAssetsTypes::CHEST, { characterChest.attribute("posX").as_int(),characterChest.attribute("posY").as_int() }, { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, characterChest.attribute("open").as_bool(), chestType);
+		}
+		
+		DialogTriggerVolatile* dialogParent = nullptr;
+		for (pugi::xml_node characterTrigger = node.child("trigger"); characterTrigger; characterTrigger = characterTrigger.next_sibling("trigger"))
+		{
+			if(characterTrigger.attribute("type").as_int() == 6 && dialogParent == nullptr)
+			{
+				DialogTriggerVolatile* dialogParent = (DialogTriggerVolatile*)App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(118, 68).x, App->map->SubTileMapToWorld(118, 68).y, "PREBOSS", 7, nullptr);
+				App->entityFactory->CreateDialogTriggerVolatile(App->map->SubTileMapToWorld(148, 43).x, App->map->SubTileMapToWorld(148, 43).y, "PREBOSS", 7, dialogParent);
+			}
+			else if (characterTrigger.attribute("type").as_int() == 8)
+			{
+				SDL_Rect waveZone = {characterTrigger.attribute("zoneX").as_int(),characterTrigger.attribute("zoneY").as_int() ,characterTrigger.attribute("zoneW").as_int() ,characterTrigger.attribute("zoneH").as_int() };
+				WaveTrigger* waveTrigg = (WaveTrigger*)App->entityFactory->CreateWaveTrigger(iPoint(characterTrigger.attribute("posX").as_int(), characterTrigger.attribute("posY").as_int()), waveZone, characterTrigger.attribute("level").as_int());
+				
+				for (pugi::xml_node entryWall = characterTrigger.child("entrytWall"); entryWall; entryWall = entryWall.next_sibling("entrytWall"))
+				{
+					waveTrigg->CreateEntryWall(iPoint(entryWall.attribute("posX").as_int(), entryWall.attribute("posY").as_int()));
+				}
+
+				for (pugi::xml_node exitWall = characterTrigger.child("exitWall"); exitWall; exitWall = exitWall.next_sibling("exitWall"))
+				{
+					waveTrigg->CreateExitWall(iPoint(exitWall.attribute("posX").as_int(), exitWall.attribute("posY").as_int()));
+				}
+			}
+			
 		}
 	}
 	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
@@ -417,6 +451,12 @@ bool j1EntityFactory::SavePortal(pugi::xml_node &node) const
 		if ((*item)->type == ENTITY_TYPE::BREAKABLE_ASSET)
 		{
 			pugi::xml_node nodeEntities = node.append_child("breakableAsset");
+			(*item)->Save(nodeEntities);
+		}
+
+		if ((*item)->type == ENTITY_TYPE::TRIGGER)
+		{
+			pugi::xml_node nodeEntities = node.append_child("trigger");
 			(*item)->Save(nodeEntities);
 		}
 	}
@@ -691,18 +731,27 @@ j1Entity* j1EntityFactory::CreateArrow(fPoint pos, fPoint destination, uint spee
 		ret = DBG_NEW EnemyProjectile(pos, destination, speed, owner); 
 		entities.push_back(ret); 
 		break; 
+
 	case PROJECTILE_TYPE::GOLEM_ARROW:
 		ret = DBG_NEW GolemProjectile(pos, destination, speed, owner);
 		entities.push_back(ret);
 		break;
+
 	case PROJECTILE_TYPE::BOSS_EMMITER:
 		/*ret = DBG_NEW BossEmmiter(pos, owner, lifeTime);
 		entities.push_back(ret);*/
 		break;
+
 	case PROJECTILE_TYPE::BOSS_EMMITER_ARROWS:
 		ret = DBG_NEW BossEmmiterArrow(pos, destination, speed, owner, lifeTime);
 		entities.push_back(ret);
 		break;
+
+	case PROJECTILE_TYPE::WHISPER_OF_ICE: 
+		ret = DBG_NEW WhisperOfIce(pos, destination, speed, lifeTime, owner);
+		entities.push_back(ret);
+		break; 
+
 	case PROJECTILE_TYPE::NO_ARROW:
 		break;
 
@@ -821,6 +870,15 @@ Trigger * j1EntityFactory::CreateDialogTrigger(float posX,float posY, std::strin
 {
 	Trigger* ret = nullptr;
 	ret = new DialogTrigger(posX, posY, Dtrigger, posState, nSubtiles,pressA);
+	entities.push_back(ret);
+
+	return ret;
+}
+
+Trigger * j1EntityFactory::CreateDialogTriggerVolatile(float posX, float posY, std::string Dtrigger, uint nSubtiles, DialogTriggerVolatile * parent)
+{
+	Trigger* ret = nullptr;
+	ret = new DialogTriggerVolatile(posX, posY, Dtrigger, nSubtiles, parent);
 	entities.push_back(ret);
 
 	return ret;
@@ -1179,7 +1237,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBroken, bool isBossChest)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBroken, ChestType chestType)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1201,7 +1259,7 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::CHEST:
-		assetEntity = DBG_NEW ChestAsset(worldPos, isBroken, isBossChest);
+		assetEntity = DBG_NEW ChestAsset(worldPos, isBroken, chestType);
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::MAX:
@@ -1362,10 +1420,15 @@ void j1EntityFactory::RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_
 	}
 }
 
-void j1EntityFactory::CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type)
+void j1EntityFactory::CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type = EQUIPABLE_TYPE::NO_EQUIPABLE)
 {
 	j1Entity* ret = nullptr;
-	switch (type)
+	EQUIPABLE_TYPE eqType = type; 
+
+	if (eqType == EQUIPABLE_TYPE::NO_EQUIPABLE)
+		eqType = (EQUIPABLE_TYPE)CreateRandomBetween(0, (uint)EQUIPABLE_TYPE::NO_EQUIPABLE);
+
+	switch (eqType)
 	{
 
 	case EQUIPABLE_TYPE::SWORD:
@@ -1707,7 +1770,7 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 
 
 
-bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config)
+bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& config, bool preventLegendary)
 {
 	int randID = 0;
 	int id;
@@ -1732,7 +1795,11 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 
 	case OBJECT_TYPE::WEAPON_OBJECT:
 
-		randID = GetRandomValue(1, 3);
+		if(!preventLegendary)
+			randID = GetRandomValue(1, 3);
+		else
+			randID = GetRandomValue(1, 2);
+		
 
 		switch (GetRandomValue(1, 12))
 		{
@@ -1916,7 +1983,11 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 			break;
 		}
 	case OBJECT_TYPE::ARMOR_OBJECT:
-		randID = GetRandomValue(1, 3);
+
+		if (!preventLegendary)
+			randID = GetRandomValue(1, 3);
+		else
+			randID = GetRandomValue(1, 2);
 
 		switch (GetRandomValue(1, 12))
 		{
@@ -2104,6 +2175,9 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 	if (lootEntity->GetObjectType() != OBJECT_TYPE::GOLD)
 		MagicPriceCalculator(lootEntity);
 
+
+	assert(lootEntity->price > 20);
+
 	return true;
 }
 
@@ -2257,10 +2331,17 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 		}
 	}
 
+	assert(baseFinalPrice > 30);
+
 	item->price = baseFinalPrice * 0.85f;
-	item->vendorPrice = baseFinalPrice * 1.15f; 
+	item->vendorPrice = baseFinalPrice * 1.15f;
 
 
+	item->price = baseFinalPrice * 0.85f;
+	item->vendorPrice = baseFinalPrice * 1.15f;
+
+	assert(item->price > 30);
+	assert(item->vendorPrice > 30);
 
 
 }
@@ -2295,9 +2376,6 @@ void j1EntityFactory::UnloadEntitiesWithoutPlayer()
 	entitiesDataMap = nullptr;
 
 }
-
-
-
 
 int j1EntityFactory::GetRandomValue(int min, int max)
 {
@@ -2537,8 +2615,14 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					std::string dest = "LVL" + std::to_string(player->level);
 					App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
 
-					iPoint targetLabelPos = App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x - 75,
-					App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 135, true);
+					uint width, height;
+					width = height = 0;
+
+					App->win->GetWindowSize(width, height);
+
+					iPoint targetLabelPos = iPoint((width / 2) - 150, 50);
+					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
+
 					App->HPManager->callLevelUpLabelSpawn(targetLabelPos, player->level);
 
 					player->GetVendor()->generateVendorItems(true);
@@ -2550,6 +2634,7 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 						if (player->level == 2 && (*item)->name == "chain1")
 						{
 							(*item)->to_delete = true;
+							App->scene->canExecuteChainAnim = true;
 
 						}
 						else if (player->level == 3 && (*item)->name == "chain2")
@@ -2589,4 +2674,14 @@ fPoint j1EntityFactory::getplayerDamagevec()
 void j1EntityFactory::setPlayerDmageVec(fPoint unitari)
 {
 	dmg_vec = unitari;
+}
+
+
+void j1EntityFactory::setCurrentEnemiesToAGivenState(EnemyState state)
+{
+	for (auto& entity : entities)
+		if (entity->isDynamicEnemy)
+			dynamic_cast<Enemy*>(entity)->state = state; 
+
+	// TODO: add this condition --> if(dynamic_cast<Enemy*>(entity)->isInRange)
 }

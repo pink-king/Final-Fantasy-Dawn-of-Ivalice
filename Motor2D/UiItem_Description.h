@@ -6,11 +6,15 @@
 #include "j1Textures.h"
 #include <cstdint>
 #include <string.h>
+#include "CharacterStats.h"
+#include "j1App.h"
 // #include "j1Entity.h"
 
 
 class UiItem_Image;
 class UiItem_Label;
+class UIItem_Inventory;
+class CharacterStats;
 
 struct EquipmentStatType
 {
@@ -49,6 +53,8 @@ struct currenEquipped
 
 
 class LootEntity;
+
+
 struct comparisonLabel
 {
 	UiItem_Label* label = nullptr;
@@ -146,6 +152,7 @@ public:
 
 	// flag
 	bool hasToCompare = true;
+	void LastHoveredCharacterStatSwapReset(); 
 
 private:
 

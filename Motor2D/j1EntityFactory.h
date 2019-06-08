@@ -15,6 +15,10 @@
 #include "EquipableLoot.h"
 
 #include "Projectile.h"
+
+class DialogTriggerVolatile;
+enum class ChestType; 
+
 struct GroupInfo {
 	GroupInfo(std::vector<EnemyType> types, SDL_Rect zone, uint minEnemies, uint maxEnemies, uint level)
 		: types(types), zone(zone), minEnemies(minEnemies), maxEnemies(maxEnemies), groupLevel(level) {}
@@ -24,6 +28,14 @@ struct GroupInfo {
 	uint minEnemies;
 	uint maxEnemies;
 	uint groupLevel; 
+};
+
+enum class ChestType {
+	NORMAL,
+	SILVER,
+	BOSS,
+	// ---
+	NOCHEST
 };
 
 enum class EnvironmentAssetsTypes
@@ -47,7 +59,6 @@ enum class BreakableType
 	//---
 	NO_BREAKABLE_TYPE
 };
-
 
 struct entityDataMap
 {
@@ -103,6 +114,7 @@ public:
 	Trigger* CreateTrigger(TRIGGER_TYPE type, float posX, float posY, SceneState scene = SceneState::MAX_STATES, Color color = Black, uint nSubtiles = 0, bool lookLeft = true);
 	Trigger* CreateWaveTrigger(const iPoint& pos, const SDL_Rect& zone, uint level); 
 	Trigger* CreateDialogTrigger(float posX, float posY, std::string Dtrigger,iPoint posState, uint nSubtiles = 0, bool pressA = true);
+	Trigger* CreateDialogTriggerVolatile(float posX, float posY, std::string Dtrigger, uint nSubtiles = 0, DialogTriggerVolatile* parent = nullptr);
 
 	uint CreateRandomBetween(uint min, uint max); 
 	void Debug(j1Entity* ent);
@@ -127,6 +139,8 @@ public:
 	bool DeleteEntityFromSubtilePos(j1Entity* entity, iPoint subtile); 
 	bool DeleteEntityFromSubtile( j1Entity* entity) const;
 
+
+	void setCurrentEnemiesToAGivenState(EnemyState state); 
 	
 	// Subyacent subtiles functions
 
@@ -138,7 +152,7 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, bool isBossChest = false);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, ChestType chestType = ChestType::NORMAL);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
@@ -147,7 +161,7 @@ public:
 	void RepeatAmountofEquipable(int amount, fPoint pos, EQUIPABLE_TYPE type);//Create the amount of the same Equipable with random values for each entity
 	void CreateLegendariEquipable(fPoint pos, EQUIPABLE_TYPE type);
 	bool LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& config);
-	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config);
+	bool LoadLootData(LootEntity* lootEntity, pugi::xml_node& config, bool preventLegendary = false);
 	void CreateLootStats(LootEntity* lootEntity);
 
 	int GetRandomValue(int min, int max);
@@ -195,6 +209,7 @@ public:
 	SDL_Texture*			interactiveStatesTex = nullptr;
 	SDL_Texture*			hallTex = nullptr;
 	SDL_Texture*			ButtonAtex = nullptr;
+	SDL_Texture*			iceTornadoTex = nullptr; 
 
 	std::vector<GroupInfo> spawngroups;
 	std::list<j1Entity*>	entities;
