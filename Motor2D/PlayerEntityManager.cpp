@@ -1130,6 +1130,16 @@ Crosshair::Crosshair()
 
 	pivotOffset.create(36, 10);
 
+	subtileCheckRadius[0] = { 0,-1 }; // N
+	subtileCheckRadius[1] = { 1,-1 }; // NE
+	subtileCheckRadius[2] = { 1,0 }; // E
+	subtileCheckRadius[3] = { 1, 1 }; // SE
+	subtileCheckRadius[4] = { 0,1 }; // S
+	subtileCheckRadius[5] = { -1,1 }; // SW
+	subtileCheckRadius[6] = { -1,0 }; // W
+	subtileCheckRadius[7] = { -1,-1 }; // NW
+	subtileCheckRadius[8] = { 0,0 }; // C
+
 	maxRadiusDistance = 160.f;//110.0f; // world coords.
 
 
@@ -1347,9 +1357,6 @@ bool Crosshair::ManageInput(float dt)
 	}
 
 
-	
-
-
 	// Clamp position to limited radius
 	// get distance from player to this point
 	iPoint crossPivotPos = GetPivotPos();
@@ -1430,22 +1437,37 @@ iPoint Crosshair::GetSubtilePoint()
 j1Entity* Crosshair::SearchForTargetOnThisSubtile(const iPoint subtile) const
 {
 	j1Entity* ret = nullptr;
-	
-	std::vector<j1Entity*>* subtileVec = App->entityFactory->GetSubtileEntityVectorAt(subtile);
 
-	if (subtileVec != NULL)
+	for (int i = 0; i < 9; ++i)
 	{
-		std::vector<j1Entity*>::iterator subIter = subtileVec->begin();
+		std::vector<j1Entity*>* subtileVec = App->entityFactory->GetSubtileEntityVectorAt(subtile + subtileCheckRadius[i]);
 
-		for (; subIter != subtileVec->end(); ++subIter)
+		if (subtileVec != NULL)
 		{
-			if (allowedClampedTypes[(*subIter)->type])
+			std::vector<j1Entity*>::iterator subIter = subtileVec->begin();
+
+			for (; subIter != subtileVec->end(); ++subIter)
 			{
-				//LOG("enemy found");
-				ret = (*subIter);
-				break;
+				if (allowedClampedTypes[(*subIter)->type])
+				{
+					if ((*subIter)->type == ENTITY_TYPE::LOOT)
+					{
+						if (dynamic_cast<LootEntity*>(*subIter)->objectType == OBJECT_TYPE::GOLD ||
+							dynamic_cast<LootEntity*>(*subIter)->objectType == OBJECT_TYPE::PHOENIX_TAIL ||
+							dynamic_cast<LootEntity*>(*subIter)->objectType == OBJECT_TYPE::POTIONS)
+						{
+							continue;
+						}
+					}
+		
+					ret = (*subIter);
+					break;
+				}
 			}
 		}
+
+		if (ret != nullptr)
+			break;
 	}
 
 	return ret;
