@@ -20,7 +20,9 @@ public:
 
 	void CreateWalls();
 
-	bool Update(float dt) override; 
+	bool Update(float dt) override;
+	
+	bool Save(pugi::xml_node&) const override;
 
 private:
 	std::vector<wall*> wallsvec;

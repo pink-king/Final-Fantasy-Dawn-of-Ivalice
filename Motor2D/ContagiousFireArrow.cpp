@@ -36,6 +36,9 @@ ContagiousFireArrow::ContagiousFireArrow(fPoint pos, fPoint destination, uint sp
 
 	// Important for aiming offset
 	SetInitially();
+
+	this->speed = 180;
+
 }
 
 ContagiousFireArrow::~ContagiousFireArrow()

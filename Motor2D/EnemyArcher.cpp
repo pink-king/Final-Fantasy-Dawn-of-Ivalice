@@ -6,6 +6,9 @@ EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 10, 7, 
 {
 	LoadAnims();
 	App->audio->PlayFx(App->scene->golem_spawnSFX, 0);
+
+
+	this->isDynamicEnemy = true;
 }
 
 EnemyArcher::~EnemyArcher()
@@ -212,6 +215,13 @@ void EnemyArcher::SetState(float dt)
 		}
 		break;
 	}
+
+	case EnemyState::MENTAL_EMBOLIA:
+	{
+		currentAnimation = &idle[pointingDir];
+		break;
+	}
+
 	case EnemyState::DYING:
 		currentAnimation = &dyingAnim;
 		if (currentAnimation->Finished()) {

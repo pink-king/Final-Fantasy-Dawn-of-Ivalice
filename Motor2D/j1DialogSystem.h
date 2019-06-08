@@ -7,7 +7,7 @@
 #include "j1App.h"
 #include "p2Log.h"
 #include <map>
-
+#include "j1EntityFactory.h"
 #include "j1Scene.h"
 
 

@@ -2,17 +2,8 @@
 #define _EQUIPABLELOOT_H__
 
 #include "LootEntity.h"
+#include"j1Timer.h"
 
-//enum class EQUIPABLE_TYPE
-//{
-//	SWORD,
-//	BOW,
-//	ROD,
-//	ARMOR,
-//	VEST,
-//	MANTLE
-//	
-//};
 
 class Equipable : public LootEntity
 {

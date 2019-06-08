@@ -26,7 +26,9 @@ bool Trigger::CleanUp()
 
 bool Trigger::Save(pugi::xml_node &node) const
 {
-	
+	node.append_attribute("type") = (int)triggerType;
+	node.append_attribute("posX") = (int)position.x;
+	node.append_attribute("posY") = (int)position.y;
 	return true;
 }
 

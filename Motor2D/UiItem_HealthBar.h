@@ -33,7 +33,7 @@ class UiItem_HealthBar : public UiItem
 {
 
 public:
-	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent); // player
+	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, const SDL_Rect* staticSection, type variant, UiItem* const parent); // player
 	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent); // boss
 	UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever); // enemies
 	~UiItem_HealthBar();
@@ -44,6 +44,7 @@ public:
 	void DamageQuadReset();
 	void doDamageToBoss(uint lifeToSubstract);
 	void UpdatePos();
+	void RecalculateSection(); 
 
 	void CleanUp();
 	void ShowBossBarWhenDialogIsOver();
@@ -53,14 +54,15 @@ public:
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
 
-	// boss
+	//boss
 	UiItem_Image* divisionImage = nullptr;
 	UiItem_Label* nameOnTop = nullptr;
 
 	// boss and enemies
-	UiItem_Image* skull = nullptr; 
-	iPoint skullOffset = iPoint(-25,0); 
+	UiItem_Image* skull = nullptr;
+	iPoint skullOffset = iPoint(-25, 0);
 	std::string name = "";
+
 private:
 
 	uint maxSection = 0;
@@ -68,16 +70,18 @@ private:
 	float conversionFactor = 0.0f;
 
 	bool recuperating = false;
-	type variantType;
+
 	j1PerfTimer damageBarTimer;
 
 
 	iPoint offsetFromEnemy;
 	uint enemyMaxLife;
+
+public: 
 	bool startShowing = false;
-
-	bool spawnedSkull = false; 
-
+	bool spawnedSkull = false;
+	type variantType;
+private: 
 
 	iPoint playerBarOffset = { 28,11 };
 

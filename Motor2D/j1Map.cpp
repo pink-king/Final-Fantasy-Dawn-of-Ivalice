@@ -489,7 +489,8 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						positionOnWorld.y -= walls.attribute("height").as_int(0);
 						
 						SDL_Rect destRect = { 0 }; 
-
+						EnvironmentAssetsTypes type = EnvironmentAssetsTypes::WALL; // by default WALL
+						BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE;
 						// check different types of walls
 					/*	if (wallTypeName == "wall1")
 						{
@@ -555,30 +556,44 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 						// props
 						else if (wallTypeName == "ceramicYes")
 						{
-							destRect = { 384,448,64,64 };
+							//destRect = { 384,448,64,64 }; // Now loaded in the new entity
+							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
+							breakableType = BreakableType::JAR; 
 						}
 						else if (wallTypeName == "ceramicNo")
 						{
-							destRect = { 449,448,64,64 };
+							//destRect = { 449,448,64,64 }; // Now loaded in the new entity
+							type = EnvironmentAssetsTypes::BREAKABLE_ASSET;
+							breakableType = BreakableType::JARFULL;
 						}
-
+						else if (wallTypeName == "chest" || wallTypeName == "superChest")
+						{
+							type = EnvironmentAssetsTypes::CHEST;
+						}
 				
 						else if (wallTypeName == "Statue")
 						{
-							destRect = { 423,186,64,64 };
+							destRect = { 374,186,64,64 };
 						}
 						else if (wallTypeName == "Statue2")
 						{
-							destRect = { 487,186,64,64 };
+							destRect = { 448,186,64,64 };
 						}
 
+						else if (wallTypeName == "NPCfiring")
+						{
+							destRect = { 386,847,64,64 };
+						}
 
-
-						App->entityFactory->CreateAsset(EnvironmentAssetsTypes::WALL, positionOnWorld, destRect);
-
-
-
+						if ((type == EnvironmentAssetsTypes::CHEST || type == EnvironmentAssetsTypes::BREAKABLE_ASSET || type == EnvironmentAssetsTypes::CHEST) && App->scene->ComeToPortal)
+							continue;
 						
+						if (wallTypeName != "superChest")
+							App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType);
+						else
+							App->entityFactory->CreateAsset(type, positionOnWorld, destRect, breakableType, false, ChestType::SILVER);
+					
+
 					}
 
 				}
@@ -607,6 +622,7 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 		{
 			int minEnemies = 0;
 			int maxEnemies = 0;
+			uint level = 0; 
 			spawnRect.x = object.attribute("x").as_int();
 			spawnRect.y = object.attribute("y").as_int();
 			spawnRect.w = object.attribute("width").as_int();
@@ -638,9 +654,13 @@ bool j1Map::LoadSpawns(pugi::xml_node & node)
 				{
 					maxEnemies = properties.attribute("value").as_int();
 				}
+				else if (attributeName == "level")
+				{
+					level = properties.attribute("value").as_int(); 
+				}
 			}
 
-			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies); 
+			GroupInfo ret(typesVec, spawnRect, minEnemies, maxEnemies, level); 
 			App->entityFactory->spawngroups.push_back(ret);
 			typesVec.clear();
 		}

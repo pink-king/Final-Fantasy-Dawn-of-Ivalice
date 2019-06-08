@@ -179,56 +179,78 @@ bool PlayerEntity::InputMovement(float dt)
 
 bool PlayerEntity::InputCombat()
 {
+	// links the controller scheme respect selected character
+	CharacterControlScheme* linkedScheme = nullptr;
+	switch (character)
+	{
+	case characterName::MARCHE:
+		linkedScheme = &App->input->gamepadScheme.marche;
+		break;
+	case characterName::RITZ:
+		linkedScheme = &App->input->gamepadScheme.ritz;
+		break;
+	case characterName::SHARA:
+		linkedScheme = &App->input->gamepadScheme.shara;
+		break;
+	default:
+		break;
+	}
+
+	// reset combat state
 	combat_state = combatState::IDLE;
 	
 	// aiming function ------
-	if((App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_DOWN  ||
-		App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_REPEAT && aiming == false) &&
-		character != characterName::MARCHE)
-		aiming = true;
-
-	// double check for marche
-	if (character == characterName::MARCHE && aiming)
-		aiming = false;
+	if (!App->input->IsAimToggled())
+	{
+		if ((App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_DOWN ||
+			App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_REPEAT && aiming == false))
+			aiming = true;
+	}
+	else
+	{
+		if (App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_DOWN)
+			aiming = !aiming;
+	}
 
 	// ---------------------
 
 	// check ultimate trigger - marche without aim
-	if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && character == characterName::MARCHE  && App->entityFactory->player->level >= 4 && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+
+	if ((App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && character == characterName::MARCHE  && (App->entityFactory->player->level >= 4 || App->buff->godMode)) )
 	{
 		combat_state = combatState::ULTIMATE;
 		//LOG("ULTIMATE");
 	}
-	else if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERRIGHT) == KEY_DOWN && aiming  && App->entityFactory->player->level >= 4 && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	else if ((App->input->GetControllerGeneralPress(linkedScheme->ultimate) == KEY_DOWN && aiming  && (App->entityFactory->player->level >= 4 || App->buff->godMode)) )
 		combat_state = combatState::ULTIMATE;
 
 
 	// check basic attack
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	if(App->input->GetControllerGeneralPress(linkedScheme->basic) == KEY_DOWN)
 	{
 		combat_state = combatState::BASIC;
 		LOG("BASIC");
 	}
 	
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN && App->entityFactory->player->level >= 2 && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	if (App->input->GetControllerGeneralPress(linkedScheme->special1) == KEY_DOWN && (App->entityFactory->player->level >= 2 || App->buff->godMode))
 	{
 		combat_state = combatState::SPECIAL1;
 		LOG("SPECIAL1");
 	}
 	// special difference for "medusa work in progress cutre version"
-	if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && character != characterName::RITZ && App->entityFactory->player->level >= 3 && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+	if (App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
 	{
 		combat_state = combatState::SPECIAL2;
 		LOG("SPECIAL2");
 	}
-	else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSTICK) == KEY_DOWN && aiming && App->entityFactory->player->level >= 3 && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
-		combat_state = combatState::SPECIAL2;
+	/*else if(App->input->GetControllerGeneralPress(linkedScheme->special2) == KEY_DOWN && aiming && (App->entityFactory->player->level >= 3 || App->buff->godMode) )
+		combat_state = combatState::SPECIAL2;*/
 		
 
 	// check dodge
-	if (coolDownData.dodge.timer.Read() > coolDownData.dodge.cooldownTime)
+	if (coolDownData.dodge.timer.Read() >= coolDownData.dodge.cooldownTime)
 	{
-		if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN && !App->scene->inventory->enable && !App->scene->pausePanel->enable)
+		if (App->input->GetControllerGeneralPress(linkedScheme->dodge) == KEY_DOWN )
 		{
 			combat_state = combatState::DODGE;
 			if (inputReady)
@@ -242,13 +264,16 @@ bool PlayerEntity::InputCombat()
 		}
 	}
 
-	if (aiming == true)
+	if (!App->input->IsAimToggled())
 	{
-		if (App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_UP ||
-			App->input->GetControllerAxisPulsation(SDL_CONTROLLER_AXIS_TRIGGERLEFT) == KEY_IDLE)
+		if (aiming == true)
 		{
-			aiming = false;
-			return false;
+			if (App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_UP ||
+				App->input->GetControllerGeneralPress(linkedScheme->aim) == KEY_IDLE)
+			{
+				aiming = false;
+				return false;
+			}
 		}
 	}
 
@@ -273,11 +298,28 @@ void PlayerEntity::Draw()
 	if (entityTex != nullptr)
 	{
 		// prints shadow first
-		iPoint spriteShadowOffset = { 16,12 };
+		// shadow must be on same "fixed" position between character swaps
+		// relative to position only, not anim rects itself
+		iPoint spriteShadowOffset = { 16,14 };
 		App->render->Blit(App->entityFactory->player->player_shadowTex, GetPivotPos().x - spriteShadowOffset.x ,GetPivotPos().y - spriteShadowOffset.y, NULL);
 
 		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		{
+			// big workaround to center with "new system" only idle and run animations
+			// but at this stage rework the rest of pivot offsets its not worth
+			if (transference_pivot.x == 0.f && transference_pivot.y == 0.f)
+			{
+				SDL_Rect currentAnimRect = currentAnimation->ReturnCurrentFrame();
+				fPoint centeredPrintPos = { float(currentAnimRect.w / 2), 0.f };//float(currentAnimRect.h / 2) }; // gets the x center of the rect
+				centeredPrintPos.x -= 22;
+				centeredPrintPos.y -= 0;
+				centeredPrintPos = position - centeredPrintPos;
+				//LOG("BIG WORKAROUND");
+				App->render->Blit(entityTex, centeredPrintPos.x, centeredPrintPos.y , &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+			}
+			else
+				App->render->Blit(entityTex, position.x - transference_pivot.x, position.y - transference_pivot.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		}
 		else
 			App->render->Blit(entityTex, position.x, position.y);
 
@@ -673,4 +715,17 @@ fPoint PlayerEntity::GetShotDirection()
 	}
 
 	return destination;
+}
+
+void PlayerEntity::SetCoolDownTimers()
+{
+	cdata* _ptr = nullptr;
+
+	_ptr = &coolDownData.basic;
+
+	while (_ptr <= &coolDownData.ultimate)
+	{
+		(*_ptr).timer.started_at -= (*_ptr).cooldownTime;
+		++_ptr;
+	}
 }

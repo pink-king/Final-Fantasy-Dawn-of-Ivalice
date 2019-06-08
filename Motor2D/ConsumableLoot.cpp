@@ -7,6 +7,7 @@
 
 Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
+	shadowcastdelay.Start();
 	SetConsumable();
 	originPos.x = position.x;
 	start = true;
@@ -18,6 +19,7 @@ Consumable::Consumable(int posX, int posY) : LootEntity(LOOT_TYPE::CONSUMABLE, p
 
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE consumableT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
+	shadowcastdelay.Start();
 	SetConsumable(CONSUMABLE_TYPE::POTION);
 	originPos.x = position.x;
 	start = true;
@@ -28,6 +30,7 @@ Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT, CONSUMABLE_TYPE 
 }
 Consumable::Consumable(int posX, int posY, OBJECT_TYPE objectT) : LootEntity(LOOT_TYPE::CONSUMABLE, posX, posY)
 {
+	shadowcastdelay.Start();
 	ToSelectLootFunction( objectT);
 
 	start = true;

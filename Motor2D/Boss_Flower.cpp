@@ -246,19 +246,9 @@ FlowerBossEntity::~FlowerBossEntity()
 		rainEmitter->to_delete = true;*/
 
 	// ---------- Win State Hardcoded when boss dies ------------------
-	if (App->entityFactory->player != nullptr)
-	{
-		if (App->entityFactory->player->to_delete == false)
-		{
-			App->SaveGame("save_game.xml");
-			App->scene->ComeToDeath = true;
-			App->scene->ComeToPortal = false;
-			App->scene->ComeToWin = true;
-			App->pause = true;
-			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::WIN, Yellow);
-			App->scene->previosState = App->scene->state;
-		}
-	}
+	
+	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, App->map->MapToWorld(GetTilePos().x, GetTilePos().y) + iPoint(0,-16), { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, false, ChestType::BOSS); 
+	App->scene->lobbyState = LobbyState::PASSLVL2;
 	// -----------------------------------------------------------------
 
 	DesactiveShield();
@@ -276,8 +266,6 @@ FlowerBossEntity::~FlowerBossEntity()
 			myBossLifeBar->nameOnTop->to_delete = true;
 
 			// TDDO: skull
-			myBossLifeBar->skull->to_delete = true; 
-
 			myBossLifeBar->to_delete = true;
 		}
 		LOG("parent enemy bye");
@@ -298,6 +286,9 @@ bool FlowerBossEntity::Update(float dt)
 {
 
 	PhaseManager(dt);
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN)
+		to_die = true; 
 
 	if (to_die)
 		myState = Boss1State::DEATH;

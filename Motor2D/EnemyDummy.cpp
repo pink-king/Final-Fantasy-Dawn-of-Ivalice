@@ -1,4 +1,5 @@
 #include "EnemyDummy.h"
+#include "j1BuffManager.h"
 
 EnemyDummy::EnemyDummy(const iPoint & pos) : Enemy(pos, 0, 0, 0, 0, 0, true, ENTITY_TYPE::ENEMY_DUMMY, "Scarecrow")
 {
@@ -45,6 +46,13 @@ bool EnemyDummy::Update(float dt)
 {
 
 	// Some kind of damage animation?
+	if (stat.size() != 0 && !App->pause)
+	{
+		if (App->buff->DamageInTime(this))
+		{
+			App->buff->entitiesTimeDamage.remove(this);
+		}
+	}
 
 	return true;
 }

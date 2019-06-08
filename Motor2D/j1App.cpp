@@ -25,7 +25,8 @@
 #include "UiItem_HitPointManager.h"
 #include "j1DialogSystem.h"
 #include "j1TransitionManager.h"
-
+#include "j1EasingSplines.h"
+#include "Video.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -61,7 +62,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	dialog = DBG_NEW j1DialogSystem();
 	transitionManager = DBG_NEW j1TransitionManager();
 	// Ordered for awake / Start / Update
-
+	easing = DBG_NEW j1EasingSplines();
+	video = DBG_NEW Video(); 
 
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -81,6 +83,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(HPManager);
 	AddModule(dialog);
 	AddModule(transitionManager);
+	modules.push_back(easing);
+	AddModule(video);
 	// render last to swap buffer
 	AddModule(render);
 
@@ -523,3 +527,8 @@ float j1App::GetDt()
 //{
 //	return seconds_since_startup;
 //}
+
+pugi::xml_node j1App::GetConfigForChild(const char* child) const
+{
+	return config.child(child);
+}

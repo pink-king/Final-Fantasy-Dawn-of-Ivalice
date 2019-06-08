@@ -31,6 +31,7 @@ public:
 	iPoint GetPivotPos();
 	j1Entity* GetClampedEntity() const;
 private:
+	bool allowedClampedTypes[ENTITY_TYPE::MAX_TYPE] = { false };
 	bool ManageInput(float dt);
 	j1Entity* SearchForTargetOnThisSubtile(const iPoint subtile) const;
 	fPoint GetHeadingVector(float angle);
@@ -50,8 +51,8 @@ private:
 	fPoint sensitivitySpeed = { 5.f,5.f };
 	bool clamped = false; // following a enemy entity
 	float maxRadiusDistance;
+	iPoint subtileCheckRadius[9];
 
-	
 };
 
 
@@ -137,7 +138,14 @@ public:
 	uint level;
 	uint exp;
 	uint maxExpInLevel;
+
+public:
+	void LockPlayerInput();
+	void UnlockPlayerInput();
+
 private:
+	bool toggleAim = false;
+	bool playerUpdateReady = true; // prevents to Update the player state
 	float lastCharHeadingAngle; // rad
 	characterName selectedCharacterName;
 
@@ -159,12 +167,14 @@ private:
 	bool consumPhoenix = false;
 
 	
-
-
+	
+	
 	// vendor
 	Vendor* vendor = nullptr; 
-	LootEntity* lastHoveredLootItem = nullptr;
 
+public: 
+	LootEntity* lastHoveredLootItem = nullptr;
+	bool usedButtonAToPickLootWithCrosshairLastFrame = false;
 	
 };
 

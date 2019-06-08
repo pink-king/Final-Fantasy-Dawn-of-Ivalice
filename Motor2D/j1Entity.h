@@ -159,6 +159,7 @@ public:
 	int						value;
 	bool					entityPushback = false;
 
+	bool isDynamicEnemy = false; 
 
 	fPoint					dmgEnemyVec;
 	j1Timer					alphaTimer;

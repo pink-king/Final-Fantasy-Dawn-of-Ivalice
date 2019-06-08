@@ -14,7 +14,8 @@ WaveTrigger::~WaveTrigger()
 	std::list<j1Entity*>::iterator wallsIter = exit_wall_entities.begin();
 	for (; wallsIter != exit_wall_entities.end(); ++wallsIter)
 	{
-		(*wallsIter)->to_delete = true;
+		if((*wallsIter) != nullptr)
+			(*wallsIter)->to_delete = true;
 	}
 	exit_wall_entities.clear();
 
@@ -77,6 +78,36 @@ bool WaveTrigger::Update(float dt)
 	if (waveEntity == nullptr && isActivated)
 		to_delete = true; 
 
+	return true;
+}
+
+bool WaveTrigger::Save(pugi::xml_node &node) const
+{
+	node.append_attribute("type") = (int)triggerType;
+	node.append_attribute("posX") = (int)position.x;
+	node.append_attribute("posY") = (int)position.y;
+
+	node.append_attribute("zoneX") = waveZone.x;
+	node.append_attribute("zoneY") = waveZone.y;
+	node.append_attribute("zoneW") = waveZone.w;
+	node.append_attribute("zoneH") = waveZone.h;
+
+	node.append_attribute("level") = level;
+
+	std::list<iPoint>::const_iterator iter = entry_wall_map_positions.begin();
+	for (; iter != entry_wall_map_positions.end(); ++iter)
+	{
+		pugi::xml_node nodeEntryWall = node.append_child("entrytWall");
+		nodeEntryWall.append_attribute("posX") = (int)(*iter).x;
+		nodeEntryWall.append_attribute("posY") = (int)(*iter).y;
+	}
+
+	for (iter = exit_wall_map_positions.begin(); iter != exit_wall_map_positions.end(); ++iter)
+	{
+		pugi::xml_node nodeExitWall = node.append_child("exitWall");
+		nodeExitWall.append_attribute("posX") = (int)(*iter).x;
+		nodeExitWall.append_attribute("posY") = (int)(*iter).y;
+	}
 	return true;
 }
 

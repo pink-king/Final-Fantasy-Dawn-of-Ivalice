@@ -57,15 +57,22 @@ bool j1DialogSystem::Update(float dt)
 		}
 		
 
+		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+		{
+			SetCurrentDialog("BOSS");
+		}
+
+
 		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
 		{
 			SetCurrentDialog("TUTORIAL");
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
 		{
-			SetCurrentDialog("BOSS");
+			SetCurrentDialog("PREBOSS");
 		}
+
 
 		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
 		{
@@ -95,7 +102,7 @@ bool j1DialogSystem::Update(float dt)
 					checkIfNPCFinishedTalking(); 
 
 				}
-				else if(App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				else if(App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 
 					doDialogTypeLogic();
@@ -222,7 +229,7 @@ void j1DialogSystem::doDialogTypeLogic()
 					}
 			}	
 
-			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL" || currentDialogType == "BOSS")
+			else if(currentDialogType == "SAVEGAME" || currentDialogType == "STRANGER" || currentDialogType == "TUTORIAL" || currentDialogType == "BOSS" || currentDialogType == "PREBOSS")
 			{
 				bool enterInventory = false;
 				std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -253,8 +260,11 @@ void j1DialogSystem::doDialogTypeLogic()
 					{
 						if (currentNode->dialogOptions.at(input)->text.find("Yes") != std::string::npos)
 						{
+
 							App->SaveGame("save_game.xml");
-							App->HPManager->callSaveLabelSpawn(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x+5, App->entityFactory->player->selectedCharacterEntity->GetPosition().y-20));
+							App->HPManager->callSaveLabelSpawn(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x + 5, App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 20));
+							App->scene->isSaved = true;
+							App->audio->PlayFx(App->scene->savedSFX, 0);
 						}
 					}
 				
@@ -294,6 +304,10 @@ void j1DialogSystem::SetCurrentDialog(std::string callback)
 
 		spawnDialogSequence = true;
 	}
+
+
+	if (currentDialogType == "PREBOSS")
+		App->entityFactory->setCurrentEnemiesToAGivenState(EnemyState::MENTAL_EMBOLIA); 
 	
 
 }
@@ -377,6 +391,11 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 					}
 				}
 			
+				if (currentDialogType == "STRANGER")
+				{
+					App->scene->lobbyState = LobbyState::TALKSTRANGER;
+					//TODO: put audio
+				}
 				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
 				{
 					dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
@@ -384,10 +403,13 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				}
 
 
+				if (currentDialogType == "PREBOSS")
+					App->entityFactory->setCurrentEnemiesToAGivenState(EnemyState::IDLE);
 			}
 			
 	    }
 	
+		
 }
 
 void j1DialogSystem::destroyNPCNameLabels(SceneState sc)
@@ -458,7 +480,7 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 
 void j1DialogSystem::hideAllNPCLabels(bool hide)
 {
-	bool doIt = false; 
+	bool doIt = false;
 
 	for (auto& dialogTree : dialogTrees)                      // no need to hide "Godo" label when you open inventory in lobby, or the other labels when ypu open it in firing range
 	{
@@ -479,8 +501,8 @@ void j1DialogSystem::hideAllNPCLabels(bool hide)
 				dialogTree->myNPCLabels.nameLabel->hide = hide;
 			}
 		}
-	
-		
+
+
 	}
 
 }
@@ -491,7 +513,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 
 	waitForNPCTalking = true; 
 
-	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {255, 255, 255, 255}, App->font->openSansBold18, iPoint(515, 510), App->scene->inGamePanel, true);
+	UiItem_Label* npcLabel = App->gui->AddLabel(currentNode->text.c_str(), {100, 200, 100, 255}, App->font->openSansBold18, iPoint(515, 510), App->scene->inGamePanel, true);
 	npcLabel->isDialog = true;
 	npcLabel->tabbable = false;
 	npcLabel->isNPCLabel = true;
@@ -500,13 +522,12 @@ void j1DialogSystem::BlitDialog(int tr_id)
 	int space = 513;
 	for (int i = 0; i < currentNode->dialogOptions.size(); i++)
 	{
-		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 34, 200, 43, 255 }, App->font->openSansBold18, iPoint(515, space += 21), App->scene->inGamePanel);
+		UiItem_Label* characterLabel = App->gui->AddLabel(currentNode->dialogOptions[i]->text.c_str(), { 255, 255, 255, 255 }, App->font->openSansBold18, iPoint(515, space += 21), App->scene->inGamePanel);
 		
 		
 		characterLabel->isDialog = true;     // player labels are dialogs, tabbable, and have a pos (0, 1 or 2)
 		characterLabel->tabbable = false; 
 		characterLabel->dialogPos = i; 
-
 		characterLabel->hide = true;  // hide until npc finishes talking
 		/*if(i == 0)
 		App->gui->resetHoverSwapping = false;   // assign the current UI selected object to the player first choice*/
@@ -561,21 +582,25 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 		
 		if (tr->NPCName == "Stranger")
 		{
-			pos.x -= 110; 
-			pos.y -= 140; 
+		    pos.x -= 20; 
+			pos.y += 50; 
 		}
 		else if (tr->NPCName == "Vendor")
 		{
-			pos.x -= 160; 
-			pos.y -= 140;
+			pos.x -= 290; 
+			pos.y += 120;
 		}
-
+		else if (tr->NPCName == "Godot")
+		{
+			pos.x -= 120;
+			pos.y += 370;
+		}
+	
 		// TODO: tutorial npc, Godo 
 	
 		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->openSansBold18, pos, App->scene->inGamePanel);
 		tr->myNPCLabels.nameLabel->hide = true; 
 		tr->myNPCLabels.nameLabel->useCamera = false; 
-
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
 		treeCount++; 

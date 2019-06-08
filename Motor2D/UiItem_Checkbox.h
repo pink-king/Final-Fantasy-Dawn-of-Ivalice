@@ -13,10 +13,7 @@ struct labelInfo;
 class UiItem_Checkbox :public UiItem
 {
 protected:
-
-	UiItem_Image * panel = nullptr;
-	UiItem_Image* box = nullptr;
-	UiItem_Label* label = nullptr;
+	SDL_Rect frames[MAX_STATES];
 	UiItem_Image* tick = nullptr;
 
 	SDL_Rect panel_section;   // we will care about the x size. The y size will be calculated procedurally 
@@ -25,11 +22,9 @@ protected:
 	SDL_Rect captureIdleSection;
 
 	void DoLogicClicked(std::string &functionName);   // clicking logic matters the most
-	void DoLogicHovered();
-	void DoLogicAbandoned();
 	void CleanUp();
 public:
-	UiItem_Checkbox(iPoint position, std::string &function, std::string &name, const SDL_Rect* panel_section, const SDL_Rect* box_section, const SDL_Rect* tick_section, labelInfo* labelInfo, UiItem*const parent = nullptr);
+	UiItem_Checkbox(iPoint position, std::string& function, std::string& name, const SDL_Rect* idle, UiItem* const parent, const SDL_Rect* click = nullptr, const SDL_Rect* hover = nullptr, const SDL_Rect* tick_Section = nullptr);
 	~UiItem_Checkbox();
 	void Draw(const float& dt);
 

@@ -153,6 +153,7 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+		this->price->useCamera = false; 
 	}
 }
 
@@ -282,6 +283,9 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+
+		this->price->useCamera = false;
 	}
 
 }
@@ -356,6 +360,8 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 
 		this->price = App->gui->AddLabel(PriceString, { 255, 222, 54, 255 }, App->font->openSansBold18, iPoint(0, 0), this);
 		this->price->hide = true;
+
+		this->price->useCamera = false; 
 	}
 }
 
@@ -415,7 +421,7 @@ void UiItem_Description::Draw(const float& dt)
 					std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin();
 					for (; item != App->gui->ListItemUI.end(); ++item)
 					{
-						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 863 && (*item)->hitBox.y == 381)
+						if ((*item)->tabbable && (*item)->parent->enable && !(*item)->hide && (*item)->hitBox.x == 859 && (*item)->hitBox.y == 381)
 						{
 							App->gui->selected_object = (*item);
 							foundPoti = true;
@@ -458,14 +464,13 @@ void UiItem_Description::Draw(const float& dt)
 			}
 			if (App->gui->selected_object == iconImageInventory)
 			{
-				// TODO: optimize this not every frame !!!
-				 if(!App->entityFactory->player->equipedObjects.empty())
-					 for (const auto& LootEntity : App->entityFactory->player->equipedObjects)
-						 if(this->callback == LootEntity)
-							 App->scene->characterStatsItem->HideAllComparisonStats();
 
-				
-			
+				// TODO: optimize this not every frame !!!
+				if (!App->entityFactory->player->equipedObjects.empty())
+					for (const auto& LootEntity : App->entityFactory->player->equipedObjects)
+						if (this->callback == LootEntity)
+							App->scene->characterStatsItem->HideAllComparisonStats();
+
 				if (this->name_object == "potion_1")
 				{
 					App->scene->tab_inventory->hitBox.x = App->gui->selected_object->hitBox.x - tabOffsetPotion.x;
@@ -489,14 +494,13 @@ void UiItem_Description::Draw(const float& dt)
 
 				RepositionAllElements(iPoint(staringPosition.x + 545, staringPosition.y + 20));
 
-				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 				{
 					if (!App->scene->inventoryItem->isVendorInventory)
 					{
 						if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
 						{
 							// get stats before equipping, so that they can be added 
-
 
 							App->scene->inventoryItem->De_______Equip(this->callback);
 
@@ -507,7 +511,6 @@ void UiItem_Description::Draw(const float& dt)
 					{
 						App->scene->inventoryItem->De_______Equip(this->callback);
 					}
-				
 
 				}
 				/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
@@ -542,7 +545,6 @@ void UiItem_Description::Draw(const float& dt)
 					{
 						HideAllComparisonLabels();   // hide equipped objects comparison
 					}
-
 				}*/
 
 
@@ -566,7 +568,6 @@ void UiItem_Description::Draw(const float& dt)
 
 
 		}
-
 
 
 	}
@@ -627,12 +628,12 @@ bool UiItem_Description::ChangeComparisonLabels()
 			if ((*lootItem) != this->callback)  // do not compare with itself
 			{
 
-				float attack = 0.0f;
-				float resistance = 0.0f;
-				float cooldown = 0.0f;
+				int attack = 0;
+				int resistance = 0;
+				int cooldown = 0;
 
-				float HP = 0.0f;
-				float velocity = 0.0f;
+				int HP = 0;
+				int velocity = 0;
 
 
 				SDL_Color destColor = { 0, 0, 0, 255 };
@@ -670,8 +671,8 @@ bool UiItem_Description::ChangeComparisonLabels()
 								{
 									attack = (*iter)->GetValue();
 
-									characterStatsMapping.at(0) = 1; 
-									characterStatsValues.at(0) = attack; 
+									characterStatsMapping.at(0) = 1;
+									characterStatsValues.at(0) = attack;
 								}
 								else if ((*iter)->GetRol() == ROL::DEFENCE_ROL)
 								{
@@ -872,9 +873,9 @@ bool UiItem_Description::ChangeComparisonLabels()
 					else
 					{
 
-				/*	if (App->scene->inventoryItem->enable)
-						App->scene->characterStatsItem->HideAllComparisonStats(); */
-                    }
+						/*	if (App->scene->inventoryItem->enable)
+								App->scene->characterStatsItem->HideAllComparisonStats(); */
+					}
 
 				}
 
@@ -887,17 +888,17 @@ bool UiItem_Description::ChangeComparisonLabels()
 	}
 	else     // when no items are equipped but stats change !!!!
 	{
-	
-		
-    
-    }
+
+
+
+	}
 
 
 
 	if (App->gui->selected_object == this->iconImageInventory)
 	{
-		
-		bool isEquipped = false; 
+
+		bool isEquipped = false;
 
 		std::vector<LootEntity*>::iterator lootItem = App->entityFactory->player->equipedObjects.begin();
 
@@ -905,21 +906,18 @@ bool UiItem_Description::ChangeComparisonLabels()
 		{
 
 			if ((*lootItem) == this->callback)
-				isEquipped = true; 
+				isEquipped = true;
 
 		}
 
-		if(!App->scene->inventoryItem->isVendorInventory)
+		if (!App->scene->inventoryItem->isVendorInventory)
 			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
 
 		else if (!App->scene->characterStatsItem->characterFakeSwapDone && !isEquipped)
 			App->scene->characterStatsItem->getItemBuffsAndCallStatComparison(this->callback);
-			
-	        
-		
 	}
-	
-	
+
+
 
 	hasToCompare = false;
 
@@ -981,6 +979,7 @@ void UiItem_Description::SwitchCameraUsage()
 	{
 		this->effectLabel->useCamera = true;
 	}
+
 
 }
 
@@ -1052,11 +1051,16 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
 
 
+	/*if (App->scene->inventory->enable)
+	{*/
+		int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
 
-	int destPricePosX = referencePanelPosition.x + this->panelWithButton->section.w / 2 - this->price->textureDimensions.x / 2;
+		this->price->hitBox.x = destPricePosX;
+		this->price->hitBox.y = referencePanelPosition.y + 190;
 
-	this->price->hitBox.x = destPricePosX;
-	this->price->hitBox.y = referencePanelPosition.y + 190;
+	//}
+	
+
 
 	if (this->descrType != descriptionType::POTION)
 	{
@@ -1181,18 +1185,15 @@ void UiItem_Description::DeleteEverything()
 	App->gui->destroyElement(this->iconImage);
 	App->gui->destroyElement(this->panelWithButton);
 	App->gui->destroyElement(this->name);
-
 	App->gui->destroyElement(this->price);
 
 	// TODO: delete the icon image in the inventory only if it exists
-	//this->iconImageInventory->to_delete = true;
-
+	
 	if (spawnedInventoryImage)
 	{
-		App->gui->destroyElement(this->iconImageInventory);
-
-		App->scene->inventoryItem->totalDeSpawnedInventoryIcons++; 
+		App->scene->inventoryItem->totalDeSpawnedInventoryIcons++;
 		LOG("_______________________________________________   total despawned icons: %i", App->scene->inventoryItem->totalDeSpawnedInventoryIcons);
+		App->gui->destroyElement(this->iconImageInventory);
 	}
 
 	if (this->descrType == descriptionType::WEAPON)
@@ -1229,4 +1230,9 @@ void UiItem_Description::DeleteEverything()
 
 	App->gui->destroyElement(this);
 
+}
+
+void UiItem_Description::LastHoveredCharacterStatSwapReset()
+{
+	App->scene->characterStatsItem->characterFakeSwapDone = false;
 }

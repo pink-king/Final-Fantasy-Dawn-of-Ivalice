@@ -271,7 +271,22 @@ bool j1ParticlesClassic::Start()
 	ice03.anim.loop = false;
 	ice03.anim.speed = 10.F;
 	ice03.texture = particleAtlas2;
-
+	
+	snow.anim.PushBack({256, 0, 64, 64});
+	snow.anim.PushBack({320, 0, 64, 64});
+	snow.anim.PushBack({384, 0, 64, 64});
+	snow.anim.PushBack({448, 0, 64, 64});
+	snow.anim.PushBack({256, 64, 64, 64});
+	snow.anim.PushBack({320, 64, 64, 64});
+	snow.anim.PushBack({384, 64, 64, 64});
+	snow.anim.PushBack({448, 64, 64, 64});
+	snow.anim.PushBack({256, 128, 64, 64});
+	snow.anim.PushBack({320, 128, 64, 64});
+	snow.anim.PushBack({384, 128, 64, 64});
+	snow.anim.PushBack({448, 128, 64, 64});
+	snow.anim.speed = 15.F; 
+	snow.anim.loop = false; 
+	snow.texture = particleAtlas2; 
 	/*poison01.anim.PushBack({ 0, 253, 16, 16 });
 	poison01.anim.PushBack({ 16, 253, 16, 16 });
 	poison01.anim.PushBack({ 32, 253, 16, 16 });
@@ -473,6 +488,7 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
 
 		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
+		AddParticle(snow, p.x, p.y, { 0, 0 });
 		
 	}
 

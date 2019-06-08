@@ -88,6 +88,7 @@
     <ClCompile Include="ConsumableLoot.cpp" />
     <ClCompile Include="ContagiousFireArrow.cpp" />
     <ClCompile Include="DeathCircle.cpp" />
+    <ClCompile Include="DialogTriggerVolatile.cpp" />
     <ClCompile Include="Dissolve.cpp" />
     <ClCompile Include="EarthShaker.cpp" />
     <ClCompile Include="easing.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="DialogTrigger.cpp" />
     <ClCompile Include="WaveManager.cpp" />
     <ClCompile Include="WaveTrigger.cpp" />
+    <ClCompile Include="WhisperOfIce.cpp" />
     <ClCompile Include="WinTrigger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +178,7 @@
     <ClInclude Include="ConsumableLoot.h" />
     <ClInclude Include="ContagiousFireArrow.h" />
     <ClInclude Include="DeathCircle.h" />
+    <ClInclude Include="DialogTriggerVolatile.h" />
     <ClInclude Include="Dissolve.h" />
     <ClInclude Include="EarthShaker.h" />
     <ClInclude Include="easing.h" />
@@ -258,6 +261,7 @@
     <ClInclude Include="DialogTrigger.h" />
     <ClInclude Include="WaveManager.h" />
     <ClInclude Include="WaveTrigger.h" />
+    <ClInclude Include="WhisperOfIce.h" />
     <ClInclude Include="WinTrigger.h" />
   </ItemGroup>
   <ItemGroup>

@@ -9,12 +9,16 @@ EnemyBomb::EnemyBomb(iPoint position, uint speed, uint detectionRange, uint atta
 {
 	// TODO: Load From XML
 	LoadAnims();
+
+	this->isDynamicEnemy = true;
 }
 
 // Standard stats
 EnemyBomb::EnemyBomb(iPoint position, bool dummy) : Enemy(position, 120, 10, 1, 10, 1.F, dummy, ENTITY_TYPE::ENEMY_BOMB, "Bomb")
 {
 	LoadAnims(); 
+
+	this->isDynamicEnemy = true;
 }
 
 EnemyBomb::~EnemyBomb()
@@ -29,6 +33,8 @@ EnemyBomb::~EnemyBomb()
 bool EnemyBomb::Start()
 {
 	App->audio->PlayFx(App->scene->BombDeathSFX, 0);
+
+	
 	return true;
 }
 bool EnemyBomb::PreUpdate()
@@ -263,6 +269,13 @@ void EnemyBomb::SetState(float dt)
 			to_delete = true;
 		}
 		break;
+
+
+	case EnemyState::MENTAL_EMBOLIA:
+	{
+		currentAnimation = &idle[pointingDir];
+		break;
+	}
 
 	default:
 		break;

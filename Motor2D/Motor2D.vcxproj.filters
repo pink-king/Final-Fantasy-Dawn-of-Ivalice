@@ -257,6 +257,12 @@
     <ClCompile Include="CharacterStats.cpp">
       <Filter>Development\Modules\GUI\managers</Filter>
     </ClCompile>
+    <ClCompile Include="DialogTriggerVolatile.cpp">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="WhisperOfIce.cpp">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h" />
@@ -535,6 +541,12 @@
     </ClInclude>
     <ClInclude Include="CharacterStats.h">
       <Filter>Development\Modules\GUI\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogTriggerVolatile.h">
+      <Filter>Development\Modules\Entities\Triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="WhisperOfIce.h">
+      <Filter>Development\Modules\Entities\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

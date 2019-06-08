@@ -86,6 +86,11 @@ public:
 	{
 		return last_frame;
 	}
+
+	void SetLoop(int n)
+	{
+		loops = n;
+	}
 };
 
 #endif
