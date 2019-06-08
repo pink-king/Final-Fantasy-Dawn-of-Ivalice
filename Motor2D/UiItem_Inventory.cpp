@@ -1193,8 +1193,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				if ((*iter) == callback)                            // capture the vendor item
 				{
 
-					if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-					{
+					/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+					{*/
 
 
 
@@ -1205,7 +1205,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							for (; iterPlayer != App->entityFactory->player->equipedObjects.end(); ++iterPlayer)
 							{
-								if ((*iterPlayer)->character == App->entityFactory->player->selectedCharacterEntity)   // check they both have same attached character
+								if ((*iterPlayer)->character->name == App->scene->characterStatsItem->characterTag)   // check they both have same attached character
 								{
 
 									if (DoPriceCalculations(callback))
@@ -1230,6 +1230,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											{
 												De_______GenerateDescription((*iterPlayer), false);
 											}
+											break;
 										}
 
 									}
@@ -1264,7 +1265,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 						}
 
-					}
+					//}
 
 
 				}
@@ -1323,8 +1324,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 
-	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-	{
+	/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+	{*/
 		switch (callback->GetObjectType())
 		{
 		case OBJECT_TYPE::WEAPON_OBJECT:
@@ -1368,7 +1369,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
 		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
-	}
+	//}
 
 
 	if (doBagScroll)
@@ -1443,4 +1444,112 @@ bool UiItem_Inventory::CheckMaxItems()
 	}
 
 	return ret; 
+}
+
+void UiItem_Inventory::swapCharacterItemsWithoutSwappingCharacter(std::string name)
+{
+	callDeleteWhenSwitchingCharacters();
+
+
+	if (name == "Marche")
+	{
+		App->scene->MarcheIcon->hide = false;
+		App->scene->SharaIcon->hide = true;
+		App->scene->RitzIcon->hide = true;
+	}
+
+	else if (name == "Shara")
+	{
+		App->scene->MarcheIcon->hide = true;
+		App->scene->SharaIcon->hide = false;
+		App->scene->RitzIcon->hide = true;
+	}
+
+
+	else if (name == "Ritz")
+	{
+		App->scene->MarcheIcon->hide = true;
+		App->scene->SharaIcon->hide = true;
+		App->scene->RitzIcon->hide = false;
+	}
+
+
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		std::vector<LootEntity*>::iterator iter = App->entityFactory->player->equipedObjects.begin();
+
+		for (; iter != App->entityFactory->player->equipedObjects.end(); ++iter)
+		{
+
+
+			iPoint destPos = {};
+
+			if ((*iter)->character->name == name)                                         // Not selected character, but hovered item's attached character
+			{
+
+
+				// first generate description if it does not have it or if it was deleted ingame
+
+				De_______GenerateDescription((*iter), true);
+
+
+				// current weapon, armor and head have a target position each
+				switch ((*iter)->GetObjectType())
+				{
+				case OBJECT_TYPE::WEAPON_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentWeapon.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentWeapon.y;
+
+					(*iter)->MyDescription->myLootItemIsEquipped.weapon = true;
+					break;
+				case OBJECT_TYPE::ARMOR_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentArmor.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentArmor.y;
+
+					(*iter)->MyDescription->myLootItemIsEquipped.armor = true;
+					break;
+				case OBJECT_TYPE::HEAD_OBJECT:
+					destPos.x = startingPos.x + initialPositionsOffsets.currentHead.x;
+					destPos.y = startingPos.y + initialPositionsOffsets.currentHead.y;
+
+					(*iter)->MyDescription->myLootItemIsEquipped.head = true;
+					break;
+
+
+				}
+
+				// create the icon image directly in that desired slot (aka position) 
+
+
+				if (!(*iter)->MyDescription->spawnedInventoryImage)
+				{
+					(*iter)->MyDescription->panelWithButton->section = App->scene->lootPanelRectNoButton;
+					(*iter)->MyDescription->iconImageInventory = App->gui->AddSpecialImage(destPos, &(*iter)->MyDescription->iconImage->section, this, (*iter)->entityTex, (*iter)->MyDescription);
+					(*iter)->MyDescription->iconImageInventory->printFromLoot = true;
+					(*iter)->MyDescription->spawnedInventoryImage = true;
+					(*iter)->MyDescription->myLootItemIsEquipped.state = ACTIVE;   // lastly put the image as active (we will need it later) 
+				}
+				else
+				{
+					(*iter)->MyDescription->HideAllElements(false);
+					(*iter)->MyDescription->iconImageInventory->tabbable = true;
+				}
+
+
+
+			}
+			/*else
+			{
+			if ((*iter)->MyDescription->spawnedInventoryImage)
+			{
+			(*iter)->MyDescription->HideAllElements(true);
+			(*iter)->MyDescription->iconImageInventory->hide = true;
+			}
+			}*/
+
+
+
+		}
+	}
 }

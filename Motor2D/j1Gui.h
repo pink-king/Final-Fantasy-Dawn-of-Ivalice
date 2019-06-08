@@ -149,6 +149,7 @@ private:
 	bool debug_ = false;
 public:
 	UiItem* selected_object = nullptr;
+	UiItem* last_selected_object = nullptr;
 
 public:
 	bool resetHoverSwapping = false;

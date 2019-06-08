@@ -61,6 +61,8 @@ public:
 
 	bool CheckMaxItems(); // use when buying and selling
 
+	void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag);
+
 public: 
 
 	bool drawTest = false;

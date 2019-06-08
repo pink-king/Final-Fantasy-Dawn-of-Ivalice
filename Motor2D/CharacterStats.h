@@ -62,7 +62,7 @@ public:
 	void generateCharacterStats();
 	void deGenerateCharacterStats();
 
-	void InitializeStats();
+	void InitializeStats(bool swappingCharacter = false);
 	void ResetDefaultStats();
 	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
 	void SetBaseStats();   // if Compare recieves a 1 in the mapping pos, change it, with the value at that pos	void CompareStats(std::array<int, 5> newStatsMappingPositions, std::array<int, 5> values = {});
@@ -73,9 +73,15 @@ public:
 
 
 
-	void getItemBuffsAndCallStatComparison(LootEntity* ent);
+	void getItemBuffsAndCallStatComparison(LootEntity*);
+	void ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(LootEntity*);
+
 	uint numberOfSpawnedStatItems = 0;
 
+	std::string characterTag = "nobody";
+
+
+	bool characterFakeSwapDone = false;
 };
 
 #endif // ! _CHARACTER_STATS_H_
