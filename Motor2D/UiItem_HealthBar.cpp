@@ -10,7 +10,7 @@
 #include "Brofiler/Brofiler.h"
 #include "j1DialogSystem.h"
 
-UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, type variant, UiItem* const parent) : UiItem(position, parent)
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, const SDL_Rect* staticSection, type variant, UiItem* const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
@@ -18,10 +18,13 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 
 
+	staticImage = App->gui->AddImage(position + playerBarOffset + iPoint(0, -2), staticSection, name, this);
+	
 	dynamicImage = App->gui->AddImage(position, dynamicSection, name, this);
 
 	damageImage = App->gui->AddImage(position + playerBarOffset, damageSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 	damageImage->hide = true;
+
 
 	maxSection = dynamicImage->section.w;
 

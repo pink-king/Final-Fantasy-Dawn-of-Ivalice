@@ -782,11 +782,11 @@ UiItem_HitPoint* j1Gui::AddHitPointLabel2(std::string text, SDL_Color color, TTF
 
 
 
-UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, type variant, UiItem * const parent) // , TypeBar type)
+UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * damageSection, const SDL_Rect* staticSection, type variant, UiItem * const parent) // , TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 
-	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, variant, parent);
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, damageSection, staticSection, variant, parent);
 
 	ListItemUI.push_back(newUIItem);
 
