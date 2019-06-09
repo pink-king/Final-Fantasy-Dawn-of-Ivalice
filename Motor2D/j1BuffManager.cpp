@@ -845,7 +845,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add particles burned 
 						iPoint fire01Pivot = { 8, 48 };
 						drawRectified -= fire01Pivot;
-						App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->fire01, drawRectified.x, drawRectified.y + entity->pivot.y/2, { 0,0 }, 0u, renderFlip);
 						App->audio->PlayFx(burnedSFX);
 						//if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 						//	App->audio->PlayFx(App->entityFactory->goblinDamaged, 0);
@@ -858,7 +858,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particles 
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y, { 0,0 }, 0u, renderFlip);
 						if ((*item)->to_paralitze == true)
 						{
 							iPoint stonePivot = { 8, 48 };
@@ -920,7 +920,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						//add blood particles
 						iPoint bloodPivot = { 10, 10 };
 						bloodRect -= bloodPivot;
-						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y - entity->pivot.y, { 0,0 }, 0u, renderFlip);
+						App->particles->AddParticle(App->particles->blood02, bloodRect.x, bloodRect.y, { 0,0 }, 0u, renderFlip);
 
 						if (entity->type == ENTITY_TYPE::ENEMY_TEST)
 							App->audio->PlayFx(App->scene->goblinDamaged, 0);

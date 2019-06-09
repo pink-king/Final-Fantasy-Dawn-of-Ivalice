@@ -64,12 +64,18 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 		App->input->LoadGamepadMapScheme("config/controllerMapping.xml", "default");
 	if (functionName == "SocialMedia")
 		App->gui->SocialMedia(name_button);
-	if (functionName == "LoadGame" || functionName == "GoBackToLobbyFromDeath")
+	if (functionName == "LoadGame" )
 	{
 		App->scene->deathPanel->enable = false;
-		App->scene->ComeToWin = true;
+		App->scene->savedNow = true;
 		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LOBBY, White);
 	};
+	if (functionName == "GoBackToLobbyFromDeath")
+	{
+		App->scene->deathPanel->enable = false;
+		App->scene->ComeToDeath = true;
+		App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LOBBY, White);
+	}
 	/*if(App->scene->AcceptUISFX_logic)*/
 		App->audio->PlayFx(App->scene->acceptUI, 0);
 

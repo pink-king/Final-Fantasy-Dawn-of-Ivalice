@@ -256,7 +256,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+						if ((*item)->name == "button_loadGame" && App->ExsistDocument("save_game.xml"))
 							candidates.push_back(*item);
 						else if((*item)->name != "button_loadGame")
 							candidates.push_back(*item);    // add objects on the right to a list
@@ -309,7 +309,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->state = IDLE;               // deselect current object
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
-						if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+						if ((*item)->name == "button_loadGame" &&  App->ExsistDocument("save_game.xml"))
 							candidates.push_back(*item);
 						else if ((*item)->name != "button_loadGame")
 							candidates.push_back(*item);       // add objects on the left to a list
@@ -369,7 +369,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 							selected_object->DoLogicAbandoned();
 							App->audio->PlayFx(App->scene->selectUI, 0);
 
-							if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+							if ((*item)->name == "button_loadGame" &&  App->ExsistDocument("save_game.xml"))
 								candidates.push_back(*item);
 							else if ((*item)->name != "button_loadGame")
 								candidates.push_back(*item);       // add objects on the right to a list
@@ -426,7 +426,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 						selected_object->DoLogicAbandoned();
 						App->audio->PlayFx(App->scene->selectUI, 0);
 
-						if ((*item)->name == "button_loadGame" && App->scene->isSaved)
+						if ((*item)->name == "button_loadGame" &&  App->ExsistDocument("save_game.xml"))
 							candidates.push_back(*item);
 						else if ((*item)->name != "button_loadGame")
 							candidates.push_back(*item);

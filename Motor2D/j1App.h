@@ -72,6 +72,8 @@ public:
 
 	float GetDt();
 	//float GetGameTime();
+
+	bool ExsistDocument(std::string doc);
 private:
 
 	// Load config file

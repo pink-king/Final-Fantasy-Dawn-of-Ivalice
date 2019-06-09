@@ -383,12 +383,11 @@ bool j1Scene::Start()
 
 		App->camera2D->SetCameraPos({ 115, 240 });
 
-		if (ComeToWin)
+		if (savedNow)
 		{
 			App->LoadGame("save_game.xml");
 
-			ComeToDeath = false;
-			ComeToWin = false;
+			savedNow = false;
 		}
 		
 	}
@@ -633,6 +632,7 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+
 	// how to get joysticks for correct UI navigation/whatever needed situation examples --------
 	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN)
 	{
