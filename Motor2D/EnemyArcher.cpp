@@ -61,6 +61,23 @@ bool EnemyArcher::CleanUp()
 	return true;
 }
 
+void EnemyArcher::Draw()
+{
+	iPoint spriteShadowOffset = { 16,14 };
+	App->render->Blit(shadow, GetPivotPos().x - spriteShadowOffset.x, GetPivotPos().y - spriteShadowOffset.y, NULL);
+
+	if (App->scene->debugSubtiles == true)
+		DebugPath();
+
+	if (entityTex != nullptr)
+	{
+		if (currentAnimation != nullptr)
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		else
+			App->render->Blit(entityTex, position.x, position.y);
+	}
+}
+
 void EnemyArcher::SetState(float dt)
 {
 	switch (state)

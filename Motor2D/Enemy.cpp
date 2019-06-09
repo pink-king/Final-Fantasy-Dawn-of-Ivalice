@@ -399,10 +399,7 @@ bool Enemy::Save(pugi::xml_node &node) const
 
 void Enemy::Draw() 
 {
-	iPoint spriteShadowOffset = { 16,14 };
-	App->render->Blit(shadow, GetPivotPos().x - spriteShadowOffset.x, GetPivotPos().y - spriteShadowOffset.y, NULL);
-
-	if(App->scene->debugSubtiles == true)
+	if (App->scene->debugSubtiles == true)
 		DebugPath();
 
 	if (entityTex != nullptr)
@@ -411,7 +408,7 @@ void Enemy::Draw()
 			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
 		else
 			App->render->Blit(entityTex, position.x, position.y);
-	}	
+	}
 }
 
 
