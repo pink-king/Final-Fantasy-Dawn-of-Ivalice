@@ -36,10 +36,10 @@ bool DialogTrigger::Update(float dt)
 	if (active)
 	{
 		currentAnim = &onTrigger;
+		active = false;
 	}
 	else
 		currentAnim = &dialogSign;
-
 	return true;
 }
 
@@ -48,12 +48,11 @@ void DialogTrigger::Draw()
 	if (currentAnim != nullptr)
 	{
 		App->render->Blit(entityTex, posState.x - 16, posState.y - 32, &currentAnim->GetCurrentFrame(), 1.0F);
-		if (active)
+		if (currentAnim == &onTrigger)
 		{
 			App->render->Blit(App->gui->GetAtlas(), posState.x + 4, posState.y - 34, &App->input->GetAssociatedRectForThisGamepadInput(
 				App->input->gamepadScheme.sharedInput.interact.button,
 				App->input->gamepadScheme.sharedInput.interact.axis), 1.0F, SDL_FLIP_NONE, 0.5F);
-			active = false;
 		}
 	}
 
@@ -75,7 +74,7 @@ bool DialogTrigger::Save(pugi::xml_node &) const
 
 bool DialogTrigger::DoTriggerAction()
 {
-
+	
 	if (pressA && currentAnim != nullptr)
 	{
 		active = true;

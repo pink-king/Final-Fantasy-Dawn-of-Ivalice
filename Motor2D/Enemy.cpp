@@ -12,6 +12,8 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
  	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
+	shadow = App->entityFactory->lootShadowTex;
+
 
 	// Intial orientation random
 	pointingDir = 1 + std::rand() % 8;
@@ -395,6 +397,9 @@ bool Enemy::Save(pugi::xml_node &node) const
 
 void Enemy::Draw() 
 {
+	iPoint spriteShadowOffset = { 16,14 };
+	App->render->Blit(shadow, GetPivotPos().x - spriteShadowOffset.x, GetPivotPos().y - spriteShadowOffset.y, NULL);
+
 	if(App->scene->debugSubtiles == true)
 		DebugPath();
 

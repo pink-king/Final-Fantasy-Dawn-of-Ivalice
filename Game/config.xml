@@ -356,7 +356,12 @@
         <image name="shara_ultimate_button">
           <section x="31" y="31" w="30" h="30"/>
           <flag  autorefresh="1"/>
-          <position x="299" y="602"/>
+          <position x="319" y="602"/>
+        </image>
+        <image name="shara_aim_button">
+          <section x="0" y="0" w="24" h="30"/>
+          <flag   autorefresh="1"/>
+          <position x="279" y="602"/>
         </image>
       </images>
 
@@ -452,7 +457,12 @@
         <image name="ritz_ultimate_button">
           <section x="31" y="31" w="30" h="30"/>
           <flag  autorefresh="1"/>
-          <position x="299" y="602"/>
+          <position x="319" y="602"/>
+        </image>
+        <image name="ritz_aim_button">
+          <section x="0" y="0" w="24" h="30"/>
+          <flag  autorefresh="1"/>
+          <position x="279" y="602"/>
         </image>
       </images>
 
