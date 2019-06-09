@@ -1068,7 +1068,6 @@ void UiItem_Inventory::makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOw
 
 
 
-
 void UiItem_Inventory::De_______Equip(LootEntity* callback)
 {
 	iPoint destPos = {};
@@ -1217,8 +1216,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 				if ((*iter) == callback)                            // capture the vendor item
 				{
 
-					/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-					{*/
+					if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+					{
 
 
 
@@ -1229,7 +1228,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							for (; iterPlayer != App->entityFactory->player->equipedObjects.end(); ++iterPlayer)
 							{
-								if ((*iterPlayer)->character->name == App->scene->characterStatsItem->characterTag)   // check they both have same attached character
+								if ((*iterPlayer)->character == App->entityFactory->player->selectedCharacterEntity)   // check they both have same attached character
 								{
 
 									if (DoPriceCalculations(callback))
@@ -1254,7 +1253,6 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											{
 												De_______GenerateDescription((*iterPlayer), false);
 											}
-											break;
 										}
 
 									}
@@ -1272,15 +1270,13 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
-						//	App->entityFactory->player->AddItemToTheBag(callback);
+							App->entityFactory->player->AddItemToTheBag(callback);
 
 
 							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
 							{
 								doBagScroll = true;
 							}
-
-							App->entityFactory->player->AddItemToTheBag(callback);
 
 
 							// ADD NEW STATS TO THE PLAYER 
@@ -1291,7 +1287,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 						}
 
-					//}
+					}
 
 
 				}
@@ -1350,8 +1346,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 
-	/*if (callback->character == App->entityFactory->player->selectedCharacterEntity)
-	{*/
+	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
+	{
 		switch (callback->GetObjectType())
 		{
 		case OBJECT_TYPE::WEAPON_OBJECT:
@@ -1395,7 +1391,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 		//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
 		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
-	//}
+	}
 
 
 	if (doBagScroll)
@@ -1405,6 +1401,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 }
+
 
 
 bool UiItem_Inventory::DoPriceCalculations(LootEntity* item)
@@ -1471,7 +1468,7 @@ bool UiItem_Inventory::CheckMaxItems()
 
 	return ret; 
 }
-
+/*
 void UiItem_Inventory::swapCharacterItemsWithoutSwappingCharacter(std::string name)
 {
 	callDeleteWhenSwitchingCharacters();
@@ -1576,9 +1573,9 @@ void UiItem_Inventory::swapCharacterItemsWithoutSwappingCharacter(std::string na
 
 
 
-		}
+		/*}
 	}
-}
+}*/
 
 void UiItem_Inventory::despawnRubbish()
 {

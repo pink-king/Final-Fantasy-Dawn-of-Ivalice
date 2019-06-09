@@ -466,7 +466,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	}
 
 
-	if (succeed)
+	/*if (succeed)
 	{
 		if (last_selected_object)
 		{
@@ -481,7 +481,7 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 				}
 			}
 		}
-	}
+	}*/
 
 }
 
