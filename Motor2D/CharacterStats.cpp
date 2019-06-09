@@ -111,16 +111,16 @@ void CharacterStats::InitializeStats(bool swappingCharacter)
 				if (App->entityFactory->player->selectedCharacterEntity->name == item->character->name)
 
 				{
-					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+					getItemBuffsAndCallStatComparison(item);    
 					SetNewStats();
 				}
 			}
 			else
 			{
 				if (!swappingCharacter)
-					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
+					getItemBuffsAndCallStatComparison(item);    
 				else 
-					if(App->entityFactory->player->selectedCharacterEntity == item->character)
+					if(characterTag == item->character->name)
 						getItemBuffsAndCallStatComparison(item);
 
 				SetNewStats();
