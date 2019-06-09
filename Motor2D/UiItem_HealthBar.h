@@ -63,6 +63,11 @@ public:
 	iPoint skullOffset = iPoint(-25, 0);
 	std::string name = "";
 
+
+	// player
+	UiItem_Label* NameLabel = nullptr; 
+	UiItem_Label* TotalLabel = nullptr;
+
 private:
 
 	uint maxSection = 0;
