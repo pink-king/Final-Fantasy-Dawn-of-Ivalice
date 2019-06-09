@@ -94,6 +94,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool Save(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
+
 	void DebugTP(SceneState const &futureScene, LvlPart const &lvlPart = LvlPart::NO_PART);
 
 public:
