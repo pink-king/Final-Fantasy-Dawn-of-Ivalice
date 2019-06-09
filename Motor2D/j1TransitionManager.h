@@ -39,7 +39,7 @@ public:
 
 	void CreateFadeTransition(float transition_time, bool is_scene_change, SceneState scene_to_transition, Color color = Black);
 	void CreateSquaresTransition(float transition_time, bool is_scene_change, SceneState scene_to_transition, Color color = Black);
-	void CreateDissolveTransition(float transition_time, SceneState scene_to_transition);
+	void CreateDissolveTransition(float transition_time, SceneState scene_to_transition, LvlPart lvlPart = LvlPart::NO_PART);
 
 	void DestroyTransition(Transition* transition_to_destroy);
 

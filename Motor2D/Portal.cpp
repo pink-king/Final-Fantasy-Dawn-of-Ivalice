@@ -84,7 +84,7 @@ bool Portal::DoTriggerAction()
 	{
 		if (doit)
 		{
-			App->SaveGame("save_game.xml");
+			App->SaveGame("save_door.xml");
 			App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
 			doit = false;
 		}

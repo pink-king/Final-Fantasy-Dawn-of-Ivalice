@@ -61,9 +61,9 @@ void j1TransitionManager::CreateSquaresTransition(float transition_time, bool is
 	active_transitions.push_back(new Squares(transition_time, is_scene_change, scene_to_transition, color));
 }
 
-void j1TransitionManager::CreateDissolveTransition(float transition_time, SceneState scene_to_transition)
+void j1TransitionManager::CreateDissolveTransition(float transition_time, SceneState scene_to_transition, LvlPart lvlPart)
 {
-	active_transitions.push_back(new Dissolve(transition_time, scene_to_transition));
+	active_transitions.push_back(new Dissolve(transition_time, scene_to_transition, lvlPart));
 }
 
 

@@ -52,7 +52,7 @@ bool ExitPortal::Update(float dt)
 	}
 	if (idle.Finished() && currentAnim == &idle)
 	{
-		App->LoadGame("save_game.xml");
+		App->LoadGame("save_door.xml");
 		currentAnim = &close;
 	}
 	if (close.Finished())

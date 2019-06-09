@@ -16,7 +16,7 @@ WinTrigger::~WinTrigger()
 
 bool WinTrigger::DoTriggerAction()
 {
-	App->SaveGame("save_game.xml");
+	App->SaveGame("save_door.xml");
 	App->scene->ComeToDeath = true;
 	App->scene->ComeToWin = true;
 	App->pause = true;

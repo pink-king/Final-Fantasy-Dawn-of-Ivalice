@@ -11,14 +11,15 @@ WaveTrigger::WaveTrigger(float posx, float posy, const SDL_Rect& zone, uint leve
 WaveTrigger::~WaveTrigger()
 {
 	// delete wall entities
-	std::list<j1Entity*>::iterator wallsIter = exit_wall_entities.begin();
-	for (; wallsIter != exit_wall_entities.end(); ++wallsIter)
+	if (to_delete)
 	{
-		if((*wallsIter) != nullptr)
+		std::list<j1Entity*>::iterator wallsIter = exit_wall_entities.begin();
+		for (; wallsIter != exit_wall_entities.end(); ++wallsIter)
+		{
 			(*wallsIter)->to_delete = true;
+		}
+		exit_wall_entities.clear();
 	}
-	exit_wall_entities.clear();
-
 	// delete walkability
 	std::list<iPoint>::iterator exitWallPositionsIter = exit_wall_map_positions.begin();
 	for (; exitWallPositionsIter != exit_wall_map_positions.end(); ++exitWallPositionsIter)
