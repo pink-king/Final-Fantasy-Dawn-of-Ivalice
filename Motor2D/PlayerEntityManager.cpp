@@ -1076,6 +1076,9 @@ void PlayerEntityManager::PlayerOnTopOfLootToSpawnDescription(bool onTop, LootEn
 
 		lastHoveredLootItem->clampedByPlayerOnTop = true;
 
+
+		App->entityFactory->DoDescriptionComparison((LootEntity*)(entity));
+
 	}
 
 	// if description is showing, but player goes away
