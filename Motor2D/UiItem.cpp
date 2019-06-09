@@ -5,6 +5,7 @@
 #include "j1Scene.h"
 #include "j1Input.h"
 #include "j1Window.h"
+#include "j1EntityFactory.h"
 #include "Brofiler/Brofiler.h"
 #include "UiItem_HitPointManager.h"
 #include "UiItem_CooldownClockManager.h"
@@ -83,6 +84,17 @@ void UiItem::DrawUi(float dt)
 
 	for (; iter != App->gui->ListItemUI.end(); )
 	{
+		if (App->entityFactory->player)
+		{
+			if ((*iter)->name == "chain1" && App->entityFactory->player->level >= 2)
+				(*iter)->to_delete = true;
+			else if ((*iter)->name == "chain2" && App->entityFactory->player->level >= 3)
+				(*iter)->to_delete = true;
+			else if ((*iter)->name == "chain3" && App->entityFactory->player->level >= 4)
+				(*iter)->to_delete = true;
+		}
+	
+
 		if (*iter != nullptr)
 		{
 			if (!(*iter)->to_delete)
