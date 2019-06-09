@@ -1704,7 +1704,7 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	chain1.PushBack({ 2506,885,69,73 });
 	chain1.PushBack({ 1891,959,69,73 });
 	chain1.loop = false;
-	chain1.speed = 8.0f;
+	chain1.speed = 10.0f;
 
 	chain2.PushBack({ 1876,885,69,73 });
 	chain2.PushBack({ 1946,885,69,73 });
@@ -1718,7 +1718,7 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	chain2.PushBack({ 2506,885,69,73 });
 	chain2.PushBack({ 1891,959,69,73 });
 	chain2.loop = false;
-	chain2.speed = 8.0f;
+	chain2.speed = 10.0f;
 
 	chain3.PushBack({ 1876,885,69,73 });
 	chain3.PushBack({ 1946,885,69,73 });
@@ -1732,7 +1732,7 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	chain3.PushBack({ 2506,885,69,73 });
 	chain3.PushBack({ 1891,959,69,73 });
 	chain3.loop = false;
-	chain3.speed = 8.0f;
+	chain3.speed = 10.0f;
 
 	
 

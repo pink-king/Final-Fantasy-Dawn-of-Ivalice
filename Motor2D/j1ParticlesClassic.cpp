@@ -383,13 +383,31 @@ bool j1ParticlesClassic::Start()
 	arrow.anim.loop = false;
 	arrow.life = 2000.F; 
 
+
+	/*lvlUpFx.anim.PushBack({ 256, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 320, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 384, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });*/
+
 	lvlUpFx.anim.PushBack({ 256, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 320, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 384, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
 	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });
-	lvlUpFx.anim.speed = 10.F;
+	lvlUpFx.anim.speed = 20.F;
 	lvlUpFx.anim.loop = false;
 	lvlUpFx.texture = particleAtlas2; 
 
