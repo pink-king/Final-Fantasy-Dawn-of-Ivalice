@@ -41,6 +41,21 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 		breaking.loop = false;
 		break;
 
+	case BreakableType::BARREL_2:
+
+		idle.PushBack({ 512, 439, 64, 64 });
+
+		breaking.PushBack({ 576, 439, 64, 64 });
+		breaking.PushBack({ 640, 439, 64, 64 });
+		breaking.PushBack({ 704, 439, 64, 64 });
+		breaking.PushBack({ 768, 439, 64, 64 });
+		breaking.PushBack({ 832, 439, 64, 64 });
+
+		breaking.speed = 10.f;
+		breaking.loop = false;
+		break; 
+
+
 	default:
 		LOG("Not Correct Breakable Asset Constructed");
 		break;
