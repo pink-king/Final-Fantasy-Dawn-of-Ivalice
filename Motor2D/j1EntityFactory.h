@@ -46,6 +46,7 @@ enum class EnvironmentAssetsTypes
 	WALL1,
 	BREAKABLE_ASSET,
 	CHEST,
+	TORCH,
 	// ---
 	MAX
 };
