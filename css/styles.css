@@ -4232,6 +4232,7 @@ ul#model-feats {
     background-position: 0px -50px; }
 
 /*# sourceMappingURL=styles.css.map */
+
 .font{
   font-size: 40px;
 
@@ -4245,14 +4246,9 @@ ul#model-feats {
 }
 
 
+
 .iconos{
   font-size: 60px;
-  text-align: center;
-
-}
-
-.email{
-  font-size: 100px;
   text-align: center;
 
 }
@@ -4260,6 +4256,13 @@ ul#model-feats {
   transition: all 0.33s;
   text-decoration: none;
   color: rgba(255, 0, 0, 0.5);
+
+}
+
+
+.email{
+  font-size: 100px;
+  text-align: center;
 
 }
 .email a{
@@ -4272,9 +4275,11 @@ ul#model-feats {
 .font a:hover{
   text-shadow: 0 0 15px #99774c, 0px -5px 20px #a17e51, 0 5px 20px #96744a;
   color: color: rgba(255, 0, 0, 1); }
-}
 
-.iconos a:hover{
-  text-shadow: 0 0 15px #99774c, 0px -5px 20px #a17e51, 0 5px 20px #96744a;
+.iconos a:hover {
+  text-shadow: 0 0 15px #99774c, 0px -5px 20px #a17e51, 0 5px 20px #96744a ;
   color: color: rgba(255, 0, 0, 1); }
-}
+
+.email a:hover {
+    text-shadow: 0 0 15px #99774c, 0px -5px 20px #a17e51, 0 5px 20px #96744a ;
+    color: color: rgba(255, 0, 0, 1); }

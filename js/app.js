@@ -99,7 +99,7 @@ $(document).ready(function() {
         lng: 2.0089,
         title: 'Terrassa',
         infoWindow: {
-            content: '<p>Helloudaaa &hearts; Come see us!</p>'
+            content: '<p>Our UPC Center! &hearts; Come see us!</p>'
         }
     });
 
