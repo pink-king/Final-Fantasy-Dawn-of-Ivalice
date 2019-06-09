@@ -17,6 +17,7 @@ class CharacterStats;
 class UiItem;
 class PlayerEntityManager;
 enum class LOOT_TYPE;
+enum class OBJECT_TYPE;
 class Trigger;
 
 struct ConsumableStats
@@ -26,6 +27,11 @@ struct ConsumableStats
 	j1Timer actualTime;
 	fPoint distance_to_travel;
 	fPoint initialPos;
+	int counter;
+	LOOT_TYPE L_type;
+	OBJECT_TYPE objType;
+	bool actionParticle=false;
+	SDL_Rect auxRect = { 163,873,10,11 };
 };
 enum class SceneState
 {
@@ -37,7 +43,7 @@ enum class SceneState
 	LOBBY,
 	FIRINGRANGE,
 	INTRO, 
-
+	
 	MAX_STATES
 };
 

@@ -662,7 +662,6 @@ void PlayerEntityManager::SetPreviousCharacter()
 	float current_frame = 0;
 	fPoint tempPosition;
 	int pointingDirectionTemp = 0;
-
 	std::vector<PlayerEntity*>::reverse_iterator leftItem = characters.rbegin();
 
 	for (; leftItem != characters.rend(); ++leftItem)
@@ -812,7 +811,8 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 	{
 		App->audio->PlayFx(App->scene->pickLoot, 0);
 		// when a loot item is collected, the description should be hiden
-		
+		App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
+		LOG("consumable size PEM %i", App->scene->consumableinfo.size());
 
 		
 		// entityLoot->MyDescription->HideAllElements(true);    // now it is deleted instead
@@ -863,6 +863,8 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			{
 				App->audio->PlayFx(App->scene->pickPotion, 0);
 				App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
+				LOG("consumable size PEM %i", App->scene->consumableinfo.size());
+
 				consumables.push_back(entityLoot);
 			}
 
@@ -870,6 +872,8 @@ bool PlayerEntityManager::CollectLoot(LootEntity * entityLoot, bool fromCrosshai
 			{
 				App->audio->PlayFx(App->scene->pickPotion, 0);
 				App->scene->consumableinfo.push_back(App->scene->GetConsumableInfo(entityLoot));
+				LOG("consumable size PEM %i", App->scene->consumableinfo.size());
+
 				consumables.push_back(entityLoot);
 			}
 

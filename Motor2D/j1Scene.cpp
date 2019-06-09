@@ -29,7 +29,7 @@
 #include "LootEntity.h"
 #include "Video.h"
 #include "SDL_mixer/include/SDL_mixer.h"
-
+#include "j1ParticlesClassic.h"
 j1Scene::j1Scene() : j1Module()
 {
 	name.assign("scene");
@@ -663,7 +663,7 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
-		App->entityFactory->RepeatAmountofConsumables(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},OBJECT_TYPE::PHOENIX_TAIL);
+		App->entityFactory->RepeatAmountofConsumables(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},OBJECT_TYPE::POTIONS);
 		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
@@ -2174,21 +2174,23 @@ ConsumableStats j1Scene::GetConsumableInfo(LootEntity* consumable)
 {
 	ConsumableStats consumStats;
 	consumStats.position = consumable->position;
-	consumStats.initialPos = consumStats.position;
 	consumStats.rect = consumable->loot_rect;
 	consumStats.actualTime.Start();
+	consumStats.counter = consumableinfo.size()+1;
+	consumStats.L_type = consumable->GetType();
+	consumStats.objType = consumable->GetObjectType();
+	if(consumStats.L_type ==LOOT_TYPE::EQUIPABLE)
+	{ 
+		App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 700, 700, EASE, true);
+		App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y - 700, 700, EASE_IN_OUT_BACK, false);
+	}
+	else if (consumStats.L_type == LOOT_TYPE::CONSUMABLE)
+	{
+		App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 700, 700, EASE, true);
+		App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y + 165, 700, EASE_OUT_QUINT, false);
+	}
+	LOG("CONSUM SIZE %i", consumableinfo.size()+1);
 	
-	LOG("OriginPos X %f", consumStats.position.x);
-	LOG("OriginPos X %f", consumStats.position.y);
-
-	consumStats.distance_to_travel.x = App->entityFactory->player->position.x + 50 - consumStats.position.x;//bag screen pos
-	consumStats.distance_to_travel.y = App->entityFactory->player->position.y - 50 - consumStats.position.y;
-	int a = App->render->camera->x + App->render->camera->w;
-	int b = App->render->camera->y + App->render->camera->h;
-	LOG("camerapos %i %i", App->render->camera->x, App->render->camera->y);
-	LOG("camerapos + W H %i %i ", a, b);
-	App->easing->CreateSplineV2(consumStats.position.x, App->entityFactory->player->position.x + 700, 700, EASE,true);
-	App->easing->CreateSplineV2(consumStats.position.y, App->entityFactory->player->position.y-600, 700, EASE_IN_OUT_BACK,false);
 	return consumStats;
 }
 
@@ -2202,22 +2204,36 @@ void j1Scene::UpdateConsumable()
 	for (std::list<ConsumableStats>::iterator iter = consumableinfo.begin(); iter != consumableinfo.end(); ++iter)
 	{
 		
-		if ((*iter).actualTime.Read() < 700)
+		if((*iter).L_type == LOOT_TYPE::EQUIPABLE &&(*iter).actualTime.Read() < 700)
+		{ 
+		
+			if((*iter).actualTime.Read() < 330)
+				App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).rect);
+
+			else
+			{
+				if (!(*iter).actionParticle)
+				{
+					//App->particles->AddParticle(App->particles->bag, (*iter).position.x, (*iter).position.y, { 2,2 }, NULL,SDL_FLIP_NONE,0,0,0,App->win->GetScale()/2);
+					(*iter).actionParticle = false;
+				}
+
+				App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
+			}
+		}
+		else if ((*iter).L_type == LOOT_TYPE::CONSUMABLE && (*iter).actualTime.Read() < 700)
 		{
 			
-			
-			//(*iter).position.x -= (*iter).distance_to_travel.x * ((*iter).actualTime.Read()/2000) + (*iter).initialPos.x*0.02; //distance_to_travel * (time_passed / time_to_travel) + initial_position;
-			//(*iter).position.y -= (*iter).distance_to_travel.y * ((*iter).actualTime.Read() / 2000) + (*iter).initialPos.y*0.01;
-
-			//(*iter).position.y -= (*iter).distance_to_travel.y * ( (*iter).actualTime.Read() = (*iter).actualTime.Read()/ time_to_travel) + (*iter).initialPos.y * 0.01;
-			LOG("valoresX %f", (*iter).position.x);
-			LOG("valoresY %f", (*iter).position.y);
-			
-
+			if ((*iter).actualTime.Read() > 280 && (*iter).objType == OBJECT_TYPE::PHOENIX_TAIL)
+			{
+				App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
+			}
+			else if((*iter).actualTime.Read() > 320 && (*iter).objType == OBJECT_TYPE::POTIONS)
+			App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
+			else
 			App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).rect);
-			LOG("");
-		}
 
+		}
 		else
 		{
 			consumableinfo.pop_front();
