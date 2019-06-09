@@ -21,6 +21,14 @@ UiItem_Inventory::UiItem_Inventory(UiItem* const parent) :UiItem(parent)
 
 bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 {
+
+	if(createdLabels)
+		despawnRubbish();
+
+
+	createdLabels = true; 
+
+
 	totalDeSpawnedInventoryIcons = 0;
 	totalSpawnedItems = 0;
 	// - - - - - - - - - - character icons
@@ -1583,4 +1591,7 @@ void UiItem_Inventory::despawnRubbish()
 	equippedLabel->to_delete = true;
 	bagLabel->to_delete = true;
 	consumablesLabel->to_delete = true;
+
+
+	createdLabels = false; 
 }
