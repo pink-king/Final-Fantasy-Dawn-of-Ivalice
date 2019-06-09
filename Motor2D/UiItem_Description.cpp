@@ -513,6 +513,21 @@ void UiItem_Description::Draw(const float& dt)
 					}
 
 				}
+
+
+				if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN) // || App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+				{
+
+					if (!App->scene->inventoryItem->isVendorInventory)
+					{
+						if (myLootItemIsEquipped.state == INACTIVE)                                  // only call (de)equip if the item is not already active
+						{
+
+							App->scene->inventoryItem->DiscardItem(this->callback); 
+						}
+					}
+				}
+
 				/*if (App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
 				{
 					App->gui->resetHoverSwapping = false;
