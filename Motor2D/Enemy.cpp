@@ -24,7 +24,8 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 
 	if (this->type != ENTITY_TYPE::ENEMY_DUMMY)
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, &App->gui->enemyLifeBarInfo.staticSection, 
+		type::enemy, this, App->scene->inGamePanel);
 
 
 	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
@@ -68,6 +69,7 @@ Enemy::~Enemy()
 				//lifeBar->skull->to_delete = true;
 				App->gui->destroyElement(lifeBar->skull);
 				App->gui->destroyElement(lifeBar->dynamicImage);
+				App->gui->destroyElement(lifeBar->staticImage);
 				App->gui->destroyElement(lifeBar);
 			}
 		}

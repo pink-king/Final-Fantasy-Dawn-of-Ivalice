@@ -181,6 +181,7 @@
 
         <healthbar name="life_bar_enemy">
           <dynamicSection x="90" y="690" w="52" h="6"/>
+		  <staticSection x="90" y="702" w="52" h="6"/>
           <position x="113" y="78"/>
           <type value="enemy"/>
         </healthbar>

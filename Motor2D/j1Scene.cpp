@@ -1599,7 +1599,9 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else if (variant == "enemy")
 		{
+			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
+			App->gui->enemyLifeBarInfo.staticSection = staticSection; 
 		}
 		else if (variant == "boss")
 		{
