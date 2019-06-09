@@ -376,6 +376,9 @@ void UiItem_HealthBar::DamageLogic()
 	BROFILER_CATEGORY("Healthbar Logic", Profiler::Color::MidnightBlue);
 
 
+
+	this->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL); 
+
 	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
 
 	iPoint destinationRectPos = iPoint(dynamicImage->hitBox.x + dynamicImage->section.w, dynamicImage->hitBox.y + playerBarOffset.y);
