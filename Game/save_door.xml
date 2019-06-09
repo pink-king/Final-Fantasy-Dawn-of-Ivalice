@@ -8,47 +8,9 @@
 	<scene lobbyState="2" />
 	<entities>
 		<Entities player="marche">
-			<Experience level="1" exp="0" />
+			<Experience level="1" exp="175" />
 			<life actualLife="0" />
 			<gold value="0" />
-			<equipedObjects>
-				<data name="vest_2" level="1" characterObject="Shara" equipableType="vest" elementalType="poisonElement" objectType="armor" lootType="equipable">
-					<rect x="254" y="1441" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Shara" type="additive" elementType="poisonElement" rol="defence" value="22.5" />
-				</buffs>
-				<buffs>
-					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.209999993" />
-				</buffs>
-			</equipedObjects>
-			<equipedObjects>
-				<data name="mantle_2" level="2" characterObject="Ritz" equipableType="mantle" elementalType="iceElement" objectType="armor" lootType="equipable">
-					<rect x="350" y="1409" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="iceElement" rol="defence" value="35" />
-				</buffs>
-				<buffs>
-					<data character="Ritz" type="additive" elementType="noElement" rol="velocity" value="0.119999997" />
-				</buffs>
-			</equipedObjects>
-			<consumableObjects>
-				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
-					<rect x="384" y="1568" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
-				</buffs>
-			</consumableObjects>
-			<consumableObjects>
-				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
-					<rect x="384" y="1568" w="32" h="32" />
-				</data>
-				<buffs>
-					<data character="PEM" type="additive" elementType="noElement" rol="defence" value="2" />
-				</buffs>
-			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

@@ -283,6 +283,26 @@ void EnemyBomb::SetState(float dt)
 	}
 }
 
+void EnemyBomb::Draw()
+{
+	iPoint spriteShadowOffset = { 16, 14 };
+
+	int offsety = currentAnimation->ReturnCurrentFrame().h * 0.5F;
+	int offsetx = currentAnimation->ReturnCurrentFrame().w * 0.5F;
+	App->render->Blit(shadow, GetPivotPos().x - offsetx - 11, GetPivotPos().y - offsety - 5, NULL);
+
+	if (App->scene->debugSubtiles == true)
+		DebugPath();
+
+	if (entityTex != nullptr)
+	{
+		if (currentAnimation != nullptr)
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		else
+			App->render->Blit(entityTex, position.x, position.y);
+	}
+}
+
 void EnemyBomb::LoadAnims()
 {
 	entityTex = App->entityFactory->enemyBombTex;
