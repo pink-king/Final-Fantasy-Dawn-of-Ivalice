@@ -32,8 +32,6 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 		{
 			for (auto& LootEntity : vBagObjects)
 			{
-				App->buff->RemoveItemStat(LootEntity);
-
 				App->scene->inventoryItem->De_______GenerateDescription(LootEntity, false);
 			}
 			vBagObjects.clear();

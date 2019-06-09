@@ -108,7 +108,7 @@ void CharacterStats::InitializeStats(bool swappingCharacter)
 		{
 			if (!App->scene->inventoryItem->isVendorInventory)
 			{
-				if (App->entityFactory->player->selectedCharacterEntity == item->character)
+				if (App->entityFactory->player->selectedCharacterEntity->name == item->character->name)
 
 				{
 					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
@@ -119,6 +119,9 @@ void CharacterStats::InitializeStats(bool swappingCharacter)
 			{
 				if (!swappingCharacter)
 					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
+				else 
+					if(App->entityFactory->player->selectedCharacterEntity == item->character)
+						getItemBuffsAndCallStatComparison(item);
 
 				SetNewStats();
 			}
