@@ -108,12 +108,12 @@ void CharacterStats::InitializeStats(/*bool swappingCharacter*/)
 		{
 			/*if (!App->scene->inventoryItem->isVendorInventory)
 			{*/
-				if (App->entityFactory->player->selectedCharacterEntity->name == item->character->name)
+				/*if (App->entityFactory->player->selectedCharacterEntity->name == item->character->name)
 
 				{
 					getItemBuffsAndCallStatComparison(item);    
 					SetNewStats();
-				}
+				}*/
 			//}
 			/*else
 			{

@@ -81,7 +81,6 @@ UiItem_Image::~UiItem_Image()
 void UiItem_Image::Draw(const float& dt)
 {
 
-
 	if (!hide)
 	{
 		// TODO: don't blit the icon in the loot item description using the GUI atlas, but instead the Loot atlas 

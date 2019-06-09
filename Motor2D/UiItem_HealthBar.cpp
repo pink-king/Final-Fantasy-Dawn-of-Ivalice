@@ -15,8 +15,13 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
+	SDL_Color c = { 200, 255, 150, 255 }; 
 
+	iPoint nameOffset = iPoint(-40, 3); 
+	iPoint totalOffset = iPoint(35, 3);
 
+	NameLabel = App->gui->AddLabel("HP", c, App->font->piecesofEight24, position + nameOffset, this);
+	TotalLabel = App->gui->AddLabel("100", c, App->font->piecesofEight24, position + iPoint(staticSection->w, 0) + totalOffset, this);
 
 	staticImage = App->gui->AddImage(position + playerBarOffset + iPoint(0, -2), staticSection, name, this);
 	
@@ -274,6 +279,8 @@ void UiItem_HealthBar::Draw(const float& dt)
 void UiItem_HealthBar::RecalculateSection()
 {
 	conversionFactor = maxSection / App->entityFactory->player->life;
+
+	TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
 }
 
 void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()

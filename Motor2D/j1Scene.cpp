@@ -1716,20 +1716,21 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	uiRitzPortrait = App->gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(uiRitzPortrait, ritzPNode);
 
-	chain1.PushBack({ 1876,885,69,73 });
-	chain1.PushBack({ 1946,885,69,73 });
-	chain1.PushBack({ 2016,885,69,73 });
-	chain1.PushBack({ 2086,885,69,73 });
-	chain1.PushBack({ 2156,885,69,73 });
-	chain1.PushBack({ 2226,885,69,73 });
-	chain1.PushBack({ 2296,885,69,73 });
-	chain1.PushBack({ 2366,885,69,73 });
-	chain1.PushBack({ 2436,885,69,73 });
-	chain1.PushBack({ 2506,885,69,73 });
-	chain1.PushBack({ 1891,959,69,73 });
-	chain1.loop = false;
-	chain1.speed = 10.0f;
-
+	
+		chain1.PushBack({ 1876,885,69,73 });
+		chain1.PushBack({ 1946,885,69,73 });
+		chain1.PushBack({ 2016,885,69,73 });
+		chain1.PushBack({ 2086,885,69,73 });
+		chain1.PushBack({ 2156,885,69,73 });
+		chain1.PushBack({ 2226,885,69,73 });
+		chain1.PushBack({ 2296,885,69,73 });
+		chain1.PushBack({ 2366,885,69,73 });
+		chain1.PushBack({ 2436,885,69,73 });
+		chain1.PushBack({ 2506,885,69,73 });
+		chain1.PushBack({ 1891,959,69,73 });
+		chain1.loop = false;
+		chain1.speed = 10.0f;
+	
 	chain2.PushBack({ 1876,885,69,73 });
 	chain2.PushBack({ 1946,885,69,73 });
 	chain2.PushBack({ 2016,885,69,73 });
