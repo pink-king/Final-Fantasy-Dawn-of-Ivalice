@@ -117,7 +117,7 @@ void CharacterStats::InitializeStats(bool swappingCharacter)
 			}
 			else
 			{
-				//if (!swappingCharacter)
+				if (!swappingCharacter)
 					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
 
 				SetNewStats();
