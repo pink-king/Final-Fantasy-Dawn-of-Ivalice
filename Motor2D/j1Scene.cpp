@@ -395,9 +395,7 @@ bool j1Scene::Start()
 	{
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 340, 700, SceneState::LOBBY, Black,4);    // TODO: adjust trigger to lobby
 		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(26, 33).x, App->map->SubTileMapToWorld(26, 33).y, "TUTORIAL", { App->map->SubTileMapToWorld(23, 30).x, App->map->SubTileMapToWorld(23, 30).y },2);   // todo: proper position 
-
 		
-
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
 		App->entityFactory->CreatePlayer({ 165, 580 });
