@@ -75,6 +75,11 @@ bool j1Gui::Update(float dt)
 		ApplyTabBetweenSimilar(resetHoverSwapping);
 	}
 
+	if (App->input->IsAimToggled())
+		App->scene->tick_image->hide = false;
+	else
+		App->scene->tick_image->hide = true;
+
 	return true;
 }
 
@@ -967,10 +972,16 @@ void j1Gui::GoBackToMenu()
 void j1Gui::AimToggle()
 {
 	if (App->input->IsAimToggled())
+	{
+		App->scene->tick_image->hide = true;
 		App->input->ToggleAimOFF();
+	}
 		
 	else
+	{
+		App->scene->tick_image->hide = false;
 		App->input->ToggleAimON();
+	}
 }
 
 
