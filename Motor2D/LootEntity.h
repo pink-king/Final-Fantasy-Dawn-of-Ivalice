@@ -94,7 +94,6 @@ public:
 public:
 	std::list<iPoint> groundSubtilePoints;
 	iPoint adjacentTileNeighboursToGround[NUM_NEIGH_SUBTILETILE_FALL];
-	iPoint adjacentTileNeighboursToGround2[NUM_NEIGH_SUBTILETILE_FALL];
 
 	iPoint groundSubtileDestination;
 

@@ -229,7 +229,9 @@ public:
 	unsigned int savedSFX;
 	unsigned int jar_breakSFX;
 	unsigned int OpenChestSFX;
-	
+	unsigned int bagAnimationSFX;
+	unsigned int potionAnimationSFX;
+
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

@@ -33,7 +33,6 @@ bool j1BuffManager::Start()
 	poisonedSFX = App->audio->LoadFx("audio/fx/States/poisoned.wav");
 	healingSFX = App->audio->LoadFx("audio/fx/States/Healing.wav");
 	enemyHitbyMarche = App->audio->LoadFx("audio/fx/States/enemyHitbyMarche.wav");
-	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 
 	return true;
 }
@@ -228,8 +227,7 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 			App->audio->PlayFx(App->scene->SharaDamaged, 0);
 		}
 
-		if (defender->life <= 0)
-			App->audio->PlayFx(playerDeath, 0);
+		
 
 	}
 

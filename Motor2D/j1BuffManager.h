@@ -61,7 +61,6 @@ public:
 	unsigned int poisonedSFX;
 	unsigned int healingSFX;
 	unsigned int enemyHitbyMarche;
-	unsigned int playerDeath;
 private:
 	uint							lastSourceID = 0u;
 	std::list<Buff*>				buffs;

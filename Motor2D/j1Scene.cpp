@@ -145,9 +145,11 @@ bool j1Scene::Start()
 	playerDeath = App->audio->LoadFx("audio/fx/States/player_death.wav");
 	typeWriterSFX = App->audio->LoadFx("audio/fx/scene/typewriterSFX.wav");
 	savedSFX = App->audio->LoadFx("audio/fx/UI/saveGame.wav");
+	bagAnimationSFX = App->audio->LoadFx("audio/fx/UI/bagAnimationSFX.wav");
+	potionAnimationSFX = App->audio->LoadFx("audio/fx/UI/potionAnimationSFX.wav");
+
 	jar_breakSFX = App->audio->LoadFx("audio/fx/loot/jarbroken.wav");
 	OpenChestSFX = App->audio->LoadFx("audio/fx/loot/chestOpen.wav");
-
 	
 	if (state == SceneState::LEVEL1)
 	{
@@ -2278,6 +2280,7 @@ void j1Scene::UpdateConsumable()
 			{
 				if (!(*iter).actionParticle)
 				{
+					App->audio->PlayFx(bagAnimationSFX, 0);
 					App->particles->AddParticle(App->particles->bag, 605,10, { 32,31 }, 0u, SDL_FLIP_NONE, 0.0, 0, 0, 0.5f, false, true,true);
 					(*iter).actionParticle = true;
  				}
@@ -2296,6 +2299,7 @@ void j1Scene::UpdateConsumable()
 				if (!(*iter).actionParticle)
 				{
 					App->particles->AddParticle(App->particles->phoenix, 562, 306, { 22,29 }, 0u, SDL_FLIP_NONE, 0.0, 0, 0, 0.5f, false, true, true);
+					App->audio->PlayFx(potionAnimationSFX, 0);
 					(*iter).actionParticle = true;
 				}
 			}
@@ -2306,7 +2310,9 @@ void j1Scene::UpdateConsumable()
 
 				if (!(*iter).actionParticle)
 				{
+					
 					App->particles->AddParticle(App->particles->potion, 607, 307, { 31,32 }, 0u, SDL_FLIP_NONE, 0.0, 0, 0, 0.5f, false, true, true);
+					App->audio->PlayFx(potionAnimationSFX, 0);
 					(*iter).actionParticle = true;
 				}
 
