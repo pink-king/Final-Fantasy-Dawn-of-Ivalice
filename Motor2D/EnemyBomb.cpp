@@ -359,7 +359,7 @@ void EnemyBomb::LoadAnims()
 	basicAttack[(int)facingDirectionEnemy::SW].speed = animSpeed;
 
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 57, 2, 14, 22 });
-	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 73, 3, 14, 21 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 76, 3, 14, 21 });
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 91, 2, 16, 17 });
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 108, 2, 15, 18 });
 	basicAttack[(int)facingDirectionEnemy::SE].loop = false;
