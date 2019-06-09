@@ -162,6 +162,8 @@ bool PlayerEntityManager::Update(float dt)
 			GetVendor()->generateVendorItems(true);
 			App->gui->healthBar->RecalculateSection();
 
+			App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player, " ", 5);
+			App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::HEALTH, App->entityFactory->player, " ", 5);
 
 			std::string dest = "LVL" + std::to_string(level);
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
@@ -169,21 +171,21 @@ bool PlayerEntityManager::Update(float dt)
 			for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
 			{
 
-				if (level == 2 && (*item)->name == "chain1")
+				if (level >= 2 && (*item)->name == "chain1")
 				{
-					(*item)->to_delete = true;
+					(*item)->hide = true;
 					App->scene->canExecuteChainAnim = true;
 					App->particles->AddParticle(App->particles->lvlUpFx, 191, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 				}
-				else if (level == 3 && (*item)->name == "chain2")
+				else if (level >= 3 && (*item)->name == "chain2")
 				{
-					(*item)->to_delete = true;
+					(*item)->hide = true;
 					App->scene->canExecuteChainAnim = true;
 					App->particles->AddParticle(App->particles->lvlUpFx, 253, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 				}
-				else if (level == 4 && (*item)->name == "chain3")
+				else if (level >= 4 && (*item)->name == "chain3")
 				{
-					(*item)->to_delete = true;
+					(*item)->hide = true;
 					App->scene->canExecuteChainAnim = true;
 					App->particles->AddParticle(App->particles->lvlUpFx, 316, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 				}

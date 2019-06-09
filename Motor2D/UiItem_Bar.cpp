@@ -104,14 +104,14 @@ void UiItem_Bar::DoLogicAbandoned() {
 
 void UiItem_Bar::CleanUp()
 {
-	if (thumb != nullptr && image_bar != nullptr && bar != nullptr)
+	/*if (thumb != nullptr && image_bar != nullptr && bar != nullptr)
 	{
 		thumb->to_delete = true;
 		image_bar->to_delete = true;
 		bar->to_delete = true;
 
 		this->to_delete = true; 
-	}
+	}*/
 }
 
 
