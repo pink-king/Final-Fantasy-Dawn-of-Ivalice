@@ -442,7 +442,7 @@
         <image name="ritz_special1_button">
           <section x="63" y="31" w="30" h="30"/>
           <flag  autorefresh="1"/>
-          <position x="179" y="602"/>
+          <position x="173" y="602"/>
         </image>
         <image name="ritz_special2_button">
           <section x="93" y="0" w="30" h="30"/>
