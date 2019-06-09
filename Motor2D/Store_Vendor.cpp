@@ -82,9 +82,6 @@ void Vendor::EquipVendor(LootEntity* entityLoot, bool fromPlayer)
 			vConsumables.push_back(entityLoot);
 		}
 		
-		if(!fromPlayer)
-		App->buff->AddItemStats(entityLoot);   // if vendor recieves item from player, it already has stats
-
 
 }
 
