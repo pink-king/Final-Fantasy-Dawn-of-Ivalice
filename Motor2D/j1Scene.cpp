@@ -670,7 +670,9 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN && hackerMode && App->entityFactory->active)
 	{
-		App->entityFactory->RepeatAmountofConsumables(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},OBJECT_TYPE::POTIONS);
+		App->entityFactory->RepeatAmountofConsumables(1,{ (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y},OBJECT_TYPE::PHOENIX_TAIL);
+		App->entityFactory->RepeatAmountofConsumables(1, { (float)App->entityFactory->player->position.x, (float)App->entityFactory->player->position.y }, OBJECT_TYPE::POTIONS);
+
 		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN && hackerMode && App->entityFactory->active)
@@ -807,8 +809,8 @@ bool j1Scene::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
 			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::WAVES);
 
-		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::START);
+		/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::START);*/                                                                                                                                                                                                                   
 
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::WAVES);
@@ -2275,26 +2277,43 @@ void j1Scene::UpdateConsumable()
 			{
 				if (!(*iter).actionParticle)
 				{
-					//App->particles->AddParticle(App->particles->bag, (*iter).position.x, (*iter).position.y, { 2,2 }, NULL,SDL_FLIP_NONE,0,0,0,App->win->GetScale()/2);
-					(*iter).actionParticle = false;
-				}
+					App->particles->AddParticle(App->particles->bag, 605,10, { 32,31 }, 0u, SDL_FLIP_NONE, 0.0, 0, 0, 0.5f, false, true,true);
+					(*iter).actionParticle = true;
+ 				}
 
 				App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
 			}
 		}
+
 		else if ((*iter).L_type == LOOT_TYPE::CONSUMABLE && (*iter).actualTime.Read() < 700)
 		{
 			
 			if ((*iter).actualTime.Read() > 280 && (*iter).objType == OBJECT_TYPE::PHOENIX_TAIL)
 			{
 				App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
-			}
-			else if((*iter).actualTime.Read() > 320 && (*iter).objType == OBJECT_TYPE::POTIONS)
-			App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
-			else
-			App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).rect);
 
+				if (!(*iter).actionParticle)
+				{
+					App->particles->AddParticle(App->particles->phoenix, 562, 306, { 22,29 }, 0u, SDL_FLIP_NONE, 0.0, 0, 0, 0.5f, false, true, true);
+					(*iter).actionParticle = true;
+				}
+			}
+
+			else if ((*iter).actualTime.Read() > 310 && (*iter).objType == OBJECT_TYPE::POTIONS)
+			{
+				App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).auxRect);
+
+				if (!(*iter).actionParticle)
+				{
+					App->particles->AddParticle(App->particles->potion, 607, 307, { 31,32 }, 0u, SDL_FLIP_NONE, 0.0, 0, 0, 0.5f, false, true, true);
+					(*iter).actionParticle = true;
+				}
+
+			}
+			else App->render->Blit(App->entityFactory->lootItemsTex, (*iter).position.x, (*iter).position.y, &(*iter).rect);
+			
 		}
+
 		else
 		{
 			consumableinfo.pop_front();
