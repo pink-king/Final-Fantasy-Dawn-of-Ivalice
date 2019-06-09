@@ -383,31 +383,31 @@ bool j1ParticlesClassic::Start()
 	arrow.anim.loop = false;
 	arrow.life = 2000.F; 
 
-
-	/*lvlUpFx.anim.PushBack({ 256, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 320, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 384, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
-	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });*/
-
+	// lvl up gfx particle
+	// coming
 	lvlUpFx.anim.PushBack({ 256, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 320, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 384, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
-	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
-	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
-	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	
+	// flashing
 	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
 	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });
-	lvlUpFx.anim.speed = 20.F;
+
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 }); 
+	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });
+
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });
+
+	// last fade to start
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 384, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 320, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 192, 64, 64 });
+	
+	lvlUpFx.anim.speed = 27.F;
 	lvlUpFx.anim.loop = false;
 	lvlUpFx.texture = particleAtlas2; 
 
@@ -528,32 +528,33 @@ bool j1ParticlesClassic::Update(float dt)
 {
 	bool ret = true;
 
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
-		//p = App->render->WorldToScreen(p.x, p.y);
+	//if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	//{
+	//	int x, y;
+	//	App->input->GetMousePosition(x, y);
+	//	iPoint p = App->render->ScreenToWorld(x, y);
+	//	p = App->render->WorldToScreen(p.x, p.y);
 
-		/*AddParticle(fire01, p.x, p.y, { 0,0 },0u);
-		AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
-		AddParticle(ice01, p.x, p.y, { 0,0 }, 2000u);
-		AddParticle(ice02, p.x, p.y, { 0,0 }, 4000u);
-		AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
-		/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
-		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
+	//	/*AddParticle(fire01, p.x, p.y, { 0,0 },0u);
+	//	AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
+	//	AddParticle(ice01, p.x, p.y, { 0,0 }, 2000u);
+	//	AddParticle(ice02, p.x, p.y, { 0,0 }, 4000u);
+	//	AddParticle(ice03, p.x, p.y, { 0,0 }, 6000u);*/
+	//	/*AddParticle(poison01, p.x, p.y, { 0,0 }, 0u);
+	//	AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);*/
 
-		/*AddParticle(stone01, p.x, p.y);
-		AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
-		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
+	//	/*AddParticle(stone01, p.x, p.y);
+	//	AddParticle(poison02, p.x, p.y, { 0,0 }, 1000u);
+	//	AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
 
-		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
-		//AddParticle(snow, p.x, p.y, { 0, 0 });
-		AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0,0,0, 1.f, 1.0F, true, true);
-	}
+	//	//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
+	//	//AddParticle(snow, p.x, p.y, { 0, 0 });
+	//	AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0, 0, 0, 1.f, 0.0F, false, true);
+	//}
 
 	return ret;
 }
+
 
 // Update: draw background
 bool j1ParticlesClassic::PostUpdate()//float dt)
