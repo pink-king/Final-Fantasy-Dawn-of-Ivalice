@@ -554,6 +554,10 @@ bool j1Map::LoadMapAssets(pugi::xml_node& node)
 
 
 						// props
+						else if (wallTypeName == "fire")
+						{
+							type = EnvironmentAssetsTypes::TORCH;
+						}
 						else if (wallTypeName == "ceramicYes")
 						{
 							//destRect = { 384,448,64,64 }; // Now loaded in the new entity

@@ -1265,6 +1265,22 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 		assetEntity = DBG_NEW ChestAsset(worldPos, isBroken, chestType);
 		entities.push_back(assetEntity);
 		break; 
+	case EnvironmentAssetsTypes::TORCH:
+	{
+		Animation torchAnim;
+		torchAnim.PushBack({ 384, 320, 64,64 });
+		torchAnim.PushBack({ 448, 320, 64,64 });
+		torchAnim.PushBack({ 512, 320, 64,64 });
+		torchAnim.PushBack({ 576, 320, 64,64 });
+		torchAnim.PushBack({ 640, 320, 64,64 });
+		torchAnim.PushBack({ 704, 320, 64,64 });
+		torchAnim.PushBack({ 768, 320, 64,64 });
+		torchAnim.speed = 10.f;
+
+		entities.push_back(assetEntity = DBG_NEW j1Entity(worldPos, torchAnim));
+
+		break;
+	}
 	case EnvironmentAssetsTypes::MAX:
 		break;
 	default:

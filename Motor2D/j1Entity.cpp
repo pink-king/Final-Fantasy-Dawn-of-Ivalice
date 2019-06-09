@@ -12,12 +12,24 @@
 j1Entity::j1Entity(ENTITY_TYPE type, float positionX, float positionY,std::string name) : type(type), position(positionX,positionY), name(name)
 {}
 
+// static environment asset (no animation)
 j1Entity::j1Entity(iPoint worldPos, SDL_Rect spriteAtlasRect) : type(NO_TYPE), drawAtlasRect(spriteAtlasRect)
 {
 	position.x = worldPos.x;
 	position.y = worldPos.y;
 
 	pivot.create(spriteAtlasRect.w * 0.5f, spriteAtlasRect.h * 0.75f); // places pivot always on sprite "tile midpoint"
+}
+
+// environment asset with animation
+j1Entity::j1Entity(iPoint worldPos, Animation anim) : type(NO_TYPE), defaultAnim(anim)
+{
+	position.x = worldPos.x;
+	position.y = worldPos.y;
+
+	pivot.create(anim.ReturnCurrentFrame().w * 0.5f, anim.ReturnCurrentFrame().h * 0.75f); // places pivot always on sprite "tile midpoint"
+
+	currentAnimation = &defaultAnim;
 }
 
 j1Entity::~j1Entity()
@@ -83,7 +95,10 @@ void j1Entity::Draw()
 	}
 	else // if not, use atlas
 	{
-		App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &drawAtlasRect);
+		if (currentAnimation != nullptr) // if we have defined animation
+			App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &currentAnimation->GetCurrentFrame());
+		else
+			App->render->Blit(App->entityFactory->assetsAtlasTex, position.x, position.y, &drawAtlasRect);
 	}
 
 }

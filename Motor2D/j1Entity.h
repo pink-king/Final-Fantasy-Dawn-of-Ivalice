@@ -90,6 +90,8 @@ public:
 	// assets constructor ---
 	// static sprite environment asset
 	j1Entity(iPoint position, SDL_Rect spriteAtlasRect);
+	// animated environment asset
+	j1Entity(iPoint position, Animation anim);
 	// static sprite with animation
 	//j1Entity(//TODO);
 	virtual ~j1Entity();
@@ -151,7 +153,7 @@ public:
 
 	bool					changedTile = false; 
 	bool					changedSubtile = false; 
-	//Animation			idle;
+	Animation				defaultAnim; // TORCHS, or dumb assets with anim
 	Animation*				currentAnimation = nullptr;
 	SDL_Texture*			entityTex = nullptr;
 
