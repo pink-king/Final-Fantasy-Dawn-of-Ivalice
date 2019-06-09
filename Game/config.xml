@@ -954,7 +954,7 @@
           <clickSec x="1079" y="2592" w="222" h="67" />
           <position x="934" y="593"/>
         </button>
-        <button name="button_default" function = "DefaultControls">
+        <button name="button_default" function = "LoadGamepadMapScheme">
           <idleSec  x="856" y="3136" w="222" h="67"/>
           <hoverSec x="856" y="3068" w="222" h="67" />
           <hoverSec x="856" y="3204" w="222" h="67" />
