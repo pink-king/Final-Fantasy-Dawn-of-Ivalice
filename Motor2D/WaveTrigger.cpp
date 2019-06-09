@@ -20,8 +20,7 @@ WaveTrigger::~WaveTrigger()
 		}
 		exit_wall_entities.clear();
 
-		if (level == 1)
-			App->scene->lobbyState = LobbyState::PASSLVL1;
+		
 	}
 	// delete walkability
 	std::list<iPoint>::iterator exitWallPositionsIter = exit_wall_map_positions.begin();
@@ -80,8 +79,11 @@ void WaveTrigger::CreateWalls()
 bool WaveTrigger::Update(float dt)
 {
 	if (waveEntity == nullptr && isActivated)
-		to_delete = true; 
-
+	{
+		if (level == 1)
+			App->scene->lobbyState = LobbyState::PASSLVL1;
+		to_delete = true;
+	}
 	return true;
 }
 

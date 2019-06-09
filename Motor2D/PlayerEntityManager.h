@@ -177,6 +177,7 @@ public:
 	LootEntity* lastHoveredLootItem = nullptr;
 	bool LastHoveredLootFlag = false;
 	bool playerHasMovedLastFrame = false; 
+	bool playerNoLongerInSameSubtileThanLoot = false; 
 	bool usedButtonAToPickLootWithCrosshairLastFrame = false;
 	
 };

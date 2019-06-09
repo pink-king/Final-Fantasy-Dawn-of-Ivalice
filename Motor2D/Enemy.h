@@ -123,6 +123,7 @@ protected:
 	//bool to_die = false;
 	bool dummy = false; 
 
+	SDL_Texture* shadow = nullptr; 
 
 	friend class j1EntityFactory;
 };

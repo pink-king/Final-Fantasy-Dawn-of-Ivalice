@@ -1288,6 +1288,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											}
 										}
 
+
+
 									}
 
 								}
@@ -1303,8 +1305,9 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
-							App->entityFactory->player->AddItemToTheBag(callback);
+							//App->entityFactory->player->AddItemToTheBag(callback);
 
+							App->entityFactory->player->EquipItem(callback); 
 
 							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
 							{
@@ -1314,6 +1317,11 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							// ADD NEW STATS TO THE PLAYER 
 							App->scene->characterStatsItem->SetNewStats();
+
+
+
+							//updateHealthBarWithNewHP(callback); 
+
 
 
 							break;
@@ -1377,6 +1385,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 	}
 
 
+	
 
 
 	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
@@ -1913,4 +1922,79 @@ void UiItem_Inventory::SwapVendorBag(bool newPlayer)
 
 
 }
+
+void UiItem_Inventory::DiscardItem(LootEntity * ent)
+{
+
+	/*if (ent->character->name == App->entityFactory->player->selectedCharacterEntity->name)
+	{*/
+		// delete item desciption so that it is not selected again
+		makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(ent);
+
+		// PLAYER TO VENDOR: when the inventory sequence is active: no need to check character
+
+		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
+		{
+			App->entityFactory->player->RemoveItemFromBag(ent);
+
+			App->audio->PlayFx(App->scene->sell, 0);             // TODO: new FX
+
+			if (!App->entityFactory->player->bagObjects.empty())
+			{
+				RepositionBagItems();
+			}
+
+
+			//}
+			/*else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
+			{
+				App->entityFactory->player->RemoveItemFromConsumables(ent);
+
+				potion_counter--;
+				App->audio->PlayFx(App->scene->sell, 0);                  // TODO: new FX
+
+				if (potion_counter > 0)
+				{
+					str_potion = "" + std::to_string(potion_counter);
+					potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+
+				}
+				else
+				{
+					potionLabel->to_delete = true;
+					first_label_potion = false;
+				}
+
+
+
+			}*/
+
+			// ------ GOLD 
+
+
+			App->entityFactory->player->gold += ent->price;
+			App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+			App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
+		}
+
+		
+
+
+
+	//}
+}
+
+/*
+void UiItem_Inventory::updateHealthBarWithNewHP(LootEntity * ent)
+{
+
+
+	if(ent->GetType() == LOOT_TYPE::EQUIPABLE)
+		for (auto& rol : ent->stats)
+			if(rol->GetRol() == ROL::HEALTH)
+				App->gui->healthBar->RecalculateSection();
+		 
+}*/
 	

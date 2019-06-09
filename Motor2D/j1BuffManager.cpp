@@ -451,6 +451,8 @@ void j1BuffManager::CreateHealth(j1Entity* entity, float lifeSecond, uint time)
 			entitiesTimeDamage.push_back(entity);
 		}
 
+		
+
 	}
 }
 
@@ -851,6 +853,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->entityFactory->dmgInTimeFdbck = true;
 							App->input->DoGamePadRumble(70, 50);
 
+
+							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+
 						}
 						else
 						{
@@ -927,6 +932,8 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->entityFactory->dmgInTimeFdbck = true;
 							App->input->DoGamePadRumble(70, 50);
 
+
+							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
 						}
 						else
 						{
@@ -962,6 +969,9 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->entityFactory->player->life -= (*item)->secDamage;
 							App->entityFactory->dmgInTimeFdbck = true;
 							App->input->DoGamePadRumble(70, 50);
+
+
+							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
 						}
 						else
 						{
@@ -1023,6 +1033,10 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 						drawRectified -= healthPivot;
 						App->audio->PlayFx(healingSFX, 0);
 						App->particles->AddParticle(App->particles->healing, drawRectified.x + 10, drawRectified.y, { 0,0 }, 0u, renderFlip);
+
+
+
+						App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
 
 
 						if (entity->life > entity->maxLife)

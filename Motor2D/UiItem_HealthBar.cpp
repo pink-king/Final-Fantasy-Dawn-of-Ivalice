@@ -83,7 +83,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 }
 
 
-UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant, UiItem* const parent, j1Entity* deliever) : UiItem(parent)
+UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, UiItem* const parent, j1Entity* deliever) : UiItem(parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
@@ -94,6 +94,11 @@ UiItem_HealthBar::UiItem_HealthBar(const SDL_Rect* dynamicSection, type variant,
 	offsetFromEnemy = iPoint(dynamicSection->w / 4 - deliever->size.x / 2, 10);
 
 	iPoint newPos(deliever->position.x - offsetFromEnemy.x, deliever->position.y - offsetFromEnemy.y);
+
+	staticImage = App->gui->AddImage(newPos, staticSection, name, this);
+	staticImage->hide = true; 
+
+
 	dynamicImage = App->gui->AddImage(newPos, dynamicSection, name, this);
 
 	maxSection = dynamicImage->section.w;
@@ -225,6 +230,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 			if (!startShowing && deliever->life < enemyMaxLife)
 			{
 				dynamicImage->hide = false;
+				staticImage->hide = false; 
 				skull->hide = false;
 				startShowing = true;
 			}
@@ -234,11 +240,13 @@ void UiItem_HealthBar::Draw(const float& dt)
 				if (!App->scene->inventory->enable && !App->scene->pausePanel->enable && !App->dialog->isDialogSequenceActive)
 				{
 					dynamicImage->hide = false;             // CAUTION: dummies do not have skull
+					staticImage->hide = false; 
 					skull->hide = false;
 				}
 				else
 				{
 					dynamicImage->hide = true;
+					staticImage->hide = true;
 					skull->hide = true;
 
 				}
@@ -278,7 +286,9 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 void UiItem_HealthBar::RecalculateSection()
 {
-	conversionFactor = maxSection / App->entityFactory->player->life;
+	if(App->entityFactory->player->life > 100)
+		conversionFactor = maxSection / App->entityFactory->player->life;
+
 
 	TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
 }
@@ -305,6 +315,10 @@ void UiItem_HealthBar::UpdatePos()
 
 	dynamicImage->hitBox.x = pos.x;
 	dynamicImage->hitBox.y = pos.y;
+
+
+	staticImage->hitBox.x = pos.x;
+	staticImage->hitBox.y = pos.y;
 
 	if (spawnedSkull)
 	{
@@ -375,6 +389,9 @@ void UiItem_HealthBar::DamageLogic()
 {
 	BROFILER_CATEGORY("Healthbar Logic", Profiler::Color::MidnightBlue);
 
+
+
+	this->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL); 
 
 	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
 

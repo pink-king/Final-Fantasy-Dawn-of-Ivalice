@@ -18,6 +18,7 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 {
 	if (!typewriter)
 	{
+		
 		texture = App->font->Print(text.data(), color, font);
 		this->guiType = GUI_TYPES::LABEL;
 		this->text = text;
@@ -39,6 +40,8 @@ UiItem_Label::UiItem_Label(std::string text, SDL_Color color, TTF_Font * font, p
 		this->text = "";
 		this->color = color;
 		this->font = font;
+
+		
 		texture = App->font->Print(this->text.data(), color, font);
 
 		if (texture)
@@ -140,8 +143,8 @@ void UiItem_Label::Draw(const float & dt)
 
 			if (!useCamera)
 				speed = 1.0f;
-
-			App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
+			if (this->text != "")
+				App->render->BlitGui(texture, hitBox.x, hitBox.y, NULL, speed);
 		}
 	}
 
@@ -178,6 +181,7 @@ bool UiItem_Label::TypeWriter()
 		if (counter_typewriter < typewriter_text.length())
 		{
 			this->text = this->text + typewriter_text.at(counter_typewriter);
+			
 			ChangeTextureIdle(this->text, NULL, NULL);
 			App->audio->PlayFx(App->scene->typeWriterSFX, 0);
 
@@ -245,6 +249,7 @@ bool UiItem_Label::ChangeTextureIdle(std::string textIdle, const SDL_Color* colo
 	SDL_Color col = (color != NULL) ? *color : this->color;
 	TTF_Font * f = (font != NULL) ? (TTF_Font *)font : this->font;
 
+	
 	SDL_Texture* aux = App->font->Print(textIdle.data(), col, f);
 	if(aux != nullptr)
 		assert(aux != nullptr);

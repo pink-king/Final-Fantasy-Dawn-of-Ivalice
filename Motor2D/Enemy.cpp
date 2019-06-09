@@ -12,6 +12,8 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
  	: speed(movementSpeed), detectionRange(detectionRange), baseDamage(baseDamage), attackRange(attackRange), dummy(dummy), attackSpeed(attackSpeed), j1Entity(entityType, position.x, position.y, name)
 {
 	debugSubtile = App->entityFactory->debugsubtileTex;
+	shadow = App->entityFactory->lootShadowTex;
+
 
 	// Intial orientation random
 	pointingDir = 1 + std::rand() % 8;
@@ -22,7 +24,8 @@ Enemy::Enemy(iPoint position, uint movementSpeed, uint detectionRange, uint atta
 
 
 	if (this->type != ENTITY_TYPE::ENEMY_DUMMY)
-	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, type::enemy, this, App->scene->inGamePanel);
+	this->lifeBar = App->gui->AddHealthBarToEnemy(&App->gui->enemyLifeBarInfo.dynamicSection, &App->gui->enemyLifeBarInfo.staticSection, 
+		type::enemy, this, App->scene->inGamePanel);
 
 
 	//App->audio->PlayFx(App->entityFactory->enemySpawn, 0);
@@ -66,6 +69,7 @@ Enemy::~Enemy()
 				//lifeBar->skull->to_delete = true;
 				App->gui->destroyElement(lifeBar->skull);
 				App->gui->destroyElement(lifeBar->dynamicImage);
+				App->gui->destroyElement(lifeBar->staticImage);
 				App->gui->destroyElement(lifeBar);
 			}
 		}
@@ -395,6 +399,9 @@ bool Enemy::Save(pugi::xml_node &node) const
 
 void Enemy::Draw() 
 {
+	iPoint spriteShadowOffset = { 16,14 };
+	App->render->Blit(shadow, GetPivotPos().x - spriteShadowOffset.x, GetPivotPos().y - spriteShadowOffset.y, NULL);
+
 	if(App->scene->debugSubtiles == true)
 		DebugPath();
 

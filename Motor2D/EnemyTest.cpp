@@ -343,6 +343,20 @@ bool EnemyTest::CleanUp()
 	return true;
 }
 
+void EnemyTest::Draw()
+{
+	if (App->scene->debugSubtiles == true)
+		DebugPath();
+
+	if (entityTex != nullptr)
+	{
+		if (currentAnimation != nullptr)
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		else
+			App->render->Blit(entityTex, position.x, position.y);
+	}
+}
+
 void EnemyTest::LoadAnims()
 {
 
@@ -350,129 +364,129 @@ void EnemyTest::LoadAnims()
 
 	// TODO: import from xml
 
-	idle[(int)facingDirectionEnemy::SE].PushBack({ 38, 8, 18, 30 });
-	idle[(int)facingDirectionEnemy::S].PushBack({ 116, 8, 15, 30 });
-	idle[(int)facingDirectionEnemy::SW].PushBack({ 38, 8, 18, 30 });
-	idle[(int)facingDirectionEnemy::NE].PushBack({ 191, 8, 18, 30 });
-	idle[(int)facingDirectionEnemy::NW].PushBack({ 191, 8, 18, 30 });
-	idle[(int)facingDirectionEnemy::N].PushBack({ 269, 8, 14, 30 });
-	idle[(int)facingDirectionEnemy::W].PushBack({ 250, 49, 16, 30 });
-	idle[(int)facingDirectionEnemy::E].PushBack({ 250, 49, 16, 30 });
+	idle[(int)facingDirectionEnemy::SE].PushBack({ 32, 0, 32, 40 });
+	idle[(int)facingDirectionEnemy::S].PushBack({ 128, 0, 32, 40 });
+	idle[(int)facingDirectionEnemy::SW].PushBack({ 32, 0, 32, 40 });
+	idle[(int)facingDirectionEnemy::NE].PushBack({ 224,  0, 32, 40 });
+	idle[(int)facingDirectionEnemy::NW].PushBack({ 224,  0, 32, 40 });
+	idle[(int)facingDirectionEnemy::N].PushBack({ 32, 40, 32, 40 });
+	idle[(int)facingDirectionEnemy::W].PushBack({ 128, 40, 32, 40 });
+	idle[(int)facingDirectionEnemy::E].PushBack({ 128, 40, 32, 40 });
 
 	float animSpeed = 5.5F;
 
-	run[(int)facingDirectionEnemy::SE].PushBack({ 10, 9, 19, 30 });
-	run[(int)facingDirectionEnemy::SE].PushBack({ 38, 8, 18, 30 });
-	run[(int)facingDirectionEnemy::SE].PushBack({ 66, 9, 18, 29 });
-	run[(int)facingDirectionEnemy::SE].PushBack({ 38, 8, 18, 30 });
+	run[(int)facingDirectionEnemy::SE].PushBack({ 0, 0, 32, 40});
+	run[(int)facingDirectionEnemy::SE].PushBack({ 32, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::SE].PushBack({ 64, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::SE].PushBack({ 32, 0, 32, 40 });
 	run[(int)facingDirectionEnemy::SE].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::SW].PushBack({ 10, 9, 19, 30 });
-	run[(int)facingDirectionEnemy::SW].PushBack({ 38, 8, 18, 30 });
-	run[(int)facingDirectionEnemy::SW].PushBack({ 66, 9, 18, 29 });
-	run[(int)facingDirectionEnemy::SW].PushBack({ 38, 8, 18, 30 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 0, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 32, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 64, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::SW].PushBack({ 32, 0, 32, 40 });
 	run[(int)facingDirectionEnemy::SW].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::S].PushBack({ 97, 9, 15, 30 });
-	run[(int)facingDirectionEnemy::S].PushBack({ 116, 8, 15, 30 });
-	run[(int)facingDirectionEnemy::S].PushBack({ 136, 10, 14, 29 });
-	run[(int)facingDirectionEnemy::S].PushBack({ 116, 8, 15, 30 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 96, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 128, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 160, 0, 32, 40 });
+	run[(int)facingDirectionEnemy::S].PushBack({ 128, 0, 32, 40 });
 	run[(int)facingDirectionEnemy::S].speed = animSpeed;
 
 
-	run[(int)facingDirectionEnemy::NE].PushBack({ 162, 9, 18, 29 });
-	run[(int)facingDirectionEnemy::NE].PushBack({ 191, 8, 18, 30 });
-	run[(int)facingDirectionEnemy::NE].PushBack({ 221, 9, 17, 30 });
-	run[(int)facingDirectionEnemy::NE].PushBack({ 191, 8, 18, 30 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 192,  0, 32, 40 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 224,  0, 32, 40 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 256,  0, 32, 40 });
+	run[(int)facingDirectionEnemy::NE].PushBack({ 224,  0, 32, 40 });
 	run[(int)facingDirectionEnemy::NE].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::NW].PushBack({ 162, 9, 18, 29 });
-	run[(int)facingDirectionEnemy::NW].PushBack({ 191, 8, 18, 30 });
-	run[(int)facingDirectionEnemy::NW].PushBack({ 221, 9, 17, 30 });
-	run[(int)facingDirectionEnemy::NW].PushBack({ 191, 8, 18, 30 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 192,  0, 32, 40 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 224,  0, 32, 40 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 256,  0, 32, 40 });
+	run[(int)facingDirectionEnemy::NW].PushBack({ 224,  0, 32, 40 });
 	run[(int)facingDirectionEnemy::NW].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::N].PushBack({ 250, 9, 14, 30 });
-	run[(int)facingDirectionEnemy::N].PushBack({ 269, 8, 14, 30 });
-	run[(int)facingDirectionEnemy::N].PushBack({ 288, 9, 14, 30 });
-	run[(int)facingDirectionEnemy::N].PushBack({ 269, 8, 14, 30 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 0, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 32, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 64, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::N].PushBack({ 32, 40, 32, 40 });
 	run[(int)facingDirectionEnemy::N].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::E].PushBack({ 222, 51, 21, 27 });
-	run[(int)facingDirectionEnemy::E].PushBack({ 250, 49, 16, 30 });
-	run[(int)facingDirectionEnemy::E].PushBack({ 268, 51, 21, 27 });
-	run[(int)facingDirectionEnemy::E].PushBack({ 250, 49, 16, 30 });
+	run[(int)facingDirectionEnemy::E].PushBack({ 96, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::E].PushBack({ 128, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::E].PushBack({ 160, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::E].PushBack({ 128, 40, 32, 40 });
 	run[(int)facingDirectionEnemy::E].speed = animSpeed;
 
-	run[(int)facingDirectionEnemy::W].PushBack({ 222, 51, 21, 27 });
-	run[(int)facingDirectionEnemy::W].PushBack({ 250, 49, 16, 30 });
-	run[(int)facingDirectionEnemy::W].PushBack({ 268, 51, 21, 27 });
-	run[(int)facingDirectionEnemy::W].PushBack({ 250, 49, 16, 30 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 96, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 128, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 160, 40, 32, 40 });
+	run[(int)facingDirectionEnemy::W].PushBack({ 128, 40, 32, 40 });
 	run[(int)facingDirectionEnemy::W].speed = animSpeed;
 
 	float attackSpeedAnim = attackSpeed * 4.F;
 
-	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 14, 89, 15, 29 });
-	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 36, 87, 18, 31 });
-	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 64, 92, 21, 26 });
-	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 97, 90, 20, 28 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 192, 40, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 224, 40, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 256, 40, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 0, 80, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::SE].loop = false;
 	basicAttack[(int)facingDirectionEnemy::SE].speed = attackSpeedAnim;
 
-	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 14, 89, 15, 29 });
-	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 36, 87, 18, 31 });
-	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 64, 92, 21, 26 });
-	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 97, 90, 20, 28 });
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 192, 40, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 224, 40, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 256, 40, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::SW].PushBack({ 0, 80, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::SW].loop = false;
 	basicAttack[(int)facingDirectionEnemy::SW].speed = attackSpeedAnim;
 
-	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 135, 90, 18, 28 });
-	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 162, 87, 21, 32 });
-	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 189, 92, 14, 27 });
-	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 208, 91, 16, 28 });
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 32, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 64, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 96, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::S].PushBack({ 128, 80, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::S].loop = false;
 	basicAttack[(int)facingDirectionEnemy::S].speed = attackSpeedAnim;
 
-	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 351, 91, 18, 27 });
-	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 379, 87, 18, 31 });
-	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 405, 91, 14, 27 });
-	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 425, 90, 14, 28 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 0, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 32, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 64, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::N].PushBack({ 96, 120, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::N].loop = false;
 	basicAttack[(int)facingDirectionEnemy::N].speed = attackSpeedAnim;
 
-	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 234, 90, 15, 28 });
-	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 265, 88, 18, 30 });
-	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 293, 91, 18, 27 });
-	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 321, 90, 19, 28 });
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 160, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 192, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 224, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::NE].PushBack({ 256, 80, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::NE].speed = attackSpeedAnim;
 	basicAttack[(int)facingDirectionEnemy::NE].loop = false;
 
 
-	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 234, 90, 15, 28 });
-	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 265, 88, 18, 30 });
-	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 293, 91, 18, 27 });
-	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 321, 90, 19, 28 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 160, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 192, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 224, 80, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::NW].PushBack({ 256, 80, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::NW].speed = attackSpeedAnim;
 	basicAttack[(int)facingDirectionEnemy::NW].loop = false;
 
-	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 331, 54, 19, 27 });
-	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 351, 50, 22, 32 });
-	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 375, 55, 18, 27 });
-	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 395, 54, 19, 28 });
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 128, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 160, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 192, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::E].PushBack({ 224, 120, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::E].speed = attackSpeedAnim;
 	basicAttack[(int)facingDirectionEnemy::E].loop = false;
 
-	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 331, 54, 19, 27 });
-	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 351, 50, 22, 32 });
-	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 375, 55, 18, 27 });
-	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 395, 54, 19, 28 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 128, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 160, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 192, 120, 32, 40 });
+	basicAttack[(int)facingDirectionEnemy::W].PushBack({ 224, 120, 32, 40 });
 	basicAttack[(int)facingDirectionEnemy::W].speed = attackSpeedAnim;
 	basicAttack[(int)facingDirectionEnemy::W].loop = false;
 
-	dyingAnim.PushBack({ 12, 129, 18, 29});
-	dyingAnim.PushBack({ 40, 129, 18, 29 });
-	dyingAnim.PushBack({ 68, 130, 18, 29 });
-	dyingAnim.PushBack({ 94, 130, 19, 29 });
+	dyingAnim.PushBack({ 256, 120, 32, 40 });
+	dyingAnim.PushBack({ 0, 160, 32, 40 });
+	dyingAnim.PushBack({ 32, 160, 32, 40 });
+	dyingAnim.PushBack({ 64, 160, 32, 40 });
 	dyingAnim.loop = false; 
 	dyingAnim.speed = 5.F; 
 
@@ -480,7 +494,7 @@ void EnemyTest::LoadAnims()
 	/*SetPivot(8, 32);
 	size.create(13,36);*/
 
-	SetPivot(8, 26);
-	size.create(18, 29);
+	SetPivot(15, 32);
+	size.create(32, 40);
 	this->position -= pivot;
 }

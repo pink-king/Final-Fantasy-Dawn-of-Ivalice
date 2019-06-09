@@ -33,6 +33,7 @@ WaveManager::~WaveManager()
 	alive.clear();
 
 	App->entityFactory->waveManager = nullptr;
+	App->scene->wave_label->hide = true;
 }
 
 bool WaveManager::Start()
@@ -386,7 +387,7 @@ void WaveManager::Finish()
 
 	App->entityFactory->CreateAsset(EnvironmentAssetsTypes::CHEST, targetChestPos + iPoint(0, -16), { 0,0,0,0 }, BreakableType::NO_BREAKABLE_TYPE, false, ChestType::SILVER);
 
-	App->scene->wave_label->hide = true;
+
 }
 
 bool WaveManager::Load(pugi::xml_node&)

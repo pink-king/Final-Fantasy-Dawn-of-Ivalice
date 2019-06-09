@@ -283,6 +283,26 @@ void EnemyBomb::SetState(float dt)
 	}
 }
 
+void EnemyBomb::Draw()
+{
+	iPoint spriteShadowOffset = { 16, 14 };
+
+	int offsety = currentAnimation->ReturnCurrentFrame().h * 0.5F;
+	int offsetx = currentAnimation->ReturnCurrentFrame().w * 0.5F;
+	App->render->Blit(shadow, GetPivotPos().x - offsetx - 11, GetPivotPos().y - offsety - 5, NULL);
+
+	if (App->scene->debugSubtiles == true)
+		DebugPath();
+
+	if (entityTex != nullptr)
+	{
+		if (currentAnimation != nullptr)
+			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
+		else
+			App->render->Blit(entityTex, position.x, position.y);
+	}
+}
+
 void EnemyBomb::LoadAnims()
 {
 	entityTex = App->entityFactory->enemyBombTex;
@@ -359,7 +379,7 @@ void EnemyBomb::LoadAnims()
 	basicAttack[(int)facingDirectionEnemy::SW].speed = animSpeed;
 
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 57, 2, 14, 22 });
-	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 73, 3, 14, 21 });
+	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 76, 3, 14, 21 });
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 91, 2, 16, 17 });
 	basicAttack[(int)facingDirectionEnemy::SE].PushBack({ 108, 2, 15, 18 });
 	basicAttack[(int)facingDirectionEnemy::SE].loop = false;

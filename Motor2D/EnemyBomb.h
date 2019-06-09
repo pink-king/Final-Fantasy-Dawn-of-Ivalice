@@ -24,6 +24,7 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
+	void Draw() override; 
 	void LoadAnims();
 	// functionality ------
 

@@ -1,0 +1,1 @@
+grid rects: 80 x 80 px

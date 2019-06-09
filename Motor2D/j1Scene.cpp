@@ -397,9 +397,7 @@ bool j1Scene::Start()
 	{
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::WIN, 340, 700, SceneState::LOBBY, Black,4);    // TODO: adjust trigger to lobby
 		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(26, 33).x, App->map->SubTileMapToWorld(26, 33).y, "TUTORIAL", { App->map->SubTileMapToWorld(23, 30).x, App->map->SubTileMapToWorld(23, 30).y },2);   // todo: proper position 
-
 		
-
 		App->audio->PlayMusic("audio/music/main_hall.ogg", -1);
 
 		App->entityFactory->CreatePlayer({ 165, 580 });
@@ -1603,7 +1601,9 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		}
 		else if (variant == "enemy")
 		{
+			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
 			App->gui->enemyLifeBarInfo.dynamicSection = dynamicSection;
+			App->gui->enemyLifeBarInfo.staticSection = staticSection; 
 		}
 		else if (variant == "boss")
 		{
