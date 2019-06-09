@@ -8,13 +8,16 @@
 	<scene lobbyState="2" />
 	<entities>
 		<Entities player="marche">
-			<Experience level="1" exp="175" />
+			<Experience level="2" exp="0" />
 			<life actualLife="0" />
 			<gold value="0" />
 		</Entities>
 	</entities>
 	<AttackManager />
-	<Buff />
+	<Buff>
+		<buff type="0" element="5" rol="0" value="5" />
+		<buff type="0" element="5" rol="4" value="5" />
+	</Buff>
 	<ParticlesClassic />
 	<pathfinding />
 	<gui />
