@@ -93,10 +93,12 @@ public:
 public:
 	Boss1State myState = Boss1State::NOTHING;
 private:
+	bool debugVisuals = false;
 	bool shieldActive = false;
 	bool evading = false;
 	SDL_Texture* boss_spritesheet = nullptr;
 	SDL_Texture* debugSubtileTex = nullptr;
+	SDL_Texture* debugTileTex = nullptr;
 	SDL_Texture* spawnCircleTex = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
@@ -106,6 +108,7 @@ private:
 	Animation spawnCircleAnim;
 
 	iPoint adjacentTileNeighboursPattern[NUM_NEIGH_PATTERN];
+	iPoint subtileFireShieldFirePattern[8];
 
 	int pointingDir = 0;
 	float lastAngle;

@@ -10,6 +10,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 {
 	boss_spritesheet = App->tex->Load("textures/enemies/enemyFlower_Boss.png");
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
+	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	spawnCircleTex = App->tex->Load("textures/enemies/boss_primitive_circle.png");
 
 	// animations --------
@@ -202,6 +203,16 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	adjacentTileNeighboursPattern[6] = { 1, 1 }; // SE
 	adjacentTileNeighboursPattern[7] = { -1,1 }; // SW
 
+	// precomputed subtile fire positions pattern for shield | respect tile nw corner subtile
+	subtileFireShieldFirePattern[0] = { 0,-1 }; // top || left
+	subtileFireShieldFirePattern[1] = { 1,-1 }; // top || right
+	subtileFireShieldFirePattern[2] = { 2, 0 }; // right || "up"
+	subtileFireShieldFirePattern[3] = { 2, 1 }; // right || "down"
+	subtileFireShieldFirePattern[4] = { 0, 2 }; // bottom || left
+	subtileFireShieldFirePattern[5] = { 1, 2 }; // bottom || right
+	subtileFireShieldFirePattern[6] = { -1,0 }; // left || "up"
+	subtileFireShieldFirePattern[7] = { -1, 1 }; // left || "down"
+
 
 	// define values ------
 	entityTex = boss_spritesheet;
@@ -235,7 +246,10 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 
 	this->myBossLifeBar = App->gui->AddHealthBarToBoss(desiredPosition, &App->gui->bossHealthBarInfo.dynamicSection, &App->gui->bossHealthBarInfo.staticSection, &App->gui->bossHealthBarInfo.divSection,
 		type::boss, this->life, this, App->scene->inGamePanel);
-	
+
+
+	// REMOVE THIS
+	debugVisuals = true;
 
 }
 
@@ -306,6 +320,7 @@ bool FlowerBossEntity::Update(float dt)
 		switch (myState)
 		{
 		case Boss1State::NOTHING:
+			myState = Boss1State::PHASE1;
 			break;
 		case Boss1State::PHASE1:
 		{
@@ -344,16 +359,26 @@ bool FlowerBossEntity::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
 	{
-		life = 40.f;
+		//life = 40.f;
+		DoShieldLogic();
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 	{
 		shootedPoisonRainEmitter = false;
 		Phase2Logic();
 	}*/
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		if (shieldActive)
+			DesactiveShield();
+		else
+			ActiveShield();
+	}
 
-	//LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
-	//LOG("life:%f", life);
+
+	/*LOG("tilepos:%i,%i", imOnTile.x, imOnTile.y);
+	LOG("subtilePos:%i,%i", imOnSubtile.x, imOnSubtile.y);
+	LOG("life:%f", life);*/
 
 	return true;
 }
@@ -366,6 +391,8 @@ void FlowerBossEntity::PhaseManager(float dt)
 	case Boss1State::NOTHING:
 	{
 		LookToPlayer(idleAnim);
+		// continous re-start phase1 timer
+		phase_control_timers.phase1.timer.Start();
 		break;
 	}
 	case Boss1State::PHASE1: // normal basic fireball pattern state
@@ -609,16 +636,30 @@ void FlowerBossEntity::DoShieldLogic()
 {
 	if (shieldFire_timer_data.timer.Read() >= shieldFire_timer_data.time)
 	{
-		App->attackManager->AddPropagationAttack(
-			this, // from entity
-			{ GetSubtilePos().x,GetSubtilePos().y }, // impact position, (on subtilemap units)
-			propagationType::BFS, // propagation expansion type
-			damageType::DIRECT,	// damage type: direct/in time
-			ELEMENTAL_TYPE::FIRE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
-			10, // base attack damage
-			7, // radius (on subtile units)
-			60, // propagation speed, in ms (time between steps)
-			true); // if this attack instantate particles of the elemental type while propagation
+		// instantiate 1 attack on every corner
+
+		// gets the NW subtiletile corner inside this tile
+		iPoint nwSubtilePos = App->map->MapToWorld(imOnTile.x, imOnTile.y);
+		nwSubtilePos = App->map->WorldToSubtileMap(nwSubtilePos.x, nwSubtilePos.y);
+		// FUCKING displacement
+		nwSubtilePos.x += 2; // too late to go in deepth with this :/
+
+		// apply the precomputed positions to instantiate the attacks respect nw corner
+		for (int i = 0; i < 8; ++i)
+		{
+			iPoint bfsInstantiationPoint = { nwSubtilePos.x + subtileFireShieldFirePattern[i].x, nwSubtilePos.y + subtileFireShieldFirePattern[i].y };
+
+			App->attackManager->AddPropagationAttack(
+				this, // from entity
+				bfsInstantiationPoint, // impact position, (on subtilemap units)
+				propagationType::BFS, // propagation expansion type
+				damageType::DIRECT,	// damage type: direct/in time
+				ELEMENTAL_TYPE::FIRE_ELEMENT, // if the attack has any extra elemental dmg type (if the attack is dmgType=direct, the elemental probability of dmg is calculated by the buff manager)
+				10, // base attack damage
+				3, // radius (on subtile units)
+				200, // propagation speed, in ms (time between steps)
+				true); // if this attack instantate particles of the elemental type while propagation
+		}
 
 		App->camera2D->AddTrauma(0.2f);
 
@@ -843,13 +884,36 @@ bool FlowerBossEntity::PostUpdate()
 	//if (previousLife != life)
 	//	LOG("life:%f", life);
 
-	//if (!evading)
-	//{
-	//	// subtiles
-	//	iPoint subTilePos = GetSubtilePos();
-	//	subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
-	//	App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
-	//}
+	/*if (!evading)
+	{*/
+	if (debugVisuals)
+	{
+		// tiles
+		iPoint tilePos = imOnTile;
+		tilePos = App->map->MapToWorld(tilePos.x, tilePos.y);
+		App->render->Blit(debugTileTex, tilePos.x, tilePos.y, NULL);
+
+		// subtiles
+		iPoint subTilePos = GetSubtilePos();
+		subTilePos = App->map->SubTileMapToWorld(subTilePos.x, subTilePos.y);
+		App->render->Blit(debugSubtileTex, subTilePos.x, subTilePos.y, NULL);
+
+		// attack positions
+		// gets the NW subtiletile corner inside this tile
+		iPoint nwSubtilePos = App->map->MapToWorld(imOnTile.x, imOnTile.y);
+		nwSubtilePos = App->map->WorldToSubtileMap(nwSubtilePos.x, nwSubtilePos.y);
+		// fucking displacement
+		nwSubtilePos.x += 2;
+
+		// apply the precomputed positions to instantiate the attacks respect nw corner
+
+		for (int i = 0; i < 8; ++i)
+		{
+			iPoint bfsInstantiationPoint = App->map->SubTileMapToWorld(nwSubtilePos.x + subtileFireShieldFirePattern[i].x, nwSubtilePos.y + subtileFireShieldFirePattern[i].y);
+
+			App->render->Blit(debugSubtileTex, bfsInstantiationPoint.x, bfsInstantiationPoint.y, NULL);
+		}
+	}
 
 	return true;
 }
@@ -859,6 +923,7 @@ bool FlowerBossEntity::CleanUp()
 	App->tex->UnLoad(boss_spritesheet);
 	App->tex->UnLoad(debugSubtileTex);
 	App->tex->UnLoad(spawnCircleTex);
+	App->tex->UnLoad(debugTileTex);
 
 	return true;
 }
