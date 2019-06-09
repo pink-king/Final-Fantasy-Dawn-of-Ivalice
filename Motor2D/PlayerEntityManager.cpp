@@ -204,11 +204,38 @@ bool PlayerEntityManager::Update(float dt)
 
 	// TODO: crash, rework this
 	//collect loot
+
+	if (LastHoveredLootFlag)       // TO PREVENT: when you don't move, an item comes to you, and descr appears, then you move and it stays there
+	{
+		if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) == nullptr)
+		{
+
+			if (dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
+			{
+				if (lastHoveredLootItem != nullptr)
+				{
+					PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);
+
+
+					lastHoveredLootItem = nullptr;
+
+					if (LastHoveredLootFlag)
+						LastHoveredLootFlag = false;
+
+				}
+			}
+
+
+		}
+
+	}
+
+
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
 		if (LastHoveredLootFlag)
 		{
-			if (playerHasMovedLastFrame && dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
+			if ((playerHasMovedLastFrame) && dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
 			{
 				if (lastHoveredLootItem != nullptr)
 				{
@@ -217,12 +244,15 @@ bool PlayerEntityManager::Update(float dt)
 
 					lastHoveredLootItem = nullptr; 
 
-					LastHoveredLootFlag = false; 
+					if(LastHoveredLootFlag)
+						LastHoveredLootFlag = false;
+
 				}
 			}
 		}
 	
 	}
+
 
 	//check triggers
 	if (App->entityFactory->BoolisThisSubtileTriggerFree(GetSubtilePos()))
