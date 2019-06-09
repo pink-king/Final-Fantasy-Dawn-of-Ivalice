@@ -773,17 +773,20 @@ bool j1Scene::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 		{
 			lobbyState = LobbyState::PASSLVL1;
-			if (doorlvl1 == nullptr)
-				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
-			if (doorlvl2 == nullptr)
-				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
-			if(firingrange == nullptr)
-				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 		}
 		if (lobbyState == LobbyState::TALKSTRANGER)
 		{
 			if (doorlvl1 == nullptr)
 				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (firingrange == nullptr)
+				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
+		}
+		if (lobbyState == LobbyState::PASSLVL1)
+		{
+			if (doorlvl1 == nullptr)
+				doorlvl1 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(18, 4).x, App->map->SubTileMapToWorld(18, 4).y, SceneState::LEVEL1, Black, 2, true);
+			if (doorlvl2 == nullptr)
+				doorlvl2 = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(26, 4).x, App->map->SubTileMapToWorld(26, 4).y, SceneState::LEVEL2, Black, 2, true);
 			if (firingrange == nullptr)
 				firingrange = App->entityFactory->CreateTrigger(TRIGGER_TYPE::DOOR, App->map->SubTileMapToWorld(11, 13).x, App->map->SubTileMapToWorld(11, 13).y, SceneState::FIRINGRANGE, Black, 2, false);
 		}
@@ -1328,6 +1331,18 @@ bool j1Scene::CleanUp()
 	consumableinfo.clear();
 
 	LOG("Freeing scene");
+	return true;
+}
+
+bool j1Scene::Save(pugi::xml_node &node) const
+{
+	node.append_attribute("lobbyState") = (int)lobbyState;
+	return true;
+}
+
+bool j1Scene::Load(pugi::xml_node &node)
+{
+	lobbyState = (LobbyState)node.attribute("lobbyState").as_int();
 	return true;
 }
 
