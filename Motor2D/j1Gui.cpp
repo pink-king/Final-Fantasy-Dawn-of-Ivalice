@@ -75,6 +75,11 @@ bool j1Gui::Update(float dt)
 		ApplyTabBetweenSimilar(resetHoverSwapping);
 	}
 
+	if (App->input->IsAimToggled())
+		App->scene->tick_image->hide = false;
+	else
+		App->scene->tick_image->hide = true;
+
 	return true;
 }
 
@@ -465,15 +470,17 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 	{
 		if (last_selected_object)
 		{
-			if (last_selected_object->parent && last_selected_object->guiType == GUI_TYPES::IMAGE)
+			if (last_selected_object->parent)
 			{
-				if (App->scene->inventory->enable)
+				if (last_selected_object->guiType == GUI_TYPES::IMAGE)
 				{
-					dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+					if (App->scene->inventory->enable)
+					{
+						dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+					}
 				}
 			}
 		}
-
 	}
 
 }
@@ -965,10 +972,16 @@ void j1Gui::GoBackToMenu()
 void j1Gui::AimToggle()
 {
 	if (App->input->IsAimToggled())
+	{
+		App->scene->tick_image->hide = true;
 		App->input->ToggleAimOFF();
+	}
 		
 	else
+	{
+		App->scene->tick_image->hide = false;
 		App->input->ToggleAimON();
+	}
 }
 
 
