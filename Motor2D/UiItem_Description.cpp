@@ -400,6 +400,8 @@ void UiItem_Description::Draw(const float& dt)
 				if (App->scene->inventoryItem->isVendorInventory)
 				{
 					std::string PriceString("Price: ");
+
+				
 					PriceString.append(std::to_string((int)callback->vendorPrice));
 					this->price->ChangeTextureIdle(PriceString, NULL, NULL);
 				}

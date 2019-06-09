@@ -1935,7 +1935,7 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 
 		if (ent->GetType() == LOOT_TYPE::EQUIPABLE)
 		{
-			App->entityFactory->player->RemoveItemFromBag(ent); 
+			App->entityFactory->player->RemoveItemFromBag(ent);
 
 			App->audio->PlayFx(App->scene->sell, 0);             // TODO: new FX
 
@@ -1945,39 +1945,39 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 			}
 
 
-		}
-		else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
-		{
-			App->entityFactory->player->RemoveItemFromConsumables(ent);
-
-			potion_counter--;
-			App->audio->PlayFx(App->scene->sell, 0);                  // TODO: new FX
-
-			if (potion_counter > 0)
+			//}
+			/*else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
 			{
-				str_potion = "" + std::to_string(potion_counter);
-				potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+				App->entityFactory->player->RemoveItemFromConsumables(ent);
 
-			}
-			else
-			{
-				potionLabel->to_delete = true;
-				first_label_potion = false;
-			}
+				potion_counter--;
+				App->audio->PlayFx(App->scene->sell, 0);                  // TODO: new FX
+
+				if (potion_counter > 0)
+				{
+					str_potion = "" + std::to_string(potion_counter);
+					potionLabel->ChangeTextureIdle(str_potion, NULL, NULL);
+
+				}
+				else
+				{
+					potionLabel->to_delete = true;
+					first_label_potion = false;
+				}
 
 
-		
+
+			}*/
+
+			// ------ GOLD 
+
+
+			App->entityFactory->player->gold += ent->price;
+			App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+			App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
+
 		}
-
-		// ------ GOLD 
-
-
-		App->entityFactory->player->gold += ent->price;
-		App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
-		App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
-		App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
-
-
 
 		
 
