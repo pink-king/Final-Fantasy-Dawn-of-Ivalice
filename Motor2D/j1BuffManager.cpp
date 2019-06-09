@@ -749,6 +749,11 @@ void j1BuffManager::AddItemStats(LootEntity * item)
 			ChangeEntityVariables((*iter)->GetCharacter(), (*iter)->GetType(), (*iter)->GetRol(), (*iter)->GetValue());
 			buffs.push_back(*iter);
 		}
+
+
+		if ((*iter)->GetRol() == ROL::HEALTH)
+			App->gui->healthBar->RecalculateSection(); 
+		
 	}
 }
 
