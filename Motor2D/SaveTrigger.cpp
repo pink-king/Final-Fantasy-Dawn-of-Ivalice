@@ -92,7 +92,7 @@ bool SaveTrigger::Save(pugi::xml_node &) const
 bool SaveTrigger::DoTriggerAction()
 {
 	isActive = true;
-	if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN)
+	if (!App->scene->pausePanel->enable && App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN)
 	{
 		isActive = true;
 		App->dialog->SetCurrentDialog("SAVEGAME");

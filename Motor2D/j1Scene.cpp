@@ -2281,31 +2281,33 @@ void j1Scene::UpdateConsumable()
 
 bool j1Scene::executeAnimChain()
 {
-	if (App->entityFactory->player->level == 2)
+	if (App->entityFactory->player != nullptr)
 	{
-		
-		if (chain1.Finished())
-			canExecuteChainAnim = false;
-		else
-			App->render->BlitGui(App->gui->GetAtlas(), 149, 616, &chain1.GetCurrentFrame(), 0.0F);
+		if (App->entityFactory->player->level == 2)
+		{
 
+			if (chain1.Finished())
+				canExecuteChainAnim = false;
+			else
+				App->render->BlitGui(App->gui->GetAtlas(), 149, 616, &chain1.GetCurrentFrame(), 0.0F);
+
+		}
+		else if (App->entityFactory->player->level == 3)
+		{
+
+			if (chain2.Finished())
+				canExecuteChainAnim = false;
+			else
+				App->render->BlitGui(App->gui->GetAtlas(), 211, 616, &chain2.GetCurrentFrame(), 0.0F);
+		}
+		else if (App->entityFactory->player->level == 4)
+		{
+
+			if (chain3.Finished())
+				canExecuteChainAnim = false;
+			else
+				App->render->BlitGui(App->gui->GetAtlas(), 273, 616, &chain3.GetCurrentFrame(), 0.0F);
+		}
 	}
-	else if (App->entityFactory->player->level == 3)
-	{
-		
-		if (chain2.Finished())
-			canExecuteChainAnim = false;
-		else
-			App->render->BlitGui(App->gui->GetAtlas(), 211, 616, &chain2.GetCurrentFrame(), 0.0F);
-	}
-	else if (App->entityFactory->player->level == 4)
-	{
-		
-		if (chain3.Finished())
-			canExecuteChainAnim = false;
-		else
-			App->render->BlitGui(App->gui->GetAtlas(), 273, 616, &chain3.GetCurrentFrame(), 0.0F);
-	}
-	
 	return true;
 }
