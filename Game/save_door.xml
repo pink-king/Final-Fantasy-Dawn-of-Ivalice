@@ -8,7 +8,7 @@
 	<scene lobbyState="2" />
 	<entities>
 		<Entities player="marche">
-			<Experience level="1" exp="0" />
+			<Experience level="1" exp="175" />
 			<life actualLife="0" />
 			<gold value="0" />
 		</Entities>

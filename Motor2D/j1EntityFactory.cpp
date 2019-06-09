@@ -80,7 +80,7 @@ bool j1EntityFactory::Start()
 
 	//assetsAtlasTex = App->tex->Load("maps/iso-64x64-building.png");
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
-	enemyZombieTex = App->tex->Load("textures/enemies/enemyZombie.png");
+	enemyZombieTex = App->tex->Load("textures/enemies/zombiesShadows.png");
 	enemyBombTex = App->tex->Load("textures/enemies/enemyBomb.png");
 	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolemv2.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");

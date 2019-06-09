@@ -141,7 +141,7 @@ void UiItem::DrawUi(float dt)
 	}
 
 
-	//Draw_Cursor(dt);
+	Draw_Cursor(dt);
 
 }
 
