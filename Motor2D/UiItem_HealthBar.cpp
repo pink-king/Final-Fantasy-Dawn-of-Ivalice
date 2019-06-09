@@ -278,7 +278,9 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 void UiItem_HealthBar::RecalculateSection()
 {
-	conversionFactor = maxSection / App->entityFactory->player->life;
+	if(App->entityFactory->player->life > 100)
+		conversionFactor = maxSection / App->entityFactory->player->life;
+
 
 	TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
 }
