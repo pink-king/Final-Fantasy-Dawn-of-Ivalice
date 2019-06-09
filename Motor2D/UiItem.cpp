@@ -86,12 +86,24 @@ void UiItem::DrawUi(float dt)
 	{
 		if (App->entityFactory->player)
 		{
-			if ((*iter)->name == "chain1" && App->entityFactory->player->level >= 2)
-				(*iter)->to_delete = true;
-			else if ((*iter)->name == "chain2" && App->entityFactory->player->level >= 3)
-				(*iter)->to_delete = true;
-			else if ((*iter)->name == "chain3" && App->entityFactory->player->level >= 4)
-				(*iter)->to_delete = true;
+			if (App->entityFactory->player->level==1)
+			{
+				if ((*iter)->name == "chain1")
+					(*iter)->hide = false;
+				else if ((*iter)->name == "chain2")
+					(*iter)->hide = false;
+				else if ((*iter)->name == "chain3")
+					(*iter)->hide = false;
+			}
+			else
+			{
+				if ((*iter)->name == "chain1" && App->entityFactory->player->level >= 2)
+					(*iter)->hide = true;
+				else if ((*iter)->name == "chain2" && App->entityFactory->player->level >= 3)
+					(*iter)->hide = true;
+				else if ((*iter)->name == "chain3" && App->entityFactory->player->level >= 4)
+					(*iter)->hide = true;
+			}
 		}
 	
 
