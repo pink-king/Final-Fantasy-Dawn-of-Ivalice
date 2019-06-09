@@ -112,7 +112,8 @@ public:
 	Particle PoisonBlast;
 	Particle lvlUpFx; 
 	Particle bag;
-
+	Particle phoenix;
+	Particle potion;
 };
 
 #endif // __j1PARTICLES_H__

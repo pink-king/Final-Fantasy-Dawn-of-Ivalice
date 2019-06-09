@@ -412,14 +412,51 @@ bool j1ParticlesClassic::Start()
 	lvlUpFx.texture = particleAtlas2; 
 
 
-	bag.anim.PushBack({ 14, 12, 46, 51 });
-	bag.anim.PushBack({ 67, 12, 46, 51 });
-	bag.anim.PushBack({ 123, 13, 46, 51 });
-	bag.anim.PushBack({ 14, 12, 46, 51 });
-	bag.anim.PushBack({ 67, 12, 46, 51 });
+	bag.anim.PushBack({ 5, 6, 64, 61 });
+	bag.anim.PushBack({ 66, 6, 64, 61 });
+	bag.anim.PushBack({ 126, 6, 64, 61 });
+	bag.anim.PushBack({ 189, 7, 64, 61 });
+	bag.anim.PushBack({ 252, 6, 64, 61 });
+	bag.anim.PushBack({ 189, 7, 64, 61 });
+	bag.anim.PushBack({ 126, 6, 64, 61 });
+	bag.anim.PushBack({ 66, 6, 64, 61 });
+	bag.anim.PushBack({ 5, 6, 64, 61 });
+
 	bag.texture = easinglootToUI;
+	bag.anim.speed = 20.0f;
 	bag.anim.loop = false;
 
+	phoenix.anim.PushBack({9 ,74 ,45,48});
+	phoenix.anim.PushBack({56 ,73 ,45,48 });
+	phoenix.anim.PushBack({ 105,74 ,45,48 });
+	phoenix.anim.PushBack({ 154,74 ,45,48 });
+	phoenix.anim.PushBack({ 212, 74,45,48 });
+	phoenix.anim.PushBack({ 263,81 ,45,48 });
+	phoenix.anim.PushBack({ 212, 74,45,48 });
+	phoenix.anim.PushBack({ 154,74 ,45,48 });
+	phoenix.anim.PushBack({ 105,74 ,45,48 });
+	phoenix.anim.PushBack({ 9 ,74 ,45,48 });
+
+	phoenix.texture = easinglootToUI;
+	phoenix.anim.speed = 20.0f;
+	phoenix.anim.loop = false;
+
+	potion.anim.PushBack({18 , 153 ,47,57 });
+	potion.anim.PushBack({ 64, 153,47,57 });
+	potion.anim.PushBack({115 ,153 ,47,57 });
+	potion.anim.PushBack({162 ,153 ,47,57 });
+	potion.anim.PushBack({219 ,153 ,47,57 });
+	potion.anim.PushBack({283 , 153,47,57 });
+
+	potion.anim.PushBack({ 219 ,153 ,47,57 });
+	potion.anim.PushBack({ 162 ,153 ,47,57 });
+	potion.anim.PushBack({ 115 ,153 ,47,57 });
+	potion.anim.PushBack({ 64, 153,47,57 });
+	potion.anim.PushBack({ 18 , 153 ,47,57 });
+
+	potion.texture = easinglootToUI;
+	potion.anim.speed = 20.0f;
+	potion.anim.loop = false;
 	return true;
 }
 
