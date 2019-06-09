@@ -8,9 +8,14 @@
 	<scene />
 	<entities>
 		<Entities player="marche">
-			<Experience level="1" exp="0" />
-			<life actualLife="0" />
-			<gold value="0" />
+			<Experience level="5" exp="0" />
+			<life actualLife="104" />
+			<gold value="100233" />
+			<consumableObjects>
+				<data name="phoenixTail" level="0" elementalType="noElement" objectType="phoenixTail" lootType="consumable">
+					<rect x="416" y="1568" w="32" h="32" />
+				</data>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />
