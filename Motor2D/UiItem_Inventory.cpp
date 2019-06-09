@@ -1396,7 +1396,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 		}
 
-		//	if (!isVendorInventory && !App->dialog->isDialogSequenceActive)    // Only for player, switches between equipped and bag 
+
+		if ((!isVendorInventory && !App->dialog->isDialogSequenceActive) || successfulVendorToPlayer)     // Only for player, switches between equipped and bag 
 		callback->MyDescription->myLootItemIsEquipped.state = ACTIVE;
 
 	}
