@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "UiItem.h"
 #include "UiItem_Label.h"
+#include "j1ParticlesClassic.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
@@ -171,17 +172,19 @@ bool PlayerEntityManager::Update(float dt)
 				{
 					(*item)->to_delete = true;
 					App->scene->canExecuteChainAnim = true;
-
+					App->particles->AddParticle(App->particles->lvlUpFx, 191, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false);
 				}
 				else if (level == 3 && (*item)->name == "chain2")
 				{
 					(*item)->to_delete = true;
 					App->scene->canExecuteChainAnim = true;
+					App->particles->AddParticle(App->particles->lvlUpFx, 253, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false);
 				}
 				else if (level == 4 && (*item)->name == "chain3")
 				{
 					(*item)->to_delete = true;
 					App->scene->canExecuteChainAnim = true;
+					App->particles->AddParticle(App->particles->lvlUpFx, 315, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false);
 				}
 			}
 		}

@@ -497,6 +497,7 @@ bool j1ParticlesClassic::Update(float dt)
 		int x, y;
 		App->input->GetMousePosition(x, y);
 		iPoint p = App->render->ScreenToWorld(x, y);
+		//p = App->render->WorldToScreen(p.x, p.y);
 
 		/*AddParticle(fire01, p.x, p.y, { 0,0 },0u);
 		AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
@@ -512,7 +513,7 @@ bool j1ParticlesClassic::Update(float dt)
 
 		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
 		//AddParticle(snow, p.x, p.y, { 0, 0 });
-		//AddParticle(lvlUpFx, p.x, p.y, { 0, 0 });
+		//AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0,0,0, 1.f, 0.0F, false);
 	}
 
 	return ret;
@@ -538,7 +539,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 		}
 		else if (SDL_GetTicks() >= (*p)->born)
 		{
-			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), 1.0f, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * App->win->GetScale(), (*p)->pivot.y * App->win->GetScale());
+			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), (*p)->parallaxSpeed, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * App->win->GetScale(), (*p)->pivot.y * App->win->GetScale(), (*p)->useCameraScale);
 			if ((*p)->fx_played == false && (*p)->fx != 0)
 			{
 				(*p)->fx_played = true;
@@ -555,7 +556,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 }
 
 //void ModuleParticles::AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay, iPoint speed, Uint32 life, char* name)
-void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip, double angle, int pivotx, int pivoty, float scale)
+void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip, double angle, int pivotx, int pivoty, float scale, float parallaxSpeed, bool useCameraScale)
 {
 	Particle* p = DBG_NEW Particle(particle);
 	p->born = SDL_GetTicks() + delay;
@@ -575,6 +576,9 @@ void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPo
 	}
 
 	p->scale = scale; 
+	p->parallaxSpeed = parallaxSpeed;
+	p->useCameraScale = useCameraScale;
+	
 	active.push_back(p);	
 }
 

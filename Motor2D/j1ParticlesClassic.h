@@ -32,6 +32,8 @@ struct Particle // only dumb visual class
 	Uint32 life = 0;
 	//Uint32 damage = 0;
 	bool fx_played = false;
+	float parallaxSpeed = 1.0;
+	bool useCameraScale = true; 
 
 	Particle();
 	Particle(const Particle& p);
@@ -59,7 +61,7 @@ public:
 	//void OnCollisionSubtile(Collider* c1, Collider* c2);
 
 	//void AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay = 0, iPoint speed = { 0,0 }, Uint32 life = 0, char* fx = nullptr);
-	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE, double angle = 0, int pivotx = INT_MAX, int pivoty = INT_MAX, float scale = 1.0F);
+	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE, double angle = 0, int pivotx = INT_MAX, int pivoty = INT_MAX, float scale = 1.0F, float parallaxSpeed = 1.0F, bool useCameraScale = true);
 
 	//bool LoadAnimation(pugi::xml_node &node, Animation &anim, bool sequential = false);
 
