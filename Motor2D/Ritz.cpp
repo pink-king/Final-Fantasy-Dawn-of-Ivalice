@@ -531,7 +531,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.dodge.cooldownTime = 3000;
 	coolDownData.special1.cooldownTime = 5500; // TELEPORT
 	coolDownData.special2.cooldownTime = 2000; // Medusa
-	coolDownData.ultimate.cooldownTime = 10000; // death circle
+	coolDownData.ultimate.cooldownTime = 20000; // death circle
 
 	// set timers
 	SetCoolDownTimers();

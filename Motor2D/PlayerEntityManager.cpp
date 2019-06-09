@@ -201,7 +201,7 @@ bool PlayerEntityManager::Update(float dt)
 
 	// TODO: crash, rework this
 	//collect loot
-	if (lastHoveredLootItem != nullptr)
+	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
 		if (lastHoveredLootItem != App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) && dynamic_cast<LootEntity*>(lastHoveredLootItem)->spawnedDescription)
 		{

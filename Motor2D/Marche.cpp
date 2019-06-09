@@ -592,7 +592,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	coolDownData.dodge.cooldownTime = 4000; // DODGE cooldown, restarts when dodge finishes
 	coolDownData.special1.cooldownTime = 5500;
 	coolDownData.special2.cooldownTime = 5500;
-	coolDownData.ultimate.cooldownTime = 10000;
+	coolDownData.ultimate.cooldownTime = 30000;
 
 	// set timers
 	SetCoolDownTimers();
@@ -615,7 +615,7 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 	basicAttackPulsationMaxTime = 600; // the time between the player can or not encadenate the second part of the basic attack animation
 											// second hit is more powerfull too
 	baseDamage = 40; // base damage for basic attack / other attacks that need the basic dmg value
-	superTransMaxTimeSec = 7; 
+	superTransMaxTimeSec = 12; 
 
 }
 
