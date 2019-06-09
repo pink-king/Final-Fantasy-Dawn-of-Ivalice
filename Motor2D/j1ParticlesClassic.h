@@ -104,7 +104,9 @@ public:
 	Particle powder01;
 	Particle arrow; 
 	Particle PoisonBlast;
+	Particle lvlUpFx; 
 	Particle bag;
+
 };
 
 #endif // __j1PARTICLES_H__
