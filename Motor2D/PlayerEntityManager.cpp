@@ -964,6 +964,8 @@ void PlayerEntityManager::EquipItem(LootEntity * entityLoot)
 
 			if (entityLoot->GetObjectType() == (*item)->GetObjectType() && entityLoot->character == (*item)->character)
 			{
+				
+
 				App->buff->RemoveItemStat(*item);
 				bagObjects.push_back(*item);
 				equipedObjects.erase(item);

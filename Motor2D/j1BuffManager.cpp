@@ -592,6 +592,11 @@ void j1BuffManager::ChangeEntityVariables(j1Entity* entity, BUFF_TYPE type, ROL 
 					App->entityFactory->player->maxLife += value;
 					App->entityFactory->player->life += value;
 				}
+
+
+
+				App->gui->healthBar->RecalculateSection(); 
+
 			}
 			else if (entity->type == ENTITY_TYPE::ENEMY_TEST ||
 				entity->type == ENTITY_TYPE::ENEMY_BOMB ||
@@ -697,6 +702,11 @@ void j1BuffManager::ResetEntityVariables(Buff* buff)
 				App->entityFactory->player->maxLife -= buff->GetValue();
 				App->entityFactory->player->life -= buff->GetValue();
 			}
+
+
+
+			App->gui->healthBar->RecalculateSection(); 
+
 		}
 		else if (buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_TEST ||
 			buff->GetCharacter()->type == ENTITY_TYPE::ENEMY_BOMB ||
@@ -750,9 +760,6 @@ void j1BuffManager::AddItemStats(LootEntity * item)
 			buffs.push_back(*iter);
 		}
 
-
-		if ((*iter)->GetRol() == ROL::HEALTH)
-			App->gui->healthBar->RecalculateSection(); 
 		
 	}
 }
@@ -777,9 +784,17 @@ void j1BuffManager::RemoveItemStat(const LootEntity * item)
 	std::vector<Buff*>::const_iterator iter = item->stats.begin();
 	for (; iter != item->stats.end(); ++iter)
 	{
+		
+
+		if ((*iter)->GetRol() == ROL::HEALTH)
+			App->gui->healthBar->RecalculateSection();
+		
 		if ((*iter)->GetRol() != ROL::ATTACK_ROL && (*iter)->GetRol() != ROL::DEFENCE_ROL)
 			App->buff->ResetEntityVariables(*iter);
 		buffs.remove(*iter);
+
+
+		
 	}
 }
 
