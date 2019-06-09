@@ -547,6 +547,21 @@ float j1App::GetDt()
 	return dt;
 }
 
+bool j1App::ExsistDocument(std::string doc)
+{
+	bool ret = false;
+
+	pugi::xml_parse_result result = config_file.load_file(doc.data());
+
+	if (result == NULL)
+		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+	else
+		ret = true;
+
+	return ret;
+
+}
+
 //float j1App::GetGameTime()
 //{
 //	return seconds_since_startup;

@@ -138,6 +138,7 @@ public:
 	bool ComeToWin = false;
 	bool exitGame = false;
 
+	bool savedNow = false;
 	bool isSaved = false;
 	SceneState state = SceneState::INTRO;
 	SceneState previosState = SceneState::LOBBY;
