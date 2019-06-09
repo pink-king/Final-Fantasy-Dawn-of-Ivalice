@@ -19,14 +19,15 @@ WaveTrigger::~WaveTrigger()
 			(*wallsIter)->to_delete = true;
 		}
 		exit_wall_entities.clear();
+
+		if (level == 1)
+			App->scene->lobbyState = LobbyState::PASSLVL1;
 	}
 	// delete walkability
 	std::list<iPoint>::iterator exitWallPositionsIter = exit_wall_map_positions.begin();
 	for (; exitWallPositionsIter != exit_wall_map_positions.end(); ++exitWallPositionsIter)
 		App->pathfinding->DeactivateTile({ (*exitWallPositionsIter).x, (*exitWallPositionsIter).y });
 
-	if (level == 1)
-		App->scene->lobbyState = LobbyState::PASSLVL1;
 	// check this
 	DeleteFromSubtiles(11);
 }
