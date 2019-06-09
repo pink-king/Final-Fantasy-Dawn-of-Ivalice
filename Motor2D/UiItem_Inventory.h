@@ -86,6 +86,9 @@ public:
 	bool firstTimeSwappedBagLeft3Vendor = false;
 
 
+	bool createdLabels = false; 
+
+
 	elementsStartingPositionsOffsets initialPositionsOffsets;
 	iPoint startingPos = { 247, 96 };
 
