@@ -8,6 +8,7 @@
 #include "j1TransitionManager.h"
 #include "Boss_Flower.h"
 
+
 j1DialogSystem::j1DialogSystem()
 {
 }
@@ -74,9 +75,9 @@ bool j1DialogSystem::Update(float dt)
 		}
 
 
-		if (spawnDialogSequence) // TODO: A) put it to true in store trigger, and in boss fight B) put the "isDialogSequenceactive to True"
+		if (spawnDialogSequence) 
 		{
-			input = -1;                     // first time no input; 
+			input = -1;                     
 			PerformDialogue(treeid);
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
@@ -365,6 +366,8 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 			BlitDialog(tr_id);
 			else                                       // Stop dialogue if input is greater than max nodes ("Farewell")
 			{
+
+
 				isDialogSequenceActive = false; 
 				spawnDialogSequence = false;
 				
@@ -398,7 +401,9 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				}
 				if (dialogTrees[tr_id]->firstInteraction)                       // show npc name after first interaction
 				{
-					dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
+					if(dialogTrees[tr_id]->hasNPCLabel)
+						dialogTrees[tr_id]->myNPCLabels.nameLabel->hide = false;
+			
 					dialogTrees[tr_id]->firstInteraction = false;
 				}
 
@@ -422,7 +427,9 @@ void j1DialogSystem::destroyNPCNameLabels(SceneState sc)
 			if (dialogTrees[j]->NPCscene == "LOBBY")
 			{
 				//App->gui->destroyElement(dialogTrees[j]->myNPCLabels.nameLabel);  // TODO: talk label
-				dialogTrees[j]->myNPCLabels.nameLabel->hide = true; 
+				if(dialogTrees[j]->hasNPCLabel)
+					dialogTrees[j]->myNPCLabels.nameLabel->hide = true;
+			
 			}
 
 		}
@@ -435,7 +442,8 @@ void j1DialogSystem::destroyNPCNameLabels(SceneState sc)
 			if (dialogTrees[j]->NPCscene == "FIRINGRANGE")
 			{
 				//App->gui->destroyElement(dialogTrees[j]->myNPCLabels.nameLabel);  // TODO: talk label
-				dialogTrees[j]->myNPCLabels.nameLabel->hide = true;
+				if (dialogTrees[j]->hasNPCLabel)
+					dialogTrees[j]->myNPCLabels.nameLabel->hide = true;
 			}
 
 		}
@@ -452,7 +460,7 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 			if (dialogTrees[j]->NPCscene == "LOBBY")
 			{
 				//dialogTrees[j]->myNPCLabels.nameLabel = App->gui->AddLabel(dialogTrees[j]->NPCName, { 255, 255, 255, 255 }, App->font->knightsQuest24, { 0,0 }, App->scene->inGamePanel);
-				if (!dialogTrees[j]->firstInteraction) 
+				if (!dialogTrees[j]->firstInteraction && dialogTrees[j]->hasNPCLabel)
 					dialogTrees[j]->myNPCLabels.nameLabel->hide = false;   // show npc name after first interaction
 			
 				
@@ -467,7 +475,7 @@ void j1DialogSystem::createNPCNameLabels(SceneState sc)
 		{
 			if (dialogTrees[j]->NPCscene == "FIRINGRANGE")
 			{
-				if (!dialogTrees[j]->firstInteraction)
+				if (!dialogTrees[j]->firstInteraction && dialogTrees[j]->hasNPCLabel)
 					dialogTrees[j]->myNPCLabels.nameLabel->hide = false;   // show npc name after first interaction
 
 			}
@@ -496,7 +504,7 @@ void j1DialogSystem::hideAllNPCLabels(bool hide)
 
 		if (doIt)
 		{
-			if (!dialogTree->firstInteraction)   // if it hasn't interacted yet the label is hidden already
+			if (!dialogTree->firstInteraction && dialogTree->hasNPCLabel)   // if it hasn't interacted yet the label is hidden already
 			{
 				dialogTree->myNPCLabels.nameLabel->hide = hide;
 			}
@@ -531,6 +539,7 @@ void j1DialogSystem::BlitDialog(int tr_id)
 		characterLabel->hide = true;  // hide until npc finishes talking
 		/*if(i == 0)
 		App->gui->resetHoverSwapping = false;   // assign the current UI selected object to the player first choice*/
+
 	}
 	
 	
@@ -598,9 +607,18 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 	
 		// TODO: tutorial npc, Godo 
 	
-		tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->knightsQuest24, pos, App->scene->inGamePanel);
-		tr->myNPCLabels.nameLabel->hide = true; 
-		tr->myNPCLabels.nameLabel->useCamera = false; 
+		if (tr->NPCName != "")
+		{
+			tr->myNPCLabels.nameLabel = App->gui->AddLabel(tr->NPCName, { 255, 255, 255, 255 }, App->font->knightsQuest24, pos, App->scene->inGamePanel);
+			tr->myNPCLabels.nameLabel->hide = true;
+			tr->myNPCLabels.nameLabel->useCamera = false;
+			tr->hasNPCLabel = true;
+		}
+		else
+			tr->hasNPCLabel = false; 
+
+
+		
 		LoadTreeData(t, tr);
 		dialogTrees.push_back(tr);	
 		treeCount++; 

@@ -60,7 +60,8 @@ public:
 	std::string NPCscene; 
 	iPoint NPCtriggerPos; 
 	NPC_Labels myNPCLabels; 
-	bool firstInteraction = true; 
+	bool firstInteraction = true;
+	bool hasNPCLabel = false; 
 };
 
 
