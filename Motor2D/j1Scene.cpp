@@ -798,25 +798,25 @@ bool j1Scene::Update(float dt)
 	{
 		//debug tp
 		if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0,SceneState::LOBBY, LvlPart::NO_PART);
+			App->transitionManager->CreateFadeTransition(1.0,true,SceneState::LOBBY, Black, true, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::FIRINGRANGE, LvlPart::NO_PART);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::FIRINGRANGE, Black, true, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::START);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL1, Black, true, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::WAVES);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL1, Black, true, LvlPart::WAVES);
 
-		/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::START);*/                                                                                                                                                                                                                   
+		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL2, Black, true, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::WAVES);
+			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LEVEL2,Black,true, LvlPart::WAVES);
 
 		if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::BOSS);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL2, Black, true, LvlPart::BOSS);
 
 		//Mix_CloseAudio();
 		//if()

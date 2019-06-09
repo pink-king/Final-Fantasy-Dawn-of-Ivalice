@@ -51,9 +51,9 @@ bool j1TransitionManager::CleanUp()
 	return true;
 }
 
-void j1TransitionManager::CreateFadeTransition(float transition_time, bool is_scene_change, SceneState scene_to_transition, Color color)
+void j1TransitionManager::CreateFadeTransition(float transition_time, bool is_scene_change, SceneState scene_to_transition, Color color, bool debugTP, LvlPart lvlPart)
 {
-	active_transitions.push_back(new Fade(transition_time, is_scene_change, scene_to_transition, color));
+	active_transitions.push_back(new Fade(transition_time, is_scene_change, scene_to_transition, color,debugTP,lvlPart));
 }
 
 void j1TransitionManager::CreateSquaresTransition(float transition_time, bool is_scene_change, SceneState scene_to_transition, Color color)
