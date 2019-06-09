@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <controller_mapping>
 	<default>
+		<aimToggle value="false" />
 		<general>
 			<button function="interact" type="button" id="0" />
 			<button function="swap_next" type="button" id="10" />
@@ -30,7 +31,6 @@
 			<button function="special2" type="button" id="8" />
 			<button function="ultimate" type="axis" id="5" />
 		</shara>
-		<aimToggle value="false" />
 	</default>
 	<current>
 		<aimToggle value="false" />
@@ -64,5 +64,4 @@
 			<button function="ultimate" type="axis" id="5" />
 		</shara>
 	</current>
-	<aimToggle value="false" />
 </controller_mapping>

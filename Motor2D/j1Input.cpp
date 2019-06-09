@@ -670,10 +670,11 @@ bool j1Input::SaveGamepadMapScheme(const char* path)
 	}
 
 	// save aimToggle
-	node = inputDoc.child("controller_mapping").child("aimToggle");
+	node = node.child("aimToggle");//inputDoc.child("controller_mapping").child("aimToggle");
 	if (node == NULL)
 	{
-		node = inputDoc.child("controller_mapping").append_child("aimToggle");
+		node = inputDoc.child("controller_mapping").child("current").append_child("aimToggle"); // .append_attribute("value") = aimToggled;
+		node.append_attribute("value") = aimToggled;
 		if (node.empty())
 			return false;
 	}
