@@ -80,7 +80,7 @@ bool DialogTrigger::DoTriggerAction()
 	{
 		active = true;
 	}
-	if(((App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && pressA) || !pressA)
+	if(((App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && pressA && !App->scene->pausePanel->enable && !App->scene->controlsPanel->enable && !App->scene->inventory->enable && !App->scene->settingPanel->enable) || !pressA)
 		App->dialog->SetCurrentDialog(dialogType.data());
 	if (!pressA)
 		to_delete = true;
