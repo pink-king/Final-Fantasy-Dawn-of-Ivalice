@@ -262,24 +262,36 @@ bool EaseSplineInfov2::Update(float dt)
 	bool ret = true;
 
 	float time_passed = SDL_GetTicks() - time_started;
-
+	int testCounter = 1;
 	if (time_passed < time_to_travel && !to_delete) {
 		switch (type) {
+			
 		case EASE: {
 			for (std::list<ConsumableStats>::iterator iter = App->scene->consumableinfo.begin(); iter != App->scene->consumableinfo.end(); ++iter)
 			{
-				if (axis)
+				LOG("consum size EUpdt %i", App->scene->consumableinfo.size());
+				if ((*iter).counter = testCounter)
 				{
-					(*iter).position.x = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
-
+					if (axis)
+					{
+						LOG("ITER SIZE %i", App->scene->consumableinfo.size());
+						LOG("test counter %i", App->scene->consumableinfo.size());
+						(*iter).position.x = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+						testCounter = 1;
+						break;
+					}
+					else if (!axis)
+					{
+						(*iter).position.y = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+						testCounter = 1;
+						break;;
+					}
 				}
-				else if (!axis)
-				{
-					(*iter).position.y = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
-				}
+				++testCounter;
 
 			}
 			position = ease_function.Ease(time_passed, initial_position, distance_to_travel, time_to_travel);
+			testCounter = 1;
 		} break;
 		case EASE_OUT_QUINT: {
 
@@ -288,11 +300,14 @@ bool EaseSplineInfov2::Update(float dt)
 				if (axis)
 				{
 					(*iter).position.x = ease_function.EaseOutQuint(time_passed, initial_position, distance_to_travel, time_to_travel);
-
+					testCounter = 1;
+					break;
 				}
 				else if (!axis)
 				{
 					(*iter).position.y = ease_function.EaseOutQuint(time_passed, initial_position, distance_to_travel, time_to_travel);
+					testCounter = 1;
+					break;
 				}
 
 			}
@@ -301,18 +316,31 @@ bool EaseSplineInfov2::Update(float dt)
 		case EASE_IN_OUT_BACK: {
 			for (std::list<ConsumableStats>::iterator iter = App->scene->consumableinfo.begin(); iter != App->scene->consumableinfo.end(); ++iter)
 			{
-				if (axis)
+				if ((*iter).counter = testCounter)
 				{
-					(*iter).position.x = ease_function.EaseInOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+					if (axis)
+					{
+						(*iter).position.x = ease_function.EaseInOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
 
-				}
-				else if (!axis)
-				{
-					(*iter).position.y = ease_function.EaseInOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+						
+						testCounter = 1;
+
+						break;
+					}
+					else if (!axis)
+					{
+						(*iter).position.y = ease_function.EaseInOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+						testCounter = 1;
+						break;
+
+					}
+					
 				}
 
+				++testCounter;
 			}
 			position = ease_function.EaseInOutBack(time_passed, initial_position, distance_to_travel, time_to_travel);
+			testCounter = 1;
 		} break;
 		case EASE_IN_BACK: {
 			for (std::list<ConsumableStats>::iterator iter = App->scene->consumableinfo.begin(); iter != App->scene->consumableinfo.end(); ++iter)

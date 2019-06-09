@@ -51,7 +51,7 @@ bool j1ParticlesClassic::Start()
 
 	// TODO: LOAD FROM XML ----------------------
 
-	
+
 	particleAtlas2 = App->tex->Load("textures/particles/BuffParticles2.png");
 	particleAtlasV03 = App->tex->Load("textures/particles/particleSpritesheetV03.png");
 	particleArrowsTex = App->tex->Load("textures/spells/Shara_attacks/followArrowEffect.png");
@@ -60,7 +60,7 @@ bool j1ParticlesClassic::Start()
 	windsTex = App->tex->Load("textures/particles/windsTexture.png");
 	arrowTex = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	bossArrowsEmmiter = App->tex->Load("textures/particles/positonRain.png");
-
+	easinglootToUI = App->tex->Load("textures/particles/UI_Loot_particles.png");
 	explosion01.anim.PushBack({ 0,354,32,32 });
 	explosion01.anim.PushBack({ 0,386,32,32 });
 	explosion01.anim.PushBack({ 0,418,32,32 });
@@ -119,7 +119,7 @@ bool j1ParticlesClassic::Start()
 	smoke01.texture = explosionsTex;
 
 
-	fire01.anim.PushBack({ 0, 192, 16, 48});
+	fire01.anim.PushBack({ 0, 192, 16, 48 });
 	fire01.anim.PushBack({ 16, 192, 16, 48 });
 	fire01.anim.PushBack({ 32, 192, 16, 48 });
 	fire01.anim.PushBack({ 48, 192, 16, 48 });
@@ -129,11 +129,11 @@ bool j1ParticlesClassic::Start()
 	fire01.anim.PushBack({ 112, 192, 16, 48 });
 	fire01.anim.loop = false;
 	fire01.anim.speed = 13.f;
-	fire01.texture = particleAtlas2; 
+	fire01.texture = particleAtlas2;
 
-	fire02.anim.PushBack({ 384, 192, 96, 96});
-	fire02.anim.PushBack({ 0, 288, 96, 96} );
-	fire02.anim.PushBack({ 96, 288,96, 96 } );
+	fire02.anim.PushBack({ 384, 192, 96, 96 });
+	fire02.anim.PushBack({ 0, 288, 96, 96 });
+	fire02.anim.PushBack({ 96, 288,96, 96 });
 	fire02.anim.PushBack({ 192, 288, 96, 96 });
 	fire02.anim.PushBack({ 288, 288, 96, 96 });
 	fire02.anim.PushBack({ 384, 288, 96, 96 });
@@ -143,7 +143,7 @@ bool j1ParticlesClassic::Start()
 	fire02.anim.speed = 13.f;
 	fire02.texture = particleAtlasV03;
 
-	fire03.anim.PushBack({ 192, 384, 48, 48});
+	fire03.anim.PushBack({ 192, 384, 48, 48 });
 	fire03.anim.PushBack({ 240, 384, 48, 48 });
 	fire03.anim.PushBack({ 288, 384, 48, 48 });
 	fire03.anim.PushBack({ 336, 384, 48, 48 });
@@ -177,7 +177,7 @@ bool j1ParticlesClassic::Start()
 	blast01.anim.loop = false;
 	blast01.anim.speed = 13.f;
 	blast01.texture = particleAtlasV03;
-	
+
 	burn01.anim.PushBack({ 0, 48, 96, 96 });
 	burn01.anim.PushBack({ 96, 48, 96, 96 });
 	burn01.anim.PushBack({ 192, 48, 96, 96 });
@@ -233,8 +233,8 @@ bool j1ParticlesClassic::Start()
 	healing.anim.PushBack({ 96, 0, 16, 48 });
 	healing.anim.PushBack({ 112, 0, 16, 48 });
 	healing.anim.loop = false;
-	healing.anim.speed = 15.F; 
-	healing.texture = particleAtlas2; 
+	healing.anim.speed = 15.F;
+	healing.texture = particleAtlas2;
 
 	ice01.anim.PushBack({ 0, 48, 16, 48 });
 	ice01.anim.PushBack({ 16, 48, 16, 48 });
@@ -271,22 +271,22 @@ bool j1ParticlesClassic::Start()
 	ice03.anim.loop = false;
 	ice03.anim.speed = 10.F;
 	ice03.texture = particleAtlas2;
-	
-	snow.anim.PushBack({256, 0, 64, 64});
-	snow.anim.PushBack({320, 0, 64, 64});
-	snow.anim.PushBack({384, 0, 64, 64});
-	snow.anim.PushBack({448, 0, 64, 64});
-	snow.anim.PushBack({256, 64, 64, 64});
-	snow.anim.PushBack({320, 64, 64, 64});
-	snow.anim.PushBack({384, 64, 64, 64});
-	snow.anim.PushBack({448, 64, 64, 64});
-	snow.anim.PushBack({256, 128, 64, 64});
-	snow.anim.PushBack({320, 128, 64, 64});
-	snow.anim.PushBack({384, 128, 64, 64});
-	snow.anim.PushBack({448, 128, 64, 64});
-	snow.anim.speed = 15.F; 
-	snow.anim.loop = false; 
-	snow.texture = particleAtlas2; 
+
+	snow.anim.PushBack({ 256, 0, 64, 64 });
+	snow.anim.PushBack({ 320, 0, 64, 64 });
+	snow.anim.PushBack({ 384, 0, 64, 64 });
+	snow.anim.PushBack({ 448, 0, 64, 64 });
+	snow.anim.PushBack({ 256, 64, 64, 64 });
+	snow.anim.PushBack({ 320, 64, 64, 64 });
+	snow.anim.PushBack({ 384, 64, 64, 64 });
+	snow.anim.PushBack({ 448, 64, 64, 64 });
+	snow.anim.PushBack({ 256, 128, 64, 64 });
+	snow.anim.PushBack({ 320, 128, 64, 64 });
+	snow.anim.PushBack({ 384, 128, 64, 64 });
+	snow.anim.PushBack({ 448, 128, 64, 64 });
+	snow.anim.speed = 15.F;
+	snow.anim.loop = false;
+	snow.texture = particleAtlas2;
 	/*poison01.anim.PushBack({ 0, 253, 16, 16 });
 	poison01.anim.PushBack({ 16, 253, 16, 16 });
 	poison01.anim.PushBack({ 32, 253, 16, 16 });
@@ -351,7 +351,7 @@ bool j1ParticlesClassic::Start()
 	//load specific Wavs effects for particles -----------
 	//App->audio->LoadFx("path");
 	// ------------------------------------------------
-	
+
 	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 0, 0, 170, 398 });
 	PoisonBlast.anim.PushBack({ 170, 0, 170, 398 });
@@ -379,7 +379,7 @@ bool j1ParticlesClassic::Start()
 	arrow.anim.PushBack({ 0,64,64,16 });
 	arrow.anim.PushBack({ 64,64,64,16 });
 	arrow.anim.speed = 10.F;
-	arrow.texture = arrowTex; 
+	arrow.texture = arrowTex;
 	arrow.anim.loop = false;
 	arrow.life = 2000.F; 
 
@@ -392,6 +392,15 @@ bool j1ParticlesClassic::Start()
 	lvlUpFx.anim.speed = 15.F;
 	lvlUpFx.anim.loop = false;
 	lvlUpFx.texture = particleAtlas2; 
+
+
+	bag.anim.PushBack({ 14, 12, 46, 51 });
+	bag.anim.PushBack({ 67, 12, 46, 51 });
+	bag.anim.PushBack({ 123, 13, 46, 51 });
+	bag.anim.PushBack({ 14, 12, 46, 51 });
+	bag.anim.PushBack({ 67, 12, 46, 51 });
+	bag.texture = easinglootToUI;
+	bag.anim.loop = false;
 
 	return true;
 }
@@ -449,7 +458,11 @@ bool j1ParticlesClassic::CleanUp()
 		App->tex->UnLoad(bossArrowsEmmiter);
 		bossArrowsEmmiter = nullptr;
 	}
-
+	if (easinglootToUI != nullptr)
+	{
+		App->tex->UnLoad(easinglootToUI);
+		easinglootToUI = nullptr;
+	}
 	//removing active particles
 	if (!active.empty())
 	{
