@@ -1288,6 +1288,8 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 											}
 										}
 
+
+
 									}
 
 								}
@@ -1303,8 +1305,9 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
-							App->entityFactory->player->AddItemToTheBag(callback);
+							//App->entityFactory->player->AddItemToTheBag(callback);
 
+							App->entityFactory->player->EquipItem(callback); 
 
 							if (!App->entityFactory->player->GetVendor()->vBagObjects.empty())   // reposition bag items if holes
 							{
@@ -1314,6 +1317,11 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 							// ADD NEW STATS TO THE PLAYER 
 							App->scene->characterStatsItem->SetNewStats();
+
+
+
+							//updateHealthBarWithNewHP(callback); 
+
 
 
 							break;
@@ -1377,6 +1385,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 	}
 
 
+	
 
 
 	if (callback->character == App->entityFactory->player->selectedCharacterEntity)
@@ -1913,4 +1922,16 @@ void UiItem_Inventory::SwapVendorBag(bool newPlayer)
 
 
 }
+
+/*
+void UiItem_Inventory::updateHealthBarWithNewHP(LootEntity * ent)
+{
+
+
+	if(ent->GetType() == LOOT_TYPE::EQUIPABLE)
+		for (auto& rol : ent->stats)
+			if(rol->GetRol() == ROL::HEALTH)
+				App->gui->healthBar->RecalculateSection();
+		 
+}*/
 	

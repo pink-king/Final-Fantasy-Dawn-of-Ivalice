@@ -68,6 +68,9 @@ public:
 
 	void SwapVendorBag(bool newPlayer);
 
+
+//	void updateHealthBarWithNewHP(LootEntity* ent); 
+
 public: 
 
 	bool drawTest = false;
