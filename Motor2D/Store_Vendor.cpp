@@ -32,8 +32,6 @@ void Vendor::generateVendorItems(bool playerLvlUp)
 		{
 			for (auto& LootEntity : vBagObjects)
 			{
-				App->buff->RemoveItemStat(LootEntity);
-
 				App->scene->inventoryItem->De_______GenerateDescription(LootEntity, false);
 			}
 			vBagObjects.clear();
@@ -82,9 +80,6 @@ void Vendor::EquipVendor(LootEntity* entityLoot, bool fromPlayer)
 			vConsumables.push_back(entityLoot);
 		}
 		
-		if(!fromPlayer)
-		App->buff->AddItemStats(entityLoot);   // if vendor recieves item from player, it already has stats
-
 
 }
 

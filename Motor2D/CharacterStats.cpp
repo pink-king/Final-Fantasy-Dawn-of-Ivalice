@@ -95,6 +95,41 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 }
 
+
+void CharacterStats::InitializeStats(bool swappingCharacter)
+{
+	ResetDefaultStats();    // useful when swapping characters
+
+	SetBaseStats();
+
+	if (!App->entityFactory->player->equipedObjects.empty())
+	{
+		for (auto& item : App->entityFactory->player->equipedObjects)
+		{
+			if (!App->scene->inventoryItem->isVendorInventory)
+			{
+				if (App->entityFactory->player->selectedCharacterEntity->name == item->character->name)
+
+				{
+					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+					SetNewStats();
+				}
+			}
+			else
+			{
+				if (!swappingCharacter)
+					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
+				else 
+					if(App->entityFactory->player->selectedCharacterEntity == item->character)
+						getItemBuffsAndCallStatComparison(item);
+
+				SetNewStats();
+			}
+		}
+	}
+}
+
+
 void CharacterStats::SetBaseStats()
 {
 	std::list<UiItem*>::iterator iter = App->gui->ListItemUI.begin();
@@ -558,35 +593,7 @@ void CharacterStats::deGenerateCharacterStats()  // call it when closing invento
 
 }
 
-void CharacterStats::InitializeStats(bool swappingCharacter)
-{
-	ResetDefaultStats();    // useful when swapping characters
 
-	SetBaseStats();
-
-	if (!App->entityFactory->player->equipedObjects.empty())
-	{
-		for (auto& item : App->entityFactory->player->equipedObjects)
-		{
-			if (!App->scene->inventoryItem->isVendorInventory)
-			{
-				if (App->entityFactory->player->selectedCharacterEntity == item->character)
-
-				{
-					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
-					SetNewStats();
-				}
-			}
-			else
-			{
-				if (!swappingCharacter)
-					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
-
-				SetNewStats();
-			}
-		}
-	}
-}
 
 
 void CharacterStats::ResetDefaultStats()
