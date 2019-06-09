@@ -65,6 +65,9 @@ public:
 
 	void despawnRubbish();
 
+
+	void SwapVendorBag(bool newPlayer);
+
 public: 
 
 	bool drawTest = false;

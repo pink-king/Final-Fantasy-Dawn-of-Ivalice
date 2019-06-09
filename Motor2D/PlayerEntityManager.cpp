@@ -617,6 +617,13 @@ bool PlayerEntityManager::SwapInputChecker()
 				{*/
 				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();  // delete equipped items in ivnentory
 
+
+
+				if (App->scene->inventoryItem->isVendorInventory)
+				{
+
+					App->scene->inventoryItem->SwapVendorBag(false); 
+				}
 			//}
 			}
 
@@ -632,6 +639,9 @@ bool PlayerEntityManager::SwapInputChecker()
 				else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
+
+
+					App->scene->inventoryItem->SwapVendorBag(true);
 				}
 
 
@@ -648,6 +658,12 @@ bool PlayerEntityManager::SwapInputChecker()
 				{*/
 				App->scene->inventoryItem->callDeleteWhenSwitchingCharacters();   // delete equipped items in ivnentory
 			//}
+
+				if (App->scene->inventoryItem->isVendorInventory)
+				{
+
+					App->scene->inventoryItem->SwapVendorBag(false);
+				}
 			}
 
 			SetNextCharacter();
@@ -662,6 +678,8 @@ bool PlayerEntityManager::SwapInputChecker()
 				else
 				{
 					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
+
+					App->scene->inventoryItem->SwapVendorBag(true);
 				}
 
 				App->scene->characterStatsItem->InitializeStats();
