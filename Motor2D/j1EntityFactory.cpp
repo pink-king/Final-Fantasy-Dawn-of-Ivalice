@@ -369,7 +369,10 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 				breakableType = BreakableType::JARFULL;
 				break;
 			case 2:
-				breakableType = BreakableType::BARREL;
+				breakableType = BreakableType::BARREL_1;
+				break;
+			case 3: 
+				breakableType = BreakableType::BARREL_2;
 				break;
 			default:
 				break;
@@ -2640,12 +2643,12 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 						else if (player->level == 3 && (*item)->name == "chain2")
 						{
 							(*item)->to_delete = true;
-
+							App->scene->canExecuteChainAnim = true;
 						}
 						else if (player->level == 4 && (*item)->name == "chain3")
 						{
 							(*item)->to_delete = true;
-
+							App->scene->canExecuteChainAnim = true;
 						}
 					}
 

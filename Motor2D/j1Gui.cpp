@@ -463,11 +463,14 @@ void j1Gui::ApplyTabBetweenSimilar(bool setClicked) {
 
 	if (succeed)
 	{
-		if (last_selected_object && last_selected_object->guiType == GUI_TYPES::IMAGE)
+		if (last_selected_object)
 		{
-			if (App->scene->inventory->enable)
+			if (last_selected_object->parent && last_selected_object->guiType == GUI_TYPES::IMAGE)
 			{
-				dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+				if (App->scene->inventory->enable)
+				{
+					dynamic_cast<UiItem_Description*>(last_selected_object->parent)->LastHoveredCharacterStatSwapReset();
+				}
 			}
 		}
 
@@ -500,6 +503,10 @@ bool j1Gui::PostUpdate()
 	}
 
 	canvas->DrawUi(dt);
+
+	if (App->scene->canExecuteChainAnim)
+		App->scene->executeAnimChain();
+
 	for (std::list<UiItem*>::iterator iter = ListItemUI.begin(); iter != ListItemUI.end(); ++iter)
 	{
 		//(*iter)->Draw(dt);
@@ -956,11 +963,11 @@ void j1Gui::GoBackToMenu()
 
 void j1Gui::AimToggle()
 {
-	if (App->scene->tick_image->hide)
-		App->input->ToggleAimON();
+	if (App->input->IsAimToggled())
+		App->input->ToggleAimOFF();
 		
 	else
-		App->input->ToggleAimOFF();
+		App->input->ToggleAimON();
 }
 
 

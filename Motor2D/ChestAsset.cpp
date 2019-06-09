@@ -121,7 +121,8 @@ void ChestAsset::SpawnLoot()
 	{
 	case ChestType::BOSS:
 		App->entityFactory->RepeatAmountofConsumables(35, GetPivotPos(), OBJECT_TYPE::GOLD);
-		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 8, GetPivotPos());
+		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 5, GetPivotPos());
+		App->entityFactory->CreateLegendariEquipable(GetPivotPos(), EQUIPABLE_TYPE::NO_EQUIPABLE);
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->map->SubTileMapToWorld(82, 208).x, App->map->SubTileMapToWorld(82, 208).y, SceneState::WIN, White);
 		break;
 

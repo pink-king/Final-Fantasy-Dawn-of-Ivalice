@@ -48,7 +48,6 @@ bool SaveTrigger::Update(float dt)
 	if (isActive)
 	{
 		currentAnimation = &saveSign;
-		isActive = false;
 	}
 	else
 		currentAnimation = &sign;
@@ -62,7 +61,18 @@ void SaveTrigger::Draw()
 		App->render->Blit(entityTex, position.x, position.y, &currentAnim->GetCurrentFrame(), 1.0F);
 
 	if (currentAnimation != nullptr)
+	{
 		App->render->Blit(signTex, position.x + 8, position.y - 16, &currentAnimation->GetCurrentFrame(), 1.0F);
+		if (isActive)
+		{
+			App->render->Blit(App->gui->GetAtlas(), position.x + 28, position.y - 18, &App->input->GetAssociatedRectForThisGamepadInput(
+				App->input->gamepadScheme.sharedInput.interact.button,
+				App->input->gamepadScheme.sharedInput.interact.axis), 1.0F, SDL_FLIP_NONE, 0.5F);
+			isActive = false; 
+		}
+	}
+
+
 
 	if (App->scene->debugSubtiles)
 		DebugTrigger();

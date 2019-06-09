@@ -176,12 +176,12 @@ bool PlayerEntityManager::Update(float dt)
 				else if (level == 3 && (*item)->name == "chain2")
 				{
 					(*item)->to_delete = true;
-
+					App->scene->canExecuteChainAnim = true;
 				}
 				else if (level == 4 && (*item)->name == "chain3")
 				{
 					(*item)->to_delete = true;
-
+					App->scene->canExecuteChainAnim = true;
 				}
 			}
 		}
@@ -599,19 +599,11 @@ bool PlayerEntityManager::SwapInputChecker()
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
 					App->scene->characterStatsItem->InitializeStats();
-					SetPreviousCharacter();
 				}
-				/*else
-				{
-					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
-				}*/
-
+		
 
 			}
-			else
-			{
-				SetPreviousCharacter();
-			}
+	
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_DOWN || App->input->GetControllerButton(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
@@ -637,18 +629,10 @@ bool PlayerEntityManager::SwapInputChecker()
 				{
 					App->scene->inventoryItem->LoadElements(true);   // generate the new ones
 					App->scene->characterStatsItem->InitializeStats();
-					SetNextCharacter();
 				}
-				/*else
-				{
-					App->scene->inventoryItem->LoadElements(true, true);   // generate the new ones
-				}*/
 
 			}
-			else
-			{
-				SetNextCharacter();
-			}
+	
 
 		}
 	}

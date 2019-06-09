@@ -30,7 +30,7 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 		breaking.loop = false;
 		break;
 
-	case BreakableType::BARREL:
+	case BreakableType::BARREL_1:
 		idle.PushBack({ 384, 757, 64, 64 });
 							  
 		breaking.PushBack({ 448, 757, 64, 64 });
@@ -40,6 +40,21 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 		breaking.speed = 10.f;
 		breaking.loop = false;
 		break;
+
+	case BreakableType::BARREL_2:
+
+		idle.PushBack({ 512, 439, 64, 64 });
+
+		breaking.PushBack({ 576, 439, 64, 64 });
+		breaking.PushBack({ 640, 439, 64, 64 });
+		breaking.PushBack({ 704, 439, 64, 64 });
+		breaking.PushBack({ 768, 439, 64, 64 });
+		breaking.PushBack({ 832, 439, 64, 64 });
+
+		breaking.speed = 10.f;
+		breaking.loop = false;
+		break; 
+
 
 	default:
 		LOG("Not Correct Breakable Asset Constructed");
@@ -66,7 +81,6 @@ BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBr
 
 BreakableAsset::~BreakableAsset()
 {
-	App->audio->PlayFx(App->scene->jar_breakSFX, 0);
 }
 
 
@@ -89,11 +103,6 @@ bool BreakableAsset::Update(float dt)
 	if (to_die && !isBroken)
 		Break();
 
-	if (isBroken && PlaySFX)
-	{
-		App->audio->PlayFx(App->scene->jar_breakSFX, 0);
-		PlaySFX = false;
-	}
 	return true;
 }
 
@@ -131,10 +140,20 @@ void BreakableAsset::Break()
 {
 	isBroken = true;
 	currentAnimation = &breaking;
-	App->entityFactory->RepeatAmountofConsumables(4, GetPivotPos(), OBJECT_TYPE::GOLD); 
-	App->entityFactory->RepeatAmountofConsumables(1, GetPivotPos(), OBJECT_TYPE::POTIONS);
 
-	// TODO: Add SFX
+	if (App->entityFactory->GetRandomValue(1, 3) == 1)
+	{
+		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(2, 4), GetPivotPos(), OBJECT_TYPE::GOLD);
+		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(0, 1), GetPivotPos(), OBJECT_TYPE::POTIONS);
+	}
+	
+	if(breakableType == BreakableType::JAR || breakableType == BreakableType::JARFULL)
+		App->audio->PlayFx(App->scene->jar_breakSFX, 0);
+
+	else
+	{
+		// TODO:: Add barrel SFX
+	}
 
 	//App->pathfinding->DeactivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
 }

@@ -54,8 +54,8 @@ enum class BreakableType
 {
 	JAR,
 	JARFULL,
-	BARREL,
-
+	BARREL_1,
+	BARREL_2,
 	//---
 	NO_BREAKABLE_TYPE
 };

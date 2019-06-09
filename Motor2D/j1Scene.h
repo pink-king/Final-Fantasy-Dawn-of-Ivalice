@@ -296,6 +296,8 @@ public:
 	bool ability2_rv = false;
 	bool ulti_rv = false;
 	Animation chain1;
+	Animation chain2;
+	Animation chain3;
 	bool executeAnimChain();
 	bool canExecuteChainAnim = false;
 };

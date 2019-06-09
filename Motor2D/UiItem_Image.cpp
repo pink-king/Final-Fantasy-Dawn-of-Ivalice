@@ -26,8 +26,11 @@ UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, std::string
 	{
 		this->autorefresh = true;
 	}
-	if (name == "tick")
+	if (name == "tick" && App->input->IsAimToggled())
+		this->hide = false;
+	else if (name == "tick" && !App->input->IsAimToggled())
 		this->hide = true;
+	
 	// the parent
 	this->parent = parent;
 
