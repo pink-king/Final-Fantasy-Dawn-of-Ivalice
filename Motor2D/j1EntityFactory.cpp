@@ -108,6 +108,8 @@ bool j1EntityFactory::Start()
 	goldMax = config.child("loot").child("gold").attribute("max").as_int();
 
 
+	
+
 	return true;
 }
 
@@ -2207,7 +2209,7 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 	// 1: take into account available gold, and the price 
 
-	uint base_average_Gold_Drop_Per_Enemy = (goldMin + goldMax) / 2; 
+	float base_average_Gold_Drop_Per_Enemy = ((float)goldMin + (float)goldMax) / 2.f; 
 	float average_Gold_Drop_Per_Enemy_With_Chance = ((float)goldChance / 100.f) * base_average_Gold_Drop_Per_Enemy;  // avg gold per enemy
 
 	uint basePrice = minKillsToDeserveLoot * (uint)(int)average_Gold_Drop_Per_Enemy_With_Chance;  // 2: base item price: enemy kills * gold each enemy
@@ -2235,8 +2237,9 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 
 	if (basePrice == 0)
 		basePrice = 1;
-		float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
-		uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
+
+	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
+	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
 
 	
 																										 
