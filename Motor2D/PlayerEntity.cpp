@@ -74,7 +74,10 @@ bool PlayerEntity::InputMovement(float dt)
 {
 	bool isMoving = false;
 
+	fPoint capturePos = previousPos; 
+
 	previousPos = position;
+
 
 	Sint16 xAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTX);
 	Sint16 yAxis = App->input->GetControllerAxis(SDL_CONTROLLER_AXIS_LEFTY);
@@ -173,6 +176,13 @@ bool PlayerEntity::InputMovement(float dt)
 	CheckRenderFlip();
 
 	//LOG("animation Angle: %f", animationAngle);
+
+
+	if (previousPos != position)
+		App->entityFactory->player->playerHasMovedLastFrame = true;
+	else 
+		App->entityFactory->player->playerHasMovedLastFrame = false;
+
 
 	return true;
 }

@@ -167,13 +167,15 @@ private:
 	bool consumPhoenix = false;
 
 	
-	
+
 	
 	// vendor
 	Vendor* vendor = nullptr; 
 
 public: 
 	LootEntity* lastHoveredLootItem = nullptr;
+	bool LastHoveredLootFlag = false;
+	bool playerHasMovedLastFrame = false; 
 	bool usedButtonAToPickLootWithCrosshairLastFrame = false;
 	
 };
