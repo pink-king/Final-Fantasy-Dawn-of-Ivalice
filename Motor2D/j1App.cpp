@@ -206,6 +206,9 @@ bool j1App::Update()
 	if(ret == true)
 		ret = PostUpdate();
 
+	if (ret == true)
+		ret = PostUpdate2();
+
 	FinishUpdate();
 	return ret;
 }
@@ -350,6 +353,27 @@ bool j1App::PostUpdate()
 		}
 
 		ret = (*item)->PostUpdate();
+	}
+
+	return ret;
+}
+
+bool j1App::PostUpdate2()
+{
+	bool ret = true;
+	std::list<j1Module*>::iterator item;
+	item = modules.begin();
+	j1Module* pModule = NULL;
+
+	for (; item != modules.end() && ret == true; ++item)
+	{
+		pModule = *item;
+
+		if (pModule->active == false) {
+			continue;
+		}
+
+		ret = (*item)->PostUpdate2();
 	}
 
 	return ret;

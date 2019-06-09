@@ -78,7 +78,7 @@ bool j1Render::Update(float dt)
 	return true;
 }
 
-bool j1Render::PostUpdate()
+bool j1Render::PostUpdate2()
 {
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);

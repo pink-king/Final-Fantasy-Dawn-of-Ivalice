@@ -34,6 +34,8 @@ struct Particle // only dumb visual class
 	bool fx_played = false;
 	float parallaxSpeed = 1.0;
 	bool useCameraScale = true; 
+	
+	bool onScreen = false; 
 
 	Particle();
 	Particle(const Particle& p);
@@ -57,11 +59,12 @@ public:
 	bool Start();
 	bool Update(float dt);
 	bool PostUpdate();
+	bool PostUpdate2() override;
 	bool CleanUp();
 	//void OnCollisionSubtile(Collider* c1, Collider* c2);
 
 	//void AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay = 0, iPoint speed = { 0,0 }, Uint32 life = 0, char* fx = nullptr);
-	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE, double angle = 0, int pivotx = INT_MAX, int pivoty = INT_MAX, float scale = 1.0F, float parallaxSpeed = 1.0F, bool useCameraScale = true);
+	void AddParticle(const Particle& particle, int x, int y, iPoint speed = { 0,0 }, Uint32 delay = 0, SDL_RendererFlip rFlip = SDL_RendererFlip::SDL_FLIP_NONE, double angle = 0, int pivotx = INT_MAX, int pivoty = INT_MAX, float scale = 1.0F, float parallaxSpeed = 1.0F, bool useCameraScale = true, bool onSceen = false);
 
 	//bool LoadAnimation(pugi::xml_node &node, Animation &anim, bool sequential = false);
 
@@ -77,6 +80,7 @@ private:
 	SDL_Texture* bossArrowsEmmiter = nullptr;
 	SDL_Texture* easinglootToUI = nullptr;
 	std::list<Particle*> active;
+	std::list<Particle*> activeOnScreen;
 	pugi::xml_node particleNode;
 
 public:

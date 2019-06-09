@@ -46,6 +46,7 @@
 #include "DialogTriggerVolatile.h"
 #include "WhisperOfIce.h"
 #include "j1Window.h"
+#include "j1ParticlesClassic.h"
 
 #include <assert.h>
 
@@ -2654,17 +2655,19 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 						{
 							(*item)->to_delete = true;
 							App->scene->canExecuteChainAnim = true;
-
+							App->particles->AddParticle(App->particles->lvlUpFx, 191, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 						}
 						else if (player->level == 3 && (*item)->name == "chain2")
 						{
 							(*item)->to_delete = true;
 							App->scene->canExecuteChainAnim = true;
+							App->particles->AddParticle(App->particles->lvlUpFx, 253, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 						}
 						else if (player->level == 4 && (*item)->name == "chain3")
 						{
 							(*item)->to_delete = true;
 							App->scene->canExecuteChainAnim = true;
+							App->particles->AddParticle(App->particles->lvlUpFx, 316, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 						}
 					}
 

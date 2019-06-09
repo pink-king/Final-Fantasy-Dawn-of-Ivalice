@@ -56,6 +56,11 @@ public:
 		return true;
 	}
 
+	// Called each loop iteration again
+	virtual bool PostUpdate2()
+	{
+		return true;
+	}
 	// Called before quitting
 	virtual bool CleanUp()
 	{

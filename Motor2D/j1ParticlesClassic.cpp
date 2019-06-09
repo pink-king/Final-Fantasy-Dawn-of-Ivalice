@@ -389,7 +389,7 @@ bool j1ParticlesClassic::Start()
 	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
 	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
 	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });
-	lvlUpFx.anim.speed = 15.F;
+	lvlUpFx.anim.speed = 10.F;
 	lvlUpFx.anim.loop = false;
 	lvlUpFx.texture = particleAtlas2; 
 
@@ -482,6 +482,24 @@ bool j1ParticlesClassic::CleanUp()
 		active.clear();
 	}
 
+
+	if (!activeOnScreen.empty())
+	{
+		std::list<Particle*>::iterator particles = activeOnScreen.begin();
+
+		for (; particles != activeOnScreen.end();)
+		{
+			if ((*particles)->texture != nullptr)
+			{
+				App->tex->UnLoad((*particles)->texture);
+				(*particles)->texture = nullptr;
+			}
+			delete (*particles);
+			(*particles) = nullptr;
+			particles = activeOnScreen.erase(particles);
+		}
+		activeOnScreen.clear();
+	}
 	//removing particles FX audio
 	//App->audio->UnloadSFX();
 
@@ -513,7 +531,7 @@ bool j1ParticlesClassic::Update(float dt)
 
 		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
 		//AddParticle(snow, p.x, p.y, { 0, 0 });
-		//AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0,0,0, 1.f, 0.0F, false);
+		AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0,0,0, 1.f, 1.0F, true, true);
 	}
 
 	return ret;
@@ -555,8 +573,41 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 	return true;
 }
 
+bool j1ParticlesClassic::PostUpdate2()
+{
+ 	for (std::list<Particle*>::iterator p = activeOnScreen.begin(); p != activeOnScreen.end();)
+	{
+
+		if ((*p)->Update(App->GetDt()) == false)
+		{
+			//if (active[i]->deathParticle != nullptr)
+			//	AddParticle(*active[i]->deathParticle, active[i]->position.x, //+ active[i]->impactPosition.x,
+			//		active[i]->position.y, COLLIDER_ENEMY_SHOT);
+
+			delete (*p);
+			(*p) = nullptr;
+			p = activeOnScreen.erase(p);
+		}
+		else if (SDL_GetTicks() >= (*p)->born)
+		{
+			App->render->Blit((*p)->texture, (*p)->position.x, (*p)->position.y, &(*p)->anim.GetCurrentFrame(), (*p)->parallaxSpeed, (*p)->renderFlip, (*p)->scale, (*p)->angle, (*p)->pivot.x * App->win->GetScale(), (*p)->pivot.y * App->win->GetScale(), (*p)->useCameraScale);
+			if ((*p)->fx_played == false && (*p)->fx != 0)
+			{
+				(*p)->fx_played = true;
+				// Play particle fx here
+				App->audio->PlayFx((*p)->fx, 0);
+			}
+			++p;
+		}
+		else
+			++p;
+	}
+
+	return true;
+}
+
 //void ModuleParticles::AddParticle(const Particle& particle, Animation& sourceAnim, int x, int y, Uint32 delay, iPoint speed, Uint32 life, char* name)
-void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip, double angle, int pivotx, int pivoty, float scale, float parallaxSpeed, bool useCameraScale)
+void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPoint speed, Uint32 delay, SDL_RendererFlip rFlip, double angle, int pivotx, int pivoty, float scale, float parallaxSpeed, bool useCameraScale, bool onScreen)
 {
 	Particle* p = DBG_NEW Particle(particle);
 	p->born = SDL_GetTicks() + delay;
@@ -578,8 +629,12 @@ void j1ParticlesClassic::AddParticle(const Particle& particle, int x, int y, iPo
 	p->scale = scale; 
 	p->parallaxSpeed = parallaxSpeed;
 	p->useCameraScale = useCameraScale;
-	
-	active.push_back(p);	
+	p->onScreen = onScreen; 
+
+	if (!p->onScreen)
+		active.push_back(p);
+	else
+		activeOnScreen.push_back(p);
 }
 
 // -------------------------------------------------------------
