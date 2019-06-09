@@ -12,6 +12,7 @@
 #include "UiItem.h"
 #include "UiItem_Label.h"
 #include "j1ParticlesClassic.h"
+#include "LootEntity.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
@@ -230,8 +231,9 @@ bool PlayerEntityManager::Update(float dt)
 	//check loot
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
-		if (!playerHasMovedLastFrame)
-		{
+		
+		
+
 			lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
 
 
@@ -250,6 +252,11 @@ bool PlayerEntityManager::Update(float dt)
 				}
 
 			}
+
+			if (!playerHasMovedLastFrame)
+			{
+
+
 			if (!lastHoveredLootItem->manualCollectable)
 			{
 				//TODO: description         dynamic_cast<LootEntity*>(equipable)

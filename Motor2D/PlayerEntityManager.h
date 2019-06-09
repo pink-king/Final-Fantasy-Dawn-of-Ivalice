@@ -11,6 +11,7 @@
 #include "Store_Vendor.h"   // already includes loot entity
 #include "j1Audio.h"
 #include "SDL_mixer/include/SDL_mixer.h"
+#include "LootEntity.h"
 
 
 struct Mix_Chunk;
