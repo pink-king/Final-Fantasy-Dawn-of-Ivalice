@@ -264,7 +264,7 @@ void j1DialogSystem::doDialogTypeLogic()
 
 							App->SaveGame("save_game.xml");
 							App->HPManager->callSaveLabelSpawn(App->render->WorldToScreen(App->entityFactory->player->selectedCharacterEntity->GetPosition().x + 5, App->entityFactory->player->selectedCharacterEntity->GetPosition().y - 20));
-							App->scene->isSaved = true;
+							
 							App->audio->PlayFx(App->scene->savedSFX, 0);
 						}
 					}

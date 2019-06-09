@@ -2233,11 +2233,12 @@ void j1EntityFactory::MagicPriceCalculator(LootEntity* item)
 	float Availability_Factor_Price = 1.f / (pow(basePrice, (float)(ItemChance /100.f))) * 1000.f;  // 3: the less available, the more expensive 
 	uint price_With_Availability = basePrice + (uint)(int)Availability_Factor_Price;
 
+	if (basePrice == 0)
+		basePrice = 1;
+		float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
+		uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
+
 	
-	float Availability_Factor_Max_Price = 1.f / (pow((max_Possible_Base_Price / basePrice), (float)(ItemChance / 100.f))) * 1000.f;
-	uint max_Price_With_Availability = max_Possible_Base_Price + (uint)(int)Availability_Factor_Max_Price;       // capture max possible price again
-	
-																										 
 																										 
     // 4: now take into account item type and stats
 
