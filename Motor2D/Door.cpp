@@ -57,7 +57,7 @@ bool Door::DoTriggerAction()
 	active = true;
 	if (!App->scene->pausePanel->enable && !App->scene->controlsPanel->enable && !App->scene->inventory->enable && !App->scene->settingPanel->enable && (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN))
 	{
-		App->SaveGame("save_game.xml");
+		App->SaveGame("save_door.xml");
 		App->scene->ComeToDeath = true;
 		App->scene->ComeToWin = true;
 		App->pause = true;

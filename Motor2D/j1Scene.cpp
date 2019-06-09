@@ -208,7 +208,7 @@ bool j1Scene::Start()
 
 		if (ComeToDeath || ComeToWin)
 		{
-			App->LoadGame("save_game.xml");
+			App->LoadGame("save_door.xml");
 		}
 
 		if (ComeToWin)
@@ -302,7 +302,7 @@ bool j1Scene::Start()
 		}
 		if (ComeToDeath || ComeToWin)
 		{
-			App->LoadGame("save_game.xml");
+			App->LoadGame("save_door.xml");
 		}
 
 		if (ComeToWin)
@@ -348,7 +348,7 @@ bool j1Scene::Start()
 			{
 				ComeToPortal = false;
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
-				App->LoadGame("save_game.xml");
+				App->LoadGame("save_door.xml");
 				lobbyState = LobbyState::PASSLVL1;
 			}
 			else if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
@@ -361,13 +361,7 @@ bool j1Scene::Start()
 
 			if (ComeToDeath || ComeToWin)
 			{
-				App->LoadGame("save_game.xml");
-			}
-
-			if (ComeToWin)
-			{
-				ComeToDeath = false;
-				ComeToWin = false;
+				App->LoadGame("save_door.xml");
 			}
 
 		}
@@ -389,7 +383,14 @@ bool j1Scene::Start()
 
 		App->camera2D->SetCameraPos({ 115, 240 });
 
+		if (ComeToWin)
+		{
+			App->LoadGame("save_game.xml");
 
+			ComeToDeath = false;
+			ComeToWin = false;
+		}
+		
 	}
 
 	if (state == SceneState::FIRINGRANGE)
@@ -422,7 +423,7 @@ bool j1Scene::Start()
 		App->audio->PlayFx(enterGameSFX, 0);
 		App->camera2D->SetCameraPos({ 115, 240 });
 
-		App->LoadGame("save_game.xml");
+		App->LoadGame("save_door.xml");
 	}
 
 
@@ -698,11 +699,11 @@ bool j1Scene::Update(float dt)
 	App->tex->textures;
 	// map debug draw grids
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame("save_game.xml");
+		App->SaveGame("save_game.xml");*/
 
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
@@ -793,25 +794,25 @@ bool j1Scene::Update(float dt)
 	{
 		//debug tp
 		if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-			DebugTP(SceneState::LOBBY, LvlPart::NO_PART);
+			App->transitionManager->CreateDissolveTransition(1.0,SceneState::LOBBY, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-			DebugTP(SceneState::FIRINGRANGE, LvlPart::NO_PART);
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::FIRINGRANGE, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-			DebugTP(SceneState::LEVEL1, LvlPart::START);
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-			DebugTP(SceneState::LEVEL1, LvlPart::WAVES);
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::WAVES);
 
 		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-			DebugTP(SceneState::LEVEL2, LvlPart::START);
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-			DebugTP(SceneState::LEVEL2, LvlPart::WAVES);
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::WAVES);
 
 		if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
-			DebugTP(SceneState::LEVEL2, LvlPart::BOSS);
+			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::BOSS);
 
 		//Mix_CloseAudio();
 		//if()
@@ -1274,7 +1275,7 @@ bool j1Scene::Update(float dt)
 			App->entityFactory->player->gold *= 0.5;
 			App->entityFactory->player->str_coin = std::to_string(App->entityFactory->player->gold) + " x";
 			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
-			App->SaveGame("save_game.xml");
+			App->SaveGame("save_door.xml");
 			isDeath = false;
 			ComeToDeath = true;
 			App->transitionManager->CreateFadeTransition(1.F, true, SceneState::DEATH);
@@ -1977,6 +1978,7 @@ void j1Scene::DebugTP(SceneState const &futureScene, LvlPart const &lvlPart)
 {
 	if (futureScene != state)
 	{
+		ComeToWin = true;
 		LoadScene(futureScene);
 	}
 	switch (futureScene)

@@ -63,7 +63,7 @@ bool LobbyPortal::DoTriggerAction()
 {
 	if (doit)
 	{
-		App->SaveGame("save_game.xml");
+		App->SaveGame("save_door.xml");
 		App->audio->PlayFx(App->scene->portal_travel, 0);
 		currentAnim = &close;
 		App->scene->ComeToPortal = true;

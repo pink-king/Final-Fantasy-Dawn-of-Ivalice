@@ -6,10 +6,13 @@
 
 #include "j1App.h"
 
-Dissolve::Dissolve(float transition_time, SceneState scene_to_change) : Transition(transition_time)
+Dissolve::Dissolve(float transition_time, SceneState scene_to_change, LvlPart lvlPart) : Transition(transition_time)
 {
 	this->scene_to_change = scene_to_change;
 	this->color = color;
+	this->lvlPart = lvlPart;
+
+	App->SaveGame("save_door.xml");
 
 	uint width, height;
 	int w, h;
@@ -47,7 +50,7 @@ void Dissolve::Action()
 {
 	Transition::Action();
 
-	App->scene->LoadScene(scene_to_change);
+	App->scene->DebugTP(scene_to_change, lvlPart);
 }
 
 void Dissolve::Exiting()

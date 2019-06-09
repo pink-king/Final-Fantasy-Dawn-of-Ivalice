@@ -10,7 +10,7 @@ private:
 	Color color = Black;
 	bool is_scene_change = false;
 	SceneState scene_to_change = SceneState::MAX_STATES;
-
+	LvlPart lvlPart;
 	uint width, height;
 
 	SDL_Texture* target_text = nullptr;
@@ -19,7 +19,7 @@ private:
 	SDL_Rect rect;
 
 public:
-	Dissolve(float transition_time, SceneState scene_to_change);
+	Dissolve(float transition_time, SceneState scene_to_change, LvlPart lvlPart);
 	~Dissolve();
 
 	void Entering();
