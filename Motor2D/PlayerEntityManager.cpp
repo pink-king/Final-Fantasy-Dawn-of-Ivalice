@@ -162,6 +162,8 @@ bool PlayerEntityManager::Update(float dt)
 			GetVendor()->generateVendorItems(true);
 			App->gui->healthBar->RecalculateSection();
 
+			App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, App->entityFactory->player, " ", 5);
+			App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::HEALTH, App->entityFactory->player, " ", 5);
 
 			std::string dest = "LVL" + std::to_string(level);
 			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);

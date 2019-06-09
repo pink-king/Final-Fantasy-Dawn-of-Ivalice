@@ -2682,8 +2682,8 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 				++player->level;
 				player->exp -= player->maxExpInLevel;
 
-				
-
+				App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, player, " ", 5);
+				App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::HEALTH, player, " ", 5);
 				//TODO: Put particles and lavel to levelUp
 				if (player->level < 20)
 				{
