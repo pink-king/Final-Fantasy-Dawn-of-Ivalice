@@ -88,7 +88,7 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 
 	}
 
-	characterTag = App->entityFactory->player->selectedCharacterEntity->name;
+	//characterTag = App->entityFactory->player->selectedCharacterEntity->name;
 
 
 	InitializeStats();
@@ -96,7 +96,7 @@ void CharacterStats::generateCharacterStats()   // call it when opening inventor
 }
 
 
-void CharacterStats::InitializeStats(bool swappingCharacter)
+void CharacterStats::InitializeStats(/*bool swappingCharacter*/)
 {
 	ResetDefaultStats();    // useful when swapping characters
 
@@ -106,25 +106,25 @@ void CharacterStats::InitializeStats(bool swappingCharacter)
 	{
 		for (auto& item : App->entityFactory->player->equipedObjects)
 		{
-			if (!App->scene->inventoryItem->isVendorInventory)
-			{
+			/*if (!App->scene->inventoryItem->isVendorInventory)
+			{*/
 				if (App->entityFactory->player->selectedCharacterEntity->name == item->character->name)
 
 				{
-					getItemBuffsAndCallStatComparison(item);   // summate each items buffs to base stats
+					getItemBuffsAndCallStatComparison(item);    
 					SetNewStats();
 				}
-			}
-			else
+			//}
+			/*else
 			{
 				if (!swappingCharacter)
-					getItemBuffsAndCallStatComparison(item);   // PREVENT CIRCULAR CALLS, ALREADY GOT BUFFS	
+					getItemBuffsAndCallStatComparison(item);    
 				else 
-					if(App->entityFactory->player->selectedCharacterEntity == item->character)
+					if(characterTag == item->character->name)
 						getItemBuffsAndCallStatComparison(item);
 
 				SetNewStats();
-			}
+			}*/
 		}
 	}
 }
@@ -148,12 +148,16 @@ void CharacterStats::SetBaseStats()
 			}
 			else if (dynamic_cast<CharacterStatBlock*>(*iter)->BlockName->text == "VELOCITY")
 			{
-				if (characterTag == App->entityFactory->player->GetRitz()->name)
+				/*if (characterTag == App->entityFactory->player->GetRitz()->name)
 					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetRitz())->mySpeedModular;
 				else if (characterTag == App->entityFactory->player->GetMarche()->name)
 					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetMarche())->mySpeedModular;
 				else if (characterTag == App->entityFactory->player->GetShara()->name)
 					dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = dynamic_cast<PlayerEntity*>(App->entityFactory->player->GetShara())->mySpeedModular;
+			*/
+			
+				dynamic_cast<CharacterStatBlock*>(*iter)->baseStatValue = App->entityFactory->player->selectedCharacterEntity->mySpeedModular;
+		
 			}
 
 
@@ -346,11 +350,11 @@ void CharacterStats::ShowAllComparisonStats()
 void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 {
 
-	if (App->scene->inventoryItem->isVendorInventory)
+	/*if (App->scene->inventoryItem->isVendorInventory)
 		ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(ent);
 
 	if (!App->scene->inventoryItem->isVendorInventory)
-	{
+	{*/
 		if (App->entityFactory->player->selectedCharacterEntity == ent->character)
 
 		{
@@ -435,7 +439,7 @@ void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 			HideAllComparisonStats();
 		}
 
-	}
+	/*}
 	else
 	{
 
@@ -515,7 +519,7 @@ void CharacterStats::getItemBuffsAndCallStatComparison(LootEntity* ent)
 		CompareStats(characterStatsMapping, characterStatsValues);
 
 
-	}
+	}*/
 
 
 
@@ -626,7 +630,7 @@ void CharacterStats::ResetDefaultStats()
 	}
 }
 
-void CharacterStats::ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(LootEntity* ent)
+/*void CharacterStats::ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(LootEntity* ent)
 {
 
 	if (!characterFakeSwapDone)
@@ -643,6 +647,6 @@ void CharacterStats::ShowCurrentCharacterItemsAndStatsWithoutSwappingCharacter(L
 	}
 
 
-}
+}*/
 
 // TODO: remember to clean the map in the global ui item clean up

@@ -152,7 +152,7 @@ public:
 
 	// flag
 	bool hasToCompare = true;
-	void LastHoveredCharacterStatSwapReset(); 
+//	void LastHoveredCharacterStatSwapReset(); 
 
 private:
 

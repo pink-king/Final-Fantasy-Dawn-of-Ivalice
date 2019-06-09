@@ -61,7 +61,7 @@ public:
 
 	bool CheckMaxItems(); // use when buying and selling
 
-	void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag);
+	/*void swapCharacterItemsWithoutSwappingCharacter(std::string characterTag);*/
 
 	void despawnRubbish();
 
