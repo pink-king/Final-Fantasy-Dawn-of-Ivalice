@@ -386,7 +386,6 @@ bool j1Scene::Start()
 		if (savedNow)
 		{
 			App->LoadGame("save_game.xml");
-
 			savedNow = false;
 		}
 		

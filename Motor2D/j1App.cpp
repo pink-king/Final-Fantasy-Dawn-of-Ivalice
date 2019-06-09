@@ -551,7 +551,8 @@ bool j1App::ExsistDocument(std::string doc)
 {
 	bool ret = false;
 
-	pugi::xml_parse_result result = config_file.load_file(doc.data());
+	pugi::xml_document	save_file;
+	pugi::xml_parse_result result = save_file.load_file(doc.data());
 
 	if (result == NULL)
 		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());

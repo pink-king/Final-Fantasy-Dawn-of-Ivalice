@@ -488,6 +488,13 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	
 	gold = node.child("gold").attribute("value").as_uint();
 
+	std::string dest = "LVL" + std::to_string(App->entityFactory->player->level);
+	App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+	std::string str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+	App->scene->coins_label->ChangeTextureIdle(str_coin, NULL, NULL);
+	App->scene->coins_label_inventory->ChangeTextureIdle(str_coin, NULL, NULL);
+
 	for (pugi::xml_node nodebagObjects = node.child("bagObjects"); nodebagObjects; nodebagObjects = nodebagObjects.next_sibling("bagObjects"))
 	{
 		LootEntity* bagObj = DBG_NEW LootEntity();
