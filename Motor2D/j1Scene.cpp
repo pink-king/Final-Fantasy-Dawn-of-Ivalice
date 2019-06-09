@@ -326,6 +326,13 @@ bool j1Scene::Start()
 			doorlvl1 = nullptr;
 			firingrange = nullptr;
 			doorlvl2 = nullptr;
+
+			std::string dest = "LVL" + std::to_string(App->entityFactory->player->level);
+			App->scene->exp_label->ChangeTextureIdle(dest, NULL, NULL);
+
+			std::string str_coin = std::to_string(App->entityFactory->player->gold) + " x";
+			App->scene->coins_label->ChangeTextureIdle(str_coin, NULL, NULL);
+			App->scene->coins_label_inventory->ChangeTextureIdle(str_coin, NULL, NULL);
 		}
 		
 		else if (lobbyState == LobbyState::TALKSTRANGER || lobbyState == LobbyState::PASSLVL1 || lobbyState == LobbyState::PASSLVL2)
