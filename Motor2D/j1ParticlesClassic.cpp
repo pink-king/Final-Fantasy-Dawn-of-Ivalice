@@ -383,6 +383,16 @@ bool j1ParticlesClassic::Start()
 	arrow.anim.loop = false;
 	arrow.life = 2000.F; 
 
+	lvlUpFx.anim.PushBack({ 256, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 320, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 384, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 448, 192, 64, 64 });
+	lvlUpFx.anim.PushBack({ 256, 256, 64, 64 });
+	lvlUpFx.anim.PushBack({ 320, 256, 64, 64 });
+	lvlUpFx.anim.speed = 15.F;
+	lvlUpFx.anim.loop = false;
+	lvlUpFx.texture = particleAtlas2; 
+
 	return true;
 }
 
@@ -488,8 +498,8 @@ bool j1ParticlesClassic::Update(float dt)
 		AddParticle(poison01, p.x, p.y, { 0,0 }, 2000u);*/
 
 		//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
-		AddParticle(snow, p.x, p.y, { 0, 0 });
-		
+		//AddParticle(snow, p.x, p.y, { 0, 0 });
+		//AddParticle(lvlUpFx, p.x, p.y, { 0, 0 });
 	}
 
 	return ret;

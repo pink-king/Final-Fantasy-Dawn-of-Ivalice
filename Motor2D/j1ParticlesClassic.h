@@ -103,6 +103,7 @@ public:
 	Particle powder01;
 	Particle arrow; 
 	Particle PoisonBlast;
+	Particle lvlUpFx; 
 
 };
 
