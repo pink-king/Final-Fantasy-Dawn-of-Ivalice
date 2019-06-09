@@ -56501,16 +56501,6 @@
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="1821" name="spawnZone" x="1970.33" y="1159.42" width="69.333" height="85.167">
-   <properties>
-    <property name="bomb" type="bool" value="true"/>
-    <property name="golem" type="bool" value="false"/>
-    <property name="level" type="int" value="8"/>
-    <property name="maxEnemies" type="int" value="4"/>
-    <property name="minEnemies" type="int" value="6"/>
-    <property name="test" type="bool" value="true"/>
-   </properties>
-  </object>
  </objectgroup>
  <layer id="25" name="Collisions" width="130" height="140">
   <properties>
