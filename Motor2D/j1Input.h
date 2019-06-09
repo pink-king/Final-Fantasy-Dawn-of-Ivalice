@@ -145,7 +145,7 @@ public:
 
 	const ControllerPressData& CheckGamepadWTFPressedInput() const;
 
-	bool LoadGamepadMapScheme(const char* path);
+	bool LoadGamepadMapScheme(const char* path, const char* scheme = "current");
 	bool SaveGamepadMapScheme(const char* path);
 	const SDL_Rect& GetSectionForElement(std::string name);
 	void ListeningInputFor(std::string name); // listen and change mapping input for gui controls keybinding
@@ -160,7 +160,6 @@ private:
 	bool GenerateGuiButtonsRectMapping();
 	bool GenerateMapping();
 	bool GenerateGuiElemMapping();
-	
 
 private:
 	bool aimToggled = false;

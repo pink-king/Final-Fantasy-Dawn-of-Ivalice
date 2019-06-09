@@ -349,7 +349,8 @@ bool j1Input::PreUpdate()
 	//if (GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	//{
 	//	//gamepadScheme.marche.dodge.button = SDL_CONTROLLER_BUTTON_A;
-	//	SaveGamepadMapScheme("config/controllerMapping.xml");
+	//	//SaveGamepadMapScheme("config/controllerMapping.xml");
+	//	LoadGamepadMapScheme("config/controllerMapping.xml", "default");
 	//}
 
 	return true;
@@ -533,7 +534,7 @@ bool j1Input::GenerateMapping()
 	return true;
 }
 
-bool j1Input::LoadGamepadMapScheme(const char* path)
+bool j1Input::LoadGamepadMapScheme(const char* path, const char* scheme)
 {
 	pugi::xml_document inputDoc;
 	pugi::xml_node node;
@@ -543,7 +544,7 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 	if (result == NULL)
 		LOG("Could not load map xml file config/controllerMapping.xml pugi error: %s", result.description());
 	else
-		node = inputDoc.child("controller_mapping").child("current");
+		node = inputDoc.child("controller_mapping").child(scheme);
 
 	// LOAD shared scheme
 	pugi::xml_node general_node = node.child("general");
@@ -556,6 +557,10 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 
 			if (it != generalMapInput.end()) // if found
 			{
+				// reset any possible previousButton (on load default)
+				(*it).second.button = SDL_GameControllerButton(-1);
+				(*it).second.axis = SDL_GameControllerAxis(-1);
+
 				// write values to data map
 				std::string buttonType = sharedButtons.attribute("type").as_string();
 
@@ -580,6 +585,10 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 
 				if (it2 != (*it).second.end())
 				{
+					// reset any possible previousButton (on load default)
+					(*it2).second.button = SDL_GameControllerButton(-1);
+					(*it2).second.axis = SDL_GameControllerAxis(-1);
+
 					// write values to data map
 					std::string buttonType = charButtons.attribute("type").as_string();
 
@@ -593,7 +602,7 @@ bool j1Input::LoadGamepadMapScheme(const char* path)
 	}
 
 	// LOAD TOGGLE flag
-	node = inputDoc.child("controller_mapping").child("aimToggle");
+	node = node.child("aimToggle");
 	
 	if (node != NULL)
 	{
