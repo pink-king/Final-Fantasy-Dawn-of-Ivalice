@@ -25,9 +25,10 @@ bool j1EasingSplines::PreUpdate()
 	// check if any loot entity goes to delete and remove from list
 	for (std::list<EaseSplineInfo*>::iterator itr = easing_splines.begin(); itr != easing_splines.end(); )
 	{
-		if ((*itr)->associatedLoot->to_delete || (*itr)->associatedLoot->to_die)
+		if ((*itr)->associatedLoot->picked)
 		{
 			LOG("FUCK");
+			itr = easing_splines.erase(itr);
 		}
 		else
 			++itr;
