@@ -1201,6 +1201,28 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 	return ret;
 }
 
+std::list<LootEntity*> j1EntityFactory::GetConsumableListFromSubtile(const iPoint pos) const
+{
+	std::list<LootEntity*> return_list;
+
+	int index = GetSubtileEntityIndexAt(pos);
+	if (index <= subtileHeight * subtileWidth)
+	{
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+		for (; entityIterator != entitiesDataMap[GetSubtileEntityIndexAt(pos)].entities.end(); ++entityIterator)
+		{
+			if ((*entityIterator)->type == LOOT)
+			{
+				LootEntity* retEntity = dynamic_cast<LootEntity*>(*entityIterator);
+
+				if (retEntity->objectType == OBJECT_TYPE::GOLD || retEntity->objectType == OBJECT_TYPE::POTIONS || retEntity->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+					return_list.push_back(retEntity);
+			}
+		}
+	}
+
+	return return_list;
+}
 
 
 bool j1EntityFactory::isPlayerAdjacent(const iPoint & pos) const
