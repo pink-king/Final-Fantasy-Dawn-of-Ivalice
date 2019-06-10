@@ -711,11 +711,15 @@ void FlowerBossEntity::PhaseManager(float dt)
 			for (int i = 0; i < maxExplosionParticles; ++i)
 			{
 				fPoint instaPos;
-				float multiplier = (maxDistance * App->camera2D->GetFloatNegOneToOne());
-				instaPos.x = (*enemiesAlive)->GetPivotPos().x - 30 + multiplier;
-				instaPos.y = (*enemiesAlive)->GetPivotPos().y - 30 + multiplier;
+				instaPos.x = (*enemiesAlive)->GetPivotPos().x - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = (*enemiesAlive)->GetPivotPos().y - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
 				//App->particles->explosion01, 02,03 TODO: check what explosion is more cool to do this
-				App->particles->AddParticle(App->particles->explosion01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(0, 800), SDL_FLIP_HORIZONTAL);
+				// explosions
+				App->particles->AddParticle(App->particles->explosion01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(100, 800), SDL_FLIP_HORIZONTAL);
+				// blood
+				instaPos.x = (*enemiesAlive)->GetPivotPos().x - 24 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = (*enemiesAlive)->GetPivotPos().y - 24 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				App->particles->AddParticle(App->particles->blood01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(0, 800), SDL_FLIP_HORIZONTAL);
 			}
 
 		}
