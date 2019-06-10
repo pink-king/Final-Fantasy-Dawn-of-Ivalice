@@ -9,6 +9,10 @@ EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 12, 7, 
 
 
 	this->isDynamicEnemy = true;
+
+	maxLife = 300; 
+
+
 }
 
 EnemyArcher::~EnemyArcher()

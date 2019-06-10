@@ -34,7 +34,7 @@ public:
 
 
 	// BASE DAMAGE
-	int baseDamage;
+	int baseDamage = 10;
 private:
 	// BASIC ATTACK
 	SDL_Texture* basicAttackTex = nullptr;
