@@ -5,12 +5,81 @@
 	<textures />
 	<audio />
 	<map />
-	<scene lobbyState="2" />
+	<scene lobbyState="3" />
 	<entities>
 		<Entities player="marche">
-			<Experience level="1" exp="0" />
-			<life actualLife="130" />
-			<gold value="0" />
+			<Experience level="1" exp="450" />
+			<life actualLife="0" />
+			<gold value="6669" />
+			<bagObjects>
+				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="fireElement" rol="attack" value="0.300000012" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="15" />
+				</buffs>
+			</bagObjects>
+			<equipedObjects>
+				<data name="legendary_vest" level="1" characterObject="Shara" equipableType="vest" elementalType="iceElement" objectType="armor" lootType="equipable">
+					<rect x="95" y="1409" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="iceElement" rol="defence" value="22" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.109999999" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="health" value="15" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="stick_2" level="1" characterObject="Ritz" equipableType="rod" elementalType="iceElement" objectType="weapon" lootType="equipable">
+					<rect x="96" y="736" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Ritz" type="additive" elementType="iceElement" rol="attack" value="13" />
+				</buffs>
+				<buffs>
+					<data character="Ritz" type="multiplicative" elementType="noElement" rol="velocity" value="0.879999995" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="armor_1" level="1" characterObject="Marche" equipableType="armor" elementalType="fireElement" objectType="armor" lootType="equipable">
+					<rect x="128" y="932" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="17" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="noElement" rol="health" value="13" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="bow_2" level="1" characterObject="Shara" equipableType="bow" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="194" y="770" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="attack" value="20" />
+				</buffs>
+				<buffs>
+					<data character="Shara" type="additive" elementType="noElement" rol="velocity" value="0.109999999" />
+				</buffs>
+			</equipedObjects>
+			<equipedObjects>
+				<data name="sword_2" level="1" characterObject="Marche" equipableType="sword" elementalType="fireElement" objectType="weapon" lootType="equipable">
+					<rect x="64" y="96" w="32" h="32" />
+				</data>
+				<buffs>
+					<data character="Marche" type="multiplicative" elementType="fireElement" rol="attack" value="0.25999999" />
+				</buffs>
+				<buffs>
+					<data character="Marche" type="additive" elementType="fireElement" rol="defence" value="18" />
+				</buffs>
+			</equipedObjects>
 		</Entities>
 	</entities>
 	<AttackManager />

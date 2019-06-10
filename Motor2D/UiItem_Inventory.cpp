@@ -1301,8 +1301,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 						{
 
 							successfulVendorToPlayer = true;
-
-
+						
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
 							//App->entityFactory->player->AddItemToTheBag(callback);
