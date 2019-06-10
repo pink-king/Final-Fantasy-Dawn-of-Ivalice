@@ -2327,7 +2327,14 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 {
 
 	SDL_Rect destRect = App->scene->lootPanelRect;
-	iPoint pos(App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y));   // pos or origin pos ? 
+
+	iPoint pos(0, 0); 
+
+	if(!App->scene->inventory->enable)
+		pos = iPoint((App->render->WorldToScreen(lootItem->Getoriginpos().x, lootItem->Getoriginpos().y)));   // pos or origin pos ?
+ 
+	
+
 
 	if (lootItem->GetType() == LOOT_TYPE::EQUIPABLE)
 	{

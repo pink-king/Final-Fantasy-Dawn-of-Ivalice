@@ -130,7 +130,7 @@ bool UiItem_Inventory::LoadElements(bool onlyEquipped, bool isVendor)
 					// first generate description if it does not have it or if it was deleted ingame
 
 					De_______GenerateDescription((*iter), true);
-					(*iter)->MyDescription->RepositionAllElements(iPoint(staringPosition.x + 545, staringPosition.y + 20));
+					
 
 
 					// current weapon, armor and head have a target position each
