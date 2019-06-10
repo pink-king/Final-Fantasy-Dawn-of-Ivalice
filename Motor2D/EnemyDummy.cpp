@@ -18,6 +18,9 @@ EnemyDummy::EnemyDummy(const iPoint & pos) : Enemy(pos, 0, 0, 0, 0, 0, true, ENT
 	position -= pivot; 
 
 	life = maxLife;
+
+	// re-align all scarecrow instantiated without flip direction
+	flip = SDL_RendererFlip::SDL_FLIP_NONE;
 }
 
 bool EnemyDummy::CleanUp()
