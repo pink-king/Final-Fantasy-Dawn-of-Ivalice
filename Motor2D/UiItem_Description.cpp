@@ -10,6 +10,7 @@
 #include "LootEntity.h"
 #include "j1DialogSystem.h"
 #include "CharacterStats.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
@@ -375,7 +376,7 @@ UiItem_Description::~UiItem_Description()
 void UiItem_Description::Draw(const float& dt)
 {
 	// generate description if the wasn't one 
-
+	BROFILER_CATEGORY("Draw Description", Profiler::Color::DarkOrange);
 	if (!App->scene->inventory->enable && spawnedInventoryImage)
 	{
 		// if inventory is no longer enabled, delete description

@@ -175,6 +175,7 @@ void UiItem_Label::CleanUp()
 
 bool UiItem_Label::TypeWriter()
 {
+	BROFILER_CATEGORY("typeWriter", Profiler::Color::Beige);
 	int i = 0;
 	
 		
