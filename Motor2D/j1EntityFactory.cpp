@@ -1843,80 +1843,11 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		randID = GetRandomValue(1, 2);
 		
 
-		switch (GetRandomValue(1, 12))
-		{
-		case 1:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 2:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;	
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 3:
-			lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 4:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 5:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 6:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 7:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 8:
-			lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 9:
-			lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level - 1;
-			break;
-		case 10:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level - 1;
-			break;
-		case 11:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level - 1;
-			break;
-		case 12:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		default:
-			break;
-		}
+		
+		if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+			lootEntity->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
+		if (lootEntity->level == 0)
+			lootEntity->level = App->entityFactory->player->level;
 
 		if (lootEntity->level < 1)
 			lootEntity->level = 1;
@@ -2010,80 +1941,13 @@ bool j1EntityFactory::LoadLootData(LootEntity* lootEntity, pugi::xml_node& confi
 		
 		randID = GetRandomValue(1, 2);
 
-		switch (GetRandomValue(1, 12))
-		{
-		case 1:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 2:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 3:
-			lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 4:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		case 5:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 6:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 7:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 8:
-			lootEntity->elemetalType = ELEMENTAL_TYPE::NO_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level + 1;
-			break;
-		case 9:
-			lootEntity->elemetalType = ELEMENTAL_TYPE::FIRE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level - 1;
-			break;
-		case 10:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ICE_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level - 1;
-			break;
-		case 11:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::POISON_ELEMENT;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level - 1;
-			break;
-		case 12:
-			if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
-				lootEntity->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
-			if (lootEntity->level == 0)
-				lootEntity->level = App->entityFactory->player->level;
-			break;
-		default:
-			break;
-		}
+		if (lootEntity->elemetalType == ELEMENTAL_TYPE::NO_ELEMENT)
+			lootEntity->elemetalType = ELEMENTAL_TYPE::ALL_ELEMENTS;
+		if (lootEntity->level == 0)
+			lootEntity->level = App->entityFactory->player->level;
+
+		if (lootEntity->level < 1)
+			lootEntity->level = 1;
 		if (lootEntity->level < 1)
 			lootEntity->level = 1;
 

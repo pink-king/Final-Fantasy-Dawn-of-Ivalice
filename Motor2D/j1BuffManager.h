@@ -23,10 +23,6 @@ public:
 	bool PostUpdate() { return true; };
 	bool CleanUp();
 
-	bool Load(pugi::xml_node&);
-	bool Save(pugi::xml_node&) const;
-	bool LoadPortal(pugi::xml_node&);
-	bool SavePortal(pugi::xml_node&) const;
 
 	//by buff without items
 	Buff* CreateBuff(BUFF_TYPE type, ELEMENTAL_TYPE elementType, ROL rol, j1Entity* character,std::string stat, float value);
