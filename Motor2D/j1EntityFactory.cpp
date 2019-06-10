@@ -1263,7 +1263,7 @@ bool j1EntityFactory::CheckSubtileMapBoundaries(const iPoint pos) const
 		pos.y >= 0 && pos.y < subtileHeight);
 }
 
-j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBroken, ChestType chestType)
+j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasSpriteRect, BreakableType breakableType, bool isBroken, ChestType chestType, bool containsLoot)
 {
 	j1Entity* assetEntity = nullptr;
 
@@ -1281,7 +1281,7 @@ j1Entity* j1EntityFactory::CreateAsset(EnvironmentAssetsTypes type, iPoint world
 		assetEntity = DBG_NEW j1Entity(worldPos, atlasSpriteRect);
 		break;
 	case EnvironmentAssetsTypes::BREAKABLE_ASSET:
-		assetEntity = DBG_NEW BreakableAsset(worldPos, breakableType, isBroken);
+		assetEntity = DBG_NEW BreakableAsset(worldPos, breakableType, isBroken, containsLoot);
 		entities.push_back(assetEntity);
 		break; 
 	case EnvironmentAssetsTypes::CHEST:

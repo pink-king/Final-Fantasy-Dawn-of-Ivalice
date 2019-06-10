@@ -9,7 +9,7 @@ class BreakableAsset : public j1Entity
 {
 public:
 
-	BreakableAsset(const iPoint& pos, BreakableType type, bool isBroken);
+	BreakableAsset(const iPoint& pos, BreakableType type, bool isBroken, bool containsLoot = true);
 	~BreakableAsset();
 
 	//bool Start() override;	// Entity Factory doesn't Start the entities when reloading scenes!
@@ -33,6 +33,7 @@ private:
 	bool isAssigned = false;
 	bool isBroken = false;
 	bool PlaySFX = true;
+	bool containsLoot = true; 
 };
 
 

@@ -153,7 +153,7 @@ public:
 	bool isThisSubtileReserved(const iPoint& pos) const;
 	void ReleaseAllReservedSubtiles();
 	// ---------
-	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, ChestType chestType = ChestType::NORMAL);
+	j1Entity* CreateAsset(EnvironmentAssetsTypes type, iPoint worldPos, SDL_Rect atlasRect, BreakableType breakableType = BreakableType::NO_BREAKABLE_TYPE, bool isBroken = false, ChestType chestType = ChestType::NORMAL, bool containsLoot = true);
 //private:
 	bool CheckSubtileMapBoundaries(const iPoint pos) const;
 
