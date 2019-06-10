@@ -110,19 +110,19 @@
   <dialogtree treeid="4" treeName="TUTORIAL" NPCname="Godot"  NPCposX = "-96" NPCposY = "480" NPCscene="FIRINGRANGE">
     <node line="Hello there, wanderer!" id="0">
       <option line="Your friend sent me here" nextnode="1"/>
-      <option line="Woah, what is going on with that scarecrow" nextnode="2"/>
+      <option line="Woah, what's up with those scarecrows" nextnode="2"/>
     </node>
 
-    <node line="See that scarecrow? You will train with it" id="1">
-      <option line="Well... It doesn't seem much of a threat" nextnode="3"/>
+    <node line="See the scarecrows? You will train with them" id="1">
+      <option line="Well... They don't seem much of a threat" nextnode="3"/>
     </node>
 
-    <node line="It is your new training partner!!" id="2">
-      <option line="Well... It doesn't seem much of a threat" nextnode="3"/>
+    <node line="They are your new training partners!" id="2">
+   <option line="Well... They don't seem much of a threat" nextnode="3"/>
     </node>
 
     <node line="Take it easy, novice, we want you alive haha" id="3">
-      <option line="Mmm... What can I do with it???" nextnode="4"/>
+      <option line="Mmm... What can I do with them" nextnode="4"/>
     </node>
 
 
@@ -172,7 +172,7 @@
 
     <node line="I, Godot, give life to inanimate objects!" id="12">
       <option line="Will you give anything for my journey?" nextnode="13"/>
-      <option line="You and the scarecrow make a good couple, yes" nextnode="14"/>
+      <option line="You really do look like them"/>
     </node>
 
     <node line="Now, I am granting you the rank of Night!" id="13">
