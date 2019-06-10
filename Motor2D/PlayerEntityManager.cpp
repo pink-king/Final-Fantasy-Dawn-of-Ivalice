@@ -262,81 +262,82 @@ bool PlayerEntityManager::Update(float dt)
 		dynamic_cast<Trigger*>(App->entityFactory->isThisSubtileTriggerFree(GetSubtilePos()))->DoTriggerAction();
 
 	}
+
 	//check loot
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
-		
+			/*lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+			LastHoveredLootFlag = true;*/
 
-			lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
-			LastHoveredLootFlag = true;
+		LootEntity* checkLoot = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
 
-
-			if (lastHoveredLootItem->manualCollectable)
+		if (checkLoot->objectType  == OBJECT_TYPE::GOLD || checkLoot->objectType == OBJECT_TYPE::POTIONS || checkLoot->objectType == OBJECT_TYPE::PHOENIX_TAIL)
+		{
+			if (CollectLoot(checkLoot))
 			{
-				if (CollectLoot(dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()))))
-				{
-					App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+				App->entityFactory->DeleteEntityFromSubtile(checkLoot);
 
-					App->entityFactory->entities.erase(
-						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
-
-				}
-
+				App->entityFactory->entities.erase(
+					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), checkLoot), App->entityFactory->entities.end());
 			}
+
+		}
+		else
+		{
 
 			if (!playerHasMovedLastFrame)
 			{
+				lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+				LastHoveredLootFlag = true;
 
-
-			if (!lastHoveredLootItem->manualCollectable)
-			{
-				//TODO: description         dynamic_cast<LootEntity*>(equipable)
-
-				if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
+				if (!lastHoveredLootItem->manualCollectable)
 				{
-					if (!lastHoveredLootItem->spawnedDescription)
-						PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
-				}
 
-				if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN)
-				{
-					if (!App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame)
+					//TODO: description         dynamic_cast<LootEntity*>(equipable)
+
+					if (lastHoveredLootItem->type == ENTITY_TYPE::LOOT)
 					{
-						if (lastHoveredLootItem && !dynamic_cast<LootEntity*>(lastHoveredLootItem)->clampedByCrosshair
-							&& App->entityFactory->player->GetCrosshair()->GetClampedEntity() == nullptr)
+						if (!lastHoveredLootItem->spawnedDescription)
+							PlayerOnTopOfLootToSpawnDescription(true, lastHoveredLootItem);
+					}
+
+					if (App->input->GetControllerGeneralPress(App->input->gamepadScheme.sharedInput.interact) == KEY_DOWN)
+					{
+						if (!App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame)
 						{
-							// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
-
-
-							if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, false))  // first collect
+							if (lastHoveredLootItem && !dynamic_cast<LootEntity*>(lastHoveredLootItem)->clampedByCrosshair
+								&& App->entityFactory->player->GetCrosshair()->GetClampedEntity() == nullptr)
 							{
-								PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);    // THEN despwn descr and put last hovered to null`tr
-
-								// then delete loot from subtile and factory 
-								App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
-								//LOG("entities size: %i", App->entityFactory->entities.size());
-								// erase - remove idiom.
-								App->entityFactory->entities.erase(
-									std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
-
-								//last detach clamped entity
-								lastHoveredLootItem = nullptr;
-								//LOG("entities size: %i", App->entityFactory->entities.size());
+								// at this current stage of dev, we have on this test around 780 entities | 1 day before vertical slice assignment (22/04/19)
 
 
-								LastHoveredLootFlag = false;
+								if (App->entityFactory->player->CollectLoot(lastHoveredLootItem, false))  // first collect
+								{
+									PlayerOnTopOfLootToSpawnDescription(false, lastHoveredLootItem);    // THEN despwn descr and put last hovered to null`tr
+
+									// then delete loot from subtile and factory 
+									App->entityFactory->DeleteEntityFromSubtile(lastHoveredLootItem);
+									//LOG("entities size: %i", App->entityFactory->entities.size());
+									// erase - remove idiom.
+									App->entityFactory->entities.erase(
+										std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), lastHoveredLootItem), App->entityFactory->entities.end());
+
+									//last detach clamped entity
+									lastHoveredLootItem = nullptr;
+									//LOG("entities size: %i", App->entityFactory->entities.size());
+
+
+									LastHoveredLootFlag = false;
+								}
 							}
 						}
+						else
+						{
+							App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame = false;
+						}
 					}
-					else
-					{
-						App->entityFactory->player->usedButtonAToPickLootWithCrosshairLastFrame = false;
-					}
-
-
 				}
 			}
-
 		}
 		
 	}

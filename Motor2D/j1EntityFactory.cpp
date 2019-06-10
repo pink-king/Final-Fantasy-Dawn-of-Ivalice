@@ -1157,16 +1157,19 @@ bool j1EntityFactory::DeleteEntityFromSubtilePos(j1Entity * entity, iPoint subti
 
 	int index = GetSubtileEntityIndexAt(subtile);
 
-	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
-
-	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+	if (index <= subtileWidth * subtileHeight)
 	{
-		if (*entityIterator == entity)
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+		for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
 		{
-			//LOG("found");
-			entitiesDataMap[index].entities.erase(entityIterator);
-			ret = true;
-			break;
+			if (*entityIterator == entity)
+			{
+				//LOG("found");
+				entitiesDataMap[index].entities.erase(entityIterator);
+				ret = true;
+				break;
+			}
 		}
 	}
 
