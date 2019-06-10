@@ -55,7 +55,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
 
-	staticImage = App->gui->AddImage(position, staticSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
+	staticImage = App->gui->AddImage(position + iPoint(-62, -2), divSection, name, this);  // this will appear when player gets hurt  // TODO: print it perfectly
 
 	iPoint offset((staticSection->w - dynamicSection->w) / 2, (staticSection->h - dynamicSection->h) / 2);
 
@@ -72,7 +72,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	bossSeparationWidth = maxSection / bossBarSeparations;  // divide bar in 4 sections
 
 
-	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth, offset.y), divSection, name, this);
+	this->divisionImage = App->gui->AddImage(position + iPoint(bossSeparationWidth, offset.y), staticSection, name, this);
 
 	this->nameOnTop = App->gui->AddLabel(deliever->name, { 230, 240, 200, 255 }, App->font->piecesofEight36, iPoint(0, staticImage->hitBox.y - 40), this, false);
 
