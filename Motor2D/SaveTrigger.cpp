@@ -26,7 +26,7 @@ SaveTrigger::SaveTrigger(float posx, float posy) :Trigger(TRIGGER_TYPE::SAVE, po
 	sign.PushBack({ 96,128,32,32 });
 	sign.speed = 10.0F;
 
-	saveSign.PushBack({128,0,32,32});
+	saveSign.PushBack({128,64,32,32});
 	saveSign.speed = 0.F;
 
 	nSubtiles = 1;
