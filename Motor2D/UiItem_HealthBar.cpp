@@ -290,7 +290,9 @@ void UiItem_HealthBar::RecalculateSection()
 		conversionFactor = maxSection / App->entityFactory->player->life;
 
 
-	TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+	if(App->entityFactory->player->life >= 0)
+		TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+
 }
 
 void UiItem_HealthBar::ShowBossBarWhenDialogIsOver()
@@ -391,7 +393,9 @@ void UiItem_HealthBar::DamageLogic()
 
 
 
-	this->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL); 
+	
+	this->RecalculateSection(); 
+
 
 	int destinationRectWidth = lastSection - dynamicImage->section.w;   // the diff betwween max section and current bar health; 
 

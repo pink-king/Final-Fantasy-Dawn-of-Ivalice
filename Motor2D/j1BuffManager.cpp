@@ -867,9 +867,11 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->entityFactory->dmgInTimeFdbck = true;
 							App->input->DoGamePadRumble(70, 50);
 
+							
 
-							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+App->gui->healthBar->RecalculateSection();
 
+						
 						}
 						else
 						{
@@ -947,7 +949,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->input->DoGamePadRumble(70, 50);
 
 
-							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+App->gui->healthBar->RecalculateSection();
 						}
 						else
 						{
@@ -985,7 +987,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->input->DoGamePadRumble(70, 50);
 
 
-							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+App->gui->healthBar->RecalculateSection();
 						}
 						else
 						{

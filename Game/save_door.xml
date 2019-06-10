@@ -9,7 +9,7 @@
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />
-			<life actualLife="123" />
+			<life actualLife="130" />
 			<gold value="0" />
 		</Entities>
 	</entities>
