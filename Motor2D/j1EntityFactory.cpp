@@ -62,17 +62,17 @@ j1EntityFactory::~j1EntityFactory()
 
 bool j1EntityFactory::Awake(pugi::xml_node & node)
 {
-	bool ret = true;
+bool ret = true;
 
-	return ret;
+return ret;
 }
 
 bool j1EntityFactory::Start()
 {
- 	std::list<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
-		if((*item) != nullptr)
+		if ((*item) != nullptr)
 			(*item)->Start();
 	}
 
@@ -103,12 +103,12 @@ bool j1EntityFactory::Start()
 
 	// get gold values from the start: needed if loot is equipped before gold
 
-	pugi::xml_node& config = App->config; 
+	pugi::xml_node& config = App->config;
 	goldMin = config.child("loot").child("gold").attribute("min").as_int();
 	goldMax = config.child("loot").child("gold").attribute("max").as_int();
 
 
-	
+
 
 	return true;
 }
@@ -118,7 +118,7 @@ bool j1EntityFactory::PreUpdate()
 	BROFILER_CATEGORY("Entities PreUpdate", Profiler::Color::LavenderBlush);
 
 	bool ret = true;
-	
+
 	// logic / collisions
 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
@@ -136,11 +136,11 @@ bool j1EntityFactory::Update(float dt)
 {
 	bool ret = true;
 	BROFILER_CATEGORY("Entities Update", Profiler::Color::Fuchsia);
-	
+
 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
 	{
-		if ((*item) != nullptr) 
+		if ((*item) != nullptr)
 		{
 			bool createLoot = false;
 			iPoint enemypos;
@@ -150,7 +150,7 @@ bool j1EntityFactory::Update(float dt)
 				ret = (*item)->Update(dt);
 				ret = ((*item)->Move(dt));
 				// updates entity associated tile positions tile and subtile
-				if(entitiesDataMap != nullptr)
+				if (entitiesDataMap != nullptr)
 					(*item)->UpdateTilePositions();
 				//LOG("entity subtile: %i,%i", (*item)->GetSubtilePos().x, (*item)->GetSubtilePos().y);
 
@@ -160,19 +160,24 @@ bool j1EntityFactory::Update(float dt)
 			}
 			else
 			{
+				if ((*item)->type == ENTITY_TYPE::PLAYER)
+				{
+					player = nullptr;
+				}
+		
 				//if entit is diffetent to player create loot
 				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
 					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
-					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS 
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS
 					&& (*item)->type != ENTITY_TYPE::PARTICLE && (*item)->type != ENTITY_TYPE::NO_TYPE)
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
-					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
+					enemypos = { GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
 				}
 				App->buff->entitiesTimeDamage.remove(*item);
 				(*item)->CleanUp();
-				delete(*item); 
+				delete(*item);
 				(*item) = nullptr;
 				item = entities.erase(item);
 			}
@@ -180,11 +185,13 @@ bool j1EntityFactory::Update(float dt)
 			{
 				//CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
-			
+
 				justGold = true;
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 
 			}
+			
+
 		}
 		else
 		{

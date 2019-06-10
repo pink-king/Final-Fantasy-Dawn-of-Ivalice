@@ -835,7 +835,7 @@ bool j1Scene::Update(float dt)
 	
 		
 
-		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
+		if (App->entityFactory->player != nullptr)
 		{
 			//settingPanel->enable = false;
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
