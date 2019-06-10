@@ -429,8 +429,7 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			}
 		}
 	}
-	else
-		App->LoadGame("save_door.xml");
+
 	
 
 	return true;
