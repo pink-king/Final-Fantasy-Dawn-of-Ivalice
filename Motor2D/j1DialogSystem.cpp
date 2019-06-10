@@ -84,7 +84,7 @@ bool j1DialogSystem::Update(float dt)
 			spawnDialogSequence = false;
 			isDialogSequenceActive = true; 
 			
-			App->entityFactory->player->selectedCharacterEntity->isParalize = true;
+			//App->entityFactory->player->selectedCharacterEntity->isParalize = true;
 
 			App->entityFactory->player->LockPlayerInput(); 
 			
@@ -377,7 +377,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 				spawnDialogSequence = false;
 				
 				
-				App->entityFactory->player->selectedCharacterEntity->isParalize = false;
+				//App->entityFactory->player->selectedCharacterEntity->isParalize = false;
 				//App->entityFactory->player->selectedCharacterEntity->inputReady = true;
 				//App->pause = false; 
 
