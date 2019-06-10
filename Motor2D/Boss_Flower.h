@@ -63,6 +63,7 @@ public:
 	void Draw();
 
 private:
+	bool checkEnergyShield = false; // ...
 	int GetPointingDir(float angle);
 
 	void LookToPlayer(Animation* desiredAnim);

@@ -209,8 +209,9 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	energyShieldAnim.PushBack({ 345,180,115,90 });
 	energyShieldAnim.PushBack({ 460,180,115,90 });
 
-	energyShieldAnim.speed = 15.f;
+	energyShieldAnim.speed = 10.f;
 	energyShieldAnim.loop = false;
+	//energyShieldAnim.SetLoop(1);
 
 
 	// precomputed adjacent tile neighbours pattern
@@ -895,6 +896,9 @@ void FlowerBossEntity::ActiveShield()
 	// deletes from entities data map
 	bool check = App->entityFactory->DeleteEntityFromSubtile(this);
 
+	// activate shield anim checker
+	checkEnergyShield = true;
+
 	if (check)
 		LOG("");
 	else
@@ -1034,6 +1038,28 @@ bool FlowerBossEntity::CleanUp()
 void FlowerBossEntity::Draw()
 {
 	App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0f, flip);
+
+	if(checkEnergyShield) // turns on when enters needed phase only
+	{	
+		if (shieldActive)
+		{
+			float currentF = energyShieldAnim.GetCurrentFloatFrame();
+			if (currentF >= 6.f)
+				energyShieldAnim.SetCurrentFrame(currentF - 4.f);
+		}
+
+		if (!energyShieldAnim.Finished())
+		{
+			fPoint pOffset = {60 - pivot.x, 70 - pivot.y};
+			App->render->Blit(energyShieldTex, position.x - pOffset.x, position.y - pOffset.y, &energyShieldAnim.GetCurrentFrame());
+		}
+		else
+		{
+			energyShieldAnim.Reset();
+			checkEnergyShield = false;
+		}
+	}
+
 }
 
 int FlowerBossEntity::GetPointingDir(float angle)
