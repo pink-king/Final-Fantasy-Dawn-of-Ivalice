@@ -123,7 +123,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 		if (rol == ROL::DEFENCE_ROL)
 		{
 			if ((elementType == (*iter)->GetElementType() || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
-				((ent->type == ENTITY_TYPE::PLAYER && (*iter)->GetCharacter()->type == ENTITY_TYPE::PLAYER) || ent == (*iter)->GetCharacter()))
+				(ent == (*iter)->GetCharacter()))
 			{
 				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 					initialDamage += (*iter)->GetValue();
@@ -135,7 +135,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 		else if (rol == ROL::ATTACK_ROL)
 		{
 			if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
-				((ent->type == ENTITY_TYPE::PLAYER && (*iter)->GetCharacter()->type == ENTITY_TYPE::PLAYER) || ent == (*iter)->GetCharacter()))
+				(ent == (*iter)->GetCharacter()))
 			{
 				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 					initialDamage += (*iter)->GetValue();
