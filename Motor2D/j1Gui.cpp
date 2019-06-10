@@ -631,6 +631,17 @@ void j1Gui::deleteCurrentDialogs()
 	}
 
 }
+void j1Gui::hideAllInGameDescriptions(bool hide)
+{
+
+
+	for (auto& elem : ListItemUI)
+		if (elem->guiType == GUI_TYPES::DESCRIPTION)
+			if (dynamic_cast<UiItem_Description*>(elem)->spawnedInGame)
+				dynamic_cast<UiItem_Description*>(elem)->HideAllElements(hide); 
+
+			
+}
 /*
 void j1Gui::HideInGameEnemyUI(bool hide)
 {

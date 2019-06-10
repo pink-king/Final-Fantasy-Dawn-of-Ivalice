@@ -2490,6 +2490,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			lootItem->MyDescription->iconImage->printFromLoot = true;
 			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 
+			lootItem->MyDescription->spawnedInGame = true; 
+
 		}
 		else if (lootItem->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT || lootItem->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT)
 		{
@@ -2529,7 +2531,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			lootItem->MyDescription->iconImage->printFromLoot = true;
 			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 			
-
+			lootItem->MyDescription->spawnedInGame = true;
 
 		}
 
@@ -2557,6 +2559,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 		lootItem->MyDescription->iconImage->printFromLoot = true;
 		lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
+
+		lootItem->MyDescription->spawnedInGame = true;
 	}
 
 

@@ -1926,7 +1926,7 @@ void UiItem_Inventory::SwapVendorBag(bool newPlayer)
 void UiItem_Inventory::DiscardItem(LootEntity * ent)
 {
 
-	/*if (ent->character->name == App->entityFactory->player->selectedCharacterEntity->name)
+	/*if (ent->character->name == App->entityFactory->player->selectedCharacterEntity->name)  // this is just for equippable !!!!!
 	{*/
 		// delete item desciption so that it is not selected again
 		makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(ent);

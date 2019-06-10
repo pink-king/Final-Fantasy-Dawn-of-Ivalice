@@ -128,7 +128,7 @@ public:
 	bool switchedCameraUsage = false;
 
 	bool showedPrice = false;
-
+	bool spawnedInGame = false; 
 
 	uint offsetFromLoot = 1000;
 

@@ -5,7 +5,7 @@
 	<textures />
 	<audio />
 	<map />
-	<scene lobbyState="2" />
+	<scene lobbyState="1" />
 	<entities>
 		<Entities player="marche">
 			<Experience level="1" exp="0" />

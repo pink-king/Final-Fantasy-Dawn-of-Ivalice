@@ -911,6 +911,8 @@ bool j1Scene::Update(float dt)
 					App->gui->resetHoverSwapping = false;
 					App->entityFactory->player->LockPlayerInput();
 
+					App->gui->hideAllInGameDescriptions(true);
+
 					//App->gui->HideInGameEnemyUI(true);
 				}
 				else
@@ -922,6 +924,8 @@ bool j1Scene::Update(float dt)
 					
 					App->gui->GoBackToGame();
 
+
+					App->gui->hideAllInGameDescriptions(false);
 					//App->gui->HideInGameEnemyUI(false);
 				}
 			}
@@ -2086,6 +2090,9 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				characterStatsItem->generateCharacterStats();
 				int a = 0;
 				App->entityFactory->player->LockPlayerInput();
+
+
+				App->gui->hideAllInGameDescriptions(true); 
 			}
 
 			else
@@ -2115,6 +2122,9 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				App->dialog->hideAllNPCLabels(false);
 
 				App->entityFactory->player->UnlockPlayerInput();
+
+
+				App->gui->hideAllInGameDescriptions(false);
 			}
 		}
 	}
