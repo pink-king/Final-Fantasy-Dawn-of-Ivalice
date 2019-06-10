@@ -683,6 +683,20 @@ void FlowerBossEntity::PhaseManager(float dt)
 		for (std::list<j1Entity*>::iterator enemiesAlive = instantiatedEnemies.begin(); enemiesAlive != instantiatedEnemies.end(); ++enemiesAlive)
 		{
 			(*enemiesAlive)->to_die = true;
+			
+			int maxExplosionParticles = 3; // 3 for each enemy
+			float maxDistance = 6.f;
+			// instantiate explosion particles
+			for (int i = 0; i < maxExplosionParticles; ++i)
+			{
+				fPoint instaPos;
+				float multiplier = (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.x = (*enemiesAlive)->GetPivotPos().x - 30 + multiplier;
+				instaPos.y = (*enemiesAlive)->GetPivotPos().y - 30 + multiplier;
+				//App->particles->explosion01, 02,03 TODO: check what explosion is more cool to do this
+				App->particles->AddParticle(App->particles->explosion01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(0, 800), SDL_FLIP_HORIZONTAL);
+			}
+
 		}
 		instantiatedEnemies.clear();
 
@@ -693,8 +707,13 @@ void FlowerBossEntity::PhaseManager(float dt)
 		}
 
 		// check for shield and reassign to data map if needed, to prevent the automatic eraser from entities, just in case
-		if(shieldActive)
+		if (shieldActive)
+		{
 			App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
+
+			// and deactivate shield condition to finish shield anim
+			shieldActive = false;
+		}
 
 		break;
 	}
