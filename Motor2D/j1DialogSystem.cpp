@@ -85,6 +85,9 @@ bool j1DialogSystem::Update(float dt)
 			isDialogSequenceActive = true; 
 			
 			App->entityFactory->player->selectedCharacterEntity->isParalize = true;
+
+			App->entityFactory->player->LockPlayerInput(); 
+			
 			App->entityFactory->player->selectedCharacterEntity->currentAnimation = &App->entityFactory->player->selectedCharacterEntity->idle[App->entityFactory->player->selectedCharacterEntity->pointingDir];
 			//App->entityFactory->player->selectedCharacterEntity->inputReady = false; 
 		
@@ -412,6 +415,11 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 
 				if (currentDialogType == "PREBOSS")
 					App->entityFactory->setCurrentEnemiesToAGivenState(EnemyState::IDLE);
+
+
+
+
+				App->entityFactory->player->UnlockPlayerInput();
 			}
 			
 	    }
