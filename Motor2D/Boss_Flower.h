@@ -93,6 +93,7 @@ public:
 public:
 	Boss1State myState = Boss1State::NOTHING;
 private:
+	std::list<j1Entity*> instantiatedEnemies;
 	bool debugVisuals = false;
 	bool shieldActive = false;
 	bool evading = false;

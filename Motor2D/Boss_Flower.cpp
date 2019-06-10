@@ -299,7 +299,21 @@ FlowerBossEntity::~FlowerBossEntity()
 
 bool FlowerBossEntity::PreUpdate()
 {
-	previousLife = life;
+	previousLife = life; // useless, old tests
+
+	// check if we have any entity linked going to delete and removes from list
+	if (!instantiatedEnemies.empty())
+	{
+		for (std::list<j1Entity*>::iterator iter = instantiatedEnemies.begin(); iter != instantiatedEnemies.end(); )
+		{
+			if ((*iter)->to_delete)
+			{
+				iter = instantiatedEnemies.erase(iter);
+			}
+			else
+				++iter;
+		}
+	}
 
 	return true;
 }
@@ -610,6 +624,13 @@ void FlowerBossEntity::PhaseManager(float dt)
 		if (currentAnimation->Finished())
 			to_delete = true;
 
+		// delete any possible instantiated enemy
+		for (std::list<j1Entity*>::iterator enemiesAlive = instantiatedEnemies.begin(); enemiesAlive != instantiatedEnemies.end(); ++enemiesAlive)
+		{
+			(*enemiesAlive)->to_die = true;
+		}
+		instantiatedEnemies.clear();
+
 		break;
 	}
 	case Boss1State::MAX:
@@ -786,7 +807,15 @@ void FlowerBossEntity::InstantiateEnemiesAroundPlayer()
 		iPoint tileSize = { 32,32 };
 		SDL_Rect spawnTileRect = { (*iter).x * tileSize.x, (*iter).y * tileSize.y, tileSize.x, tileSize.y };
 
-		App->entityFactory->CreateEnemiesGroup(enemyTypesVec, spawnTileRect, 1, 1);
+		std::vector<j1Entity*> spawnedEntitiesGroup;
+
+		spawnedEntitiesGroup = App->entityFactory->CreateEnemiesGroup(enemyTypesVec, spawnTileRect, 1, 1);
+
+		if (!spawnedEntitiesGroup.empty())
+		{
+			for (std::vector<j1Entity*>::iterator spawnedIter = spawnedEntitiesGroup.begin(); spawnedIter != spawnedEntitiesGroup.end(); ++spawnedIter)
+				instantiatedEnemies.push_back((*spawnedIter));
+		}
 	}
 
 }
