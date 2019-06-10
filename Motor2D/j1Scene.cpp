@@ -1966,7 +1966,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->buff->Enable();
 		App->map->active = true;
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg");
-		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		LoadNewMap("maps/Level2_rework.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		if (!App->easing->IsEnabled())
 			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
