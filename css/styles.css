@@ -3025,6 +3025,12 @@ h3 {
   color: #ad835a;
   text-shadow: 0px 0px 4px #000000; }
 
+  h4 {
+    font-size: 120%;
+    font-weight: 300;
+    color: #ad835a;
+    text-shadow: 0px 0px 4px #000000; }
+
 h2, .h2 {
   margin-top: 4rem;
   margin-bottom: 2rem; }
