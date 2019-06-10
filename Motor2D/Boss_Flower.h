@@ -22,8 +22,9 @@ enum class Boss1State
 	// extra notes:
 	// between 100% to 50% of life the evasion probability are fixed on X value
 	// between 50% to 0% the evasion probability increases between x to around 50% chance
-
+	START,
 	NOTHING,
+	READY,
 	PHASE1, // normal basic fireball pattern state
 	PHASE2, // shield + poison rain
 	PHASE3, // shield + spawn enemies

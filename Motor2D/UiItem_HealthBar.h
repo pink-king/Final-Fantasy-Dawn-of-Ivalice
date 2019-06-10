@@ -55,6 +55,7 @@ public:
 	UiItem_Image* dynamicImage = nullptr;
 	UiItem_Image* damageImage = nullptr;
 	UiItem_Image* staticImage = nullptr;
+	UiItem_Image* divisionExpImage = nullptr;
 
 	//boss
 	UiItem_Image* divisionImage = nullptr;

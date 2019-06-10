@@ -20,7 +20,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 	iPoint nameOffset = iPoint(-40, 3); 
 	iPoint totalOffset = iPoint(35, 3);
 
-	NameLabel = App->gui->AddLabel("HP", c, App->font->piecesofEight24, position + nameOffset, this);
+	//NameLabel = App->gui->AddLabel("HP", c, App->font->piecesofEight24, position + nameOffset, this);
 	TotalLabel = App->gui->AddLabel("100", c, App->font->piecesofEight24, position + iPoint(staticSection->w, 0) + totalOffset, this);
 
 	staticImage = App->gui->AddImage(position + playerBarOffset + iPoint(0, -2), staticSection, name, this);
@@ -41,9 +41,10 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect * dynamicSect
 	this->variantType = variant;
 	SDL_Color c = { 200, 255, 150, 255 };
 	iPoint totalOffset = iPoint(35, -5);
-	TotalLabel = App->gui->AddLabel("0k/7K", c, App->font->piecesofEight24, position + iPoint(staticSection->w, 0) + totalOffset, this);
+	TotalLabel = App->gui->AddLabel("0k/7K", c, App->font->piecesofEight24, position + iPoint(staticSection->w + 8, -7), this);
 	staticImage = App->gui->AddImage({position.x, position.y-2}, staticSection, name, this);
 	dynamicImage = App->gui->AddImage(position, dynamicSection, name, this);
+	divisionExpImage = App->gui->AddImage({ position.x+22, position.y }, divisionSection, name, this);
 	maxSection = dynamicImage->section.w;
 	dynamicImage->section.w = 0;
 

@@ -398,7 +398,7 @@ void j1DialogSystem::PerformDialogue(int tr_id, bool CreateLabels)
 						{
 							if (item->type == ENTITY_TYPE::FLOWERBOSS)
 							{
-								dynamic_cast<FlowerBossEntity*>(item)->myState = Boss1State::PHASE1;
+								dynamic_cast<FlowerBossEntity*>(item)->myState = Boss1State::READY;
 								dynamic_cast<FlowerBossEntity*>(item)->myBossLifeBar->ShowBossBarWhenDialogIsOver();
 							}
 						}
