@@ -6,6 +6,7 @@
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1ParticlesClassic.h"
+#include "Brofiler/Brofiler.h"
 #include "p2Defs.h"
 
 Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
@@ -362,8 +363,8 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.basic.cooldownTime = 0;
 	coolDownData.dodge.cooldownTime = 2000;
 	coolDownData.special1.cooldownTime = 500;
-	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 35000;
+	coolDownData.special2.cooldownTime = 3000;
+	coolDownData.ultimate.cooldownTime = 40000;
 	// set timers
 	SetCoolDownTimers();
 	//
@@ -414,6 +415,7 @@ bool Shara::PreUpdate()
 
 bool Shara::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Shara", Profiler::Color::LawnGreen);
 	fPoint pivotPos = GetPivotPos();
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);

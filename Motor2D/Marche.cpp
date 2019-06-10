@@ -14,6 +14,7 @@
 #include "j1Scene.h"
 #include "Projectile.h"
 #include "j1ParticlesClassic.h"
+#include "Brofiler/Brofiler.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -589,10 +590,10 @@ Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
 	coolDownData.basic.cooldownTime = 0;
-	coolDownData.dodge.cooldownTime = 4000; // DODGE cooldown, restarts when dodge finishes
-	coolDownData.special1.cooldownTime = 5500;
-	coolDownData.special2.cooldownTime = 5500;
-	coolDownData.ultimate.cooldownTime = 30000;
+	coolDownData.dodge.cooldownTime = 5000; // DODGE cooldown, restarts when dodge finishes
+	coolDownData.special1.cooldownTime = 20000;
+	coolDownData.special2.cooldownTime = 30000;
+	coolDownData.ultimate.cooldownTime = 50000;
 
 	// set timers
 	SetCoolDownTimers();
@@ -686,6 +687,7 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Marche", Profiler::Color::LawnGreen);
 	fPoint pivotPos = GetPivotPos();
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);

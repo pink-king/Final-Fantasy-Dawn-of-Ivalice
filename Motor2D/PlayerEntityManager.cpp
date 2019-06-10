@@ -13,6 +13,7 @@
 #include "UiItem_Label.h"
 #include "j1ParticlesClassic.h"
 #include "LootEntity.h"
+#include "Brofiler/Brofiler.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
@@ -103,6 +104,7 @@ bool PlayerEntityManager::PreUpdate()
 
 bool PlayerEntityManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Update PEM", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
@@ -264,11 +266,8 @@ bool PlayerEntityManager::Update(float dt)
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
 		
-		
 
 			lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
-
-
 			LastHoveredLootFlag = true;
 
 
@@ -443,7 +442,7 @@ bool PlayerEntityManager::Update(float dt)
 
 bool PlayerEntityManager::PostUpdate()
 {
-
+	BROFILER_CATEGORY("PostUpdate PEM", Profiler::Color::MediumOrchid);
 	selectedCharacterEntity->PostUpdate();
 
 	if (debug)
@@ -510,6 +509,7 @@ bool PlayerEntityManager::CleanUp()
 	// vendor objects
 	vendor->cleanUp(); 
 
+
 	return true;
 }
 
@@ -545,6 +545,8 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	life = maxLife - node.child("life").attribute("actualLife").as_float();
 	if (life <= 0)
 		life = 100;
+
+	App->gui->healthBar->RecalculateSection(); 
 	
 	gold = node.child("gold").attribute("value").as_uint();
 

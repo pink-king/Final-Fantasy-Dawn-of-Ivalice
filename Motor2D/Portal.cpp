@@ -73,7 +73,6 @@ bool Portal::DoTriggerAction()
 		if (doit)
 		{
 			App->entityFactory->loadPlayer = true;
-			App->entityFactory->player->to_delete = true;
 			App->SaveGame("Portal.xml");
 			App->pause = true;
 			App->transitionManager->CreateFadeTransition(1.0, true, scene, color);

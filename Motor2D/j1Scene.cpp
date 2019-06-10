@@ -28,6 +28,7 @@
 #include "WaveTrigger.h"
 #include "LootEntity.h"
 #include "Video.h"
+#include "Brofiler/Brofiler.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 #include "j1ParticlesClassic.h"
 j1Scene::j1Scene() : j1Module()
@@ -414,8 +415,19 @@ bool j1Scene::Start()
 		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
 
-		
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-120.F, 341.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-160.F, 361.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-200.F, 381.F));
+
 		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-240.F, 401.F));
+
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-280.F, 421.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-320.F, 441.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-360.F, 461.F));
+		
+
+
+
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;
@@ -559,6 +571,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate Scene", Profiler::Color::Turquoise);
 	// debug pathfing ------------------
 
 	int x, y;
@@ -639,7 +652,7 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
+	BROFILER_CATEGORY("Update Scene", Profiler::Color::LawnGreen);
 	// how to get joysticks for correct UI navigation/whatever needed situation examples --------
 	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN)
 	{
@@ -835,7 +848,7 @@ bool j1Scene::Update(float dt)
 	
 		
 
-		if (App->entityFactory->player->selectedCharacterEntity != nullptr)
+		if (App->entityFactory->player != nullptr)
 		{
 			//settingPanel->enable = false;
 			if (App->entityFactory->player->selectedCharacterEntity->character == characterName::MARCHE && inGamePanel->enable)
@@ -911,6 +924,10 @@ bool j1Scene::Update(float dt)
 					App->gui->resetHoverSwapping = false;
 					App->entityFactory->player->LockPlayerInput();
 
+					App->gui->hideAllInGameDescriptions(true);
+
+					App->dialog->hideAllNPCLabels(true);
+
 					//App->gui->HideInGameEnemyUI(true);
 				}
 				else
@@ -922,7 +939,12 @@ bool j1Scene::Update(float dt)
 					
 					App->gui->GoBackToGame();
 
+
+					App->gui->hideAllInGameDescriptions(false);
 					//App->gui->HideInGameEnemyUI(false);
+
+
+					App->dialog->hideAllNPCLabels(false);
 				}
 			}
 		}
@@ -1316,6 +1338,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::MediumOrchid);
 	bool ret = true;
 	DecideTexToPulse();
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
@@ -2086,6 +2109,9 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				characterStatsItem->generateCharacterStats();
 				int a = 0;
 				App->entityFactory->player->LockPlayerInput();
+
+
+				App->gui->hideAllInGameDescriptions(true); 
 			}
 
 			else
@@ -2115,6 +2141,9 @@ void j1Scene::DoOpenInventory(bool onlyEquipped, bool isVendor)
 				App->dialog->hideAllNPCLabels(false);
 
 				App->entityFactory->player->UnlockPlayerInput();
+
+
+				App->gui->hideAllInGameDescriptions(false);
 			}
 		}
 	}

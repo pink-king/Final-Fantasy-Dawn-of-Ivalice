@@ -382,6 +382,7 @@ void UiItem_Description::Draw(const float& dt)
 		App->scene->inventoryItem->De_______GenerateDescription(this->callback, false);
 		showedPrice = false;
 	}
+	
 
 	if (spawnedInventoryImage)
 	{

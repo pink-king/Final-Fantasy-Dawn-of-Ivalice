@@ -204,6 +204,17 @@ bool j1ParticlesClassic::Start()
 	powder01.anim.loop = false;
 	powder01.texture = windsTex;
 
+	powder02.anim.PushBack({ 0, 0, 58, 19 });
+	powder02.anim.PushBack({ 58, 0, 58, 19 });
+	powder02.anim.PushBack({ 116, 0, 58, 19 });
+	powder02.anim.PushBack({ 174, 0, 58, 19 });
+	powder02.anim.PushBack({ 232, 0, 58, 19 });
+	powder02.anim.PushBack({ 290, 0, 58, 19 });
+	powder02.anim.PushBack({ 348, 0, 58, 19 });
+	powder02.anim.speed = 10.0f;
+	powder02.anim.loop = false;
+	powder02.texture = windsTex;
+
 	blood01.anim.PushBack({ 126, 0, 48, 48 });
 	blood01.anim.PushBack({ 174, 0, 48, 48 });
 	blood01.anim.PushBack({ 222, 0, 48, 48 });
@@ -570,7 +581,7 @@ bool j1ParticlesClassic::Update(float dt)
 	//	int x, y;
 	//	App->input->GetMousePosition(x, y);
 	//	iPoint p = App->render->ScreenToWorld(x, y);
-	//	p = App->render->WorldToScreen(p.x, p.y);
+	//	//p = App->render->WorldToScreen(p.x, p.y);
 
 	//	/*AddParticle(fire01, p.x, p.y, { 0,0 },0u);
 	//	AddParticle(healing, p.x, p.y, { 0,0 }, 1000u);
@@ -586,7 +597,8 @@ bool j1ParticlesClassic::Update(float dt)
 
 	//	//AddParticle(arrow, p.x, p.y, { 0, -800 }, 0u, SDL_FLIP_NONE, 270, 32,8);
 	//	//AddParticle(snow, p.x, p.y, { 0, 0 });
-	//	AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0, 0, 0, 1.f, 0.0F, false, true);
+	//	//AddParticle(lvlUpFx, p.x, p.y, { 0, 0 }, 0, SDL_FLIP_NONE, 0, 0, 0, 1.f, 0.0F, false, true);
+	//	AddParticle(powder02, p.x, p.y);
 	//}
 
 	return ret;
@@ -596,7 +608,7 @@ bool j1ParticlesClassic::Update(float dt)
 // Update: draw background
 bool j1ParticlesClassic::PostUpdate()//float dt)
 {
-	BROFILER_CATEGORY("Particles Update", Profiler::Color::BlanchedAlmond);
+	BROFILER_CATEGORY("Particles PostUpdate", Profiler::Color::BlanchedAlmond);
 
 	for (std::list<Particle*>::iterator p = active.begin(); p != active.end();)
 	{
@@ -631,6 +643,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 
 bool j1ParticlesClassic::PostUpdate2()
 {
+	BROFILER_CATEGORY("Particles PostUpdate2", Profiler::Color::BlanchedAlmond);
  	for (std::list<Particle*>::iterator p = activeOnScreen.begin(); p != activeOnScreen.end();)
 	{
 

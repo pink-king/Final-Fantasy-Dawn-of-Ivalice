@@ -5,6 +5,7 @@
 #include "j1PathFinding.h"
 #include "j1TransitionManager.h"
 #include "j1Window.h"
+#include "j1ParticlesClassic.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -12,6 +13,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	spawnCircleTex = App->tex->Load("textures/enemies/boss_primitive_circle.png");
+	energyShieldTex = App->tex->Load("textures/enemies/shield_boss.png");
 
 	// animations --------
 	float animSpeed = 10.f;
@@ -191,6 +193,27 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	spawnCircleAnim.speed = 1.f;
 	spawnCircleAnim.loop = false;
 
+	// energy shield anim
+	energyShieldAnim.PushBack({ 0,0,115,90 });
+	energyShieldAnim.PushBack({ 115,0,115,90 });
+
+	energyShieldAnim.PushBack({ 0,90,115,90 });
+	energyShieldAnim.PushBack({ 115,90,115,90 });
+	energyShieldAnim.PushBack({ 230,90,115,90 });
+	energyShieldAnim.PushBack({ 345,90,115,90 });
+	energyShieldAnim.PushBack({ 460,90,115,90 });
+
+	energyShieldAnim.PushBack({ 0,180,115,90 });
+	energyShieldAnim.PushBack({ 115,180,115,90 });
+	energyShieldAnim.PushBack({ 230,180,115,90 });
+	energyShieldAnim.PushBack({ 345,180,115,90 });
+	energyShieldAnim.PushBack({ 460,180,115,90 });
+
+	energyShieldAnim.speed = 10.f;
+	energyShieldAnim.loop = false;
+	//energyShieldAnim.SetLoop(1);
+
+
 	// precomputed adjacent tile neighbours pattern
 	// for enemy spawn at player position
 	// and to switch walkability values around boss (for phase 2,3,4)
@@ -256,8 +279,6 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	if (rainEmitter != nullptr)
-		rainEmitter->to_delete = true;
 
 	// ---------- Win State Hardcoded when boss dies ------------------
 	
@@ -380,8 +401,8 @@ bool FlowerBossEntity::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
 	{
-		//life = 40.f;
-		DoShieldLogic();
+		life = 40.f;
+		//DoShieldLogic();
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 	{
@@ -628,6 +649,33 @@ void FlowerBossEntity::PhaseManager(float dt)
 	{
 		currentAnimation = &deathAnim;
 
+		if (currentAnimation->GetCurrentFloatFrame() >= 6.F && !spawnedParticles)
+		{
+			spawnedParticles = true; 
+			int maxParticles = 100;
+			float maxDistance = 35.f;
+			for (int i = 0; i < maxParticles; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = GetPivotPos().x - 10 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = GetPivotPos().y - 15 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				App->particles->AddParticle(App->particles->explosion03, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1, 2000), SDL_FLIP_NONE, 0, 16, 16);
+			}
+			for (int i = 0; i < maxParticles; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = GetPivotPos().x - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = GetPivotPos().y - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				App->particles->AddParticle(App->particles->powder01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1000, 2500));
+			}
+			for (int i = 0; i < maxParticles; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = GetPivotPos().x - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = GetPivotPos().y - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				App->particles->AddParticle(App->particles->powder01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1000, 2500), SDL_FLIP_HORIZONTAL);
+			}
+		}
 		if (currentAnimation->Finished())
 			to_delete = true;
 
@@ -643,6 +691,10 @@ void FlowerBossEntity::PhaseManager(float dt)
 		{
 			rainEmitter->to_delete = true;
 		}
+
+		// check for shield and reassign to data map if needed, to prevent the automatic eraser from entities, just in case
+		if(shieldActive)
+			App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
 
 		break;
 	}
@@ -827,7 +879,18 @@ void FlowerBossEntity::InstantiateEnemiesAroundPlayer()
 		if (!spawnedEntitiesGroup.empty())
 		{
 			for (std::vector<j1Entity*>::iterator spawnedIter = spawnedEntitiesGroup.begin(); spawnedIter != spawnedEntitiesGroup.end(); ++spawnedIter)
+			{
+				// add powder02 particles
+				int maxPowderPerEnemy = App->entityFactory->GetRandomValue(1, 4);
+				for (int i = 0; i <= maxPowderPerEnemy; ++i)
+				{
+					fPoint p02offset = { 29,16 };
+					fPoint instaPoint = { (*spawnedIter)->position.x - (p02offset.x - (*spawnedIter)->pivot.x), (*spawnedIter)->position.y - (p02offset.y - (*spawnedIter)->pivot.y) };
+					App->particles->AddParticle(App->particles->powder02, (int)instaPoint.x, (int)instaPoint.y, {0,0}, App->entityFactory->GetRandomValue(0, 800));
+				}
+
 				instantiatedEnemies.push_back((*spawnedIter));
+			}
 		}
 	}
 
@@ -844,6 +907,17 @@ void FlowerBossEntity::ActiveShield()
 
 	App->pathfinding->ActivateTile(imOnTile);
 
+	// deletes from entities data map
+	bool check = App->entityFactory->DeleteEntityFromSubtile(this);
+
+	// activate shield anim checker
+	checkEnergyShield = true;
+
+	if (check)
+		LOG("");
+	else
+		LOG("");
+
 	shieldActive = true;
 }
 
@@ -855,7 +929,11 @@ void FlowerBossEntity::DesactiveShield()
 		App->pathfinding->DeactivateTile(tileToBlock);
 		LOG("Unblocking Tile: %i,%i", tileToBlock.x, tileToBlock.y);
 	}*/
+
+	// deletes walkability tile shield
 	App->pathfinding->DeactivateTile(imOnTile);
+	// re assign to entities data map
+	App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
 
 	shieldActive = false;
 }
@@ -966,6 +1044,10 @@ bool FlowerBossEntity::CleanUp()
 	App->tex->UnLoad(debugSubtileTex);
 	App->tex->UnLoad(spawnCircleTex);
 	App->tex->UnLoad(debugTileTex);
+	App->tex->UnLoad(energyShieldTex);
+
+	if (rainEmitter != nullptr)
+		rainEmitter->to_delete = true;
 
 	return true;
 }
@@ -973,6 +1055,28 @@ bool FlowerBossEntity::CleanUp()
 void FlowerBossEntity::Draw()
 {
 	App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0f, flip);
+
+	if(checkEnergyShield) // turns on when enters needed phase only
+	{	
+		if (shieldActive)
+		{
+			float currentF = energyShieldAnim.GetCurrentFloatFrame();
+			if (currentF >= 6.f)
+				energyShieldAnim.SetCurrentFrame(currentF - 4.f);
+		}
+
+		if (!energyShieldAnim.Finished())
+		{
+			fPoint pOffset = {60 - pivot.x, 70 - pivot.y};
+			App->render->Blit(energyShieldTex, position.x - pOffset.x, position.y - pOffset.y, &energyShieldAnim.GetCurrentFrame());
+		}
+		else
+		{
+			energyShieldAnim.Reset();
+			checkEnergyShield = false;
+		}
+	}
+
 }
 
 int FlowerBossEntity::GetPointingDir(float angle)

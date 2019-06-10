@@ -62,17 +62,17 @@ j1EntityFactory::~j1EntityFactory()
 
 bool j1EntityFactory::Awake(pugi::xml_node & node)
 {
-	bool ret = true;
+bool ret = true;
 
-	return ret;
+return ret;
 }
 
 bool j1EntityFactory::Start()
 {
- 	std::list<j1Entity*>::iterator item = entities.begin();
+	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
 	{
-		if((*item) != nullptr)
+		if ((*item) != nullptr)
 			(*item)->Start();
 	}
 
@@ -103,12 +103,12 @@ bool j1EntityFactory::Start()
 
 	// get gold values from the start: needed if loot is equipped before gold
 
-	pugi::xml_node& config = App->config; 
+	pugi::xml_node& config = App->config;
 	goldMin = config.child("loot").child("gold").attribute("min").as_int();
 	goldMax = config.child("loot").child("gold").attribute("max").as_int();
 
 
-	
+
 
 	return true;
 }
@@ -118,7 +118,7 @@ bool j1EntityFactory::PreUpdate()
 	BROFILER_CATEGORY("Entities PreUpdate", Profiler::Color::LavenderBlush);
 
 	bool ret = true;
-	
+
 	// logic / collisions
 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end(); ++item)
@@ -136,11 +136,11 @@ bool j1EntityFactory::Update(float dt)
 {
 	bool ret = true;
 	BROFILER_CATEGORY("Entities Update", Profiler::Color::Fuchsia);
-	
+
 	std::list<j1Entity*>::iterator item = entities.begin();
 	for (; item != entities.end();)
 	{
-		if ((*item) != nullptr) 
+		if ((*item) != nullptr)
 		{
 			bool createLoot = false;
 			iPoint enemypos;
@@ -150,7 +150,7 @@ bool j1EntityFactory::Update(float dt)
 				ret = (*item)->Update(dt);
 				ret = ((*item)->Move(dt));
 				// updates entity associated tile positions tile and subtile
-				if(entitiesDataMap != nullptr)
+				if (entitiesDataMap != nullptr)
 					(*item)->UpdateTilePositions();
 				//LOG("entity subtile: %i,%i", (*item)->GetSubtilePos().x, (*item)->GetSubtilePos().y);
 
@@ -160,19 +160,24 @@ bool j1EntityFactory::Update(float dt)
 			}
 			else
 			{
+				if ((*item)->type == ENTITY_TYPE::PLAYER)
+				{
+					player = nullptr;
+				}
+		
 				//if entit is diffetent to player create loot
 				if ((*item)->type != ENTITY_TYPE::PLAYER && (*item)->type != ENTITY_TYPE::LOOT
 					&& (*item)->type != ENTITY_TYPE::PROJECTILE && (*item)->type != ENTITY_TYPE::TRIGGER
-					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS 
+					&& (*item)->type != ENTITY_TYPE::WAVE_MANAGER && (*item)->type != ENTITY_TYPE::FLOWERBOSS
 					&& (*item)->type != ENTITY_TYPE::PARTICLE && (*item)->type != ENTITY_TYPE::NO_TYPE)
 				{
 					AddExp(dynamic_cast<Enemy*>(*item));
 					createLoot = true;
-					enemypos = {GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
+					enemypos = { GetEnemySubtile((*item)).x, GetEnemySubtile((*item)).y };
 				}
 				App->buff->entitiesTimeDamage.remove(*item);
 				(*item)->CleanUp();
-				delete(*item); 
+				delete(*item);
 				(*item) = nullptr;
 				item = entities.erase(item);
 			}
@@ -180,11 +185,13 @@ bool j1EntityFactory::Update(float dt)
 			{
 				//CreateLoot(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 				CreateEntity(ENTITY_TYPE::LOOT, SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y, "lootitem");
-			
+
 				justGold = true;
 				CreateGold(SetLootPos(enemypos.x, enemypos.y).x, SetLootPos(enemypos.x, enemypos.y).y);
 
 			}
+			
+
 		}
 		else
 		{
@@ -1172,16 +1179,19 @@ bool j1EntityFactory::DeleteEntityFromSubtile(j1Entity* entity) const
 
 	int index = GetSubtileEntityIndexAt(entity->GetPreviousSubtilePos());
 
-	std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
-
-	for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
+	if (index <= subtileWidth * subtileHeight)
 	{
-		if (*entityIterator == entity)
+		std::vector<j1Entity*>::iterator entityIterator = entitiesDataMap[index].entities.begin();
+
+		for (; entityIterator != entitiesDataMap[index].entities.end(); ++entityIterator)
 		{
-			//LOG("found");
-			entitiesDataMap[index].entities.erase(entityIterator);
-			ret = true;
-			break;
+			if (*entityIterator == entity)
+			{
+				//LOG("found");
+				entitiesDataMap[index].entities.erase(entityIterator);
+				ret = true;
+				break;
+			}
 		}
 	}
 
@@ -1705,9 +1715,11 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 			{
 				lootEntity->lootname = node.attribute("name").as_string();
 				lootEntity->name.assign(lootEntity->lootname.data());
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(5, 15) + lootEntity->level * 5, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01 - lootEntity->level * 0.01, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "\0", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 20, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(5, 15) + lootEntity->level * 10, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.04, lootEntity);
+				//adopt legendari rect---> TO GUARRO, marc cabron
+				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::SWORD);
 				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::SWORD);
 			}
 		}
@@ -1723,9 +1735,9 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 			{
 				lootEntity->lootname = node.attribute("name").as_string();
 				lootEntity->name.assign(lootEntity->lootname.data());
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 10, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100)* 0.01 - lootEntity->level * 0.01, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 15) + lootEntity->level * 20, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "\0", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(75, 100) * 0.01 - lootEntity->level * 0.04, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
 				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::BOW);
 			}
 		}
@@ -1740,8 +1752,9 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 			{
 				lootEntity->lootname = node.attribute("name").as_string();
 				lootEntity->name.assign(lootEntity->lootname.data());
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20) + lootEntity->level * 15, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(65, 85)* 0.01 + lootEntity->level * 0.01, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::ATTACK_ROL, GetRandomValue(10, 20) + lootEntity->level * 30, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::COOLDOWN, GetRandomValue(65, 85) * 0.01 + lootEntity->level * 0.04, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::MULTIPLICATIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(75, 100) * 0.01 + lootEntity->level * 0.04, lootEntity);
 				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::ROD);
 			}
 		}
@@ -1756,9 +1769,9 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 			{
 				lootEntity->lootname = node.attribute("name").as_string();
 				lootEntity->name.assign(lootEntity->lootname.data());
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 2, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 10, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 4, lootEntity);
 				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::ARMOR);
 			}
 		}
@@ -1772,9 +1785,9 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 			{
 				lootEntity->lootname = node.attribute("name").as_string();
 				lootEntity->name.assign(lootEntity->lootname.data());
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 5, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 2, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 10, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 4, lootEntity);
 				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::VEST);
 			}
 		}
@@ -1789,9 +1802,9 @@ bool j1EntityFactory::LoadLegendariData(LootEntity* lootEntity, pugi::xml_node& 
 			{
 				lootEntity->lootname = node.attribute("name").as_string();
 				lootEntity->name.assign(lootEntity->lootname.data());
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 10, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2)* 0.1 + lootEntity->level * 0.01, lootEntity);
-				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 2, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", lootEntity->elemetalType, ROL::DEFENCE_ROL, GetRandomValue(15, 20) + lootEntity->level * 20, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::VELOCITY, GetRandomValue(1, 2) * 0.1 + lootEntity->level * 0.02, lootEntity);
+				lootEntity->CreateBuff(BUFF_TYPE::ADDITIVE, lootEntity->character, "inteligence", ELEMENTAL_TYPE::NO_ELEMENT, ROL::HEALTH, GetRandomValue(10, 15) + lootEntity->level * 4, lootEntity);
 				lootEntity->ReRECTlootToLegRect(EQUIPABLE_TYPE::MANTLE);
 			}
 		}
@@ -2487,6 +2500,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			lootItem->MyDescription->iconImage->printFromLoot = true;
 			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 
+			lootItem->MyDescription->spawnedInGame = true; 
+
 		}
 		else if (lootItem->GetObjectType() == OBJECT_TYPE::ARMOR_OBJECT || lootItem->GetObjectType() == OBJECT_TYPE::HEAD_OBJECT)
 		{
@@ -2526,7 +2541,7 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 			lootItem->MyDescription->iconImage->printFromLoot = true;
 			lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
 			
-
+			lootItem->MyDescription->spawnedInGame = true;
 
 		}
 
@@ -2554,6 +2569,8 @@ void j1EntityFactory::GenerateDescriptionForLootItem(LootEntity* lootItem)
 		lootItem->MyDescription->iconImage = App->gui->AddSpecialImage(iPoint(0, 0), &lootItem->loot_rect, lootItem->MyDescription, lootItem->entityTex);
 		lootItem->MyDescription->iconImage->printFromLoot = true;
 		lootItem->MyDescription->iconImage->scaleFactor = 2.0f;
+
+		lootItem->MyDescription->spawnedInGame = true;
 	}
 
 

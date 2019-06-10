@@ -9,6 +9,7 @@
 #include "j1Audio.h"
 #include "j1Input.h"
 #include "j1TransitionManager.h"
+#include "Brofiler/Brofiler.h"
 #include <assert.h>
 
 
@@ -89,5 +90,6 @@ void UiItem_Button::DoLogicClicked(std::string &functionName)
 
 void UiItem_Button::Draw(const float &dt)
 {
+	BROFILER_CATEGORY("Draw Button", Profiler::Color::DarkOrange);
 	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }

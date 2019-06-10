@@ -55,7 +55,7 @@ UiItem_Checkbox::~UiItem_Checkbox()
 
 void UiItem_Checkbox::Draw(const float & dt)
 {
-
+	BROFILER_CATEGORY("Draw Checkbox", Profiler::Color::DarkOrange);
 	App->render->BlitGui(App->gui->GetAtlas(), hitBox.x, hitBox.y, &frames[state], 0.0F);
 }
 

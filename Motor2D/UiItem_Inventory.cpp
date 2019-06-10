@@ -1301,8 +1301,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 						{
 
 							successfulVendorToPlayer = true;
-
-
+						
 							App->entityFactory->player->GetVendor()->DeEquipVendor(callback);
 							App->audio->PlayFx(App->scene->purchase, 0);
 							//App->entityFactory->player->AddItemToTheBag(callback);
@@ -1926,7 +1925,7 @@ void UiItem_Inventory::SwapVendorBag(bool newPlayer)
 void UiItem_Inventory::DiscardItem(LootEntity * ent)
 {
 
-	/*if (ent->character->name == App->entityFactory->player->selectedCharacterEntity->name)
+	/*if (ent->character->name == App->entityFactory->player->selectedCharacterEntity->name)  // this is just for equippable !!!!!
 	{*/
 		// delete item desciption so that it is not selected again
 		makeItemNotAvailableWhenSelectedInInventoryAndSwitchingOwner(ent);
@@ -1945,8 +1944,8 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 			}
 
 
-			//}
-			/*else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
+			}
+			else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
 			{
 				App->entityFactory->player->RemoveItemFromConsumables(ent);
 
@@ -1967,7 +1966,7 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 
 
 
-			}*/
+			}
 
 			// ------ GOLD 
 
@@ -1977,14 +1976,11 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 			App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
-		}
+	}
 
 		
 
 
-
-	//}
-}
 
 /*
 void UiItem_Inventory::updateHealthBarWithNewHP(LootEntity * ent)

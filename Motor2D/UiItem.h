@@ -80,6 +80,7 @@ public:
 	bool swapPosition = false;
 	bool hasBeenSpawned = false;
 	bool isCharacterStat = false;
+	bool isNPCName = false; 
 
 	uint dialogPos = 666; 
 

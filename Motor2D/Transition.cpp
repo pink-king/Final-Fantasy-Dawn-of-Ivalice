@@ -55,6 +55,7 @@ void Transition::Entering()
 void Transition::Action()
 {
 	current_time->Start();
+	percent = 0;
 	state = TransitionState::EXITING;
 }
 

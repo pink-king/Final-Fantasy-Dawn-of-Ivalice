@@ -106,7 +106,7 @@
         </image>
 
         <image name="skullBoss">
-          <section x="2226" y="804" w="18" h="20"/>
+          <section x="2306" y="842" w="40" h="46"/>
           <donotdoitflag value ="true" />
         </image>
 

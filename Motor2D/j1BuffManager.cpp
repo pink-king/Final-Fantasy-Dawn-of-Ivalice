@@ -42,6 +42,7 @@ bool j1BuffManager::Start()
 
 bool j1BuffManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Update BuffManager", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
@@ -867,9 +868,11 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->entityFactory->dmgInTimeFdbck = true;
 							App->input->DoGamePadRumble(70, 50);
 
+							
 
-							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+App->gui->healthBar->RecalculateSection();
 
+						
 						}
 						else
 						{
@@ -947,7 +950,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->input->DoGamePadRumble(70, 50);
 
 
-							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+App->gui->healthBar->RecalculateSection();
 						}
 						else
 						{
@@ -985,7 +988,7 @@ bool j1BuffManager::DamageInTime(j1Entity* entity)
 							App->input->DoGamePadRumble(70, 50);
 
 
-							App->gui->healthBar->TotalLabel->ChangeTextureIdle(std::to_string((int)App->entityFactory->player->life), NULL, NULL);
+App->gui->healthBar->RecalculateSection();
 						}
 						else
 						{
@@ -1216,15 +1219,18 @@ bool j1BuffManager::Save(pugi::xml_node &node) const
 {
 	for (std::list<Buff*>::const_iterator item = buffs.begin();item != buffs.end(); ++item)
 	{
-		if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER && (*item)->GetItemObject() == nullptr && (*item)->GetRol()!= ROL::DEFENCE_ROL)
+		if ((*item)->GetCharacter() != nullptr)
 		{
-			pugi::xml_node nodeBuff = node.append_child("buff");
+			if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER && (*item)->GetItemObject() == nullptr && (*item)->GetRol() != ROL::DEFENCE_ROL)
+			{
+				pugi::xml_node nodeBuff = node.append_child("buff");
 
-			nodeBuff.append_attribute("type") = (int)(*item)->GetType();
-			nodeBuff.append_attribute("element") = (int)(*item)->GetElementType();
-			nodeBuff.append_attribute("rol") = (int)(*item)->GetRol();
-			nodeBuff.append_attribute("value") = (*item)->GetValue();
+				nodeBuff.append_attribute("type") = (int)(*item)->GetType();
+				nodeBuff.append_attribute("element") = (int)(*item)->GetElementType();
+				nodeBuff.append_attribute("rol") = (int)(*item)->GetRol();
+				nodeBuff.append_attribute("value") = (*item)->GetValue();
 
+			}
 		}
 	}
 	return true;

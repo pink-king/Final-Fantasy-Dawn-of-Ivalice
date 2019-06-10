@@ -64,6 +64,7 @@ bool j1Gui::Start()
 
 bool j1Gui::Update(float dt)
 {
+	BROFILER_CATEGORY("Update j1Gui", Profiler::Color::LawnGreen);
 	DoLogicSelected();
 
 	// TESTING TAB, its "faked" for the mom, only bars 
@@ -629,6 +630,18 @@ void j1Gui::deleteCurrentDialogs()
 			}
 		}
 	}
+
+}
+void j1Gui::hideAllInGameDescriptions(bool hide)
+{
+
+
+	for (auto& elem : ListItemUI)
+		if (elem->guiType == GUI_TYPES::DESCRIPTION)
+			if (dynamic_cast<UiItem_Description*>(elem)->spawnedInGame)
+				dynamic_cast<UiItem_Description*>(elem)->HideAllElements(hide); 
+
+
 
 }
 /*

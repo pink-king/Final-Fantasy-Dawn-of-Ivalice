@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1Input.h"
 #include "LootEntity.h"
+#include "Brofiler/Brofiler.h"
 
 UiItem_Image::UiItem_Image(iPoint position, const SDL_Rect* section, std::string& name, UiItem* const parent, bool swapPosition, bool isTabbable, bool autorefresh) : UiItem(position, name, parent)
 {
@@ -80,7 +81,7 @@ UiItem_Image::~UiItem_Image()
 
 void UiItem_Image::Draw(const float& dt)
 {
-
+	BROFILER_CATEGORY("Draw Image", Profiler::Color::DarkOrange);
 	if (!hide)
 	{
 		// TODO: don't blit the icon in the loot item description using the GUI atlas, but instead the Loot atlas 

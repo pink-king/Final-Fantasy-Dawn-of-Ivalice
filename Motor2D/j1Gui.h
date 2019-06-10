@@ -20,6 +20,7 @@
 #include "UiItem_Inventory.h"
 #include "CharacterStats.h"
 
+
 struct labelInfo
 {
 	std::string labelText;
@@ -93,6 +94,8 @@ public:
 	bool CleanUp();
 	void destroyElement(UiItem*);
 	void deleteCurrentDialogs(); 
+
+	void hideAllInGameDescriptions(bool); 
 
 //	void HideInGameEnemyUI(bool); 
 
