@@ -256,10 +256,11 @@ bool j1Scene::Start()
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
 		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
-		bossTrigger->CreateEntryWall(iPoint(37, 94));
-		bossTrigger->CreateEntryWall(iPoint(36, 94));
-		bossTrigger->CreateEntryWall(iPoint(35, 94));
+		bossTrigger->CreateEntryWall(iPoint(33, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
+		bossTrigger->CreateEntryWall(iPoint(35, 94));
+		bossTrigger->CreateEntryWall(iPoint(36, 94));
+		bossTrigger->CreateEntryWall(iPoint(37, 94));
 
 	
 		//AcceptUISFX_logic = false;
