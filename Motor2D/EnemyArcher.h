@@ -16,7 +16,6 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
-	void Draw() override; 
 	// functionality ------
 
 	void SetState(float dt);
