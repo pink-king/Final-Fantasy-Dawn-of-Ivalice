@@ -229,6 +229,46 @@
   </dialogtree>
 
 
+  
+  
+ 
+  <dialogtree treeid="6" treeName="AFTERWIN">
+     <node line="You have defeated that devilish beast, I see" id="0">
+      <option line="It was a tough challenge" nextnode="1"/>
+      <option line="It was no threat for my skills" nextnode="2"/>
+   </node>
+   
+    <node line="Sure, but that was not all" id="1">
+      <option line="What do you mean?" nextnode="3"/>
+    </node>
+   
+   
+   <node line="I bet so... But that was not all" id="2">
+      <option line="Why so?" nextnode="3"/>
+    </node>
+	
+	
+	<node line="Other relics of Ivalice still exist out there" id="3">
+      <option line="So, am I done here?" nextnode="4"/>
+    </node>
+   
+   <node line="Make sure you discover all treasures..." id="4">
+      <option line="And then?" nextnode="5"/>
+	  <option line="So long" nextnode="666"/>
+    </node>
+   
+   
+    <node line="Go to other lands, use your terrible justice!" id="5">
+      <option line="Will you accompany mee, then?" nextnode="6"/>
+	  <option line="Farewell" nextnode="666"/>
+    </node>
+
+	   <node line="I will, fellow warior, I will. Now go" id="6">
+	  <option line="Farewell" nextnode="666"/>
+    </node>
+
+  </dialogtree>
+
 
 
 
