@@ -136,7 +136,7 @@ private:
 	// 
 	j1Entity* rainEmitter = nullptr;
 
-
+	bool spawnedParticles = false; 
 public:
 	UiItem_HealthBar* myBossLifeBar = nullptr;
 };

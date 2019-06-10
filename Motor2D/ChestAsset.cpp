@@ -3,13 +3,15 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 #include "ChestTrigger.h"
+#include "j1ParticlesClassic.h"
 
 ChestAsset::ChestAsset(const iPoint & pos, bool isOpened, ChestType type) : isOpened(isOpened), type(type), j1Entity(ENTITY_TYPE::CHEST, pos.x,pos.y,"chest")
 {
+	
+
 	switch (type)
 	{
 	case ChestType::BOSS:
-
 		idle.PushBack({ 256 + 384, 192 - 10, 64, 64 });
 		opening.PushBack({ 320 + 384, 192 - 10, 64, 64 });
 		opening.PushBack({ 384 + 384, 192 - 10, 64, 64 });
@@ -123,7 +125,7 @@ void ChestAsset::SpawnLoot()
 		App->entityFactory->RepeatAmountofConsumables(35, GetPivotPos(), OBJECT_TYPE::GOLD);
 		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 5, GetPivotPos());
 		App->entityFactory->CreateLegendariEquipable(GetPivotPos(), EQUIPABLE_TYPE::NO_EQUIPABLE);
-		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->map->SubTileMapToWorld(82, 208).x, App->map->SubTileMapToWorld(82, 208).y, SceneState::WIN, White);
+		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->map->SubTileMapToWorld(71, 207).x, App->map->SubTileMapToWorld(71, 207).y, SceneState::WIN, White);
 		break;
 
 	case ChestType::NORMAL:
