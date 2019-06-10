@@ -1168,7 +1168,10 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 				// ADD NEW STATS TO THE PLAYER 
-				App->scene->characterStatsItem->SetNewStats();
+				//App->scene->characterStatsItem->SetNewStats();
+
+
+				App->scene->characterStatsItem->InitializeStats(); 
 
 				if (!App->entityFactory->player->bagObjects.empty())
 				{
@@ -1315,7 +1318,10 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 
 							// ADD NEW STATS TO THE PLAYER 
-							App->scene->characterStatsItem->SetNewStats();
+							//App->scene->characterStatsItem->SetNewStats();
+
+
+							App->scene->characterStatsItem->InitializeStats();
 
 
 

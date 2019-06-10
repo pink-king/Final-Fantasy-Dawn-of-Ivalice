@@ -286,7 +286,7 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 void UiItem_HealthBar::RecalculateSection()
 {
-	if(App->entityFactory->player->life > 100)
+	if(App->entityFactory->player->life >= 100)
 		conversionFactor = maxSection / App->entityFactory->player->life;
 
 
