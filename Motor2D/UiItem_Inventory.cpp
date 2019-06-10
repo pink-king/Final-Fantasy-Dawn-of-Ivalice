@@ -1166,7 +1166,7 @@ void UiItem_Inventory::De_______Equip(LootEntity* callback)
 
 				}
 				App->entityFactory->player->EquipItem(callback);        // PLAYER TO PLAYER: when no inventory sequence is active
-
+				App->audio->PlayFx(App->scene->equipItemSFX, 0);
 
 				// ADD NEW STATS TO THE PLAYER 
 				//App->scene->characterStatsItem->SetNewStats();

@@ -236,7 +236,7 @@ public:
 	unsigned int potionAnimationSFX;
 	unsigned int breakbarrelSFX;
 	unsigned int crossDoorSFX;
-
+	unsigned int equipItemSFX;
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

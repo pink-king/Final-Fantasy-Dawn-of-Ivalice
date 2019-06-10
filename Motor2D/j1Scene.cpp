@@ -140,6 +140,7 @@ bool j1Scene::Start()
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
 	
+	equipItemSFX = App->audio->LoadFx("audio/fx/UI/equipItem.wav");
 	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
 	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
 	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");

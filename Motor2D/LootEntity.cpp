@@ -52,6 +52,7 @@ LootEntity::LootEntity(LOOT_TYPE type, int posX, int posY) : j1Entity(LOOT, posX
 	SelectSubtileToGround();
 
 	shadow_rect = { 0,0,32,32 };
+	
 }
 
 LootEntity::~LootEntity()
@@ -450,7 +451,8 @@ void LootEntity::ReRECTlootToLegRect(EQUIPABLE_TYPE equipable)
 
 std::list<iPoint> LootEntity::GetGroundTilePoints()
 {
-	
+	LOG("groundTile size %i", groundSubtilePoints.size());
+
 	for (int i = 0; i < NUM_NEIGH_SUBTILETILE_FALL; ++i)
 	{
 
@@ -464,6 +466,8 @@ std::list<iPoint> LootEntity::GetGroundTilePoints()
 			
 		}
 	}
+	if (groundSubtilePoints.empty())
+		groundSubtilePoints.push_back(App->map->WorldToSubtileMap(position.x, position.y));
 	
 	return groundSubtilePoints;
 }
