@@ -77,7 +77,7 @@ UiItem_HitPoint::UiItem_HitPoint(std::string text, SDL_Color color, TTF_Font* fo
 
 void UiItem_HitPoint::Draw(const float& dt)
 {
-	BROFILER_CATEGORY("Hit Point Draw", Profiler::Color::DarkTurquoise);
+	BROFILER_CATEGORY("Draw HitPoint", Profiler::Color::DarkOrange);
 
 	// TODO: blit hitPoints with an extra value: the scaling
 

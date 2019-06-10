@@ -36,7 +36,7 @@ UiItem_CooldownClock::UiItem_CooldownClock(iPoint position, const SDL_Rect* sect
 
 void UiItem_CooldownClock::Draw(const float & dt)
 {
-	BROFILER_CATEGORY("Clock draw", Profiler::Color::Azure);
+	BROFILER_CATEGORY("Draw Clocks", Profiler::Color::DarkOrange);
 
 
 	DoLogic();
