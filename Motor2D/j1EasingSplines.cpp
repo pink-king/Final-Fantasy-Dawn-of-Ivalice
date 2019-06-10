@@ -25,8 +25,8 @@ bool j1EasingSplines::PreUpdate()
 	for (std::list<EaseSplineInfo*>::iterator itr = easing_splines.begin(); itr != easing_splines.end(); )
 	{
 		j1Entity* link = dynamic_cast<j1Entity*>((*itr)->associatedLoot);
-
-		if (link->to_delete)
+		
+		if (link->to_delete || (*itr)->associatedLoot->picked)
 		{
 			LOG("FUCK");
 			itr = easing_splines.erase(itr);
