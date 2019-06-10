@@ -237,6 +237,7 @@ public:
 	unsigned int breakbarrelSFX;
 	unsigned int crossDoorSFX;
 	unsigned int equipItemSFX;
+	unsigned int unlockAbilities;
 private:
 	SDL_Texture* debug_tex = nullptr;
 	

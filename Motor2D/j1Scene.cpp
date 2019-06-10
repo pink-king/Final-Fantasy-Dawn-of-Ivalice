@@ -155,7 +155,7 @@ bool j1Scene::Start()
 	OpenChestSFX = App->audio->LoadFx("audio/fx/loot/chestOpen.wav");
 	breakbarrelSFX = App->audio->LoadFx("audio/fx/loot/barrelbreaksfx.wav");
 	crossDoorSFX = App->audio->LoadFx("audio/fx/scene/crossdoorSFX.wav");
-
+	unlockAbilities = App->audio->LoadFx("audio/fx/UI/UnlockAbility.wav");
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
