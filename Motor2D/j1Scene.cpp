@@ -140,6 +140,7 @@ bool j1Scene::Start()
 	consumHealPotion = App->audio->LoadFx("audio/fx/Player/consumPotion.wav");
 	pickPotion = App->audio->LoadFx("audio/fx/Player/pickPotion.wav");
 	
+	equipItemSFX = App->audio->LoadFx("audio/fx/UI/equipItem.wav");
 	openInventorySFX = App->audio->LoadFx("audio/fx/UI/open_inventory.wav");
 	closeinventorySFX = App->audio->LoadFx("audio/fx/UI/close_inventory.wav");
 	open_PauseMenuSFX = App->audio->LoadFx("audio/fx/open_close_pauseMenu.wav");
@@ -328,6 +329,7 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreatePlayer({ 115, 240 });
 
+		strangerDialog = nullptr;
 		if (lobbyState == LobbyState::ALLBLOCK)
 		{
 			doorlvl1 = nullptr;
@@ -357,6 +359,8 @@ bool j1Scene::Start()
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
 				App->LoadGame("save_door.xml");
 				lobbyState = LobbyState::PASSLVL1;
+				strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "AFTERWIN", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+
 			}
 			else if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
 			{
@@ -364,6 +368,8 @@ bool j1Scene::Start()
 				App->entityFactory->loadEnemies = false;
 				App->LoadGame("Portal.xml");
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+				strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+				
 			}
 
 			if (ComeToDeath || ComeToWin)
@@ -375,6 +381,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
 		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(5, 18).x - 5, App->map->SubTileMapToWorld(5, 18).y }, 1);
+		if(strangerDialog == nullptr)
 		strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
 
 
