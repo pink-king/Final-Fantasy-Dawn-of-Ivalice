@@ -180,7 +180,7 @@
         </healthbar>
         
         <healthbar name="experience_bar">
-          <test x="25" y="410" w="156" h="19"/>
+         <test x="25" y="461" w="156" h="19"/>
            <division x="540" y="412" w="137" h="15"/>
           <dynamicSection x="342" y="412" w="180" h="15"/>
           <position x="400" y="155"/>

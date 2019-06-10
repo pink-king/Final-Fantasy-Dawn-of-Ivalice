@@ -37,10 +37,19 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * divisionSection, const SDL_Rect * staticSection, type variant, bool experience, UiItem * const parent) : UiItem(position, parent)
 {
+	this->guiType = GUI_TYPES::HEALTHBAR;
+	this->variantType = variant;
+	SDL_Color c = { 200, 255, 150, 255 };
+	iPoint totalOffset = iPoint(35, -5);
+	TotalLabel = App->gui->AddLabel("0k/7K", c, App->font->piecesofEight24, position + iPoint(staticSection->w, 0) + totalOffset, this);
+	staticImage = App->gui->AddImage({position.x, position.y-2}, staticSection, name, this);
+	dynamicImage = App->gui->AddImage(position, dynamicSection, name, this);
+	maxSection = dynamicImage->section.w;
+	dynamicImage->section.w = 0;
 
 }
 
-UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* divSection, const SDL_Rect* staticSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
 {
 	this->guiType = GUI_TYPES::HEALTHBAR;
 	this->variantType = variant;
@@ -167,6 +176,25 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 	// we will use the draw call to calculate, but the two images are drawn in image cpp
 
+	if (this->variantType == type::experience)
+	{
+		if (conversionFactor == 0.0f)
+		{
+			conversionFactor = maxSection / (float)App->entityFactory->player->maxExpInLevel;
+		}
+		lastSection = dynamicImage->section.w;
+
+		uint value = conversionFactor * App->entityFactory->player->exp;
+
+		if (App->entityFactory->player->exp <= 0 || (App->entityFactory->player->exp == App->entityFactory->player->maxExpInLevel))
+			dynamicImage->section.w = 0;
+		else
+			dynamicImage->section.w = value;
+
+			   // also increase max static image x
+
+
+	}
 
 	if (this->variantType == type::player)
 	{

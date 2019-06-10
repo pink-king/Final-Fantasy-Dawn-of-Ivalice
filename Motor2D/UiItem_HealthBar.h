@@ -69,12 +69,13 @@ public:
 	// player
 	UiItem_Label* NameLabel = nullptr; 
 	UiItem_Label* TotalLabel = nullptr;
+	
 
 private:
 
 	uint maxSection = 0;
 	uint lastSection = 0;
-	float conversionFactor = 0.0f;
+	float conversionFactor = 0.0000f;
 
 	bool recuperating = false;
 
