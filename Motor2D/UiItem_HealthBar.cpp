@@ -186,10 +186,18 @@ void UiItem_HealthBar::Draw(const float& dt)
 
 		uint value = conversionFactor * App->entityFactory->player->exp;
 
-		if (App->entityFactory->player->exp <= 0 || (App->entityFactory->player->exp == App->entityFactory->player->maxExpInLevel))
+		if (App->entityFactory->player->exp <= 0 || (App->entityFactory->player->exp > App->entityFactory->player->maxExpInLevel))
+		{
 			dynamicImage->section.w = 0;
+			TotalLabel->ChangeTextureIdle("0k/7k", NULL, NULL);
+		}
 		else
+		{
 			dynamicImage->section.w = value;
+			uint exp = App->entityFactory->player->exp / 1000;
+			std::string str_exp = std::to_string(exp) + " k/7k";
+			TotalLabel->ChangeTextureIdle(str_exp, NULL, NULL);
+		}
 
 			   // also increase max static image x
 
