@@ -19,6 +19,23 @@ j1EasingSplines::~j1EasingSplines()
 	
 }
 
+bool j1EasingSplines::PreUpdate()
+{
+	
+	// check if any loot entity goes to delete and remove from list
+	for (std::list<EaseSplineInfo*>::iterator itr = easing_splines.begin(); itr != easing_splines.end(); )
+	{
+		if ((*itr)->associatedLoot->to_delete || (*itr)->associatedLoot->to_die)
+		{
+			LOG("FUCK");
+		}
+		else
+			++itr;
+	}
+
+	return true;
+}
+
 // Called each loop iteration
 bool j1EasingSplines::Update(float dt)
 {
@@ -83,7 +100,7 @@ bool j1EasingSplines::CleanUp()
 	return true;
 }
 
-EaseSplineInfo* j1EasingSplines::CreateSpline(float* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn)
+EaseSplineInfo* j1EasingSplines::CreateSpline(LootEntity* associatedEntity, float* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn)
 {
 	std::list <EaseSplineInfo*>::iterator item = easing_splines.begin();
 	for (; item != easing_splines.end(); ++item) {
@@ -93,7 +110,7 @@ EaseSplineInfo* j1EasingSplines::CreateSpline(float* position, const int target_
 		}
 	}
 
-	EaseSplineInfo* info = DBG_NEW EaseSplineInfo(position, target_position, time_to_travel, type, fn);
+	EaseSplineInfo* info = DBG_NEW EaseSplineInfo(associatedEntity,position, target_position, time_to_travel, type, fn);
 
 	if (info != nullptr)
 		easing_splines.push_back(info);

@@ -7,6 +7,8 @@
 #include <functional>
 #include <math.h>
 #include <list>
+#include "LootEntity.h"
+
 struct SDL_Texture;
 struct SDL_Rect;
 
@@ -41,6 +43,7 @@ struct EaseFunctions {
 };
 
 struct EaseSplineInfo {
+	LootEntity* associatedLoot = nullptr;
 	float* position = nullptr;
 	TypeSpline type;
 	int initial_position;
@@ -53,7 +56,8 @@ struct EaseSplineInfo {
 
 	std::function<void()> fn;
 
-	EaseSplineInfo(float* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn) {
+	EaseSplineInfo(LootEntity* associatedLoot ,float* position, const int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn) {
+		this->associatedLoot = associatedLoot;
 		this->position = position;
 		this->initial_position = *position;
 		this->distance_to_travel = target_position - *position;
@@ -102,14 +106,14 @@ public:
 	// Destructor
 	virtual ~j1EasingSplines();
 	
-	
+	bool PreUpdate();
 	// Called each loop iteration
 	bool Update(float dt);
 
 	// Called before quitting
 	bool CleanUp();
 
-	EaseSplineInfo* CreateSpline(float* position, int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn = nullptr);
+	EaseSplineInfo* CreateSpline(LootEntity* associatedEntity,float* position, int target_position, const float time_to_travel, TypeSpline type, std::function<void()> fn = nullptr);
 	EaseSplineInfov2* CreateSplineV2(float position, int target_position, const float time_to_travel, TypeSpline type, bool axis, std::function<void()> fn = nullptr);
 private:
 

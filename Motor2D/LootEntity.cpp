@@ -476,7 +476,7 @@ void LootEntity::SetSplineToFall()
 {
 	//App->easing->CreateSpline((&float)position.y,)
 	int actualpos = position.y;
-	App->easing->CreateSpline(&position.y, App->map->SubTileMapToWorld(groundSubtileDestination.x+1, groundSubtileDestination.y).y - pivot.y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
+	App->easing->CreateSpline(this,&position.y, App->map->SubTileMapToWorld(groundSubtileDestination.x+1, groundSubtileDestination.y).y - pivot.y, 1000, TypeSpline::EASE_OUT_BOUNCE); //here
 }
 
 void LootEntity::SelectSubtileToGround()

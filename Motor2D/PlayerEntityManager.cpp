@@ -279,8 +279,10 @@ bool PlayerEntityManager::Update(float dt)
 				{
 					App->entityFactory->DeleteEntityFromSubtile((*itr));
 
-					App->entityFactory->entities.erase(
-						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), (*itr)), App->entityFactory->entities.end());
+					(*itr)->to_delete = true;
+
+					/*App->entityFactory->entities.erase(
+						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), (*itr)), App->entityFactory->entities.end());*/
 				}
 			}
 
