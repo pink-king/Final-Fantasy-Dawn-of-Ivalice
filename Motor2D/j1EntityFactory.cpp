@@ -2533,19 +2533,19 @@ void j1EntityFactory::AddExp(Enemy * enemy)
 					for (std::list<UiItem*>::iterator item = App->gui->ListItemUI.begin(); item != App->gui->ListItemUI.end(); item++)
 					{
 
-						if (player->level >= 2 && (*item)->name == "chain1")
+						if (player->level == 2 && (*item)->name == "chain1")
 						{
 							(*item)->hide = true;
 							App->scene->canExecuteChainAnim = true;
 							App->particles->AddParticle(App->particles->lvlUpFx, 191, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 						}
-						else if (player->level >= 3 && (*item)->name == "chain2")
+						else if (player->level == 3 && (*item)->name == "chain2")
 						{
 							(*item)->hide = true;
 							App->scene->canExecuteChainAnim = true;
 							App->particles->AddParticle(App->particles->lvlUpFx, 253, 661, { 0,0 }, 0u, SDL_FLIP_NONE, 0.0, 32, 32, 0.5F, 0.0F, false, true);
 						}
-						else if (player->level >= 4 && (*item)->name == "chain3")
+						else if (player->level == 4 && (*item)->name == "chain3")
 						{
 							(*item)->hide = true;
 							App->scene->canExecuteChainAnim = true;

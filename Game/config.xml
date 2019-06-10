@@ -200,6 +200,8 @@
           <divSection x="918" y="443" w="126" h="15"/>
           <type value="boss"/>
         </healthbar>
+		
+     
 
       </healthbars>
 
@@ -231,15 +233,15 @@
           <position x="288" y="635"/>
         </image>
         <image name="chain2">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="211" y="616"/>
         </image>
         <image name="chain1">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="149" y="616"/>
         </image>
         <image name="chain3">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="273" y="616"/>
         </image>
 
@@ -328,15 +330,15 @@
         </image>
 
         <image name="chain2">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="211" y="616"/>
         </image>
         <image name="chain1">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="149" y="616"/>
         </image>
         <image name="chain3">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="273" y="616"/>
         </image>
 
@@ -429,15 +431,15 @@
         </image>
 
         <image name="chain2">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="211" y="616"/>
         </image>
         <image name="chain1">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="149" y="616"/>
         </image>
         <image name="chain3">
-          <section x="1876" y="885" w="69" h="73"/>
+          <section x="1876" y="905" w="69" h="73"/>
           <position x="273" y="616"/>
         </image>
 

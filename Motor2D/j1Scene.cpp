@@ -587,13 +587,13 @@ bool j1Scene::PreUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->win->SetScale(1);
 
-	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->win->SetScale(2);
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) //if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) //if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->map->ToggleDebugDraw();
 		debug = !debug;
@@ -779,6 +779,7 @@ bool j1Scene::Update(float dt)
 		iPoint coords = App->render->ScreenToWorld(x, y);
 		App->entityFactory->CreateLoot(coords.x, coords.y);
 	}
+
 	if (state == SceneState::STARTMENU)
 	{
 		result_volume = volume_bar->GetBarValue();
@@ -825,10 +826,10 @@ bool j1Scene::Update(float dt)
 	if (state == SceneState::LEVEL1 || state == SceneState::LEVEL2 || state == SceneState::LOBBY || state== SceneState::FIRINGRANGE)
 	{
 		//debug tp
-		if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 			App->transitionManager->CreateFadeTransition(1.0,true,SceneState::LOBBY, Black, true, LvlPart::NO_PART);
 
-		if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::FIRINGRANGE, Black, true, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
@@ -837,7 +838,7 @@ bool j1Scene::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
 			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL1, Black, true, LvlPart::WAVES);
 
-		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
 			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL2, Black, true, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
@@ -1764,45 +1765,45 @@ bool j1Scene::LoadPlayerUi(pugi::xml_node& nodeScene)
 	LoadUiElement(uiRitzPortrait, ritzPNode);
 
 	
-		chain1.PushBack({ 1876,885,69,73 });
-		chain1.PushBack({ 1946,885,69,73 });
-		chain1.PushBack({ 2016,885,69,73 });
-		chain1.PushBack({ 2086,885,69,73 });
-		chain1.PushBack({ 2156,885,69,73 });
-		chain1.PushBack({ 2226,885,69,73 });
-		chain1.PushBack({ 2296,885,69,73 });
-		chain1.PushBack({ 2366,885,69,73 });
-		chain1.PushBack({ 2436,885,69,73 });
-		chain1.PushBack({ 2506,885,69,73 });
-		chain1.PushBack({ 1891,959,69,73 });
+		chain1.PushBack({ 1876,905,69,73 });
+		chain1.PushBack({ 1946,905,69,73 });
+		chain1.PushBack({ 2016,905,69,73 });
+		chain1.PushBack({ 2086,905,69,73 });
+		chain1.PushBack({ 2156,905,69,73 });
+		chain1.PushBack({ 2226,905,69,73 });
+		chain1.PushBack({ 2296,905,69,73 });
+		chain1.PushBack({ 2366,905,69,73 });
+		chain1.PushBack({ 2436,905,69,73 });
+		chain1.PushBack({ 2506,905,69,73 });
+		chain1.PushBack({ 1891,979,69,73 });
 		chain1.loop = false;
 		chain1.speed = 10.0f;
 	
-	chain2.PushBack({ 1876,885,69,73 });
-	chain2.PushBack({ 1946,885,69,73 });
-	chain2.PushBack({ 2016,885,69,73 });
-	chain2.PushBack({ 2086,885,69,73 });
-	chain2.PushBack({ 2156,885,69,73 });
-	chain2.PushBack({ 2226,885,69,73 });
-	chain2.PushBack({ 2296,885,69,73 });
-	chain2.PushBack({ 2366,885,69,73 });
-	chain2.PushBack({ 2436,885,69,73 });
-	chain2.PushBack({ 2506,885,69,73 });
-	chain2.PushBack({ 1891,959,69,73 });
+		chain2.PushBack({ 1876,905,69,73 });
+		chain2.PushBack({ 1946,905,69,73 });
+		chain2.PushBack({ 2016,905,69,73 });
+		chain2.PushBack({ 2086,905,69,73 });
+		chain2.PushBack({ 2156,905,69,73 });
+		chain2.PushBack({ 2226,905,69,73 });
+		chain2.PushBack({ 2296,905,69,73 });
+		chain2.PushBack({ 2366,905,69,73 });
+		chain2.PushBack({ 2436,905,69,73 });
+		chain2.PushBack({ 2506,905,69,73 });
+		chain2.PushBack({ 1891,979,69,73 });
 	chain2.loop = false;
 	chain2.speed = 10.0f;
 
-	chain3.PushBack({ 1876,885,69,73 });
-	chain3.PushBack({ 1946,885,69,73 });
-	chain3.PushBack({ 2016,885,69,73 });
-	chain3.PushBack({ 2086,885,69,73 });
-	chain3.PushBack({ 2156,885,69,73 });
-	chain3.PushBack({ 2226,885,69,73 });
-	chain3.PushBack({ 2296,885,69,73 });
-	chain3.PushBack({ 2366,885,69,73 });
-	chain3.PushBack({ 2436,885,69,73 });
-	chain3.PushBack({ 2506,885,69,73 });
-	chain3.PushBack({ 1891,959,69,73 });
+	chain3.PushBack({ 1876,905,69,73 });
+	chain3.PushBack({ 1946,905,69,73 });
+	chain3.PushBack({ 2016,905,69,73 });
+	chain3.PushBack({ 2086,905,69,73 });
+	chain3.PushBack({ 2156,905,69,73 });
+	chain3.PushBack({ 2226,905,69,73 });
+	chain3.PushBack({ 2296,905,69,73 });
+	chain3.PushBack({ 2366,905,69,73 });
+	chain3.PushBack({ 2436,905,69,73 });
+	chain3.PushBack({ 2506,905,69,73 });
+	chain3.PushBack({ 1891,979,69,73 });
 	chain3.loop = false;
 	chain3.speed = 10.0f;
 
