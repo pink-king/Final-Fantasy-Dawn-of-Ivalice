@@ -384,7 +384,11 @@ bool j1Scene::Start()
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
 		App->camera2D->SetCameraPos({ 115, 240 });
-
+		if (ComeToWin)
+		{
+			App->LoadGame("save_door.xml");
+			ComeToWin = false;
+		}
 		if (savedNow)
 		{
 			App->LoadGame("save_game.xml");
@@ -1995,9 +1999,9 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 void j1Scene::DebugTP(SceneState const &futureScene, LvlPart const &lvlPart)
 {
+	ComeToWin = true;
 	if (futureScene != state)
 	{
-		ComeToWin = true;
 		LoadScene(futureScene);
 	}
 	switch (futureScene)

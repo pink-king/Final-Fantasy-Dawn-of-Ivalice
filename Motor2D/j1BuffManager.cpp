@@ -61,8 +61,6 @@ bool j1BuffManager::CleanUp()
 		{
 			delete *item;
 			*item = nullptr;
-			buffs.remove(*item);
-
 		}
 		++item;
 	}
