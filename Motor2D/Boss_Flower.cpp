@@ -13,6 +13,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	debugSubtileTex = App->tex->Load("maps/tile_32x32.png");
 	debugTileTex = App->tex->Load("maps/tile_64x64_2.png");
 	spawnCircleTex = App->tex->Load("textures/enemies/boss_primitive_circle.png");
+	energyShieldTex = App->tex->Load("textures/enemies/shield_boss.png");
 
 	// animations --------
 	float animSpeed = 10.f;
@@ -191,6 +192,26 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	spawnCircleAnim.PushBack({ 0,0,218,148 });
 	spawnCircleAnim.speed = 1.f;
 	spawnCircleAnim.loop = false;
+
+	// energy shield anim
+	energyShieldAnim.PushBack({ 0,0,115,90 });
+	energyShieldAnim.PushBack({ 115,0,115,90 });
+
+	energyShieldAnim.PushBack({ 0,90,115,90 });
+	energyShieldAnim.PushBack({ 115,90,115,90 });
+	energyShieldAnim.PushBack({ 230,90,115,90 });
+	energyShieldAnim.PushBack({ 345,90,115,90 });
+	energyShieldAnim.PushBack({ 460,90,115,90 });
+
+	energyShieldAnim.PushBack({ 0,180,115,90 });
+	energyShieldAnim.PushBack({ 115,180,115,90 });
+	energyShieldAnim.PushBack({ 230,180,115,90 });
+	energyShieldAnim.PushBack({ 345,180,115,90 });
+	energyShieldAnim.PushBack({ 460,180,115,90 });
+
+	energyShieldAnim.speed = 15.f;
+	energyShieldAnim.loop = false;
+
 
 	// precomputed adjacent tile neighbours pattern
 	// for enemy spawn at player position
@@ -381,8 +402,8 @@ bool FlowerBossEntity::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
 	{
-		//life = 40.f;
-		DoShieldLogic();
+		life = 40.f;
+		//DoShieldLogic();
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 	{
@@ -667,6 +688,10 @@ void FlowerBossEntity::PhaseManager(float dt)
 			rainEmitter->to_delete = true;
 		}
 
+		// check for shield and reassign to data map if needed, to prevent the automatic eraser from entities, just in case
+		if(shieldActive)
+			App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
+
 		break;
 	}
 	case Boss1State::MAX:
@@ -867,6 +892,14 @@ void FlowerBossEntity::ActiveShield()
 
 	App->pathfinding->ActivateTile(imOnTile);
 
+	// deletes from entities data map
+	bool check = App->entityFactory->DeleteEntityFromSubtile(this);
+
+	if (check)
+		LOG("");
+	else
+		LOG("");
+
 	shieldActive = true;
 }
 
@@ -878,7 +911,11 @@ void FlowerBossEntity::DesactiveShield()
 		App->pathfinding->DeactivateTile(tileToBlock);
 		LOG("Unblocking Tile: %i,%i", tileToBlock.x, tileToBlock.y);
 	}*/
+
+	// deletes walkability tile shield
 	App->pathfinding->DeactivateTile(imOnTile);
+	// re assign to entities data map
+	App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
 
 	shieldActive = false;
 }
@@ -989,6 +1026,7 @@ bool FlowerBossEntity::CleanUp()
 	App->tex->UnLoad(debugSubtileTex);
 	App->tex->UnLoad(spawnCircleTex);
 	App->tex->UnLoad(debugTileTex);
+	App->tex->UnLoad(energyShieldTex);
 
 	return true;
 }

@@ -101,12 +101,14 @@ private:
 	SDL_Texture* debugSubtileTex = nullptr;
 	SDL_Texture* debugTileTex = nullptr;
 	SDL_Texture* spawnCircleTex = nullptr;
+	SDL_Texture* energyShieldTex = nullptr;
 	// animations
 	Animation idleAnim[(int)facingDirection::MAX];
 	Animation attackAnim[(int)facingDirection::MAX];
 	Animation jumpAnim[(int)facingDirection::MAX];
 	Animation deathAnim;
 	Animation spawnCircleAnim;
+	Animation energyShieldAnim;
 
 	iPoint adjacentTileNeighboursPattern[NUM_NEIGH_PATTERN];
 	iPoint subtileFireShieldFirePattern[8];
