@@ -527,7 +527,7 @@ Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 	tpMaxDistance = 200.f;
 
 	// cooldown data test - TODO: import for each character its base cooldown in ms from xml
-	coolDownData.basic.cooldownTime = 0; // basic magic ball
+	coolDownData.basic.cooldownTime = 1000; // basic magic ball
 	coolDownData.dodge.cooldownTime = 3000;
 	coolDownData.special1.cooldownTime = 6000; // TELEPORT
 	coolDownData.special2.cooldownTime = 15000; // Medusa
