@@ -1711,7 +1711,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	coins_label->name = "coinsLabel";
 	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1150,107 }, inGamePanel);
 	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->knightsQuest24, { 1185, 695 }, inGamePanel);
-	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
+	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight18, { 112,166 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
 	potionIg_label = App->gui->AddLabel("0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);

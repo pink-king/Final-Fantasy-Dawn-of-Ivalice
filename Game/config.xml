@@ -57,16 +57,16 @@
         <image name="swap_prev">
           <section x="124" y="0" w="30" h="30"/>
           <flag  autorefresh="1"/>
-          <position x="173" y="8 "/>
+          <position x="173" y="47 "/>
         </image>
         <image name="swap_next">
           <section x="155" y="0" w="30" h="30"/>
           <flag  autorefresh="1"/>
-          <position x="252" y="8 "/>
+          <position x="252" y="47"/>
         </image>
         <image name="box_player">
           <section x="1033" y="1" w="94" h="109"/>
-          <position x="40" y="21"/>
+          <position x="40" y="53"/>
         </image>
         <image name="dPad">
           <section x="227" y="115" w="52" h="52"/>
@@ -172,10 +172,10 @@
 
       <healthbars>
         <healthbar name="life_bar">
-	    <test x="25" y="461" w="156" h="19"/>
-          <dynamicSection x="0" y="425" w="153" h="31"/>
+	    <test x="25" y="461" w="205" h="19"/>
+          <dynamicSection x="0" y="425" w="205" h="31"/>
           <damageSection x="28" y="407" w="126" h="16"/>
-          <position x="45" y="155"/>
+          <position x="40" y="9"/>
           <type value="player"/>
         </healthbar>
         
@@ -183,7 +183,7 @@
          <test x="25" y="461" w="180" h="19"/>
            <division x="540" y="412" w="137" h="15"/>
           <dynamicSection x="342" y="412" w="180" h="15"/>
-          <position x="400" y="155"/>
+          <position x="40" y="170"/>
           <type value="experience"/>
         </healthbar>
 
@@ -508,15 +508,15 @@
       <images>
         <image name="marche">
           <section x="855" y="1" w="84" h="92"/>
-          <position x="41" y="37"/>
+          <position x="41" y="69"/>
         </image>
         <image name="player2">
           <section x="342" y=" 481" w="64" h="64"/>
-          <position x="229" y="41"/>
+          <position x="229" y="80"/>
         </image>
         <image name="player3">
           <section x="283" y="481" w="58" h="64"/>
-          <position x="153" y="41"/>
+          <position x="153" y="80"/>
         </image>
       </images>
     </InGameUiMP>
@@ -525,15 +525,15 @@
       <images>
         <image name="shara">
           <section x="1129" y="1" w="96" h="100"/>
-          <position x="41" y="29"/>
+          <position x="41" y="61"/>
         </image>
         <image name="player2">
           <section x="407" y="481" w="62" h="62"/>
-          <position x="229" y="41"/>
+          <position x="229" y="80"/>
         </image>
         <image name="player3">
           <section x="342" y=" 481" w="64" h="64"/>
-          <position x="153" y="41"/>
+          <position x="153" y="80"/>
         </image>
       </images>
     </InGameUiSP>
@@ -542,15 +542,15 @@
       <images>
         <image name="ritz">
           <section x="940" y="1" w="92" h="96"/>
-          <position x="41" y="33"/>
+          <position x="41" y="65"/>
         </image>
         <image name="player2">
           <section x="283" y=" 481" w="58" h="64"/>
-          <position x="229" y="41"/>
+          <position x="229" y="80"/>
         </image>
         <image name="player3">
           <section x="407" y="481" w="62" h="62"/>
-          <position x="153" y="41"/>
+          <position x="153" y="80"/>
         </image>
       </images>
     </InGameUiRP>
