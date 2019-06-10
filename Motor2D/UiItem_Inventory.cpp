@@ -1945,8 +1945,8 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 			}
 
 
-			//}
-			/*else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
+			}
+			else if (ent->GetType() == LOOT_TYPE::CONSUMABLE)
 			{
 				App->entityFactory->player->RemoveItemFromConsumables(ent);
 
@@ -1967,7 +1967,7 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 
 
 
-			}*/
+			}
 
 			// ------ GOLD 
 
@@ -1977,14 +1977,11 @@ void UiItem_Inventory::DiscardItem(LootEntity * ent)
 			App->scene->coins_label->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 			App->scene->coins_label_inventory->ChangeTextureIdle(App->entityFactory->player->str_coin, NULL, NULL);
 
-		}
+	}
 
 		
 
 
-
-	//}
-}
 
 /*
 void UiItem_Inventory::updateHealthBarWithNewHP(LootEntity * ent)
