@@ -43,46 +43,46 @@ bool j1DialogSystem::Update(float dt)
 
 		// fake devug keys to test different dialog triggers
 
-
-		if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+		if (App->scene->hackerMode)
 		{
-			SetCurrentDialog("VENDOR");
-		}
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+			{
+				SetCurrentDialog("VENDOR");
+			}
 
-		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		{
-			SetCurrentDialog("SAVEGAME");
-		}
+			if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+			{
+				SetCurrentDialog("SAVEGAME");
+			}
 
-		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-		{
-			SetCurrentDialog("STRANGER");
+			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+			{
+				SetCurrentDialog("STRANGER");
+			}
+
+
+			if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+			{
+				SetCurrentDialog("BOSS");
+			}
+
+
+			if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+			{
+				SetCurrentDialog("TUTORIAL");
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
+			{
+				SetCurrentDialog("PREBOSS");
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+			{
+				SetCurrentDialog("AFTERWIN");
+			}
 		}
 		
-
-		if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-		{
-			SetCurrentDialog("BOSS");
-		}
-
-
-		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
-		{
-			SetCurrentDialog("TUTORIAL");
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
-		{
-			SetCurrentDialog("PREBOSS");
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
-		{
-			SetCurrentDialog("AFTERWIN");
-		}
-
-
-
 		if (spawnDialogSequence) 
 		{
 			input = -1;                     
