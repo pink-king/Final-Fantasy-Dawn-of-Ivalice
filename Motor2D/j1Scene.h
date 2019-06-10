@@ -13,6 +13,7 @@ class UiItem_Image;
 class UiItem_Label;
 class UiItem_Bar;
 class UiItem_Inventory;
+class UiItem_HealthBar;
 class CharacterStats;
 class UiItem;
 class PlayerEntityManager;
@@ -125,6 +126,7 @@ public:
 	UiItem_Image* tab_inventory = nullptr;
 	UiItem_Image* tab_controls = nullptr;
 	UiItem_Image* tick_image = nullptr;
+	UiItem_HealthBar* experienceBar = nullptr;
 	SDL_Rect tabSectionControls = { 791,1,46,46 };
 	std::string default_string = "";
 	SDL_Rect lootPanelRect;

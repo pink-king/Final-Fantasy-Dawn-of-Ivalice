@@ -844,6 +844,18 @@ UiItem_HealthBar* j1Gui::AddHealthBar(iPoint position, const SDL_Rect * dynamicS
 
 }
 
+UiItem_HealthBar* j1Gui::AddExperienceBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * divisionSection, const SDL_Rect* staticSection, type variant, bool experience, UiItem * const parent) // , TypeBar type)
+{
+	UiItem* newUIItem = nullptr;
+
+	newUIItem = DBG_NEW UiItem_HealthBar(position, dynamicSection, divisionSection, staticSection, variant,experience, parent);
+
+	ListItemUI.push_back(newUIItem);
+
+	return (UiItem_HealthBar*)newUIItem;
+
+}
+
 
 
 UiItem_HealthBar* j1Gui::AddHealthBarToEnemy(const SDL_Rect * dynamicSection, const SDL_Rect* staticSection, type variant, j1Entity * deliever, UiItem * const parent) // , TypeBar type)

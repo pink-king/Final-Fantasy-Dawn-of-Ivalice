@@ -3,7 +3,7 @@
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
 
-BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBroken) : isBroken(isBroken), breakableType(type), j1Entity(ENTITY_TYPE::BREAKABLE_ASSET,pos.x,pos.y,"jar")
+BreakableAsset::BreakableAsset(const iPoint & pos, BreakableType type, bool isBroken, bool containsLoot) : isBroken(isBroken), breakableType(type), containsLoot(containsLoot), j1Entity(ENTITY_TYPE::BREAKABLE_ASSET,pos.x,pos.y,"jar")
 {
 	switch (type)
 	{
@@ -141,7 +141,7 @@ void BreakableAsset::Break()
 	isBroken = true;
 	currentAnimation = &breaking;
 
-	if (App->entityFactory->GetRandomValue(1, 3) == 1)
+	if (App->entityFactory->GetRandomValue(1, 3) == 1 && containsLoot)
 	{
 		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(2, 4), GetPivotPos(), OBJECT_TYPE::GOLD);
 		App->entityFactory->RepeatAmountofConsumables(App->entityFactory->GetRandomValue(0, 1), GetPivotPos(), OBJECT_TYPE::POTIONS);
@@ -151,13 +151,6 @@ void BreakableAsset::Break()
 		App->audio->PlayFx(App->scene->jar_breakSFX, 0);
 	else if (breakableType == BreakableType::BARREL_1 || breakableType == BreakableType::BARREL_2)
 		App->audio->PlayFx(App->scene->breakbarrelSFX, 0);
-
-
-
-	else
-	{
-		// TODO:: Add barrel SFX
-	}
 
 	//App->pathfinding->DeactivateTile(App->map->WorldToMap(GetPivotPos().x, GetPivotPos().y));
 }

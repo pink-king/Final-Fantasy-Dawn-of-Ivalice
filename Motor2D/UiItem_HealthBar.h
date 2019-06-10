@@ -18,7 +18,8 @@ enum type
 {
 	player,
 	enemy,
-	boss
+	boss,
+	experience
 };
 
 
@@ -34,6 +35,7 @@ class UiItem_HealthBar : public UiItem
 
 public:
 	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* damageSection, const SDL_Rect* staticSection, type variant, UiItem* const parent); // player
+	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* divisionSection, const SDL_Rect* staticSection, type variant, bool experience, UiItem* const parent); // experience
 	UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent); // boss
 	UiItem_HealthBar(const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, type variant, UiItem* const parent, j1Entity* deliever); // enemies
 	~UiItem_HealthBar();
@@ -67,12 +69,13 @@ public:
 	// player
 	UiItem_Label* NameLabel = nullptr; 
 	UiItem_Label* TotalLabel = nullptr;
+	
 
 private:
 
 	uint maxSection = 0;
 	uint lastSection = 0;
-	float conversionFactor = 0.0f;
+	float conversionFactor = 0.0000f;
 
 	bool recuperating = false;
 

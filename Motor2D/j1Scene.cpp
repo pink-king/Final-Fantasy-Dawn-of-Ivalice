@@ -1631,6 +1631,12 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 			
 			App->gui->healthBar = App->gui->AddHealthBar(position, &dynamicSection, &damageSection, &staticSection, type::player, inGamePanel);
 		}
+		else if (variant == "experience")
+		{
+			SDL_Rect staticSection = { uiNode.child("test").attribute("x").as_int(), uiNode.child("test").attribute("y").as_int(), uiNode.child("test").attribute("w").as_int(), uiNode.child("test").attribute("h").as_int() };
+			SDL_Rect divisionSection = { uiNode.child("division").attribute("x").as_int(), uiNode.child("division").attribute("y").as_int(), uiNode.child("division").attribute("w").as_int(), uiNode.child("division").attribute("h").as_int() };
+			experienceBar = App->gui->AddExperienceBar(position, &dynamicSection, &divisionSection, & staticSection, type::experience,true, inGamePanel);
+		}
 		else if (variant == "enemy")
 		{
 			SDL_Rect staticSection = { uiNode.child("staticSection").attribute("x").as_int(), uiNode.child("staticSection").attribute("y").as_int(), uiNode.child("staticSection").attribute("w").as_int(), uiNode.child("staticSection").attribute("h").as_int() };
