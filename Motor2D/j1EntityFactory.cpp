@@ -563,8 +563,11 @@ Enemy * j1EntityFactory::CreateEnemy(EnemyType etype,iPoint pos, bool dummy)
 	return ret;
 }
 
-void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum, uint groupLevel)
+std::vector<j1Entity*> j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_Rect zone, uint minNum, uint maxNum, uint groupLevel)
 {
+
+	std::vector<j1Entity*> return_vector;
+
 	uint numEnemies = CreateRandomBetween(minNum, maxNum);
 
 	uint numBombs = 0;
@@ -577,7 +580,7 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 	uint archerProbs = 3;
 
 	if (enemyTypes.empty())
-		return;
+		return return_vector;
 
 	while (cont < numEnemies)
 	{
@@ -664,13 +667,17 @@ void j1EntityFactory::CreateEnemiesGroup(std::vector<EnemyType> enemyTypes, SDL_
 				break;
 			}
 
+			// push to vector
+			if (ret != nullptr)
+				return_vector.push_back(ret);
+
 		}
 	}
 	LOG("Created %i Enemies", numEnemies);
 	LOG("Ceated %i TESTS", numTests);
 	LOG("Ceated %i BOMBS", numBombs);
 
-
+	return return_vector;
 }
 
 void j1EntityFactory::LoadSpawnGroups()
