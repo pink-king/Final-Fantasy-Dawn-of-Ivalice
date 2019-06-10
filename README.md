@@ -2,33 +2,6 @@
 
 Final Fantasy: Dawn of Ivalice is new version for pc based on Final Fantasy Tactics Advance. In Dawn of Ivalice, our protagonists opens and enters to a different book. In this, Marche and his friends will wake up inside a dungeon full of danger, where they must reach different levels to return to the world that they knew. In these levels, our protagonists will fight to different enemies to get the level key and advance.
 
-##Implementations
-
-* Game Loop
-
-* Level 2
-
-* Main Hall
-
-* Shop system
-
-* Dialgos System
-
-* Final Boss
-
-* Golem
-
-* FreeInput cast abilities
-
-* Portal & Phoenix tail
-
-* Save & Load Ingame 
-
-* Win screen
-
-* Loose Screen
-
-* Experience System
 
 ##Gamepad functions
 
@@ -99,9 +72,13 @@ Shara
 * 2 - Bomb
 * 3 - Golem
 * 4 - Boss
-* 5 - Zoom Out
-* 6 - Zoom in
-* 7 - GoblinLife - 20
+* 5 - Lobby 
+* 6 - Firing Range
+* 7 - Lvl 1 Start
+* 8 - Lvl 1 Waves
+* 9 - Lvl 2 Start
+* 0 - Lvl 2 Waves
+* Backspace - Lvl 2 Boss
 * KPplus - Switch Level1/Menu
 * 2KP - Go to level2 if player is in main hall
 * 4KP  - Previous Character
@@ -118,7 +95,7 @@ if hackerMode
 * M - Medusa
 * G - DeathCircle
 * F - Fire Arrow
-
+* V- SpawnLoot
 
 
 # Pink King Games
