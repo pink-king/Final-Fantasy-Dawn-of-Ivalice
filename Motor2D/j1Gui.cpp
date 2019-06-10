@@ -640,7 +640,8 @@ void j1Gui::hideAllInGameDescriptions(bool hide)
 			if (dynamic_cast<UiItem_Description*>(elem)->spawnedInGame)
 				dynamic_cast<UiItem_Description*>(elem)->HideAllElements(hide); 
 
-			
+
+
 }
 /*
 void j1Gui::HideInGameEnemyUI(bool hide)

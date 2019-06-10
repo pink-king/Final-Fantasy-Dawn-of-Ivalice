@@ -545,6 +545,8 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	life = maxLife - node.child("life").attribute("actualLife").as_float();
 	if (life <= 0)
 		life = 100;
+
+	App->gui->healthBar->RecalculateSection(); 
 	
 	gold = node.child("gold").attribute("value").as_uint();
 

@@ -613,6 +613,9 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 			tr->myNPCLabels.nameLabel->hide = true;
 			tr->myNPCLabels.nameLabel->useCamera = false;
 			tr->hasNPCLabel = true;
+
+
+			tr->myNPCLabels.nameLabel->isNPCLabel = true; 
 		}
 		else
 			tr->hasNPCLabel = false; 

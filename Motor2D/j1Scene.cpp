@@ -913,6 +913,8 @@ bool j1Scene::Update(float dt)
 
 					App->gui->hideAllInGameDescriptions(true);
 
+					App->dialog->hideAllNPCLabels(true);
+
 					//App->gui->HideInGameEnemyUI(true);
 				}
 				else
@@ -927,6 +929,9 @@ bool j1Scene::Update(float dt)
 
 					App->gui->hideAllInGameDescriptions(false);
 					//App->gui->HideInGameEnemyUI(false);
+
+
+					App->dialog->hideAllNPCLabels(false);
 				}
 			}
 		}
