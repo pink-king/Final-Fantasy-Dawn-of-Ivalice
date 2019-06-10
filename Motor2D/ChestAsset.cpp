@@ -122,10 +122,17 @@ void ChestAsset::SpawnLoot()
 	switch (type)
 	{
 	case ChestType::BOSS:
-		App->entityFactory->RepeatAmountofConsumables(35, GetPivotPos(), OBJECT_TYPE::GOLD);
-		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 5, GetPivotPos());
-		App->entityFactory->CreateLegendariEquipable(GetPivotPos(), EQUIPABLE_TYPE::NO_EQUIPABLE);
+	{
+
+		uint legendaryItems = 5;
+		for (uint i = 0; i < legendaryItems; i++)
+		{
+			App->entityFactory->CreateLegendariEquipable(GetPivotPos(), EQUIPABLE_TYPE::NO_EQUIPABLE);
+		}
+		App->entityFactory->RepeatAmountofConsumables(70, GetPivotPos(), OBJECT_TYPE::GOLD);
+		App->entityFactory->RandomAmountofLoot(LOOT_TYPE::EQUIPABLE, 3, GetPivotPos());
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::PORTAL, App->map->SubTileMapToWorld(71, 207).x, App->map->SubTileMapToWorld(71, 207).y, SceneState::WIN, White);
+	}
 		break;
 
 	case ChestType::NORMAL:
