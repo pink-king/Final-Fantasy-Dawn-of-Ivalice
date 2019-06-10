@@ -72,6 +72,7 @@ bool Portal::DoTriggerAction()
 		App->scene->portalPos = { position.x,position.y + 16 };
 		if (doit)
 		{
+			App->entityFactory->loadPlayer = true;
 			App->entityFactory->player->to_delete = true;
 			App->SaveGame("Portal.xml");
 			App->pause = true;

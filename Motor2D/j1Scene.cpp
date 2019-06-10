@@ -88,6 +88,7 @@ bool j1Scene::Start()
 	RitzBasicHit = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_basic_hit.wav");
 	RitzMedusa = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_medusa.wav");
 	RitzAbility2 = App->audio->LoadFx("audio/fx/Player/Ritz/Ritz_Ability2.wav");
+	RitzFrozeParticles = App->audio->LoadFx("audio/fx/Player/Ritz/icepropagateAbility2.wav");
 	RitzAbility1 = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_teleport.wav");
 	RitzUltimate = App->audio->LoadFx("audio/fx/Player/Ritz/ritz_ultimateTest2.wav");
 
@@ -150,7 +151,9 @@ bool j1Scene::Start()
 
 	jar_breakSFX = App->audio->LoadFx("audio/fx/loot/jarbroken.wav");
 	OpenChestSFX = App->audio->LoadFx("audio/fx/loot/chestOpen.wav");
-	
+	breakbarrelSFX = App->audio->LoadFx("audio/fx/loot/barrelbreaksfx.wav");
+	crossDoorSFX = App->audio->LoadFx("audio/fx/scene/crossdoorSFX.wav");
+
 	if (state == SceneState::LEVEL1)
 	{
 		iPoint tileSize = { 32,32 };
@@ -1374,6 +1377,7 @@ void j1Scene::LoadUiElement(UiItem* parent, pugi::xml_node node)
 		std::string charFlag = uiNode.child("charFlag").attribute("value").as_string();
 		if (autorefresh == 1)
 		{
+
 			LOG("HHHHHHHHHHH");
 		}
 		if (lootFlag == "loot")

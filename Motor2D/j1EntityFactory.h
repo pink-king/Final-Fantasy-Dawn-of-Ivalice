@@ -188,6 +188,7 @@ public:
 	bool					pushEF = false;
 	bool					dmgInTimeFdbck = false;
 	bool					loadEnemies = false;
+	bool					loadPlayer = true;
 	//j1Entity*				Player = nullptr;
 	PlayerEntityManager*	player = nullptr;
 	WaveManager*			waveManager = nullptr;

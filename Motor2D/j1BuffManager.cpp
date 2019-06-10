@@ -33,6 +33,9 @@ bool j1BuffManager::Start()
 	poisonedSFX = App->audio->LoadFx("audio/fx/States/poisoned.wav");
 	healingSFX = App->audio->LoadFx("audio/fx/States/Healing.wav");
 	enemyHitbyMarche = App->audio->LoadFx("audio/fx/States/enemyHitbyMarche.wav");
+	MarcheDeath = App->audio->LoadFx("audio/fx/Player/Marche/playerdeath.wav");
+	RitzDeath = App->audio->LoadFx("audio/fx/Player/Ritz/RitzDeadSFX.wav");
+	SharaDeath = App->audio->LoadFx("audio/fx/Player/Shara/SharaDeadSFX.wav");
 
 	return true;
 }
@@ -120,7 +123,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 		if (rol == ROL::DEFENCE_ROL)
 		{
 			if ((elementType == (*iter)->GetElementType() || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
-				(ent == (*iter)->GetCharacter()))
+				((ent->type == ENTITY_TYPE::PLAYER && (*iter)->GetCharacter()->type == ENTITY_TYPE::PLAYER) || ent == (*iter)->GetCharacter()))
 			{
 				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 					initialDamage += (*iter)->GetValue();
@@ -132,7 +135,7 @@ float j1BuffManager::CalculateStat(const j1Entity* ent,float initialDamage, ELEM
 		else if (rol == ROL::ATTACK_ROL)
 		{
 			if ((elementType == (*iter)->GetElementType() || elementType == ELEMENTAL_TYPE::ALL_ELEMENTS || (*iter)->GetElementType() == ELEMENTAL_TYPE::ALL_ELEMENTS) && rol == (*iter)->GetRol() &&
-				(ent == (*iter)->GetCharacter()))
+				((ent->type == ENTITY_TYPE::PLAYER && (*iter)->GetCharacter()->type == ENTITY_TYPE::PLAYER) || ent == (*iter)->GetCharacter()))
 			{
 				if ((*iter)->GetType() == BUFF_TYPE::ADDITIVE)
 					initialDamage += (*iter)->GetValue();
@@ -226,10 +229,22 @@ bool j1BuffManager::DirectAttack(j1Entity* attacker, j1Entity* defender, float i
 			App->audio->PlayFx(App->scene->SharaDamaged, 0);
 		}
 
-		
 
+		if (defender->life <= 0)
+		{
+
+			if ( App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetMarche())
+				App->audio->PlayFx(MarcheDeath, 0);
+
+			else if ( App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetRitz())
+				App->audio->PlayFx(RitzDeath, 0);
+			else if (App->entityFactory->player->selectedCharacterEntity == App->entityFactory->player->GetShara())
+				App->audio->PlayFx(SharaDeath, 0);
+
+		}
+			//aqui
 	}
-
+	                       
 
 	if (attacker == App->entityFactory->player->GetMarche())
 		App->audio->PlayFx(enemyHitbyMarche, 0);
