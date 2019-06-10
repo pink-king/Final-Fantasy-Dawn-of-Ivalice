@@ -133,8 +133,6 @@ public:
 	bool clampedByCrosshair = false;
 	bool clampedByPlayerOnTop = false; 
 
-	bool picked = false;
-
 protected:
 	int PlaySFXtime = 5;
 	int dmg;

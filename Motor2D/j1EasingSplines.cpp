@@ -21,11 +21,12 @@ j1EasingSplines::~j1EasingSplines()
 
 bool j1EasingSplines::PreUpdate()
 {
-	
-	// check if any loot entity goes to delete and remove from list
+	// check if any loot entity | enemy goes to delete and remove from list
 	for (std::list<EaseSplineInfo*>::iterator itr = easing_splines.begin(); itr != easing_splines.end(); )
 	{
-		if ((*itr)->associatedLoot->picked)
+		j1Entity* link = dynamic_cast<j1Entity*>((*itr)->associatedLoot);
+
+		if (link->to_delete)
 		{
 			LOG("FUCK");
 			itr = easing_splines.erase(itr);
