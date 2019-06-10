@@ -498,6 +498,13 @@ bool j1App::LoadGameNow()
 
 
 	want_to_load = false;
+	
+	if (entityFactory->loadPlayer == false)
+	{
+		App->LoadGame("save_door.xml");
+		entityFactory->loadPlayer = true;
+	}
+
 	return ret;
 }
 

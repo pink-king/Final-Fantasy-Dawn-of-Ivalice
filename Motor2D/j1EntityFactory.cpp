@@ -419,11 +419,14 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			
 		}
 	}
-	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
+	if (loadPlayer)
 	{
-		if (App->entityFactory->player != nullptr)
+		for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
 		{
-			App->entityFactory->player->Load(characterPlayer);
+			if (App->entityFactory->player != nullptr)
+			{
+				App->entityFactory->player->Load(characterPlayer);
+			}
 		}
 	}
 
