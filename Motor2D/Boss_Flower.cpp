@@ -256,8 +256,8 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	/*if (shootedPoisonRainEmitter && rainEmitter != nullptr)
-		rainEmitter->to_delete = true;*/
+	if (rainEmitter != nullptr)
+		rainEmitter->to_delete = true;
 
 	// ---------- Win State Hardcoded when boss dies ------------------
 	
@@ -313,6 +313,13 @@ bool FlowerBossEntity::PreUpdate()
 			else
 				++iter;
 		}
+	}
+
+	// check poison rain emitter
+	if (rainEmitter != nullptr) // rain emitter are unlinked too when boss exits phase2/4, just in case to prevent phase time balancing
+	{
+		if (rainEmitter->to_delete)
+			rainEmitter = nullptr;
 	}
 
 	return true;
@@ -551,7 +558,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			shootedPoisonRainEmitter = false;
 
 			// unlink emitter
-			//rainEmitter = nullptr;
+			rainEmitter = nullptr;
 
 			break;
 		}
@@ -603,7 +610,7 @@ void FlowerBossEntity::PhaseManager(float dt)
 			shootedPoisonRainEmitter = false;
 
 			// unlink emitter
-			//rainEmitter = nullptr;
+			rainEmitter = nullptr;
 
 			break;
 		}
@@ -630,6 +637,12 @@ void FlowerBossEntity::PhaseManager(float dt)
 			(*enemiesAlive)->to_die = true;
 		}
 		instantiatedEnemies.clear();
+
+		// delete any possible rain emitter
+		if (rainEmitter != nullptr)
+		{
+			rainEmitter->to_delete = true;
+		}
 
 		break;
 	}
@@ -702,7 +715,7 @@ void FlowerBossEntity::Phase2Logic() // spawn poison rain
 		else
 			duration = phase_control_timers.phase4.time;
 		// SHOOT
-		//rainEmitter = 
+		rainEmitter = 
 		App->entityFactory->CreateBossEmitter(
 			GetPivotPos(), // projected position
 			radius, // radius, world coords
