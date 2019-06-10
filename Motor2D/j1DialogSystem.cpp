@@ -611,8 +611,8 @@ bool j1DialogSystem::LoadDialogue(const char* file)
 		}
 		else if (tr->NPCName == "Godot")
 		{
-			pos.x -= 120;
-			pos.y += 370;
+			pos.x -= 125;
+			pos.y += 373;
 		}
 	
 		// TODO: tutorial npc, Godo 
