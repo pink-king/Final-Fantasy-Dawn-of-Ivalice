@@ -149,6 +149,10 @@ void BreakableAsset::Break()
 	
 	if(breakableType == BreakableType::JAR || breakableType == BreakableType::JARFULL)
 		App->audio->PlayFx(App->scene->jar_breakSFX, 0);
+	else if (breakableType == BreakableType::BARREL_1 || breakableType == BreakableType::BARREL_2)
+		App->audio->PlayFx(App->scene->breakbarrelSFX, 0);
+
+
 
 	else
 	{

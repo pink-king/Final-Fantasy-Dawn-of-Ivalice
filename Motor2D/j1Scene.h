@@ -179,6 +179,7 @@ public:
 	unsigned int RitzBasicHit;
 	unsigned int RitzMedusa;
 	unsigned int RitzAbility2;
+	unsigned int RitzFrozeParticles;
 	unsigned int RitzAbility1;
 	unsigned int RitzUltimate;
 	unsigned int sharaBasic;
@@ -231,6 +232,8 @@ public:
 	unsigned int OpenChestSFX;
 	unsigned int bagAnimationSFX;
 	unsigned int potionAnimationSFX;
+	unsigned int breakbarrelSFX;
+	unsigned int crossDoorSFX;
 
 private:
 	SDL_Texture* debug_tex = nullptr;

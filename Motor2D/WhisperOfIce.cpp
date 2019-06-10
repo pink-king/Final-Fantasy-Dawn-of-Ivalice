@@ -38,6 +38,7 @@ Projectile(pos, destination, speed, owner, "WhisperOfIce", PROJECTILE_TYPE::WHIS
 	size.create(136, 71);
 
 	// Important for aiming offset
+	App->audio->PlayFx(App->scene->RitzAbility2, 0);
 	SetInitially();
 	angle = 0; 
 }
