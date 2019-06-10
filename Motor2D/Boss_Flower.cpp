@@ -653,8 +653,8 @@ void FlowerBossEntity::PhaseManager(float dt)
 		if (currentAnimation->GetCurrentFloatFrame() >= 6.F && !spawnedParticles)
 		{
 			spawnedParticles = true; 
-			int maxParticles = 80;
-			float maxDistance = 30.f;
+			int maxParticles = 100;
+			float maxDistance = 35.f;
 			for (int i = 0; i < maxParticles; ++i)
 			{
 				fPoint instaPos;
@@ -662,13 +662,18 @@ void FlowerBossEntity::PhaseManager(float dt)
 				instaPos.y = GetPivotPos().y - 15 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
 				App->particles->AddParticle(App->particles->explosion03, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1, 2000), SDL_FLIP_NONE, 0, 16, 16);
 			}
-			for (int i = 0; i < 80; ++i)
+			for (int i = 0; i < maxParticles; ++i)
 			{
 				fPoint instaPos;
-				instaPos.x = GetPivotPos().x - 55 + App->entityFactory->GetRandomValue(1, 45);
-				instaPos.y = GetPivotPos().y - 20 + App->entityFactory->GetRandomValue(1, 40) * App->camera2D->GetFloatNegOneToOne();
+				instaPos.x = GetPivotPos().x - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = GetPivotPos().y - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
 				App->particles->AddParticle(App->particles->powder01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1000, 2500));
-				instaPos.x = GetPivotPos().x - 20 - App->entityFactory->GetRandomValue(1, 40);
+			}
+			for (int i = 0; i < maxParticles; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = GetPivotPos().x - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = GetPivotPos().y - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
 				App->particles->AddParticle(App->particles->powder01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1000, 2500), SDL_FLIP_HORIZONTAL);
 			}
 		}
