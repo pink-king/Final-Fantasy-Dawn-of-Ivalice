@@ -2,7 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
+EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 12, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
 {
 	LoadAnims();
 	App->audio->PlayFx(App->scene->golem_spawnSFX, 0);
