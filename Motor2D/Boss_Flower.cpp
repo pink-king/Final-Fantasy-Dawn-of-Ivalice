@@ -279,8 +279,6 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 FlowerBossEntity::~FlowerBossEntity()
 {
 	App->entityFactory->DeleteEntityFromSubtile(this);
-	if (rainEmitter != nullptr)
-		rainEmitter->to_delete = true;
 
 	// ---------- Win State Hardcoded when boss dies ------------------
 	
@@ -881,7 +879,18 @@ void FlowerBossEntity::InstantiateEnemiesAroundPlayer()
 		if (!spawnedEntitiesGroup.empty())
 		{
 			for (std::vector<j1Entity*>::iterator spawnedIter = spawnedEntitiesGroup.begin(); spawnedIter != spawnedEntitiesGroup.end(); ++spawnedIter)
+			{
+				// add powder02 particles
+				int maxPowderPerEnemy = App->entityFactory->GetRandomValue(1, 4);
+				for (int i = 0; i <= maxPowderPerEnemy; ++i)
+				{
+					fPoint p02offset = { 29,16 };
+					fPoint instaPoint = { (*spawnedIter)->position.x - (p02offset.x - (*spawnedIter)->pivot.x), (*spawnedIter)->position.y - (p02offset.y - (*spawnedIter)->pivot.y) };
+					App->particles->AddParticle(App->particles->powder02, (int)instaPoint.x, (int)instaPoint.y, {0,0}, App->entityFactory->GetRandomValue(0, 800));
+				}
+
 				instantiatedEnemies.push_back((*spawnedIter));
+			}
 		}
 	}
 
@@ -1036,6 +1045,9 @@ bool FlowerBossEntity::CleanUp()
 	App->tex->UnLoad(spawnCircleTex);
 	App->tex->UnLoad(debugTileTex);
 	App->tex->UnLoad(energyShieldTex);
+
+	if (rainEmitter != nullptr)
+		rainEmitter->to_delete = true;
 
 	return true;
 }
