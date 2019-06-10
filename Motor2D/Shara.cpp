@@ -362,8 +362,8 @@ Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
 	coolDownData.basic.cooldownTime = 0;
 	coolDownData.dodge.cooldownTime = 2000;
 	coolDownData.special1.cooldownTime = 500;
-	coolDownData.special2.cooldownTime = 1500;
-	coolDownData.ultimate.cooldownTime = 35000;
+	coolDownData.special2.cooldownTime = 3000;
+	coolDownData.ultimate.cooldownTime = 40000;
 	// set timers
 	SetCoolDownTimers();
 	//

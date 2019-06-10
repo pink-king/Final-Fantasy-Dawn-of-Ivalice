@@ -264,11 +264,8 @@ bool PlayerEntityManager::Update(float dt)
 	if (App->entityFactory->isThisSubtileLootFree(GetSubtilePos()) != nullptr)
 	{
 		
-		
 
 			lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
-
-
 			LastHoveredLootFlag = true;
 
 
