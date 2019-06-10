@@ -108,6 +108,7 @@ public:
 	Particle blood02;
 	Particle arrowTrail;
 	Particle powder01;
+	Particle powder02;
 	Particle arrow; 
 	Particle PoisonBlast;
 	Particle lvlUpFx; 
