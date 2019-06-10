@@ -35,8 +35,9 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSecti
 
 }
 
-UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * divisionSection, const SDL_Rect * staticSection, type variant, bool experience, UiItem * const parent)
+UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect * dynamicSection, const SDL_Rect * divisionSection, const SDL_Rect * staticSection, type variant, bool experience, UiItem * const parent) : UiItem(position, parent)
 {
+
 }
 
 UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect* dynamicSection, const SDL_Rect* staticSection, const SDL_Rect* divSection, type variant, uint maxLife, j1Entity* deliever, UiItem* const parent) : UiItem(position, parent)
