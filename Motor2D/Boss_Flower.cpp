@@ -5,6 +5,7 @@
 #include "j1PathFinding.h"
 #include "j1TransitionManager.h"
 #include "j1Window.h"
+#include "j1ParticlesClassic.h"
 
 FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, position.x, position.y, "Flower Boss")
 {
@@ -649,6 +650,28 @@ void FlowerBossEntity::PhaseManager(float dt)
 	{
 		currentAnimation = &deathAnim;
 
+		if (currentAnimation->GetCurrentFloatFrame() >= 6.F && !spawnedParticles)
+		{
+			spawnedParticles = true; 
+			int maxParticles = 80;
+			float maxDistance = 30.f;
+			for (int i = 0; i < maxParticles; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = GetPivotPos().x - 10 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = GetPivotPos().y - 15 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				App->particles->AddParticle(App->particles->explosion03, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1, 2000), SDL_FLIP_NONE, 0, 16, 16);
+			}
+			for (int i = maxParticles; i < 80; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = GetPivotPos().x - 45 + App->entityFactory->GetRandomValue(1, 45);
+				instaPos.y = GetPivotPos().y - 35 + App->entityFactory->GetRandomValue(1, 40) * App->camera2D->GetFloatNegOneToOne();
+				App->particles->AddParticle(App->particles->powder01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1000, 2500));
+				instaPos.x = GetPivotPos().x - 20 - App->entityFactory->GetRandomValue(1, 40);
+				App->particles->AddParticle(App->particles->powder01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(1000, 2500), SDL_FLIP_HORIZONTAL);
+			}
+		}
 		if (currentAnimation->Finished())
 			to_delete = true;
 
