@@ -269,7 +269,25 @@ bool PlayerEntityManager::Update(float dt)
 			/*lastHoveredLootItem = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
 			LastHoveredLootFlag = true;*/
 
-		LootEntity* checkLoot = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
+		std::list<LootEntity*> consumableList = App->entityFactory->GetConsumableListFromSubtile(GetSubtilePos());
+		if (!consumableList.empty())
+		{
+
+			for (std::list<LootEntity*>::iterator itr = consumableList.begin(); itr != consumableList.end(); ++itr)
+			{
+				if (CollectLoot((*itr)))
+				{
+					App->entityFactory->DeleteEntityFromSubtile((*itr));
+
+					App->entityFactory->entities.erase(
+						std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), (*itr)), App->entityFactory->entities.end());
+				}
+			}
+
+			consumableList.clear();
+		}
+
+		/*LootEntity* checkLoot = dynamic_cast<LootEntity*>(App->entityFactory->isThisSubtileLootFree(GetSubtilePos()));
 
 		if (checkLoot->objectType  == OBJECT_TYPE::GOLD || checkLoot->objectType == OBJECT_TYPE::POTIONS || checkLoot->objectType == OBJECT_TYPE::PHOENIX_TAIL)
 		{
@@ -281,7 +299,7 @@ bool PlayerEntityManager::Update(float dt)
 					std::remove(App->entityFactory->entities.begin(), App->entityFactory->entities.end(), checkLoot), App->entityFactory->entities.end());
 			}
 
-		}
+		}*/
 		else
 		{
 
