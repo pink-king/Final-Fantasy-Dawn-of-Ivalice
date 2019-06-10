@@ -415,8 +415,19 @@ bool j1Scene::Start()
 		/*App->entityFactory->CreateDialogTrigger(-135, 262, "VENDOR");              // TODO: NPC Tutorial dialog trigger
 		App->entityFactory->CreateDialogTrigger(90, 189, "STRANGER");*/
 
-		
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-120.F, 341.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-160.F, 361.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-200.F, 381.F));
+
 		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-240.F, 401.F));
+
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-280.F, 421.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-320.F, 441.F));
+		App->entityFactory->CreateEnemy(EnemyType::DUMMY, iPoint(-360.F, 461.F));
+		
+
+
+
 
 		App->entityFactory->loadEnemies = false;
 		inGamePanel->enable = true;

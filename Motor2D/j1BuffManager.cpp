@@ -1219,15 +1219,18 @@ bool j1BuffManager::Save(pugi::xml_node &node) const
 {
 	for (std::list<Buff*>::const_iterator item = buffs.begin();item != buffs.end(); ++item)
 	{
-		if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER && (*item)->GetItemObject() == nullptr && (*item)->GetRol()!= ROL::DEFENCE_ROL)
+		if ((*item)->GetCharacter() != nullptr)
 		{
-			pugi::xml_node nodeBuff = node.append_child("buff");
+			if ((*item)->GetCharacter()->type == ENTITY_TYPE::PLAYER && (*item)->GetItemObject() == nullptr && (*item)->GetRol() != ROL::DEFENCE_ROL)
+			{
+				pugi::xml_node nodeBuff = node.append_child("buff");
 
-			nodeBuff.append_attribute("type") = (int)(*item)->GetType();
-			nodeBuff.append_attribute("element") = (int)(*item)->GetElementType();
-			nodeBuff.append_attribute("rol") = (int)(*item)->GetRol();
-			nodeBuff.append_attribute("value") = (*item)->GetValue();
+				nodeBuff.append_attribute("type") = (int)(*item)->GetType();
+				nodeBuff.append_attribute("element") = (int)(*item)->GetElementType();
+				nodeBuff.append_attribute("rol") = (int)(*item)->GetRol();
+				nodeBuff.append_attribute("value") = (*item)->GetValue();
 
+			}
 		}
 	}
 	return true;

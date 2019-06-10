@@ -99,7 +99,7 @@ void WhisperOfIce::Propagate()
 	// TODO: Add SFX
 
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::INTIME, ELEMENTAL_TYPE::ICE_ELEMENT, 1, 4, 160, true, true);
+		damageType::INTIME, ELEMENTAL_TYPE::ICE_ELEMENT, 5, 4, 160, true, true);
 	App->camera2D->AddTrauma(0.10F);
 	App->input->DoGamePadRumble(0.15F, 200);
 

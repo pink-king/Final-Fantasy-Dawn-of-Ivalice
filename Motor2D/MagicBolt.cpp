@@ -102,7 +102,7 @@ bool MagicBolt::Move(float dt)
 void MagicBolt::Explode()
 {
 	App->attackManager->AddPropagationAttack(owner, GetSubtilePos(), propagationType::BFS,
-		damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 30, 7, 50, true);
+		damageType::DIRECT, ELEMENTAL_TYPE::NO_ELEMENT, 20, 7, 50, true);
 
 	App->camera2D->AddTrauma(5.f / 100.f);
 	App->input->DoGamePadRumble(0.2f, 300);
