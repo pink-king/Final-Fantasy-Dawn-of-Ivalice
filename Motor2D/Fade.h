@@ -7,11 +7,12 @@ class Fade :
 private:
 	Color color = Black;
 	bool is_scene_change = false;
+	bool debugTP = false;
 	SceneState scene_to_change = SceneState::MAX_STATES;
-
+	LvlPart lvlPart = LvlPart::NO_PART;
 	SDL_Rect screen;
 public:
-	Fade(float transition_time, bool is_scene_change, SceneState scene_to_change, Color color = Black);
+	Fade(float transition_time, bool is_scene_change, SceneState scene_to_change, Color color = Black, bool debugTP = false, LvlPart lvlPart = LvlPart::NO_PART);
 	~Fade();
 
 	void Entering();

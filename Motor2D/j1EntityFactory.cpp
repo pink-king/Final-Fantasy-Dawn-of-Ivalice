@@ -82,7 +82,7 @@ bool j1EntityFactory::Start()
 	assetsAtlasTex = App->tex->Load("maps/Tilesets/Level 1/tileset_level_1.png");
 	enemyZombieTex = App->tex->Load("textures/enemies/zombiesShadows.png");
 	enemyBombTex = App->tex->Load("textures/enemies/bombsShadows.png");
-	enemyGolemTex = App->tex->Load("textures/enemies/enemyGolemv2.png");
+	enemyGolemTex = App->tex->Load("textures/enemies/golemWithShadows.png");
 	debugsubtileTex = App->tex->Load("maps/tile_32x32_2.png");
 	arrowsTexture = App->tex->Load("textures/spells/Shara_attacks/arrowTypes.png");
 	ritzUltimateTex = App->tex->Load("textures/spells/Ritz_ultimate/Ritz_ultimate_WIP.png");
@@ -419,11 +419,14 @@ bool j1EntityFactory::LoadPortal(pugi::xml_node &node)
 			
 		}
 	}
-	for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
+	if (loadPlayer)
 	{
-		if (App->entityFactory->player != nullptr)
+		for (pugi::xml_node characterPlayer = node.child("Players"); characterPlayer; characterPlayer = characterPlayer.next_sibling("Players"))
 		{
-			App->entityFactory->player->Load(characterPlayer);
+			if (App->entityFactory->player != nullptr)
+			{
+				App->entityFactory->player->Load(characterPlayer);
+			}
 		}
 	}
 

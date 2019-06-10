@@ -60,12 +60,10 @@ bool j1BuffManager::CleanUp()
 
 	while (item != buffs.end())
 	{
-		if (*item != nullptr)
+		if (*item != nullptr && (*item)->GetItemObject() == nullptr)
 		{
 			delete *item;
 			*item = nullptr;
-			buffs.remove(*item);
-
 		}
 		++item;
 	}

@@ -248,8 +248,8 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 		type::boss, this->life, this, App->scene->inGamePanel);
 
 
-	// REMOVE THIS
-	debugVisuals = true;
+	// TODO: REMEMBER
+	//debugVisuals = true;
 
 }
 

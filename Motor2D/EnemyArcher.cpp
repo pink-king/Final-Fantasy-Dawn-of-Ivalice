@@ -2,7 +2,7 @@
 #include "j1EntityFactory.h"
 #include "j1BuffManager.h"
 #include "j1AttackManager.h"
-EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 10, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
+EnemyArcher::EnemyArcher(const iPoint& pos, bool dummy) : Enemy(pos, 70, 12, 7, 5, 2.F, dummy, ENTITY_TYPE::ENEMY_ARCHER, "EnemyArcher")
 {
 	LoadAnims();
 	App->audio->PlayFx(App->scene->golem_spawnSFX, 0);
@@ -61,22 +61,6 @@ bool EnemyArcher::CleanUp()
 	return true;
 }
 
-void EnemyArcher::Draw()
-{
-	iPoint spriteShadowOffset = { 16,14 };
-	App->render->Blit(shadow, GetPivotPos().x - spriteShadowOffset.x, GetPivotPos().y - spriteShadowOffset.y, NULL);
-
-	if (App->scene->debugSubtiles == true)
-		DebugPath();
-
-	if (entityTex != nullptr)
-	{
-		if (currentAnimation != nullptr)
-			App->render->Blit(entityTex, position.x, position.y, &currentAnimation->GetCurrentFrame(), 1.0F, flip);
-		else
-			App->render->Blit(entityTex, position.x, position.y);
-	}
-}
 
 void EnemyArcher::SetState(float dt)
 {

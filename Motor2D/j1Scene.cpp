@@ -259,10 +259,11 @@ bool j1Scene::Start()
 
 		fPoint PosX = fPoint(App->map->MapToWorld(36, 99).x, App->map->MapToWorld(36, 101).y);
 		NoWalkableTrigger* bossTrigger = (NoWalkableTrigger*)App->entityFactory->CreateTrigger(TRIGGER_TYPE::NOWALKABLE, PosX.x, PosX.y,SceneState::MAX_STATES,Black,11,true);
-		bossTrigger->CreateEntryWall(iPoint(37, 94));
-		bossTrigger->CreateEntryWall(iPoint(36, 94));
-		bossTrigger->CreateEntryWall(iPoint(35, 94));
+		bossTrigger->CreateEntryWall(iPoint(33, 94));
 		bossTrigger->CreateEntryWall(iPoint(34, 94));
+		bossTrigger->CreateEntryWall(iPoint(35, 94));
+		bossTrigger->CreateEntryWall(iPoint(36, 94));
+		bossTrigger->CreateEntryWall(iPoint(37, 94));
 
 	
 		//AcceptUISFX_logic = false;
@@ -387,7 +388,11 @@ bool j1Scene::Start()
 		//App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg", -1);
 
 		App->camera2D->SetCameraPos({ 115, 240 });
-
+		if (ComeToWin)
+		{
+			App->LoadGame("save_door.xml");
+			ComeToWin = false;
+		}
 		if (savedNow)
 		{
 			App->LoadGame("save_game.xml");
@@ -801,25 +806,25 @@ bool j1Scene::Update(float dt)
 	{
 		//debug tp
 		if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0,SceneState::LOBBY, LvlPart::NO_PART);
+			App->transitionManager->CreateFadeTransition(1.0,true,SceneState::LOBBY, Black, true, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::FIRINGRANGE, LvlPart::NO_PART);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::FIRINGRANGE, Black, true, LvlPart::NO_PART);
 
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::START);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL1, Black, true, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL1, LvlPart::WAVES);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL1, Black, true, LvlPart::WAVES);
 
-		/*if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::START);*/                                                                                                                                                                                                                   
+		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL2, Black, true, LvlPart::START);
 
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::WAVES);
+			App->transitionManager->CreateFadeTransition(1.0, true, SceneState::LEVEL2,Black,true, LvlPart::WAVES);
 
 		if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
-			App->transitionManager->CreateDissolveTransition(1.0, SceneState::LEVEL2, LvlPart::BOSS);
+			App->transitionManager->CreateFadeTransition(1.0,true, SceneState::LEVEL2, Black, true, LvlPart::BOSS);
 
 		//Mix_CloseAudio();
 		//if()
@@ -1966,7 +1971,7 @@ void j1Scene::LoadScene(SceneState sceneState)
 		App->buff->Enable();
 		App->map->active = true;
 		App->audio->PlayMusic("audio/music/BRPG_Hell_Spawn_FULL_Loop.ogg");
-		LoadNewMap("maps/Level2.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
+		LoadNewMap("maps/Level2_rework.tmx");//"maps/test_ordering.tmx"))//level1_Block_rev.tmx"))   // ("maps/iso_walk.tmx")
 		if (!App->easing->IsEnabled())
 			App->easing->Enable();
 		if (!App->entityFactory->IsEnabled())
@@ -1999,9 +2004,9 @@ void j1Scene::LoadScene(SceneState sceneState)
 
 void j1Scene::DebugTP(SceneState const &futureScene, LvlPart const &lvlPart)
 {
+	ComeToWin = true;
 	if (futureScene != state)
 	{
-		ComeToWin = true;
 		LoadScene(futureScene);
 	}
 	switch (futureScene)

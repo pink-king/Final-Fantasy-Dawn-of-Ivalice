@@ -70,6 +70,7 @@ bool LobbyPortal::DoTriggerAction()
 		App->transitionManager->CreateFadeTransition(1.0, true, scene, color);
 		App->scene->previosState = App->scene->state;
 		App->entityFactory->player->to_delete = true;
+		App->entityFactory->loadPlayer = false;
 		doit = false;
 	}
 	return true;

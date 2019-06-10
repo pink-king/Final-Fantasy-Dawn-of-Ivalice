@@ -30765,13 +30765,13 @@
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="668" name="spawnZone" x="1265.17" y="2386.83" width="216.667" height="162.333">
+  <object id="668" name="spawnZone" x="1249.5" y="2383.83" width="124" height="72.333">
    <properties>
-    <property name="bomb" type="bool" value="true"/>
+    <property name="bomb" type="bool" value="false"/>
     <property name="level" type="int" value="1"/>
-    <property name="maxEnemies" type="int" value="10"/>
-    <property name="minEnemies" type="int" value="8"/>
-    <property name="test" type="bool" value="false"/>
+    <property name="maxEnemies" type="int" value="2"/>
+    <property name="minEnemies" type="int" value="1"/>
+    <property name="test" type="bool" value="true"/>
    </properties>
   </object>
   <object id="669" name="spawnZone" x="1015.83" y="1254" width="156.167" height="145.833">
@@ -30821,14 +30821,14 @@
   </object>
   <object id="679" name="spawnZone" x="939.167" y="2379.5" width="165.333" height="162.333">
    <properties>
-    <property name="bomb" type="bool" value="true"/>
+    <property name="bomb" type="bool" value="false"/>
     <property name="level" type="int" value="1"/>
     <property name="maxEnemies" type="int" value="6"/>
     <property name="minEnemies" type="int" value="3"/>
-    <property name="test" type="bool" value="false"/>
+    <property name="test" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="823" name="spawnZone" x="1481" y="2035.83" width="50.2503" height="63.583">
+  <object id="823" name="spawnZone" x="1474" y="1977.5" width="50.2503" height="63.583">
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="2"/>
@@ -30837,7 +30837,7 @@
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="825" name="spawnZone" x="1478.21" y="2208.88" width="50.2503" height="63.583">
+  <object id="825" name="spawnZone" x="1474.21" y="2143.55" width="50.2503" height="63.583">
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="2"/>

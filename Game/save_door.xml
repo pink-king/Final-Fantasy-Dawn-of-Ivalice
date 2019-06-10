@@ -7,14 +7,70 @@
 	<map />
 	<scene lobbyState="2" />
 	<entities>
-		<Entities player="marche">
-			<Experience level="2" exp="0" />
+		<Entities player="ritz">
+			<Experience level="6" exp="1625" />
 			<life actualLife="0" />
-			<gold value="0" />
+			<gold value="394132" />
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="384" y="1568" w="32" h="32" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="384" y="1568" w="32" h="32" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="384" y="1568" w="32" h="32" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="384" y="1568" w="32" h="32" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="384" y="1568" w="32" h="32" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
+			<consumableObjects>
+				<data name="potion" level="0" elementalType="noElement" objectType="potion" lootType="consumable">
+					<rect x="384" y="1568" w="32" h="32" />
+				</data>
+				<buffs>
+					<data type="additive" elementType="noElement" rol="defence" value="2" />
+				</buffs>
+			</consumableObjects>
 		</Entities>
 	</entities>
 	<AttackManager />
 	<Buff>
+		<buff type="0" element="5" rol="0" value="5" />
+		<buff type="0" element="5" rol="4" value="5" />
+		<buff type="0" element="5" rol="0" value="5" />
+		<buff type="0" element="5" rol="4" value="5" />
+		<buff type="0" element="5" rol="0" value="5" />
+		<buff type="0" element="5" rol="4" value="5" />
+		<buff type="0" element="5" rol="0" value="5" />
+		<buff type="0" element="5" rol="4" value="5" />
 		<buff type="0" element="5" rol="0" value="5" />
 		<buff type="0" element="5" rol="4" value="5" />
 	</Buff>
