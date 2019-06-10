@@ -5,6 +5,7 @@
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1PathFinding.h"
+#include "Brofiler/Brofiler.h"
 
 Ritz::Ritz(int posX, int posY):PlayerEntity(posX,posY)
 {
@@ -593,6 +594,7 @@ bool Ritz::PreUpdate()
 
 bool Ritz::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Ritz", Profiler::Color::LawnGreen);
 	fPoint pivotPos = GetPivotPos();
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);

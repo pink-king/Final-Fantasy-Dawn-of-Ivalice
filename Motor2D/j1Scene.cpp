@@ -28,6 +28,7 @@
 #include "WaveTrigger.h"
 #include "LootEntity.h"
 #include "Video.h"
+#include "Brofiler/Brofiler.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 #include "j1ParticlesClassic.h"
 j1Scene::j1Scene() : j1Module()
@@ -559,6 +560,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate Scene", Profiler::Color::Turquoise);
 	// debug pathfing ------------------
 
 	int x, y;
@@ -639,7 +641,7 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
+	BROFILER_CATEGORY("Update Scene", Profiler::Color::LawnGreen);
 	// how to get joysticks for correct UI navigation/whatever needed situation examples --------
 	if (App->input->GetJoystickPulsation(JOY_STICK_LEFT, JOYSTICK_DIR_UP) == KEY_DOWN)
 	{
@@ -1325,6 +1327,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate Scene", Profiler::Color::MediumOrchid);
 	bool ret = true;
 	DecideTexToPulse();
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)

@@ -608,7 +608,7 @@ bool j1ParticlesClassic::Update(float dt)
 // Update: draw background
 bool j1ParticlesClassic::PostUpdate()//float dt)
 {
-	BROFILER_CATEGORY("Particles Update", Profiler::Color::BlanchedAlmond);
+	BROFILER_CATEGORY("Particles PostUpdate", Profiler::Color::BlanchedAlmond);
 
 	for (std::list<Particle*>::iterator p = active.begin(); p != active.end();)
 	{
@@ -643,6 +643,7 @@ bool j1ParticlesClassic::PostUpdate()//float dt)
 
 bool j1ParticlesClassic::PostUpdate2()
 {
+	BROFILER_CATEGORY("Particles PostUpdate2", Profiler::Color::BlanchedAlmond);
  	for (std::list<Particle*>::iterator p = activeOnScreen.begin(); p != activeOnScreen.end();)
 	{
 

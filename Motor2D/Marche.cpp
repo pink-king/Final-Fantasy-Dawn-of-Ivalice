@@ -14,6 +14,7 @@
 #include "j1Scene.h"
 #include "Projectile.h"
 #include "j1ParticlesClassic.h"
+#include "Brofiler/Brofiler.h"
 
 Marche::Marche(int posX, int posY): PlayerEntity(posX,posY)
 {
@@ -686,6 +687,7 @@ bool Marche::PreUpdate()
 
 bool Marche::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Marche", Profiler::Color::LawnGreen);
 	fPoint pivotPos = GetPivotPos();
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);

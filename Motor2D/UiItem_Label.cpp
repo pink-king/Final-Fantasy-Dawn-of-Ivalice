@@ -8,6 +8,7 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include <assert.h>
+#include "Brofiler/Brofiler.h"
 
 
 #include "j1EntityFactory.h"
@@ -82,6 +83,7 @@ UiItem_Label::~UiItem_Label()
 
 void UiItem_Label::Draw(const float & dt)
 {
+	BROFILER_CATEGORY("Draw Label", Profiler::Color::DarkOrange);
 	if (!hide)
 	{
 		if (!this->right_text)

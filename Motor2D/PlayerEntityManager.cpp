@@ -13,6 +13,7 @@
 #include "UiItem_Label.h"
 #include "j1ParticlesClassic.h"
 #include "LootEntity.h"
+#include "Brofiler/Brofiler.h"
 
 PlayerEntityManager::PlayerEntityManager(iPoint position) : j1Entity(PLAYER, position.x,position.y, "PEM")
 {
@@ -103,6 +104,7 @@ bool PlayerEntityManager::PreUpdate()
 
 bool PlayerEntityManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Update PEM", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
@@ -443,7 +445,7 @@ bool PlayerEntityManager::Update(float dt)
 
 bool PlayerEntityManager::PostUpdate()
 {
-
+	BROFILER_CATEGORY("PostUpdate PEM", Profiler::Color::MediumOrchid);
 	selectedCharacterEntity->PostUpdate();
 
 	if (debug)

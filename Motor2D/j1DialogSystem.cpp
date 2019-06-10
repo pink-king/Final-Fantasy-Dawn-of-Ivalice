@@ -7,6 +7,7 @@
 #include "j1EntityFactory.h"
 #include "j1TransitionManager.h"
 #include "Boss_Flower.h"
+#include "Brofiler/Brofiler.h"
 
 
 j1DialogSystem::j1DialogSystem()
@@ -31,6 +32,7 @@ bool j1DialogSystem::Start()
 
 bool j1DialogSystem::Update(float dt)
 {
+	BROFILER_CATEGORY("Update DialogSystem", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 

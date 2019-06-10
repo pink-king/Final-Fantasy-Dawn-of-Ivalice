@@ -129,6 +129,7 @@ EaseSplineInfov2* j1EasingSplines::CreateSplineV2(float position, int target_pos
 
 bool EaseSplineInfo::Update(float dt)
 {
+	BROFILER_CATEGORY("Update splineInfo", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 	float time_passed = SDL_GetTicks() - time_started;
@@ -258,7 +259,7 @@ int EaseFunctions::EaseOutQuad(float time_passed, int initial_position, int dist
 
 bool EaseSplineInfov2::Update(float dt)
 {
-
+	BROFILER_CATEGORY("Update splineInfo2", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 	float time_passed = SDL_GetTicks() - time_started;

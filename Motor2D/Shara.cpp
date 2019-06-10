@@ -6,6 +6,7 @@
 #include "j1AttackManager.h"
 #include "j1EntityFactory.h"
 #include "j1ParticlesClassic.h"
+#include "Brofiler/Brofiler.h"
 #include "p2Defs.h"
 
 Shara::Shara(int posX, int posY):PlayerEntity(posX,posY)
@@ -414,6 +415,7 @@ bool Shara::PreUpdate()
 
 bool Shara::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Shara", Profiler::Color::LawnGreen);
 	fPoint pivotPos = GetPivotPos();
 	//LOG("%f,%f", pivot.x, pivot.y);
 	iPoint onTilePos = App->map->WorldToMap(pivotPos.x, pivotPos.y);

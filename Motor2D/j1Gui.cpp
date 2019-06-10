@@ -64,6 +64,7 @@ bool j1Gui::Start()
 
 bool j1Gui::Update(float dt)
 {
+	BROFILER_CATEGORY("Update j1Gui", Profiler::Color::LawnGreen);
 	DoLogicSelected();
 
 	// TESTING TAB, its "faked" for the mom, only bars 

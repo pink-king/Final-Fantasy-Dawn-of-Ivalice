@@ -6,6 +6,7 @@
 #include "j1Render.h"
 #include "j1Window.h"
 #include "p2Log.h"
+#include "Brofiler/Brofiler.h"
 
 j1TransitionManager::j1TransitionManager()
 {
@@ -31,6 +32,7 @@ bool j1TransitionManager::Start()
 
 bool j1TransitionManager::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate TransManager", Profiler::Color::MediumOrchid);
 	for each(Transition* t in active_transitions)
 	{
 		t->PostUpdate();

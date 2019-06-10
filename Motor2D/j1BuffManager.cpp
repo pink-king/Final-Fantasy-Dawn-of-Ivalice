@@ -42,6 +42,7 @@ bool j1BuffManager::Start()
 
 bool j1BuffManager::Update(float dt)
 {
+	BROFILER_CATEGORY("Update BuffManager", Profiler::Color::LawnGreen);
 	bool ret = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
