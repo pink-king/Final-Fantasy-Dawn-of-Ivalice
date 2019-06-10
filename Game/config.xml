@@ -174,7 +174,7 @@
         <healthbar name="life_bar">
 	    <test x="25" y="461" w="205" h="19"/>
           <dynamicSection x="0" y="425" w="205" h="31"/>
-          <damageSection x="28" y="407" w="126" h="16"/>
+          <damageSection x="28" y="407" w="178" h="16"/>
           <position x="40" y="9"/>
           <type value="player"/>
         </healthbar>

@@ -44,6 +44,7 @@ UiItem_HealthBar::UiItem_HealthBar(iPoint position, const SDL_Rect * dynamicSect
 	TotalLabel = App->gui->AddLabel("0k/7K", c, App->font->piecesofEight24, position + iPoint(staticSection->w + 8, -7), this);
 	staticImage = App->gui->AddImage({position.x, position.y-2}, staticSection, name, this);
 	dynamicImage = App->gui->AddImage(position, dynamicSection, name, this);
+	divisionExpImage = App->gui->AddImage({ position.x+22, position.y }, divisionSection, name, this);
 	maxSection = dynamicImage->section.w;
 	dynamicImage->section.w = 0;
 
