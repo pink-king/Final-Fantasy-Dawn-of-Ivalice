@@ -547,7 +547,7 @@ bool j1Scene::Start()
 
 	if (state == SceneState::WIN)
 	{
-		App->video->PlayVideo("intro/creditsVideo.mp4", SceneState::LOBBY);
+		App->video->PlayVideo("intro/PinkKingGamesOutro.mp4", SceneState::LOBBY);
 		//App->audio->PlayMusic("audio/music/win.ogg", -1);
 
 		if (ComeToDeath)
