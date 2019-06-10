@@ -258,9 +258,7 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 	maxEvasion_timer_data.time = 400;
 
 
-	myState = Boss1State::NOTHING;
-
-
+	myState = Boss1State::START;
 
 
 	uint width, height = 0;
@@ -273,6 +271,9 @@ FlowerBossEntity::FlowerBossEntity(iPoint position) : j1Entity(FLOWERBOSS, posit
 
 	// TODO: REMEMBER
 	//debugVisuals = true;
+
+	// force update tilepositions
+	UpdateTilePositions();
 
 }
 
@@ -349,6 +350,26 @@ bool FlowerBossEntity::PreUpdate()
 bool FlowerBossEntity::Update(float dt)
 {
 
+	if (myState == Boss1State::START)
+	{
+		// deactivate by default this entity on subtilemap for nothing phase
+		App->entityFactory->DeleteEntityFromSubtile(this);
+		// adds to walkability
+		App->pathfinding->ActivateTile(imOnTile);
+
+		myState = Boss1State::NOTHING;
+	}
+	
+	if (myState == Boss1State::READY)
+	{
+		// deletes walkability tile shield
+		App->pathfinding->DeactivateTile(imOnTile);
+		// re assign to entities data map
+		App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
+
+		myState = Boss1State::PHASE1;
+	}
+
 	PhaseManager(dt);
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_9) == KEY_DOWN)
@@ -362,7 +383,7 @@ bool FlowerBossEntity::Update(float dt)
 		switch (myState)
 		{
 		case Boss1State::NOTHING:
-			myState = Boss1State::PHASE1;
+			myState = Boss1State::READY; // autostarts phase1
 			break;
 		case Boss1State::PHASE1:
 		{
@@ -683,6 +704,24 @@ void FlowerBossEntity::PhaseManager(float dt)
 		for (std::list<j1Entity*>::iterator enemiesAlive = instantiatedEnemies.begin(); enemiesAlive != instantiatedEnemies.end(); ++enemiesAlive)
 		{
 			(*enemiesAlive)->to_die = true;
+			
+			int maxExplosionParticles = 3; // 3 for each enemy
+			float maxDistance = 6.f;
+			// instantiate explosion particles
+			for (int i = 0; i < maxExplosionParticles; ++i)
+			{
+				fPoint instaPos;
+				instaPos.x = (*enemiesAlive)->GetPivotPos().x - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = (*enemiesAlive)->GetPivotPos().y - 30 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				//App->particles->explosion01, 02,03 TODO: check what explosion is more cool to do this
+				// explosions
+				App->particles->AddParticle(App->particles->explosion01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(100, 800), SDL_FLIP_HORIZONTAL);
+				// blood
+				instaPos.x = (*enemiesAlive)->GetPivotPos().x - 24 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				instaPos.y = (*enemiesAlive)->GetPivotPos().y - 24 + (maxDistance * App->camera2D->GetFloatNegOneToOne());
+				App->particles->AddParticle(App->particles->blood01, instaPos.x, instaPos.y, { 0,0 }, App->entityFactory->GetRandomValue(0, 800), SDL_FLIP_HORIZONTAL);
+			}
+
 		}
 		instantiatedEnemies.clear();
 
@@ -693,8 +732,13 @@ void FlowerBossEntity::PhaseManager(float dt)
 		}
 
 		// check for shield and reassign to data map if needed, to prevent the automatic eraser from entities, just in case
-		if(shieldActive)
+		if (shieldActive)
+		{
 			App->entityFactory->AssignEntityToSubtilePos(this, imOnSubtile);
+
+			// and deactivate shield condition to finish shield anim
+			shieldActive = false;
+		}
 
 		break;
 	}

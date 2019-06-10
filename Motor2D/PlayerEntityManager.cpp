@@ -546,6 +546,9 @@ bool PlayerEntityManager::Load(pugi::xml_node &node)
 	if (life <= 0)
 		life = 100;
 
+	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::ATTACK_ROL, this, " ", (level - 1) * 5);
+	App->buff->CreateBuff(BUFF_TYPE::ADDITIVE, ELEMENTAL_TYPE::ALL_ELEMENTS, ROL::HEALTH, this, " ", (level - 1) * 5);
+
 	App->gui->healthBar->RecalculateSection(); 
 	
 	gold = node.child("gold").attribute("value").as_uint();

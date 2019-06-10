@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="853">
+<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="860">
  <tileset firstgid="1" name="tileset_level_1" tilewidth="64" tileheight="64" tilecount="240" columns="15">
   <image source="Tilesets/Level 1/tileset_level_1.png" width="1021" height="1024"/>
  </tileset>
@@ -30724,8 +30724,8 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="1"/>
-    <property name="maxEnemies" type="int" value="15"/>
-    <property name="minEnemies" type="int" value="8"/>
+    <property name="maxEnemies" type="int" value="7"/>
+    <property name="minEnemies" type="int" value="5"/>
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
@@ -30733,21 +30733,21 @@
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="1"/>
-    <property name="maxEnemies" type="int" value="12"/>
-    <property name="minEnemies" type="int" value="8"/>
+    <property name="maxEnemies" type="int" value="8"/>
+    <property name="minEnemies" type="int" value="5"/>
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="665" name="spawnZone" x="378.333" y="2703.67" width="216.667" height="162.333">
+  <object id="665" name="spawnZone" x="692.333" y="2515.17" width="61.667" height="77.333">
    <properties>
-    <property name="bomb" type="bool" value="false"/>
+    <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="1"/>
-    <property name="maxEnemies" type="int" value="12"/>
-    <property name="minEnemies" type="int" value="8"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="3"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="666" name="spawnZone" x="183.833" y="1948.17" width="216.667" height="162.333">
+  <object id="666" name="spawnZone" x="203.833" y="1938.17" width="216.667" height="162.333">
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="2"/>
@@ -30756,12 +30756,12 @@
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="667" name="spawnZone" x="832.5" y="1875.5" width="216.667" height="162.333">
+  <object id="667" name="spawnZone" x="879" y="1820.5" width="115.167" height="162.333">
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="level" type="int" value="2"/>
-    <property name="maxEnemies" type="int" value="16"/>
-    <property name="minEnemies" type="int" value="11"/>
+    <property name="maxEnemies" type="int" value="6"/>
+    <property name="minEnemies" type="int" value="4"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
@@ -30769,8 +30769,8 @@
    <properties>
     <property name="bomb" type="bool" value="false"/>
     <property name="level" type="int" value="1"/>
-    <property name="maxEnemies" type="int" value="2"/>
-    <property name="minEnemies" type="int" value="1"/>
+    <property name="maxEnemies" type="int" value="6"/>
+    <property name="minEnemies" type="int" value="4"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
@@ -30810,12 +30810,12 @@
     <property name="test" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="673" name="spawnZone" x="444.167" y="1263.83" width="216.667" height="162.333">
+  <object id="673" name="spawnZone" x="452.5" y="1230.16" width="216.667" height="89.333">
    <properties>
     <property name="bomb" type="bool" value="true"/>
     <property name="level" type="int" value="3"/>
-    <property name="maxEnemies" type="int" value="12"/>
-    <property name="minEnemies" type="int" value="10"/>
+    <property name="maxEnemies" type="int" value="9"/>
+    <property name="minEnemies" type="int" value="8"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>
@@ -30885,6 +30885,60 @@
     <property name="bomb" type="bool" value="false"/>
     <property name="maxEnemies" type="int" value="1"/>
     <property name="minEnemies" type="int" value="1"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="853" name="spawnZone" x="329.666" y="2708.83" width="216.667" height="162.333">
+   <properties>
+    <property name="bomb" type="bool" value="false"/>
+    <property name="level" type="int" value="1"/>
+    <property name="maxEnemies" type="int" value="6"/>
+    <property name="minEnemies" type="int" value="4"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="854" name="spawnZone" x="616.166" y="2770.33" width="61.667" height="77.333">
+   <properties>
+    <property name="bomb" type="bool" value="false"/>
+    <property name="level" type="int" value="1"/>
+    <property name="maxEnemies" type="int" value="3"/>
+    <property name="minEnemies" type="int" value="2"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="855" name="spawnZone" x="114.666" y="2187.33" width="78.667" height="79.833">
+   <properties>
+    <property name="bomb" type="bool" value="false"/>
+    <property name="level" type="int" value="2"/>
+    <property name="maxEnemies" type="int" value="6"/>
+    <property name="minEnemies" type="int" value="5"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="856" name="spawnZone" x="751.917" y="1933.33" width="115.167" height="162.333">
+   <properties>
+    <property name="bomb" type="bool" value="false"/>
+    <property name="level" type="int" value="2"/>
+    <property name="maxEnemies" type="int" value="4"/>
+    <property name="minEnemies" type="int" value="6"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="857" name="spawnZone" x="383.666" y="1423.33" width="78.3337" height="89.333">
+   <properties>
+    <property name="bomb" type="bool" value="true"/>
+    <property name="level" type="int" value="3"/>
+    <property name="maxEnemies" type="int" value="3"/>
+    <property name="minEnemies" type="int" value="2"/>
+    <property name="test" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="859" name="spawnZone" x="559.833" y="1393.67" width="78.3337" height="89.333">
+   <properties>
+    <property name="bomb" type="bool" value="true"/>
+    <property name="level" type="int" value="3"/>
+    <property name="maxEnemies" type="int" value="3"/>
+    <property name="minEnemies" type="int" value="2"/>
     <property name="test" type="bool" value="true"/>
    </properties>
   </object>

@@ -329,6 +329,7 @@ bool j1Scene::Start()
 
 		App->entityFactory->CreatePlayer({ 115, 240 });
 
+		strangerDialog = nullptr;
 		if (lobbyState == LobbyState::ALLBLOCK)
 		{
 			doorlvl1 = nullptr;
@@ -358,6 +359,8 @@ bool j1Scene::Start()
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::EXITPORTAL, 96, 290);
 				App->LoadGame("save_door.xml");
 				lobbyState = LobbyState::PASSLVL1;
+				strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "AFTERWIN", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+
 			}
 			else if (ComeToPortal && lobbyState != LobbyState::PASSLVL2)
 			{
@@ -365,6 +368,8 @@ bool j1Scene::Start()
 				App->entityFactory->loadEnemies = false;
 				App->LoadGame("Portal.xml");
 				App->entityFactory->CreateTrigger(TRIGGER_TYPE::LOBBYPORTAL, 96, 290, previosState, White);
+				strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
+				
 			}
 
 			if (ComeToDeath || ComeToWin)
@@ -376,6 +381,7 @@ bool j1Scene::Start()
 		App->entityFactory->CreateTrigger(TRIGGER_TYPE::SAVE, 105, 385);
 
 		App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(11, 21).x, App->map->SubTileMapToWorld(11, 21).y, "VENDOR", { App->map->SubTileMapToWorld(5, 18).x - 5, App->map->SubTileMapToWorld(5, 18).y }, 1);
+		if(strangerDialog == nullptr)
 		strangerDialog = App->entityFactory->CreateDialogTrigger(App->map->SubTileMapToWorld(13, 10).x, App->map->SubTileMapToWorld(13, 10).y, "STRANGER", { App->map->SubTileMapToWorld(8, 6).x + 5, App->map->SubTileMapToWorld(8, 6).y }, 2);
 
 
@@ -1712,7 +1718,7 @@ bool j1Scene::LoadInGameUi(pugi::xml_node& nodeScene)
 	coins_label->name = "coinsLabel";
 	wave_label = App->gui->AddLabel("", { 255,255,255,255 }, App->font->piecesofEight36, { 1150,107 }, inGamePanel);
 	god_label = App->gui->AddLabel("God Mode", { 255,255,255, 150 }, App->font->knightsQuest24, { 1185, 695 }, inGamePanel);
-	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight24, { 60,130 }, inGamePanel);
+	exp_label = App->gui->AddLabel("LVL 1", { 255,255,255,255 }, App->font->piecesofEight18, { 112,166 }, inGamePanel);
 	wave_label->hide = true;
 	god_label->hide = true;
 	potionIg_label = App->gui->AddLabel("0", { 255,255,255,255 }, App->font->openSansSemiBold24, { 1252,628 }, inGamePanel);
