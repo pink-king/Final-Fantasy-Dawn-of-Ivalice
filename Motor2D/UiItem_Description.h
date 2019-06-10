@@ -92,6 +92,9 @@ public:
 	UiItem_Image* iconImageInventory = nullptr;
 
 
+
+	UiItem_Image* interactButtonImage = nullptr; 
+
 	// for weapons and armors, but not potions
 
 	UiItem_Label* attachedCharacter = nullptr;
@@ -126,6 +129,7 @@ public:
 	bool hide = false;
 	bool spawnedInventoryImage = false;
 	bool switchedCameraUsage = false;
+	bool spawnedInteractButton = false; 
 
 	bool showedPrice = false;
 	bool spawnedInGame = false; 

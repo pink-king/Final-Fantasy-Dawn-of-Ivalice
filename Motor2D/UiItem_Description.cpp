@@ -11,6 +11,7 @@
 #include "j1DialogSystem.h"
 #include "CharacterStats.h"
 #include "Brofiler/Brofiler.h"
+#include "j1Input.h"
 
 UiItem_Description::UiItem_Description(iPoint position, std::string itemName, const SDL_Rect* panelRect, const SDL_Rect* iconRect, float Value, EquipmentStatType variableType, uint level, LootEntity* callback, UiItem* const parent, uint price) : UiItem(position, parent)
 {
@@ -156,6 +157,21 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		this->price->hide = true;
 		this->price->useCamera = false; 
 	}
+
+
+
+	if (!App->scene->inventory->enable)
+	{
+		std::string name = "namename"; 
+
+		interactButtonImage = App->gui->AddImage(iPoint(0,0), &App->input->GetAssociatedRectForThisGamepadInput(
+			App->input->gamepadScheme.sharedInput.interact.button,
+			App->input->gamepadScheme.sharedInput.interact.axis), name, this);
+
+		spawnedInteractButton = true; 
+
+		interactButtonImage->useCamera = false;
+	}
 }
 
 
@@ -289,6 +305,21 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		this->price->useCamera = false;
 	}
 
+
+
+
+	if (!App->scene->inventory->enable)
+	{
+		std::string name = "namename";
+
+		interactButtonImage = App->gui->AddImage(iPoint(0, 0), &App->input->GetAssociatedRectForThisGamepadInput(
+			App->input->gamepadScheme.sharedInput.interact.button,
+			App->input->gamepadScheme.sharedInput.interact.axis), name, this);
+
+		spawnedInteractButton = true;
+
+		interactButtonImage->useCamera = false; 
+	}
 }
 
 
@@ -363,6 +394,24 @@ UiItem_Description::UiItem_Description(iPoint position, std::string itemName, co
 		this->price->hide = true;
 
 		this->price->useCamera = false; 
+	}
+
+
+
+
+
+	if (!App->scene->inventory->enable)
+	{
+		std::string name = "namename";
+
+		interactButtonImage = App->gui->AddImage(iPoint(0, 0), &App->input->GetAssociatedRectForThisGamepadInput(
+			App->input->gamepadScheme.sharedInput.interact.button,
+			App->input->gamepadScheme.sharedInput.interact.axis), name, this);
+
+		spawnedInteractButton = true;
+
+
+		interactButtonImage->useCamera = false;
 	}
 }
 
@@ -966,6 +1015,9 @@ void UiItem_Description::SwitchCameraUsage()
 	{
 		iconImageInventory->useCamera = true;
 	}
+
+	if (spawnedInteractButton)
+		interactButtonImage->useCamera = true; 
 	// - - - - - - - - - - - - - 
 
 	if (this->descrType == descriptionType::WEAPON)
@@ -1023,6 +1075,8 @@ void UiItem_Description::HideAllElements(bool hide, bool closeInventory, bool bu
 
 	}
 
+	/*if (spawnedInteractButton)
+		interactButtonImage->hide = true; */
 
 	// - - - - - - - - - - - - - 
 
@@ -1068,6 +1122,18 @@ void UiItem_Description::RepositionAllElements(iPoint referencePanelPosition)
 
 	this->panelWithButton->hitBox.x = referencePanelPosition.x;
 	this->panelWithButton->hitBox.y = referencePanelPosition.y;
+
+
+	if (spawnedInteractButton)
+	{
+		if (!App->scene->inventory->enable)
+		{
+			
+			this->interactButtonImage->hitBox.x = referencePanelPosition.x + this->panelWithButton->section.w - 32;
+			this->interactButtonImage->hitBox.y = referencePanelPosition.y - 2;
+		}
+	
+	}
 
 
 	/*if (App->scene->inventory->enable)
@@ -1214,6 +1280,9 @@ void UiItem_Description::DeleteEverything()
 		LOG("_______________________________________________   total despawned icons: %i", App->scene->inventoryItem->totalDeSpawnedInventoryIcons);
 		App->gui->destroyElement(this->iconImageInventory);
 	}
+
+	if (spawnedInteractButton)
+		App->gui->destroyElement(this->interactButtonImage); 
 
 	if (this->descrType == descriptionType::WEAPON)
 	{
