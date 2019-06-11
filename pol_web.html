@@ -45,13 +45,72 @@
 
 
             <h2>Pol Recasens - UI</h2>
-            <p class="section-description">
-            As As responsible of the Art from FF:Dawn of Ivalice i I have mainly worked on the concept and pixel art of the game's main characters and their multiple abilities and fx particles
+
+            <h4>My Work </h4>
+            <p>
+              As a UI responsible, I’ve implemented the bases of the UI System. The UI system that I’ve designed works with a list of UI elements that are loaded from a xml file. Every element is controller by its father item. To paint these elements the code goes through the list, traveling from the children to the parents. The base UI elements are:
+
+
+            </p>
+            <h4>Image </h4>
+            <p>
+              This is the most basic element of the UI. Different elements of the UI are composed by images. An image is a section of the UI atlas texture.
+            </p>
+             <cite><img  src="img/fotos web pol/image.png" alt="marche"></cite>
+            <h4>Label</h4>
+            <p>
+              The Label element is composed by a text, font and colour. Also, it can change during
+the game, so I’ve implemented a function that allows to change the text and colour at
+any moment. This is important in texts that you need to update constantly, like the
+amount of gold. Also, for the dialogue system I've implemented a function that allow
+the text to appear progressively, like a typewriter.
+            </p>
+<cite><img  src="img/fotos web pol/label.png" alt="marche"></cite>
+            <h4>Button</h4>
+            <p>
+              The Button element is a little more complicated. It’s composed by three different
+              states: idle, hover and click. Depending on his states, it will be printed with a concise
+              image. It also has an intrinsic function, that will be executed when the button is
+              pressed.
+            </p>
+<cite><img  src="img/fotos web pol/buttons.png" alt="marche"></cite>
+            <h4>Sliders</h4>
+            <p>
+              The slider element is used to regulate the audio and FX volume. It has an internal
+function that allows to calculate slider value depending on the thumb. It can also be
+used to slide texts.
+            </p>
+<cite><img  src="img/fotos web pol/slider.png" alt="marche"></cite>
+            <h4>Checkbox</h4>
+            <p>
+              The checkbox element is very similar to the button element. It’s is composed by the
+same three states, and it has an intrinsic function that will be executed once the
+checkbox is clicked.
+            </p>
+<cite><img  src="img/fotos web pol/toggle.png" alt="marche"></cite>
+<cite><img  src="img/fotos web pol/toggle2.png" alt="marche"></cite>
+            <h4>Inventory - Shop</h4>
+            <p>
+              This element is the most complicated element of the UI. It has several functions that
+allows you to equip an item, buy or sell an item, swap the inventory to check other
+slots and a large etcetera. It is composed by different images. The first is the
+background, then, all the loot is placed inside every box. You can also swap the player,
+to see his equipped objects.
+            </p>
+<cite><img  src="img/fotos web pol/inventory.png" alt="marche"></cite>
+            <h4>Experience Bar</h4>
+            <p>
+              The Experience Bar is a variant of the Health Bar. It shows how many experience has
+the player and it updates every time the player gain experience.
             </p>
 
-
-            <h3>Characters</h3>
-
+            <h4>Load from XML file</h4>
+            <p>
+              All the UI elements are loaded from a xml file, to simplify it. This facilitates the creation
+of an element at any time of the game development. All the data follows a children
+and parent method:
+            </p>
+<cite><img  src="img/fotos web pol/xml.png" alt="marche"></cite>
           </div>
       </div>
   </section>
