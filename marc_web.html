@@ -45,13 +45,90 @@
 
 
             <h2>Marc Doctor - Designer</h2>
-            <p class="section-description">
-            As As responsible of the Art from FF:Dawn of Ivalice i I have mainly worked on the concept and pixel art of the game's main characters and their multiple abilities and fx particles
+
+
+            <h4>Game pillars </h4>
+            <p>
+              As designer, I have set the base of the game, a dungeon with lots of loot and enemies that go along with a dark mood, and where you move around some open areas and other corridors, while controlling three interchangeable characters.
+
+            </p>
+            <h4>Design player abilities </h4>
+            <p>
+              The three players have a set of abilities that are unique and go along with each other but at the same time are need for different situations. There is an ulti, all of them have cooldown depending on the character, and its power.
+            </p>
+            <h4>Design the two levels, hall, firing range, core loop </h4>
+            <p>
+              The levels have a set of corridors for the player to deal with. There are multiple paths, and different enemies, making sure there is no scape for a fierce fight.
+
+            </p>
+            <h4>Define enemy spawning in maps, add props, chests, etc </h4>
+            <p>
+            The game offers rewards to the player, which are chests, and also has a dark ambient and narrative. The enemie’s spawning is varied, a group can be spawned with the same type of enemy, or different types, and there is a level progression in the gameplay. The maps are definede this way:
+            <cite><img  src="img/fotos web marc/spawnzones.png" alt="marche"></cite>
+
+            <cite><img  src="img/fotos web marc/map22.png" alt="marche"></cite>
+
+            <cite><img  src="img/fotos web marc/walls.png" alt="marche"></cite>
+            <h4>Run</h4>
+
+            </p>
+
+            <p>
+              The walls themselves are loaded individually because they will be later used with the purpose of printing the player in front on them, or behind them, to simulate 3D.
+
+The levels are designed to test the players abilities, thus having to use a particular player
+            </p>
+            <h4>Design boss patterns </h4>
+            <p>
+              The boss has special abilities that challenge the player. The ability to spawn enemies, some proyectile launching from the sky, and particularly a shield that acts as protection.
+
+            </p>
+            <h4>Create the art for the missing enemies' horizontal direction </h4>
+            <p>
+              Given the fact that the player can move in 8 directions, we needed to créate the sprites for some missing directions on the base spritesheets.
+
+
+              <cite><img  src="img/fotos web marc/last.png" alt="marche"></cite>
+              <cite><img  src="img/fotos web marc/zombie.png" alt="marche"></cite>
             </p>
 
 
-            <h3>Characters</h3>
+  <h4>Core UI logic  </h4>
+  <p>
+    The UI ítems are updated and iterated according to parenthood, so as to make it easy when creating, drawing and destroying them.
 
+
+    <h4>Core UI items: images, labels etc  </h4>
+    <p>
+    All those ítems are the base for more complex game UI ítems, like descriptions.
+    </p>
+
+      <h4>Dialogs, npcs, lore  </h4>
+      <p>
+      The dialog system is used in multiple situations to guide the player. An example would be the dialog with the Stranger, a NPC that introduces the game world and another one would be the Godot one, the tutorial room, that shows the main mechanics.
+
+<cite><img  src="img/fotos web marc/lonny.png" alt="marche"></cite>
+<cite><img  src="img/fotos web marc/dialoggg.png" alt="marche"></cite>
+
+     </p>
+        <h4>Dialog that stops entities nearby  </h4>
+        <p>
+        Also, for the boss, there are two dialogs that set the entities to a await state, the first one does so with the surrounding enemies, hiding all in game UI, and the second one is the proper boss fight, where the boss’ HUD is shown only after finishing the conversation.
+        </p>
+
+          <h4>Inventory structure and system  </h4>
+          <p>
+
+        The inventory is sepparated in equipped, equippable and potions. The equippable objects are shared between the three characters, while each one has its own two equipped objects: weapons and armors.
+<cite><img  src="img/fotos web marc/InventoryDoc.png" alt="marche"></cite>
+
+          </p>
+          <h4>Shop system   </h4>
+          <p>
+            
+            The shop follows the previous scheme, and now you can buy ítems from the vendor that will automatically be equipped. I fan ítem was already there, it is replaced and goes to the bag, or equippables.
+            <cite><img  src="img/fotos web marc/ShopDoc1.png" alt="marche"></cite>
+          </p>
           </div>
       </div>
   </section>
